@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Embeddable
 public class ObjetivodemedicacaoPK implements Serializable {
@@ -20,15 +20,15 @@ public class ObjetivodemedicacaoPK implements Serializable {
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @Column(name = "idProjeto")
-    private int idProjeto;
+    @Column(name = "Projeto_id")
+    private int projetoid;
 
     public ObjetivodemedicacaoPK() {
     }
 
-    public ObjetivodemedicacaoPK(int id, int idProjeto) {
+    public ObjetivodemedicacaoPK(int id, int projetoid) {
         this.id = id;
-        this.idProjeto = idProjeto;
+        this.projetoid = projetoid;
     }
 
     public int getId() {
@@ -39,19 +39,19 @@ public class ObjetivodemedicacaoPK implements Serializable {
         this.id = id;
     }
 
-    public int getIdProjeto() {
-        return idProjeto;
+    public int getProjetoid() {
+        return projetoid;
     }
 
-    public void setIdProjeto(int idProjeto) {
-        this.idProjeto = idProjeto;
+    public void setProjetoid(int projetoid) {
+        this.projetoid = projetoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) idProjeto;
+        hash += (int) projetoid;
         return hash;
     }
 
@@ -62,16 +62,18 @@ public class ObjetivodemedicacaoPK implements Serializable {
             return false;
         }
         ObjetivodemedicacaoPK other = (ObjetivodemedicacaoPK) object;
-        if (this.id != other.id)
+        if (this.id != other.id) {
             return false;
-        if (this.idProjeto != other.idProjeto)
+        }
+        if (this.projetoid != other.projetoid) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.ObjetivodemedicacaoPK[ id=" + id + ", idProjeto=" + idProjeto + " ]";
+        return "model.ObjetivodemedicacaoPK[ id=" + id + ", projetoid=" + projetoid + " ]";
     }
     
 }

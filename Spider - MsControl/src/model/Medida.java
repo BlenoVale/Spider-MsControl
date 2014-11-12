@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "medida")
@@ -33,9 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Medida.findAll", query = "SELECT m FROM Medida m"),
     @NamedQuery(name = "Medida.findById", query = "SELECT m FROM Medida m WHERE m.medidaPK.id = :id"),
-    @NamedQuery(name = "Medida.findByIdProjeto", query = "SELECT m FROM Medida m WHERE m.medidaPK.idProjeto = :idProjeto"),
     @NamedQuery(name = "Medida.findByNome", query = "SELECT m FROM Medida m WHERE m.nome = :nome"),
-    @NamedQuery(name = "Medida.findByData", query = "SELECT m FROM Medida m WHERE m.data = :data")})
+    @NamedQuery(name = "Medida.findByData", query = "SELECT m FROM Medida m WHERE m.data = :data"),
+    @NamedQuery(name = "Medida.findByProjetoid", query = "SELECT m FROM Medida m WHERE m.medidaPK.projetoid = :projetoid")})
 public class Medida implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -45,7 +45,7 @@ public class Medida implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "idProjeto", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
@@ -62,8 +62,8 @@ public class Medida implements Serializable {
         this.medidaPK = medidaPK;
     }
 
-    public Medida(int id, int idProjeto) {
-        this.medidaPK = new MedidaPK(id, idProjeto);
+    public Medida(int id, int projetoid) {
+        this.medidaPK = new MedidaPK(id, projetoid);
     }
 
     public MedidaPK getMedidaPK() {
@@ -139,8 +139,9 @@ public class Medida implements Serializable {
             return false;
         }
         Medida other = (Medida) object;
-        if ((this.medidaPK == null && other.medidaPK != null) || (this.medidaPK != null && !this.medidaPK.equals(other.medidaPK)))
+        if ((this.medidaPK == null && other.medidaPK != null) || (this.medidaPK != null && !this.medidaPK.equals(other.medidaPK))) {
             return false;
+        }
         return true;
     }
 

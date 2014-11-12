@@ -21,7 +21,7 @@ import model.ObjetivodequestaoPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ObjetivodequestaoJpaController implements Serializable {
 
@@ -38,7 +38,8 @@ public class ObjetivodequestaoJpaController implements Serializable {
         if (objetivodequestao.getObjetivodequestaoPK() == null) {
             objetivodequestao.setObjetivodequestaoPK(new ObjetivodequestaoPK());
         }
-        objetivodequestao.getObjetivodequestaoPK().setIdObjetivoDeMedicacao(objetivodequestao.getObjetivodemedicacao().getObjetivodemedicacaoPK().getId());
+        objetivodequestao.getObjetivodequestaoPK().setObjetivoDeMedicacaoProjetoid(objetivodequestao.getObjetivodemedicacao().getObjetivodemedicacaoPK().getProjetoid());
+        objetivodequestao.getObjetivodequestaoPK().setObjetivoDeMedicacaoid(objetivodequestao.getObjetivodemedicacao().getObjetivodemedicacaoPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -67,7 +68,8 @@ public class ObjetivodequestaoJpaController implements Serializable {
     }
 
     public void edit(Objetivodequestao objetivodequestao) throws NonexistentEntityException, Exception {
-        objetivodequestao.getObjetivodequestaoPK().setIdObjetivoDeMedicacao(objetivodequestao.getObjetivodemedicacao().getObjetivodemedicacaoPK().getId());
+        objetivodequestao.getObjetivodequestaoPK().setObjetivoDeMedicacaoProjetoid(objetivodequestao.getObjetivodemedicacao().getObjetivodemedicacaoPK().getProjetoid());
+        objetivodequestao.getObjetivodequestaoPK().setObjetivoDeMedicacaoid(objetivodequestao.getObjetivodemedicacao().getObjetivodemedicacaoPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

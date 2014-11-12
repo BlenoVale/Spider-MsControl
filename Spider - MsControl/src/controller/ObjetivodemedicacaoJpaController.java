@@ -24,7 +24,7 @@ import model.ObjetivodemedicacaoPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ObjetivodemedicacaoJpaController implements Serializable {
 
@@ -44,7 +44,7 @@ public class ObjetivodemedicacaoJpaController implements Serializable {
         if (objetivodemedicacao.getObjetivodequestaoList() == null) {
             objetivodemedicacao.setObjetivodequestaoList(new ArrayList<Objetivodequestao>());
         }
-        objetivodemedicacao.getObjetivodemedicacaoPK().setIdProjeto(objetivodemedicacao.getProjeto().getId());
+        objetivodemedicacao.getObjetivodemedicacaoPK().setProjetoid(objetivodemedicacao.getProjeto().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -88,7 +88,7 @@ public class ObjetivodemedicacaoJpaController implements Serializable {
     }
 
     public void edit(Objetivodemedicacao objetivodemedicacao) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        objetivodemedicacao.getObjetivodemedicacaoPK().setIdProjeto(objetivodemedicacao.getProjeto().getId());
+        objetivodemedicacao.getObjetivodemedicacaoPK().setProjetoid(objetivodemedicacao.getProjeto().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

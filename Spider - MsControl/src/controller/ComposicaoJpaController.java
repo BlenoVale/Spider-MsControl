@@ -19,7 +19,7 @@ import model.Definicao;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ComposicaoJpaController implements Serializable {
 
@@ -37,15 +37,15 @@ public class ComposicaoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Definicao idDefinicao = composicao.getIdDefinicao();
-            if (idDefinicao != null) {
-                idDefinicao = em.getReference(idDefinicao.getClass(), idDefinicao.getDefinicaoPK());
-                composicao.setIdDefinicao(idDefinicao);
+            Definicao definicao = composicao.getDefinicao();
+            if (definicao != null) {
+                definicao = em.getReference(definicao.getClass(), definicao.getDefinicaoPK());
+                composicao.setDefinicao(definicao);
             }
             em.persist(composicao);
-            if (idDefinicao != null) {
-                idDefinicao.getComposicaoList().add(composicao);
-                idDefinicao = em.merge(idDefinicao);
+            if (definicao != null) {
+                definicao.getComposicaoList().add(composicao);
+                definicao = em.merge(definicao);
             }
             em.getTransaction().commit();
         } finally {
@@ -61,20 +61,20 @@ public class ComposicaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Composicao persistentComposicao = em.find(Composicao.class, composicao.getId());
-            Definicao idDefinicaoOld = persistentComposicao.getIdDefinicao();
-            Definicao idDefinicaoNew = composicao.getIdDefinicao();
-            if (idDefinicaoNew != null) {
-                idDefinicaoNew = em.getReference(idDefinicaoNew.getClass(), idDefinicaoNew.getDefinicaoPK());
-                composicao.setIdDefinicao(idDefinicaoNew);
+            Definicao definicaoOld = persistentComposicao.getDefinicao();
+            Definicao definicaoNew = composicao.getDefinicao();
+            if (definicaoNew != null) {
+                definicaoNew = em.getReference(definicaoNew.getClass(), definicaoNew.getDefinicaoPK());
+                composicao.setDefinicao(definicaoNew);
             }
             composicao = em.merge(composicao);
-            if (idDefinicaoOld != null && !idDefinicaoOld.equals(idDefinicaoNew)) {
-                idDefinicaoOld.getComposicaoList().remove(composicao);
-                idDefinicaoOld = em.merge(idDefinicaoOld);
+            if (definicaoOld != null && !definicaoOld.equals(definicaoNew)) {
+                definicaoOld.getComposicaoList().remove(composicao);
+                definicaoOld = em.merge(definicaoOld);
             }
-            if (idDefinicaoNew != null && !idDefinicaoNew.equals(idDefinicaoOld)) {
-                idDefinicaoNew.getComposicaoList().add(composicao);
-                idDefinicaoNew = em.merge(idDefinicaoNew);
+            if (definicaoNew != null && !definicaoNew.equals(definicaoOld)) {
+                definicaoNew.getComposicaoList().add(composicao);
+                definicaoNew = em.merge(definicaoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -105,10 +105,10 @@ public class ComposicaoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The composicao with id " + id + " no longer exists.", enfe);
             }
-            Definicao idDefinicao = composicao.getIdDefinicao();
-            if (idDefinicao != null) {
-                idDefinicao.getComposicaoList().remove(composicao);
-                idDefinicao = em.merge(idDefinicao);
+            Definicao definicao = composicao.getDefinicao();
+            if (definicao != null) {
+                definicao.getComposicaoList().remove(composicao);
+                definicao = em.merge(definicao);
             }
             em.remove(composicao);
             em.getTransaction().commit();

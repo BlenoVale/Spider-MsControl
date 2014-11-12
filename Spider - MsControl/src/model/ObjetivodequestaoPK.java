@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Embeddable
 public class ObjetivodequestaoPK implements Serializable {
@@ -20,15 +20,19 @@ public class ObjetivodequestaoPK implements Serializable {
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @Column(name = "idObjetivoDeMedicacao")
-    private int idObjetivoDeMedicacao;
+    @Column(name = "ObjetivoDeMedicacao_id")
+    private int objetivoDeMedicacaoid;
+    @Basic(optional = false)
+    @Column(name = "ObjetivoDeMedicacao_Projeto_id")
+    private int objetivoDeMedicacaoProjetoid;
 
     public ObjetivodequestaoPK() {
     }
 
-    public ObjetivodequestaoPK(int id, int idObjetivoDeMedicacao) {
+    public ObjetivodequestaoPK(int id, int objetivoDeMedicacaoid, int objetivoDeMedicacaoProjetoid) {
         this.id = id;
-        this.idObjetivoDeMedicacao = idObjetivoDeMedicacao;
+        this.objetivoDeMedicacaoid = objetivoDeMedicacaoid;
+        this.objetivoDeMedicacaoProjetoid = objetivoDeMedicacaoProjetoid;
     }
 
     public int getId() {
@@ -39,19 +43,28 @@ public class ObjetivodequestaoPK implements Serializable {
         this.id = id;
     }
 
-    public int getIdObjetivoDeMedicacao() {
-        return idObjetivoDeMedicacao;
+    public int getObjetivoDeMedicacaoid() {
+        return objetivoDeMedicacaoid;
     }
 
-    public void setIdObjetivoDeMedicacao(int idObjetivoDeMedicacao) {
-        this.idObjetivoDeMedicacao = idObjetivoDeMedicacao;
+    public void setObjetivoDeMedicacaoid(int objetivoDeMedicacaoid) {
+        this.objetivoDeMedicacaoid = objetivoDeMedicacaoid;
+    }
+
+    public int getObjetivoDeMedicacaoProjetoid() {
+        return objetivoDeMedicacaoProjetoid;
+    }
+
+    public void setObjetivoDeMedicacaoProjetoid(int objetivoDeMedicacaoProjetoid) {
+        this.objetivoDeMedicacaoProjetoid = objetivoDeMedicacaoProjetoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) idObjetivoDeMedicacao;
+        hash += (int) objetivoDeMedicacaoid;
+        hash += (int) objetivoDeMedicacaoProjetoid;
         return hash;
     }
 
@@ -62,16 +75,21 @@ public class ObjetivodequestaoPK implements Serializable {
             return false;
         }
         ObjetivodequestaoPK other = (ObjetivodequestaoPK) object;
-        if (this.id != other.id)
+        if (this.id != other.id) {
             return false;
-        if (this.idObjetivoDeMedicacao != other.idObjetivoDeMedicacao)
+        }
+        if (this.objetivoDeMedicacaoid != other.objetivoDeMedicacaoid) {
             return false;
+        }
+        if (this.objetivoDeMedicacaoProjetoid != other.objetivoDeMedicacaoProjetoid) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.ObjetivodequestaoPK[ id=" + id + ", idObjetivoDeMedicacao=" + idObjetivoDeMedicacao + " ]";
+        return "model.ObjetivodequestaoPK[ id=" + id + ", objetivoDeMedicacaoid=" + objetivoDeMedicacaoid + ", objetivoDeMedicacaoProjetoid=" + objetivoDeMedicacaoProjetoid + " ]";
     }
     
 }

@@ -22,7 +22,7 @@ import model.PossuiPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class PossuiJpaController implements Serializable {
 
@@ -39,8 +39,8 @@ public class PossuiJpaController implements Serializable {
         if (possui.getPossuiPK() == null) {
             possui.setPossuiPK(new PossuiPK());
         }
-        possui.getPossuiPK().setIdFuncionalidade(possui.getFuncionalidade().getId());
-        possui.getPossuiPK().setIdPerfil(possui.getPerfil().getId());
+        possui.getPossuiPK().setPerfilid(possui.getPerfil().getId());
+        possui.getPossuiPK().setFuncionalidadeid(possui.getFuncionalidade().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -78,8 +78,8 @@ public class PossuiJpaController implements Serializable {
     }
 
     public void edit(Possui possui) throws NonexistentEntityException, Exception {
-        possui.getPossuiPK().setIdFuncionalidade(possui.getFuncionalidade().getId());
-        possui.getPossuiPK().setIdPerfil(possui.getPerfil().getId());
+        possui.getPossuiPK().setPerfilid(possui.getPerfil().getId());
+        possui.getPossuiPK().setFuncionalidadeid(possui.getFuncionalidade().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

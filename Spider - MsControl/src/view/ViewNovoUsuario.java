@@ -126,7 +126,9 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAdicionarUsuarioAProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
-        ViewAlocacaoDeUsuarioAoProjeto viewAlocacaoDeUsuarioAoProjeto = new ViewAlocacaoDeUsuarioAoProjeto(null, rootPaneCheckingEnabled);
+        ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAoProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled);
+        //viewAlocacaoDeUsuarioAoProjeto.setVisible(true);
+        //ViewAlocacaoDeUsuarioAProjeto.main(null);
     }//GEN-LAST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

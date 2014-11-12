@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Embeddable
 public class PossuiPK implements Serializable {
@@ -20,19 +20,19 @@ public class PossuiPK implements Serializable {
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @Column(name = "idFuncionalidade")
-    private int idFuncionalidade;
+    @Column(name = "Perfil_id")
+    private int perfilid;
     @Basic(optional = false)
-    @Column(name = "idPerfil")
-    private int idPerfil;
+    @Column(name = "Funcionalidade_id")
+    private int funcionalidadeid;
 
     public PossuiPK() {
     }
 
-    public PossuiPK(int id, int idFuncionalidade, int idPerfil) {
+    public PossuiPK(int id, int perfilid, int funcionalidadeid) {
         this.id = id;
-        this.idFuncionalidade = idFuncionalidade;
-        this.idPerfil = idPerfil;
+        this.perfilid = perfilid;
+        this.funcionalidadeid = funcionalidadeid;
     }
 
     public int getId() {
@@ -43,28 +43,28 @@ public class PossuiPK implements Serializable {
         this.id = id;
     }
 
-    public int getIdFuncionalidade() {
-        return idFuncionalidade;
+    public int getPerfilid() {
+        return perfilid;
     }
 
-    public void setIdFuncionalidade(int idFuncionalidade) {
-        this.idFuncionalidade = idFuncionalidade;
+    public void setPerfilid(int perfilid) {
+        this.perfilid = perfilid;
     }
 
-    public int getIdPerfil() {
-        return idPerfil;
+    public int getFuncionalidadeid() {
+        return funcionalidadeid;
     }
 
-    public void setIdPerfil(int idPerfil) {
-        this.idPerfil = idPerfil;
+    public void setFuncionalidadeid(int funcionalidadeid) {
+        this.funcionalidadeid = funcionalidadeid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) idFuncionalidade;
-        hash += (int) idPerfil;
+        hash += (int) perfilid;
+        hash += (int) funcionalidadeid;
         return hash;
     }
 
@@ -75,18 +75,21 @@ public class PossuiPK implements Serializable {
             return false;
         }
         PossuiPK other = (PossuiPK) object;
-        if (this.id != other.id)
+        if (this.id != other.id) {
             return false;
-        if (this.idFuncionalidade != other.idFuncionalidade)
+        }
+        if (this.perfilid != other.perfilid) {
             return false;
-        if (this.idPerfil != other.idPerfil)
+        }
+        if (this.funcionalidadeid != other.funcionalidadeid) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.PossuiPK[ id=" + id + ", idFuncionalidade=" + idFuncionalidade + ", idPerfil=" + idPerfil + " ]";
+        return "model.PossuiPK[ id=" + id + ", perfilid=" + perfilid + ", funcionalidadeid=" + funcionalidadeid + " ]";
     }
     
 }

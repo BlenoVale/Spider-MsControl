@@ -12,59 +12,72 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Embeddable
 public class AcessaPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "idPerfil")
-    private int idPerfil;
+    @Column(name = "acessacol")
+    private String acessacol;
     @Basic(optional = false)
-    @Column(name = "idUsuario")
-    private int idUsuario;
+    @Column(name = "Projeto_id")
+    private int projetoid;
     @Basic(optional = false)
-    @Column(name = "idProjeto")
-    private int idProjeto;
+    @Column(name = "Perfil_id")
+    private int perfilid;
+    @Basic(optional = false)
+    @Column(name = "Usuario_id")
+    private int usuarioid;
 
     public AcessaPK() {
     }
 
-    public AcessaPK(int idPerfil, int idUsuario, int idProjeto) {
-        this.idPerfil = idPerfil;
-        this.idUsuario = idUsuario;
-        this.idProjeto = idProjeto;
+    public AcessaPK(String acessacol, int projetoid, int perfilid, int usuarioid) {
+        this.acessacol = acessacol;
+        this.projetoid = projetoid;
+        this.perfilid = perfilid;
+        this.usuarioid = usuarioid;
     }
 
-    public int getIdPerfil() {
-        return idPerfil;
+    public String getAcessacol() {
+        return acessacol;
     }
 
-    public void setIdPerfil(int idPerfil) {
-        this.idPerfil = idPerfil;
+    public void setAcessacol(String acessacol) {
+        this.acessacol = acessacol;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public int getProjetoid() {
+        return projetoid;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setProjetoid(int projetoid) {
+        this.projetoid = projetoid;
     }
 
-    public int getIdProjeto() {
-        return idProjeto;
+    public int getPerfilid() {
+        return perfilid;
     }
 
-    public void setIdProjeto(int idProjeto) {
-        this.idProjeto = idProjeto;
+    public void setPerfilid(int perfilid) {
+        this.perfilid = perfilid;
+    }
+
+    public int getUsuarioid() {
+        return usuarioid;
+    }
+
+    public void setUsuarioid(int usuarioid) {
+        this.usuarioid = usuarioid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) idPerfil;
-        hash += (int) idUsuario;
-        hash += (int) idProjeto;
+        hash += (acessacol != null ? acessacol.hashCode() : 0);
+        hash += (int) projetoid;
+        hash += (int) perfilid;
+        hash += (int) usuarioid;
         return hash;
     }
 
@@ -75,18 +88,24 @@ public class AcessaPK implements Serializable {
             return false;
         }
         AcessaPK other = (AcessaPK) object;
-        if (this.idPerfil != other.idPerfil)
+        if ((this.acessacol == null && other.acessacol != null) || (this.acessacol != null && !this.acessacol.equals(other.acessacol))) {
             return false;
-        if (this.idUsuario != other.idUsuario)
+        }
+        if (this.projetoid != other.projetoid) {
             return false;
-        if (this.idProjeto != other.idProjeto)
+        }
+        if (this.perfilid != other.perfilid) {
             return false;
+        }
+        if (this.usuarioid != other.usuarioid) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.AcessaPK[ idPerfil=" + idPerfil + ", idUsuario=" + idUsuario + ", idProjeto=" + idProjeto + " ]";
+        return "model.AcessaPK[ acessacol=" + acessacol + ", projetoid=" + projetoid + ", perfilid=" + perfilid + ", usuarioid=" + usuarioid + " ]";
     }
     
 }

@@ -22,7 +22,7 @@ import model.Perfil;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class PerfilJpaController implements Serializable {
 

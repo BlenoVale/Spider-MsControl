@@ -1,0 +1,141 @@
+package view;
+
+import controller.PerfilJpaController;
+import controller.ProjetoJpaController;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import model.Perfil;
+import model.Projeto;
+import util.Conexao;
+
+/**
+ * @author Dan Jhonatan
+ */
+public class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
+
+    private final ProjetoJpaController projetoJpa = new ProjetoJpaController(Conexao.conectar());
+    private final PerfilJpaController perfilJpa = new PerfilJpaController(Conexao.conectar());
+
+    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+
+        this.setLocationRelativeTo(null);
+        atualizaComboBox();
+    }
+
+    public void atualizaComboBox() {
+        List<Projeto> projetoList = projetoJpa.findProjetoEntities();
+        List<Perfil> perfilList = perfilJpa.findPerfilEntities();
+
+        String nomeProjeto[] = new String[projetoList.size()];
+        String nomePerfil[] = new String[perfilList.size()];
+
+        for (int i = 0; i < projetoList.size(); i++)
+            nomeProjeto[i] = projetoList.get(i).getNome();
+        for (int i = 0; i < perfilList.size(); i++)
+            nomePerfil[i] = perfilList.get(i).getNome();
+
+        DefaultComboBoxModel modelProjeto = new DefaultComboBoxModel(nomeProjeto);
+        DefaultComboBoxModel modelPerfil = new DefaultComboBoxModel(nomePerfil);
+
+        jComboBoxProjeto.setModel(modelProjeto);
+        jComboBoxPerfil.setModel(modelPerfil);
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jComboBoxProjeto = new javax.swing.JComboBox();
+        jComboBoxPerfil = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        jComboBoxProjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBoxPerfil.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton1.setText("Alocar");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jComboBoxProjeto, 0, 297, Short.MAX_VALUE)
+                    .addComponent(jComboBoxPerfil, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(127, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(128, 128, 128))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBoxProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * @param args the command line arguments
+     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                ViewAlocacaoDeUsuarioAProjeto dialog = new ViewAlocacaoDeUsuarioAProjeto(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBoxPerfil;
+    private javax.swing.JComboBox jComboBoxProjeto;
+    // End of variables declaration//GEN-END:variables
+}

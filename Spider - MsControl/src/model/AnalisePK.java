@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Embeddable
 public class AnalisePK implements Serializable {
@@ -20,15 +20,19 @@ public class AnalisePK implements Serializable {
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @Column(name = "idMedida")
-    private int idMedida;
+    @Column(name = "Medida_id")
+    private int medidaid;
+    @Basic(optional = false)
+    @Column(name = "Medida_Projeto_id")
+    private int medidaProjetoid;
 
     public AnalisePK() {
     }
 
-    public AnalisePK(int id, int idMedida) {
+    public AnalisePK(int id, int medidaid, int medidaProjetoid) {
         this.id = id;
-        this.idMedida = idMedida;
+        this.medidaid = medidaid;
+        this.medidaProjetoid = medidaProjetoid;
     }
 
     public int getId() {
@@ -39,19 +43,28 @@ public class AnalisePK implements Serializable {
         this.id = id;
     }
 
-    public int getIdMedida() {
-        return idMedida;
+    public int getMedidaid() {
+        return medidaid;
     }
 
-    public void setIdMedida(int idMedida) {
-        this.idMedida = idMedida;
+    public void setMedidaid(int medidaid) {
+        this.medidaid = medidaid;
+    }
+
+    public int getMedidaProjetoid() {
+        return medidaProjetoid;
+    }
+
+    public void setMedidaProjetoid(int medidaProjetoid) {
+        this.medidaProjetoid = medidaProjetoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) idMedida;
+        hash += (int) medidaid;
+        hash += (int) medidaProjetoid;
         return hash;
     }
 
@@ -62,16 +75,21 @@ public class AnalisePK implements Serializable {
             return false;
         }
         AnalisePK other = (AnalisePK) object;
-        if (this.id != other.id)
+        if (this.id != other.id) {
             return false;
-        if (this.idMedida != other.idMedida)
+        }
+        if (this.medidaid != other.medidaid) {
             return false;
+        }
+        if (this.medidaProjetoid != other.medidaProjetoid) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.AnalisePK[ id=" + id + ", idMedida=" + idMedida + " ]";
+        return "model.AnalisePK[ id=" + id + ", medidaid=" + medidaid + ", medidaProjetoid=" + medidaProjetoid + " ]";
     }
     
 }

@@ -19,7 +19,7 @@ import model.Definicao;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class AprovacaoJpaController implements Serializable {
 
@@ -37,15 +37,15 @@ public class AprovacaoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Definicao idDefinicao = aprovacao.getIdDefinicao();
-            if (idDefinicao != null) {
-                idDefinicao = em.getReference(idDefinicao.getClass(), idDefinicao.getDefinicaoPK());
-                aprovacao.setIdDefinicao(idDefinicao);
+            Definicao definicao = aprovacao.getDefinicao();
+            if (definicao != null) {
+                definicao = em.getReference(definicao.getClass(), definicao.getDefinicaoPK());
+                aprovacao.setDefinicao(definicao);
             }
             em.persist(aprovacao);
-            if (idDefinicao != null) {
-                idDefinicao.getAprovacaoList().add(aprovacao);
-                idDefinicao = em.merge(idDefinicao);
+            if (definicao != null) {
+                definicao.getAprovacaoList().add(aprovacao);
+                definicao = em.merge(definicao);
             }
             em.getTransaction().commit();
         } finally {
@@ -61,20 +61,20 @@ public class AprovacaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Aprovacao persistentAprovacao = em.find(Aprovacao.class, aprovacao.getId());
-            Definicao idDefinicaoOld = persistentAprovacao.getIdDefinicao();
-            Definicao idDefinicaoNew = aprovacao.getIdDefinicao();
-            if (idDefinicaoNew != null) {
-                idDefinicaoNew = em.getReference(idDefinicaoNew.getClass(), idDefinicaoNew.getDefinicaoPK());
-                aprovacao.setIdDefinicao(idDefinicaoNew);
+            Definicao definicaoOld = persistentAprovacao.getDefinicao();
+            Definicao definicaoNew = aprovacao.getDefinicao();
+            if (definicaoNew != null) {
+                definicaoNew = em.getReference(definicaoNew.getClass(), definicaoNew.getDefinicaoPK());
+                aprovacao.setDefinicao(definicaoNew);
             }
             aprovacao = em.merge(aprovacao);
-            if (idDefinicaoOld != null && !idDefinicaoOld.equals(idDefinicaoNew)) {
-                idDefinicaoOld.getAprovacaoList().remove(aprovacao);
-                idDefinicaoOld = em.merge(idDefinicaoOld);
+            if (definicaoOld != null && !definicaoOld.equals(definicaoNew)) {
+                definicaoOld.getAprovacaoList().remove(aprovacao);
+                definicaoOld = em.merge(definicaoOld);
             }
-            if (idDefinicaoNew != null && !idDefinicaoNew.equals(idDefinicaoOld)) {
-                idDefinicaoNew.getAprovacaoList().add(aprovacao);
-                idDefinicaoNew = em.merge(idDefinicaoNew);
+            if (definicaoNew != null && !definicaoNew.equals(definicaoOld)) {
+                definicaoNew.getAprovacaoList().add(aprovacao);
+                definicaoNew = em.merge(definicaoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -105,10 +105,10 @@ public class AprovacaoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The aprovacao with id " + id + " no longer exists.", enfe);
             }
-            Definicao idDefinicao = aprovacao.getIdDefinicao();
-            if (idDefinicao != null) {
-                idDefinicao.getAprovacaoList().remove(aprovacao);
-                idDefinicao = em.merge(idDefinicao);
+            Definicao definicao = aprovacao.getDefinicao();
+            if (definicao != null) {
+                definicao.getAprovacaoList().remove(aprovacao);
+                definicao = em.merge(definicao);
             }
             em.remove(aprovacao);
             em.getTransaction().commit();

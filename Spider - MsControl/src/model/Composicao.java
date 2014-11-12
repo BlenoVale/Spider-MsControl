@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "composicao")
@@ -39,9 +40,12 @@ public class Composicao implements Serializable {
     private Integer id;
     @Column(name = "tipo")
     private String tipo;
-    @JoinColumn(name = "idDefinicao", referencedColumnName = "id")
+    @JoinColumns({
+        @JoinColumn(name = "Definicao_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Definicao_Medida_id", referencedColumnName = "Medida_id"),
+        @JoinColumn(name = "Definicao_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id")})
     @ManyToOne(optional = false)
-    private Definicao idDefinicao;
+    private Definicao definicao;
 
     public Composicao() {
     }
@@ -66,12 +70,12 @@ public class Composicao implements Serializable {
         this.tipo = tipo;
     }
 
-    public Definicao getIdDefinicao() {
-        return idDefinicao;
+    public Definicao getDefinicao() {
+        return definicao;
     }
 
-    public void setIdDefinicao(Definicao idDefinicao) {
-        this.idDefinicao = idDefinicao;
+    public void setDefinicao(Definicao definicao) {
+        this.definicao = definicao;
     }
 
     @Override
@@ -88,8 +92,9 @@ public class Composicao implements Serializable {
             return false;
         }
         Composicao other = (Composicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

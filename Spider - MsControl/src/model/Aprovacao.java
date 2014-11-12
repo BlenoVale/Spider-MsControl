@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "aprovacao")
@@ -50,9 +51,12 @@ public class Aprovacao implements Serializable {
     private String observacao;
     @Column(name = "status")
     private Boolean status;
-    @JoinColumn(name = "idDefinicao", referencedColumnName = "id")
+    @JoinColumns({
+        @JoinColumn(name = "Definicao_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Definicao_Medida_id", referencedColumnName = "Medida_id"),
+        @JoinColumn(name = "Definicao_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id")})
     @ManyToOne(optional = false)
-    private Definicao idDefinicao;
+    private Definicao definicao;
 
     public Aprovacao() {
     }
@@ -93,12 +97,12 @@ public class Aprovacao implements Serializable {
         this.status = status;
     }
 
-    public Definicao getIdDefinicao() {
-        return idDefinicao;
+    public Definicao getDefinicao() {
+        return definicao;
     }
 
-    public void setIdDefinicao(Definicao idDefinicao) {
-        this.idDefinicao = idDefinicao;
+    public void setDefinicao(Definicao definicao) {
+        this.definicao = definicao;
     }
 
     @Override
@@ -115,8 +119,9 @@ public class Aprovacao implements Serializable {
             return false;
         }
         Aprovacao other = (Aprovacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

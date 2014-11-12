@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "possui")
@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Possui.findAll", query = "SELECT p FROM Possui p"),
     @NamedQuery(name = "Possui.findById", query = "SELECT p FROM Possui p WHERE p.possuiPK.id = :id"),
-    @NamedQuery(name = "Possui.findByIdFuncionalidade", query = "SELECT p FROM Possui p WHERE p.possuiPK.idFuncionalidade = :idFuncionalidade"),
-    @NamedQuery(name = "Possui.findByIdPerfil", query = "SELECT p FROM Possui p WHERE p.possuiPK.idPerfil = :idPerfil")})
+    @NamedQuery(name = "Possui.findByPerfilid", query = "SELECT p FROM Possui p WHERE p.possuiPK.perfilid = :perfilid"),
+    @NamedQuery(name = "Possui.findByFuncionalidadeid", query = "SELECT p FROM Possui p WHERE p.possuiPK.funcionalidadeid = :funcionalidadeid")})
 public class Possui implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PossuiPK possuiPK;
-    @JoinColumn(name = "idFuncionalidade", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Funcionalidade_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Funcionalidade funcionalidade;
-    @JoinColumn(name = "idPerfil", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Perfil perfil;
 
@@ -45,8 +45,8 @@ public class Possui implements Serializable {
         this.possuiPK = possuiPK;
     }
 
-    public Possui(int id, int idFuncionalidade, int idPerfil) {
-        this.possuiPK = new PossuiPK(id, idFuncionalidade, idPerfil);
+    public Possui(int id, int perfilid, int funcionalidadeid) {
+        this.possuiPK = new PossuiPK(id, perfilid, funcionalidadeid);
     }
 
     public PossuiPK getPossuiPK() {
@@ -87,8 +87,9 @@ public class Possui implements Serializable {
             return false;
         }
         Possui other = (Possui) object;
-        if ((this.possuiPK == null && other.possuiPK != null) || (this.possuiPK != null && !this.possuiPK.equals(other.possuiPK)))
+        if ((this.possuiPK == null && other.possuiPK != null) || (this.possuiPK != null && !this.possuiPK.equals(other.possuiPK))) {
             return false;
+        }
         return true;
     }
 

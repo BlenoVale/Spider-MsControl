@@ -25,7 +25,7 @@ import model.DefinicaoPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class DefinicaoJpaController implements Serializable {
 
@@ -48,7 +48,8 @@ public class DefinicaoJpaController implements Serializable {
         if (definicao.getAprovacaoList() == null) {
             definicao.setAprovacaoList(new ArrayList<Aprovacao>());
         }
-        definicao.getDefinicaoPK().setIdMedida(definicao.getMedida().getMedidaPK().getId());
+        definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
+        definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -76,21 +77,21 @@ public class DefinicaoJpaController implements Serializable {
                 medida = em.merge(medida);
             }
             for (Composicao composicaoListComposicao : definicao.getComposicaoList()) {
-                Definicao oldIdDefinicaoOfComposicaoListComposicao = composicaoListComposicao.getIdDefinicao();
-                composicaoListComposicao.setIdDefinicao(definicao);
+                Definicao oldDefinicaoOfComposicaoListComposicao = composicaoListComposicao.getDefinicao();
+                composicaoListComposicao.setDefinicao(definicao);
                 composicaoListComposicao = em.merge(composicaoListComposicao);
-                if (oldIdDefinicaoOfComposicaoListComposicao != null) {
-                    oldIdDefinicaoOfComposicaoListComposicao.getComposicaoList().remove(composicaoListComposicao);
-                    oldIdDefinicaoOfComposicaoListComposicao = em.merge(oldIdDefinicaoOfComposicaoListComposicao);
+                if (oldDefinicaoOfComposicaoListComposicao != null) {
+                    oldDefinicaoOfComposicaoListComposicao.getComposicaoList().remove(composicaoListComposicao);
+                    oldDefinicaoOfComposicaoListComposicao = em.merge(oldDefinicaoOfComposicaoListComposicao);
                 }
             }
             for (Aprovacao aprovacaoListAprovacao : definicao.getAprovacaoList()) {
-                Definicao oldIdDefinicaoOfAprovacaoListAprovacao = aprovacaoListAprovacao.getIdDefinicao();
-                aprovacaoListAprovacao.setIdDefinicao(definicao);
+                Definicao oldDefinicaoOfAprovacaoListAprovacao = aprovacaoListAprovacao.getDefinicao();
+                aprovacaoListAprovacao.setDefinicao(definicao);
                 aprovacaoListAprovacao = em.merge(aprovacaoListAprovacao);
-                if (oldIdDefinicaoOfAprovacaoListAprovacao != null) {
-                    oldIdDefinicaoOfAprovacaoListAprovacao.getAprovacaoList().remove(aprovacaoListAprovacao);
-                    oldIdDefinicaoOfAprovacaoListAprovacao = em.merge(oldIdDefinicaoOfAprovacaoListAprovacao);
+                if (oldDefinicaoOfAprovacaoListAprovacao != null) {
+                    oldDefinicaoOfAprovacaoListAprovacao.getAprovacaoList().remove(aprovacaoListAprovacao);
+                    oldDefinicaoOfAprovacaoListAprovacao = em.merge(oldDefinicaoOfAprovacaoListAprovacao);
                 }
             }
             em.getTransaction().commit();
@@ -107,7 +108,8 @@ public class DefinicaoJpaController implements Serializable {
     }
 
     public void edit(Definicao definicao) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        definicao.getDefinicaoPK().setIdMedida(definicao.getMedida().getMedidaPK().getId());
+        definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
+        definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -125,7 +127,7 @@ public class DefinicaoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Composicao " + composicaoListOldComposicao + " since its idDefinicao field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Composicao " + composicaoListOldComposicao + " since its definicao field is not nullable.");
                 }
             }
             for (Aprovacao aprovacaoListOldAprovacao : aprovacaoListOld) {
@@ -133,7 +135,7 @@ public class DefinicaoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Aprovacao " + aprovacaoListOldAprovacao + " since its idDefinicao field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Aprovacao " + aprovacaoListOldAprovacao + " since its definicao field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -168,23 +170,23 @@ public class DefinicaoJpaController implements Serializable {
             }
             for (Composicao composicaoListNewComposicao : composicaoListNew) {
                 if (!composicaoListOld.contains(composicaoListNewComposicao)) {
-                    Definicao oldIdDefinicaoOfComposicaoListNewComposicao = composicaoListNewComposicao.getIdDefinicao();
-                    composicaoListNewComposicao.setIdDefinicao(definicao);
+                    Definicao oldDefinicaoOfComposicaoListNewComposicao = composicaoListNewComposicao.getDefinicao();
+                    composicaoListNewComposicao.setDefinicao(definicao);
                     composicaoListNewComposicao = em.merge(composicaoListNewComposicao);
-                    if (oldIdDefinicaoOfComposicaoListNewComposicao != null && !oldIdDefinicaoOfComposicaoListNewComposicao.equals(definicao)) {
-                        oldIdDefinicaoOfComposicaoListNewComposicao.getComposicaoList().remove(composicaoListNewComposicao);
-                        oldIdDefinicaoOfComposicaoListNewComposicao = em.merge(oldIdDefinicaoOfComposicaoListNewComposicao);
+                    if (oldDefinicaoOfComposicaoListNewComposicao != null && !oldDefinicaoOfComposicaoListNewComposicao.equals(definicao)) {
+                        oldDefinicaoOfComposicaoListNewComposicao.getComposicaoList().remove(composicaoListNewComposicao);
+                        oldDefinicaoOfComposicaoListNewComposicao = em.merge(oldDefinicaoOfComposicaoListNewComposicao);
                     }
                 }
             }
             for (Aprovacao aprovacaoListNewAprovacao : aprovacaoListNew) {
                 if (!aprovacaoListOld.contains(aprovacaoListNewAprovacao)) {
-                    Definicao oldIdDefinicaoOfAprovacaoListNewAprovacao = aprovacaoListNewAprovacao.getIdDefinicao();
-                    aprovacaoListNewAprovacao.setIdDefinicao(definicao);
+                    Definicao oldDefinicaoOfAprovacaoListNewAprovacao = aprovacaoListNewAprovacao.getDefinicao();
+                    aprovacaoListNewAprovacao.setDefinicao(definicao);
                     aprovacaoListNewAprovacao = em.merge(aprovacaoListNewAprovacao);
-                    if (oldIdDefinicaoOfAprovacaoListNewAprovacao != null && !oldIdDefinicaoOfAprovacaoListNewAprovacao.equals(definicao)) {
-                        oldIdDefinicaoOfAprovacaoListNewAprovacao.getAprovacaoList().remove(aprovacaoListNewAprovacao);
-                        oldIdDefinicaoOfAprovacaoListNewAprovacao = em.merge(oldIdDefinicaoOfAprovacaoListNewAprovacao);
+                    if (oldDefinicaoOfAprovacaoListNewAprovacao != null && !oldDefinicaoOfAprovacaoListNewAprovacao.equals(definicao)) {
+                        oldDefinicaoOfAprovacaoListNewAprovacao.getAprovacaoList().remove(aprovacaoListNewAprovacao);
+                        oldDefinicaoOfAprovacaoListNewAprovacao = em.merge(oldDefinicaoOfAprovacaoListNewAprovacao);
                     }
                 }
             }
@@ -223,14 +225,14 @@ public class DefinicaoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Composicao " + composicaoListOrphanCheckComposicao + " in its composicaoList field has a non-nullable idDefinicao field.");
+                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Composicao " + composicaoListOrphanCheckComposicao + " in its composicaoList field has a non-nullable definicao field.");
             }
             List<Aprovacao> aprovacaoListOrphanCheck = definicao.getAprovacaoList();
             for (Aprovacao aprovacaoListOrphanCheckAprovacao : aprovacaoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Aprovacao " + aprovacaoListOrphanCheckAprovacao + " in its aprovacaoList field has a non-nullable idDefinicao field.");
+                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Aprovacao " + aprovacaoListOrphanCheckAprovacao + " in its aprovacaoList field has a non-nullable definicao field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

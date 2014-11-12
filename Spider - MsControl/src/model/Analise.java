@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "analise")
@@ -26,10 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Analise.findAll", query = "SELECT a FROM Analise a"),
     @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.analisePK.id = :id"),
-    @NamedQuery(name = "Analise.findByIdMedida", query = "SELECT a FROM Analise a WHERE a.analisePK.idMedida = :idMedida"),
     @NamedQuery(name = "Analise.findByVersao", query = "SELECT a FROM Analise a WHERE a.versao = :versao"),
     @NamedQuery(name = "Analise.findByIndicador", query = "SELECT a FROM Analise a WHERE a.indicador = :indicador"),
-    @NamedQuery(name = "Analise.findByCriterioDeAnalise", query = "SELECT a FROM Analise a WHERE a.criterioDeAnalise = :criterioDeAnalise")})
+    @NamedQuery(name = "Analise.findByCriterioDeAnalise", query = "SELECT a FROM Analise a WHERE a.criterioDeAnalise = :criterioDeAnalise"),
+    @NamedQuery(name = "Analise.findByMedidaid", query = "SELECT a FROM Analise a WHERE a.analisePK.medidaid = :medidaid"),
+    @NamedQuery(name = "Analise.findByMedidaProjetoid", query = "SELECT a FROM Analise a WHERE a.analisePK.medidaProjetoid = :medidaProjetoid")})
 public class Analise implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -40,7 +42,9 @@ public class Analise implements Serializable {
     private String indicador;
     @Column(name = "criterioDeAnalise")
     private String criterioDeAnalise;
-    @JoinColumn(name = "idMedida", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumns({
+        @JoinColumn(name = "Medida_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Medida medida;
 
@@ -51,8 +55,8 @@ public class Analise implements Serializable {
         this.analisePK = analisePK;
     }
 
-    public Analise(int id, int idMedida) {
-        this.analisePK = new AnalisePK(id, idMedida);
+    public Analise(int id, int medidaid, int medidaProjetoid) {
+        this.analisePK = new AnalisePK(id, medidaid, medidaProjetoid);
     }
 
     public AnalisePK getAnalisePK() {
@@ -109,8 +113,9 @@ public class Analise implements Serializable {
             return false;
         }
         Analise other = (Analise) object;
-        if ((this.analisePK == null && other.analisePK != null) || (this.analisePK != null && !this.analisePK.equals(other.analisePK)))
+        if ((this.analisePK == null && other.analisePK != null) || (this.analisePK != null && !this.analisePK.equals(other.analisePK))) {
             return false;
+        }
         return true;
     }
 

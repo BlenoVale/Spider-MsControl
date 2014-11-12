@@ -7,27 +7,26 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -68,8 +67,12 @@ public class Procedimentodecoleta implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProcedimentoDeColeta")
-    private List<Coleta> coletaList;
+    @JoinColumns({
+        @JoinColumn(name = "Coleta_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Coleta_Medida_id", referencedColumnName = "Medida_id"),
+        @JoinColumn(name = "Coleta_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id")})
+    @ManyToOne(optional = false)
+    private Coleta coleta;
 
     public Procedimentodecoleta() {
     }
@@ -150,13 +153,12 @@ public class Procedimentodecoleta implements Serializable {
         this.observacao = observacao;
     }
 
-    @XmlTransient
-    public List<Coleta> getColetaList() {
-        return coletaList;
+    public Coleta getColeta() {
+        return coleta;
     }
 
-    public void setColetaList(List<Coleta> coletaList) {
-        this.coletaList = coletaList;
+    public void setColeta(Coleta coleta) {
+        this.coleta = coleta;
     }
 
     @Override
@@ -173,8 +175,9 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

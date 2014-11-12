@@ -21,7 +21,7 @@ import model.Medida;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class AnaliseJpaController implements Serializable {
 
@@ -38,7 +38,8 @@ public class AnaliseJpaController implements Serializable {
         if (analise.getAnalisePK() == null) {
             analise.setAnalisePK(new AnalisePK());
         }
-        analise.getAnalisePK().setIdMedida(analise.getMedida().getMedidaPK().getId());
+        analise.getAnalisePK().setMedidaid(analise.getMedida().getMedidaPK().getId());
+        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -67,7 +68,8 @@ public class AnaliseJpaController implements Serializable {
     }
 
     public void edit(Analise analise) throws NonexistentEntityException, Exception {
-        analise.getAnalisePK().setIdMedida(analise.getMedida().getMedidaPK().getId());
+        analise.getAnalisePK().setMedidaid(analise.getMedida().getMedidaPK().getId());
+        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();

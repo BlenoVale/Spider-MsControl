@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "objetivodemedicacao")
@@ -31,9 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Objetivodemedicacao.findAll", query = "SELECT o FROM Objetivodemedicacao o"),
     @NamedQuery(name = "Objetivodemedicacao.findById", query = "SELECT o FROM Objetivodemedicacao o WHERE o.objetivodemedicacaoPK.id = :id"),
-    @NamedQuery(name = "Objetivodemedicacao.findByIdProjeto", query = "SELECT o FROM Objetivodemedicacao o WHERE o.objetivodemedicacaoPK.idProjeto = :idProjeto"),
     @NamedQuery(name = "Objetivodemedicacao.findByNome", query = "SELECT o FROM Objetivodemedicacao o WHERE o.nome = :nome"),
-    @NamedQuery(name = "Objetivodemedicacao.findByNivelObjetivo", query = "SELECT o FROM Objetivodemedicacao o WHERE o.nivelObjetivo = :nivelObjetivo")})
+    @NamedQuery(name = "Objetivodemedicacao.findByNivelObjetivo", query = "SELECT o FROM Objetivodemedicacao o WHERE o.nivelObjetivo = :nivelObjetivo"),
+    @NamedQuery(name = "Objetivodemedicacao.findByProjetoid", query = "SELECT o FROM Objetivodemedicacao o WHERE o.objetivodemedicacaoPK.projetoid = :projetoid")})
 public class Objetivodemedicacao implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -59,7 +59,7 @@ public class Objetivodemedicacao implements Serializable {
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicacao")
     private List<Objetivodequestao> objetivodequestaoList;
-    @JoinColumn(name = "idProjeto", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
 
@@ -70,8 +70,8 @@ public class Objetivodemedicacao implements Serializable {
         this.objetivodemedicacaoPK = objetivodemedicacaoPK;
     }
 
-    public Objetivodemedicacao(int id, int idProjeto) {
-        this.objetivodemedicacaoPK = new ObjetivodemedicacaoPK(id, idProjeto);
+    public Objetivodemedicacao(int id, int projetoid) {
+        this.objetivodemedicacaoPK = new ObjetivodemedicacaoPK(id, projetoid);
     }
 
     public ObjetivodemedicacaoPK getObjetivodemedicacaoPK() {
@@ -169,8 +169,9 @@ public class Objetivodemedicacao implements Serializable {
             return false;
         }
         Objetivodemedicacao other = (Objetivodemedicacao) object;
-        if ((this.objetivodemedicacaoPK == null && other.objetivodemedicacaoPK != null) || (this.objetivodemedicacaoPK != null && !this.objetivodemedicacaoPK.equals(other.objetivodemedicacaoPK)))
+        if ((this.objetivodemedicacaoPK == null && other.objetivodemedicacaoPK != null) || (this.objetivodemedicacaoPK != null && !this.objetivodemedicacaoPK.equals(other.objetivodemedicacaoPK))) {
             return false;
+        }
         return true;
     }
 

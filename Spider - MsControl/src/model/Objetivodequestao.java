@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -30,13 +31,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Objetivodequestao.findAll", query = "SELECT o FROM Objetivodequestao o"),
     @NamedQuery(name = "Objetivodequestao.findById", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.id = :id"),
-    @NamedQuery(name = "Objetivodequestao.findByIdObjetivoDeMedicacao", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.idObjetivoDeMedicacao = :idObjetivoDeMedicacao"),
     @NamedQuery(name = "Objetivodequestao.findByNome", query = "SELECT o FROM Objetivodequestao o WHERE o.nome = :nome"),
     @NamedQuery(name = "Objetivodequestao.findByNomeDoUsuario", query = "SELECT o FROM Objetivodequestao o WHERE o.nomeDoUsuario = :nomeDoUsuario"),
     @NamedQuery(name = "Objetivodequestao.findByIndicador", query = "SELECT o FROM Objetivodequestao o WHERE o.indicador = :indicador"),
     @NamedQuery(name = "Objetivodequestao.findByPrioridade", query = "SELECT o FROM Objetivodequestao o WHERE o.prioridade = :prioridade"),
     @NamedQuery(name = "Objetivodequestao.findByTipoDeDerivacao", query = "SELECT o FROM Objetivodequestao o WHERE o.tipoDeDerivacao = :tipoDeDerivacao"),
-    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento")})
+    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento"),
+    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicacaoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicacaoid = :objetivoDeMedicacaoid"),
+    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicacaoProjetoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :objetivoDeMedicacaoProjetoid")})
 public class Objetivodequestao implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -60,7 +62,9 @@ public class Objetivodequestao implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @JoinColumn(name = "idObjetivoDeMedicacao", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumns({
+        @JoinColumn(name = "ObjetivoDeMedicacao_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "ObjetivoDeMedicacao_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Objetivodemedicacao objetivodemedicacao;
 
@@ -71,8 +75,8 @@ public class Objetivodequestao implements Serializable {
         this.objetivodequestaoPK = objetivodequestaoPK;
     }
 
-    public Objetivodequestao(int id, int idObjetivoDeMedicacao) {
-        this.objetivodequestaoPK = new ObjetivodequestaoPK(id, idObjetivoDeMedicacao);
+    public Objetivodequestao(int id, int objetivoDeMedicacaoid, int objetivoDeMedicacaoProjetoid) {
+        this.objetivodequestaoPK = new ObjetivodequestaoPK(id, objetivoDeMedicacaoid, objetivoDeMedicacaoProjetoid);
     }
 
     public ObjetivodequestaoPK getObjetivodequestaoPK() {
@@ -169,8 +173,9 @@ public class Objetivodequestao implements Serializable {
             return false;
         }
         Objetivodequestao other = (Objetivodequestao) object;
-        if ((this.objetivodequestaoPK == null && other.objetivodequestaoPK != null) || (this.objetivodequestaoPK != null && !this.objetivodequestaoPK.equals(other.objetivodequestaoPK)))
+        if ((this.objetivodequestaoPK == null && other.objetivodequestaoPK != null) || (this.objetivodequestaoPK != null && !this.objetivodequestaoPK.equals(other.objetivodequestaoPK))) {
             return false;
+        }
         return true;
     }
 

@@ -5,23 +5,21 @@
  */
 package controller;
 
-import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Coleta;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import model.Procedimentodeanalise;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ProcedimentodeanaliseJpaController implements Serializable {
 
@@ -35,28 +33,19 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
     }
 
     public void create(Procedimentodeanalise procedimentodeanalise) {
-        if (procedimentodeanalise.getColetaList() == null) {
-            procedimentodeanalise.setColetaList(new ArrayList<Coleta>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Coleta> attachedColetaList = new ArrayList<Coleta>();
-            for (Coleta coletaListColetaToAttach : procedimentodeanalise.getColetaList()) {
-                coletaListColetaToAttach = em.getReference(coletaListColetaToAttach.getClass(), coletaListColetaToAttach.getColetaPK());
-                attachedColetaList.add(coletaListColetaToAttach);
+            Coleta coleta = procedimentodeanalise.getColeta();
+            if (coleta != null) {
+                coleta = em.getReference(coleta.getClass(), coleta.getColetaPK());
+                procedimentodeanalise.setColeta(coleta);
             }
-            procedimentodeanalise.setColetaList(attachedColetaList);
             em.persist(procedimentodeanalise);
-            for (Coleta coletaListColeta : procedimentodeanalise.getColetaList()) {
-                Procedimentodeanalise oldIdProcedimentoDeAnaliseOfColetaListColeta = coletaListColeta.getIdProcedimentoDeAnalise();
-                coletaListColeta.setIdProcedimentoDeAnalise(procedimentodeanalise);
-                coletaListColeta = em.merge(coletaListColeta);
-                if (oldIdProcedimentoDeAnaliseOfColetaListColeta != null) {
-                    oldIdProcedimentoDeAnaliseOfColetaListColeta.getColetaList().remove(coletaListColeta);
-                    oldIdProcedimentoDeAnaliseOfColetaListColeta = em.merge(oldIdProcedimentoDeAnaliseOfColetaListColeta);
-                }
+            if (coleta != null) {
+                coleta.getProcedimentodeanaliseList().add(procedimentodeanalise);
+                coleta = em.merge(coleta);
             }
             em.getTransaction().commit();
         } finally {
@@ -66,44 +55,26 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Procedimentodeanalise procedimentodeanalise) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Procedimentodeanalise procedimentodeanalise) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Procedimentodeanalise persistentProcedimentodeanalise = em.find(Procedimentodeanalise.class, procedimentodeanalise.getId());
-            List<Coleta> coletaListOld = persistentProcedimentodeanalise.getColetaList();
-            List<Coleta> coletaListNew = procedimentodeanalise.getColetaList();
-            List<String> illegalOrphanMessages = null;
-            for (Coleta coletaListOldColeta : coletaListOld) {
-                if (!coletaListNew.contains(coletaListOldColeta)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Coleta " + coletaListOldColeta + " since its idProcedimentoDeAnalise field is not nullable.");
-                }
+            Coleta coletaOld = persistentProcedimentodeanalise.getColeta();
+            Coleta coletaNew = procedimentodeanalise.getColeta();
+            if (coletaNew != null) {
+                coletaNew = em.getReference(coletaNew.getClass(), coletaNew.getColetaPK());
+                procedimentodeanalise.setColeta(coletaNew);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Coleta> attachedColetaListNew = new ArrayList<Coleta>();
-            for (Coleta coletaListNewColetaToAttach : coletaListNew) {
-                coletaListNewColetaToAttach = em.getReference(coletaListNewColetaToAttach.getClass(), coletaListNewColetaToAttach.getColetaPK());
-                attachedColetaListNew.add(coletaListNewColetaToAttach);
-            }
-            coletaListNew = attachedColetaListNew;
-            procedimentodeanalise.setColetaList(coletaListNew);
             procedimentodeanalise = em.merge(procedimentodeanalise);
-            for (Coleta coletaListNewColeta : coletaListNew) {
-                if (!coletaListOld.contains(coletaListNewColeta)) {
-                    Procedimentodeanalise oldIdProcedimentoDeAnaliseOfColetaListNewColeta = coletaListNewColeta.getIdProcedimentoDeAnalise();
-                    coletaListNewColeta.setIdProcedimentoDeAnalise(procedimentodeanalise);
-                    coletaListNewColeta = em.merge(coletaListNewColeta);
-                    if (oldIdProcedimentoDeAnaliseOfColetaListNewColeta != null && !oldIdProcedimentoDeAnaliseOfColetaListNewColeta.equals(procedimentodeanalise)) {
-                        oldIdProcedimentoDeAnaliseOfColetaListNewColeta.getColetaList().remove(coletaListNewColeta);
-                        oldIdProcedimentoDeAnaliseOfColetaListNewColeta = em.merge(oldIdProcedimentoDeAnaliseOfColetaListNewColeta);
-                    }
-                }
+            if (coletaOld != null && !coletaOld.equals(coletaNew)) {
+                coletaOld.getProcedimentodeanaliseList().remove(procedimentodeanalise);
+                coletaOld = em.merge(coletaOld);
+            }
+            if (coletaNew != null && !coletaNew.equals(coletaOld)) {
+                coletaNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
+                coletaNew = em.merge(coletaNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -122,7 +93,7 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +105,10 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The procedimentodeanalise with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Coleta> coletaListOrphanCheck = procedimentodeanalise.getColetaList();
-            for (Coleta coletaListOrphanCheckColeta : coletaListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Coleta " + coletaListOrphanCheckColeta + " in its coletaList field has a non-nullable idProcedimentoDeAnalise field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            Coleta coleta = procedimentodeanalise.getColeta();
+            if (coleta != null) {
+                coleta.getProcedimentodeanaliseList().remove(procedimentodeanalise);
+                coleta = em.merge(coleta);
             }
             em.remove(procedimentodeanalise);
             em.getTransaction().commit();

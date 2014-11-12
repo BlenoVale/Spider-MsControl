@@ -17,27 +17,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "acessa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Acessa.findAll", query = "SELECT a FROM Acessa a"),
-    @NamedQuery(name = "Acessa.findByIdPerfil", query = "SELECT a FROM Acessa a WHERE a.acessaPK.idPerfil = :idPerfil"),
-    @NamedQuery(name = "Acessa.findByIdUsuario", query = "SELECT a FROM Acessa a WHERE a.acessaPK.idUsuario = :idUsuario"),
-    @NamedQuery(name = "Acessa.findByIdProjeto", query = "SELECT a FROM Acessa a WHERE a.acessaPK.idProjeto = :idProjeto")})
+    @NamedQuery(name = "Acessa.findByAcessacol", query = "SELECT a FROM Acessa a WHERE a.acessaPK.acessacol = :acessacol"),
+    @NamedQuery(name = "Acessa.findByProjetoid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.projetoid = :projetoid"),
+    @NamedQuery(name = "Acessa.findByPerfilid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.perfilid = :perfilid"),
+    @NamedQuery(name = "Acessa.findByUsuarioid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.usuarioid = :usuarioid")})
 public class Acessa implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected AcessaPK acessaPK;
-    @JoinColumn(name = "idPerfil", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Perfil perfil;
-    @JoinColumn(name = "idProjeto", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
-    @JoinColumn(name = "idUsuario", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
 
@@ -48,8 +49,8 @@ public class Acessa implements Serializable {
         this.acessaPK = acessaPK;
     }
 
-    public Acessa(int idPerfil, int idUsuario, int idProjeto) {
-        this.acessaPK = new AcessaPK(idPerfil, idUsuario, idProjeto);
+    public Acessa(String acessacol, int projetoid, int perfilid, int usuarioid) {
+        this.acessaPK = new AcessaPK(acessacol, projetoid, perfilid, usuarioid);
     }
 
     public AcessaPK getAcessaPK() {
@@ -98,8 +99,9 @@ public class Acessa implements Serializable {
             return false;
         }
         Acessa other = (Acessa) object;
-        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK)))
+        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK))) {
             return false;
+        }
         return true;
     }
 

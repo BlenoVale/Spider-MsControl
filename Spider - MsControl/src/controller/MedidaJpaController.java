@@ -26,7 +26,7 @@ import model.MedidaPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class MedidaJpaController implements Serializable {
 
@@ -52,7 +52,7 @@ public class MedidaJpaController implements Serializable {
         if (medida.getAnaliseList() == null) {
             medida.setAnaliseList(new ArrayList<Analise>());
         }
-        medida.getMedidaPK().setIdProjeto(medida.getProjeto().getId());
+        medida.getMedidaPK().setProjetoid(medida.getProjeto().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -126,7 +126,7 @@ public class MedidaJpaController implements Serializable {
     }
 
     public void edit(Medida medida) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        medida.getMedidaPK().setIdProjeto(medida.getProjeto().getId());
+        medida.getMedidaPK().setProjetoid(medida.getProjeto().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
