@@ -14,24 +14,24 @@ public class ViewAlocacaoDeUsuarioAoProjeto extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        jLabelProjeto = new javax.swing.JLabel();
+        jLabelPerfil = new javax.swing.JLabel();
+        jComboBoxProjeto = new javax.swing.JComboBox();
+        jComboBoxPerfil = new javax.swing.JComboBox();
+        jButtonAlocar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alocação de perfil");
 
-        jLabel1.setText("Projeto");
+        jLabelProjeto.setText("Projeto");
 
-        jLabel2.setText("Perfil");
+        jLabelPerfil.setText("Perfil");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--- Selecione um projeto ---", "Spider - MsConfig", "Spider - RM" }));
+        jComboBoxProjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--- Selecione um projeto ---", "Spider - MsConfig", "Spider - RM" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--- Selecione um perfil ---", "Administração", "Gerencia" }));
+        jComboBoxPerfil.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--- Selecione um perfil ---", "Administração", "Gerencia" }));
 
-        jButton1.setText("Alocar");
+        jButtonAlocar.setText("Alocar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -40,16 +40,16 @@ public class ViewAlocacaoDeUsuarioAoProjeto extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabelProjeto)
+                    .addComponent(jLabelPerfil))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBoxProjeto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxPerfil, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(168, 168, 168)
-                .addComponent(jButton1)
+                .addComponent(jButtonAlocar)
                 .addContainerGap(169, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -57,14 +57,14 @@ public class ViewAlocacaoDeUsuarioAoProjeto extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelProjeto)
+                    .addComponent(jComboBoxProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelPerfil)
+                    .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(jButtonAlocar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -72,10 +72,10 @@ public class ViewAlocacaoDeUsuarioAoProjeto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jButtonAlocar;
+    private javax.swing.JComboBox jComboBoxPerfil;
+    private javax.swing.JComboBox jComboBoxProjeto;
+    private javax.swing.JLabel jLabelPerfil;
+    private javax.swing.JLabel jLabelProjeto;
     // End of variables declaration//GEN-END:variables
 }
