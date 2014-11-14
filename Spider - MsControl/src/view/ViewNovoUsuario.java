@@ -40,7 +40,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
     protected void addLinhaTabela(String projeto, String perfil) {
         // Se ja contem na tabela, nao adiciona uma nova linha.
         for (int i = 0; i < jTable.getRowCount(); i++)
-            if (jTable.getValueAt(i, 0).toString().equals(projeto) || jTable.getValueAt(i, 1).toString().equals(perfil)) {
+            if (jTable.getValueAt(i, 0).toString().equals(projeto) && jTable.getValueAt(i, 1).toString().equals(perfil)) {
                 JOptionPane.showMessageDialog(rootPane, "O perfil \"" + perfil + "\" ja foi alocado para o projeto \"" + projeto + "\"", "Info", JOptionPane.ERROR_MESSAGE);
                 return;
             }
