@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class ObjetivodequestaoPK implements Serializable {
@@ -75,15 +75,12 @@ public class ObjetivodequestaoPK implements Serializable {
             return false;
         }
         ObjetivodequestaoPK other = (ObjetivodequestaoPK) object;
-        if (this.id != other.id) {
+        if (this.id != other.id)
             return false;
-        }
-        if (this.objetivoDeMedicacaoid != other.objetivoDeMedicacaoid) {
+        if (this.objetivoDeMedicacaoid != other.objetivoDeMedicacaoid)
             return false;
-        }
-        if (this.objetivoDeMedicacaoProjetoid != other.objetivoDeMedicacaoProjetoid) {
+        if (this.objetivoDeMedicacaoProjetoid != other.objetivoDeMedicacaoProjetoid)
             return false;
-        }
         return true;
     }
 

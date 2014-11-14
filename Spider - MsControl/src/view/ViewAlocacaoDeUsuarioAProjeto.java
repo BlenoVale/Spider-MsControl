@@ -4,24 +4,43 @@ import controller.PerfilJpaController;
 import controller.ProjetoJpaController;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import model.Perfil;
 import model.Projeto;
 import util.Conexao;
 
 /**
+ * Classe usada para direcionar um usario a um projeto e lhe dar um perfil de
+ * acesso dentro do projeto
+ *
  * @author Dan Jhonatan
  */
 public class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
 
+    private ViewNovoUsuario paiNovoUsuario = null;
+    private ViewEspecificacoesDeUsuario paiEspecUsuario = null;
     private final ProjetoJpaController projetoJpa = new ProjetoJpaController(Conexao.conectar());
     private final PerfilJpaController perfilJpa = new PerfilJpaController(Conexao.conectar());
 
-    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal) {
+    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal, ViewNovoUsuario pai) {
         super(parent, modal);
         initComponents();
+        this.paiNovoUsuario = pai;
 
         this.setLocationRelativeTo(null);
         atualizaComboBox();
+        this.setVisible(true);
+    }
+
+    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal, ViewEspecificacoesDeUsuario pai) {
+        super(parent, modal);
+        initComponents();
+        this.paiEspecUsuario = pai;
+
+        this.setLocationRelativeTo(null);
+        atualizaComboBox();
+
+        this.setVisible(true);
     }
 
     public void atualizaComboBox() {
@@ -59,6 +78,11 @@ public class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
         jComboBoxPerfil.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Alocar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,6 +113,13 @@ public class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (paiNovoUsuario != null)
+            paiNovoUsuario.addLinhaTabela(jComboBoxProjeto.getSelectedItem().toString(), jComboBoxPerfil.getSelectedItem().toString());
+
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

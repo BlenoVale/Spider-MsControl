@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "medida")
@@ -139,9 +139,8 @@ public class Medida implements Serializable {
             return false;
         }
         Medida other = (Medida) object;
-        if ((this.medidaPK == null && other.medidaPK != null) || (this.medidaPK != null && !this.medidaPK.equals(other.medidaPK))) {
+        if ((this.medidaPK == null && other.medidaPK != null) || (this.medidaPK != null && !this.medidaPK.equals(other.medidaPK)))
             return false;
-        }
         return true;
     }
 

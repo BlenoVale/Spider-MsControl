@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "definicao")
@@ -217,9 +217,8 @@ public class Definicao implements Serializable {
             return false;
         }
         Definicao other = (Definicao) object;
-        if ((this.definicaoPK == null && other.definicaoPK != null) || (this.definicaoPK != null && !this.definicaoPK.equals(other.definicaoPK))) {
+        if ((this.definicaoPK == null && other.definicaoPK != null) || (this.definicaoPK != null && !this.definicaoPK.equals(other.definicaoPK)))
             return false;
-        }
         return true;
     }
 

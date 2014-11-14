@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class MedidaPK implements Serializable {
@@ -62,12 +62,10 @@ public class MedidaPK implements Serializable {
             return false;
         }
         MedidaPK other = (MedidaPK) object;
-        if (this.id != other.id) {
+        if (this.id != other.id)
             return false;
-        }
-        if (this.projetoid != other.projetoid) {
+        if (this.projetoid != other.projetoid)
             return false;
-        }
         return true;
     }
 

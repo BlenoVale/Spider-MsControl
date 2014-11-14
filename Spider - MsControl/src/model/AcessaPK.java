@@ -12,13 +12,13 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class AcessaPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "acessacol")
-    private String acessacol;
+    @Column(name = "id")
+    private int id;
     @Basic(optional = false)
     @Column(name = "Projeto_id")
     private int projetoid;
@@ -32,19 +32,19 @@ public class AcessaPK implements Serializable {
     public AcessaPK() {
     }
 
-    public AcessaPK(String acessacol, int projetoid, int perfilid, int usuarioid) {
-        this.acessacol = acessacol;
+    public AcessaPK(int id, int projetoid, int perfilid, int usuarioid) {
+        this.id = id;
         this.projetoid = projetoid;
         this.perfilid = perfilid;
         this.usuarioid = usuarioid;
     }
 
-    public String getAcessacol() {
-        return acessacol;
+    public int getId() {
+        return id;
     }
 
-    public void setAcessacol(String acessacol) {
-        this.acessacol = acessacol;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getProjetoid() {
@@ -74,7 +74,7 @@ public class AcessaPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (acessacol != null ? acessacol.hashCode() : 0);
+        hash += (int) id;
         hash += (int) projetoid;
         hash += (int) perfilid;
         hash += (int) usuarioid;
@@ -88,24 +88,20 @@ public class AcessaPK implements Serializable {
             return false;
         }
         AcessaPK other = (AcessaPK) object;
-        if ((this.acessacol == null && other.acessacol != null) || (this.acessacol != null && !this.acessacol.equals(other.acessacol))) {
+        if (this.id != other.id)
             return false;
-        }
-        if (this.projetoid != other.projetoid) {
+        if (this.projetoid != other.projetoid)
             return false;
-        }
-        if (this.perfilid != other.perfilid) {
+        if (this.perfilid != other.perfilid)
             return false;
-        }
-        if (this.usuarioid != other.usuarioid) {
+        if (this.usuarioid != other.usuarioid)
             return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.AcessaPK[ acessacol=" + acessacol + ", projetoid=" + projetoid + ", perfilid=" + perfilid + ", usuarioid=" + usuarioid + " ]";
+        return "model.AcessaPK[ id=" + id + ", projetoid=" + projetoid + ", perfilid=" + perfilid + ", usuarioid=" + usuarioid + " ]";
     }
     
 }

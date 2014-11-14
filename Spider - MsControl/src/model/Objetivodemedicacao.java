@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "objetivodemedicacao")
@@ -169,9 +169,8 @@ public class Objetivodemedicacao implements Serializable {
             return false;
         }
         Objetivodemedicacao other = (Objetivodemedicacao) object;
-        if ((this.objetivodemedicacaoPK == null && other.objetivodemedicacaoPK != null) || (this.objetivodemedicacaoPK != null && !this.objetivodemedicacaoPK.equals(other.objetivodemedicacaoPK))) {
+        if ((this.objetivodemedicacaoPK == null && other.objetivodemedicacaoPK != null) || (this.objetivodemedicacaoPK != null && !this.objetivodemedicacaoPK.equals(other.objetivodemedicacaoPK)))
             return false;
-        }
         return true;
     }
 

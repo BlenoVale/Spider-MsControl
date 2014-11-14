@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "coleta")
@@ -165,9 +165,8 @@ public class Coleta implements Serializable {
             return false;
         }
         Coleta other = (Coleta) object;
-        if ((this.coletaPK == null && other.coletaPK != null) || (this.coletaPK != null && !this.coletaPK.equals(other.coletaPK))) {
+        if ((this.coletaPK == null && other.coletaPK != null) || (this.coletaPK != null && !this.coletaPK.equals(other.coletaPK)))
             return false;
-        }
         return true;
     }
 

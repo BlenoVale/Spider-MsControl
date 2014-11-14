@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class DefinicaoPK implements Serializable {
@@ -75,15 +75,12 @@ public class DefinicaoPK implements Serializable {
             return false;
         }
         DefinicaoPK other = (DefinicaoPK) object;
-        if (this.id != other.id) {
+        if (this.id != other.id)
             return false;
-        }
-        if (this.medidaid != other.medidaid) {
+        if (this.medidaid != other.medidaid)
             return false;
-        }
-        if (this.medidaProjetoid != other.medidaProjetoid) {
+        if (this.medidaProjetoid != other.medidaProjetoid)
             return false;
-        }
         return true;
     }
 

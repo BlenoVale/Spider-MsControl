@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class PossuiPK implements Serializable {
@@ -75,15 +75,12 @@ public class PossuiPK implements Serializable {
             return false;
         }
         PossuiPK other = (PossuiPK) object;
-        if (this.id != other.id) {
+        if (this.id != other.id)
             return false;
-        }
-        if (this.perfilid != other.perfilid) {
+        if (this.perfilid != other.perfilid)
             return false;
-        }
-        if (this.funcionalidadeid != other.funcionalidadeid) {
+        if (this.funcionalidadeid != other.funcionalidadeid)
             return false;
-        }
         return true;
     }
 

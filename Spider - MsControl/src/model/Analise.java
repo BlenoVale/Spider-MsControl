@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "analise")
@@ -113,9 +113,8 @@ public class Analise implements Serializable {
             return false;
         }
         Analise other = (Analise) object;
-        if ((this.analisePK == null && other.analisePK != null) || (this.analisePK != null && !this.analisePK.equals(other.analisePK))) {
+        if ((this.analisePK == null && other.analisePK != null) || (this.analisePK != null && !this.analisePK.equals(other.analisePK)))
             return false;
-        }
         return true;
     }
 

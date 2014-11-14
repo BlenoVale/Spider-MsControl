@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "possui")
@@ -87,9 +87,8 @@ public class Possui implements Serializable {
             return false;
         }
         Possui other = (Possui) object;
-        if ((this.possuiPK == null && other.possuiPK != null) || (this.possuiPK != null && !this.possuiPK.equals(other.possuiPK))) {
+        if ((this.possuiPK == null && other.possuiPK != null) || (this.possuiPK != null && !this.possuiPK.equals(other.possuiPK)))
             return false;
-        }
         return true;
     }
 

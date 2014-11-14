@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -173,9 +173,8 @@ public class Objetivodequestao implements Serializable {
             return false;
         }
         Objetivodequestao other = (Objetivodequestao) object;
-        if ((this.objetivodequestaoPK == null && other.objetivodequestaoPK != null) || (this.objetivodequestaoPK != null && !this.objetivodequestaoPK.equals(other.objetivodequestaoPK))) {
+        if ((this.objetivodequestaoPK == null && other.objetivodequestaoPK != null) || (this.objetivodequestaoPK != null && !this.objetivodequestaoPK.equals(other.objetivodequestaoPK)))
             return false;
-        }
         return true;
     }
 
