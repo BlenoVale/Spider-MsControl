@@ -71,7 +71,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             if (u != null) {
                 JOptionPane.showMessageDialog(rootPane, "Este login ja existe");
                 return false;
-            }
+            } 
         }
         return true;
     }
@@ -222,7 +222,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             int resp = JOptionPane.showConfirmDialog(rootPane, "Não há projetos para selecionar. Você deve primeiro criar um novo projeto.\nDeseja criar um projeto agora?");
             if (resp == 0) {
                 this.dispose();
-                // kalsjdfksjd
+                new ViewNovoProjeto(null, true);
             }
             return;
         }

@@ -16,6 +16,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
 
         this.iniciarTelas();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -333,7 +334,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void trocaTelas(JInternalFrame tela) {
+    protected void trocaTelas(JInternalFrame tela) {
 
         viewGerenciarProjetos.setVisible(false);
         viewGerenciarUsuarios.setVisible(false);
@@ -366,4 +367,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
+
+
 }
