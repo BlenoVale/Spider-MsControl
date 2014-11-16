@@ -222,6 +222,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             int resp = JOptionPane.showConfirmDialog(rootPane, "Não há projetos para selecionar. Você deve primeiro criar um novo projeto.\nDeseja criar um projeto agora?");
             if (resp == 0) {
                 this.dispose();
+                // kalsjdfksjd
             }
             return;
         }
