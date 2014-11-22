@@ -1,13 +1,42 @@
 package view;
 
+import java.util.List;
+import model.Acessa;
+import model.Usuario;
+import util.MyDefaultTableModel;
+
 public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
 
-    public ViewEspecificacoesDeUsuario(java.awt.Frame parent, boolean modal) {
+    private Usuario usuario;
+
+    public ViewEspecificacoesDeUsuario(java.awt.Frame parent, boolean modal, Usuario usuario) {
         super(parent, modal);
+        this.usuario = usuario;
+
         initComponents();
+
+        jLabelNomeDoUsuario.setText(usuario.getNome());
+        atualizarTabela();
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    private void atualizarTabela() {
+
+        List<Acessa> acessoList = usuario.getAcessaList();
+
+        int linhas = acessoList.size();
+        String colunas[] = new String[]{"Nome do projeto", "Perfil no projeto", "Data de entrada"};
+
+        MyDefaultTableModel model = new MyDefaultTableModel(colunas, linhas, false);
+        jTable.setModel(model);
+
+        for (int i = 0; i < linhas; i++) {
+            jTable.setValueAt(acessoList.get(i).getProjeto().getNome(), i, 0);
+            jTable.setValueAt(acessoList.get(i).getPerfil().getNome(), i, 1);
+            jTable.setValueAt("Data para fazer", i, 2);
+        }
     }
 
     @SuppressWarnings("unchecked")

@@ -1,6 +1,12 @@
 package view;
 
+import controller.extensao.UsuarioJpa;
+import javax.swing.JOptionPane;
+import model.Usuario;
+
 public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
+
+    private UsuarioJpa usuarioJpa = new UsuarioJpa();
 
     public ViewGerenciarUsuarios() {
         initComponents();
@@ -42,13 +48,13 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nome", "Qtd de projetos que participa", "Qtd de perfis"
+                "Nome", "Login", "Qtd de projetos que participa", "Qtd de perfis"
             }
         ));
         jScrollPane1.setViewportView(jTable);
@@ -132,7 +138,14 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovoUsuarioActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true);
+        if (jTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione um usuário da tabela");
+            return;
+        }
+
+        Usuario user = new Usuario();
+        user = usuarioJpa.findByLogin(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
+        ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true, user);
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
