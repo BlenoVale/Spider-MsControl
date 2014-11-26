@@ -6,6 +6,7 @@
 package test;
 
 import controller.ProjetoJpaController;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import model.Projeto;
 import util.Conexao;
@@ -17,17 +18,28 @@ import util.Conexao;
 public class Teste {
 
     public static void main(String[] args) {
+
+ 
         Projeto projeto = new Projeto();
-        projeto.setDataFim(new Date(2014, 11, 13));
-        projeto.setDataInicio(new Date(2014, 11, 13));
-        projeto.setNome("Teste");
+        projeto.setNome("PROJETO 2");
+
+        projeto.setDataFim(new Date());
+        projeto.setDataInicio(new Date());
         projeto.setStatus(0);
-        
+
         try {
             new ProjetoJpaController(Conexao.conectar()).create(projeto);
             System.out.println("Funfou");
         } catch (Exception e) {
             System.out.println("Não funfou");
         }
+    }
+
+    public static  String getData() {
+        SimpleDateFormat formatador = new SimpleDateFormat("yy/MM/dd");
+        Date data = new Date();
+
+        String dataFormatada = formatador.format(data);
+        return dataFormatada;
     }
 }

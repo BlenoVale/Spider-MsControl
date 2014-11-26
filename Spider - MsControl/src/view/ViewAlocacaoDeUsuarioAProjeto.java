@@ -4,7 +4,6 @@ import controller.PerfilJpaController;
 import controller.ProjetoJpaController;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import model.Perfil;
 import model.Projeto;
 import util.Conexao;
@@ -15,7 +14,7 @@ import util.Conexao;
  *
  * @author Dan Jhonatan
  */
-public class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
+public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
 
     private ViewNovoUsuario paiNovoUsuario = null;
     private ViewEspecificacoesDeUsuario paiEspecUsuario = null;
@@ -117,6 +116,8 @@ public class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (paiNovoUsuario != null)
             paiNovoUsuario.addLinhaTabela(jComboBoxProjeto.getSelectedItem().toString(), jComboBoxPerfil.getSelectedItem().toString());
+        else if (paiEspecUsuario != null)
+            paiEspecUsuario.addLinhaTabela(jComboBoxProjeto.getSelectedItem().toString(), jComboBoxPerfil.getSelectedItem().toString());
 
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

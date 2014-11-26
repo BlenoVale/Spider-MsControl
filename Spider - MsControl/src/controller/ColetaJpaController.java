@@ -25,7 +25,7 @@ import model.Procedimentodecoleta;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 public class ColetaJpaController implements Serializable {
 
@@ -48,8 +48,8 @@ public class ColetaJpaController implements Serializable {
         if (coleta.getProcedimentodecoletaList() == null) {
             coleta.setProcedimentodecoletaList(new ArrayList<Procedimentodecoleta>());
         }
-        coleta.getColetaPK().setMedidaid(coleta.getMedida().getMedidaPK().getId());
         coleta.getColetaPK().setMedidaProjetoid(coleta.getMedida().getMedidaPK().getProjetoid());
+        coleta.getColetaPK().setMedidaid(coleta.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -108,8 +108,8 @@ public class ColetaJpaController implements Serializable {
     }
 
     public void edit(Coleta coleta) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        coleta.getColetaPK().setMedidaid(coleta.getMedida().getMedidaPK().getId());
         coleta.getColetaPK().setMedidaProjetoid(coleta.getMedida().getMedidaPK().getProjetoid());
+        coleta.getColetaPK().setMedidaid(coleta.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

@@ -7,6 +7,7 @@ import controller.extensao.PerfilJpa;
 import controller.extensao.ProjetoJpa;
 import controller.extensao.UsuarioJpa;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,7 +72,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             if (u != null) {
                 JOptionPane.showMessageDialog(rootPane, "Este login ja existe");
                 return false;
-            } 
+            }
         }
         return true;
     }
@@ -276,6 +277,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             acessa.setProjeto(projeto);
             acessa.setPerfil(perfil);
             acessa.setUsuario(user);
+            acessa.setDataDeInicio(new Date());
 
             try {
                 new AcessaJpaController(Conexao.conectar()).create(acessa);;

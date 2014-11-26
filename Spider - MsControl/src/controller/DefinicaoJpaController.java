@@ -25,7 +25,7 @@ import model.DefinicaoPK;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 public class DefinicaoJpaController implements Serializable {
 
@@ -48,8 +48,8 @@ public class DefinicaoJpaController implements Serializable {
         if (definicao.getAprovacaoList() == null) {
             definicao.setAprovacaoList(new ArrayList<Aprovacao>());
         }
-        definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
         definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
+        definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -108,8 +108,8 @@ public class DefinicaoJpaController implements Serializable {
     }
 
     public void edit(Definicao definicao) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
         definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
+        definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();

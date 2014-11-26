@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 @Entity
 @Table(name = "possui")

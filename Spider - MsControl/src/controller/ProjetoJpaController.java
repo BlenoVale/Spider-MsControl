@@ -23,7 +23,7 @@ import model.Projeto;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 public class ProjetoJpaController implements Serializable {
 

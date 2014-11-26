@@ -19,7 +19,7 @@ import model.Definicao;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 public class ComposicaoJpaController implements Serializable {
 

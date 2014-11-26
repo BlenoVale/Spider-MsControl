@@ -6,6 +6,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,25 +15,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 @Entity
 @Table(name = "acessa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Acessa.findAll", query = "SELECT a FROM Acessa a"),
-    @NamedQuery(name = "Acessa.findById", query = "SELECT a FROM Acessa a WHERE a.acessaPK.id = :id"),
     @NamedQuery(name = "Acessa.findByProjetoid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.projetoid = :projetoid"),
     @NamedQuery(name = "Acessa.findByPerfilid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.perfilid = :perfilid"),
-    @NamedQuery(name = "Acessa.findByUsuarioid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.usuarioid = :usuarioid")})
+    @NamedQuery(name = "Acessa.findByUsuarioid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.usuarioid = :usuarioid"),
+    @NamedQuery(name = "Acessa.findByDataDeInicio", query = "SELECT a FROM Acessa a WHERE a.dataDeInicio = :dataDeInicio")})
 public class Acessa implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected AcessaPK acessaPK;
+    @Column(name = "dataDeInicio")
+    @Temporal(TemporalType.DATE)
+    private Date dataDeInicio;
     @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Perfil perfil;
@@ -49,8 +56,8 @@ public class Acessa implements Serializable {
         this.acessaPK = acessaPK;
     }
 
-    public Acessa(int id, int projetoid, int perfilid, int usuarioid) {
-        this.acessaPK = new AcessaPK(id, projetoid, perfilid, usuarioid);
+    public Acessa(int projetoid, int perfilid, int usuarioid) {
+        this.acessaPK = new AcessaPK(projetoid, perfilid, usuarioid);
     }
 
     public AcessaPK getAcessaPK() {
@@ -59,6 +66,14 @@ public class Acessa implements Serializable {
 
     public void setAcessaPK(AcessaPK acessaPK) {
         this.acessaPK = acessaPK;
+    }
+
+    public Date getDataDeInicio() {
+        return dataDeInicio;
+    }
+
+    public void setDataDeInicio(Date dataDeInicio) {
+        this.dataDeInicio = dataDeInicio;
     }
 
     public Perfil getPerfil() {

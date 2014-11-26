@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 @Entity
 @Table(name = "definicao")

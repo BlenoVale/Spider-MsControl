@@ -12,13 +12,10 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Dan
+ * @author GEDAE
  */
 @Embeddable
 public class AcessaPK implements Serializable {
-    @Basic(optional = false)
-    @Column(name = "id")
-    private int id;
     @Basic(optional = false)
     @Column(name = "Projeto_id")
     private int projetoid;
@@ -32,19 +29,10 @@ public class AcessaPK implements Serializable {
     public AcessaPK() {
     }
 
-    public AcessaPK(int id, int projetoid, int perfilid, int usuarioid) {
-        this.id = id;
+    public AcessaPK(int projetoid, int perfilid, int usuarioid) {
         this.projetoid = projetoid;
         this.perfilid = perfilid;
         this.usuarioid = usuarioid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getProjetoid() {
@@ -74,7 +62,6 @@ public class AcessaPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) id;
         hash += (int) projetoid;
         hash += (int) perfilid;
         hash += (int) usuarioid;
@@ -88,8 +75,6 @@ public class AcessaPK implements Serializable {
             return false;
         }
         AcessaPK other = (AcessaPK) object;
-        if (this.id != other.id)
-            return false;
         if (this.projetoid != other.projetoid)
             return false;
         if (this.perfilid != other.perfilid)
@@ -101,7 +86,7 @@ public class AcessaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "model.AcessaPK[ id=" + id + ", projetoid=" + projetoid + ", perfilid=" + perfilid + ", usuarioid=" + usuarioid + " ]";
+        return "model.AcessaPK[ projetoid=" + projetoid + ", perfilid=" + perfilid + ", usuarioid=" + usuarioid + " ]";
     }
     
 }
