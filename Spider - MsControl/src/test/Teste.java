@@ -21,7 +21,7 @@ public class Teste {
 
  
         Projeto projeto = new Projeto();
-        projeto.setNome("PROJETO 2");
+        projeto.setNome("PROJETO 1");
 
         projeto.setDataFim(new Date());
         projeto.setDataInicio(new Date());
