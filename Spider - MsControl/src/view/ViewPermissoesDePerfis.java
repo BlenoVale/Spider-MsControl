@@ -5,6 +5,7 @@ import controller.PerfilJpaController;
 import controller.extensao.PerfilJpa;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import model.Funcionalidade;
@@ -16,8 +17,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
     private DefaultListModel model_listaFuncionalidades = new DefaultListModel();
     private DefaultListModel model_listaFuncionalidadesDoPerfil = new DefaultListModel();
 
-    private List<Funcionalidade> lista_Funcionalidades = new FuncionalidadeJpaController(Conexao.conectar())
-            .findFuncionalidadeEntities();
+    private List<Funcionalidade> lista_Funcionalidades;
 
     private List<Perfil> lista_perfil = new PerfilJpaController(Conexao.conectar()).findPerfilEntities();
 
@@ -26,8 +26,14 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
     public ViewPermissoesDePerfis() {
         initComponents();
         popularComboboxDePerfil();
+        buscaFuncionalidades();
         preencherListaDeFuncionalidades();
         initModel();
+    }
+
+    private void buscaFuncionalidades() {
+        lista_Funcionalidades = new FuncionalidadeJpaController(Conexao.conectar())
+                .findFuncionalidadeEntities();
     }
 
     private void popularComboboxDePerfil() {
@@ -46,9 +52,45 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
     private void preencherListaDeFuncionalidades() {
 
+        model_listaFuncionalidades = new DefaultListModel();
         for (int i = 0; i < lista_Funcionalidades.size(); i++) {
             model_listaFuncionalidades.addElement(lista_Funcionalidades.get(i).getNome());
             System.out.println("Funcionalidade " + i + ": " + lista_Funcionalidades.get(i).getNome());
+        }
+    }
+
+    public void buscaFuncionalidadesJaExistentes(String nome_perfil) {
+
+        for (int i = 0; i < lista_perfil.size(); i++) {
+            if (lista_perfil.get(i).getNome().equals(nome_perfil)) {
+                perfil = new PerfilJpaController(Conexao.conectar()).findPerfil(lista_perfil.get(i).getId());
+                break;
+            }
+        }
+
+        if (!perfil.getFuncionalidadeList().isEmpty()) {
+            buscaFuncionalidades();
+            for (int i = 0; i < lista_Funcionalidades.size(); i++) {
+                for (int j = 0; j < perfil.getFuncionalidadeList().size(); j++) {
+                    if (Objects.equals(lista_Funcionalidades.get(i).getId(), perfil.getFuncionalidadeList().get(j).getId())) {
+                        lista_Funcionalidades.remove(i);
+                    }
+                }
+            }
+
+            preencherListaDeFuncionalidades();
+            model_listaFuncionalidadesDoPerfil = new DefaultListModel();
+            for (int i = 0; i < perfil.getFuncionalidadeList().size(); i++) {
+                model_listaFuncionalidadesDoPerfil.addElement(perfil.getFuncionalidadeList().get(i).getNome());
+                System.out.println("---->>Funcionalidade do perfil: " + i + ": " + perfil.getFuncionalidadeList().get(i).getNome());
+            }
+
+            initModel();
+        } else {
+            model_listaFuncionalidadesDoPerfil = new DefaultListModel();
+            buscaFuncionalidades();
+            preencherListaDeFuncionalidades();
+            initModel();
         }
     }
 
@@ -72,6 +114,12 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         setTitle("Permissões de Perfil");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Lista de permissões"));
+
+        jComboBoxPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPerfilActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -236,7 +284,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         List<Funcionalidade> lista_FuncionalidadesDoPerfil = new ArrayList<>();
         for (int i = 0; i < lista_Funcionalidades.size(); i++) {
             for (int j = 0; j < model_listaFuncionalidadesDoPerfil.getSize(); j++) {
-                if (lista_Funcionalidades.get(i).getNome() == model_listaFuncionalidadesDoPerfil.get(j).toString()) {
+                if (lista_Funcionalidades.get(i).getNome().equals(model_listaFuncionalidadesDoPerfil.get(j).toString())) {
                     lista_FuncionalidadesDoPerfil.add(lista_Funcionalidades.get(i));
                 }
             }
@@ -245,12 +293,19 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         // sout apenas para teste
         System.out.println("---->> ID perfil:" + perfil.getId());
         perfilJpa.inserirFuncionalidadesNoPerfil(perfil);
-        
+
         // for e sout apenas para teste
         for (int i = 0; i < perfil.getFuncionalidadeList().size(); i++) {
-            System.out.println("---->> Funcionalidade do Perfil: "+ perfil.getNome() + " " + perfil.getFuncionalidadeList().get(i).getNome());
+            System.out.println("---->> Funcionalidade do Perfil: " + perfil.getNome() + " " + perfil.getFuncionalidadeList().get(i).getNome());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBoxPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerfilActionPerformed
+        // TODO add your handling code here:
+        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
+            buscaFuncionalidadesJaExistentes(jComboBoxPerfil.getSelectedItem().toString());
+        }
+    }//GEN-LAST:event_jComboBoxPerfilActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

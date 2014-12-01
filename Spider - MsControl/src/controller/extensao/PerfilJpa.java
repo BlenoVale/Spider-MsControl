@@ -2,10 +2,12 @@ package controller.extensao;
 
 import controller.PerfilJpaController;
 import controller.exceptions.NonexistentEntityException;
+import java.awt.JobAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import model.Perfil;
 import util.Conexao;
 
@@ -31,10 +33,13 @@ public class PerfilJpa extends PerfilJpaController {
     public void inserirFuncionalidadesNoPerfil(Perfil perfil) {
         try {
             this.edit(perfil);
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(PerfilJpa.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Não foi possivel salvar.");
         } catch (Exception ex) {
             Logger.getLogger(PerfilJpa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            JOptionPane.showMessageDialog(null, "Não foi possivel salvar.");
+        } 
     }
 }

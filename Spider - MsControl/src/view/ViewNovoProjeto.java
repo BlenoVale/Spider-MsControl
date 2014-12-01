@@ -1,6 +1,14 @@
 package view;
 
+import controller.extensao.ProjetoJpa;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import model.Projeto;
+
 public class ViewNovoProjeto extends javax.swing.JDialog {
+
+    private Projeto projeto = new Projeto();
+    private ProjetoJpa projetoJpa = new ProjetoJpa();
 
     public ViewNovoProjeto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -26,8 +34,18 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
         jLabel1.setText("Nome do projeto: ");
 
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,6 +81,24 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        projeto.setNome(jTextField1.getText());
+        projeto.setDataInicio(new Date());
+
+        try {
+            projetoJpa.create(projeto);
+            System.out.println("Funfou");
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível criar o projeto.", "ERRO", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
