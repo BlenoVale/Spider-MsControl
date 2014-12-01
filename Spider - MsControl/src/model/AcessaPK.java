@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 @Embeddable
 public class AcessaPK implements Serializable {

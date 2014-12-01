@@ -4,8 +4,10 @@ import controller.FuncionalidadeJpaController;
 import controller.PerfilJpaController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Funcionalidade;
 import model.Perfil;
 import util.Conexao;
@@ -16,17 +18,22 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
     private Funcionalidade funcionalidade_selecionada;
 
+    private Funcionalidade funcionalidadeDoPerfil_selecionada;
+
     private List<Funcionalidade> lista_Funcionalidades = new FuncionalidadeJpaController(Conexao.conectar())
             .findFuncionalidadeEntities();
-    private List<Funcionalidade> lista_FucionalidadesDoPerfil;
+    //private List<Funcionalidade> lista_FucionalidadesDoPerfil;
 
     private List<Perfil> lista_perfil = new PerfilJpaController(Conexao.conectar()).findPerfilEntities();
+
+    List<Funcionalidade> lista_FucionalidadesDoPerfil = new ArrayList<>();
 
     public ViewPermissoesDePerfis() {
         initComponents();
         popularComboboxDePerfil();
         preencherListaDeFuncionalidades();
         definirEventosListaDeFuncionalidades();
+        definirEventoListaDeFuncionalidadesDoPerfil();
     }
 
     private void popularComboboxDePerfil() {
@@ -39,8 +46,8 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
     }
 
     private void preencherListaDeFuncionalidades() {
-        defaultListModel = new DefaultListModel();
 
+        defaultListModel = new DefaultListModel();
         for (int i = 0; i < lista_Funcionalidades.size(); i++) {
 
             defaultListModel.addElement(lista_Funcionalidades.get(i).getNome());
@@ -51,8 +58,8 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
     }
 
     private void preencherListaDeFuncionalidadesDoPerfil() {
-        defaultListModel = new DefaultListModel();
 
+        defaultListModel = new DefaultListModel();
         if (!lista_FucionalidadesDoPerfil.isEmpty()) {
             for (int i = 0; i < lista_FucionalidadesDoPerfil.size(); i++) {
 
@@ -61,7 +68,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             }
         }
 
-        jListFucionalidades.setModel(defaultListModel);
+        jListFuncionalidadesDoPerfil.setModel(defaultListModel);
 
     }
 
@@ -79,8 +86,25 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                             System.out.println(" >>Fucionalidade selecionada: " + funcionalidade_selecionada.getNome());
                         }
                     }
+                }
+            }
+        });
+    }
 
-                    jListFucionalidades.clearSelection();
+    private void definirEventoListaDeFuncionalidadesDoPerfil() {
+        jListFuncionalidadesDoPerfil.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evento) {
+                if (evento.getClickCount() == 1) {
+                    int index_selecionado = jListFuncionalidadesDoPerfil.getSelectedIndex();
+                    String selecionado = jListFuncionalidadesDoPerfil.getModel().getElementAt(index_selecionado).toString();
+
+                    for (int i = 0; i < lista_FucionalidadesDoPerfil.size(); i++) {
+                        if (selecionado.equals(lista_FucionalidadesDoPerfil.get(i).getNome())) {
+                            funcionalidadeDoPerfil_selecionada = lista_FucionalidadesDoPerfil.get(i);
+                            System.out.println(" >>Fucionalidade Do Perfil selecionada: " + funcionalidadeDoPerfil_selecionada.getNome());
+                        }
+                    }
                 }
             }
         });
@@ -98,8 +122,10 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListFucionalidades = new javax.swing.JList();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         jListFuncionalidadesDoPerfil = new javax.swing.JList();
+        jLabelFuncionalidades = new javax.swing.JLabel();
+        jLabelFuncionalidadesDoPerfil = new javax.swing.JLabel();
 
         setTitle("Permissões de Perfil");
 
@@ -115,12 +141,21 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Retirar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Salvar alterações");
 
         jScrollPane1.setViewportView(jListFucionalidades);
 
-        jScrollPane2.setViewportView(jListFuncionalidadesDoPerfil);
+        jScrollPane3.setViewportView(jListFuncionalidadesDoPerfil);
+
+        jLabelFuncionalidades.setText("Funcionalidades:");
+
+        jLabelFuncionalidadesDoPerfil.setText("Funcionalidades do Perfil:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -128,33 +163,50 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 109, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton3))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabelFuncionalidades))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabelFuncionalidadesDoPerfil)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelFuncionalidadesDoPerfil)
+                            .addComponent(jLabelFuncionalidades, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -177,7 +229,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -202,20 +254,60 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        this.lista_FucionalidadesDoPerfil.add(funcionalidade_selecionada);
-        preencherListaDeFuncionalidadesDoPerfil();
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Projeto--") {
+                if (funcionalidade_selecionada != null) {
+                    lista_FucionalidadesDoPerfil.add(funcionalidade_selecionada);
+                    lista_Funcionalidades.remove(funcionalidade_selecionada);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade.");
+                }
+                funcionalidade_selecionada = null;
+                preencherListaDeFuncionalidadesDoPerfil();
+                preencherListaDeFuncionalidades();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil no combobox.");
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Projeto--") {
+                if (funcionalidadeDoPerfil_selecionada != null) {
+                    lista_Funcionalidades.add(funcionalidadeDoPerfil_selecionada);
+                    lista_FucionalidadesDoPerfil.remove(funcionalidadeDoPerfil_selecionada);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade do Perfil.");
+                }
+                funcionalidadeDoPerfil_selecionada = null;
+                preencherListaDeFuncionalidades();
+                preencherListaDeFuncionalidadesDoPerfil();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil no combobox.");
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox jComboBoxPerfil;
+    private javax.swing.JLabel jLabelFuncionalidades;
+    private javax.swing.JLabel jLabelFuncionalidadesDoPerfil;
     private javax.swing.JList jListFucionalidades;
     private javax.swing.JList jListFuncionalidadesDoPerfil;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

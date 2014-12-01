@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 @Entity
 @Table(name = "analise")

@@ -26,7 +26,7 @@ import model.MedidaPK;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 public class MedidaJpaController implements Serializable {
 

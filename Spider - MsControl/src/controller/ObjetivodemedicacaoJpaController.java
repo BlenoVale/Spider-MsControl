@@ -24,7 +24,7 @@ import model.ObjetivodemedicacaoPK;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 public class ObjetivodemedicacaoJpaController implements Serializable {
 

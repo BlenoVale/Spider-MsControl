@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 @Entity
 @Table(name = "usuario")

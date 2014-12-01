@@ -19,7 +19,7 @@ import model.Definicao;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 public class AprovacaoJpaController implements Serializable {
 

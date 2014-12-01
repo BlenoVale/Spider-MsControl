@@ -19,7 +19,7 @@ import model.Procedimentodecoleta;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 public class ProcedimentodecoletaJpaController implements Serializable {
 

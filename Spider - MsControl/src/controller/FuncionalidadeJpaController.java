@@ -5,14 +5,13 @@
  */
 package controller;
 
-import controller.exceptions.IllegalOrphanException;
 import controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Possui;
+import model.Perfil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,7 +20,7 @@ import model.Funcionalidade;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 public class FuncionalidadeJpaController implements Serializable {
 
@@ -35,28 +34,23 @@ public class FuncionalidadeJpaController implements Serializable {
     }
 
     public void create(Funcionalidade funcionalidade) {
-        if (funcionalidade.getPossuiList() == null) {
-            funcionalidade.setPossuiList(new ArrayList<Possui>());
+        if (funcionalidade.getPerfilList() == null) {
+            funcionalidade.setPerfilList(new ArrayList<Perfil>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Possui> attachedPossuiList = new ArrayList<Possui>();
-            for (Possui possuiListPossuiToAttach : funcionalidade.getPossuiList()) {
-                possuiListPossuiToAttach = em.getReference(possuiListPossuiToAttach.getClass(), possuiListPossuiToAttach.getPossuiPK());
-                attachedPossuiList.add(possuiListPossuiToAttach);
+            List<Perfil> attachedPerfilList = new ArrayList<Perfil>();
+            for (Perfil perfilListPerfilToAttach : funcionalidade.getPerfilList()) {
+                perfilListPerfilToAttach = em.getReference(perfilListPerfilToAttach.getClass(), perfilListPerfilToAttach.getId());
+                attachedPerfilList.add(perfilListPerfilToAttach);
             }
-            funcionalidade.setPossuiList(attachedPossuiList);
+            funcionalidade.setPerfilList(attachedPerfilList);
             em.persist(funcionalidade);
-            for (Possui possuiListPossui : funcionalidade.getPossuiList()) {
-                Funcionalidade oldFuncionalidadeOfPossuiListPossui = possuiListPossui.getFuncionalidade();
-                possuiListPossui.setFuncionalidade(funcionalidade);
-                possuiListPossui = em.merge(possuiListPossui);
-                if (oldFuncionalidadeOfPossuiListPossui != null) {
-                    oldFuncionalidadeOfPossuiListPossui.getPossuiList().remove(possuiListPossui);
-                    oldFuncionalidadeOfPossuiListPossui = em.merge(oldFuncionalidadeOfPossuiListPossui);
-                }
+            for (Perfil perfilListPerfil : funcionalidade.getPerfilList()) {
+                perfilListPerfil.getFuncionalidadeList().add(funcionalidade);
+                perfilListPerfil = em.merge(perfilListPerfil);
             }
             em.getTransaction().commit();
         } finally {
@@ -66,43 +60,32 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public void edit(Funcionalidade funcionalidade) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Funcionalidade funcionalidade) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Funcionalidade persistentFuncionalidade = em.find(Funcionalidade.class, funcionalidade.getId());
-            List<Possui> possuiListOld = persistentFuncionalidade.getPossuiList();
-            List<Possui> possuiListNew = funcionalidade.getPossuiList();
-            List<String> illegalOrphanMessages = null;
-            for (Possui possuiListOldPossui : possuiListOld) {
-                if (!possuiListNew.contains(possuiListOldPossui)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Possui " + possuiListOldPossui + " since its funcionalidade field is not nullable.");
+            List<Perfil> perfilListOld = persistentFuncionalidade.getPerfilList();
+            List<Perfil> perfilListNew = funcionalidade.getPerfilList();
+            List<Perfil> attachedPerfilListNew = new ArrayList<Perfil>();
+            for (Perfil perfilListNewPerfilToAttach : perfilListNew) {
+                perfilListNewPerfilToAttach = em.getReference(perfilListNewPerfilToAttach.getClass(), perfilListNewPerfilToAttach.getId());
+                attachedPerfilListNew.add(perfilListNewPerfilToAttach);
+            }
+            perfilListNew = attachedPerfilListNew;
+            funcionalidade.setPerfilList(perfilListNew);
+            funcionalidade = em.merge(funcionalidade);
+            for (Perfil perfilListOldPerfil : perfilListOld) {
+                if (!perfilListNew.contains(perfilListOldPerfil)) {
+                    perfilListOldPerfil.getFuncionalidadeList().remove(funcionalidade);
+                    perfilListOldPerfil = em.merge(perfilListOldPerfil);
                 }
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Possui> attachedPossuiListNew = new ArrayList<Possui>();
-            for (Possui possuiListNewPossuiToAttach : possuiListNew) {
-                possuiListNewPossuiToAttach = em.getReference(possuiListNewPossuiToAttach.getClass(), possuiListNewPossuiToAttach.getPossuiPK());
-                attachedPossuiListNew.add(possuiListNewPossuiToAttach);
-            }
-            possuiListNew = attachedPossuiListNew;
-            funcionalidade.setPossuiList(possuiListNew);
-            funcionalidade = em.merge(funcionalidade);
-            for (Possui possuiListNewPossui : possuiListNew) {
-                if (!possuiListOld.contains(possuiListNewPossui)) {
-                    Funcionalidade oldFuncionalidadeOfPossuiListNewPossui = possuiListNewPossui.getFuncionalidade();
-                    possuiListNewPossui.setFuncionalidade(funcionalidade);
-                    possuiListNewPossui = em.merge(possuiListNewPossui);
-                    if (oldFuncionalidadeOfPossuiListNewPossui != null && !oldFuncionalidadeOfPossuiListNewPossui.equals(funcionalidade)) {
-                        oldFuncionalidadeOfPossuiListNewPossui.getPossuiList().remove(possuiListNewPossui);
-                        oldFuncionalidadeOfPossuiListNewPossui = em.merge(oldFuncionalidadeOfPossuiListNewPossui);
-                    }
+            for (Perfil perfilListNewPerfil : perfilListNew) {
+                if (!perfilListOld.contains(perfilListNewPerfil)) {
+                    perfilListNewPerfil.getFuncionalidadeList().add(funcionalidade);
+                    perfilListNewPerfil = em.merge(perfilListNewPerfil);
                 }
             }
             em.getTransaction().commit();
@@ -122,7 +105,7 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +117,10 @@ public class FuncionalidadeJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The funcionalidade with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Possui> possuiListOrphanCheck = funcionalidade.getPossuiList();
-            for (Possui possuiListOrphanCheckPossui : possuiListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Funcionalidade (" + funcionalidade + ") cannot be destroyed since the Possui " + possuiListOrphanCheckPossui + " in its possuiList field has a non-nullable funcionalidade field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Perfil> perfilList = funcionalidade.getPerfilList();
+            for (Perfil perfilListPerfil : perfilList) {
+                perfilListPerfil.getFuncionalidadeList().remove(funcionalidade);
+                perfilListPerfil = em.merge(perfilListPerfil);
             }
             em.remove(funcionalidade);
             em.getTransaction().commit();

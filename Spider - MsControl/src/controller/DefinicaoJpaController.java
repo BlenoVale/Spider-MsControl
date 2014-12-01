@@ -25,7 +25,7 @@ import model.DefinicaoPK;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 public class DefinicaoJpaController implements Serializable {
 

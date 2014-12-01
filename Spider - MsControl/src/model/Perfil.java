@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author GEDAE
+ * @author Spider
  */
 @Entity
 @Table(name = "perfil")
@@ -41,8 +42,8 @@ public class Perfil implements Serializable {
     private Integer id;
     @Column(name = "nome")
     private String nome;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfil")
-    private List<Possui> possuiList;
+    @ManyToMany(mappedBy = "perfilList")
+    private List<Funcionalidade> funcionalidadeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfil")
     private List<Acessa> acessaList;
 
@@ -70,12 +71,12 @@ public class Perfil implements Serializable {
     }
 
     @XmlTransient
-    public List<Possui> getPossuiList() {
-        return possuiList;
+    public List<Funcionalidade> getFuncionalidadeList() {
+        return funcionalidadeList;
     }
 
-    public void setPossuiList(List<Possui> possuiList) {
-        this.possuiList = possuiList;
+    public void setFuncionalidadeList(List<Funcionalidade> funcionalidadeList) {
+        this.funcionalidadeList = funcionalidadeList;
     }
 
     @XmlTransient

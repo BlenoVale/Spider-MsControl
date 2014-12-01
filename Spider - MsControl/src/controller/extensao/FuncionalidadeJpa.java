@@ -23,15 +23,13 @@ public class FuncionalidadeJpa extends FuncionalidadeJpaController{
         super(Conexao.conectar());
     }
     
-    public List<Funcionalidade> findAllFuncionalidades (){
-        try{
-            List<Funcionalidade> lista_funcionalidades;
-            EntityManager emf = super.getEntityManager();
-            Query query = emf.createNamedQuery("Funcionalidade.findAll");
-            return null;
-        } catch (Exception error){
-            throw error;
-        }
+    public Funcionalidade findByNome(String nomeFuncionalidade) {
+        Funcionalidade funcionalidade = null;
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT f FROM Funcionalidade f WHERE f.nome = :nome");
+        q.setParameter("nome", nomeFuncionalidade);
+        funcionalidade = (Funcionalidade) q.getSingleResult();
+        return funcionalidade;
     }
     
 }
