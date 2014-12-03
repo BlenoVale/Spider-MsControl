@@ -19,6 +19,8 @@ import util.Conexao;
 public class Teste {
 
     public static void main(String[] args) {
+
+        //
 //        List<Funcionalidade> lista;
 //        FuncionalidadeJpaController fucionalidadeJpaController = new FuncionalidadeJpaController(Conexao.conectar());
 //
