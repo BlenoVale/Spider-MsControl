@@ -21,7 +21,7 @@ import model.Procedimentodecoleta;
  *
  * @author Spider
  */
-public class ProcedimentodecoletaJpaController implements Serializable {
+ public class ProcedimentodecoletaJpaController implements Serializable {
 
     public ProcedimentodecoletaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
