@@ -1,7 +1,7 @@
 package view;
 
-import controller.PerfilJpaController;
-import controller.ProjetoJpaController;
+import jpa.PerfilJpaController;
+import jpa.ProjetoJpaController;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import model.Perfil;

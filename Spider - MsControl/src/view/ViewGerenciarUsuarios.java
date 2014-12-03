@@ -1,6 +1,6 @@
 package view;
 
-import controller.extensao.UsuarioJpa;
+import jpa.extensao.UsuarioJpa;
 import javax.swing.JOptionPane;
 import model.Usuario;
 

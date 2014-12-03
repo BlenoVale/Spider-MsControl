@@ -1,8 +1,8 @@
 package view;
 
-import controller.FuncionalidadeJpaController;
-import controller.PerfilJpaController;
-import controller.extensao.PerfilJpa;
+import jpa.FuncionalidadeJpaController;
+import jpa.PerfilJpaController;
+import jpa.extensao.PerfilJpa;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

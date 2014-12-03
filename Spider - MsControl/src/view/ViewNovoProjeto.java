@@ -1,7 +1,6 @@
 package view;
 
-import controller.extensao.ProjetoJpa;
-import java.util.Date;
+import jpa.extensao.ProjetoJpa;
 import javax.swing.JOptionPane;
 import model.Projeto;
 
@@ -16,7 +15,6 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
 
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 
     @SuppressWarnings("unchecked")

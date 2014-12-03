@@ -1,11 +1,11 @@
 package view;
 
-import controller.AcessaJpaController;
-import controller.ProjetoJpaController;
-import controller.UsuarioJpaController;
-import controller.extensao.PerfilJpa;
-import controller.extensao.ProjetoJpa;
-import controller.extensao.UsuarioJpa;
+import jpa.AcessaJpaController;
+import jpa.ProjetoJpaController;
+import jpa.UsuarioJpaController;
+import jpa.extensao.PerfilJpa;
+import jpa.extensao.ProjetoJpa;
+import jpa.extensao.UsuarioJpa;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
