@@ -1,6 +1,9 @@
 package controller.extensao;
 
 import controller.PerfilJpaController;
+import controller.exceptions.NonexistentEntityException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.Perfil;
@@ -23,5 +26,15 @@ public class PerfilJpa extends PerfilJpaController {
         q.setParameter("nome", nomeProjeto);
         perfil = (Perfil) q.getSingleResult();
         return perfil;
+    }
+
+    public void inserirFuncionalidadesNoPerfil(Perfil perfil) {
+        try {
+            this.edit(perfil);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(PerfilJpa.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PerfilJpa.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

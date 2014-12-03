@@ -1,8 +1,10 @@
-package view;
+package test;
 
+import view.*;
 import controller.FuncionalidadeJpaController;
 import controller.PerfilJpaController;
-import controller.extensao.PerfilJpa;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -11,45 +13,102 @@ import model.Funcionalidade;
 import model.Perfil;
 import util.Conexao;
 
-public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
+public class ViewPermissoesDePerfis1 extends javax.swing.JInternalFrame {
 
-    private DefaultListModel model_listaFuncionalidades = new DefaultListModel();
-    private DefaultListModel model_listaFuncionalidadesDoPerfil = new DefaultListModel();
+    private DefaultListModel defaultListModel;
+
+    private Funcionalidade funcionalidade_selecionada;
+
+    private Funcionalidade funcionalidadeDoPerfil_selecionada;
 
     private List<Funcionalidade> lista_Funcionalidades = new FuncionalidadeJpaController(Conexao.conectar())
             .findFuncionalidadeEntities();
+    //private List<Funcionalidade> lista_FucionalidadesDoPerfil;
 
     private List<Perfil> lista_perfil = new PerfilJpaController(Conexao.conectar()).findPerfilEntities();
 
-    private Perfil perfil = new Perfil();
+    List<Funcionalidade> lista_FucionalidadesDoPerfil = new ArrayList<>();
 
-    public ViewPermissoesDePerfis() {
+    public ViewPermissoesDePerfis1() {
         initComponents();
         popularComboboxDePerfil();
         preencherListaDeFuncionalidades();
-        initModel();
+        definirEventosListaDeFuncionalidades();
+        definirEventoListaDeFuncionalidadesDoPerfil();
     }
 
     private void popularComboboxDePerfil() {
 
-        jComboBoxPerfil.addItem("--Selecione um Perfil--");
+        jComboBoxPerfil.addItem("--Selecione um Projeto--");
         for (int i = 0; i < lista_perfil.size(); i++) {
             jComboBoxPerfil.addItem(lista_perfil.get(i).getNome());
             System.out.println("perfil " + i + ": " + lista_perfil.get(i).getNome());
         }
     }
 
-    private void initModel() {
-        jListFucionalidades.setModel(model_listaFuncionalidades);
-        jListFuncionalidadesDoPerfil.setModel(model_listaFuncionalidadesDoPerfil);
-    }
-
     private void preencherListaDeFuncionalidades() {
 
+        defaultListModel = new DefaultListModel();
         for (int i = 0; i < lista_Funcionalidades.size(); i++) {
-            model_listaFuncionalidades.addElement(lista_Funcionalidades.get(i).getNome());
+
+            defaultListModel.addElement(lista_Funcionalidades.get(i).getNome());
             System.out.println("Funcionalidade " + i + ": " + lista_Funcionalidades.get(i).getNome());
         }
+
+        jListFucionalidades.setModel(defaultListModel);
+    }
+
+    private void preencherListaDeFuncionalidadesDoPerfil() {
+
+        defaultListModel = new DefaultListModel();
+        if (!lista_FucionalidadesDoPerfil.isEmpty()) {
+            for (int i = 0; i < lista_FucionalidadesDoPerfil.size(); i++) {
+
+                defaultListModel.addElement(lista_FucionalidadesDoPerfil.get(i).getNome());
+                System.out.println("Funcionalidade " + i + ": " + lista_FucionalidadesDoPerfil.get(i).getNome());
+            }
+        }
+
+        jListFuncionalidadesDoPerfil.setModel(defaultListModel);
+
+    }
+
+    private void definirEventosListaDeFuncionalidades() {
+        jListFucionalidades.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evento) {
+                if (evento.getClickCount() == 1) {
+                    int index_selecionado = jListFucionalidades.getSelectedIndex();
+                    String selecionado = jListFucionalidades.getModel().getElementAt(index_selecionado).toString();
+
+                    for (int i = 0; i < lista_Funcionalidades.size(); i++) {
+                        if (selecionado.equals(lista_Funcionalidades.get(i).getNome())) {
+                            funcionalidade_selecionada = lista_Funcionalidades.get(i);
+                            System.out.println(" >>Fucionalidade selecionada: " + funcionalidade_selecionada.getNome());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void definirEventoListaDeFuncionalidadesDoPerfil() {
+        jListFuncionalidadesDoPerfil.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evento) {
+                if (evento.getClickCount() == 1) {
+                    int index_selecionado = jListFuncionalidadesDoPerfil.getSelectedIndex();
+                    String selecionado = jListFuncionalidadesDoPerfil.getModel().getElementAt(index_selecionado).toString();
+
+                    for (int i = 0; i < lista_FucionalidadesDoPerfil.size(); i++) {
+                        if (selecionado.equals(lista_FucionalidadesDoPerfil.get(i).getNome())) {
+                            funcionalidadeDoPerfil_selecionada = lista_FucionalidadesDoPerfil.get(i);
+                            System.out.println(" >>Fucionalidade Do Perfil selecionada: " + funcionalidadeDoPerfil_selecionada.getNome());
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -90,11 +149,6 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Salvar alterações");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jScrollPane1.setViewportView(jListFucionalidades);
 
@@ -201,56 +255,47 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
-            int index = jListFucionalidades.getSelectedIndex();
-
-            model_listaFuncionalidadesDoPerfil.addElement(model_listaFuncionalidades.getElementAt(index));
-            model_listaFuncionalidades.remove(index);
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade.");
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Projeto--") {
+                if (funcionalidade_selecionada != null) {
+                    lista_FucionalidadesDoPerfil.add(funcionalidade_selecionada);
+                    lista_Funcionalidades.remove(funcionalidade_selecionada);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade.");
+                }
+                funcionalidade_selecionada = null;
+                preencherListaDeFuncionalidadesDoPerfil();
+                preencherListaDeFuncionalidades();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil no combobox.");
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
-            int index = jListFuncionalidadesDoPerfil.getSelectedIndex();
-
-            model_listaFuncionalidades.addElement(model_listaFuncionalidadesDoPerfil.getElementAt(index));
-            model_listaFuncionalidadesDoPerfil.remove(index);
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade.");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        PerfilJpa perfilJpa = new PerfilJpa();
-        for (int i = 0; i < lista_perfil.size(); i++) {
-            if (jComboBoxPerfil.getSelectedItem() == lista_perfil.get(i).getNome()) {
-                perfil = lista_perfil.get(i);
-                break;
-            }
-        }
-
-        List<Funcionalidade> lista_FuncionalidadesDoPerfil = new ArrayList<>();
-        for (int i = 0; i < lista_Funcionalidades.size(); i++) {
-            for (int j = 0; j < model_listaFuncionalidadesDoPerfil.getSize(); j++) {
-                if (lista_Funcionalidades.get(i).getNome() == model_listaFuncionalidadesDoPerfil.get(j).toString()) {
-                    lista_FuncionalidadesDoPerfil.add(lista_Funcionalidades.get(i));
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Projeto--") {
+                if (funcionalidadeDoPerfil_selecionada != null) {
+                    lista_Funcionalidades.add(funcionalidadeDoPerfil_selecionada);
+                    lista_FucionalidadesDoPerfil.remove(funcionalidadeDoPerfil_selecionada);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade do Perfil.");
                 }
+                funcionalidadeDoPerfil_selecionada = null;
+                preencherListaDeFuncionalidades();
+                preencherListaDeFuncionalidadesDoPerfil();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil no combobox.");
             }
+        } catch (Exception error) {
+            error.printStackTrace();
         }
-        perfil.setFuncionalidadeList(lista_FuncionalidadesDoPerfil);
-        // sout apenas para teste
-        System.out.println("---->> ID perfil:" + perfil.getId());
-        perfilJpa.inserirFuncionalidadesNoPerfil(perfil);
-        
-        // for e sout apenas para teste
-        for (int i = 0; i < perfil.getFuncionalidadeList().size(); i++) {
-            System.out.println("---->> Funcionalidade do Perfil: "+ perfil.getNome() + " " + perfil.getFuncionalidadeList().get(i).getNome());
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
