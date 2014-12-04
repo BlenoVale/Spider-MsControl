@@ -51,7 +51,5 @@ public class Teste {
         String dataFormatada = formatador.format(data);
         return dataFormatada;
 }
-    public void teste(){
-        
-    }
+    
 }
