@@ -70,6 +70,9 @@ public class Projeto implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
 
+    public static final int ATIVO = 0;
+    public static final int FINALIZADO = 1;
+    
     public Projeto() {
     }
 

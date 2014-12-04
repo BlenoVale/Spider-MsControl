@@ -105,7 +105,14 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        
-        if((projetoJpa.saveProjeto(jTextField1, jTextArea1)) == true )
+        String nomeProjeto = jTextField1.getText();
+        String descricao = jTextArea1.getText();
+        
+        if (nomeProjeto.equals("") || descricao.equals("") ) {
+            JOptionPane.showMessageDialog(null, "Por favor, é obrigatório o preenchimentos de todos os campos.");
+            return;
+        }
+        if((projetoJpa.saveProjeto(nomeProjeto, descricao)) == true )
             this.dispose();
         
     }//GEN-LAST:event_jButton2ActionPerformed

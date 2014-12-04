@@ -15,7 +15,7 @@ import util.Conexao;
  * @author Dan
  */
 public class ProjetoJpa extends  ProjetoJpaController {
-
+     
     public ProjetoJpa() {
         super(Conexao.conectar());
     }
@@ -30,15 +30,15 @@ public class ProjetoJpa extends  ProjetoJpaController {
         return projeto;
     }
     
-    public boolean saveProjeto(JTextField nomeProjeto, JTextArea descricao){
+    public boolean saveProjeto(String  nomeProjeto, String descricao){
         
         Projeto projeto = new Projeto();
         ProjetoJpa projetoJpa = new ProjetoJpa();
         
         
-        projeto.setNome(nomeProjeto.getText());
-        projeto.setDescricao(descricao.getText());
-        projeto.setStatus(1);
+        projeto.setNome(nomeProjeto);
+        projeto.setDescricao(descricao);
+        projeto.setStatus(projeto.ATIVO);
         projeto.setDataInicio(new Date());
         
         try {
@@ -48,7 +48,7 @@ public class ProjetoJpa extends  ProjetoJpaController {
             return true;
             
         } catch (Exception er) {
-            JOptionPane.showMessageDialog(null, "Error ao salvar!" + er);
+            JOptionPane.showMessageDialog(null, "Error ao salvar!");
             return false;
         }
         

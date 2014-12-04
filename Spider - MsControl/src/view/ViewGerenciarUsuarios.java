@@ -46,8 +46,15 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Buscar usuário:");
 
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
+
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -147,6 +154,10 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
         user = usuarioJpa.findByLogin(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
         ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true, user);
     }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
