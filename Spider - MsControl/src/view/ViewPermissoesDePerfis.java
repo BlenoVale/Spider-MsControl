@@ -12,12 +12,17 @@ import model.Funcionalidade;
 import model.Perfil;
 import util.Conexao;
 
+    /**
+     * @author Bleno Vale
+    */
 public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
-
+    
     private DefaultListModel model_listaFuncionalidades = new DefaultListModel();
     private DefaultListModel model_listaFuncionalidadesDoPerfil = new DefaultListModel();
 
     private List<Funcionalidade> lista_Funcionalidades;
+
+    private List<Funcionalidade> lista_FuncionalidadesDoPerfil;
 
     private List<Perfil> lista_perfil = new PerfilJpaController(Conexao.conectar()).findPerfilEntities();
 
@@ -30,12 +35,14 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         preencherListaDeFuncionalidades();
         initModel();
     }
-
+    
+    // método que busca todas as funcionalidades existentes no BD.
     private void buscaFuncionalidades() {
         lista_Funcionalidades = new FuncionalidadeJpaController(Conexao.conectar())
                 .findFuncionalidadeEntities();
     }
 
+    // método responsavel por popular o combobox de perfis com uma lista trazida do BD
     private void popularComboboxDePerfil() {
 
         jComboBoxPerfil.addItem("--Selecione um Perfil--");
@@ -44,12 +51,14 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             System.out.println("perfil " + i + ": " + lista_perfil.get(i).getNome());
         }
     }
-
+    
+    // inicia as jLists
     private void initModel() {
         jListFucionalidades.setModel(model_listaFuncionalidades);
         jListFuncionalidadesDoPerfil.setModel(model_listaFuncionalidadesDoPerfil);
     }
-
+    
+    // método responsavel por preencher a lista de funcionalidades
     private void preencherListaDeFuncionalidades() {
 
         model_listaFuncionalidades = new DefaultListModel();
@@ -58,16 +67,20 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             System.out.println("Funcionalidade " + i + ": " + lista_Funcionalidades.get(i).getNome());
         }
     }
-
-    public void buscaFuncionalidadesJaExistentes(String nome_perfil) {
-
+    
+    // método responsavel por buscar o perfil selecionado no combobox
+    private void buscaPerfil(String nome_perfil) {
         for (int i = 0; i < lista_perfil.size(); i++) {
             if (lista_perfil.get(i).getNome().equals(nome_perfil)) {
                 perfil = new PerfilJpaController(Conexao.conectar()).findPerfil(lista_perfil.get(i).getId());
                 break;
             }
         }
+    }
 
+    public void buscaFuncionalidadesJaExistentes(String nome_perfil) {
+
+        buscaPerfil(nome_perfil);
         if (!perfil.getFuncionalidadeList().isEmpty()) {
             buscaFuncionalidades();
             for (int i = 0; i < lista_Funcionalidades.size(); i++) {
@@ -101,9 +114,9 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jComboBoxPerfil = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonIncluirFuncionalidade = new javax.swing.JButton();
+        jButtonRetirarFuncionalidade = new javax.swing.JButton();
+        jButtonSalvarAlterarFuncionalidade = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListFucionalidades = new javax.swing.JList();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -123,24 +136,24 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jButton1.setText("Incluir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonIncluirFuncionalidade.setText("Incluir");
+        jButtonIncluirFuncionalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonIncluirFuncionalidadeActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Retirar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRetirarFuncionalidade.setText("Retirar");
+        jButtonRetirarFuncionalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonRetirarFuncionalidadeActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Salvar alterações");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSalvarAlterarFuncionalidade.setText("Salvar alterações");
+        jButtonSalvarAlterarFuncionalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonSalvarAlterarFuncionalidadeActionPerformed(evt);
             }
         });
 
@@ -161,15 +174,15 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3))
+                        .addComponent(jButtonSalvarAlterarFuncionalidade))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jButtonIncluirFuncionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonRetirarFuncionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabelFuncionalidades))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,21 +199,21 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jButton1)
+                        .addGap(104, 104, 104)
+                        .addComponent(jButtonIncluirFuncionalidade)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
+                        .addComponent(jButtonRetirarFuncionalidade))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelFuncionalidadesDoPerfil)
                             .addComponent(jLabelFuncionalidades, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(jButtonSalvarAlterarFuncionalidade)
                 .addContainerGap())
         );
 
@@ -224,7 +237,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,31 +260,52 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonIncluirFuncionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirFuncionalidadeActionPerformed
         // TODO add your handling code here:
-        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
-            int index = jListFucionalidades.getSelectedIndex();
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
+                int index = jListFucionalidades.getSelectedIndex();
 
-            model_listaFuncionalidadesDoPerfil.addElement(model_listaFuncionalidades.getElementAt(index));
-            model_listaFuncionalidades.remove(index);
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade.");
+                buscaPerfil(jComboBoxPerfil.getSelectedItem().toString());
+                lista_FuncionalidadesDoPerfil = perfil.getFuncionalidadeList();
+
+                model_listaFuncionalidadesDoPerfil.addElement(model_listaFuncionalidades.getElementAt(index));
+                model_listaFuncionalidades.remove(index);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil no Combobox.");
+            }
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, "Selecione uma funcionalidade.");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonIncluirFuncionalidadeActionPerformed
+
+    @SuppressWarnings("empty-statement")
+    private void jButtonRetirarFuncionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirarFuncionalidadeActionPerformed
         // TODO add your handling code here:
-        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
-            int index = jListFuncionalidadesDoPerfil.getSelectedIndex();
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
+                int index = jListFuncionalidadesDoPerfil.getSelectedIndex();
 
-            model_listaFuncionalidades.addElement(model_listaFuncionalidadesDoPerfil.getElementAt(index));
-            model_listaFuncionalidadesDoPerfil.remove(index);
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma Funcionalidade.");
+                for (int i = 0; i < perfil.getFuncionalidadeList().size(); i++) {
+                    if (model_listaFuncionalidadesDoPerfil.getElementAt(index).toString().equals(perfil.getFuncionalidadeList().get(i).getNome())) {
+                        perfil.getFuncionalidadeList().remove(i);
+                        lista_FuncionalidadesDoPerfil = perfil.getFuncionalidadeList();
+                    }
+                }
+
+                model_listaFuncionalidades.addElement(model_listaFuncionalidadesDoPerfil.getElementAt(index));
+                model_listaFuncionalidadesDoPerfil.remove(index);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um perfil no Combobox.");
+            }
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, "Selecione uma funcionalidade do Perfil.");
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonRetirarFuncionalidadeActionPerformed
+
+    private void jButtonSalvarAlterarFuncionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarAlterarFuncionalidadeActionPerformed
         // TODO add your handling code here:
         PerfilJpa perfilJpa = new PerfilJpa();
         for (int i = 0; i < lista_perfil.size(); i++) {
@@ -281,7 +315,10 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             }
         }
 
-        List<Funcionalidade> lista_FuncionalidadesDoPerfil = new ArrayList<>();
+        if (perfil.getFuncionalidadeList().isEmpty()) {
+            lista_FuncionalidadesDoPerfil = new ArrayList<>();
+        }
+
         for (int i = 0; i < lista_Funcionalidades.size(); i++) {
             for (int j = 0; j < model_listaFuncionalidadesDoPerfil.getSize(); j++) {
                 if (lista_Funcionalidades.get(i).getNome().equals(model_listaFuncionalidadesDoPerfil.get(j).toString())) {
@@ -289,6 +326,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 }
             }
         }
+
         perfil.setFuncionalidadeList(lista_FuncionalidadesDoPerfil);
         // sout apenas para teste
         System.out.println("---->> ID perfil:" + perfil.getId());
@@ -298,7 +336,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         for (int i = 0; i < perfil.getFuncionalidadeList().size(); i++) {
             System.out.println("---->> Funcionalidade do Perfil: " + perfil.getNome() + " " + perfil.getFuncionalidadeList().get(i).getNome());
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonSalvarAlterarFuncionalidadeActionPerformed
 
     private void jComboBoxPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerfilActionPerformed
         // TODO add your handling code here:
@@ -308,9 +346,9 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBoxPerfilActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonIncluirFuncionalidade;
+    private javax.swing.JButton jButtonRetirarFuncionalidade;
+    private javax.swing.JButton jButtonSalvarAlterarFuncionalidade;
     private javax.swing.JComboBox jComboBoxPerfil;
     private javax.swing.JLabel jLabelFuncionalidades;
     private javax.swing.JLabel jLabelFuncionalidadesDoPerfil;
