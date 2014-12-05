@@ -4,6 +4,7 @@ import controller.ProjetoJpaController;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -47,10 +48,13 @@ public class ProjetoJpa extends  ProjetoJpaController {
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
             return true;
             
-        } catch (Exception er) {
-            JOptionPane.showMessageDialog(null, "Error ao salvar!");
+        } catch (RollbackException error){
+            JOptionPane.showMessageDialog(null, "Esse nome de projeto já existe! Por favor, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
             return false;
-        }
+        }catch (Exception er) {
+            JOptionPane.showMessageDialog(null, "Error ao salvar!", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } 
         
     }
     
