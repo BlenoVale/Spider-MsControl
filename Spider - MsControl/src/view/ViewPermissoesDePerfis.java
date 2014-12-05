@@ -83,10 +83,10 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         buscaPerfil(nome_perfil);
         if (!perfil.getFuncionalidadeList().isEmpty()) {
             buscaFuncionalidades();
-            for (int i = 0; i < lista_Funcionalidades.size(); i++) {
-                for (int j = 0; j < perfil.getFuncionalidadeList().size(); j++) {
-                    if (Objects.equals(lista_Funcionalidades.get(i).getId(), perfil.getFuncionalidadeList().get(j).getId())) {
-                        lista_Funcionalidades.remove(i);
+            for (int i = 0; i < perfil.getFuncionalidadeList().size(); i++) {
+                for (int j = 0; j < lista_Funcionalidades.size(); j++) {
+                    if (Objects.equals(lista_Funcionalidades.get(j), perfil.getFuncionalidadeList().get(i))) {
+                        lista_Funcionalidades.remove(j);
                     }
                 }
             }
@@ -291,6 +291,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                     if (model_listaFuncionalidadesDoPerfil.getElementAt(index).toString().equals(perfil.getFuncionalidadeList().get(i).getNome())) {
                         perfil.getFuncionalidadeList().remove(i);
                         lista_FuncionalidadesDoPerfil = perfil.getFuncionalidadeList();
+                        break;
                     }
                 }
 
