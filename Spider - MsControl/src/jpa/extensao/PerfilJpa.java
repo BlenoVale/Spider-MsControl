@@ -13,7 +13,7 @@ import util.Conexao;
 
 /**
  *
- * @author Dan
+ * @author Bleno Vale
  */
 public class PerfilJpa extends PerfilJpaController {
 
@@ -24,8 +24,7 @@ public class PerfilJpa extends PerfilJpaController {
     public Perfil findByNome(String nomeProjeto) {
         Perfil perfil = null;
         EntityManager emf = super.getEntityManager();
-        Query q = emf.createQuery("SELECT p FROM Perfil p WHERE p.nome = :nome");
-        q.setParameter("nome", nomeProjeto);
+        Query q = emf.createNamedQuery("Perfil.findByNome").setParameter("nome", nomeProjeto);
         perfil = (Perfil) q.getSingleResult();
         return perfil;
     }

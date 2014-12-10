@@ -43,7 +43,7 @@ public class FacadeJpa {
     private final ProjetoJpa projetoJpa;
     private final UsuarioJpa usuarioJpa;
 
-    public FacadeJpa() {
+    private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
         analiseJpa = new AnaliseJpaController(Conexao.conectar());
         aprovacaoJpa = new AprovacaoJpaController(Conexao.conectar());
