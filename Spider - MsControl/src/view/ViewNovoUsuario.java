@@ -1,39 +1,28 @@
 package view;
 
-import jpa.AcessaJpaController;
-import jpa.ProjetoJpaController;
-import jpa.UsuarioJpaController;
-import jpa.extensao.PerfilJpa;
-import jpa.extensao.ProjetoJpa;
-import jpa.extensao.UsuarioJpa;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import controller.CtrlUsuario;
+import facade.FacadeJpa;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import model.Acessa;
-import model.Perfil;
-import model.Projeto;
 import model.Usuario;
-import util.Conexao;
 import util.MyDefaultTableModel;
 
 public class ViewNovoUsuario extends javax.swing.JDialog {
 
     private MyDefaultTableModel tableModel;
+    private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private final FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewNovoUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
-        iniciaTabela();
+        iniciarTabela();
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    private void iniciaTabela() {
+    private void iniciarTabela() {
         tableModel = new MyDefaultTableModel(new String[]{"Projeto", "Perfil"}, 0, false);
         jTable.setModel(tableModel);
     }
@@ -50,7 +39,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         jTable.setModel(tableModel);
     }
 
-    private void removeLinhaTabela(int numLinha) {
+    private void removerLinhaTabela(int numLinha) {
         tableModel.removeRow(numLinha);
         jTable.setModel(tableModel);
     }
@@ -61,15 +50,14 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
      *
      * @return true se nao ha impedimentos para proceguir, false caso contrario
      */
-    private boolean checaDadosDigitados() {
+    private boolean checarDadosDigitados() {
         if (jTextFieldNome.getText().equals("") || jTextFieldLogin.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Os campos \"Nome completo\" e \"Login de acesso\" devem ser preenchidos", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
             return false;
         } else {
-            Usuario u = null;
-            u = new UsuarioJpa().findByLogin(jTextFieldLogin.getText().toString());
+            Usuario usuario = jpa.getUsuarioJpa().findByLogin(jTextFieldLogin.getText());
 
-            if (u != null) {
+            if (usuario != null) {
                 JOptionPane.showMessageDialog(rootPane, "Este login ja existe");
                 return false;
             }
@@ -219,15 +207,15 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
 
 
     private void jButtonAdicionarUsuarioAProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
-        if (new ProjetoJpaController(Conexao.conectar()).getProjetoCount() == 0) {
+        if (jpa.getProjetoJpa().getProjetoCount() == 0) {
             int resp = JOptionPane.showConfirmDialog(rootPane, "Não há projetos para selecionar. Você deve primeiro criar um novo projeto.\nDeseja criar um projeto agora?");
             if (resp == 0) {
                 this.dispose();
-                new ViewNovoProjeto(null, true);
+                new ViewNovoProjeto(null, true).setVisible(true);
             }
             return;
         }
-        ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAoProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled, this);
+        new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled, this).setVisible(true);
     }//GEN-LAST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
 
     private void jTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMousePressed
@@ -238,11 +226,11 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_jTableMousePressed
 
     private void jMenuItemRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRemoverActionPerformed
-        removeLinhaTabela(jTable.getSelectedRow());
+        removerLinhaTabela(jTable.getSelectedRow());
     }//GEN-LAST:event_jMenuItemRemoverActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if (!checaDadosDigitados())
+        if (!checarDadosDigitados())
             return; // Se os danos não tiver Ok, retorne
 
         // Checando se o novo usuario ja foi alocado a algum projeto
@@ -251,63 +239,27 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             return;
         }
 
-        if (!criaUsuario(jTextFieldNome.getText(), jTextFieldLogin.getText(), null, (int) (Math.random() * 100000) + "@Spider.com"))
+        if (!ctrlUsuario.criarUsuario(jTextFieldNome.getText(), jTextFieldLogin.getText(), null, (int) (Math.random() * 100000) + "@Spider.com"))
             return;
 
-        alocaUsuarioAProjeto();
+        alocarUsuarioAProjeto();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    private void alocaUsuarioAProjeto() {
-        Acessa acessa;
-        List<Acessa> acessaList = new ArrayList<>();
+    private void alocarUsuarioAProjeto() {
+        Usuario usuario = jpa.getUsuarioJpa().findByNomeELogin(jTextFieldNome.getText(), jTextFieldLogin.getText());
 
-        ProjetoJpa projetoJpa = new ProjetoJpa();
-        UsuarioJpa usuarioJpa = new UsuarioJpa();
-        PerfilJpa perfilJpa = new PerfilJpa();
+        String[] nomeProjeto = new String[jTable.getRowCount()];
+        String[] nomePerfil = new String[jTable.getRowCount()];
 
-        Usuario user = usuarioJpa.findByNomeELogin(jTextFieldNome.getText(), jTextFieldLogin.getText());
-        Perfil perfil;
-        Projeto projeto;
-
+        // pega os dados que tem na tabela 
         for (int i = 0; i < jTable.getRowCount(); i++) {
-            acessa = new Acessa();
-            projeto = projetoJpa.findByNome(jTable.getValueAt(i, 0).toString());
-            perfil = perfilJpa.findByNome(jTable.getValueAt(i, 1).toString());
-
-            acessa.setProjeto(projeto);
-            acessa.setPerfil(perfil);
-            acessa.setUsuario(user);
-            acessa.setDataDeInicio(new Date());
-
-            try {
-                new AcessaJpaController(Conexao.conectar()).create(acessa);;
-            } catch (Exception ex) {
-                Logger.getLogger(ViewNovoUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            acessaList.add(acessa);
+            nomeProjeto[i] = jTable.getValueAt(i, 0).toString();
+            nomePerfil[i] = jTable.getValueAt(i, 1).toString();
         }
-
+        ctrlUsuario.alocarUsuarioAVariosProjetos(usuario, nomeProjeto, nomePerfil);
         this.dispose();
     }
 
-    private boolean criaUsuario(String nome, String login, String senha, String email) {
-        Usuario user = new Usuario();
-
-        user.setNome(nome);
-        user.setLogin(login);
-        user.setSenha(senha);
-        user.setEmail(email);
-
-        try {
-            new UsuarioJpaController(Conexao.conectar()).create(user);
-            JOptionPane.showMessageDialog(rootPane, "Usuário criado com sucesso");
-            return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Não foi possível criar o novo usuário", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
-            System.err.println(e);
-            return false;
-        }
-    }
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();

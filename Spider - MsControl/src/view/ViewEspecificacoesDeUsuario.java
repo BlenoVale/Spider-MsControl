@@ -1,30 +1,28 @@
 package view;
 
-import jpa.AcessaJpaController;
-import jpa.exceptions.NonexistentEntityException;
-import jpa.extensao.PerfilJpa;
-import jpa.extensao.ProjetoJpa;
-import jpa.extensao.UsuarioJpa;
+import controller.CtrlUsuario;
+import facade.FacadeJpa;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import jpa.exceptions.NonexistentEntityException;
 import model.Acessa;
 import model.AcessaPK;
 import model.Perfil;
 import model.Projeto;
 import model.Usuario;
-import util.Conexao;
 import util.MyDefaultTableModel;
 
 public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
 
-    private Usuario usuario;
     private MyDefaultTableModel tableModel;
-    private List<Acessa> acessoListRemover = new ArrayList<>();
+    private final FacadeJpa jpa = FacadeJpa.getInstance();
+    private final List<Acessa> acessoListRemover = new ArrayList<>();
+    
+    private final Usuario usuario;
+    private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
 
     public ViewEspecificacoesDeUsuario(java.awt.Frame parent, boolean modal, Usuario usuario) {
         super(parent, modal);
@@ -34,13 +32,13 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
 
         jLabelNomeDoUsuario.setText(usuario.getNome());
 
-        iniciaTabela();
+        iniciarTabela();
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    private void iniciaTabela() {
+    private void iniciarTabela() {
 
         List<Acessa> acessoList = usuario.getAcessaList();
 
@@ -68,7 +66,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         jTable.setModel(tableModel);
     }
 
-    private void removeLinhaTabela(int numLinha) {
+    private void removerLinhaTabela(int numLinha) {
         tableModel.removeRow(numLinha);
         jTable.setModel(tableModel);
     }
@@ -203,7 +201,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAlocarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlocarUsuarioActionPerformed
-        ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAoProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled, this);
+        new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled, this).setVisible(true);
     }//GEN-LAST:event_jButtonAlocarUsuarioActionPerformed
 
     private void jButtonRetirarPerfilDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirarPerfilDeUsuarioActionPerformed
@@ -214,22 +212,18 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "Você não pode remover todos os perfis de um usuário");
             return;
         }
-        adicionaAcessoNaListaDeRemocao();
-        removeLinhaTabela(jTable.getSelectedRow());
+        adicionarAcessoNaListaDeRemocao();
+        removerLinhaTabela(jTable.getSelectedRow());
     }//GEN-LAST:event_jButtonRetirarPerfilDeUsuarioActionPerformed
 
     /*
      Os acessos saoh adicionado em uma lista pois soh devem ser destruidos
      quando o usuario apertar salvar
      */
-    private void adicionaAcessoNaListaDeRemocao() {
-        ProjetoJpa projetoJpa = new ProjetoJpa();
-        UsuarioJpa usuarioJpa = new UsuarioJpa();
-        PerfilJpa perfilJpa = new PerfilJpa();
+    private void adicionarAcessoNaListaDeRemocao() {
 
-        Usuario user = usuario;
-        Perfil perfil = perfilJpa.findByNome(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
-        Projeto projeto = projetoJpa.findByNome(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
+        Perfil perfil = jpa.getPerfilJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
+        Projeto projeto = jpa.getProjetoJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
 
         Acessa acessoParaRemover = new Acessa();
         acessoParaRemover.setAcessaPK(new AcessaPK(projeto.getId(), perfil.getId(), usuario.getId()));
@@ -242,51 +236,32 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        alocaUsuarioAProjeto();
+        alocarUsuarioAProjeto();
+        removerAcessosDuplicados();
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    private void alocaUsuarioAProjeto() {
-        Acessa acessa;
-        
-        Usuario user = usuario;
-        UsuarioJpa usuarioJpa = new UsuarioJpa();
-        
-        Projeto projeto;
-        ProjetoJpa projetoJpa = new ProjetoJpa();
-        
-        Perfil perfil;
-        PerfilJpa perfilJpa = new PerfilJpa();
+    private void alocarUsuarioAProjeto() {
+        String[] nomeProjeto = new String[jTable.getRowCount()];
+        String[] nomePerfil = new String[jTable.getRowCount()];
 
-        // pega os dados que tem na tabela e transforma em acesso
+        // pega os dados que tem na tabela 
         for (int i = 0; i < jTable.getRowCount(); i++) {
-            acessa = new Acessa();
-            projeto = projetoJpa.findByNome(jTable.getValueAt(i, 0).toString());
-            perfil = perfilJpa.findByNome(jTable.getValueAt(i, 1).toString());
-
-            acessa.setProjeto(projeto);
-            acessa.setPerfil(perfil);
-            acessa.setUsuario(user);
-            acessa.setDataDeInicio(new Date());
-
-            try {
-                new AcessaJpaController(Conexao.conectar()).create(acessa);
-            } catch (Exception ex) {
-                // Se o perfil de usuario ja existir no projeto, ele nao vai criar
-                System.out.println("Ja existe");
-            }
+            nomeProjeto[i] = jTable.getValueAt(i, 0).toString();
+            nomePerfil[i] = jTable.getValueAt(i, 1).toString();
         }
+        ctrlUsuario.alocarUsuarioAVariosProjetos(usuario, nomeProjeto, nomePerfil);
+    }
 
-        for (int i = 0; i < acessoListRemover.size(); i++) {
+    private void removerAcessosDuplicados() {
+        for (Acessa acessoParaRemover : acessoListRemover) {
             try {
-                new AcessaJpaController(Conexao.conectar()).destroy(acessoListRemover.get(i).getAcessaPK());
+                jpa.getAcessaJpa().destroy(acessoParaRemover.getAcessaPK());
             } catch (NonexistentEntityException ex) {
                 System.out.println("Acesso destruido");
-                Logger.getLogger(ViewEspecificacoesDeUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(ViewEspecificacoesDeUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
