@@ -6,8 +6,13 @@
 package controller;
 
 import facade.FacadeJpa;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import jpa.exceptions.NonexistentEntityException;
 import model.Funcionalidade;
 import model.Perfil;
 
@@ -44,8 +49,9 @@ public class CtrlPermissoesDePerfil {
     public List<Funcionalidade> buscarListaDeFuncionalidadesDoPerfil() {
         try {
             if (perfil_selecionado.getFuncionalidadeList().isEmpty()) {
+                this.buscarListaDeFuncionalidades();
             } else {
-                buscarListaDeFuncionalidades();
+                this.buscarListaDeFuncionalidades();
 
                 for (int i = 0; i < perfil_selecionado.getFuncionalidadeList().size(); i++) {
                     for (int j = 0; j < this.lista_funcionalidade.size(); j++) {
@@ -59,6 +65,31 @@ public class CtrlPermissoesDePerfil {
             error.printStackTrace();
         }
         return this.lista_funcionalidade;
+    }
+
+    public void salvarAlterarFuncionalidadesDoPerfil(String nome_perfil, DefaultListModel model) {
+        try {
+            this.buscarPerfilSelecionado(nome_perfil);
+            this.buscarListaDeFuncionalidades();
+
+            List<Funcionalidade> lista_funcionalidadesDoPerfil = new ArrayList<>();
+            for (int i = 0; i < this.lista_funcionalidade.size(); i++) {
+                for (int j = 0; j < model.getSize(); j++) {
+                    if (this.lista_funcionalidade.get(i).getNome().equals(model.get(j).toString())) {
+                        lista_funcionalidadesDoPerfil.add(this.lista_funcionalidade.get(i));
+                    }
+                }
+            }
+
+            this.perfil_selecionado.setFuncionalidadeList(lista_funcionalidadesDoPerfil);
+
+            facadeJpa.getPerfilJpa().edit(this.perfil_selecionado);
+
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CtrlPermissoesDePerfil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CtrlPermissoesDePerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

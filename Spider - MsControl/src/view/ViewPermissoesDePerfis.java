@@ -3,8 +3,10 @@ package view;
 import controller.CtrlPermissoesDePerfil;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Funcionalidade;
 import model.Perfil;
+import util.Internal;
 
 /**
  * @author Bleno Vale
@@ -21,6 +23,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         populaComboboxDePerfis();
         preencherListaDeFuncionalidades();
         initModels();
+        Internal.retiraBotao(this);
     }
 
     private void populaComboboxDePerfis() {
@@ -217,15 +220,50 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
     private void jButtonIncluirFuncionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirFuncionalidadeActionPerformed
         // TODO add your handling code here:
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
+                int index = jListFucionalidades.getSelectedIndex();
+
+                model_listaDeFuncionalidadesDoPerfil.addElement(model_listaDeFucionalidades.getElementAt(index));
+                model_listaDeFucionalidades.remove(index);
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um perfil no combobox.");
+            }
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Selecione uma funcionalidade.");
+        }
     }//GEN-LAST:event_jButtonIncluirFuncionalidadeActionPerformed
 
     @SuppressWarnings("empty-statement")
     private void jButtonRetirarFuncionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirarFuncionalidadeActionPerformed
         // TODO add your handling code here:
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
+                int index = jListFuncionalidadesDoPerfil.getSelectedIndex();
+
+                model_listaDeFucionalidades.addElement(model_listaDeFuncionalidadesDoPerfil.getElementAt(index));
+                model_listaDeFuncionalidadesDoPerfil.remove(index);
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um perfil no combobox.");
+            }
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Selecione uma funcionalidade do perfil.");
+        }
     }//GEN-LAST:event_jButtonRetirarFuncionalidadeActionPerformed
 
     private void jButtonSalvarAlterarFuncionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarAlterarFuncionalidadeActionPerformed
         // TODO add your handling code here:
+        try {
+            if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
+                ctrlPermissoesDePerfil.salvarAlterarFuncionalidadesDoPerfil(jComboBoxPerfil.getSelectedItem().toString(), model_listaDeFuncionalidadesDoPerfil);
+                JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um perfil no combobox.");
+            }
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel salvar.");
+            error.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonSalvarAlterarFuncionalidadeActionPerformed
 
     private void jComboBoxPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPerfilActionPerformed
