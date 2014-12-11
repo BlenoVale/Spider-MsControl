@@ -201,7 +201,11 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAlocarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlocarUsuarioActionPerformed
-        new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled, this).setVisible(true);
+        ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled);
+        String projetoPerfil[] = viewAlocacaoDeUsuarioAProjeto.showDialog();
+        
+        if(projetoPerfil != null)
+            this.addLinhaTabela(projetoPerfil[0], projetoPerfil[1]);
     }//GEN-LAST:event_jButtonAlocarUsuarioActionPerformed
 
     private void jButtonRetirarPerfilDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirarPerfilDeUsuarioActionPerformed

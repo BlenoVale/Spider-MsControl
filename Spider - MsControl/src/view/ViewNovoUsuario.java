@@ -18,8 +18,9 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         initComponents();
 
         iniciarTabela();
-        setLocationRelativeTo(null);
-        setVisible(true);
+
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     private void iniciarTabela() {
@@ -27,7 +28,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         jTable.setModel(tableModel);
     }
 
-    protected void addLinhaTabela(String projeto, String perfil) {
+    private void addProjetoPerfilNaTabela(String projeto, String perfil) {
         // Se ja contem na tabela, nao adiciona uma nova linha.
         for (int i = 0; i < jTable.getRowCount(); i++)
             if (jTable.getValueAt(i, 0).toString().equals(projeto) && jTable.getValueAt(i, 1).toString().equals(perfil)) {
@@ -39,7 +40,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         jTable.setModel(tableModel);
     }
 
-    private void removerLinhaTabela(int numLinha) {
+    private void removerProjetoPerfilDaTabela(int numLinha) {
         tableModel.removeRow(numLinha);
         jTable.setModel(tableModel);
     }
@@ -209,13 +210,18 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
     private void jButtonAdicionarUsuarioAProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
         if (jpa.getProjetoJpa().getProjetoCount() == 0) {
             int resp = JOptionPane.showConfirmDialog(rootPane, "Não há projetos para selecionar. Você deve primeiro criar um novo projeto.\nDeseja criar um projeto agora?");
-            if (resp == 0) {
+            if (resp == JOptionPane.YES_OPTION) {
                 this.dispose();
-                new ViewNovoProjeto(null, true).setVisible(true);
+                new ViewNovoProjeto(null, true);
             }
             return;
         }
-        new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled, this).setVisible(true);
+        
+        ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled);
+        String projetoPerfil[] = viewAlocacaoDeUsuarioAProjeto.showDialog();
+        
+        if(projetoPerfil != null)
+            this.addProjetoPerfilNaTabela(projetoPerfil[0], projetoPerfil[1]);
     }//GEN-LAST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
 
     private void jTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMousePressed
@@ -226,12 +232,12 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_jTableMousePressed
 
     private void jMenuItemRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRemoverActionPerformed
-        removerLinhaTabela(jTable.getSelectedRow());
+        removerProjetoPerfilDaTabela(jTable.getSelectedRow());
     }//GEN-LAST:event_jMenuItemRemoverActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if (!checarDadosDigitados())
-            return; // Se os danos não tiver Ok, retorne
+            return; // Se os dados não tiverem Ok, retorne
 
         // Checando se o novo usuario ja foi alocado a algum projeto
         if (jTable.getRowCount() == 0) {
@@ -259,7 +265,6 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         ctrlUsuario.alocarUsuarioAVariosProjetos(usuario, nomeProjeto, nomePerfil);
         this.dispose();
     }
-
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();

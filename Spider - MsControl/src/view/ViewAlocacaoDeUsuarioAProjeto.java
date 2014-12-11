@@ -1,12 +1,10 @@
 package view;
 
-import jpa.PerfilJpaController;
-import jpa.ProjetoJpaController;
+import facade.FacadeJpa;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import model.Perfil;
 import model.Projeto;
-import util.Conexao;
 
 /**
  * Classe usada para direcionar um usario a um projeto e lhe dar um perfil de
@@ -16,35 +14,25 @@ import util.Conexao;
  */
 public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
 
-    private ViewNovoUsuario paiNovoUsuario = null;
-    private ViewEspecificacoesDeUsuario paiEspecUsuario = null;
-    private final ProjetoJpaController projetoJpa = new ProjetoJpaController(Conexao.conectar());
-    private final PerfilJpaController perfilJpa = new PerfilJpaController(Conexao.conectar());
+    private final String escolha[] = new String[]{null, null};
+    private final FacadeJpa jpa = FacadeJpa.getInstance();
 
-    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal, ViewNovoUsuario pai) {
+    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.paiNovoUsuario = pai;
 
         this.setLocationRelativeTo(null);
         atualizaComboBox();
-        this.setVisible(true);
     }
 
-    public ViewAlocacaoDeUsuarioAProjeto(java.awt.Frame parent, boolean modal, ViewEspecificacoesDeUsuario pai) {
-        super(parent, modal);
-        initComponents();
-        this.paiEspecUsuario = pai;
-
-        this.setLocationRelativeTo(null);
-        atualizaComboBox();
-
+    public String[] showDialog() {
         this.setVisible(true);
+        return escolha;
     }
 
     public void atualizaComboBox() {
-        List<Projeto> projetoList = projetoJpa.findProjetoEntities();
-        List<Perfil> perfilList = perfilJpa.findPerfilEntities();
+        List<Projeto> projetoList = jpa.getProjetoJpa().findProjetoEntities();
+        List<Perfil> perfilList = jpa.getPerfilJpa().findPerfilEntities();
 
         String nomeProjeto[] = new String[projetoList.size()];
         String nomePerfil[] = new String[perfilList.size()];
@@ -127,10 +115,8 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (paiNovoUsuario != null)
-            paiNovoUsuario.addLinhaTabela(jComboBoxProjeto.getSelectedItem().toString(), jComboBoxPerfil.getSelectedItem().toString());
-        else if (paiEspecUsuario != null)
-            paiEspecUsuario.addLinhaTabela(jComboBoxProjeto.getSelectedItem().toString(), jComboBoxPerfil.getSelectedItem().toString());
+        escolha[0] = jComboBoxProjeto.getSelectedItem().toString();
+        escolha[1] = jComboBoxPerfil.getSelectedItem().toString();
 
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -138,49 +124,6 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(ViewAlocacaoDeUsuarioAProjeto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                ViewAlocacaoDeUsuarioAProjeto dialog = new ViewAlocacaoDeUsuarioAProjeto(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
