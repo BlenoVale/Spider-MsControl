@@ -100,7 +100,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Nome do projeto", "Perfil no projeto", "Data de entrada"
+                "Nome do projeto", "Perfil no projeto", "Data de alocação"
             }
         ));
         jScrollPane1.setViewportView(jTable);

@@ -129,7 +129,7 @@
                   <Table columnCount="3" rowCount="4">
                     <Column editable="true" title="Nome do projeto" type="java.lang.Object"/>
                     <Column editable="true" title="Perfil no projeto" type="java.lang.Object"/>
-                    <Column editable="true" title="Data de entrada" type="java.lang.Object"/>
+                    <Column editable="true" title="Data de aloca&#xe7;&#xe3;o" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
