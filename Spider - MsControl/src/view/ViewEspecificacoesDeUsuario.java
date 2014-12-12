@@ -20,7 +20,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     private MyDefaultTableModel tableModel;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
     private final List<Acessa> acessoListRemover = new ArrayList<>();
-    
+
     private final Usuario usuario;
     private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
 
@@ -203,8 +203,8 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     private void jButtonAlocarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlocarUsuarioActionPerformed
         ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled);
         String projetoPerfil[] = viewAlocacaoDeUsuarioAProjeto.showDialog();
-        
-        if(projetoPerfil != null)
+
+        if (projetoPerfil[0] != null && projetoPerfil[1] != null)
             this.addLinhaTabela(projetoPerfil[0], projetoPerfil[1]);
     }//GEN-LAST:event_jButtonAlocarUsuarioActionPerformed
 

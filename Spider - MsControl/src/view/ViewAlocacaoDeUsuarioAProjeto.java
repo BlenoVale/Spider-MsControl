@@ -55,7 +55,7 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
 
         jComboBoxProjeto = new javax.swing.JComboBox();
         jComboBoxPerfil = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        jButtonAlocar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -66,10 +66,10 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
 
         jComboBoxPerfil.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Alocar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAlocar.setText("Alocar");
+        jButtonAlocar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAlocarActionPerformed(evt);
             }
         });
 
@@ -88,7 +88,7 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonAlocar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(60, 60, 60))
@@ -106,7 +106,7 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
                 .addComponent(jComboBoxPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonAlocar)
                     .addComponent(jButton2))
                 .addContainerGap())
         );
@@ -114,20 +114,20 @@ public final class ViewAlocacaoDeUsuarioAProjeto extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonAlocarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlocarActionPerformed
         escolha[0] = jComboBoxProjeto.getSelectedItem().toString();
         escolha[1] = jComboBoxPerfil.getSelectedItem().toString();
 
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonAlocarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAlocar;
     private javax.swing.JComboBox jComboBoxPerfil;
     private javax.swing.JComboBox jComboBoxProjeto;
     // End of variables declaration//GEN-END:variables

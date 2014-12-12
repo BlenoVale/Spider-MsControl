@@ -216,11 +216,11 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             }
             return;
         }
-        
+
         ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled);
         String projetoPerfil[] = viewAlocacaoDeUsuarioAProjeto.showDialog();
-        
-        if(projetoPerfil != null)
+
+        if (projetoPerfil[0] != null && projetoPerfil[1] != null)
             this.addProjetoPerfilNaTabela(projetoPerfil[0], projetoPerfil[1]);
     }//GEN-LAST:event_jButtonAdicionarUsuarioAProjetoActionPerformed
 
