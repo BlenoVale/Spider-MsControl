@@ -1,13 +1,9 @@
 package view;
 
-import jpa.extensao.ProjetoJpa;
+import controller.CtrlProjeto;
 import javax.swing.JOptionPane;
-import model.Projeto;
 
 public class ViewNovoProjeto extends javax.swing.JDialog {
-
-    private Projeto projeto = new Projeto();
-    private ProjetoJpa projetoJpa = new ProjetoJpa();
 
     public ViewNovoProjeto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -21,38 +17,44 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelNomeProjeto = new javax.swing.JLabel();
+        jTextFieldNomeProjeto = new javax.swing.JTextField();
+        jButtonCancelarProjeto = new javax.swing.JButton();
+        jButtonSalvarProjeto = new javax.swing.JButton();
+        jScrollPaneDescricaoProjeto = new javax.swing.JScrollPane();
+        jTextAreaDescricaoProjeto = new javax.swing.JTextArea();
+        jLabelDescricaoProjeto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Novo projeto");
 
-        jLabel1.setText("Nome do projeto: ");
+        jLabelNomeProjeto.setText("Nome do projeto: ");
 
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldNomeProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jTextFieldNomeProjetoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Salvar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCancelarProjeto.setText("Cancelar");
+        jButtonCancelarProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonCancelarProjetoActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jButtonSalvarProjeto.setText("Salvar");
+        jButtonSalvarProjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarProjetoActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Descrição do Projeto:");
+        jTextAreaDescricaoProjeto.setColumns(20);
+        jTextAreaDescricaoProjeto.setRows(5);
+        jScrollPaneDescricaoProjeto.setViewportView(jTextAreaDescricaoProjeto);
+
+        jLabelDescricaoProjeto.setText("Descrição do Projeto:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,17 +65,17 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(jButtonSalvarProjeto)
                         .addGap(7, 7, 7)
-                        .addComponent(jButton1))
+                        .addComponent(jButtonCancelarProjeto))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabelNomeProjeto)
+                            .addComponent(jLabelDescricaoProjeto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))))
+                            .addComponent(jTextFieldNomeProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneDescricaoProjeto))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -81,47 +83,52 @@ public class ViewNovoProjeto extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelNomeProjeto)
+                    .addComponent(jTextFieldNomeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jScrollPaneDescricaoProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDescricaoProjeto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonSalvarProjeto)
+                    .addComponent(jButtonCancelarProjeto))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonCancelarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarProjetoActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonCancelarProjetoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonSalvarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarProjetoActionPerformed
        
-        String nomeProjeto = jTextField1.getText();
-        String descricao = jTextArea1.getText();
-        
+        CtrlProjeto ctrlProjeto = new CtrlProjeto();
+        String nomeProjeto = jTextFieldNomeProjeto.getText();
+        String descricao = jTextAreaDescricaoProjeto.getText();
+                
         if (nomeProjeto.equals("") || descricao.equals("") ) {
             JOptionPane.showMessageDialog(null, "Por favor, é obrigatório o preenchimentos de todos os campos.");
             return;
         }
-        if((projetoJpa.saveProjeto(nomeProjeto, descricao)) == true )
+        if((ctrlProjeto.inserirProjeto(nomeProjeto, descricao)) == true )
             this.dispose();
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonSalvarProjetoActionPerformed
+
+    private void jTextFieldNomeProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNomeProjetoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNomeProjetoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton jButtonCancelarProjeto;
+    private javax.swing.JButton jButtonSalvarProjeto;
+    private javax.swing.JLabel jLabelDescricaoProjeto;
+    private javax.swing.JLabel jLabelNomeProjeto;
+    private javax.swing.JScrollPane jScrollPaneDescricaoProjeto;
+    private javax.swing.JTextArea jTextAreaDescricaoProjeto;
+    private javax.swing.JTextField jTextFieldNomeProjeto;
     // End of variables declaration//GEN-END:variables
 }

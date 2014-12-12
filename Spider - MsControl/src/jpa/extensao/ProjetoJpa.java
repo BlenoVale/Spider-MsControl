@@ -30,32 +30,5 @@ public class ProjetoJpa extends  ProjetoJpaController {
         projeto = (Projeto) q.getSingleResult();
         return projeto;
     }
-    
-    public boolean saveProjeto(String  nomeProjeto, String descricao){
-        
-        Projeto projeto = new Projeto();
-        ProjetoJpa projetoJpa = new ProjetoJpa();
-        
-        
-        projeto.setNome(nomeProjeto);
-        projeto.setDescricao(descricao);
-        projeto.setStatus(projeto.ATIVO);
-        projeto.setDataInicio(new Date());
-        
-        try {
-        
-            projetoJpa.create(projeto);    
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
-            return true;
-            
-        } catch (RollbackException error){
-            JOptionPane.showMessageDialog(null, "Esse nome de projeto já existe! Por favor, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }catch (Exception er) {
-            JOptionPane.showMessageDialog(null, "Error ao salvar!", "", JOptionPane.ERROR_MESSAGE);
-            return false;
-        } 
-        
-    }
-    
+      
 }
