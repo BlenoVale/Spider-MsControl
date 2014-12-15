@@ -13,7 +13,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.usuario_logado.setNome("Bleno Vale");
-        this.usuario_logado = ctrlUsuario.buscarUsuario(usuario_logado);
+        this.usuario_logado = ctrlUsuario.buscarUsuarioLogado(usuario_logado);
         
         this.PreencheCamposConta();
         

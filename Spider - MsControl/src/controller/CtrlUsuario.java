@@ -65,7 +65,15 @@ public class CtrlUsuario {
         }
     }
     
-    public Usuario buscarUsuario (Usuario usuario_logado){
+    public Usuario buscarUsuarioLogado (Usuario usuario_logado){
         return facadeJpa.getUsuarioJpa().findByNome(usuario_logado.getNome());
+    }
+    
+    public Usuario buscarUsuario (Usuario usuario) {
+        try {
+            return facadeJpa.getUsuarioJpa().findByLogin(usuario.getLogin());
+        } catch(Exception error) {
+            throw error;
+        }
     }
 }
