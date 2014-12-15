@@ -64,4 +64,8 @@ public class CtrlUsuario {
             System.out.println("Ja existe");
         }
     }
+    
+    public Usuario buscarUsuario (Usuario usuario_logado){
+        return facadeJpa.getUsuarioJpa().findByNome(usuario_logado.getNome());
+    }
 }
