@@ -4,6 +4,10 @@ import facade.FacadeJpa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import jpa.exceptions.NonexistentEntityException;
 import model.Projeto;
 import util.MyDefaultTableModel;
 
@@ -98,6 +102,11 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTableAtivos);
 
         jButton1.setText("Alterar nome do projeto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Gerar relatório");
 
@@ -246,6 +255,27 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nomeDoProjeto = jTableAtivos.getValueAt(jTableAtivos.getSelectedRow(), 0).toString();
+        Projeto projeto = jpa.getProjetoJpa().findByNome(nomeDoProjeto);
+
+        nomeDoProjeto = JOptionPane.showInputDialog("Digite o novo nome do projeto");
+        if (nomeDoProjeto.equals(""))
+            JOptionPane.showMessageDialog(rootPane, "Digite um nome para o projeto");
+        else {
+            projeto.setNome(nomeDoProjeto);
+
+            try {
+                jpa.getProjetoJpa().edit(projeto);
+                atualizaTabelaAtivos();
+            } catch (NonexistentEntityException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível salvar", "ERRO", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Não foi possível salvar", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
