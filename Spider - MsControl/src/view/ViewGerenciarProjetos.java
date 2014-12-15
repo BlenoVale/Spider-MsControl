@@ -1,9 +1,61 @@
 package view;
 
+import facade.FacadeJpa;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import model.Projeto;
+import util.MyDefaultTableModel;
+
 public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
+
+    private FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewGerenciarProjetos() {
         initComponents();
+
+        atualizaTabelaAtivos();
+        atualizaTabelaInativos();
+        atualizaTabelaFinalizados();
+    }
+
+    private void atualizaTabelaAtivos() {
+        String colunas[] = {"Nome do projeto", "Data de início"};
+        List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosAtivos();
+
+        MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
+        jTableAtivos.setModel(model);
+
+        for (int i = 0; i < projetoList.size(); i++) {
+            jTableAtivos.setValueAt(projetoList.get(i).getNome(), i, 0);
+            jTableAtivos.setValueAt(formataData(projetoList.get(i).getDataInicio()), i, 1);
+        }
+    }
+
+    private void atualizaTabelaInativos() {
+        String colunas[] = {"Nome do projeto", "Data de início"};
+        List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosInativos();
+
+        MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
+        jTableInativos.setModel(model);
+
+        for (int i = 0; i < projetoList.size(); i++) {
+            jTableInativos.setValueAt(projetoList.get(i).getNome(), i, 0);
+            jTableInativos.setValueAt(formataData(projetoList.get(i).getDataInicio()), i, 1);
+        }
+    }
+
+    private void atualizaTabelaFinalizados() {
+        String colunas[] = {"Nome do projeto", "Data de início", "Data de conclusão"};
+        List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosFinalizados();
+
+        MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
+        jTableFinalizados.setModel(model);
+
+        for (int i = 0; i < projetoList.size(); i++) {
+            jTableFinalizados.setValueAt(projetoList.get(i).getNome(), i, 0);
+            jTableFinalizados.setValueAt(formataData(projetoList.get(i).getDataInicio()), i, 1);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -13,15 +65,18 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableAtivos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableInativos = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTableFinalizados = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
@@ -29,7 +84,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableAtivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -40,7 +95,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 "Nome do projeto", "Data de início"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableAtivos);
 
         jButton1.setText("Alterar nome do projeto");
 
@@ -88,11 +143,45 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Projetos em andamento", jPanel3);
+        jTabbedPane2.addTab("Projetos ativos", jPanel3);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jTableInativos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Nome do projeto", "Data de início"
+            }
+        ));
+        jScrollPane3.setViewportView(jTableInativos);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                .addGap(40, 40, 40))
+        );
+
+        jTabbedPane2.addTab("Projetos inativos", jPanel4);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFinalizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -103,7 +192,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 "Nome do Projeto", "Data de início", "Data de conclusão"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jTableFinalizados);
 
         jButton4.setText("Gerar relatório");
 
@@ -168,10 +257,18 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableAtivos;
+    private javax.swing.JTable jTableFinalizados;
+    private javax.swing.JTable jTableInativos;
     // End of variables declaration//GEN-END:variables
+
+    public String formataData(Date data) {
+        SimpleDateFormat sdf = new SimpleDateFormat("E dd / MM / yyyy");
+        return sdf.format(data);
+    }
 }
