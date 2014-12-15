@@ -46,7 +46,6 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         
 //        if (!Arrays.toString(jPasswordSenhaAtual.getPassword()).isEmpty()){
 //        }
-        
         if (cont == 0){
             JOptionPane.showMessageDialog(this, "Dados Salvos com sucesso.");
         } else if (cont == 1) {
