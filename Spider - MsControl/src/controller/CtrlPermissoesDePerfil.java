@@ -22,7 +22,7 @@ import model.Perfil;
  */
 public class CtrlPermissoesDePerfil {
 
-    private FacadeJpa facadeJpa = FacadeJpa.getInstance();
+    private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     private List<Perfil> lista_perfil;
     private Perfil perfil_selecionado;
     private List<Funcionalidade> lista_funcionalidade;
@@ -50,7 +50,8 @@ public class CtrlPermissoesDePerfil {
         try {
             if (perfil_selecionado.getFuncionalidadeList().isEmpty()) {
                 this.buscarListaDeFuncionalidades();
-            } else {
+            }
+            else {
                 this.buscarListaDeFuncionalidades();
 
                 for (int i = 0; i < perfil_selecionado.getFuncionalidadeList().size(); i++) {

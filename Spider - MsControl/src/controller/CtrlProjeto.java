@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import facade.FacadeJpa;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
+import jpa.exceptions.NonexistentEntityException;
 import model.Projeto;
 
 /**
@@ -21,27 +19,34 @@ public class CtrlProjeto {
 
     public boolean inserirProjeto(String nomeProjeto, String descricao) {
 
-        boolean verify;
         Projeto projeto = new Projeto();
 
         projeto.setNome(nomeProjeto);
         projeto.setDescricao(descricao);
-        projeto.setStatus(projeto.ATIVO);
+        projeto.setStatus(Projeto.ATIVO);
         projeto.setDataInicio(new Date());
 
-        verify = saveProjeto(projeto);
+        return saveProjeto(projeto);
+    }
 
-        return verify;
+    public void editarProjeto(Projeto projeto) {
+        try {
+            facadeJpa.getProjetoJpa().edit(projeto);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(CtrlProjeto.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Não foi possível salvar", "ERRO", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(CtrlProjeto.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Não foi possível salvar", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public boolean saveProjeto(Projeto projeto) {
 
         try {
-
             facadeJpa.getProjetoJpa().create(projeto);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
             return true;
-
         } catch (RollbackException error) {
             JOptionPane.showMessageDialog(null, "Esse nome de projeto já existe! Por favor, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -49,7 +54,5 @@ public class CtrlProjeto {
             JOptionPane.showMessageDialog(null, "Error ao salvar!", "", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-
     }
-
 }

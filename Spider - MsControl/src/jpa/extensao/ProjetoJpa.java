@@ -26,10 +26,19 @@ public class ProjetoJpa extends ProjetoJpaController {
         return projeto;
     }
 
-    public List<Projeto> findTodosProjetosAtivos() {
+    public List<Projeto> findTodosProjetosAtivosOrderByNome() {
         List<Projeto> projetoList = null;
         EntityManager emf = super.getEntityManager();
-        Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status");
+        Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status ORDER BY p.nome ASC");
+        q.setParameter("status", Projeto.ATIVO);
+        projetoList = q.getResultList();
+        return projetoList;
+    }
+    
+    public List<Projeto> findTodosProjetosAtivosOrderByData() {
+        List<Projeto> projetoList = null;
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status ORDER BY p.dataInicio DESC");
         q.setParameter("status", Projeto.ATIVO);
         projetoList = q.getResultList();
         return projetoList;
