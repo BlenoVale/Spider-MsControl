@@ -10,7 +10,7 @@ import model.Usuario;
 
 /**
  *
- * @author DAN JHONATAN
+ * @author DAN JHONATAN, Géssica
  */
 public class CtrlUsuario {
 

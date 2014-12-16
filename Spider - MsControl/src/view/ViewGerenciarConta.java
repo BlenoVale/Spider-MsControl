@@ -33,14 +33,14 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         if (!jTextFieldLogin.getText().isEmpty()){
             usuario_logado.setLogin(jTextFieldLogin.getText());
         } else {
-            cont = cont + 1;
+            cont++;
             mensagem = "Campo Login não pode ser vazio.";
         }
         
         if (!jTextFieldEmail.getText().isEmpty()){
             usuario_logado.setEmail(jTextFieldEmail.getText());
         } else {
-            cont = cont + 1;
+            cont++;
             mensagem = "Campo Email não pode ser Vazio.";
         }
         

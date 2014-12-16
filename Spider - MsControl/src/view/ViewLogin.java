@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import model.Usuario;
 
-/*@author Dan Jhonatan
+/*@author Dan Jhonatan, Géssica
  */
 public class ViewLogin extends javax.swing.JFrame {
 
@@ -124,10 +124,12 @@ public class ViewLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");
         } else if (usuario_acessando.getSenha() == null){
             
-            JOptionPane.showMessageDialog(this, "Login ou senha incorretos. \n Você deverá cadastrar uma senha e um e-mail de recuperação.");
+            JOptionPane.showMessageDialog(this, "Esse é o seu primeiro acesso. \n Você deverá cadastrar uma senha e um e-mail de recuperação.");
             this.dispose();
             
             ViewCadastroDeInformacoes viewCadastroDeInformacoes = new ViewCadastroDeInformacoes(null, true);
+            viewCadastroDeInformacoes.setUsuario(usuario_acessando);
+            viewCadastroDeInformacoes.preencherCampos();
             viewCadastroDeInformacoes.setVisible(true);
         }
     }//GEN-LAST:event_jButtonEntrarActionPerformed
