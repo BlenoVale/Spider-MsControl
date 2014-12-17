@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jpa.extensao;
 
 import jpa.UsuarioJpaController;
@@ -13,7 +8,7 @@ import util.Conexao;
 
 /**
  *
- * @author Dan
+ * @author Dan, BlenoVale
  */
 public class UsuarioJpa extends UsuarioJpaController {
 
@@ -50,5 +45,4 @@ public class UsuarioJpa extends UsuarioJpaController {
         usuario = (Usuario) q.getSingleResult();
         return usuario;
     }
-
 }

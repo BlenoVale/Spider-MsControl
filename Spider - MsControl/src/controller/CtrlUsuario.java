@@ -7,14 +7,16 @@ import model.Acessa;
 import model.Perfil;
 import model.Projeto;
 import model.Usuario;
+import util.Criptografia;
 
 /**
  *
- * @author DAN JHONATAN, Géssica
+ * @author DAN JHONATAN, Géssica, BlenoVale
  */
 public class CtrlUsuario {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
+    private final Criptografia criptografia = new Criptografia();
 
     public boolean criarUsuario(String nome, String login, String senha, String email) {
         Usuario user = new Usuario();
@@ -32,6 +34,16 @@ public class CtrlUsuario {
             JOptionPane.showMessageDialog(null, "Não foi possível criar o novo usuário", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
             System.err.println(e);
             return false;
+        }
+    }
+
+    public void editaUsuario(Usuario usuario) {
+        try {
+            facadeJpa.getUsuarioJpa().edit(usuario);
+            JOptionPane.showMessageDialog(null, "Dados Salvos com sucesso.");
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Erro ao editar Usuário.");
+            error.printStackTrace();
         }
     }
 
@@ -64,15 +76,52 @@ public class CtrlUsuario {
             System.out.println("Ja existe");
         }
     }
-    
-    public Usuario buscarUsuarioLogado (Usuario usuario_logado){
-        return facadeJpa.getUsuarioJpa().findByNome(usuario_logado.getNome());
+
+    /**
+     * Busca usuario pelo atributo Nome.
+     *
+     * @param usuario objeto que possui o atributo para a busca
+     * @return retorna usuario encontrado ou null caso contrario
+     */
+    public Usuario buscarUsuarioPeloNome(Usuario usuario) {
+        try {
+            return facadeJpa.getUsuarioJpa().findByNome(usuario.getNome());
+        } catch (Exception error) {
+            throw error;
+        }
+
     }
-    
-    public Usuario buscarUsuario (Usuario usuario) {
+
+    /**
+     * Busca usuario pelo atributo login.
+     *
+     * @param usuario objeto que possui o atributo para a busca
+     * @return retorna usuario encontrado ou null caso contrario
+     */
+    public Usuario buscarUsuarioPeloLogin(Usuario usuario) {
         try {
             return facadeJpa.getUsuarioJpa().findByLogin(usuario.getLogin());
-        } catch(Exception error) {
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Compara senha atual digitada com a já existente do usuario.
+     *
+     * @param usuario objeto que possui o atributo senha
+     * @param senhaDigitada senha digitada.
+     * @return true caso as senhas correspondem, false caso o contrário.
+     */
+    public boolean ComparaSenhaDigitadaComAdoBD(Usuario usuario, String senhaDigitada) {
+        try {
+            if (usuario.getSenha().equals(criptografia.criptografaMensagem(senhaDigitada))) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Senha Atual incorreta.");
+                return false;
+            }
+        } catch (Exception error) {
             throw error;
         }
     }
