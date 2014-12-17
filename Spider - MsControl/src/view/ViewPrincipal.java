@@ -313,7 +313,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }
 
     private void novoProjeto() {
-        ViewNovoProjeto novoProjeto = new ViewNovoProjeto(this, rootPaneCheckingEnabled);
+        ViewDadosDoProjeto novoProjeto = new ViewDadosDoProjeto(this, rootPaneCheckingEnabled);
+        novoProjeto.setVisible(true);
     }
 
     private void novoUsuario() {

@@ -2,11 +2,14 @@ package view;
 
 import controller.CtrlProjeto;
 import facade.FacadeJpa;
+import java.awt.HeadlessException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import model.Projeto;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
@@ -20,6 +23,8 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         atualizaTabelaAtivos();
         atualizaTabelaInativos();
         atualizaTabelaFinalizados();
+
+        Internal.retiraBotao(this);
     }
 
     private void atualizaTabelaAtivos() {
@@ -66,11 +71,14 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenuProjetos = new javax.swing.JPopupMenu();
+        jMenuItemVerInfo = new javax.swing.JMenuItem();
+        jMenuItemEditarProjeto = new javax.swing.JMenuItem();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableAtivos = new javax.swing.JTable();
-        jButtonAlterarNomeProjeto = new javax.swing.JButton();
+        jButtonEditarProjeto = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -84,6 +92,22 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jTableFinalizados = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+
+        jMenuItemVerInfo.setText("Ver informações");
+        jMenuItemVerInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemVerInfoActionPerformed(evt);
+            }
+        });
+        jPopupMenuProjetos.add(jMenuItemVerInfo);
+
+        jMenuItemEditarProjeto.setText("Editar projeto");
+        jMenuItemEditarProjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEditarProjetoActionPerformed(evt);
+            }
+        });
+        jPopupMenuProjetos.add(jMenuItemEditarProjeto);
 
         setTitle("Gerenciar projetos");
 
@@ -100,13 +124,21 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 "Nome do projeto", "Data de início"
             }
         ));
-        jTableAtivos.setToolTipText("Dê 2 cliks para ver a descrição do projeto");
+        jTableAtivos.setToolTipText("");
+        jTableAtivos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAtivosMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableAtivosMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableAtivos);
 
-        jButtonAlterarNomeProjeto.setText("Alterar nome do projeto");
-        jButtonAlterarNomeProjeto.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEditarProjeto.setText("Editar projeto");
+        jButtonEditarProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAlterarNomeProjetoActionPerformed(evt);
+                jButtonEditarProjetoActionPerformed(evt);
             }
         });
 
@@ -132,7 +164,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButtonAlterarNomeProjeto)
+                        .addComponent(jButtonEditarProjeto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,7 +183,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonAlterarNomeProjeto)
+                    .addComponent(jButtonEditarProjeto)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton6)
@@ -277,25 +309,25 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void jButtonAlterarNomeProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarNomeProjetoActionPerformed
+    private void jButtonEditarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarProjetoActionPerformed
+        editarProjeto();
+    }//GEN-LAST:event_jButtonEditarProjetoActionPerformed
 
+    private void editarProjeto() throws HeadlessException {
         if (jTableAtivos.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
             return;
         }
+        Projeto projeto = buscaProjetoSelecionado();
+        ViewDadosDoProjeto viewNovoProjeto = new ViewDadosDoProjeto(null, true);
+        viewNovoProjeto.showEditarProjetoDialog(projeto);
+    }
 
+    private Projeto buscaProjetoSelecionado() {
         String nomeDoProjeto = jTableAtivos.getValueAt(jTableAtivos.getSelectedRow(), 0).toString();
         Projeto projeto = jpa.getProjetoJpa().findByNome(nomeDoProjeto);
-
-        nomeDoProjeto = JOptionPane.showInputDialog("Digite o novo nome do projeto");
-        if (nomeDoProjeto.equals(""))
-            JOptionPane.showMessageDialog(rootPane, "Digite um nome para o projeto");
-        else {
-            projeto.setNome(nomeDoProjeto);
-            ctrlProjeto.editarProjeto(projeto);
-            atualizaTabelaAtivos();
-        }
-    }//GEN-LAST:event_jButtonAlterarNomeProjetoActionPerformed
+        return projeto;
+    }
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         atualizaTabelaAtivos();
@@ -308,15 +340,42 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         }
 
         String nomeDoProjeto = jTableInativos.getValueAt(jTableInativos.getSelectedRow(), 0).toString();
-        Projeto projeto = jpa.getProjetoJpa().findByNome(nomeDoProjeto);
+        ctrlProjeto.mudarStatusDoProjeto(nomeDoProjeto, Projeto.ATIVO);
 
-        projeto.setStatus(Projeto.ATIVO);
-        ctrlProjeto.editarProjeto(projeto);
-        
         atualizaTabelaAtivos();
         atualizaTabelaInativos();
 
     }//GEN-LAST:event_jButtonReativarProjetoActionPerformed
+
+    private void jTableAtivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAtivosMouseClicked
+        if (evt.getClickCount() > 1)
+            mostrarInformacoesDoProjeto();
+    }//GEN-LAST:event_jTableAtivosMouseClicked
+
+    private void mostrarInformacoesDoProjeto() throws HeadlessException {
+        Projeto projeto = buscaProjetoSelecionado();
+
+        String msg = "Nome do projeto:" + projeto.getNome() + "\n"
+                + "Data de início: " + formataData(projeto.getDataInicio()) + "\n\n"
+                + "Descrição:" + projeto.getDescricao();
+
+        JOptionPane.showMessageDialog(rootPane, msg);
+    }
+
+    private void jTableAtivosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAtivosMousePressed
+        if (jTableAtivos.getSelectedRow() != -1)
+            if (SwingUtilities.isRightMouseButton(evt)) {
+                jPopupMenuProjetos.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+    }//GEN-LAST:event_jTableAtivosMousePressed
+
+    private void jMenuItemEditarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditarProjetoActionPerformed
+        editarProjeto();
+    }//GEN-LAST:event_jMenuItemEditarProjetoActionPerformed
+
+    private void jMenuItemVerInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVerInfoActionPerformed
+        mostrarInformacoesDoProjeto();
+    }//GEN-LAST:event_jMenuItemVerInfoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
@@ -325,11 +384,14 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButtonAlterarNomeProjeto;
+    private javax.swing.JButton jButtonEditarProjeto;
     private javax.swing.JButton jButtonReativarProjeto;
+    private javax.swing.JMenuItem jMenuItemEditarProjeto;
+    private javax.swing.JMenuItem jMenuItemVerInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPopupMenu jPopupMenuProjetos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

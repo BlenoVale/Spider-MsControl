@@ -27,22 +27,24 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jButtonSalvarProjeto" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                      <Component id="jButtonCancelarProjeto" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabelNomeProjeto" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelDescricaoProjeto" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextFieldNomeProjeto" pref="330" max="32767" attributes="0"/>
+                          <Component id="jTextFieldNomeProjeto" pref="491" max="32767" attributes="0"/>
                           <Component id="jScrollPaneDescricaoProjeto" max="32767" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jButtonSalvarEdicao" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonSalvarProjeto" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonCancelarProjeto" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -57,17 +59,18 @@
                   <Component id="jLabelNomeProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextFieldNomeProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPaneDescricaoProjeto" min="-2" pref="144" max="-2" attributes="0"/>
+                  <Component id="jScrollPaneDescricaoProjeto" min="-2" pref="232" max="-2" attributes="0"/>
                   <Component id="jLabelDescricaoProjeto" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButtonSalvarProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonCancelarProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonCancelarProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonSalvarProjeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonSalvarEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -118,6 +121,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o do Projeto:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonSalvarEdicao">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Salvar edi&#xe7;&#xe3;o do projeto"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarEdicaoActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonSalvarEdicao.setVisible(false);&#xd;&#xa;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

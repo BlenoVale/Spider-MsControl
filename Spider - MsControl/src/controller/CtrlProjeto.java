@@ -10,8 +10,9 @@ import jpa.exceptions.NonexistentEntityException;
 import model.Projeto;
 
 /**
+ * Class controladora para projetos.
  *
- * @author Paulo Class controladora para projetos.
+ * @author Paulo, DAN JHONATAN
  */
 public class CtrlProjeto {
 
@@ -32,6 +33,7 @@ public class CtrlProjeto {
     public void editarProjeto(Projeto projeto) {
         try {
             facadeJpa.getProjetoJpa().edit(projeto);
+            JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso");
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(CtrlProjeto.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Não foi possível salvar", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -39,6 +41,18 @@ public class CtrlProjeto {
             Logger.getLogger(CtrlProjeto.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Não foi possível salvar", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void mudarStatusDoProjeto(String nomeDoProjeto, int status) {
+        Projeto projeto = facadeJpa.getProjetoJpa().findByNome(nomeDoProjeto);
+
+        this.mudarStatusDoProjeto(projeto, status);
+    }
+
+    public void mudarStatusDoProjeto(Projeto projeto, int status) {
+        projeto.setStatus(status);
+
+        this.editarProjeto(projeto);
     }
 
     public boolean saveProjeto(Projeto projeto) {
