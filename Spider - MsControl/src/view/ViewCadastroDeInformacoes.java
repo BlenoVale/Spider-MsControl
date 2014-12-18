@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.CtrlUsuario;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import model.Usuario;
@@ -16,6 +17,7 @@ import model.Usuario;
 public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
 
     private Usuario usuario = new Usuario();
+    private CtrlUsuario ctrlUsuario = new CtrlUsuario();
 
     public ViewCadastroDeInformacoes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -39,33 +41,29 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
         if (!jTextFieldLogin.getText().isEmpty()) {
             this.usuario.setLogin(jTextFieldLogin.getText());
         } else {
-            cont = cont + 1;
-            mensagem = "Campo login não pode ser vazio."; 
+            mensagem = "Campo Login não pode ser vazio.";
+            cont++;
         }
 
         if (!jTextFieldEmail.getText().isEmpty()){
             this.usuario.setEmail(jTextFieldEmail.getText());
         } else {
-            cont = cont + 1;
-            mensagem = "Campo e-mail não pode ser vazio.";
+            mensagem = "Campo E-mail não pode ser vazio.";
+            cont++;
         }
         
-        if (jPasswordFieldSenha.getPassword() != null){
-            this.usuario.setSenha(jPasswordFieldSenha.getSelectedText());
-        }else {
-            cont = cont + 1;
-            mensagem = "O campo senha não pode ser vazio.";
+        if (jPasswordFieldSenha.getPassword().length < 6){
+            mensagem = "Campo Senha deve ter pelo menos seis caracteres.";
+            cont++;
         }
         
-        if (jPasswordFieldConfirmarSenha.getPassword() != null){
-            
-        }else {
-            cont = cont + 1;
-            mensagem = "O campo confirmar senha não pode ser vazio.";
+        if (!Arrays.equals(jPasswordFieldSenha.getPassword(),jPasswordFieldConfirmarSenha.getPassword())) {
+            mensagem = "Campos Senha e Confirmar Senha não correspondem.";
+            cont++;
         }
 
         if (cont == 0){
-            JOptionPane.showMessageDialog(this, "Dados salvos com sucesso.");
+           ctrlUsuario.editaUsuario(this.usuario);
         } else if (cont == 1){
             JOptionPane.showMessageDialog(this, mensagem);
         } else {
@@ -114,6 +112,11 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,6 +187,10 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
 
         System.out.println("novo login: " + this.usuario.getLogin() + "\nSenha: "+ this.usuario.getSenha());
     }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     /**
      * @param args the command line arguments

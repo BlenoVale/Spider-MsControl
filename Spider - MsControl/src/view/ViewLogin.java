@@ -116,21 +116,28 @@ public class ViewLogin extends javax.swing.JFrame {
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         // TODO add your handling code here:
         Usuario usuario_acessando = new Usuario();
-        
+
         pegaSenhaLogin();
         usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(usuario);
-        
-        if (usuario_acessando == null){
+
+        if (usuario_acessando == null) {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");
-        } else if (usuario_acessando.getSenha() == null){
-            
+        } else if (usuario_acessando.getSenha() == null) {
+
             JOptionPane.showMessageDialog(this, "Esse é o seu primeiro acesso. \n Você deverá cadastrar uma senha e um e-mail de recuperação.");
             this.dispose();
-            
+
             ViewCadastroDeInformacoes viewCadastroDeInformacoes = new ViewCadastroDeInformacoes(null, true);
             viewCadastroDeInformacoes.setUsuario(usuario_acessando);
             viewCadastroDeInformacoes.preencherCampos();
             viewCadastroDeInformacoes.setVisible(true);
+        } else {
+            boolean senhaOk = ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_acessando, new String(jPasswordFieldSenha.getPassword()));
+            if (senhaOk) {
+                ViewPrincipal viewPrincipal = new ViewPrincipal();
+                viewPrincipal.setVisible(true);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_jButtonEntrarActionPerformed
 
@@ -160,6 +167,7 @@ public class ViewLogin extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ViewLogin().setVisible(true);
             }

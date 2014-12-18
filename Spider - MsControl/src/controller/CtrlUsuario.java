@@ -118,7 +118,7 @@ public class CtrlUsuario {
             if (usuario.getSenha().equals(criptografia.criptografaMensagem(senhaDigitada))) {
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "Senha Atual incorreta.");
+                JOptionPane.showMessageDialog(null, "Senha incorreta.");
                 return false;
             }
         } catch (Exception error) {
