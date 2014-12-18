@@ -200,38 +200,32 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         if (!jTextFieldLogin.getText().isEmpty()) {
             this.usuario_logado.setLogin(jTextFieldLogin.getText());
         } else {
-            cont++;
             mensagem = "Campo Login não pode ser vazio.";
+            cont++;
         }
 
         if (!jTextFieldEmail.getText().isEmpty()) {
             this.usuario_logado.setEmail(jTextFieldEmail.getText());
         } else {
-            cont++;
             mensagem = "Campo Email não pode ser Vazio.";
+            cont++;
         }
 
         if (jPasswordSenhaAtual.getPassword().length < 6) {
-            cont++;
             mensagem = "Campo Senha Atual deve ter pelo menos seis caracteres";
+            cont++;
         }
 
         if (jCheckBoxAlterarSenha.isSelected()) {
 
             if (jPasswordNovaSenha.getPassword().length < 6) {
-                cont++;
                 mensagem = "Campo Nova Senha deve ter pelo menos seis caracteres";
-            }
-
-            if (jPasswordFieldConfirmaNovaSenha.getPassword().length < 6) {
                 cont++;
-                mensagem = "Campo Confirma Senha deve ter pelo menos seis caracteres";
-            }
-
-            if (!Arrays.equals(jPasswordNovaSenha.getPassword(), jPasswordFieldConfirmaNovaSenha.getPassword())) {
-                cont++;
+            } else if (!Arrays.equals(jPasswordNovaSenha.getPassword(), jPasswordFieldConfirmaNovaSenha.getPassword())) {
                 mensagem = "Campos nova senha e Confirma senha não correspondem.";
+                cont++;
             }
+  
         }
 
         this.alterarCamposConta(cont, mensagem);
