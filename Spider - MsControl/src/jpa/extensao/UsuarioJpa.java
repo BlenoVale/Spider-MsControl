@@ -1,5 +1,6 @@
 package jpa.extensao;
 
+import java.util.List;
 import jpa.UsuarioJpaController;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -44,5 +45,13 @@ public class UsuarioJpa extends UsuarioJpaController {
         q.setParameter("login", login);
         usuario = (Usuario) q.getSingleResult();
         return usuario;
+    }
+    public List<Usuario> selectNomeLoginUser(){
+      
+        List<Usuario> listUsuario = null;
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT u FROM Usuario u");
+        listUsuario = q.getResultList();
+        return listUsuario;
     }
 }

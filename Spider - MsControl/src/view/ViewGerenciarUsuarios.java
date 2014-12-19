@@ -1,15 +1,44 @@
 package view;
 
+import controller.CtrlUsuario;
+import facade.FacadeJpa;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import jpa.extensao.UsuarioJpa;
 import javax.swing.JOptionPane;
 import model.Usuario;
+import util.MyDefaultTableModel;
 
 public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
-    private UsuarioJpa usuarioJpa = new UsuarioJpa();
+    private final UsuarioJpa usuarioJpa = new UsuarioJpa();
+    private MyDefaultTableModel tableModel;
+    private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private final FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewGerenciarUsuarios() {
         initComponents();
+        iniciarTable();
+        PreencherTable();
+    }
+
+    private void iniciarTable() {
+        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login"}, 0, true);
+        jTable.setModel(tableModel);
+    }
+
+    private void PreencherTable() {
+        List<Usuario> listUsuario = new ArrayList<>();
+        listUsuario = jpa.getUsuarioJpa().selectNomeLoginUser();
+        
+        for (int i = 0; i < listUsuario.size(); i++) {
+            String [] linhas = new String[]{listUsuario.get(i).getNome(), listUsuario.get(i).getLogin()};
+        
+            tableModel.addRow(linhas);
+        }
+        jTable.setModel(tableModel);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -143,6 +172,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     private void jButtonNovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoUsuarioActionPerformed
         ViewNovoUsuario viewNovoUsuario = new ViewNovoUsuario(null, true);
     }//GEN-LAST:event_jButtonNovoUsuarioActionPerformed
+
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         if (jTable.getSelectedRow() == -1) {
