@@ -17,29 +17,40 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     private MyDefaultTableModel tableModel;
     private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
     private final FacadeJpa jpa = FacadeJpa.getInstance();
+    private List<Usuario> listUsuario;
 
     public ViewGerenciarUsuarios() {
         initComponents();
         iniciarTable();
-        preencherTable();
-        
+
         Internal.retiraBotao(this);
     }
 
     private void iniciarTable() {
-        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login", "Qtd de projetos", "Qtd de perfis"}, 0, false);
         jTable.setModel(tableModel);
+
     }
 
-    private void preencherTable() {
-        List<Usuario> listUsuario = new ArrayList<>();      
-        listUsuario = jpa.getUsuarioJpa().selectNomeLoginUser();
-        
+    private void preencherTabelaNomeDigitado() {
+        String nomeDigitado = jTextFieldBuscar.getText();
+
+        listUsuario = jpa.getUsuarioJpa().findByParteNome(nomeDigitado);
+        preencherTable(listUsuario);
+    }
+
+    private void preencherTable(List<Usuario> listUsuario) {
+        iniciarTable();
         for (int i = 0; i < listUsuario.size(); i++) {
-            String [] linhas = new String[]{listUsuario.get(i).getNome(), listUsuario.get(i).getLogin()};
+            String[] linhas = new String[]{listUsuario.get(i).getNome(),
+                listUsuario.get(i).getLogin(),
+                jpa.getUsuarioJpa().findCountProjetosByIdUsuario(listUsuario.get(i).getId()),
+                jpa.getUsuarioJpa().findCountPerfilByIdUsuario(listUsuario.get(i).getId())
+
+            };
             tableModel.addRow(linhas);
         }
-        jTable.setModel(tableModel);   
+        jTable.setModel(tableModel);
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +105,11 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
                 "Nome", "Login", "Qtd de projetos que participa", "Qtd de perfis"
             }
         ));
+        jTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable);
 
         jButtonExcluir.setText("Excluir ?");
@@ -187,8 +203,17 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
-        // TODO add your handling code here:
+        preencherTabelaNomeDigitado();
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
+
+    private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
+        if (evt.getClickCount() > 1) {
+            int row = jTable.getSelectedRow();
+
+            ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true, listUsuario.get(row));
+            
+        }
+    }//GEN-LAST:event_jTableMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;

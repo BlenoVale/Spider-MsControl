@@ -46,6 +46,12 @@ public class ViewLogin extends javax.swing.JFrame {
 
         jLabel2.setText("Senha:");
 
+        jPasswordFieldSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordFieldSenhaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,20 +119,19 @@ public class ViewLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
-        // TODO add your handling code here:
+    private void entrar() {
         Usuario usuario_acessando = new Usuario();
-        
+
         pegaSenhaLogin();
         usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario);
-        
+
         if (usuario_acessando == null) {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");
         } else if (usuario_acessando.getSenha() == null) {
-            
+
             JOptionPane.showMessageDialog(this, "Esse é o seu primeiro acesso. \n Você deverá cadastrar uma senha e um e-mail de recuperação.");
             this.dispose();
-            
+
             ViewCadastroDeInformacoes viewCadastroDeInformacoes = new ViewCadastroDeInformacoes(null, true);
             viewCadastroDeInformacoes.setUsuario(usuario_acessando);
             viewCadastroDeInformacoes.preencherCampos();
@@ -140,7 +145,16 @@ public class ViewLogin extends javax.swing.JFrame {
                 this.dispose();
             }
         }
+    }
+    
+    private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
+        entrar();
     }//GEN-LAST:event_jButtonEntrarActionPerformed
+
+    private void jPasswordFieldSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaActionPerformed
+        entrar();
+    }//GEN-LAST:event_jPasswordFieldSenhaActionPerformed
+    
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

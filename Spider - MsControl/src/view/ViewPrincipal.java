@@ -6,7 +6,7 @@ import model.Usuario;
 
 public class ViewPrincipal extends javax.swing.JFrame {
 
-    Usuario usuario_logado = new Usuario();
+    private Usuario usuario_logado = new Usuario();
 
     private final ViewGerenciarProjetos viewGerenciarProjetos = new ViewGerenciarProjetos();
     private final ViewGerenciarUsuarios viewGerenciarUsuarios = new ViewGerenciarUsuarios();
@@ -14,16 +14,16 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     public ViewPrincipal() {
         initComponents();
-
+        
         // iniciar tela principal no centro da tela
         this.setLocationRelativeTo(null);
 
         this.iniciarTelas();
-
     }
 
     public void setUsuarioLogado(Usuario usuario_Logado) {
         this.usuario_logado = usuario_Logado;
+        jLabeBemVindo.setText("Bem vindo, " + usuario_logado.getLogin());
     }
 
     public Usuario getUsuarioLogado() {
@@ -35,7 +35,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabeBemVindo = new javax.swing.JLabel();
         jComboBoxSelecaoDeProjeto = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jButtonNovoProjeto = new javax.swing.JButton();
@@ -63,7 +63,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Bem vindo");
+        jLabeBemVindo.setText("Bem vindo");
 
         jComboBoxSelecaoDeProjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--- Selecione um projeto ---", "ABC", "DEF" }));
         jComboBoxSelecaoDeProjeto.addActionListener(new java.awt.event.ActionListener() {
@@ -90,7 +90,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 .addComponent(jButtonNovoProjeto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 672, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabeBemVindo)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -102,7 +102,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabeBemVindo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxSelecaoDeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -360,7 +360,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNovoProjeto;
     private javax.swing.JComboBox jComboBoxSelecaoDeProjeto;
     private javax.swing.JDesktopPane jDesktopPane;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabeBemVindo;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

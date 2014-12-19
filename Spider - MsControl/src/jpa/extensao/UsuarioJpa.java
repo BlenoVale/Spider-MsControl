@@ -26,6 +26,28 @@ public class UsuarioJpa extends UsuarioJpaController {
         return usuario;
     }
 
+    public String findCountProjetosByIdUsuario(int idUsuario) {
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT count(DISTINCT a.acessaPK.projetoid) FROM Acessa a WHERE a.acessaPK.usuarioid = :id");
+        q.setParameter("id", idUsuario);
+        return q.getSingleResult().toString();
+    }
+    public String findCountPerfilByIdUsuario(int idUsuario) {
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT count(DISTINCT a.acessaPK.perfilid) FROM Acessa a WHERE a.acessaPK.usuarioid = :id");
+        q.setParameter("id", idUsuario);
+        return q.getSingleResult().toString();
+    }
+
+    public List<Usuario> findByParteNome(String nomeUsuario) {
+        List<Usuario> usuarioList = null;
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT u FROM Usuario u WHERE u.nome LIKE :nome ORDER By u.nome ASC");
+        q.setParameter("nome", nomeUsuario + "%");
+        usuarioList = q.getResultList();
+        return usuarioList;
+    }
+
     public Usuario findByLogin(String login) {
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT u FROM Usuario u WHERE u.login = :login");
@@ -46,8 +68,9 @@ public class UsuarioJpa extends UsuarioJpaController {
         usuario = (Usuario) q.getSingleResult();
         return usuario;
     }
-    public List<Usuario> selectNomeLoginUser(){
-      
+
+    public List<Usuario> selectNomeLoginUser() {
+
         List<Usuario> listUsuario = null;
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT u FROM Usuario u");
