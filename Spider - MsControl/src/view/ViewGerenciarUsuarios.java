@@ -8,6 +8,7 @@ import java.util.List;
 import jpa.extensao.UsuarioJpa;
 import javax.swing.JOptionPane;
 import model.Usuario;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
@@ -20,25 +21,25 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     public ViewGerenciarUsuarios() {
         initComponents();
         iniciarTable();
-        PreencherTable();
+        preencherTable();
+        
+        Internal.retiraBotao(this);
     }
 
     private void iniciarTable() {
-        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login"}, 0, true);
+        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login"}, 0, false);
         jTable.setModel(tableModel);
     }
 
-    private void PreencherTable() {
-        List<Usuario> listUsuario = new ArrayList<>();
+    private void preencherTable() {
+        List<Usuario> listUsuario = new ArrayList<>();      
         listUsuario = jpa.getUsuarioJpa().selectNomeLoginUser();
         
         for (int i = 0; i < listUsuario.size(); i++) {
             String [] linhas = new String[]{listUsuario.get(i).getNome(), listUsuario.get(i).getLogin()};
-        
             tableModel.addRow(linhas);
         }
-        jTable.setModel(tableModel);
-        
+        jTable.setModel(tableModel);   
     }
 
     @SuppressWarnings("unchecked")

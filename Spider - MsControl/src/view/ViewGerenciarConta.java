@@ -22,19 +22,22 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
 
         this.usuario_logado = usuario_logado;
         this.habilitarCamposDeNovaSenha(false);
-        this.PreencheCamposConta();
+        this.preencheCamposConta();
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        
+        this.getModalityType();
     }
 
-    private void PreencheCamposConta() {
+    
+    private void preencheCamposConta() {
         jTextFieldNome_completo.setText(usuario_logado.getNome());
         jTextFieldLogin.setText(usuario_logado.getLogin());
         jTextFieldEmail.setText(usuario_logado.getEmail());
     }
 
-    private void alterarCamposConta(int cont, String mensagem) {
+    private void alterarDadosConta(int cont, String mensagem) {
         if (cont == 0) {
             if (ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_logado, new String(jPasswordSenhaAtual.getPassword()))) {
                 if (jCheckBoxAlterarSenha.isSelected()) {
@@ -227,7 +230,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
 
         }
 
-        this.alterarCamposConta(cont, mensagem);
+        this.alterarDadosConta(cont, mensagem);
     }//GEN-LAST:event_jButtonSalvarDadosContaActionPerformed
 
     private void jButtonCancelarDadosContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarDadosContaActionPerformed
