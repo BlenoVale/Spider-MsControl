@@ -16,12 +16,11 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
     CtrlUsuario ctrlUsuario = new CtrlUsuario();
     Criptografia criptografia = new Criptografia();
 
-    public ViewGerenciarConta(java.awt.Frame parent, boolean modal) {
+    public ViewGerenciarConta(java.awt.Frame parent, boolean modal, Usuario usuario_logado) {
         super(parent, modal);
         initComponents();
-        this.usuario_logado.setNome("Bleno Vale");
-        this.usuario_logado = ctrlUsuario.buscarUsuarioPeloNome(usuario_logado);
 
+        this.usuario_logado = usuario_logado;
         this.habilitarCamposDeNovaSenha(false);
         this.PreencheCamposConta();
 
@@ -225,7 +224,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
                 mensagem = "Campos nova senha e Confirma senha não correspondem.";
                 cont++;
             }
-  
+
         }
 
         this.alterarCamposConta(cont, mensagem);

@@ -8,23 +8,23 @@ import model.Usuario;
 /*@author Dan Jhonatan, Géssica
  */
 public class ViewLogin extends javax.swing.JFrame {
-
+    
     CtrlUsuario ctrlUsuario = new CtrlUsuario();
-
+    
     Usuario usuario = new Usuario();
-
+    
     public ViewLogin() {
         initComponents();
 
         //para a tela aparecer centralizada
         this.setLocationRelativeTo(null);
     }
-
+    
     private void pegaSenhaLogin() {
         this.usuario.setLogin(jTextFieldLogin.getText());
         this.usuario.setSenha(Arrays.toString(jPasswordFieldSenha.getPassword()));
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -116,17 +116,17 @@ public class ViewLogin extends javax.swing.JFrame {
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         // TODO add your handling code here:
         Usuario usuario_acessando = new Usuario();
-
+        
         pegaSenhaLogin();
-        usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(usuario);
-
+        usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario);
+        
         if (usuario_acessando == null) {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");
         } else if (usuario_acessando.getSenha() == null) {
-
+            
             JOptionPane.showMessageDialog(this, "Esse é o seu primeiro acesso. \n Você deverá cadastrar uma senha e um e-mail de recuperação.");
             this.dispose();
-
+            
             ViewCadastroDeInformacoes viewCadastroDeInformacoes = new ViewCadastroDeInformacoes(null, true);
             viewCadastroDeInformacoes.setUsuario(usuario_acessando);
             viewCadastroDeInformacoes.preencherCampos();
@@ -135,12 +135,13 @@ public class ViewLogin extends javax.swing.JFrame {
             boolean senhaOk = ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_acessando, new String(jPasswordFieldSenha.getPassword()));
             if (senhaOk) {
                 ViewPrincipal viewPrincipal = new ViewPrincipal();
+                viewPrincipal.setUsuarioLogado(usuario_acessando);
                 viewPrincipal.setVisible(true);
                 this.dispose();
             }
         }
     }//GEN-LAST:event_jButtonEntrarActionPerformed
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

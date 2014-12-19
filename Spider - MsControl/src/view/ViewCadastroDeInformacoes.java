@@ -35,36 +35,15 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
         jTextFieldLogin.setText(this.usuario.getLogin());
     }
 
-    private void alterarDadosUsuario() {
-        int cont = 0;
-        String mensagem = null;
-        if (!jTextFieldLogin.getText().isEmpty()) {
-            this.usuario.setLogin(jTextFieldLogin.getText());
-        } else {
-            mensagem = "Campo Login não pode ser vazio.";
-            cont++;
-        }
-
-        if (!jTextFieldEmail.getText().isEmpty()){
-            this.usuario.setEmail(jTextFieldEmail.getText());
-        } else {
-            mensagem = "Campo E-mail não pode ser vazio.";
-            cont++;
-        }
-        
-        if (jPasswordFieldSenha.getPassword().length < 6){
-            mensagem = "Campo Senha deve ter pelo menos seis caracteres.";
-            cont++;
-        }
-        
-        if (!Arrays.equals(jPasswordFieldSenha.getPassword(),jPasswordFieldConfirmarSenha.getPassword())) {
-            mensagem = "Campos Senha e Confirmar Senha não correspondem.";
-            cont++;
-        }
-
-        if (cont == 0){
-           ctrlUsuario.editaUsuario(this.usuario);
-        } else if (cont == 1){
+    private void alterarDadosUsuario(int cont, String mensagem) {
+        if (cont == 0) {
+            this.usuario.setSenha(new String(jPasswordFieldSenha.getPassword()));
+            this.ctrlUsuario.editaUsuario(this.usuario);
+            ViewPrincipal viewPrincipal = new ViewPrincipal();
+            viewPrincipal.setUsuarioLogado(this.usuario);
+            viewPrincipal.setVisible(true);
+            this.dispose();
+        } else if (cont == 1) {
             JOptionPane.showMessageDialog(this, mensagem);
         } else {
             JOptionPane.showMessageDialog(this, "Mais de um campo estão vazios.");
@@ -182,10 +161,32 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
-        // TODO add your handling code here:
-        alterarDadosUsuario();
 
-        System.out.println("novo login: " + this.usuario.getLogin() + "\nSenha: "+ this.usuario.getSenha());
+        int cont = 0;
+        String mensagem = null;
+        if (!jTextFieldLogin.getText().isEmpty()) {
+            this.usuario.setLogin(jTextFieldLogin.getText());
+        } else {
+            mensagem = "Campo Login não pode ser vazio.";
+            cont++;
+        }
+
+        if (!jTextFieldEmail.getText().isEmpty()) {
+            this.usuario.setEmail(jTextFieldEmail.getText());
+        } else {
+            mensagem = "Campo E-mail não pode ser vazio.";
+            cont++;
+        }
+
+        if (jPasswordFieldSenha.getPassword().length < 6) {
+            mensagem = "Campo Senha deve ter pelo menos seis caracteres.";
+            cont++;
+        } else if (!Arrays.equals(jPasswordFieldSenha.getPassword(), jPasswordFieldConfirmarSenha.getPassword())) {
+            mensagem = "Campos Senha e Confirmar Senha não correspondem.";
+            cont++;
+        }
+
+        alterarDadosUsuario(cont, mensagem);
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
