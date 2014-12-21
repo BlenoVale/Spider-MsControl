@@ -69,6 +69,7 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Informações");
+        setResizable(false);
 
         jLabel1.setText("Nome Completo:");
 

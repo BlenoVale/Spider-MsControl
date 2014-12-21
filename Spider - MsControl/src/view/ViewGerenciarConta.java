@@ -12,38 +12,71 @@ import util.Criptografia;
  */
 public class ViewGerenciarConta extends javax.swing.JDialog {
 
-    Usuario usuario_logado = new Usuario();
-    CtrlUsuario ctrlUsuario = new CtrlUsuario();
-    Criptografia criptografia = new Criptografia();
+    private Usuario usuario_logado = new Usuario();
+    private CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private Criptografia criptografia = new Criptografia();
 
     public ViewGerenciarConta(java.awt.Frame parent, boolean modal, Usuario usuario_logado) {
         super(parent, modal);
         initComponents();
 
         this.usuario_logado = usuario_logado;
-        this.habilitarCamposDeNovaSenha(false);
-        this.preencheCamposConta();
+        habilitarCamposDeNovaSenha(false);
+        preencheCamposConta();
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        
+
         this.getModalityType();
     }
 
-    
     private void preencheCamposConta() {
         jTextFieldNome_completo.setText(usuario_logado.getNome());
         jTextFieldLogin.setText(usuario_logado.getLogin());
         jTextFieldEmail.setText(usuario_logado.getEmail());
     }
 
-    private void alterarDadosConta(int cont, String mensagem) {
+    private void alterarDadosConta() {
+        int cont = 0;
+        String mensagem = null;
+
+        if (!jTextFieldLogin.getText().isEmpty()) {
+            this.usuario_logado.setLogin(jTextFieldLogin.getText());
+        } else {
+            mensagem = "Campo Login não pode ser vazio.";
+            cont++;
+        }
+
+        if (!jTextFieldEmail.getText().isEmpty()) {
+            this.usuario_logado.setEmail(jTextFieldEmail.getText());
+        } else {
+            mensagem = "Campo Email não pode ser Vazio.";
+            cont++;
+        }
+
+        if (jPasswordSenhaAtual.getPassword().length < 6) {
+            mensagem = "Campo Senha Atual deve ter pelo menos seis caracteres";
+            cont++;
+        }
+
+        if (jCheckBoxAlterarSenha.isSelected()) {
+
+            if (jPasswordNovaSenha.getPassword().length < 6) {
+                mensagem = "Campo Nova Senha deve ter pelo menos seis caracteres";
+                cont++;
+            } else if (!Arrays.equals(jPasswordNovaSenha.getPassword(), jPasswordFieldConfirmaNovaSenha.getPassword())) {
+                mensagem = "Campos nova senha e Confirma senha não correspondem.";
+                cont++;
+            }
+
+        }
+
         if (cont == 0) {
-            if (ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_logado, new String(jPasswordSenhaAtual.getPassword()))) {
+            if (ctrlUsuario.ComparaSenhaDigitadaComAdoBD(this.usuario_logado.getSenha(), new String(jPasswordSenhaAtual.getPassword()))) {
                 if (jCheckBoxAlterarSenha.isSelected()) {
-                    this.usuario_logado.setSenha(criptografia.criptografaMensagem(new String(jPasswordNovaSenha.getPassword())));
+                    this.usuario_logado.setSenha(this.criptografia.criptografaMensagem(new String(jPasswordNovaSenha.getPassword())));
                 }
-                this.ctrlUsuario.editaUsuario(usuario_logado);
+                this.ctrlUsuario.editaUsuario(this.usuario_logado);
                 this.dispose();
             }
         } else if (cont == 1) {
@@ -81,6 +114,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar conta");
+        setResizable(false);
 
         jLabel1.setText("Nome completo:");
 
@@ -196,41 +230,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarDadosContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarDadosContaActionPerformed
-        int cont = 0;
-        String mensagem = null;
-
-        if (!jTextFieldLogin.getText().isEmpty()) {
-            this.usuario_logado.setLogin(jTextFieldLogin.getText());
-        } else {
-            mensagem = "Campo Login não pode ser vazio.";
-            cont++;
-        }
-
-        if (!jTextFieldEmail.getText().isEmpty()) {
-            this.usuario_logado.setEmail(jTextFieldEmail.getText());
-        } else {
-            mensagem = "Campo Email não pode ser Vazio.";
-            cont++;
-        }
-
-        if (jPasswordSenhaAtual.getPassword().length < 6) {
-            mensagem = "Campo Senha Atual deve ter pelo menos seis caracteres";
-            cont++;
-        }
-
-        if (jCheckBoxAlterarSenha.isSelected()) {
-
-            if (jPasswordNovaSenha.getPassword().length < 6) {
-                mensagem = "Campo Nova Senha deve ter pelo menos seis caracteres";
-                cont++;
-            } else if (!Arrays.equals(jPasswordNovaSenha.getPassword(), jPasswordFieldConfirmaNovaSenha.getPassword())) {
-                mensagem = "Campos nova senha e Confirma senha não correspondem.";
-                cont++;
-            }
-
-        }
-
-        this.alterarDadosConta(cont, mensagem);
+        alterarDadosConta();
     }//GEN-LAST:event_jButtonSalvarDadosContaActionPerformed
 
     private void jButtonCancelarDadosContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarDadosContaActionPerformed

@@ -181,6 +181,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jMenu3.add(jSeparator1);
 
         jMenuItemArquivoDesconectar.setText("Desconectar");
+        jMenuItemArquivoDesconectar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemArquivoDesconectarActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItemArquivoDesconectar);
 
         jMenuBar1.add(jMenu3);
@@ -291,6 +296,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
         ViewGerenciarConta viewGerenciarConta = new ViewGerenciarConta(this, rootPaneCheckingEnabled, this.getUsuarioLogado());
 
     }//GEN-LAST:event_jMenuItemGerenciarContaActionPerformed
+
+    private void jMenuItemArquivoDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemArquivoDesconectarActionPerformed
+        ViewLogin viewLogin = new ViewLogin();
+        viewLogin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemArquivoDesconectarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

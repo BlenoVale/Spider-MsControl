@@ -80,12 +80,12 @@ public class CtrlUsuario {
     /**
      * Busca usuario pelo atributo Nome.
      *
-     * @param usuario objeto que possui o atributo para a busca
+     * @param nome_usuario
      * @return retorna usuario encontrado ou null caso contrario
      */
-    public Usuario buscarUsuarioPeloNome(Usuario usuario) {
+    public Usuario buscarUsuarioPeloNome(String  nome_usuario) {
         try {
-            return facadeJpa.getUsuarioJpa().findByNome(usuario.getNome());
+            return facadeJpa.getUsuarioJpa().findByNome(nome_usuario);
         } catch (Exception error) {
             throw error;
         }
@@ -95,12 +95,12 @@ public class CtrlUsuario {
     /**
      * Busca usuario pelo atributo login.
      *
-     * @param usuario objeto que possui o atributo para a busca
+     * @param login_usuario
      * @return retorna usuario encontrado ou null caso contrario
      */
-    public Usuario buscarUsuarioPeloLogin(Usuario usuario) {
+    public Usuario buscarUsuarioPeloLogin(String login_usuario) {
         try {
-            return facadeJpa.getUsuarioJpa().findByLogin(usuario.getLogin());
+            return facadeJpa.getUsuarioJpa().findByLogin(login_usuario);
         } catch (Exception error) {
             throw error;
         }
@@ -108,14 +108,14 @@ public class CtrlUsuario {
 
     /**
      * Compara senha atual digitada com a já existente do usuario.
-     *
-     * @param usuario objeto que possui o atributo senha
-     * @param senhaDigitada senha digitada.
+     * 
+     * @param senha_usuario
+     * @param senha_digitada
      * @return true caso as senhas correspondem, false caso o contrário.
      */
-    public boolean ComparaSenhaDigitadaComAdoBD(Usuario usuario, String senhaDigitada) {
+    public boolean ComparaSenhaDigitadaComAdoBD(String senha_usuario, String senha_digitada) {
         try {
-            if (usuario.getSenha().equals(criptografia.criptografaMensagem(senhaDigitada))) {
+            if (senha_usuario.equals(criptografia.criptografaMensagem(senha_digitada))) {
                 return true;
             } else {
                 JOptionPane.showMessageDialog(null, "Senha incorreta.");

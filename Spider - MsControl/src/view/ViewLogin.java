@@ -9,9 +9,8 @@ import model.Usuario;
  */
 public class ViewLogin extends javax.swing.JFrame {
     
-    CtrlUsuario ctrlUsuario = new CtrlUsuario();
-    
-    Usuario usuario = new Usuario();
+    private CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private Usuario usuario = new Usuario();
     
     public ViewLogin() {
         initComponents();
@@ -123,7 +122,7 @@ public class ViewLogin extends javax.swing.JFrame {
         Usuario usuario_acessando = new Usuario();
 
         pegaSenhaLogin();
-        usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario);
+        usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario.getLogin());
 
         if (usuario_acessando == null) {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");
@@ -137,7 +136,7 @@ public class ViewLogin extends javax.swing.JFrame {
             viewCadastroDeInformacoes.preencherCampos();
             viewCadastroDeInformacoes.setVisible(true);
         } else {
-            boolean senhaOk = ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_acessando, new String(jPasswordFieldSenha.getPassword()));
+            boolean senhaOk = ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_acessando.getSenha(), new String(jPasswordFieldSenha.getPassword()));
             if (senhaOk) {
                 ViewPrincipal viewPrincipal = new ViewPrincipal();
                 viewPrincipal.setUsuarioLogado(usuario_acessando);
