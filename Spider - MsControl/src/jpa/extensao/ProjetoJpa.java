@@ -34,7 +34,7 @@ public class ProjetoJpa extends ProjetoJpaController {
         projetoList = q.getResultList();
         return projetoList;
     }
-    
+
     public List<Projeto> findTodosProjetosAtivosOrderByData() {
         List<Projeto> projetoList = null;
         EntityManager emf = super.getEntityManager();
@@ -60,6 +60,17 @@ public class ProjetoJpa extends ProjetoJpaController {
         q.setParameter("status", Projeto.FINALIZADO);
         projetoList = q.getResultList();
         return projetoList;
+    }
+
+    public List<String> findTodosProjetosDistintosByUsuario(int id_usuario) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return entityManager.createQuery("SElECT DISTINCT a.projeto.nome From Acessa a  WHERE a.usuario.id =:id")
+                    .setParameter("id", id_usuario).getResultList();
+
+        } catch (Exception error) {
+            throw error;
+        }
     }
 
 }

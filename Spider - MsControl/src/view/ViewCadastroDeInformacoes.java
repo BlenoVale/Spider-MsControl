@@ -39,8 +39,7 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
         if (cont == 0) {
             this.usuario.setSenha(new String(jPasswordFieldSenha.getPassword()));
             this.ctrlUsuario.editaUsuario(this.usuario);
-            ViewPrincipal viewPrincipal = new ViewPrincipal();
-            viewPrincipal.setUsuarioLogado(this.usuario);
+            ViewPrincipal viewPrincipal = new ViewPrincipal(this.usuario);
             viewPrincipal.setVisible(true);
             this.dispose();
         } else if (cont == 1) {

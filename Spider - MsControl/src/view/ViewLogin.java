@@ -8,22 +8,22 @@ import model.Usuario;
 /*@author Dan Jhonatan, Géssica
  */
 public class ViewLogin extends javax.swing.JFrame {
-    
+
     private CtrlUsuario ctrlUsuario = new CtrlUsuario();
     private Usuario usuario = new Usuario();
-    
+
     public ViewLogin() {
         initComponents();
 
         //para a tela aparecer centralizada
         this.setLocationRelativeTo(null);
     }
-    
+
     private void pegaSenhaLogin() {
         this.usuario.setLogin(jTextFieldLogin.getText());
         this.usuario.setSenha(Arrays.toString(jPasswordFieldSenha.getPassword()));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -138,14 +138,13 @@ public class ViewLogin extends javax.swing.JFrame {
         } else {
             boolean senhaOk = ctrlUsuario.ComparaSenhaDigitadaComAdoBD(usuario_acessando.getSenha(), new String(jPasswordFieldSenha.getPassword()));
             if (senhaOk) {
-                ViewPrincipal viewPrincipal = new ViewPrincipal();
-                viewPrincipal.setUsuarioLogado(usuario_acessando);
+                ViewPrincipal viewPrincipal = new ViewPrincipal(usuario_acessando);
                 viewPrincipal.setVisible(true);
                 this.dispose();
             }
         }
     }
-    
+
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         entrar();
     }//GEN-LAST:event_jButtonEntrarActionPerformed
@@ -153,8 +152,7 @@ public class ViewLogin extends javax.swing.JFrame {
     private void jPasswordFieldSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaActionPerformed
         entrar();
     }//GEN-LAST:event_jPasswordFieldSenhaActionPerformed
-    
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

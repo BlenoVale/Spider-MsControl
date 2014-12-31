@@ -1,33 +1,82 @@
 package view;
 
+import controller.CtrlProjeto;
+import controller.CtrlUsuario;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JInternalFrame;
 import model.Usuario;
 
 public class ViewPrincipal extends javax.swing.JFrame {
 
     private Usuario usuario_logado = new Usuario();
+    private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
+    private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private DefaultComboBoxModel comboboxModel;
+    private String perfil_selecionado;
 
     private final ViewGerenciarProjetos viewGerenciarProjetos = new ViewGerenciarProjetos();
     private final ViewGerenciarUsuarios viewGerenciarUsuarios = new ViewGerenciarUsuarios();
     private final ViewPermissoesDePerfis viewPermissoesDeUsuarios = new ViewPermissoesDePerfis();
 
-    public ViewPrincipal() {
-        initComponents();
-        
-        // iniciar tela principal no centro da tela
-        this.setLocationRelativeTo(null);
+    private ViewPrincipal() {
 
+    }
+
+    public ViewPrincipal(Usuario usuario_logado) {
+        initComponents();
+
+        this.usuario_logado = usuario_logado;
+        jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
+        popularComboboxDeProjetos();
+
+        this.setLocationRelativeTo(null);
         this.iniciarTelas();
     }
 
-    public void setUsuarioLogado(Usuario usuario_Logado) {
-        this.usuario_logado = usuario_Logado;
-        jLabeBemVindo.setText("Bem vindo, " + usuario_logado.getLogin());
+    private void atualizaDadosDaTelaPrincipal() {
+        this.usuario_logado = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario_logado.getLogin());
+        jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
+        popularComboboxDeProjetos();
+    }
+
+    private void popularComboboxDeProjetos() {
+        this.comboboxModel = new DefaultComboBoxModel();
+        this.comboboxModel.addElement("--Selecione um Projeto--");
+        List<String> lista_nomeProjetos = new ArrayList<>();
+        lista_nomeProjetos = ctrlProjeto.buscarProjetosDoUsuario(this.usuario_logado.getId());
+        for (int i = 0; i < lista_nomeProjetos.size(); i++) {
+            this.comboboxModel.addElement(lista_nomeProjetos.get(i));
+        }
+        jComboBoxSelecaoDeProjeto.setModel(this.comboboxModel);
     }
 
     public Usuario getUsuarioLogado() {
         return this.usuario_logado;
+    }
+
+    private void eventosComboboxProjeto() {
+        if (jComboBoxSelecaoDeProjeto.getSelectedItem() != "--Selecione um Projeto--") {
+            List<String> perfis = new ArrayList<>();
+            for (int i = 0; i < this.usuario_logado.getAcessaList().size(); i++) {
+                if (this.usuario_logado.getAcessaList().get(i).getProjeto().getNome().equals(jComboBoxSelecaoDeProjeto.getSelectedItem().toString())) {
+                    perfis.add(this.usuario_logado.getAcessaList().get(i).getPerfil().getNome());
+                }
+            }
+
+            if (perfis.size() == 1) {
+                this.perfil_selecionado = perfis.get(0);
+                System.out.println("perfil selecionado: " + this.perfil_selecionado);
+            } else {
+                ViewSelecaoDePerfilAoEscolherProjeto viewSelecaoDePerfilAoEscolherProjeto = new ViewSelecaoDePerfilAoEscolherProjeto(this, rootPaneCheckingEnabled);
+                viewSelecaoDePerfilAoEscolherProjeto.populaComboboxDePerfis(perfis);
+                viewSelecaoDePerfilAoEscolherProjeto.setVisible(true);
+                this.perfil_selecionado = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
+                System.out.println("perfil selecionado: " + this.perfil_selecionado);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -39,6 +88,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jComboBoxSelecaoDeProjeto = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jButtonNovoProjeto = new javax.swing.JButton();
+        jButtonAtualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jDesktopPane = new javax.swing.JDesktopPane();
@@ -65,7 +115,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jLabeBemVindo.setText("Bem vindo");
 
-        jComboBoxSelecaoDeProjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--- Selecione um projeto ---", "ABC", "DEF" }));
         jComboBoxSelecaoDeProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxSelecaoDeProjetoActionPerformed(evt);
@@ -81,6 +130,13 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButtonAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Refresh3.png"))); // NOI18N
+        jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -88,7 +144,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonNovoProjeto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 672, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAtualizar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 619, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabeBemVindo)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -107,10 +165,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxSelecaoDeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -257,7 +317,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDesktopPane)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -289,12 +349,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemArquivoNovoUsuarioActionPerformed
 
     private void jComboBoxSelecaoDeProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSelecaoDeProjetoActionPerformed
-        ViewSelecaoDePerfilAoEscolherProjeto viewSelecaoDePerfilAoEscolherProjeto = new ViewSelecaoDePerfilAoEscolherProjeto(this, rootPaneCheckingEnabled);
+        eventosComboboxProjeto();
     }//GEN-LAST:event_jComboBoxSelecaoDeProjetoActionPerformed
 
     private void jMenuItemGerenciarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGerenciarContaActionPerformed
         ViewGerenciarConta viewGerenciarConta = new ViewGerenciarConta(this, rootPaneCheckingEnabled, this.getUsuarioLogado());
-
     }//GEN-LAST:event_jMenuItemGerenciarContaActionPerformed
 
     private void jMenuItemArquivoDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemArquivoDesconectarActionPerformed
@@ -302,6 +361,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewLogin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItemArquivoDesconectarActionPerformed
+
+    private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
+        atualizaDadosDaTelaPrincipal();
+    }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -335,9 +398,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
         });
     }
+
     private void novoProjeto() {
         ViewDadosDoProjeto novoProjeto = new ViewDadosDoProjeto(this, rootPaneCheckingEnabled);
         novoProjeto.setVisible(true);
+        popularComboboxDeProjetos();
     }
 
     private void novoUsuario() {
@@ -368,6 +433,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAtualizar;
     private javax.swing.JButton jButtonNovoProjeto;
     private javax.swing.JComboBox jComboBoxSelecaoDeProjeto;
     private javax.swing.JDesktopPane jDesktopPane;

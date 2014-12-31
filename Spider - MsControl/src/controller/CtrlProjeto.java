@@ -2,6 +2,7 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.RollbackException;
@@ -12,7 +13,7 @@ import model.Projeto;
 /**
  * Class controladora para projetos.
  *
- * @author Paulo, DAN JHONATAN
+ * @author Paulo, DAN JHONATAN, Bleno Vale
  */
 public class CtrlProjeto {
 
@@ -67,6 +68,36 @@ public class CtrlProjeto {
         } catch (Exception er) {
             JOptionPane.showMessageDialog(null, "Error ao salvar!", "", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+    }
+
+    public List<Projeto> buscaProjetos() {
+        try {
+            return facadeJpa.getProjetoJpa().findProjetoEntities();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public Projeto buscaProjetoPeloNome(String nome) {
+        try {
+            return facadeJpa.getProjetoJpa().findByNome(nome);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
+    /**
+     * Busca todos os projetos distintos que o usuario faz parte.
+     * 
+     * @param id_usuario
+     * @return Lista de Strings contendo todos os nomes dos projetos.
+     */
+    public List<String> buscarProjetosDoUsuario(int id_usuario) {
+        try {
+            return facadeJpa.getProjetoJpa().findTodosProjetosDistintosByUsuario(id_usuario);
+        } catch (Exception error) {
+            throw error;
         }
     }
 }
