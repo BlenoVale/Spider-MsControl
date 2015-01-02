@@ -38,9 +38,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     public ViewPrincipal(Usuario usuario_logado) {
         initComponents();
 
-        //this.usuario_logado = usuario_logado;
-        // pega o primeiro usuario, apenas para testes da ferrementa
-        usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
+        this.usuario_logado = usuario_logado;
 
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
