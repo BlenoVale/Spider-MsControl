@@ -145,7 +145,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jPopupMenuProjetos = new javax.swing.JPopupMenu();
         jMenuItemVerInfo = new javax.swing.JMenuItem();
         jMenuItemEditarProjeto = new javax.swing.JMenuItem();
-        jMenuItemInativar = new javax.swing.JMenuItem();
+        jMenuItemMudarStatus = new javax.swing.JMenuItem();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -163,7 +163,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jTableFinalizados = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         jMenuItemVerInfo.setText("Ver informações");
         jMenuItemVerInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -181,13 +180,13 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         });
         jPopupMenuProjetos.add(jMenuItemEditarProjeto);
 
-        jMenuItemInativar.setText("Inativar");
-        jMenuItemInativar.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemMudarStatus.setText("Mudar status");
+        jMenuItemMudarStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInativarActionPerformed(evt);
+                jMenuItemMudarStatusActionPerformed(evt);
             }
         });
-        jPopupMenuProjetos.add(jMenuItemInativar);
+        jPopupMenuProjetos.add(jMenuItemMudarStatus);
 
         setTitle("Gerenciar projetos");
 
@@ -339,13 +338,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
         jButton5.setText("Gerar plano de medição");
 
-        jButton1.setText("Mudar Status");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -358,8 +350,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -367,12 +357,11 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton1))
+                    .addComponent(jButton5))
                 .addContainerGap())
         );
 
@@ -440,18 +429,9 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         mostrarInformacoesDoProjeto();
     }//GEN-LAST:event_jMenuItemVerInfoActionPerformed
 
-    private void jMenuItemInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInativarActionPerformed
+    private void jMenuItemMudarStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMudarStatusActionPerformed
         mudarStatusProjeto(jTableAtivos);
-    }//GEN-LAST:event_jMenuItemInativarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (jTableFinalizados.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
-            return;
-        }
-
-        mudarStatusProjeto(jTableFinalizados);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jMenuItemMudarStatusActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ViewGerarArtefatoDialog gerarArtefatoDialog = new ViewGerarArtefatoDialog(null, true);
@@ -459,7 +439,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -468,7 +447,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonInativar;
     private javax.swing.JButton jButtonReativarProjeto;
     private javax.swing.JMenuItem jMenuItemEditarProjeto;
-    private javax.swing.JMenuItem jMenuItemInativar;
+    private javax.swing.JMenuItem jMenuItemMudarStatus;
     private javax.swing.JMenuItem jMenuItemVerInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
