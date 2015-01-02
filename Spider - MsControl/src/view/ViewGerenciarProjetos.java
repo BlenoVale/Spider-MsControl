@@ -7,11 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import model.Projeto;
 import util.Internal;
 import util.MyDefaultTableModel;
 
+/**
+ * 
+ * @author DAN JHONATAN
+ */
 public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
     private final FacadeJpa jpa = FacadeJpa.getInstance();
@@ -20,9 +25,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     public ViewGerenciarProjetos() {
         initComponents();
 
-        atualizaTabelaAtivos();
-        atualizaTabelaInativos();
-        atualizaTabelaFinalizados();
+        atualizaTodasTabelas();
 
         Internal.retiraBotao(this);
     }
@@ -42,7 +45,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }
 
     private void atualizaTabelaInativos() {
-        String colunas[] = {"Nome do projeto", "Data de início"};
+        String colunas[] = {"Nome do projeto", "Data de início","Data de inatividade"};
         List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosInativos();
 
         MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
@@ -51,6 +54,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         for (int i = 0; i < projetoList.size(); i++) {
             jTableInativos.setValueAt(projetoList.get(i).getNome(), i, 0);
             jTableInativos.setValueAt(formataData(projetoList.get(i).getDataInicio()), i, 1);
+            jTableInativos.setValueAt(formataData(projetoList.get(i).getDataInatividade()), i, 2);
         }
     }
 
@@ -64,6 +68,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         for (int i = 0; i < projetoList.size(); i++) {
             jTableFinalizados.setValueAt(projetoList.get(i).getNome(), i, 0);
             jTableFinalizados.setValueAt(formataData(projetoList.get(i).getDataInicio()), i, 1);
+            jTableFinalizados.setValueAt(formataData(projetoList.get(i).getDataFim()), i, 2);
         }
     }
 
@@ -75,6 +80,8 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         Projeto projeto = buscaProjetoSelecionado();
         ViewDadosDoProjeto viewNovoProjeto = new ViewDadosDoProjeto(null, true);
         viewNovoProjeto.showEditarProjetoDialog(projeto);
+        
+        atualizaTodasTabelas();
     }
 
     private Projeto buscaProjetoSelecionado() {
@@ -83,17 +90,29 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         return projeto;
     }
 
-    private void inativarProjeto() {
-        if (jTableAtivos.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
-            return;
-        }
+    private void mudarStatusProjeto(JTable table) {
+        String nomeDoProjeto = table.getValueAt(table.getSelectedRow(), 0).toString();
+        Projeto projetoAtual = jpa.getProjetoJpa().findByNome(nomeDoProjeto);
 
-        String nomeDoProjeto = jTableAtivos.getValueAt(jTableAtivos.getSelectedRow(), 0).toString();
-        ctrlProjeto.mudarStatusDoProjeto(nomeDoProjeto, Projeto.INATIVO);
+        ViewStatusProjetoDialog statusProjetoDialog = new ViewStatusProjetoDialog(null, true);
+        int status = statusProjetoDialog.showMudaStatusDialog(projetoAtual.getStatus());
 
+        projetoAtual.setStatus(status);
+        
+        if(status == Projeto.INATIVO)
+            projetoAtual.setDataInatividade(new Date());
+        if(status == Projeto.FINALIZADO)
+            projetoAtual.setDataFim(new Date());
+        
+        ctrlProjeto.editarProjeto(projetoAtual);
+
+        atualizaTodasTabelas();
+    }
+
+    private void atualizaTodasTabelas() {
         atualizaTabelaAtivos();
         atualizaTabelaInativos();
+        atualizaTabelaFinalizados();
     }
 
     private void reativarProjeto() {
@@ -133,7 +152,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jTableAtivos = new javax.swing.JTable();
         jButtonEditarProjeto = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButtonInativar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -145,6 +163,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jTableFinalizados = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         jMenuItemVerInfo.setText("Ver informações");
         jMenuItemVerInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -203,13 +222,16 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton2.setText("Gerar relatório");
-
-        jButton3.setText("Gerar plano de medição");
+        jButton2.setText("Gerar artefato");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Alocar usuário ao projeto");
 
-        jButtonInativar.setText("Inativar");
+        jButtonInativar.setText("Mudar status");
         jButtonInativar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonInativarActionPerformed(evt);
@@ -223,13 +245,11 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButtonEditarProjeto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -241,12 +261,11 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEditarProjeto)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
                     .addComponent(jButton6)
                     .addComponent(jButtonInativar))
                 .addContainerGap())
@@ -269,7 +288,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         ));
         jScrollPane3.setViewportView(jTableInativos);
 
-        jButtonReativarProjeto.setText("Reativar projeto");
+        jButtonReativarProjeto.setText("Mudar status");
         jButtonReativarProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonReativarProjetoActionPerformed(evt);
@@ -320,6 +339,13 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
         jButton5.setText("Gerar plano de medição");
 
+        jButton1.setText("Mudar Status");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -332,6 +358,8 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -343,7 +371,8 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -374,11 +403,21 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonEditarProjetoActionPerformed
 
     private void jButtonInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInativarActionPerformed
-        inativarProjeto();
+        if (jTableAtivos.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            return;
+        }
+
+        mudarStatusProjeto(jTableAtivos);
     }//GEN-LAST:event_jButtonInativarActionPerformed
 
     private void jButtonReativarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReativarProjetoActionPerformed
-        reativarProjeto();
+        if (jTableInativos.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            return;
+        }
+
+        mudarStatusProjeto(jTableInativos);
     }//GEN-LAST:event_jButtonReativarProjetoActionPerformed
 
     private void jTableAtivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAtivosMouseClicked
@@ -402,12 +441,26 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItemVerInfoActionPerformed
 
     private void jMenuItemInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInativarActionPerformed
-        inativarProjeto();
+        mudarStatusProjeto(jTableAtivos);
     }//GEN-LAST:event_jMenuItemInativarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (jTableFinalizados.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            return;
+        }
+
+        mudarStatusProjeto(jTableFinalizados);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ViewGerarArtefatoDialog gerarArtefatoDialog = new ViewGerarArtefatoDialog(null, true);
+        int resp = gerarArtefatoDialog.showSelecionarArtefatoDialog();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -431,7 +484,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public String formataData(Date data) {
-        SimpleDateFormat sdf = new SimpleDateFormat("E dd / MM / yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE   dd / MMMM / yyyy");
         return sdf.format(data);
     }
 }

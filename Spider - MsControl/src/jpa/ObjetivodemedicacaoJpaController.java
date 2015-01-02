@@ -5,9 +5,6 @@
  */
 package jpa;
 
-import jpa.exceptions.IllegalOrphanException;
-import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -19,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import jpa.exceptions.IllegalOrphanException;
+import jpa.exceptions.NonexistentEntityException;
+import jpa.exceptions.PreexistingEntityException;
 import model.Objetivodemedicacao;
 import model.ObjetivodemedicacaoPK;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 public class ObjetivodemedicacaoJpaController implements Serializable {
 

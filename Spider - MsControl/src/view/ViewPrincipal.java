@@ -2,6 +2,7 @@ package view;
 
 import controller.CtrlProjeto;
 import controller.CtrlUsuario;
+import facade.FacadeJpa;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,26 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewGerenciarUsuarios viewGerenciarUsuarios = new ViewGerenciarUsuarios();
     private final ViewPermissoesDePerfis viewPermissoesDeUsuarios = new ViewPermissoesDePerfis();
 
+    // Construtor usado para teste da ferramenta
     private ViewPrincipal() {
+        initComponents();
+        
+        usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
 
+        jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
+        popularComboboxDeProjetos();
+
+        this.setLocationRelativeTo(null);
+        this.iniciarTelas();
     }
 
     public ViewPrincipal(Usuario usuario_logado) {
         initComponents();
 
-        this.usuario_logado = usuario_logado;
+        //this.usuario_logado = usuario_logado;
+        // pega o primeiro usuario, apenas para testes da ferrementa
+        usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
+
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
 

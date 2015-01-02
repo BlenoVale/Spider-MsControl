@@ -5,7 +5,6 @@
  */
 package jpa;
 
-import jpa.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -16,11 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import jpa.exceptions.NonexistentEntityException;
 import model.Funcionalidade;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 public class FuncionalidadeJpaController implements Serializable {
 

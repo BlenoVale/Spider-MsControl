@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projeto.findByDataInicio", query = "SELECT p FROM Projeto p WHERE p.dataInicio = :dataInicio"),
     @NamedQuery(name = "Projeto.findByDataFim", query = "SELECT p FROM Projeto p WHERE p.dataFim = :dataFim")})
 public class Projeto implements Serializable {
+    @Column(name = "dataInatividade")
+    @Temporal(TemporalType.DATE)
+    private Date dataInatividade;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -186,6 +189,14 @@ public class Projeto implements Serializable {
     @Override
     public String toString() {
         return "model.Projeto[ id=" + id + " ]";
+    }
+
+    public Date getDataInatividade() {
+        return dataInatividade;
+    }
+
+    public void setDataInatividade(Date dataInatividade) {
+        this.dataInatividade = dataInatividade;
     }
     
 }
