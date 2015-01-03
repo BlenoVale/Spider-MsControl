@@ -34,7 +34,7 @@ public class UsuarioJpa extends UsuarioJpaController {
     }
     public String findCountPerfilByIdUsuario(int idUsuario) {
         EntityManager emf = super.getEntityManager();
-        Query q = emf.createQuery("SELECT count(DISTINCT a.acessaPK.perfilid) FROM Acessa a WHERE a.acessaPK.usuarioid = :id");
+        Query q = emf.createQuery("SELECT count(a.acessaPK.perfilid) FROM Acessa a WHERE a.acessaPK.usuarioid = :id");
         q.setParameter("id", idUsuario);
         return q.getSingleResult().toString();
     }
