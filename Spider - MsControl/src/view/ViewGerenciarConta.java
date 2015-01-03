@@ -47,10 +47,10 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
             cont++;
         }
 
-        if (!jTextFieldEmail.getText().isEmpty()) {
+        if (ctrlUsuario.validaEmail(jTextFieldEmail.getText())) {
             this.usuario_logado.setEmail(jTextFieldEmail.getText());
         } else {
-            mensagem = "Campo Email não pode ser Vazio.";
+            mensagem = "Email inválido.";
             cont++;
         }
 
@@ -82,7 +82,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         } else if (cont == 1) {
             JOptionPane.showMessageDialog(this, mensagem);
         } else {
-            JOptionPane.showMessageDialog(this, "Mais de um campo estão vazios ou invalidos em seu tamanho.");
+            JOptionPane.showMessageDialog(this, "Mais de um campo estão vazios ou invalidos.");
         }
 
     }

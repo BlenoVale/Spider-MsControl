@@ -83,7 +83,7 @@ public class CtrlUsuario {
      * @param nome_usuario
      * @return retorna usuario encontrado ou null caso contrario
      */
-    public Usuario buscarUsuarioPeloNome(String  nome_usuario) {
+    public Usuario buscarUsuarioPeloNome(String nome_usuario) {
         try {
             return facadeJpa.getUsuarioJpa().findByNome(nome_usuario);
         } catch (Exception error) {
@@ -108,7 +108,7 @@ public class CtrlUsuario {
 
     /**
      * Compara senha atual digitada com a já existente do usuario.
-     * 
+     *
      * @param senha_usuario
      * @param senha_digitada
      * @return true caso as senhas correspondem, false caso o contrário.
@@ -121,6 +121,21 @@ public class CtrlUsuario {
                 JOptionPane.showMessageDialog(null, "Senha incorreta.");
                 return false;
             }
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    /**
+     * Avalia se o email digitado é válido;
+     * 
+     * @param email
+     * @return true se o email for válido false caso contrário.
+     */
+    public boolean validaEmail(String email) {
+        try {
+            String expressao_regular = "[A-Za-z0-9\\._-]+@[A-Za-z0-9]+(\\.[A-Za-z]+)";
+            return email.matches(expressao_regular);
         } catch (Exception error) {
             throw error;
         }

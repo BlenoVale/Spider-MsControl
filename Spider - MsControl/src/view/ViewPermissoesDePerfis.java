@@ -1,6 +1,6 @@
 package view;
 
-import controller.CtrlPermissoesDePerfil;
+import controller.CtrlPerfil;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -13,7 +13,7 @@ import util.Internal;
  */
 public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
-    CtrlPermissoesDePerfil ctrlPermissoesDePerfil = new CtrlPermissoesDePerfil();
+    CtrlPerfil ctrlPermissoesDePerfil = new CtrlPerfil();
 
     private DefaultListModel model_listaDeFucionalidades;
     private DefaultListModel model_listaDeFuncionalidadesDoPerfil = new DefaultListModel();

@@ -20,14 +20,14 @@ import model.Perfil;
  *
  * @author Bleno Vale
  */
-public class CtrlPermissoesDePerfil {
+public class CtrlPerfil {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     private List<Perfil> lista_perfil;
     private Perfil perfil_selecionado;
     private List<Funcionalidade> lista_funcionalidade;
 
-    public CtrlPermissoesDePerfil() {
+    public CtrlPerfil() {
     }
 
     public List<Perfil> buscaListaDePerfil() {
@@ -87,9 +87,9 @@ public class CtrlPermissoesDePerfil {
             facadeJpa.getPerfilJpa().edit(this.perfil_selecionado);
 
         } catch (NonexistentEntityException ex) {
-            Logger.getLogger(CtrlPermissoesDePerfil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlPerfil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(CtrlPermissoesDePerfil.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlPerfil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
