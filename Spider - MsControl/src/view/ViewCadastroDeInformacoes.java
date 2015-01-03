@@ -49,7 +49,7 @@ public class ViewCadastroDeInformacoes extends javax.swing.JDialog {
         if (ctrlUsuario.validaEmail(jTextFieldEmail.getText())) {
             this.usuario.setEmail(jTextFieldEmail.getText());
         } else {
-            mensagem = "Email inválido.";
+            mensagem = "Endereço de e-mail inválido.";
             cont++;
         }
 

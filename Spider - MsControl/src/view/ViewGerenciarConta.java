@@ -50,7 +50,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         if (ctrlUsuario.validaEmail(jTextFieldEmail.getText())) {
             this.usuario_logado.setEmail(jTextFieldEmail.getText());
         } else {
-            mensagem = "Email inválido.";
+            mensagem = "Endereço de e-mail inválido.";
             cont++;
         }
 
