@@ -47,6 +47,14 @@ public class UsuarioJpa extends UsuarioJpaController {
         usuarioList = q.getResultList();
         return usuarioList;
     }
+    public List<Usuario> findAllUsuarios() {
+        List<Usuario> usuarioList = null;
+        EntityManager emf = super.getEntityManager();
+        Query q = emf.createQuery("SELECT u FROM Usuario u ORDER By u.nome ASC");
+        usuarioList = q.getResultList();
+        return usuarioList;
+    }
+    
 
     public Usuario findByLogin(String login) {
         EntityManager emf = super.getEntityManager();

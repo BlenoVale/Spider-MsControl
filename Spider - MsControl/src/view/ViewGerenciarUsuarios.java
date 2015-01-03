@@ -39,10 +39,10 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
         preencherTable(listUsuario);
     }
 
-    protected void preencherTabelaRecarregar() {
+    private void preencherTabelaRecarregar() {
 
         listUsuario = new ArrayList<>();
-        listUsuario = jpa.getUsuarioJpa().findUsuarioEntities();
+        listUsuario = jpa.getUsuarioJpa().findAllUsuarios();
         preencherTable(listUsuario);
     }
 
