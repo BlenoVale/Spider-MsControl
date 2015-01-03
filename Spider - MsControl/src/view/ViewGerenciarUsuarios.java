@@ -2,13 +2,13 @@ package view;
 
 import controller.CtrlUsuario;
 import facade.FacadeJpa;
+import java.util.ArrayList;
 import java.util.List;
 import jpa.extensao.UsuarioJpa;
 import javax.swing.JOptionPane;
 import model.Usuario;
 import util.Internal;
 import util.MyDefaultTableModel;
-
 
 public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
@@ -38,10 +38,11 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
         listUsuario = jpa.getUsuarioJpa().findByParteNome(nomeDigitado);
         preencherTable(listUsuario);
     }
+
     protected void preencherTabelaRecarregar() {
-    
-        String nome = "";
-        listUsuario = jpa.getUsuarioJpa().findByParteNome(nome);
+
+        listUsuario = new ArrayList<>();
+        listUsuario = jpa.getUsuarioJpa().findUsuarioEntities();
         preencherTable(listUsuario);
     }
 
@@ -222,13 +223,17 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
             return;
         }
 
+        editarUsuario();
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void editarUsuario() {
         Usuario user = new Usuario();
         user = usuarioJpa.findByLogin(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
         ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true, user);
 
         iniciarTable();
-        preencherTabelaRecarregar();      
-    }//GEN-LAST:event_jButtonEditarActionPerformed
+        preencherTabelaRecarregar();
+    }
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
         preencherTabelaNomeDigitado();
@@ -238,8 +243,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
         if (evt.getClickCount() > 1) {
             int row = jTable.getSelectedRow();
 
-            ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true, listUsuario.get(row));
-            
+            editarUsuario();
         }
     }//GEN-LAST:event_jTableMouseClicked
 
