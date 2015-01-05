@@ -2,9 +2,7 @@ package view;
 
 import controller.CtrlUsuario;
 import facade.FacadeJpa;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import jpa.exceptions.NonexistentEntityException;
@@ -14,6 +12,7 @@ import model.Perfil;
 import model.Projeto;
 import model.Usuario;
 import util.MyDefaultTableModel;
+import util.Texto;
 
 public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
 
@@ -50,11 +49,11 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         for (int i = 0; i < linhas; i++) {
             jTable.setValueAt(acessoList.get(i).getProjeto().getNome(), i, 0);
             jTable.setValueAt(acessoList.get(i).getPerfil().getNome(), i, 1);
-            jTable.setValueAt(formataData(acessoList.get(i).getDataDeInicio()), i, 2);
+            jTable.setValueAt(Texto.formataData(acessoList.get(i).getDataDeInicio()), i, 2);
         }
     }
 
-    protected void addLinhaTabela(String projeto, String perfil) {
+    private void addLinhaTabela(String projeto, String perfil) {
         // Se ja contem na tabela, nao adiciona uma nova linha.
         for (int i = 0; i < jTable.getRowCount(); i++)
             if (jTable.getValueAt(i, 0).toString().equals(projeto) && jTable.getValueAt(i, 1).toString().equals(perfil)) {
@@ -69,6 +68,43 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     private void removerLinhaTabela(int numLinha) {
         tableModel.removeRow(numLinha);
         jTable.setModel(tableModel);
+    }
+
+    private void adicionarAcessoNaListaDeRemocao() {
+        /*
+         Os acessos saoh adicionado em uma lista pois soh devem ser destruidos
+         quando o usuario apertar salvar
+         */
+        Perfil perfil = jpa.getPerfilJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
+        Projeto projeto = jpa.getProjetoJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
+
+        Acessa acessoParaRemover = new Acessa();
+        acessoParaRemover.setAcessaPK(new AcessaPK(projeto.getId(), perfil.getId(), usuario.getId()));
+
+        acessoListRemover.add(acessoParaRemover);
+    }
+
+    private void alocarUsuarioAProjeto() {
+        String[] nomeProjeto = new String[jTable.getRowCount()];
+        String[] nomePerfil = new String[jTable.getRowCount()];
+
+        // pega os dados que tem na tabela 
+        for (int i = 0; i < jTable.getRowCount(); i++) {
+            nomeProjeto[i] = jTable.getValueAt(i, 0).toString();
+            nomePerfil[i] = jTable.getValueAt(i, 1).toString();
+        }
+        ctrlUsuario.alocarUsuarioAVariosProjetos(usuario, nomeProjeto, nomePerfil);
+    }
+
+    private void removerAcessosDuplicados() {
+        for (Acessa acessoParaRemover : acessoListRemover) {
+            try {
+                jpa.getAcessaJpa().destroy(acessoParaRemover.getAcessaPK());
+            } catch (NonexistentEntityException ex) {
+                System.out.println("Acesso destruido");
+                //Logger.getLogger(ViewEspecificacoesDeUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -129,7 +165,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonRetirarPerfilDeUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
                         .addComponent(jButtonAlocarUsuario)))
                 .addContainerGap())
         );
@@ -220,21 +256,6 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         removerLinhaTabela(jTable.getSelectedRow());
     }//GEN-LAST:event_jButtonRetirarPerfilDeUsuarioActionPerformed
 
-    /*
-     Os acessos saoh adicionado em uma lista pois soh devem ser destruidos
-     quando o usuario apertar salvar
-     */
-    private void adicionarAcessoNaListaDeRemocao() {
-
-        Perfil perfil = jpa.getPerfilJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 1).toString());
-        Projeto projeto = jpa.getProjetoJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
-
-        Acessa acessoParaRemover = new Acessa();
-        acessoParaRemover.setAcessaPK(new AcessaPK(projeto.getId(), perfil.getId(), usuario.getId()));
-
-        acessoListRemover.add(acessoParaRemover);
-    }
-
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
@@ -244,29 +265,6 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         removerAcessosDuplicados();
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
-
-    private void alocarUsuarioAProjeto() {
-        String[] nomeProjeto = new String[jTable.getRowCount()];
-        String[] nomePerfil = new String[jTable.getRowCount()];
-
-        // pega os dados que tem na tabela 
-        for (int i = 0; i < jTable.getRowCount(); i++) {
-            nomeProjeto[i] = jTable.getValueAt(i, 0).toString();
-            nomePerfil[i] = jTable.getValueAt(i, 1).toString();
-        }
-        ctrlUsuario.alocarUsuarioAVariosProjetos(usuario, nomeProjeto, nomePerfil);
-    }
-
-    private void removerAcessosDuplicados() {
-        for (Acessa acessoParaRemover : acessoListRemover) {
-            try {
-                jpa.getAcessaJpa().destroy(acessoParaRemover.getAcessaPK());
-            } catch (NonexistentEntityException ex) {
-                System.out.println("Acesso destruido");
-                //Logger.getLogger(ViewEspecificacoesDeUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAlocarUsuario;
@@ -279,9 +277,4 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
-
-    public String formataData(Date data) {
-        SimpleDateFormat sdf = new SimpleDateFormat("E dd / MM / yyyy");
-        return sdf.format(data);
-    }
 }

@@ -3,7 +3,6 @@ package view;
 import controller.CtrlProjeto;
 import facade.FacadeJpa;
 import java.awt.HeadlessException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -12,9 +11,11 @@ import javax.swing.SwingUtilities;
 import model.Projeto;
 import util.Internal;
 import util.MyDefaultTableModel;
+import util.Texto;
+import static util.Texto.formataData;
 
 /**
- * 
+ *
  * @author DAN JHONATAN
  */
 public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
@@ -45,7 +46,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }
 
     private void atualizaTabelaInativos() {
-        String colunas[] = {"Nome do projeto", "Data de início","Data de inatividade"};
+        String colunas[] = {"Nome do projeto", "Data de início", "Data de inatividade"};
         List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosInativos();
 
         MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
@@ -67,25 +68,25 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
         for (int i = 0; i < projetoList.size(); i++) {
             jTableFinalizados.setValueAt(projetoList.get(i).getNome(), i, 0);
-            jTableFinalizados.setValueAt(formataData(projetoList.get(i).getDataInicio()), i, 1);
-            jTableFinalizados.setValueAt(formataData(projetoList.get(i).getDataFim()), i, 2);
+            jTableFinalizados.setValueAt(Texto.formataData(projetoList.get(i).getDataInicio()), i, 1);
+            jTableFinalizados.setValueAt(Texto.formataData(projetoList.get(i).getDataFim()), i, 2);
         }
     }
 
-    private void editarProjeto() throws HeadlessException {
+    private void editarProjeto() {
         if (jTableAtivos.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
             return;
         }
-        Projeto projeto = buscaProjetoSelecionado();
+        Projeto projeto = buscaProjetoSelecionado(jTableAtivos);
         ViewDadosDoProjeto viewNovoProjeto = new ViewDadosDoProjeto(null, true);
         viewNovoProjeto.showEditarProjetoDialog(projeto);
-        
+
         atualizaTodasTabelas();
     }
 
-    private Projeto buscaProjetoSelecionado() {
-        String nomeDoProjeto = jTableAtivos.getValueAt(jTableAtivos.getSelectedRow(), 0).toString();
+    private Projeto buscaProjetoSelecionado(JTable table) {
+        String nomeDoProjeto = table.getValueAt(table.getSelectedRow(), 0).toString();
         Projeto projeto = jpa.getProjetoJpa().findByNome(nomeDoProjeto);
         return projeto;
     }
@@ -98,12 +99,12 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         int status = statusProjetoDialog.showMudaStatusDialog(projetoAtual.getStatus());
 
         projetoAtual.setStatus(status);
-        
-        if(status == Projeto.INATIVO)
+
+        if (status == Projeto.INATIVO)
             projetoAtual.setDataInatividade(new Date());
-        if(status == Projeto.FINALIZADO)
+        if (status == Projeto.FINALIZADO)
             projetoAtual.setDataFim(new Date());
-        
+
         ctrlProjeto.editarProjeto(projetoAtual);
 
         atualizaTodasTabelas();
@@ -128,14 +129,9 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         atualizaTabelaInativos();
     }
 
-    private void mostrarInformacoesDoProjeto() throws HeadlessException {
-        Projeto projeto = buscaProjetoSelecionado();
-
-        String msg = "Nome do projeto:" + projeto.getNome() + "\n"
-                + "Data de início: " + formataData(projeto.getDataInicio()) + "\n\n"
-                + "Descrição:" + projeto.getDescricao();
-
-        JOptionPane.showMessageDialog(rootPane, msg);
+    private void mostrarInformacoesDoProjeto(JTable table) {
+        Projeto projeto = buscaProjetoSelecionado(table);
+        ViewDetalhesProjetoDialog.showDetalhesDialog(projeto);
     }
 
     @SuppressWarnings("unchecked")
@@ -285,6 +281,11 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 "Nome do projeto", "Data de início"
             }
         ));
+        jTableInativos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableInativosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableInativos);
 
         jButtonReativarProjeto.setText("Mudar status");
@@ -332,6 +333,11 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 "Nome do Projeto", "Data de início", "Data de conclusão"
             }
         ));
+        jTableFinalizados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableFinalizadosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableFinalizados);
 
         jButton4.setText("Gerar relatório");
@@ -411,7 +417,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
     private void jTableAtivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAtivosMouseClicked
         if (evt.getClickCount() > 1)
-            mostrarInformacoesDoProjeto();
+            mostrarInformacoesDoProjeto(jTableAtivos);
     }//GEN-LAST:event_jTableAtivosMouseClicked
 
     private void jTableAtivosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAtivosMousePressed
@@ -426,7 +432,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItemEditarProjetoActionPerformed
 
     private void jMenuItemVerInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVerInfoActionPerformed
-        mostrarInformacoesDoProjeto();
+        mostrarInformacoesDoProjeto(jTableAtivos);
     }//GEN-LAST:event_jMenuItemVerInfoActionPerformed
 
     private void jMenuItemMudarStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMudarStatusActionPerformed
@@ -437,6 +443,16 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         ViewGerarArtefatoDialog gerarArtefatoDialog = new ViewGerarArtefatoDialog(null, true);
         int resp = gerarArtefatoDialog.showSelecionarArtefatoDialog();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTableInativosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableInativosMouseClicked
+        if (evt.getClickCount() > 1)
+            mostrarInformacoesDoProjeto(jTableInativos);
+    }//GEN-LAST:event_jTableInativosMouseClicked
+
+    private void jTableFinalizadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFinalizadosMouseClicked
+        if (evt.getClickCount() > 1)
+            mostrarInformacoesDoProjeto(jTableFinalizados);
+    }//GEN-LAST:event_jTableFinalizadosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
@@ -461,9 +477,4 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTableFinalizados;
     private javax.swing.JTable jTableInativos;
     // End of variables declaration//GEN-END:variables
-
-    public String formataData(Date data) {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE   dd / MMMM / yyyy");
-        return sdf.format(data);
-    }
 }
