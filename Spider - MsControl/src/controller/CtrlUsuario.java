@@ -134,7 +134,7 @@ public class CtrlUsuario {
      */
     public boolean validaEmail(String email) {
         try {
-            String expressao_regular = "[A-Za-z0-9\\._-]+@[A-Za-z0-9]+(\\.[A-Za-z]+)";
+            String expressao_regular = "[A-Za-z0-9\\._-]+@[A-Za-z0-9]+(\\.[A-Za-z]+)+(\\.[A-Za-z]+)*";
             return email.matches(expressao_regular);
         } catch (Exception error) {
             throw error;
