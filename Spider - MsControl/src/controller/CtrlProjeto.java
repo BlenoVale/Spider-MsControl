@@ -93,9 +93,9 @@ public class CtrlProjeto {
      * @param id_usuario
      * @return Lista de Strings contendo todos os nomes dos projetos.
      */
-    public List<String> buscarProjetosDoUsuario(int id_usuario) {
+    public List<String> buscarProjetosDoUsuario(int id_usuario, int status) {
         try {
-            return facadeJpa.getProjetoJpa().findTodosProjetosDistintosByUsuario(id_usuario);
+            return facadeJpa.getProjetoJpa().findTodosProjetosDistintosByUsuario(id_usuario, status);
         } catch (Exception error) {
             throw error;
         }

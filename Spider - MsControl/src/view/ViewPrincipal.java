@@ -57,7 +57,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.comboboxModel = new DefaultComboBoxModel();
         this.comboboxModel.addElement("--Selecione um Projeto--");
         List<String> lista_nomeProjetos = new ArrayList<>();
-        lista_nomeProjetos = ctrlProjeto.buscarProjetosDoUsuario(this.usuario_logado.getId());
+        lista_nomeProjetos = ctrlProjeto.buscarProjetosDoUsuario(this.usuario_logado.getId(), 0);
         for (int i = 0; i < lista_nomeProjetos.size(); i++) {
             this.comboboxModel.addElement(lista_nomeProjetos.get(i));
         }

@@ -62,11 +62,11 @@ public class ProjetoJpa extends ProjetoJpaController {
         return projetoList;
     }
 
-    public List<String> findTodosProjetosDistintosByUsuario(int id_usuario) {
+    public List<String> findTodosProjetosDistintosByUsuario(int id_usuario, int status) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return entityManager.createQuery("SElECT DISTINCT a.projeto.nome From Acessa a  WHERE a.usuario.id =:id")
-                    .setParameter("id", id_usuario).getResultList();
+            return entityManager.createQuery("SElECT DISTINCT a.projeto.nome From Acessa a  WHERE a.usuario.id =:id AND a.projeto.status =:status")
+                    .setParameter("id", id_usuario).setParameter("status", status).getResultList();
 
         } catch (Exception error) {
             throw error;
