@@ -3,7 +3,7 @@ package teste;
 import facade.FacadeJpa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import model.Projeto;
+import view.ViewObjetivosDeMedicao_Novo;
 
 /**
  *
@@ -22,37 +22,39 @@ public class Teste {
 //        for (int i = 0;i< lista.size (); i++) {
 //            System.out.println("Funcionalidade " + i + ": " + lista.get(i).getNome());
 //        }
-        FacadeJpa jpa = FacadeJpa.getInstance();
-        Projeto projeto = new Projeto();
-        projeto.setNome("PROJETO 34");
-
-        projeto.setDataFim(new Date());
-        projeto.setDataInicio(new Date());
-        projeto.setStatus(0);
-
-        try {
-            jpa.getProjetoJpa().create(projeto);
-            System.out.println("Funfou");
-        } catch (Exception e) {
-            System.out.println("Não funfou");
-        }
-
-        FacadeJpa jpa2 = FacadeJpa.getInstance();
-        Projeto projeto2 = new Projeto();
-        projeto.setNome("PROJETO 35");
-
-        projeto.setDataFim(new Date());
-        projeto.setDataInicio(new Date());
-        projeto.setStatus(0);
-
-        try {
-            jpa2.getProjetoJpa().create(projeto);
-            System.out.println("Funfou");
-        } catch (Exception e) {
-            System.out.println("Não funfou");
-        }
+//        FacadeJpa jpa = FacadeJpa.getInstance();
+//        Projeto projeto = new Projeto();
+//        projeto.setNome("PROJETO 34");
+//
+//        projeto.setDataFim(new Date());
+//        projeto.setDataInicio(new Date());
+//        projeto.setStatus(0);
+//
+//        try {
+//            jpa.getProjetoJpa().create(projeto);
+//            System.out.println("Funfou");
+//        } catch (Exception e) {
+//            System.out.println("Não funfou");
+//        }
+//
+//        FacadeJpa jpa2 = FacadeJpa.getInstance();
+//        Projeto projeto2 = new Projeto();
+//        projeto.setNome("PROJETO 35");
+//
+//        projeto.setDataFim(new Date());
+//        projeto.setDataInicio(new Date());
+//        projeto.setStatus(0);
+//
+//        try {
+//            jpa2.getProjetoJpa().create(projeto);
+//            System.out.println("Funfou");
+//        } catch (Exception e) {
+//            System.out.println("Não funfou");
+//        }
+        ViewObjetivosDeMedicao_Novo medicao_Novo = new ViewObjetivosDeMedicao_Novo(null, true);
+     // medicao_Novo.showNovoObjetivoDialog(FacadeJpa.getInstance().getProjetoJpa().findProjetoEntities().get(0));
+        medicao_Novo.showDetalhesDoObjetivoDialog(FacadeJpa.getInstance().getObjetivodemedicacao().findObjetivodemedicacaoEntities().get(0));    
     }
-
     public static String getData() {
         SimpleDateFormat formatador = new SimpleDateFormat("yy/MM/dd");
         Date data = new Date();

@@ -2,7 +2,6 @@ package view;
 
 import controller.CtrlProjeto;
 import facade.FacadeJpa;
-import java.awt.HeadlessException;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -98,16 +97,19 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         ViewStatusProjetoDialog statusProjetoDialog = new ViewStatusProjetoDialog(null, true);
         int status = statusProjetoDialog.showMudaStatusDialog(projetoAtual.getStatus());
 
-        projetoAtual.setStatus(status);
+        // Se houver diferenca entre status, entao edite
+        if (projetoAtual.getStatus() != status) {
+            projetoAtual.setStatus(status);
 
-        if (status == Projeto.INATIVO)
-            projetoAtual.setDataInatividade(new Date());
-        if (status == Projeto.FINALIZADO)
-            projetoAtual.setDataFim(new Date());
+            if (status == Projeto.INATIVO)
+                projetoAtual.setDataInatividade(new Date());
+            if (status == Projeto.FINALIZADO)
+                projetoAtual.setDataFim(new Date());
 
-        ctrlProjeto.editarProjeto(projetoAtual);
+            ctrlProjeto.editarProjeto(projetoAtual);
 
-        atualizaTodasTabelas();
+            atualizaTodasTabelas();
+        }
     }
 
     private void atualizaTodasTabelas() {
@@ -288,7 +290,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(jTableInativos);
 
-        jButtonReativarProjeto.setText("Mudar status");
+        jButtonReativarProjeto.setText("reativar");
         jButtonReativarProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonReativarProjetoActionPerformed(evt);
@@ -411,8 +413,8 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
             return;
         }
-
-        mudarStatusProjeto(jTableInativos);
+        reativarProjeto();
+        //mudarStatusProjeto(jTableInativos);
     }//GEN-LAST:event_jButtonReativarProjetoActionPerformed
 
     private void jTableAtivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAtivosMouseClicked

@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import model.Projeto;
 
 /**
- * 
+ *
  * @author DAN JHONATAN
  */
 public class ViewStatusProjetoDialog extends javax.swing.JDialog {
@@ -55,11 +55,11 @@ public class ViewStatusProjetoDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jCheckBoxAtivo.setText("ATIVO");
+        jCheckBoxAtivo.setText("Ativo");
 
-        jCheckBoxInativo.setText("INATIVO");
+        jCheckBoxInativo.setText("Inativo");
 
-        jCheckBoxFinalizado.setText("FINALIZADO");
+        jCheckBoxFinalizado.setText("Finalizado");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -121,9 +121,13 @@ public class ViewStatusProjetoDialog extends javax.swing.JDialog {
             status = Projeto.ATIVO;
         else if (jCheckBoxInativo.isSelected())
             status = Projeto.INATIVO;
-        else if (jCheckBoxFinalizado.isSelected())
-            status = Projeto.FINALIZADO;
-        else {
+        else if (jCheckBoxFinalizado.isSelected()) {
+            int resp = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar este projeto? \n\nAo finalizar um projeto, este mesmo não poderá mais ser alterado");
+            if (resp == JOptionPane.YES_OPTION)
+                status = Projeto.FINALIZADO;
+            else
+                return;
+        } else {
             JOptionPane.showMessageDialog(this, "Selecione uma das opções");
             return;
         }

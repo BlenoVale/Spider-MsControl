@@ -258,7 +258,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="jButtonReativarProjeto">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mudar status"/>
+                <Property name="text" type="java.lang.String" value="reativar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonReativarProjetoActionPerformed"/>

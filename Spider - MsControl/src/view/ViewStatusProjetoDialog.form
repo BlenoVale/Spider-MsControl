@@ -74,17 +74,17 @@
   <SubComponents>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxAtivo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ATIVO"/>
+        <Property name="text" type="java.lang.String" value="Ativo"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxInativo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="INATIVO"/>
+        <Property name="text" type="java.lang.String" value="Inativo"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxFinalizado">
       <Properties>
-        <Property name="text" type="java.lang.String" value="FINALIZADO"/>
+        <Property name="text" type="java.lang.String" value="Finalizado"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonSalvar">
