@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JInternalFrame;
+import model.Projeto;
 import model.Usuario;
 
 public class ViewPrincipal extends javax.swing.JFrame {
@@ -16,6 +17,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
     private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
     private DefaultComboBoxModel comboboxModel;
+    private Projeto projeto_selecionado;
     private String perfil_selecionado;
 
     private final ViewGerenciarProjetos viewGerenciarProjetos = new ViewGerenciarProjetos();
@@ -25,7 +27,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // Construtor usado para teste da ferramenta
     private ViewPrincipal() {
         initComponents();
-        
+
         usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
 
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
@@ -70,6 +72,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     private void eventosComboboxProjeto() {
         if (jComboBoxSelecaoDeProjeto.getSelectedItem() != "--Selecione um Projeto--") {
+            this.projeto_selecionado = this.ctrlProjeto.buscaProjetoPeloNome(jComboBoxSelecaoDeProjeto.getSelectedItem().toString());
+            System.out.println("--Projeto: " + this.projeto_selecionado.getNome());
+
             List<String> perfis = new ArrayList<>();
             for (int i = 0; i < this.usuario_logado.getAcessaList().size(); i++) {
                 if (this.usuario_logado.getAcessaList().get(i).getProjeto().getNome().equals(jComboBoxSelecaoDeProjeto.getSelectedItem().toString())) {
@@ -79,13 +84,13 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
             if (perfis.size() == 1) {
                 this.perfil_selecionado = perfis.get(0);
-                System.out.println("perfil selecionado: " + this.perfil_selecionado);
+                System.out.println("--perfil selecionado: " + this.perfil_selecionado);
             } else {
                 ViewSelecaoDePerfilAoEscolherProjeto viewSelecaoDePerfilAoEscolherProjeto = new ViewSelecaoDePerfilAoEscolherProjeto(this, rootPaneCheckingEnabled);
                 viewSelecaoDePerfilAoEscolherProjeto.populaComboboxDePerfis(perfis);
                 viewSelecaoDePerfilAoEscolherProjeto.setVisible(true);
                 this.perfil_selecionado = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
-                System.out.println("perfil selecionado: " + this.perfil_selecionado);
+                System.out.println("--perfil selecionado: " + this.perfil_selecionado);
             }
         }
     }
