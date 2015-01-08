@@ -91,6 +91,7 @@ public class CtrlProjeto {
      * Busca todos os projetos distintos que o usuario faz parte.
      * 
      * @param id_usuario
+     * @param status
      * @return Lista de Strings contendo todos os nomes dos projetos.
      */
     public List<String> buscarProjetosDoUsuario(int id_usuario, int status) {

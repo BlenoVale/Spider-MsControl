@@ -9,7 +9,7 @@ import model.Projeto;
  *
  * @author BlenoVale, DAN JHONATAN
  */
-public class ViewObjetivosDeMedicao_Novo extends javax.swing.JDialog {
+public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
 
     private Projeto projeto;
     private Objetivodemedicacao objetivo;
@@ -17,7 +17,7 @@ public class ViewObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     private boolean ehNovoObjetivo;
     private boolean objetivoCriadoEditado = false;
 
-    public ViewObjetivosDeMedicao_Novo(java.awt.Frame parent, boolean modal) {
+    public ViewProjeto_ObjetivosDeMedicao_Novo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 

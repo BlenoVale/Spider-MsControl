@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JInternalFrame;
+import javax.swing.tree.DefaultMutableTreeNode;
 import model.Projeto;
 import model.Usuario;
 
@@ -20,9 +21,20 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private Projeto projeto_selecionado;
     private String perfil_selecionado;
 
+    // Barra de Menu
     private final ViewGerenciarProjetos viewGerenciarProjetos = new ViewGerenciarProjetos();
     private final ViewGerenciarUsuarios viewGerenciarUsuarios = new ViewGerenciarUsuarios();
     private final ViewPermissoesDePerfis viewPermissoesDeUsuarios = new ViewPermissoesDePerfis();
+
+    // Árvore 
+    // Objetivos
+    private final ViewProjeto_ObjetivosObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosObjetivosDeMedicao();
+    private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
+    // Procedimentos
+    private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
+    private final ViewProjeto_ProcedimentoColeta viewProjeto_ProcedimentoColeta = new ViewProjeto_ProcedimentoColeta();
+    //Resultados
+    private final ViewProjeto_Resultados viewProjeto_Resultados = new ViewProjeto_Resultados();
 
     // Construtor usado para teste da ferramenta
     private ViewPrincipal() {
@@ -106,7 +118,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jButtonNovoProjeto = new javax.swing.JButton();
         jButtonAtualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jTree = new javax.swing.JTree();
         jDesktopPane = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -223,8 +235,13 @@ public class ViewPrincipal extends javax.swing.JFrame {
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Resultados");
         treeNode1.add(treeNode2);
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        jTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTreeMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTree);
 
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
@@ -322,7 +339,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jDesktopPane)
                 .addContainerGap())
         );
@@ -382,6 +399,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         atualizaDadosDaTelaPrincipal();
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
+    private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
+        trocaDeTelasPelaArvore();
+    }//GEN-LAST:event_jTreeMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -429,25 +450,79 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewGerenciarProjetos);
         jDesktopPane.add(viewGerenciarUsuarios);
         jDesktopPane.add(viewPermissoesDeUsuarios);
+        jDesktopPane.add(viewProjeto_ObjetivosDeMedicao);
+        jDesktopPane.add(viewProjeto_ObjetivosQuestoes);
+        jDesktopPane.add(viewProjeto_ProcedimentoAnalise);
+        jDesktopPane.add(viewProjeto_ProcedimentoColeta);
+        jDesktopPane.add(viewProjeto_Resultados);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
             viewGerenciarUsuarios.setMaximum(true);
             viewPermissoesDeUsuarios.setMaximum(true);
+            viewProjeto_ObjetivosDeMedicao.setMaximum(true);
+            viewProjeto_ProcedimentoAnalise.setMaximum(true);
+            viewProjeto_ProcedimentoColeta.setMaximum(true);
+            viewProjeto_Resultados.setMaximum(true);
+
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
         }
     }
 
     protected void trocaTelas(JInternalFrame tela) {
-
         viewGerenciarProjetos.setVisible(false);
         viewGerenciarUsuarios.setVisible(false);
-        viewPermissoesDeUsuarios.setVisible(false);
+        viewProjeto_ObjetivosDeMedicao.setVisible(false);
+        viewProjeto_ObjetivosQuestoes.setVisible(false);
+        viewProjeto_ProcedimentoAnalise.setVisible(false);
+        viewProjeto_ProcedimentoColeta.setVisible(false);
+        viewProjeto_Resultados.setVisible(false);
 
         tela.setVisible(true);
     }
 
+    private void trocaDeTelasPelaArvore() {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
+
+        if (node == null) {
+            return;
+        }
+        if (!node.isLeaf()) {
+            return;
+        }
+
+        DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+        String no_filho = node.toString();
+        String no_pai = parent.toString();
+
+        if (no_filho.equals("Necessidade de informação") && no_pai.endsWith("Objetivos")) {
+            trocaTelas(viewProjeto_ObjetivosDeMedicao);
+        } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {
+            trocaTelas(viewProjeto_ObjetivosQuestoes);
+        } else if (no_filho.equals("Acompanhamento") && no_pai.endsWith("Medidas")) {
+
+        } else if (no_filho.equals("Análise") && no_pai.endsWith("Medidas")) {
+
+        } else if (no_filho.equals("Aprovação") && no_pai.endsWith("Medidas")) {
+
+        } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")) {
+
+        } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
+
+        } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
+            trocaTelas(viewProjeto_ProcedimentoAnalise);
+        } else if (no_filho.equals("Coleta") && no_pai.endsWith("Procedimentos")) {
+            trocaTelas(viewProjeto_ProcedimentoColeta);
+        } else if (no_filho.equals("Plano de Medição") && no_pai.endsWith("Artefatos")) {
+
+        } else if (no_filho.equals("Relatório") && no_pai.endsWith("Artefatos")) {
+
+        } else if (no_filho.equals("Resultados")) {
+            trocaTelas(viewProjeto_Resultados);
+        }
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAtualizar;
     private javax.swing.JButton jButtonNovoProjeto;
@@ -471,7 +546,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTree jTree;
     // End of variables declaration//GEN-END:variables
 
 }
