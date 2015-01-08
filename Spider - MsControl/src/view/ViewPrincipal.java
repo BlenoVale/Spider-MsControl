@@ -461,6 +461,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewGerenciarUsuarios.setMaximum(true);
             viewPermissoesDeUsuarios.setMaximum(true);
             viewProjeto_ObjetivosDeMedicao.setMaximum(true);
+            viewProjeto_ObjetivosQuestoes.setMaximum(true);
             viewProjeto_ProcedimentoAnalise.setMaximum(true);
             viewProjeto_ProcedimentoColeta.setMaximum(true);
             viewProjeto_Resultados.setMaximum(true);
