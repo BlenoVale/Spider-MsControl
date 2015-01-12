@@ -5,18 +5,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Objetivodemedicacao;
+import model.Objetivodequestao;
 
 /**
  *
  * @author DAN JHONATAN
  */
 public class CtrlObjetivos {
-    
-    private final FacadeJpa jpa = FacadeJpa.getInstance();
-    
-    public boolean criarNovoObjetivoMedicao(Objetivodemedicacao objetivo){
+
+    private final FacadeJpa facadejpa = FacadeJpa.getInstance();
+
+    public boolean criarNovoObjetivoMedicao(Objetivodemedicacao objetivo) {
         try {
-            jpa.getObjetivodemedicacao().create(objetivo);
+            facadejpa.getObjetivodemedicacao().create(objetivo);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
             return true;
         } catch (Exception ex) {
@@ -25,10 +26,10 @@ public class CtrlObjetivos {
             return false;
         }
     }
-    
-    public boolean editarObjetivoMedicao(Objetivodemedicacao objetivo){
+
+    public boolean editarObjetivoMedicao(Objetivodemedicacao objetivo) {
         try {
-            jpa.getObjetivodemedicacao().edit(objetivo);
+            facadejpa.getObjetivodemedicacao().edit(objetivo);
             JOptionPane.showMessageDialog(null, "Editado com sucesso");
             return true;
         } catch (Exception ex) {
@@ -37,4 +38,35 @@ public class CtrlObjetivos {
             return false;
         }
     }
+
+    public boolean criarNovaQuestao(Objetivodequestao objetivodequestao) {
+        try {
+            facadejpa.getObjetivodequestaoJpa().create(objetivodequestao);
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso");
+            return true;
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Não foi possível Cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    public boolean editarQuestao(Objetivodequestao objetivodequestao) {
+        try {
+            facadejpa.getObjetivodequestaoJpa().edit(objetivodequestao);
+            JOptionPane.showMessageDialog(null, "Editado om sucesso.");
+            return true;
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Não foi possível Editar", "ERRO DE EDIÇÃO", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    public Objetivodemedicacao buscaObjetivoDeMedicaoPeloNome (String nome){
+        try {
+           return facadejpa.getObjetivoDeMedicaoJpa().findByNome(nome);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
 }

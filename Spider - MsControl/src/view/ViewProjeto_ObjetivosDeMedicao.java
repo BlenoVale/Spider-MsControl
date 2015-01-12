@@ -10,12 +10,12 @@ package view;
  *
  * @author BlenoVale
  */
-public class ViewProjeto_ObjetivosObjetivosDeMedicao extends javax.swing.JInternalFrame {
+public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form ObjetivosDeMedicao
      */
-    public ViewProjeto_ObjetivosObjetivosDeMedicao() {
+    public ViewProjeto_ObjetivosDeMedicao() {
         initComponents();
     }
 

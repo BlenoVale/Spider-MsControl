@@ -99,7 +99,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar quest&#xf5;es:"/>
+            <Property name="text" type="java.lang.String" value="Buscar Quest&#xe3;o:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldBuscar">
@@ -157,6 +157,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Novo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNovoObjetivoActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

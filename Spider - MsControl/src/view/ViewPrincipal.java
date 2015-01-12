@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import model.Projeto;
 import model.Usuario;
@@ -28,7 +29,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     // Árvore 
     // Objetivos
-    private final ViewProjeto_ObjetivosObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosObjetivosDeMedicao();
+    private final ViewProjeto_ObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosDeMedicao();
     private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
     // Procedimentos
     private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
@@ -204,9 +205,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Nome do Projeto");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Objetivos");
-        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Necessidade de informação");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Objetivo da Medição");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Objetivo da Medição");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Questões");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Medidas");
@@ -400,7 +401,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
     private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
-        trocaDeTelasPelaArvore();
+        if (jComboBoxSelecaoDeProjeto.getSelectedItem() != "--Selecione um Projeto--"){
+            trocaDeTelasPelaArvore();
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um Projeto no combobox.");
+        }
     }//GEN-LAST:event_jTreeMouseClicked
 
     public static void main(String args[]) {
@@ -497,7 +502,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
         String no_filho = node.toString();
         String no_pai = parent.toString();
 
-        if (no_filho.equals("Necessidade de informação") && no_pai.endsWith("Objetivos")) {
+        if (no_filho.equals("Questões") && no_pai.endsWith("Objetivos")) {
+            viewProjeto_ObjetivosQuestoes.setProjeto(projeto_selecionado);
+            viewProjeto_ObjetivosQuestoes.setNomeUsuarioLogado(usuario_logado.getNome());
             trocaTelas(viewProjeto_ObjetivosQuestoes);
         } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {
             trocaTelas(viewProjeto_ObjetivosDeMedicao);

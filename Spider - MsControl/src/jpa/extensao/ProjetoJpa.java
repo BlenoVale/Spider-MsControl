@@ -9,7 +9,7 @@ import util.Conexao;
 
 /**
  *
- * @author Dan
+ * @author Dan, Bleno Vale
  */
 public class ProjetoJpa extends ProjetoJpaController {
 
