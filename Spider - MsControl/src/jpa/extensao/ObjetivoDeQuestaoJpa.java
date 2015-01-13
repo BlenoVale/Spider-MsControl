@@ -4,7 +4,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import jpa.ObjetivodequestaoJpaController;
 import model.Objetivodequestao;
-import org.eclipse.persistence.jpa.JpaHelper;
 import util.Conexao;
 
 /**
@@ -26,12 +25,22 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
             throw error;
         }
     }
-    
+
     public List<Objetivodequestao> ListQuestoesByProjeto(int id_projeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
             return entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto")
-                                            .setParameter("id_projeto", id_projeto).getResultList();
+                    .setParameter("id_projeto", id_projeto).getResultList();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public Objetivodequestao findQuestaoByNome(String nome_questao) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return (Objetivodequestao) entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.nome = :nome_questao")
+                    .setParameter("nome_questao", nome_questao).getSingleResult();
         } catch (Exception error) {
             throw error;
         }

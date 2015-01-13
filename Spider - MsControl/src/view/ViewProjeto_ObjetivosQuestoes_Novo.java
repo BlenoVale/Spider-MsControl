@@ -194,6 +194,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de nova Questão");
+        setResizable(false);
 
         jLabel1.setText("Nome da Questão:");
 
@@ -428,7 +429,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDataLevantamento(new Date());
                 objetivo_questao.setObjetivodemedicacao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
-                objetivo_questao.setPrioridade(ctrlObjetivos.contaQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
                 
                 ctrlObjetivos.editarQuestao(objetivo_questao);
 

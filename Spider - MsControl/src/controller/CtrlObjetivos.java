@@ -10,7 +10,7 @@ import model.Objetivodequestao;
 
 /**
  *
- * @author DAN JHONATAN
+ * @author DAN JHONATAN, bleno vale
  */
 public class CtrlObjetivos {
 
@@ -89,6 +89,14 @@ public class CtrlObjetivos {
     public int contaQuantidadeQuestoesPorProjeto(int id_projeto) {
         try {
             return listaQuestoesDoProjeto(id_projeto).size();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public Objetivodequestao buscaObjetivoDeQuestaoPeloNome(String nome_questao) {
+        try {
+            return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNome(nome_questao);
         } catch (Exception error) {
             throw error;
         }
