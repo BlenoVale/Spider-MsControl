@@ -1,6 +1,7 @@
 package controller;
 
 import facade.FacadeJpa;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -60,13 +61,37 @@ public class CtrlObjetivos {
             return false;
         }
     }
-    
-    public Objetivodemedicacao buscaObjetivoDeMedicaoPeloNome (String nome){
+
+    public List<Objetivodequestao> buscaListaDeQuestoes() {
         try {
-           return facadejpa.getObjetivoDeMedicaoJpa().findByNome(nome);
+            return facadejpa.getObjetivodequestaoJpa().findObjetivodequestaoEntities();
         } catch (Exception error) {
             throw error;
         }
     }
-    
+
+    public Objetivodemedicacao buscaObjetivoDeMedicaoPeloNome(String nome) {
+        try {
+            return facadejpa.getObjetivoDeMedicaoJpa().findByNome(nome);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public List<Objetivodequestao> listaQuestoesDoProjeto(int id_projeto) {
+        try {
+            return facadejpa.getObjetivoDeQuestaoJpa().ListQuestoesByProjeto(id_projeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public int contaQuantidadeQuestoesPorProjeto(int id_projeto) {
+        try {
+            return listaQuestoesDoProjeto(id_projeto).size();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
 }

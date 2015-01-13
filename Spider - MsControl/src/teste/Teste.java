@@ -3,7 +3,7 @@ package teste;
 import facade.FacadeJpa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import view.ViewObjetivosDeMedicao_Novo;
+
 
 /**
  *
@@ -51,9 +51,7 @@ public class Teste {
 //        } catch (Exception e) {
 //            System.out.println("Não funfou");
 //        }
-        ViewObjetivosDeMedicao_Novo medicao_Novo = new ViewObjetivosDeMedicao_Novo(null, true);
-     // medicao_Novo.showNovoObjetivoDialog(FacadeJpa.getInstance().getProjetoJpa().findProjetoEntities().get(0));
-        medicao_Novo.showDetalhesDoObjetivoDialog(FacadeJpa.getInstance().getObjetivodemedicacao().findObjetivodemedicacaoEntities().get(0));    
+      
     }
     public static String getData() {
         SimpleDateFormat formatador = new SimpleDateFormat("yy/MM/dd");

@@ -416,6 +416,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDataLevantamento(new Date());
                 objetivo_questao.setObjetivodemedicacao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
+                objetivo_questao.setPrioridade(ctrlObjetivos.contaQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
 
                 ctrlObjetivos.criarNovaQuestao(objetivo_questao);
             } else {
@@ -427,7 +428,8 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDataLevantamento(new Date());
                 objetivo_questao.setObjetivodemedicacao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
-
+                objetivo_questao.setPrioridade(ctrlObjetivos.contaQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
+                
                 ctrlObjetivos.editarQuestao(objetivo_questao);
 
             }

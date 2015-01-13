@@ -505,6 +505,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         if (no_filho.equals("Questões") && no_pai.endsWith("Objetivos")) {
             viewProjeto_ObjetivosQuestoes.setProjeto(projeto_selecionado);
             viewProjeto_ObjetivosQuestoes.setNomeUsuarioLogado(usuario_logado.getNome());
+            viewProjeto_ObjetivosQuestoes.preencherTabelaQuestoes();
             trocaTelas(viewProjeto_ObjetivosQuestoes);
         } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {
             trocaTelas(viewProjeto_ObjetivosDeMedicao);

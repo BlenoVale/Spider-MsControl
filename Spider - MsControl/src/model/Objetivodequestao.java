@@ -7,6 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -40,6 +41,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicacaoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicacaoid = :objetivoDeMedicacaoid"),
     @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicacaoProjetoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :objetivoDeMedicacaoProjetoid")})
 public class Objetivodequestao implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "prioridade")
+    private int prioridade;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ObjetivodequestaoPK objetivodequestaoPK;
@@ -52,8 +56,6 @@ public class Objetivodequestao implements Serializable {
     @Lob
     @Column(name = "descricaoIndicador")
     private String descricaoIndicador;
-    @Column(name = "prioridade")
-    private String prioridade;
     @Column(name = "tipoDeDerivacao")
     private String tipoDeDerivacao;
     @Column(name = "dataLevantamento")
@@ -119,13 +121,6 @@ public class Objetivodequestao implements Serializable {
         this.descricaoIndicador = descricaoIndicador;
     }
 
-    public String getPrioridade() {
-        return prioridade;
-    }
-
-    public void setPrioridade(String prioridade) {
-        this.prioridade = prioridade;
-    }
 
     public String getTipoDeDerivacao() {
         return tipoDeDerivacao;
@@ -181,6 +176,14 @@ public class Objetivodequestao implements Serializable {
     @Override
     public String toString() {
         return "model.Objetivodequestao[ objetivodequestaoPK=" + objetivodequestaoPK + " ]";
+    }
+
+    public int getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
     }
     
 }

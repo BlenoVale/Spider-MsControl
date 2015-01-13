@@ -1,29 +1,59 @@
 package view;
 
+import controller.CtrlObjetivos;
 import facade.FacadeJpa;
+import java.util.ArrayList;
+import java.util.List;
 import model.Objetivodequestao;
 import model.Projeto;
+import util.MyDefaultTableModel;
 
 /**
  *
  * @author BlenoVale
  */
 public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
-
-    private Projeto projeto_selecionado; 
+private Projeto projeto_selecionado;
     private String nomeUsuario_logado;
+    private CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
+
+    private MyDefaultTableModel tableModel;
+    private List<Objetivodequestao> lista_questoes;
+
     public ViewProjeto_ObjetivosQuestoes() {
         initComponents();
     }
-    @SuppressWarnings("unchecked")
-    
-    public void setProjeto (Projeto projeto_selecionado){
+
+    public void setProjeto(Projeto projeto_selecionado) {
         this.projeto_selecionado = projeto_selecionado;
     }
-    
-    public void setNomeUsuarioLogado (String nomeUsuario_logado){
+
+    public void setNomeUsuarioLogado(String nomeUsuario_logado) {
         this.nomeUsuario_logado = nomeUsuario_logado;
     }
+
+    public void getListaQuestoesDoProjeto() {
+        lista_questoes = new ArrayList<>();
+        lista_questoes = ctrlObjetivos.listaQuestoesDoProjeto(projeto_selecionado.getId());
+    }
+
+    public void preencherTabelaQuestoes() {
+        String[] colunas = {"Prioridade", "Objetivo de Medição", "Questão", "Indicador"};
+        tableModel = new MyDefaultTableModel(colunas, 0, false);
+        getListaQuestoesDoProjeto();
+
+        for (int i = 0; i < lista_questoes.size(); i++) {
+            String linha[] = {
+                String.valueOf(lista_questoes.get(i).getPrioridade()),
+                lista_questoes.get(i).getObjetivodemedicacao().getNome(),
+                lista_questoes.get(i).getNome(),
+                lista_questoes.get(i).getIndicador()
+            };
+            tableModel.addRow(linha);
+        }
+        jTable.setModel(tableModel);
+    }
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -140,6 +170,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed
         ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
         viewProjeto_ObjetivosQuestao_Novo.casoNovaQuestao(this.projeto_selecionado, this.nomeUsuario_logado);
+        preencherTabelaQuestoes();
     }//GEN-LAST:event_jButtonNovoObjetivoActionPerformed
 
 
