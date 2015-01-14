@@ -102,11 +102,4 @@ public class CtrlProjeto {
             throw error;
         }
     }
-    
-   public void capturarIdProjeto(Projeto projeto){
-        idProjeto = projeto.getId();
-    }
-    public int getIdProjeto(){
-        return idProjeto;
-    }
 }

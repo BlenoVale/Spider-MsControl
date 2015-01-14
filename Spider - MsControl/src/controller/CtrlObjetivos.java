@@ -78,7 +78,7 @@ public class CtrlObjetivos {
         }
     }
 
-    public List<Objetivodequestao> listaQuestoesDoProjeto(int id_projeto) {
+    public List<Objetivodequestao> getQuestoesDoProjeto(int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().ListQuestoesByProjeto(id_projeto);
         } catch (Exception error) {
@@ -86,9 +86,9 @@ public class CtrlObjetivos {
         }
     }
 
-    public int contaQuantidadeQuestoesPorProjeto(int id_projeto) {
+    public int getQuantidadeQuestoesPorProjeto(int id_projeto) {
         try {
-            return listaQuestoesDoProjeto(id_projeto).size();
+            return getQuestoesDoProjeto(id_projeto).size();
         } catch (Exception error) {
             throw error;
         }

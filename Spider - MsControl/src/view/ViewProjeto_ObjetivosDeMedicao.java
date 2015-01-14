@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import controller.CtrlProjeto;
@@ -13,6 +8,7 @@ import util.Internal;
 import facade.FacadeJpa;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import util.Copia;
 
 /**
  *
@@ -20,19 +16,14 @@ import javax.swing.JTable;
  */
 public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ObjetivosDeMedicao
-     */
     private MyDefaultTableModel tableModel;
     private List<Objetivodemedicacao> listObjetivodemedicacaos;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
-    CtrlProjeto ctrlProjeto = new CtrlProjeto();
 
     public ViewProjeto_ObjetivosDeMedicao() {
         initComponents();
+        
         iniciarTabela();
-
-        preencherTabelaObjetivoDigitado();
 
         Internal.retiraBotao(this);
     }
@@ -43,7 +34,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }
 
     private void preencherTabela(List<Objetivodemedicacao> listObjetivodemedicacaos) {
-        iniciarTabela();
+
         for (int i = 0; i < listObjetivodemedicacaos.size(); i++) {
             String[] linhas = new String[]{
                 listObjetivodemedicacaos.get(i).getNome(),
@@ -55,23 +46,29 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }
 
     private void preencherTabelaObjetivoDigitado() {
+
         iniciarTabela();
+
         String objetivoBuscado = jTextFieldBuscarObjetivo.getText();
-        int idProjeto = ctrlProjeto.getIdProjeto();
+        int idProjeto = Copia.getProjetoSelecionado().getId();
+
         listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByPartNome(objetivoBuscado, idProjeto);
         preencherTabela(listObjetivodemedicacaos);
     }
 
-    private void preencherTabelaRecarregar() {
-        listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(ctrlProjeto.getIdProjeto());
+    public void preencherTabelaRecarregar() {
+        iniciarTabela();        
+        int idProjeto = Copia.getProjetoSelecionado().getId();
+        listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(idProjeto);
         preencherTabela(listObjetivodemedicacaos);
     }
 
     public void editarObjetivo() {
         checkLinhaSelecionada();
         Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
-        ViewProjeto_ObjetivosDeMedicao_Novo viewProjeto_ObjetivosDeMedicao_Novo = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
-        viewProjeto_ObjetivosDeMedicao_Novo.showEditarObjetivoDialog(objetivodemedicacao);
+
+        ViewProjeto_ObjetivosDeMedicao_Novo novoObjetivoMedicao = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
+        novoObjetivoMedicao.showEditarObjetivoDialog(objetivodemedicacao);
 
     }
 
@@ -79,16 +76,17 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         String nomeObjetivo = table.getValueAt(table.getSelectedRow(), 0).toString();
         Objetivodemedicacao objetivodemedicacao = jpa.getObjetivoDeMedicaoJpa().findByNome(nomeObjetivo);
         return objetivodemedicacao;
-
     }
-    public void excluirObjetivo(){
-        
-        checkLinhaSelecionada();
-        Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
+
+    public void excluirObjetivo() {
+
+        //checkLinhaSelecionada();
+        //Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
         //jpa.getObjetivoDeMedicaoJpa().excluirObjetivo(objetivodemedicacao.getNome(), ctrlProjeto.getIdProjeto());
         //jpa.getObjetivoDeMedicaoJpa().destroy(objetivodemedicacao.getObjetivodemedicacaoPK().getId());
     }
-    public void checkLinhaSelecionada(){
+
+    public void checkLinhaSelecionada() {
         if (jTableObjetivo.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um objetivo na tabela");
             return;
@@ -138,6 +136,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
                 "Objetivo de medição", "Nível"
             }
         ));
+        jTableObjetivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableObjetivoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableObjetivo);
 
         jButtonExcluir.setText("Excluir ?");
@@ -232,15 +235,17 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-
         editarObjetivo();
         preencherTabelaRecarregar();
-
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed
+
+        int idProjeto = Copia.getProjetoSelecionado().getId();
+
         ViewProjeto_ObjetivosDeMedicao_Novo objetivosDeMedicao_Novo = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
-        objetivosDeMedicao_Novo.showNovoObjetivoDialog(jpa.getProjetoJpa().findProjeto(ctrlProjeto.getIdProjeto()));
+        objetivosDeMedicao_Novo.showNovoObjetivoDialog(jpa.getProjetoJpa().findProjeto(idProjeto));
+
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonNovoObjetivoActionPerformed
 
@@ -249,7 +254,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldBuscarObjetivoActionPerformed
 
     private void jButtonRecarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecarregarActionPerformed
-        // TODO add your handling code here:
         jTextFieldBuscarObjetivo.setText("");
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonRecarregarActionPerformed
@@ -258,6 +262,13 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         excluirObjetivo();
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jTableObjetivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableObjetivoMouseClicked
+        if(evt.getClickCount() >= 2){
+            ViewProjeto_ObjetivosDeMedicao_Novo objetivoMedicao = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
+            objetivoMedicao.showDetalhesDoObjetivoDialog(listObjetivodemedicacaos.get(jTableObjetivo.getSelectedRow()));
+        }
+    }//GEN-LAST:event_jTableObjetivoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

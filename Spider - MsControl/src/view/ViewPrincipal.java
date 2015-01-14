@@ -12,15 +12,16 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import model.Projeto;
 import model.Usuario;
+import util.Copia;
 
 public class ViewPrincipal extends javax.swing.JFrame {
 
-    private Usuario usuario_logado = new Usuario();
     private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
-    private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
-    private DefaultComboBoxModel comboboxModel;
     private Projeto projeto_selecionado;
+    private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private Usuario usuario_logado = new Usuario();
     private String perfil_selecionado;
+    private DefaultComboBoxModel comboboxModel;
 
     // Barra de Menu
     private final ViewGerenciarProjetos viewGerenciarProjetos = new ViewGerenciarProjetos();
@@ -42,10 +43,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
         initComponents();
 
         usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
-
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
 
+        Copia.setViewPrincipal(this);
+        jTree.setEnabled(false);
+        
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
     }
@@ -57,6 +60,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
+        jTree.setEnabled(false);
+        
+        Copia.setViewPrincipal(this);
 
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
@@ -69,13 +75,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }
 
     private void popularComboboxDeProjetos() {
-        this.comboboxModel = new DefaultComboBoxModel();
-        this.comboboxModel.addElement("--Selecione um Projeto--");
+        comboboxModel = new DefaultComboBoxModel(); 
+        comboboxModel.addElement("--Selecione um Projeto--");
+        
         List<String> lista_nomeProjetos = new ArrayList<>();
         lista_nomeProjetos = ctrlProjeto.buscarProjetosDoUsuario(this.usuario_logado.getId(), 0);
-        for (int i = 0; i < lista_nomeProjetos.size(); i++) {
-            this.comboboxModel.addElement(lista_nomeProjetos.get(i));
-        }
+        for (String lista_nomeProjeto : lista_nomeProjetos)
+            this.comboboxModel.addElement(lista_nomeProjeto);
+        
         jComboBoxSelecaoDeProjeto.setModel(this.comboboxModel);
     }
 
@@ -105,8 +112,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 this.perfil_selecionado = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
                 System.out.println("--perfil selecionado: " + this.perfil_selecionado);
             }
-        }
-        ctrlProjeto.capturarIdProjeto(projeto_selecionado);
+            jTree.setEnabled(true);
+            Copia.setViewPrincipal(this);
+        } else
+            jTree.setEnabled(false);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -504,11 +514,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         String no_pai = parent.toString();
 
         if (no_filho.equals("Questões") && no_pai.endsWith("Objetivos")) {
-            viewProjeto_ObjetivosQuestoes.setProjeto(projeto_selecionado);
-            viewProjeto_ObjetivosQuestoes.setNomeUsuarioLogado(usuario_logado.getNome());
             viewProjeto_ObjetivosQuestoes.preencherTabelaQuestoes();
             trocaTelas(viewProjeto_ObjetivosQuestoes);
         } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {
+            viewProjeto_ObjetivosDeMedicao.preencherTabelaRecarregar();
             trocaTelas(viewProjeto_ObjetivosDeMedicao);
         } else if (no_filho.equals("Acompanhamento") && no_pai.endsWith("Medidas")) {
 
@@ -559,4 +568,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JTree jTree;
     // End of variables declaration//GEN-END:variables
 
+    public Usuario getUsuario_logado() {
+        return usuario_logado;
+    }
+
+    public Projeto getProjeto_selecionado() {
+        return projeto_selecionado;
+    }
 }

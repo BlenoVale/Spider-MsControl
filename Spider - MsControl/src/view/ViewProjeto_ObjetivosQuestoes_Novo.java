@@ -31,7 +31,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         this.getModalityType();
     }
 
-    public void casoNovaQuestao(Projeto projeto_selecionado, String nomeUsuario_logado) {
+    public void showNovaQuestaoDialog(Projeto projeto_selecionado, String nomeUsuario_logado) {
         this.setTitle("Cadastro de nova Questão");
         this.projeto_selecionado = projeto_selecionado;
         this.nomeUsuario_logado = nomeUsuario_logado;
@@ -45,7 +45,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
-    public void casoEditarQuestao(Objetivodequestao objetivo_selecionado, String nomeUsuario_logado) {
+    public void showEditarQuestaoDialog(Objetivodequestao objetivo_selecionado, String nomeUsuario_logado) {
         this.setTitle("Editar Questão");
         this.projeto_selecionado = objetivo_selecionado.getObjetivodemedicacao().getProjeto();
         this.nomeUsuario_logado = nomeUsuario_logado;
@@ -417,7 +417,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDataLevantamento(new Date());
                 objetivo_questao.setObjetivodemedicacao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
-                objetivo_questao.setPrioridade(ctrlObjetivos.contaQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
+                objetivo_questao.setPrioridade(ctrlObjetivos.getQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
 
                 ctrlObjetivos.criarNovaQuestao(objetivo_questao);
             } else {

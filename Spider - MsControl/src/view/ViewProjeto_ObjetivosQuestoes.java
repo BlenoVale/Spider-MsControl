@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Objetivodequestao;
-import model.Projeto;
+import util.Copia;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 /**
@@ -14,8 +15,6 @@ import util.MyDefaultTableModel;
  */
 public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
-    private Projeto projeto_selecionado;
-    private String nomeUsuario_logado;
     private final CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
     private Objetivodequestao objetivodequestao_selecionado = new Objetivodequestao();
 
@@ -24,26 +23,22 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     public ViewProjeto_ObjetivosQuestoes() {
         initComponents();
+        Internal.retiraBotao(this);
     }
 
-    public void setProjeto(Projeto projeto_selecionado) {
-        this.projeto_selecionado = projeto_selecionado;
-    }
+    public void atualizaListaQuestoesDoProjeto() {
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
 
-    public void setNomeUsuarioLogado(String nomeUsuario_logado) {
-        this.nomeUsuario_logado = nomeUsuario_logado;
-    }
-
-    public void getListaQuestoesDoProjeto() {
         lista_questoes = new ArrayList<>();
-        lista_questoes = ctrlObjetivos.listaQuestoesDoProjeto(projeto_selecionado.getId());
+        lista_questoes = ctrlObjetivos.getQuestoesDoProjeto(idDoProjeto);
     }
 
     public void preencherTabelaQuestoes() {
+
+        atualizaListaQuestoesDoProjeto();
+
         String[] colunas = {"Prioridade", "Objetivo de Medição", "Questão", "Indicador"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
-        getListaQuestoesDoProjeto();
-
         for (int i = 0; i < lista_questoes.size(); i++) {
             String linha[] = {
                 String.valueOf(lista_questoes.get(i).getPrioridade()),
@@ -73,9 +68,13 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }
 
     private void editaQuestão() {
+        String nomeUsuario_logado = Copia.getUsuarioLogado().getNome();
+
         ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
+
+        // ############ pode ter um erro aqui por causa que pode existir mais de uma questaoh com o mesmo nome
         objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoPeloNome(jTable.getValueAt(jTable.getSelectedRow(), 2).toString());
-        viewProjeto_ObjetivosQuestao_Novo.casoEditarQuestao(objetivodequestao_selecionado, nomeUsuario_logado);
+        viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
 
     @SuppressWarnings("unchecked")
@@ -272,8 +271,10 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed
-        ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
-        viewProjeto_ObjetivosQuestao_Novo.casoNovaQuestao(this.projeto_selecionado, this.nomeUsuario_logado);
+        String nomeUsuario_logado = Copia.getUsuarioLogado().getNome();
+
+        ViewProjeto_ObjetivosQuestoes_Novo novoObjetivoQuestao = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
+        novoObjetivoQuestao.showNovaQuestaoDialog(Copia.getProjetoSelecionado(), nomeUsuario_logado);
         preencherTabelaQuestoes();
     }//GEN-LAST:event_jButtonNovoObjetivoActionPerformed
 
@@ -282,7 +283,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
-        List<Objetivodequestao> questoes = ctrlObjetivos.buscaParteDoNomeQuestao(jTextFieldBuscar.getText(), projeto_selecionado.getId());
+        List<Objetivodequestao> questoes = ctrlObjetivos.buscaParteDoNomeQuestao(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
         preencheTabelaQuestoesPorParteDoNome(questoes);
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
