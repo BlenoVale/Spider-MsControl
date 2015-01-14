@@ -11,6 +11,8 @@ import util.MyDefaultTableModel;
 import model.Objetivodemedicacao;
 import util.Internal;
 import facade.FacadeJpa;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -29,7 +31,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     public ViewProjeto_ObjetivosDeMedicao() {
         initComponents();
         iniciarTabela();
-        
+
         preencherTabelaObjetivoDigitado();
 
         Internal.retiraBotao(this);
@@ -37,7 +39,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     private void iniciarTabela() {
         tableModel = new MyDefaultTableModel(new String[]{"Objetivo de medição", "Nível"}, 0, false);
-        jTable.setModel(tableModel);
+        jTableObjetivo.setModel(tableModel);
     }
 
     private void preencherTabela(List<Objetivodemedicacao> listObjetivodemedicacaos) {
@@ -49,7 +51,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
             };
             tableModel.addRow(linhas);
         }
-        jTable.setModel(tableModel);
+        jTableObjetivo.setModel(tableModel);
     }
 
     private void preencherTabelaObjetivoDigitado() {
@@ -63,6 +65,24 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         preencherTabela(listObjetivodemedicacaos);
     }
 
+    public void editarObjetivo() {
+        if (jTableObjetivo.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um objetivo na tabela");
+            return;
+        }
+        Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
+        ViewProjeto_ObjetivosDeMedicao_Novo viewProjeto_ObjetivosDeMedicao_Novo = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
+        viewProjeto_ObjetivosDeMedicao_Novo.showEditarObjetivoDialog(objetivodemedicacao);
+
+    }
+
+    public Objetivodemedicacao buscarObjetivoSelcionado(JTable table) {
+        String nomeObjetivo = table.getValueAt(table.getSelectedRow(), 0).toString();
+        Objetivodemedicacao objetivodemedicacao = jpa.getObjetivoDeMedicaoJpa().findByNome(nomeObjetivo);
+        return objetivodemedicacao;
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,20 +93,20 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelBuscar = new javax.swing.JLabel();
         jTextFieldBuscarObjetivo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable = new javax.swing.JTable();
+        jTableObjetivo = new javax.swing.JTable();
         jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonNovoObjetivo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonRecarregar = new javax.swing.JButton();
 
         setTitle("Objetivos de medição");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar objetivo:");
+        jLabelBuscar.setText("Buscar objetivo:");
 
         jTextFieldBuscarObjetivo.setToolTipText("Digite o nome de um objetivo");
         jTextFieldBuscarObjetivo.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +115,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTableObjetivo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -106,7 +126,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
                 "Objetivo de medição", "Nível"
             }
         ));
-        jScrollPane1.setViewportView(jTable);
+        jScrollPane1.setViewportView(jTableObjetivo);
 
         jButtonExcluir.setText("Excluir ?");
 
@@ -124,11 +144,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Refresh3.png"))); // NOI18N
-        jButton1.setToolTipText("Recarregar tabela");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRecarregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Refresh3.png"))); // NOI18N
+        jButtonRecarregar.setToolTipText("Recarregar tabela");
+        jButtonRecarregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonRecarregarActionPerformed(evt);
             }
         });
 
@@ -141,11 +161,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabelBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldBuscarObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonRecarregar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -161,9 +181,9 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabelBuscar)
                     .addComponent(jTextFieldBuscarObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonRecarregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -195,10 +215,10 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        ViewProjeto_ObjetivosDeMedicao_Novo objetivosDeMedicao_Novo = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
-        //objetivosDeMedicao_Novo.showEditarObjetivoDialog(jpa.getObjetivoDeMedicaoJpa().findObjetivo();
+
+        editarObjetivo();
         preencherTabelaRecarregar();
-       
+
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed
@@ -208,25 +228,25 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovoObjetivoActionPerformed
 
     private void jTextFieldBuscarObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarObjetivoActionPerformed
-            preencherTabelaObjetivoDigitado();
+        preencherTabelaObjetivoDigitado();
     }//GEN-LAST:event_jTextFieldBuscarObjetivoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonRecarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecarregarActionPerformed
         // TODO add your handling code here:
-            jTextFieldBuscarObjetivo.setText("");
-            preencherTabelaRecarregar();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jTextFieldBuscarObjetivo.setText("");
+        preencherTabelaRecarregar();
+    }//GEN-LAST:event_jButtonRecarregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovoObjetivo;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButtonRecarregar;
+    private javax.swing.JLabel jLabelBuscar;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable;
+    private javax.swing.JTable jTableObjetivo;
     private javax.swing.JTextField jTextFieldBuscarObjetivo;
     // End of variables declaration//GEN-END:variables
 }
