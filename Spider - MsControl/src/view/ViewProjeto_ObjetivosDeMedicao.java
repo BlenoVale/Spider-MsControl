@@ -55,8 +55,10 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }
 
     private void preencherTabelaObjetivoDigitado() {
+        iniciarTabela();
         String objetivoBuscado = jTextFieldBuscarObjetivo.getText();
-        listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByPartNome(objetivoBuscado);
+        int idProjeto = ctrlProjeto.getIdProjeto();
+        listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByPartNome(objetivoBuscado, idProjeto);
         preencherTabela(listObjetivodemedicacaos);
     }
 

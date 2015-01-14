@@ -41,12 +41,14 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
         
     }
 
-    public List<Objetivodemedicacao> findObjetivoMedicaoByPartNome(String nome) {
+    public List<Objetivodemedicacao> findObjetivoMedicaoByPartNome(String nome, int idProjeto) {
         List<Objetivodemedicacao> listobObjetivoMedicao = null;
 
         EntityManager entityManager = super.getEntityManager();
-        Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicacao u WHERE u.nome LIKE :nome ORDER BY u.nome ASC");
+        Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicacao u WHERE"
+                + " u.nome LIKE :nome AND u.objetivodemedicacaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
         query.setParameter("nome", nome + "%");
+        query.setParameter("idProjeto", idProjeto);
 
         listobObjetivoMedicao = query.getResultList();
 
@@ -66,7 +68,7 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
         Query query = entityManager.createQuery("DELETE FROM Objetivodemedicacao u WHERE u.nome = :nome AND u.objetivodemedicacaoPK.projetoid = :idProjeto");
         query.setParameter("nome", nomeObjetivo);
         query.setParameter("idProjeto", idProjeto);
-        query.getResultList();
+        query.getSingleResult();
         
     }
 
