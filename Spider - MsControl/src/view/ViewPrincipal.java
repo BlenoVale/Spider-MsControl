@@ -106,6 +106,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 System.out.println("--perfil selecionado: " + this.perfil_selecionado);
             }
         }
+        ctrlProjeto.capturarIdProjeto(projeto_selecionado);
     }
 
     @SuppressWarnings("unchecked")

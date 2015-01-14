@@ -18,6 +18,7 @@ import model.Projeto;
 public class CtrlProjeto {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
+    private static int idProjeto;
 
     public boolean inserirProjeto(String nomeProjeto, String descricao) {
 
@@ -100,5 +101,12 @@ public class CtrlProjeto {
         } catch (Exception error) {
             throw error;
         }
+    }
+    
+   public void capturarIdProjeto(Projeto projeto){
+        idProjeto = projeto.getId();
+    }
+    public int getIdProjeto(){
+        return idProjeto;
     }
 }
