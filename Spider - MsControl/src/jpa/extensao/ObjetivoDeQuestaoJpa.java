@@ -29,7 +29,7 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
     public List<Objetivodequestao> ListQuestoesByProjeto(int id_projeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto")
+            return entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto ORDER by q.prioridade ASC")
                     .setParameter("id_projeto", id_projeto).getResultList();
         } catch (Exception error) {
             throw error;
@@ -41,6 +41,17 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
             EntityManager entityManager = super.getEntityManager();
             return (Objetivodequestao) entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.nome = :nome_questao")
                     .setParameter("nome_questao", nome_questao).getSingleResult();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
+    public List<Objetivodequestao> findParteNomeQuestao (String nome_questao, int id_projeto){
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            String query = "SELECT q FROM Objetivodequestao q WHERE q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto AND q.nome LIKE :nome_questao ORDER by q.prioridade ASC";
+            return entityManager.createQuery(query).setParameter("nome_questao", nome_questao + "%")
+                    .setParameter("id_projeto", id_projeto).getResultList();
         } catch (Exception error) {
             throw error;
         }

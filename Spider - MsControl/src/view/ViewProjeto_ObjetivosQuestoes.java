@@ -16,7 +16,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private Projeto projeto_selecionado;
     private String nomeUsuario_logado;
-    private CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
+    private final CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
     private Objetivodequestao objetivodequestao_selecionado = new Objetivodequestao();
 
     private MyDefaultTableModel tableModel;
@@ -50,6 +50,22 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                 lista_questoes.get(i).getObjetivodemedicacao().getNome(),
                 lista_questoes.get(i).getNome(),
                 lista_questoes.get(i).getIndicador()
+            };
+            tableModel.addRow(linha);
+        }
+        jTable.setModel(tableModel);
+    }
+
+    public void preencheTabelaQuestoesPorParteDoNome(List<Objetivodequestao> questoes) {
+        String[] colunas = {"Prioridade", "Objetivo de Medição", "Questão", "Indicador"};
+        tableModel = new MyDefaultTableModel(colunas, 0, false);
+
+        for (int i = 0; i < questoes.size(); i++) {
+            String linha[] = {
+                String.valueOf(questoes.get(i).getPrioridade()),
+                questoes.get(i).getObjetivodemedicacao().getNome(),
+                questoes.get(i).getNome(),
+                questoes.get(i).getIndicador()
             };
             tableModel.addRow(linha);
         }
@@ -97,6 +113,12 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setText("Buscar Questão:");
+
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -253,6 +275,11 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
+        List<Objetivodequestao> questoes = ctrlObjetivos.buscaParteDoNomeQuestao(jTextFieldBuscar.getText(), projeto_selecionado.getId());
+        preencheTabelaQuestoesPorParteDoNome(questoes);
+    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

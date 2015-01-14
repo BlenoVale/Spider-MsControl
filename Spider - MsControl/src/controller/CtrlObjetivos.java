@@ -42,7 +42,7 @@ public class CtrlObjetivos {
 
     public boolean criarNovaQuestao(Objetivodequestao objetivodequestao) {
         try {
-            facadejpa.getObjetivodequestaoJpa().create(objetivodequestao);
+            facadejpa.getObjetivoDeQuestaoJpa().create(objetivodequestao);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
             return true;
         } catch (Exception error) {
@@ -53,7 +53,7 @@ public class CtrlObjetivos {
 
     public boolean editarQuestao(Objetivodequestao objetivodequestao) {
         try {
-            facadejpa.getObjetivodequestaoJpa().edit(objetivodequestao);
+            facadejpa.getObjetivoDeQuestaoJpa().edit(objetivodequestao);
             JOptionPane.showMessageDialog(null, "Editado om sucesso.");
             return true;
         } catch (Exception erro) {
@@ -64,7 +64,7 @@ public class CtrlObjetivos {
 
     public List<Objetivodequestao> buscaListaDeQuestoes() {
         try {
-            return facadejpa.getObjetivodequestaoJpa().findObjetivodequestaoEntities();
+            return facadejpa.getObjetivoDeQuestaoJpa().findObjetivodequestaoEntities();
         } catch (Exception error) {
             throw error;
         }
@@ -97,6 +97,14 @@ public class CtrlObjetivos {
     public Objetivodequestao buscaObjetivoDeQuestaoPeloNome(String nome_questao) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNome(nome_questao);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
+    public List<Objetivodequestao> buscaParteDoNomeQuestao (String nome_questao, int id_projeto){
+        try {
+           return facadejpa.getObjetivoDeQuestaoJpa().findParteNomeQuestao(nome_questao, id_projeto);
         } catch (Exception error) {
             throw error;
         }
