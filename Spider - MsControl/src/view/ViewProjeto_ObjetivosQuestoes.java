@@ -134,6 +134,11 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTable);
 
         jButtonExcluir.setText("Excluir ?");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -280,6 +285,10 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         List<Objetivodequestao> questoes = ctrlObjetivos.buscaParteDoNomeQuestao(jTextFieldBuscar.getText(), projeto_selecionado.getId());
         preencheTabelaQuestoesPorParteDoNome(questoes);
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

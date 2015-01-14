@@ -66,10 +66,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }
 
     public void editarObjetivo() {
-        if (jTableObjetivo.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um objetivo na tabela");
-            return;
-        }
+        checkLinhaSelecionada();
         Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
         ViewProjeto_ObjetivosDeMedicao_Novo viewProjeto_ObjetivosDeMedicao_Novo = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
         viewProjeto_ObjetivosDeMedicao_Novo.showEditarObjetivoDialog(objetivodemedicacao);
@@ -81,6 +78,19 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         Objetivodemedicacao objetivodemedicacao = jpa.getObjetivoDeMedicaoJpa().findByNome(nomeObjetivo);
         return objetivodemedicacao;
 
+    }
+    public void excluirObjetivo(){
+        
+        checkLinhaSelecionada();
+        Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
+        //jpa.getObjetivoDeMedicaoJpa().excluirObjetivo(objetivodemedicacao.getNome(), ctrlProjeto.getIdProjeto());
+        //jpa.getObjetivoDeMedicaoJpa().destroy(objetivodemedicacao.getObjetivodemedicacaoPK().getId());
+    }
+    public void checkLinhaSelecionada(){
+        if (jTableObjetivo.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um objetivo na tabela");
+            return;
+        }
     }
 
     /**
@@ -129,6 +139,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTableObjetivo);
 
         jButtonExcluir.setText("Excluir ?");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -236,6 +251,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         jTextFieldBuscarObjetivo.setText("");
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonRecarregarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        excluirObjetivo();
+        preencherTabelaRecarregar();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

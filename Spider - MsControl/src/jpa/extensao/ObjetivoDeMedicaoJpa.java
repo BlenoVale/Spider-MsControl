@@ -60,5 +60,14 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
             em.close();
         }
     } 
+    public void excluirObjetivo(String nomeObjetivo, int idProjeto){
+       
+        EntityManager entityManager = super.getEntityManager();
+        Query query = entityManager.createQuery("DELETE FROM Objetivodemedicacao u WHERE u.nome = :nome AND u.objetivodemedicacaoPK.projetoid = :idProjeto");
+        query.setParameter("nome", nomeObjetivo);
+        query.setParameter("idProjeto", idProjeto);
+        query.getResultList();
+        
+    }
 
 }
