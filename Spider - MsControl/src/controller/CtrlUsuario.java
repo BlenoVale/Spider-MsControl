@@ -2,6 +2,7 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Acessa;
 import model.Perfil;
@@ -136,6 +137,14 @@ public class CtrlUsuario {
         try {
             String expressao_regular = "[A-Za-z0-9\\._-]+@[A-Za-z0-9]+(\\.[A-Za-z]+)+(\\.[A-Za-z]+)*";
             return email.matches(expressao_regular);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
+    public Usuario buscaListaDeUsuariosPeloEmail (String email){
+        try {
+            return facadeJpa.getUsuarioJpa().findUsuarioByEmail(email);
         } catch (Exception error) {
             throw error;
         }

@@ -32,6 +32,7 @@ public class UsuarioJpa extends UsuarioJpaController {
         q.setParameter("id", idUsuario);
         return q.getSingleResult().toString();
     }
+
     public String findCountPerfilByIdUsuario(int idUsuario) {
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT count(a.acessaPK.perfilid) FROM Acessa a WHERE a.acessaPK.usuarioid = :id");
@@ -47,6 +48,7 @@ public class UsuarioJpa extends UsuarioJpaController {
         usuarioList = q.getResultList();
         return usuarioList;
     }
+
     public List<Usuario> findAllUsuarios() {
         List<Usuario> usuarioList = null;
         EntityManager emf = super.getEntityManager();
@@ -54,7 +56,6 @@ public class UsuarioJpa extends UsuarioJpaController {
         usuarioList = q.getResultList();
         return usuarioList;
     }
-    
 
     public Usuario findByLogin(String login) {
         EntityManager emf = super.getEntityManager();
@@ -84,5 +85,14 @@ public class UsuarioJpa extends UsuarioJpaController {
         Query q = emf.createQuery("SELECT u FROM Usuario u");
         listUsuario = q.getResultList();
         return listUsuario;
+    }
+
+    public Usuario findUsuarioByEmail(String email) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return (Usuario) entityManager.createQuery("SELECT u FROM Usuario u WHERE u.email = :email").setParameter("email", email).getSingleResult();
+        } catch (Exception error) {
+            throw error;
+        }
     }
 }

@@ -36,25 +36,40 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
         }
     }
 
-    public Objetivodequestao findQuestaoByNome(String nome_questao) {
+    public Objetivodequestao findQuestaoByNomeAndIdProjeto(String nome_questao, int id_projeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (Objetivodequestao) entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.nome = :nome_questao")
-                    .setParameter("nome_questao", nome_questao).getSingleResult();
+            String query = "SELECT q FROM Objetivodequestao q WHERE q.nome = :nome_questao AND q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto";
+            return (Objetivodequestao) entityManager.createQuery(query)
+                    .setParameter("nome_questao", nome_questao)
+                    .setParameter("id_projeto", id_projeto).getSingleResult();
         } catch (Exception error) {
             throw error;
         }
     }
-    
-    public List<Objetivodequestao> findParteNomeQuestao (String nome_questao, int id_projeto){
+
+    public List<Objetivodequestao> findParteNomeQuestao(String nome_questao, int id_projeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
             String query = "SELECT q FROM Objetivodequestao q WHERE q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto AND q.nome LIKE :nome_questao ORDER by q.prioridade ASC";
-            return entityManager.createQuery(query).setParameter("nome_questao", nome_questao + "%")
+            return entityManager.createQuery(query)
+                    .setParameter("nome_questao", nome_questao + "%")
                     .setParameter("id_projeto", id_projeto).getResultList();
         } catch (Exception error) {
             throw error;
         }
     }
 
+    public List<Objetivodequestao> findListQuestaoByNomeAndIdProejto(String nome_questao, int id_projeto, int prioridade) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            String query = "SELECT q FROM Objetivodequestao q WHERE q.nome = :nome_questao AND q.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :id_projeto And q.prioridade <> :prioridade";
+            return entityManager.createQuery(query)
+                    .setParameter("nome_questao", nome_questao)
+                    .setParameter("id_projeto", id_projeto)
+                    .setParameter("prioridade", prioridade).getResultList();
+        } catch (Exception error) {
+            throw error;
+        }
+    }
 }

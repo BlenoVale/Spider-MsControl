@@ -72,11 +72,11 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
         ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
 
-        // ############ pode ter um erro aqui por causa que pode existir mais de uma questaoh com o mesmo nome
-        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoPeloNome(jTable.getValueAt(jTable.getSelectedRow(), 2).toString());
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoPeloNomeEIdProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

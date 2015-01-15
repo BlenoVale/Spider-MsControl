@@ -94,18 +94,28 @@ public class CtrlObjetivos {
         }
     }
 
-    public Objetivodequestao buscaObjetivoDeQuestaoPeloNome(String nome_questao) {
+    public Objetivodequestao buscaObjetivoDeQuestaoPeloNomeEIdProjeto(String nome_questao, int id_projeto) {
         try {
-            return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNome(nome_questao);
+            return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(nome_questao, id_projeto);
         } catch (Exception error) {
             throw error;
         }
     }
-    
-    public List<Objetivodequestao> buscaParteDoNomeQuestao (String nome_questao, int id_projeto){
+
+    public List<Objetivodequestao> buscaParteDoNomeQuestao(String nome_questao, int id_projeto) {
         try {
-           return facadejpa.getObjetivoDeQuestaoJpa().findParteNomeQuestao(nome_questao, id_projeto);
+            return facadejpa.getObjetivoDeQuestaoJpa().findParteNomeQuestao(nome_questao, id_projeto);
         } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public List<Objetivodequestao> buscaSeNomeQuestaoJaExiste(String nome, int id_projeto, int prioridade) {
+        try {
+            return facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto, prioridade);
+        }
+        catch(Exception error)
+        {
             throw error;
         }
     }

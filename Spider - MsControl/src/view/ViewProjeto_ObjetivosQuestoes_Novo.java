@@ -419,7 +419,14 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
                 objetivo_questao.setPrioridade(ctrlObjetivos.getQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
 
-                ctrlObjetivos.criarNovaQuestao(objetivo_questao);
+                // verifica se já existe Questão com o mesmo nome
+                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade()).isEmpty()) {
+                    ctrlObjetivos.criarNovaQuestao(objetivo_questao);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
+                }
+
             } else {
                 objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
                 objetivo_questao.setNomeDoUsuario(jTextFieldNomeLevantador.getText());
@@ -429,11 +436,16 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDataLevantamento(new Date());
                 objetivo_questao.setObjetivodemedicacao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
-                
-                ctrlObjetivos.editarQuestao(objetivo_questao);
+
+                // verifica se já existe Questão com o mesmo nome
+                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade()).isEmpty()) {
+                    ctrlObjetivos.editarQuestao(objetivo_questao);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
+                }
 
             }
-            this.dispose();
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
