@@ -1,5 +1,15 @@
 package view;
 
+import view.gerencia.ViewPermissoesDePerfis;
+import view.gerencia.ViewGerenciarProjetos;
+import view.gerencia.ViewGerenciarConta;
+import view.gerencia.ViewGerenciarUsuarios;
+import view.gerencia.ViewDadosDoProjeto;
+import view.gerencia.ViewNovoUsuario;
+import view.procedimentos.ViewProjeto_ProcedimentoColeta;
+import view.procedimentos.ViewProjeto_ProcedimentoAnalise;
+import view.objetivos.ViewProjeto_ObjetivosQuestoes;
+import view.objetivos.ViewProjeto_ObjetivosDeMedicao;
 import controller.CtrlProjeto;
 import controller.CtrlUsuario;
 import facade.FacadeJpa;

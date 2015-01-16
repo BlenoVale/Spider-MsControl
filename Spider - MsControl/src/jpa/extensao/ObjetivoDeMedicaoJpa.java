@@ -3,37 +3,37 @@ package jpa.extensao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import jpa.ObjetivodemedicaoJpaController;
+import model.Objetivodemedicao;
 
-import jpa.ObjetivodemedicacaoJpaController;
-import model.Objetivodemedicacao;
 import util.Conexao;
 
 /**
  *
  * @author BlenoVale
  */
-public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
+public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
 
     public ObjetivoDeMedicaoJpa() {
         super(Conexao.conectar());
     }
 
-    public Objetivodemedicacao findByNome(String nomeObjMedicao) {
+    public Objetivodemedicao findByNome(String nomeObjMedicao) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (Objetivodemedicacao) entityManager.createQuery("SELECT o FROM Objetivodemedicacao o WHERE o.nome = :nome")
+            return (Objetivodemedicao) entityManager.createQuery("SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome")
                     .setParameter("nome", nomeObjMedicao).getSingleResult();
         } catch (Exception error) {
             throw error;
         }
     }
 
-    public List<Objetivodemedicacao> findObjetivoMedicaoByIdProjeto(int idProjeto) {
-        List<Objetivodemedicacao> listObjetivoMedicao = null;
+    public List<Objetivodemedicao> findObjetivoMedicaoByIdProjeto(int idProjeto) {
+        List<Objetivodemedicao> listObjetivoMedicao = null;
 
         
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicacao u WHERE u.objetivodemedicacaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
+            Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicao u WHERE u.objetivodemedicaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
             query.setParameter("idProjeto", idProjeto);
             listObjetivoMedicao = query.getResultList();
 
@@ -41,12 +41,12 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
         
     }
 
-    public List<Objetivodemedicacao> findObjetivoMedicaoByPartNome(String nome, int idProjeto) {
-        List<Objetivodemedicacao> listobObjetivoMedicao = null;
+    public List<Objetivodemedicao> findObjetivoMedicaoByPartNome(String nome, int idProjeto) {
+        List<Objetivodemedicao> listobObjetivoMedicao = null;
 
         EntityManager entityManager = super.getEntityManager();
-        Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicacao u WHERE"
-                + " u.nome LIKE :nome AND u.objetivodemedicacaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
+        Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicao u WHERE"
+                + " u.nome LIKE :nome AND u.objetivodemedicaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
         query.setParameter("nome", nome + "%");
         query.setParameter("idProjeto", idProjeto);
 
@@ -54,10 +54,10 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
 
         return listobObjetivoMedicao;
     }
-    public Objetivodemedicacao findObjetivo(Integer id) {
+    public Objetivodemedicao findObjetivo(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Objetivodemedicacao.class, id);
+            return em.find(Objetivodemedicao.class, id);
         } finally {
             em.close();
         }
@@ -65,7 +65,7 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicacaoJpaController {
     public void excluirObjetivo(String nomeObjetivo, int idProjeto){
        
         EntityManager entityManager = super.getEntityManager();
-        Query query = entityManager.createQuery("DELETE FROM Objetivodemedicacao u WHERE u.nome = :nome AND u.objetivodemedicacaoPK.projetoid = :idProjeto");
+        Query query = entityManager.createQuery("DELETE FROM Objetivodemedicao u WHERE u.nome = :nome AND u.objetivodemedicaoPK.projetoid = :idProjeto");
         query.setParameter("nome", nomeObjetivo);
         query.setParameter("idProjeto", idProjeto);
         query.getSingleResult();

@@ -7,7 +7,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -17,14 +19,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -32,32 +36,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Objetivodequestao.findAll", query = "SELECT o FROM Objetivodequestao o"),
     @NamedQuery(name = "Objetivodequestao.findById", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.id = :id"),
+    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicaoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicaoid = :objetivoDeMedicaoid"),
+    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicaoProjetoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicaoProjetoid = :objetivoDeMedicaoProjetoid"),
     @NamedQuery(name = "Objetivodequestao.findByNome", query = "SELECT o FROM Objetivodequestao o WHERE o.nome = :nome"),
-    @NamedQuery(name = "Objetivodequestao.findByNomeDoUsuario", query = "SELECT o FROM Objetivodequestao o WHERE o.nomeDoUsuario = :nomeDoUsuario"),
     @NamedQuery(name = "Objetivodequestao.findByIndicador", query = "SELECT o FROM Objetivodequestao o WHERE o.indicador = :indicador"),
     @NamedQuery(name = "Objetivodequestao.findByPrioridade", query = "SELECT o FROM Objetivodequestao o WHERE o.prioridade = :prioridade"),
     @NamedQuery(name = "Objetivodequestao.findByTipoDeDerivacao", query = "SELECT o FROM Objetivodequestao o WHERE o.tipoDeDerivacao = :tipoDeDerivacao"),
-    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento"),
-    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicacaoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicacaoid = :objetivoDeMedicacaoid"),
-    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicacaoProjetoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicacaoProjetoid = :objetivoDeMedicacaoProjetoid")})
+    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento")})
 public class Objetivodequestao implements Serializable {
-    @Basic(optional = false)
-    @Column(name = "prioridade")
-    private int prioridade;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ObjetivodequestaoPK objetivodequestaoPK;
+    @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
-    @Column(name = "nomeDoUsuario")
-    private String nomeDoUsuario;
+    @Basic(optional = false)
     @Column(name = "indicador")
     private String indicador;
+    @Basic(optional = false)
     @Lob
     @Column(name = "descricaoIndicador")
     private String descricaoIndicador;
+    @Basic(optional = false)
+    @Column(name = "prioridade")
+    private int prioridade;
+    @Basic(optional = false)
     @Column(name = "tipoDeDerivacao")
     private String tipoDeDerivacao;
+    @Basic(optional = false)
     @Column(name = "dataLevantamento")
     @Temporal(TemporalType.DATE)
     private Date dataLevantamento;
@@ -65,10 +71,12 @@ public class Objetivodequestao implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @JoinColumns({
-        @JoinColumn(name = "ObjetivoDeMedicacao_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "ObjetivoDeMedicacao_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
+        @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
-    private Objetivodemedicacao objetivodemedicacao;
+    private Objetivodemedicao objetivodemedicao;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodequestao")
+    private List<Registroobjetivoquestao> registroobjetivoquestaoList;
 
     public Objetivodequestao() {
     }
@@ -77,8 +85,18 @@ public class Objetivodequestao implements Serializable {
         this.objetivodequestaoPK = objetivodequestaoPK;
     }
 
-    public Objetivodequestao(int id, int objetivoDeMedicacaoid, int objetivoDeMedicacaoProjetoid) {
-        this.objetivodequestaoPK = new ObjetivodequestaoPK(id, objetivoDeMedicacaoid, objetivoDeMedicacaoProjetoid);
+    public Objetivodequestao(ObjetivodequestaoPK objetivodequestaoPK, String nome, String indicador, String descricaoIndicador, int prioridade, String tipoDeDerivacao, Date dataLevantamento) {
+        this.objetivodequestaoPK = objetivodequestaoPK;
+        this.nome = nome;
+        this.indicador = indicador;
+        this.descricaoIndicador = descricaoIndicador;
+        this.prioridade = prioridade;
+        this.tipoDeDerivacao = tipoDeDerivacao;
+        this.dataLevantamento = dataLevantamento;
+    }
+
+    public Objetivodequestao(int id, int objetivoDeMedicaoid, int objetivoDeMedicaoProjetoid) {
+        this.objetivodequestaoPK = new ObjetivodequestaoPK(id, objetivoDeMedicaoid, objetivoDeMedicaoProjetoid);
     }
 
     public ObjetivodequestaoPK getObjetivodequestaoPK() {
@@ -97,14 +115,6 @@ public class Objetivodequestao implements Serializable {
         this.nome = nome;
     }
 
-    public String getNomeDoUsuario() {
-        return nomeDoUsuario;
-    }
-
-    public void setNomeDoUsuario(String nomeDoUsuario) {
-        this.nomeDoUsuario = nomeDoUsuario;
-    }
-
     public String getIndicador() {
         return indicador;
     }
@@ -121,6 +131,13 @@ public class Objetivodequestao implements Serializable {
         this.descricaoIndicador = descricaoIndicador;
     }
 
+    public int getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(int prioridade) {
+        this.prioridade = prioridade;
+    }
 
     public String getTipoDeDerivacao() {
         return tipoDeDerivacao;
@@ -146,12 +163,21 @@ public class Objetivodequestao implements Serializable {
         this.observacao = observacao;
     }
 
-    public Objetivodemedicacao getObjetivodemedicacao() {
-        return objetivodemedicacao;
+    public Objetivodemedicao getObjetivodemedicao() {
+        return objetivodemedicao;
     }
 
-    public void setObjetivodemedicacao(Objetivodemedicacao objetivodemedicacao) {
-        this.objetivodemedicacao = objetivodemedicacao;
+    public void setObjetivodemedicao(Objetivodemedicao objetivodemedicao) {
+        this.objetivodemedicao = objetivodemedicao;
+    }
+
+    @XmlTransient
+    public List<Registroobjetivoquestao> getRegistroobjetivoquestaoList() {
+        return registroobjetivoquestaoList;
+    }
+
+    public void setRegistroobjetivoquestaoList(List<Registroobjetivoquestao> registroobjetivoquestaoList) {
+        this.registroobjetivoquestaoList = registroobjetivoquestaoList;
     }
 
     @Override
@@ -176,14 +202,6 @@ public class Objetivodequestao implements Serializable {
     @Override
     public String toString() {
         return "model.Objetivodequestao[ objetivodequestaoPK=" + objetivodequestaoPK + " ]";
-    }
-
-    public int getPrioridade() {
-        return prioridade;
-    }
-
-    public void setPrioridade(int prioridade) {
-        this.prioridade = prioridade;
     }
     
 }

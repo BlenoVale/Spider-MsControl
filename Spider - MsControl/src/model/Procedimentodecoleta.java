@@ -7,7 +7,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,14 +21,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -67,6 +71,8 @@ public class Procedimentodecoleta implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentodecoleta")
+    private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
     @JoinColumns({
         @JoinColumn(name = "Coleta_id", referencedColumnName = "id"),
         @JoinColumn(name = "Coleta_Medida_id", referencedColumnName = "Medida_id"),
@@ -151,6 +157,15 @@ public class Procedimentodecoleta implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    @XmlTransient
+    public List<Registroprocedimentocoleta> getRegistroprocedimentocoletaList() {
+        return registroprocedimentocoletaList;
+    }
+
+    public void setRegistroprocedimentocoletaList(List<Registroprocedimentocoleta> registroprocedimentocoletaList) {
+        this.registroprocedimentocoletaList = registroprocedimentocoletaList;
     }
 
     public Coleta getColeta() {

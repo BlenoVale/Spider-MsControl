@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Medida;
-import model.Composicao;
+import model.Aprovacao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,9 +19,10 @@ import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import jpa.exceptions.PreexistingEntityException;
-import model.Aprovacao;
+import model.Composicao;
 import model.Definicao;
 import model.DefinicaoPK;
+import model.Registrodefinicao;
 
 /**
  *
@@ -42,14 +43,17 @@ public class DefinicaoJpaController implements Serializable {
         if (definicao.getDefinicaoPK() == null) {
             definicao.setDefinicaoPK(new DefinicaoPK());
         }
-        if (definicao.getComposicaoList() == null) {
-            definicao.setComposicaoList(new ArrayList<Composicao>());
-        }
         if (definicao.getAprovacaoList() == null) {
             definicao.setAprovacaoList(new ArrayList<Aprovacao>());
         }
-        definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
+        if (definicao.getComposicaoList() == null) {
+            definicao.setComposicaoList(new ArrayList<Composicao>());
+        }
+        if (definicao.getRegistrodefinicaoList() == null) {
+            definicao.setRegistrodefinicaoList(new ArrayList<Registrodefinicao>());
+        }
         definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
+        definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -59,22 +63,37 @@ public class DefinicaoJpaController implements Serializable {
                 medida = em.getReference(medida.getClass(), medida.getMedidaPK());
                 definicao.setMedida(medida);
             }
-            List<Composicao> attachedComposicaoList = new ArrayList<Composicao>();
-            for (Composicao composicaoListComposicaoToAttach : definicao.getComposicaoList()) {
-                composicaoListComposicaoToAttach = em.getReference(composicaoListComposicaoToAttach.getClass(), composicaoListComposicaoToAttach.getId());
-                attachedComposicaoList.add(composicaoListComposicaoToAttach);
-            }
-            definicao.setComposicaoList(attachedComposicaoList);
             List<Aprovacao> attachedAprovacaoList = new ArrayList<Aprovacao>();
             for (Aprovacao aprovacaoListAprovacaoToAttach : definicao.getAprovacaoList()) {
                 aprovacaoListAprovacaoToAttach = em.getReference(aprovacaoListAprovacaoToAttach.getClass(), aprovacaoListAprovacaoToAttach.getId());
                 attachedAprovacaoList.add(aprovacaoListAprovacaoToAttach);
             }
             definicao.setAprovacaoList(attachedAprovacaoList);
+            List<Composicao> attachedComposicaoList = new ArrayList<Composicao>();
+            for (Composicao composicaoListComposicaoToAttach : definicao.getComposicaoList()) {
+                composicaoListComposicaoToAttach = em.getReference(composicaoListComposicaoToAttach.getClass(), composicaoListComposicaoToAttach.getId());
+                attachedComposicaoList.add(composicaoListComposicaoToAttach);
+            }
+            definicao.setComposicaoList(attachedComposicaoList);
+            List<Registrodefinicao> attachedRegistrodefinicaoList = new ArrayList<Registrodefinicao>();
+            for (Registrodefinicao registrodefinicaoListRegistrodefinicaoToAttach : definicao.getRegistrodefinicaoList()) {
+                registrodefinicaoListRegistrodefinicaoToAttach = em.getReference(registrodefinicaoListRegistrodefinicaoToAttach.getClass(), registrodefinicaoListRegistrodefinicaoToAttach.getRegistrodefinicaoPK());
+                attachedRegistrodefinicaoList.add(registrodefinicaoListRegistrodefinicaoToAttach);
+            }
+            definicao.setRegistrodefinicaoList(attachedRegistrodefinicaoList);
             em.persist(definicao);
             if (medida != null) {
                 medida.getDefinicaoList().add(definicao);
                 medida = em.merge(medida);
+            }
+            for (Aprovacao aprovacaoListAprovacao : definicao.getAprovacaoList()) {
+                Definicao oldDefinicaoOfAprovacaoListAprovacao = aprovacaoListAprovacao.getDefinicao();
+                aprovacaoListAprovacao.setDefinicao(definicao);
+                aprovacaoListAprovacao = em.merge(aprovacaoListAprovacao);
+                if (oldDefinicaoOfAprovacaoListAprovacao != null) {
+                    oldDefinicaoOfAprovacaoListAprovacao.getAprovacaoList().remove(aprovacaoListAprovacao);
+                    oldDefinicaoOfAprovacaoListAprovacao = em.merge(oldDefinicaoOfAprovacaoListAprovacao);
+                }
             }
             for (Composicao composicaoListComposicao : definicao.getComposicaoList()) {
                 Definicao oldDefinicaoOfComposicaoListComposicao = composicaoListComposicao.getDefinicao();
@@ -85,13 +104,13 @@ public class DefinicaoJpaController implements Serializable {
                     oldDefinicaoOfComposicaoListComposicao = em.merge(oldDefinicaoOfComposicaoListComposicao);
                 }
             }
-            for (Aprovacao aprovacaoListAprovacao : definicao.getAprovacaoList()) {
-                Definicao oldDefinicaoOfAprovacaoListAprovacao = aprovacaoListAprovacao.getDefinicao();
-                aprovacaoListAprovacao.setDefinicao(definicao);
-                aprovacaoListAprovacao = em.merge(aprovacaoListAprovacao);
-                if (oldDefinicaoOfAprovacaoListAprovacao != null) {
-                    oldDefinicaoOfAprovacaoListAprovacao.getAprovacaoList().remove(aprovacaoListAprovacao);
-                    oldDefinicaoOfAprovacaoListAprovacao = em.merge(oldDefinicaoOfAprovacaoListAprovacao);
+            for (Registrodefinicao registrodefinicaoListRegistrodefinicao : definicao.getRegistrodefinicaoList()) {
+                Definicao oldDefinicaoOfRegistrodefinicaoListRegistrodefinicao = registrodefinicaoListRegistrodefinicao.getDefinicao();
+                registrodefinicaoListRegistrodefinicao.setDefinicao(definicao);
+                registrodefinicaoListRegistrodefinicao = em.merge(registrodefinicaoListRegistrodefinicao);
+                if (oldDefinicaoOfRegistrodefinicaoListRegistrodefinicao != null) {
+                    oldDefinicaoOfRegistrodefinicaoListRegistrodefinicao.getRegistrodefinicaoList().remove(registrodefinicaoListRegistrodefinicao);
+                    oldDefinicaoOfRegistrodefinicaoListRegistrodefinicao = em.merge(oldDefinicaoOfRegistrodefinicaoListRegistrodefinicao);
                 }
             }
             em.getTransaction().commit();
@@ -108,8 +127,8 @@ public class DefinicaoJpaController implements Serializable {
     }
 
     public void edit(Definicao definicao) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
         definicao.getDefinicaoPK().setMedidaProjetoid(definicao.getMedida().getMedidaPK().getProjetoid());
+        definicao.getDefinicaoPK().setMedidaid(definicao.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -117,11 +136,21 @@ public class DefinicaoJpaController implements Serializable {
             Definicao persistentDefinicao = em.find(Definicao.class, definicao.getDefinicaoPK());
             Medida medidaOld = persistentDefinicao.getMedida();
             Medida medidaNew = definicao.getMedida();
-            List<Composicao> composicaoListOld = persistentDefinicao.getComposicaoList();
-            List<Composicao> composicaoListNew = definicao.getComposicaoList();
             List<Aprovacao> aprovacaoListOld = persistentDefinicao.getAprovacaoList();
             List<Aprovacao> aprovacaoListNew = definicao.getAprovacaoList();
+            List<Composicao> composicaoListOld = persistentDefinicao.getComposicaoList();
+            List<Composicao> composicaoListNew = definicao.getComposicaoList();
+            List<Registrodefinicao> registrodefinicaoListOld = persistentDefinicao.getRegistrodefinicaoList();
+            List<Registrodefinicao> registrodefinicaoListNew = definicao.getRegistrodefinicaoList();
             List<String> illegalOrphanMessages = null;
+            for (Aprovacao aprovacaoListOldAprovacao : aprovacaoListOld) {
+                if (!aprovacaoListNew.contains(aprovacaoListOldAprovacao)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Aprovacao " + aprovacaoListOldAprovacao + " since its definicao field is not nullable.");
+                }
+            }
             for (Composicao composicaoListOldComposicao : composicaoListOld) {
                 if (!composicaoListNew.contains(composicaoListOldComposicao)) {
                     if (illegalOrphanMessages == null) {
@@ -130,12 +159,12 @@ public class DefinicaoJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Composicao " + composicaoListOldComposicao + " since its definicao field is not nullable.");
                 }
             }
-            for (Aprovacao aprovacaoListOldAprovacao : aprovacaoListOld) {
-                if (!aprovacaoListNew.contains(aprovacaoListOldAprovacao)) {
+            for (Registrodefinicao registrodefinicaoListOldRegistrodefinicao : registrodefinicaoListOld) {
+                if (!registrodefinicaoListNew.contains(registrodefinicaoListOldRegistrodefinicao)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Aprovacao " + aprovacaoListOldAprovacao + " since its definicao field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registrodefinicao " + registrodefinicaoListOldRegistrodefinicao + " since its definicao field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -145,13 +174,6 @@ public class DefinicaoJpaController implements Serializable {
                 medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
                 definicao.setMedida(medidaNew);
             }
-            List<Composicao> attachedComposicaoListNew = new ArrayList<Composicao>();
-            for (Composicao composicaoListNewComposicaoToAttach : composicaoListNew) {
-                composicaoListNewComposicaoToAttach = em.getReference(composicaoListNewComposicaoToAttach.getClass(), composicaoListNewComposicaoToAttach.getId());
-                attachedComposicaoListNew.add(composicaoListNewComposicaoToAttach);
-            }
-            composicaoListNew = attachedComposicaoListNew;
-            definicao.setComposicaoList(composicaoListNew);
             List<Aprovacao> attachedAprovacaoListNew = new ArrayList<Aprovacao>();
             for (Aprovacao aprovacaoListNewAprovacaoToAttach : aprovacaoListNew) {
                 aprovacaoListNewAprovacaoToAttach = em.getReference(aprovacaoListNewAprovacaoToAttach.getClass(), aprovacaoListNewAprovacaoToAttach.getId());
@@ -159,6 +181,20 @@ public class DefinicaoJpaController implements Serializable {
             }
             aprovacaoListNew = attachedAprovacaoListNew;
             definicao.setAprovacaoList(aprovacaoListNew);
+            List<Composicao> attachedComposicaoListNew = new ArrayList<Composicao>();
+            for (Composicao composicaoListNewComposicaoToAttach : composicaoListNew) {
+                composicaoListNewComposicaoToAttach = em.getReference(composicaoListNewComposicaoToAttach.getClass(), composicaoListNewComposicaoToAttach.getId());
+                attachedComposicaoListNew.add(composicaoListNewComposicaoToAttach);
+            }
+            composicaoListNew = attachedComposicaoListNew;
+            definicao.setComposicaoList(composicaoListNew);
+            List<Registrodefinicao> attachedRegistrodefinicaoListNew = new ArrayList<Registrodefinicao>();
+            for (Registrodefinicao registrodefinicaoListNewRegistrodefinicaoToAttach : registrodefinicaoListNew) {
+                registrodefinicaoListNewRegistrodefinicaoToAttach = em.getReference(registrodefinicaoListNewRegistrodefinicaoToAttach.getClass(), registrodefinicaoListNewRegistrodefinicaoToAttach.getRegistrodefinicaoPK());
+                attachedRegistrodefinicaoListNew.add(registrodefinicaoListNewRegistrodefinicaoToAttach);
+            }
+            registrodefinicaoListNew = attachedRegistrodefinicaoListNew;
+            definicao.setRegistrodefinicaoList(registrodefinicaoListNew);
             definicao = em.merge(definicao);
             if (medidaOld != null && !medidaOld.equals(medidaNew)) {
                 medidaOld.getDefinicaoList().remove(definicao);
@@ -167,6 +203,17 @@ public class DefinicaoJpaController implements Serializable {
             if (medidaNew != null && !medidaNew.equals(medidaOld)) {
                 medidaNew.getDefinicaoList().add(definicao);
                 medidaNew = em.merge(medidaNew);
+            }
+            for (Aprovacao aprovacaoListNewAprovacao : aprovacaoListNew) {
+                if (!aprovacaoListOld.contains(aprovacaoListNewAprovacao)) {
+                    Definicao oldDefinicaoOfAprovacaoListNewAprovacao = aprovacaoListNewAprovacao.getDefinicao();
+                    aprovacaoListNewAprovacao.setDefinicao(definicao);
+                    aprovacaoListNewAprovacao = em.merge(aprovacaoListNewAprovacao);
+                    if (oldDefinicaoOfAprovacaoListNewAprovacao != null && !oldDefinicaoOfAprovacaoListNewAprovacao.equals(definicao)) {
+                        oldDefinicaoOfAprovacaoListNewAprovacao.getAprovacaoList().remove(aprovacaoListNewAprovacao);
+                        oldDefinicaoOfAprovacaoListNewAprovacao = em.merge(oldDefinicaoOfAprovacaoListNewAprovacao);
+                    }
+                }
             }
             for (Composicao composicaoListNewComposicao : composicaoListNew) {
                 if (!composicaoListOld.contains(composicaoListNewComposicao)) {
@@ -179,14 +226,14 @@ public class DefinicaoJpaController implements Serializable {
                     }
                 }
             }
-            for (Aprovacao aprovacaoListNewAprovacao : aprovacaoListNew) {
-                if (!aprovacaoListOld.contains(aprovacaoListNewAprovacao)) {
-                    Definicao oldDefinicaoOfAprovacaoListNewAprovacao = aprovacaoListNewAprovacao.getDefinicao();
-                    aprovacaoListNewAprovacao.setDefinicao(definicao);
-                    aprovacaoListNewAprovacao = em.merge(aprovacaoListNewAprovacao);
-                    if (oldDefinicaoOfAprovacaoListNewAprovacao != null && !oldDefinicaoOfAprovacaoListNewAprovacao.equals(definicao)) {
-                        oldDefinicaoOfAprovacaoListNewAprovacao.getAprovacaoList().remove(aprovacaoListNewAprovacao);
-                        oldDefinicaoOfAprovacaoListNewAprovacao = em.merge(oldDefinicaoOfAprovacaoListNewAprovacao);
+            for (Registrodefinicao registrodefinicaoListNewRegistrodefinicao : registrodefinicaoListNew) {
+                if (!registrodefinicaoListOld.contains(registrodefinicaoListNewRegistrodefinicao)) {
+                    Definicao oldDefinicaoOfRegistrodefinicaoListNewRegistrodefinicao = registrodefinicaoListNewRegistrodefinicao.getDefinicao();
+                    registrodefinicaoListNewRegistrodefinicao.setDefinicao(definicao);
+                    registrodefinicaoListNewRegistrodefinicao = em.merge(registrodefinicaoListNewRegistrodefinicao);
+                    if (oldDefinicaoOfRegistrodefinicaoListNewRegistrodefinicao != null && !oldDefinicaoOfRegistrodefinicaoListNewRegistrodefinicao.equals(definicao)) {
+                        oldDefinicaoOfRegistrodefinicaoListNewRegistrodefinicao.getRegistrodefinicaoList().remove(registrodefinicaoListNewRegistrodefinicao);
+                        oldDefinicaoOfRegistrodefinicaoListNewRegistrodefinicao = em.merge(oldDefinicaoOfRegistrodefinicaoListNewRegistrodefinicao);
                     }
                 }
             }
@@ -220,6 +267,13 @@ public class DefinicaoJpaController implements Serializable {
                 throw new NonexistentEntityException("The definicao with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Aprovacao> aprovacaoListOrphanCheck = definicao.getAprovacaoList();
+            for (Aprovacao aprovacaoListOrphanCheckAprovacao : aprovacaoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Aprovacao " + aprovacaoListOrphanCheckAprovacao + " in its aprovacaoList field has a non-nullable definicao field.");
+            }
             List<Composicao> composicaoListOrphanCheck = definicao.getComposicaoList();
             for (Composicao composicaoListOrphanCheckComposicao : composicaoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -227,12 +281,12 @@ public class DefinicaoJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Composicao " + composicaoListOrphanCheckComposicao + " in its composicaoList field has a non-nullable definicao field.");
             }
-            List<Aprovacao> aprovacaoListOrphanCheck = definicao.getAprovacaoList();
-            for (Aprovacao aprovacaoListOrphanCheckAprovacao : aprovacaoListOrphanCheck) {
+            List<Registrodefinicao> registrodefinicaoListOrphanCheck = definicao.getRegistrodefinicaoList();
+            for (Registrodefinicao registrodefinicaoListOrphanCheckRegistrodefinicao : registrodefinicaoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Aprovacao " + aprovacaoListOrphanCheckAprovacao + " in its aprovacaoList field has a non-nullable definicao field.");
+                illegalOrphanMessages.add("This Definicao (" + definicao + ") cannot be destroyed since the Registrodefinicao " + registrodefinicaoListOrphanCheckRegistrodefinicao + " in its registrodefinicaoList field has a non-nullable definicao field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

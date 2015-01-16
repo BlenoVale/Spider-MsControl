@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class ColetaPK implements Serializable {

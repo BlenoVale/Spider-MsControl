@@ -7,7 +7,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,14 +21,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "aprovacao")
@@ -51,6 +55,8 @@ public class Aprovacao implements Serializable {
     private String observacao;
     @Column(name = "status")
     private Boolean status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aprovacao")
+    private List<Registroaprovacao> registroaprovacaoList;
     @JoinColumns({
         @JoinColumn(name = "Definicao_id", referencedColumnName = "id"),
         @JoinColumn(name = "Definicao_Medida_id", referencedColumnName = "Medida_id"),
@@ -95,6 +101,15 @@ public class Aprovacao implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    @XmlTransient
+    public List<Registroaprovacao> getRegistroaprovacaoList() {
+        return registroaprovacaoList;
+    }
+
+    public void setRegistroaprovacaoList(List<Registroaprovacao> registroaprovacaoList) {
+        this.registroaprovacaoList = registroaprovacaoList;
     }
 
     public Definicao getDefinicao() {

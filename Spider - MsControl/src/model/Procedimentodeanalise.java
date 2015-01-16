@@ -7,7 +7,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,14 +21,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -70,6 +74,8 @@ public class Procedimentodeanalise implements Serializable {
     private String acoesAnalise;
     @Column(name = "comunicacao")
     private String comunicacao;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentodeanalise")
+    private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
     @JoinColumns({
         @JoinColumn(name = "Coleta_id", referencedColumnName = "id"),
         @JoinColumn(name = "Coleta_Medida_id", referencedColumnName = "Medida_id"),
@@ -162,6 +168,15 @@ public class Procedimentodeanalise implements Serializable {
 
     public void setComunicacao(String comunicacao) {
         this.comunicacao = comunicacao;
+    }
+
+    @XmlTransient
+    public List<Registroprocedimentoanalise> getRegistroprocedimentoanaliseList() {
+        return registroprocedimentoanaliseList;
+    }
+
+    public void setRegistroprocedimentoanaliseList(List<Registroprocedimentoanalise> registroprocedimentoanaliseList) {
+        this.registroprocedimentoanaliseList = registroprocedimentoanaliseList;
     }
 
     public Coleta getColeta() {

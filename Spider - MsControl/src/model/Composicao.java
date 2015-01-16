@@ -6,7 +6,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +19,14 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "composicao")
@@ -40,6 +44,8 @@ public class Composicao implements Serializable {
     private Integer id;
     @Column(name = "tipo")
     private String tipo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "composicao")
+    private List<Registrocomposicao> registrocomposicaoList;
     @JoinColumns({
         @JoinColumn(name = "Definicao_id", referencedColumnName = "id"),
         @JoinColumn(name = "Definicao_Medida_id", referencedColumnName = "Medida_id"),
@@ -68,6 +74,15 @@ public class Composicao implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    @XmlTransient
+    public List<Registrocomposicao> getRegistrocomposicaoList() {
+        return registrocomposicaoList;
+    }
+
+    public void setRegistrocomposicaoList(List<Registrocomposicao> registrocomposicaoList) {
+        this.registrocomposicaoList = registrocomposicaoList;
     }
 
     public Definicao getDefinicao() {

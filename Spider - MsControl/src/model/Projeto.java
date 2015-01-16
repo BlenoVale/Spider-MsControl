@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "projeto")
@@ -38,11 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projeto.findByNome", query = "SELECT p FROM Projeto p WHERE p.nome = :nome"),
     @NamedQuery(name = "Projeto.findByStatus", query = "SELECT p FROM Projeto p WHERE p.status = :status"),
     @NamedQuery(name = "Projeto.findByDataInicio", query = "SELECT p FROM Projeto p WHERE p.dataInicio = :dataInicio"),
+    @NamedQuery(name = "Projeto.findByDataInatividade", query = "SELECT p FROM Projeto p WHERE p.dataInatividade = :dataInatividade"),
     @NamedQuery(name = "Projeto.findByDataFim", query = "SELECT p FROM Projeto p WHERE p.dataFim = :dataFim")})
 public class Projeto implements Serializable {
-    @Column(name = "dataInatividade")
-    @Temporal(TemporalType.DATE)
-    private Date dataInatividade;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,7 +57,9 @@ public class Projeto implements Serializable {
     @Column(name = "dataInicio")
     @Temporal(TemporalType.DATE)
     private Date dataInicio;
-    @Basic(optional = false)
+    @Column(name = "dataInatividade")
+    @Temporal(TemporalType.DATE)
+    private Date dataInatividade;
     @Column(name = "dataFim")
     @Temporal(TemporalType.DATE)
     private Date dataFim;
@@ -67,16 +67,18 @@ public class Projeto implements Serializable {
     @Column(name = "descricao")
     private String descricao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
+    private List<Objetivodemedicao> objetivodemedicaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Medida> medidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
-    private List<Objetivodemedicacao> objetivodemedicacaoList;
+    private List<Registroprojeto> registroprojetoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
-
-    public static final int ATIVO = 0;
-    public static final int INATIVO = 1;
-    public static final int FINALIZADO = 2;
     
+    public static final int ATIVO = 0;
+    public static final int INATIVO = 0;
+    public static final int FINALIZADO = 0;
+
     public Projeto() {
     }
 
@@ -84,12 +86,11 @@ public class Projeto implements Serializable {
         this.id = id;
     }
 
-    public Projeto(Integer id, String nome, int status, Date dataInicio, Date dataFim) {
+    public Projeto(Integer id, String nome, int status, Date dataInicio) {
         this.id = id;
         this.nome = nome;
         this.status = status;
         this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
     }
 
     public Integer getId() {
@@ -124,6 +125,14 @@ public class Projeto implements Serializable {
         this.dataInicio = dataInicio;
     }
 
+    public Date getDataInatividade() {
+        return dataInatividade;
+    }
+
+    public void setDataInatividade(Date dataInatividade) {
+        this.dataInatividade = dataInatividade;
+    }
+
     public Date getDataFim() {
         return dataFim;
     }
@@ -141,6 +150,15 @@ public class Projeto implements Serializable {
     }
 
     @XmlTransient
+    public List<Objetivodemedicao> getObjetivodemedicaoList() {
+        return objetivodemedicaoList;
+    }
+
+    public void setObjetivodemedicaoList(List<Objetivodemedicao> objetivodemedicaoList) {
+        this.objetivodemedicaoList = objetivodemedicaoList;
+    }
+
+    @XmlTransient
     public List<Medida> getMedidaList() {
         return medidaList;
     }
@@ -150,12 +168,12 @@ public class Projeto implements Serializable {
     }
 
     @XmlTransient
-    public List<Objetivodemedicacao> getObjetivodemedicacaoList() {
-        return objetivodemedicacaoList;
+    public List<Registroprojeto> getRegistroprojetoList() {
+        return registroprojetoList;
     }
 
-    public void setObjetivodemedicacaoList(List<Objetivodemedicacao> objetivodemedicacaoList) {
-        this.objetivodemedicacaoList = objetivodemedicacaoList;
+    public void setRegistroprojetoList(List<Registroprojeto> registroprojetoList) {
+        this.registroprojetoList = registroprojetoList;
     }
 
     @XmlTransient
@@ -189,14 +207,6 @@ public class Projeto implements Serializable {
     @Override
     public String toString() {
         return "model.Projeto[ id=" + id + " ]";
-    }
-
-    public Date getDataInatividade() {
-        return dataInatividade;
-    }
-
-    public void setDataInatividade(Date dataInatividade) {
-        this.dataInatividade = dataInatividade;
     }
     
 }

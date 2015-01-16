@@ -7,7 +7,7 @@ import jpa.ColetaJpaController;
 import jpa.ComposicaoJpaController;
 import jpa.DefinicaoJpaController;
 import jpa.MedidaJpaController;
-import jpa.ObjetivodemedicacaoJpaController;
+import jpa.ObjetivodemedicaoJpaController;
 import jpa.ObjetivodequestaoJpaController;
 import jpa.ProcedimentodeanaliseJpaController;
 import jpa.ProcedimentodecoletaJpaController;
@@ -37,7 +37,7 @@ public class FacadeJpa {
     private final DefinicaoJpaController definicaoJpa;
     private final FuncionalidadeJpa funcionalidadeJpa;
     private final MedidaJpaController medidaJpa;
-    private final ObjetivodemedicacaoJpaController objetivodemedicacao;
+    private final ObjetivodemedicaoJpaController objetivodemedicacao;
     private final ObjetivodequestaoJpaController objetivodequestaoJpa;
     private final PerfilJpa perfilJpa;
     private final ProcedimentodeanaliseJpaController procedimentodeanaliseJpa;
@@ -56,7 +56,7 @@ public class FacadeJpa {
         definicaoJpa = new DefinicaoJpaController(Conexao.conectar());
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpa = new MedidaJpaController(Conexao.conectar());
-        objetivodemedicacao = new ObjetivodemedicacaoJpaController(Conexao.conectar());
+        objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
         procedimentodeanaliseJpa = new ProcedimentodeanaliseJpaController(Conexao.conectar());
@@ -105,7 +105,7 @@ public class FacadeJpa {
         return medidaJpa;
     }
 
-    public ObjetivodemedicacaoJpaController getObjetivodemedicacao() {
+    public ObjetivodemedicaoJpaController getObjetivodemedicao() {
         return objetivodemedicacao;
     }
 

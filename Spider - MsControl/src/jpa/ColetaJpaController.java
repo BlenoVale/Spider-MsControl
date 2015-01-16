@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Medida;
-import model.Procedimentodeanalise;
+import model.Registrocoleta;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,6 +21,7 @@ import jpa.exceptions.NonexistentEntityException;
 import jpa.exceptions.PreexistingEntityException;
 import model.Coleta;
 import model.ColetaPK;
+import model.Procedimentodeanalise;
 import model.Procedimentodecoleta;
 
 /**
@@ -42,14 +43,17 @@ public class ColetaJpaController implements Serializable {
         if (coleta.getColetaPK() == null) {
             coleta.setColetaPK(new ColetaPK());
         }
+        if (coleta.getRegistrocoletaList() == null) {
+            coleta.setRegistrocoletaList(new ArrayList<Registrocoleta>());
+        }
         if (coleta.getProcedimentodeanaliseList() == null) {
             coleta.setProcedimentodeanaliseList(new ArrayList<Procedimentodeanalise>());
         }
         if (coleta.getProcedimentodecoletaList() == null) {
             coleta.setProcedimentodecoletaList(new ArrayList<Procedimentodecoleta>());
         }
-        coleta.getColetaPK().setMedidaProjetoid(coleta.getMedida().getMedidaPK().getProjetoid());
         coleta.getColetaPK().setMedidaid(coleta.getMedida().getMedidaPK().getId());
+        coleta.getColetaPK().setMedidaProjetoid(coleta.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -59,6 +63,12 @@ public class ColetaJpaController implements Serializable {
                 medida = em.getReference(medida.getClass(), medida.getMedidaPK());
                 coleta.setMedida(medida);
             }
+            List<Registrocoleta> attachedRegistrocoletaList = new ArrayList<Registrocoleta>();
+            for (Registrocoleta registrocoletaListRegistrocoletaToAttach : coleta.getRegistrocoletaList()) {
+                registrocoletaListRegistrocoletaToAttach = em.getReference(registrocoletaListRegistrocoletaToAttach.getClass(), registrocoletaListRegistrocoletaToAttach.getRegistrocoletaPK());
+                attachedRegistrocoletaList.add(registrocoletaListRegistrocoletaToAttach);
+            }
+            coleta.setRegistrocoletaList(attachedRegistrocoletaList);
             List<Procedimentodeanalise> attachedProcedimentodeanaliseList = new ArrayList<Procedimentodeanalise>();
             for (Procedimentodeanalise procedimentodeanaliseListProcedimentodeanaliseToAttach : coleta.getProcedimentodeanaliseList()) {
                 procedimentodeanaliseListProcedimentodeanaliseToAttach = em.getReference(procedimentodeanaliseListProcedimentodeanaliseToAttach.getClass(), procedimentodeanaliseListProcedimentodeanaliseToAttach.getId());
@@ -75,6 +85,15 @@ public class ColetaJpaController implements Serializable {
             if (medida != null) {
                 medida.getColetaList().add(coleta);
                 medida = em.merge(medida);
+            }
+            for (Registrocoleta registrocoletaListRegistrocoleta : coleta.getRegistrocoletaList()) {
+                Coleta oldColetaOfRegistrocoletaListRegistrocoleta = registrocoletaListRegistrocoleta.getColeta();
+                registrocoletaListRegistrocoleta.setColeta(coleta);
+                registrocoletaListRegistrocoleta = em.merge(registrocoletaListRegistrocoleta);
+                if (oldColetaOfRegistrocoletaListRegistrocoleta != null) {
+                    oldColetaOfRegistrocoletaListRegistrocoleta.getRegistrocoletaList().remove(registrocoletaListRegistrocoleta);
+                    oldColetaOfRegistrocoletaListRegistrocoleta = em.merge(oldColetaOfRegistrocoletaListRegistrocoleta);
+                }
             }
             for (Procedimentodeanalise procedimentodeanaliseListProcedimentodeanalise : coleta.getProcedimentodeanaliseList()) {
                 Coleta oldColetaOfProcedimentodeanaliseListProcedimentodeanalise = procedimentodeanaliseListProcedimentodeanalise.getColeta();
@@ -108,8 +127,8 @@ public class ColetaJpaController implements Serializable {
     }
 
     public void edit(Coleta coleta) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        coleta.getColetaPK().setMedidaProjetoid(coleta.getMedida().getMedidaPK().getProjetoid());
         coleta.getColetaPK().setMedidaid(coleta.getMedida().getMedidaPK().getId());
+        coleta.getColetaPK().setMedidaProjetoid(coleta.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -117,11 +136,21 @@ public class ColetaJpaController implements Serializable {
             Coleta persistentColeta = em.find(Coleta.class, coleta.getColetaPK());
             Medida medidaOld = persistentColeta.getMedida();
             Medida medidaNew = coleta.getMedida();
+            List<Registrocoleta> registrocoletaListOld = persistentColeta.getRegistrocoletaList();
+            List<Registrocoleta> registrocoletaListNew = coleta.getRegistrocoletaList();
             List<Procedimentodeanalise> procedimentodeanaliseListOld = persistentColeta.getProcedimentodeanaliseList();
             List<Procedimentodeanalise> procedimentodeanaliseListNew = coleta.getProcedimentodeanaliseList();
             List<Procedimentodecoleta> procedimentodecoletaListOld = persistentColeta.getProcedimentodecoletaList();
             List<Procedimentodecoleta> procedimentodecoletaListNew = coleta.getProcedimentodecoletaList();
             List<String> illegalOrphanMessages = null;
+            for (Registrocoleta registrocoletaListOldRegistrocoleta : registrocoletaListOld) {
+                if (!registrocoletaListNew.contains(registrocoletaListOldRegistrocoleta)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Registrocoleta " + registrocoletaListOldRegistrocoleta + " since its coleta field is not nullable.");
+                }
+            }
             for (Procedimentodeanalise procedimentodeanaliseListOldProcedimentodeanalise : procedimentodeanaliseListOld) {
                 if (!procedimentodeanaliseListNew.contains(procedimentodeanaliseListOldProcedimentodeanalise)) {
                     if (illegalOrphanMessages == null) {
@@ -145,6 +174,13 @@ public class ColetaJpaController implements Serializable {
                 medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
                 coleta.setMedida(medidaNew);
             }
+            List<Registrocoleta> attachedRegistrocoletaListNew = new ArrayList<Registrocoleta>();
+            for (Registrocoleta registrocoletaListNewRegistrocoletaToAttach : registrocoletaListNew) {
+                registrocoletaListNewRegistrocoletaToAttach = em.getReference(registrocoletaListNewRegistrocoletaToAttach.getClass(), registrocoletaListNewRegistrocoletaToAttach.getRegistrocoletaPK());
+                attachedRegistrocoletaListNew.add(registrocoletaListNewRegistrocoletaToAttach);
+            }
+            registrocoletaListNew = attachedRegistrocoletaListNew;
+            coleta.setRegistrocoletaList(registrocoletaListNew);
             List<Procedimentodeanalise> attachedProcedimentodeanaliseListNew = new ArrayList<Procedimentodeanalise>();
             for (Procedimentodeanalise procedimentodeanaliseListNewProcedimentodeanaliseToAttach : procedimentodeanaliseListNew) {
                 procedimentodeanaliseListNewProcedimentodeanaliseToAttach = em.getReference(procedimentodeanaliseListNewProcedimentodeanaliseToAttach.getClass(), procedimentodeanaliseListNewProcedimentodeanaliseToAttach.getId());
@@ -167,6 +203,17 @@ public class ColetaJpaController implements Serializable {
             if (medidaNew != null && !medidaNew.equals(medidaOld)) {
                 medidaNew.getColetaList().add(coleta);
                 medidaNew = em.merge(medidaNew);
+            }
+            for (Registrocoleta registrocoletaListNewRegistrocoleta : registrocoletaListNew) {
+                if (!registrocoletaListOld.contains(registrocoletaListNewRegistrocoleta)) {
+                    Coleta oldColetaOfRegistrocoletaListNewRegistrocoleta = registrocoletaListNewRegistrocoleta.getColeta();
+                    registrocoletaListNewRegistrocoleta.setColeta(coleta);
+                    registrocoletaListNewRegistrocoleta = em.merge(registrocoletaListNewRegistrocoleta);
+                    if (oldColetaOfRegistrocoletaListNewRegistrocoleta != null && !oldColetaOfRegistrocoletaListNewRegistrocoleta.equals(coleta)) {
+                        oldColetaOfRegistrocoletaListNewRegistrocoleta.getRegistrocoletaList().remove(registrocoletaListNewRegistrocoleta);
+                        oldColetaOfRegistrocoletaListNewRegistrocoleta = em.merge(oldColetaOfRegistrocoletaListNewRegistrocoleta);
+                    }
+                }
             }
             for (Procedimentodeanalise procedimentodeanaliseListNewProcedimentodeanalise : procedimentodeanaliseListNew) {
                 if (!procedimentodeanaliseListOld.contains(procedimentodeanaliseListNewProcedimentodeanalise)) {
@@ -220,6 +267,13 @@ public class ColetaJpaController implements Serializable {
                 throw new NonexistentEntityException("The coleta with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Registrocoleta> registrocoletaListOrphanCheck = coleta.getRegistrocoletaList();
+            for (Registrocoleta registrocoletaListOrphanCheckRegistrocoleta : registrocoletaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Coleta (" + coleta + ") cannot be destroyed since the Registrocoleta " + registrocoletaListOrphanCheckRegistrocoleta + " in its registrocoletaList field has a non-nullable coleta field.");
+            }
             List<Procedimentodeanalise> procedimentodeanaliseListOrphanCheck = coleta.getProcedimentodeanaliseList();
             for (Procedimentodeanalise procedimentodeanaliseListOrphanCheckProcedimentodeanalise : procedimentodeanaliseListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

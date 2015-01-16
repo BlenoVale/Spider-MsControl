@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "medida")
@@ -45,15 +45,17 @@ public class Medida implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
+    private List<Definicao> definicaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
+    private List<Analise> analiseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
+    private List<Registromedida> registromedidaList;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
-    private List<Definicao> definicaoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
     private List<Coleta> coletaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medida")
-    private List<Analise> analiseList;
 
     public Medida() {
     }
@@ -90,14 +92,6 @@ public class Medida implements Serializable {
         this.data = data;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
-    }
-
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
-    }
-
     @XmlTransient
     public List<Definicao> getDefinicaoList() {
         return definicaoList;
@@ -108,21 +102,38 @@ public class Medida implements Serializable {
     }
 
     @XmlTransient
-    public List<Coleta> getColetaList() {
-        return coletaList;
-    }
-
-    public void setColetaList(List<Coleta> coletaList) {
-        this.coletaList = coletaList;
-    }
-
-    @XmlTransient
     public List<Analise> getAnaliseList() {
         return analiseList;
     }
 
     public void setAnaliseList(List<Analise> analiseList) {
         this.analiseList = analiseList;
+    }
+
+    @XmlTransient
+    public List<Registromedida> getRegistromedidaList() {
+        return registromedidaList;
+    }
+
+    public void setRegistromedidaList(List<Registromedida> registromedidaList) {
+        this.registromedidaList = registromedidaList;
+    }
+
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
+    }
+
+    @XmlTransient
+    public List<Coleta> getColetaList() {
+        return coletaList;
+    }
+
+    public void setColetaList(List<Coleta> coletaList) {
+        this.coletaList = coletaList;
     }
 
     @Override

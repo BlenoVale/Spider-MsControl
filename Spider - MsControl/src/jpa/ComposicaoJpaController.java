@@ -6,16 +6,19 @@
 package jpa;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.Definicao;
+import model.Registrocomposicao;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Composicao;
-import model.Definicao;
 
 /**
  *
@@ -33,6 +36,9 @@ public class ComposicaoJpaController implements Serializable {
     }
 
     public void create(Composicao composicao) {
+        if (composicao.getRegistrocomposicaoList() == null) {
+            composicao.setRegistrocomposicaoList(new ArrayList<Registrocomposicao>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,10 +48,25 @@ public class ComposicaoJpaController implements Serializable {
                 definicao = em.getReference(definicao.getClass(), definicao.getDefinicaoPK());
                 composicao.setDefinicao(definicao);
             }
+            List<Registrocomposicao> attachedRegistrocomposicaoList = new ArrayList<Registrocomposicao>();
+            for (Registrocomposicao registrocomposicaoListRegistrocomposicaoToAttach : composicao.getRegistrocomposicaoList()) {
+                registrocomposicaoListRegistrocomposicaoToAttach = em.getReference(registrocomposicaoListRegistrocomposicaoToAttach.getClass(), registrocomposicaoListRegistrocomposicaoToAttach.getRegistrocomposicaoPK());
+                attachedRegistrocomposicaoList.add(registrocomposicaoListRegistrocomposicaoToAttach);
+            }
+            composicao.setRegistrocomposicaoList(attachedRegistrocomposicaoList);
             em.persist(composicao);
             if (definicao != null) {
                 definicao.getComposicaoList().add(composicao);
                 definicao = em.merge(definicao);
+            }
+            for (Registrocomposicao registrocomposicaoListRegistrocomposicao : composicao.getRegistrocomposicaoList()) {
+                Composicao oldComposicaoOfRegistrocomposicaoListRegistrocomposicao = registrocomposicaoListRegistrocomposicao.getComposicao();
+                registrocomposicaoListRegistrocomposicao.setComposicao(composicao);
+                registrocomposicaoListRegistrocomposicao = em.merge(registrocomposicaoListRegistrocomposicao);
+                if (oldComposicaoOfRegistrocomposicaoListRegistrocomposicao != null) {
+                    oldComposicaoOfRegistrocomposicaoListRegistrocomposicao.getRegistrocomposicaoList().remove(registrocomposicaoListRegistrocomposicao);
+                    oldComposicaoOfRegistrocomposicaoListRegistrocomposicao = em.merge(oldComposicaoOfRegistrocomposicaoListRegistrocomposicao);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -55,7 +76,7 @@ public class ComposicaoJpaController implements Serializable {
         }
     }
 
-    public void edit(Composicao composicao) throws NonexistentEntityException, Exception {
+    public void edit(Composicao composicao) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -63,10 +84,31 @@ public class ComposicaoJpaController implements Serializable {
             Composicao persistentComposicao = em.find(Composicao.class, composicao.getId());
             Definicao definicaoOld = persistentComposicao.getDefinicao();
             Definicao definicaoNew = composicao.getDefinicao();
+            List<Registrocomposicao> registrocomposicaoListOld = persistentComposicao.getRegistrocomposicaoList();
+            List<Registrocomposicao> registrocomposicaoListNew = composicao.getRegistrocomposicaoList();
+            List<String> illegalOrphanMessages = null;
+            for (Registrocomposicao registrocomposicaoListOldRegistrocomposicao : registrocomposicaoListOld) {
+                if (!registrocomposicaoListNew.contains(registrocomposicaoListOldRegistrocomposicao)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Registrocomposicao " + registrocomposicaoListOldRegistrocomposicao + " since its composicao field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (definicaoNew != null) {
                 definicaoNew = em.getReference(definicaoNew.getClass(), definicaoNew.getDefinicaoPK());
                 composicao.setDefinicao(definicaoNew);
             }
+            List<Registrocomposicao> attachedRegistrocomposicaoListNew = new ArrayList<Registrocomposicao>();
+            for (Registrocomposicao registrocomposicaoListNewRegistrocomposicaoToAttach : registrocomposicaoListNew) {
+                registrocomposicaoListNewRegistrocomposicaoToAttach = em.getReference(registrocomposicaoListNewRegistrocomposicaoToAttach.getClass(), registrocomposicaoListNewRegistrocomposicaoToAttach.getRegistrocomposicaoPK());
+                attachedRegistrocomposicaoListNew.add(registrocomposicaoListNewRegistrocomposicaoToAttach);
+            }
+            registrocomposicaoListNew = attachedRegistrocomposicaoListNew;
+            composicao.setRegistrocomposicaoList(registrocomposicaoListNew);
             composicao = em.merge(composicao);
             if (definicaoOld != null && !definicaoOld.equals(definicaoNew)) {
                 definicaoOld.getComposicaoList().remove(composicao);
@@ -75,6 +117,17 @@ public class ComposicaoJpaController implements Serializable {
             if (definicaoNew != null && !definicaoNew.equals(definicaoOld)) {
                 definicaoNew.getComposicaoList().add(composicao);
                 definicaoNew = em.merge(definicaoNew);
+            }
+            for (Registrocomposicao registrocomposicaoListNewRegistrocomposicao : registrocomposicaoListNew) {
+                if (!registrocomposicaoListOld.contains(registrocomposicaoListNewRegistrocomposicao)) {
+                    Composicao oldComposicaoOfRegistrocomposicaoListNewRegistrocomposicao = registrocomposicaoListNewRegistrocomposicao.getComposicao();
+                    registrocomposicaoListNewRegistrocomposicao.setComposicao(composicao);
+                    registrocomposicaoListNewRegistrocomposicao = em.merge(registrocomposicaoListNewRegistrocomposicao);
+                    if (oldComposicaoOfRegistrocomposicaoListNewRegistrocomposicao != null && !oldComposicaoOfRegistrocomposicaoListNewRegistrocomposicao.equals(composicao)) {
+                        oldComposicaoOfRegistrocomposicaoListNewRegistrocomposicao.getRegistrocomposicaoList().remove(registrocomposicaoListNewRegistrocomposicao);
+                        oldComposicaoOfRegistrocomposicaoListNewRegistrocomposicao = em.merge(oldComposicaoOfRegistrocomposicaoListNewRegistrocomposicao);
+                    }
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -93,7 +146,7 @@ public class ComposicaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -104,6 +157,17 @@ public class ComposicaoJpaController implements Serializable {
                 composicao.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The composicao with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            List<Registrocomposicao> registrocomposicaoListOrphanCheck = composicao.getRegistrocomposicaoList();
+            for (Registrocomposicao registrocomposicaoListOrphanCheckRegistrocomposicao : registrocomposicaoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Composicao (" + composicao + ") cannot be destroyed since the Registrocomposicao " + registrocomposicaoListOrphanCheckRegistrocomposicao + " in its registrocomposicaoList field has a non-nullable composicao field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Definicao definicao = composicao.getDefinicao();
             if (definicao != null) {

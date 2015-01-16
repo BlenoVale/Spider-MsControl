@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "definicao")
@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Definicao.findAll", query = "SELECT d FROM Definicao d"),
     @NamedQuery(name = "Definicao.findById", query = "SELECT d FROM Definicao d WHERE d.definicaoPK.id = :id"),
+    @NamedQuery(name = "Definicao.findByMedidaid", query = "SELECT d FROM Definicao d WHERE d.definicaoPK.medidaid = :medidaid"),
+    @NamedQuery(name = "Definicao.findByMedidaProjetoid", query = "SELECT d FROM Definicao d WHERE d.definicaoPK.medidaProjetoid = :medidaProjetoid"),
     @NamedQuery(name = "Definicao.findByVersao", query = "SELECT d FROM Definicao d WHERE d.versao = :versao"),
     @NamedQuery(name = "Definicao.findByMnemonico", query = "SELECT d FROM Definicao d WHERE d.mnemonico = :mnemonico"),
     @NamedQuery(name = "Definicao.findByPropriedadeMedida", query = "SELECT d FROM Definicao d WHERE d.propriedadeMedida = :propriedadeMedida"),
@@ -39,9 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Definicao.findByUnidadeMedida", query = "SELECT d FROM Definicao d WHERE d.unidadeMedida = :unidadeMedida"),
     @NamedQuery(name = "Definicao.findByEscala", query = "SELECT d FROM Definicao d WHERE d.escala = :escala"),
     @NamedQuery(name = "Definicao.findByFaixa", query = "SELECT d FROM Definicao d WHERE d.faixa = :faixa"),
-    @NamedQuery(name = "Definicao.findByFormula", query = "SELECT d FROM Definicao d WHERE d.formula = :formula"),
-    @NamedQuery(name = "Definicao.findByMedidaid", query = "SELECT d FROM Definicao d WHERE d.definicaoPK.medidaid = :medidaid"),
-    @NamedQuery(name = "Definicao.findByMedidaProjetoid", query = "SELECT d FROM Definicao d WHERE d.definicaoPK.medidaProjetoid = :medidaProjetoid")})
+    @NamedQuery(name = "Definicao.findByFormula", query = "SELECT d FROM Definicao d WHERE d.formula = :formula")})
 public class Definicao implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -68,8 +68,6 @@ public class Definicao implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definicao")
-    private List<Composicao> composicaoList;
     @JoinColumns({
         @JoinColumn(name = "Medida_id", referencedColumnName = "id", insertable = false, updatable = false),
         @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
@@ -77,6 +75,10 @@ public class Definicao implements Serializable {
     private Medida medida;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "definicao")
     private List<Aprovacao> aprovacaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definicao")
+    private List<Composicao> composicaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "definicao")
+    private List<Registrodefinicao> registrodefinicaoList;
 
     public Definicao() {
     }
@@ -177,15 +179,6 @@ public class Definicao implements Serializable {
         this.observacao = observacao;
     }
 
-    @XmlTransient
-    public List<Composicao> getComposicaoList() {
-        return composicaoList;
-    }
-
-    public void setComposicaoList(List<Composicao> composicaoList) {
-        this.composicaoList = composicaoList;
-    }
-
     public Medida getMedida() {
         return medida;
     }
@@ -201,6 +194,24 @@ public class Definicao implements Serializable {
 
     public void setAprovacaoList(List<Aprovacao> aprovacaoList) {
         this.aprovacaoList = aprovacaoList;
+    }
+
+    @XmlTransient
+    public List<Composicao> getComposicaoList() {
+        return composicaoList;
+    }
+
+    public void setComposicaoList(List<Composicao> composicaoList) {
+        this.composicaoList = composicaoList;
+    }
+
+    @XmlTransient
+    public List<Registrodefinicao> getRegistrodefinicaoList() {
+        return registrodefinicaoList;
+    }
+
+    public void setRegistrodefinicaoList(List<Registrodefinicao> registrodefinicaoList) {
+        this.registrodefinicaoList = registrodefinicaoList;
     }
 
     @Override

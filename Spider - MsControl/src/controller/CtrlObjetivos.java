@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.Objetivodemedicacao;
+import model.Objetivodemedicao;
 import model.Objetivodequestao;
 
 /**
@@ -16,9 +16,9 @@ public class CtrlObjetivos {
 
     private final FacadeJpa facadejpa = FacadeJpa.getInstance();
 
-    public boolean criarNovoObjetivoMedicao(Objetivodemedicacao objetivo) {
+    public boolean criarNovoObjetivoMedicao(Objetivodemedicao objetivo) {
         try {
-            facadejpa.getObjetivodemedicacao().create(objetivo);
+            facadejpa.getObjetivodemedicao().create(objetivo);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
             return true;
         } catch (Exception ex) {
@@ -28,9 +28,9 @@ public class CtrlObjetivos {
         }
     }
 
-    public boolean editarObjetivoMedicao(Objetivodemedicacao objetivo) {
+    public boolean editarObjetivoMedicao(Objetivodemedicao objetivo) {
         try {
-            facadejpa.getObjetivodemedicacao().edit(objetivo);
+            facadejpa.getObjetivodemedicao().edit(objetivo);
             JOptionPane.showMessageDialog(null, "Editado com sucesso");
             return true;
         } catch (Exception ex) {
@@ -70,7 +70,7 @@ public class CtrlObjetivos {
         }
     }
 
-    public Objetivodemedicacao buscaObjetivoDeMedicaoPeloNome(String nome) {
+    public Objetivodemedicao buscaObjetivoDeMedicaoPeloNome(String nome) {
         try {
             return facadejpa.getObjetivoDeMedicaoJpa().findByNome(nome);
         } catch (Exception error) {

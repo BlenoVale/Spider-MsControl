@@ -1,5 +1,6 @@
 package view;
 
+import view.gerencia.ViewCadastroDeInformacoes;
 import controller.CtrlUsuario;
 import java.util.Arrays;
 import javax.swing.JOptionPane;

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "coleta")
@@ -34,13 +34,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
     @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.coletaPK.id = :id"),
+    @NamedQuery(name = "Coleta.findByMedidaid", query = "SELECT c FROM Coleta c WHERE c.coletaPK.medidaid = :medidaid"),
+    @NamedQuery(name = "Coleta.findByMedidaProjetoid", query = "SELECT c FROM Coleta c WHERE c.coletaPK.medidaProjetoid = :medidaProjetoid"),
     @NamedQuery(name = "Coleta.findByVersao", query = "SELECT c FROM Coleta c WHERE c.versao = :versao"),
     @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
     @NamedQuery(name = "Coleta.findByComposicao", query = "SELECT c FROM Coleta c WHERE c.composicao = :composicao"),
     @NamedQuery(name = "Coleta.findByTipoDeColeta", query = "SELECT c FROM Coleta c WHERE c.tipoDeColeta = :tipoDeColeta"),
-    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao"),
-    @NamedQuery(name = "Coleta.findByMedidaid", query = "SELECT c FROM Coleta c WHERE c.coletaPK.medidaid = :medidaid"),
-    @NamedQuery(name = "Coleta.findByMedidaProjetoid", query = "SELECT c FROM Coleta c WHERE c.coletaPK.medidaProjetoid = :medidaProjetoid")})
+    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao")})
 public class Coleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -56,6 +56,8 @@ public class Coleta implements Serializable {
     private String tipoDeColeta;
     @Column(name = "observacao")
     private String observacao;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coleta")
+    private List<Registrocoleta> registrocoletaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coleta")
     private List<Procedimentodeanalise> procedimentodeanaliseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coleta")
@@ -123,6 +125,15 @@ public class Coleta implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    @XmlTransient
+    public List<Registrocoleta> getRegistrocoletaList() {
+        return registrocoletaList;
+    }
+
+    public void setRegistrocoletaList(List<Registrocoleta> registrocoletaList) {
+        this.registrocoletaList = registrocoletaList;
     }
 
     @XmlTransient

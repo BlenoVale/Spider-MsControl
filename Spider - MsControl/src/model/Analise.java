@@ -6,6 +6,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -14,12 +16,14 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "analise")
@@ -27,11 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Analise.findAll", query = "SELECT a FROM Analise a"),
     @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.analisePK.id = :id"),
+    @NamedQuery(name = "Analise.findByMedidaid", query = "SELECT a FROM Analise a WHERE a.analisePK.medidaid = :medidaid"),
+    @NamedQuery(name = "Analise.findByMedidaProjetoid", query = "SELECT a FROM Analise a WHERE a.analisePK.medidaProjetoid = :medidaProjetoid"),
     @NamedQuery(name = "Analise.findByVersao", query = "SELECT a FROM Analise a WHERE a.versao = :versao"),
     @NamedQuery(name = "Analise.findByIndicador", query = "SELECT a FROM Analise a WHERE a.indicador = :indicador"),
-    @NamedQuery(name = "Analise.findByCriterioDeAnalise", query = "SELECT a FROM Analise a WHERE a.criterioDeAnalise = :criterioDeAnalise"),
-    @NamedQuery(name = "Analise.findByMedidaid", query = "SELECT a FROM Analise a WHERE a.analisePK.medidaid = :medidaid"),
-    @NamedQuery(name = "Analise.findByMedidaProjetoid", query = "SELECT a FROM Analise a WHERE a.analisePK.medidaProjetoid = :medidaProjetoid")})
+    @NamedQuery(name = "Analise.findByCriterioDeAnalise", query = "SELECT a FROM Analise a WHERE a.criterioDeAnalise = :criterioDeAnalise")})
 public class Analise implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -47,6 +51,8 @@ public class Analise implements Serializable {
         @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Medida medida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analise")
+    private List<Registroanalise> registroanaliseList;
 
     public Analise() {
     }
@@ -97,6 +103,15 @@ public class Analise implements Serializable {
 
     public void setMedida(Medida medida) {
         this.medida = medida;
+    }
+
+    @XmlTransient
+    public List<Registroanalise> getRegistroanaliseList() {
+        return registroanaliseList;
+    }
+
+    public void setRegistroanaliseList(List<Registroanalise> registroanaliseList) {
+        this.registroanaliseList = registroanaliseList;
     }
 
     @Override

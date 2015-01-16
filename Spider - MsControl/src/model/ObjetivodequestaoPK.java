@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Embeddable
 public class ObjetivodequestaoPK implements Serializable {
@@ -20,19 +20,19 @@ public class ObjetivodequestaoPK implements Serializable {
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @Column(name = "ObjetivoDeMedicacao_id")
-    private int objetivoDeMedicacaoid;
+    @Column(name = "ObjetivoDeMedicao_id")
+    private int objetivoDeMedicaoid;
     @Basic(optional = false)
-    @Column(name = "ObjetivoDeMedicacao_Projeto_id")
-    private int objetivoDeMedicacaoProjetoid;
+    @Column(name = "ObjetivoDeMedicao_Projeto_id")
+    private int objetivoDeMedicaoProjetoid;
 
     public ObjetivodequestaoPK() {
     }
 
-    public ObjetivodequestaoPK(int id, int objetivoDeMedicacaoid, int objetivoDeMedicacaoProjetoid) {
+    public ObjetivodequestaoPK(int id, int objetivoDeMedicaoid, int objetivoDeMedicaoProjetoid) {
         this.id = id;
-        this.objetivoDeMedicacaoid = objetivoDeMedicacaoid;
-        this.objetivoDeMedicacaoProjetoid = objetivoDeMedicacaoProjetoid;
+        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
+        this.objetivoDeMedicaoProjetoid = objetivoDeMedicaoProjetoid;
     }
 
     public int getId() {
@@ -43,28 +43,28 @@ public class ObjetivodequestaoPK implements Serializable {
         this.id = id;
     }
 
-    public int getObjetivoDeMedicacaoid() {
-        return objetivoDeMedicacaoid;
+    public int getObjetivoDeMedicaoid() {
+        return objetivoDeMedicaoid;
     }
 
-    public void setObjetivoDeMedicacaoid(int objetivoDeMedicacaoid) {
-        this.objetivoDeMedicacaoid = objetivoDeMedicacaoid;
+    public void setObjetivoDeMedicaoid(int objetivoDeMedicaoid) {
+        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
     }
 
-    public int getObjetivoDeMedicacaoProjetoid() {
-        return objetivoDeMedicacaoProjetoid;
+    public int getObjetivoDeMedicaoProjetoid() {
+        return objetivoDeMedicaoProjetoid;
     }
 
-    public void setObjetivoDeMedicacaoProjetoid(int objetivoDeMedicacaoProjetoid) {
-        this.objetivoDeMedicacaoProjetoid = objetivoDeMedicacaoProjetoid;
+    public void setObjetivoDeMedicaoProjetoid(int objetivoDeMedicaoProjetoid) {
+        this.objetivoDeMedicaoProjetoid = objetivoDeMedicaoProjetoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) objetivoDeMedicacaoid;
-        hash += (int) objetivoDeMedicacaoProjetoid;
+        hash += (int) objetivoDeMedicaoid;
+        hash += (int) objetivoDeMedicaoProjetoid;
         return hash;
     }
 
@@ -77,16 +77,16 @@ public class ObjetivodequestaoPK implements Serializable {
         ObjetivodequestaoPK other = (ObjetivodequestaoPK) object;
         if (this.id != other.id)
             return false;
-        if (this.objetivoDeMedicacaoid != other.objetivoDeMedicacaoid)
+        if (this.objetivoDeMedicaoid != other.objetivoDeMedicaoid)
             return false;
-        if (this.objetivoDeMedicacaoProjetoid != other.objetivoDeMedicacaoProjetoid)
+        if (this.objetivoDeMedicaoProjetoid != other.objetivoDeMedicaoProjetoid)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.ObjetivodequestaoPK[ id=" + id + ", objetivoDeMedicacaoid=" + objetivoDeMedicacaoid + ", objetivoDeMedicacaoProjetoid=" + objetivoDeMedicacaoProjetoid + " ]";
+        return "model.ObjetivodequestaoPK[ id=" + id + ", objetivoDeMedicaoid=" + objetivoDeMedicaoid + ", objetivoDeMedicaoProjetoid=" + objetivoDeMedicaoProjetoid + " ]";
     }
     
 }
