@@ -27,6 +27,20 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
             throw error;
         }
     }
+    
+    public Objetivodemedicao findByNomeAndIdProjeto(String nomeObjMedicao, int idProjeto) {
+        try {
+            Objetivodemedicao objetivodemedicao = null;
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome AND o.objetivodemedicaoPK.projetoid = :idProjeto");
+            query.setParameter("nome", nomeObjMedicao);
+            query.setParameter("idProjeto", idProjeto);
+            objetivodemedicao = (Objetivodemedicao) query.getSingleResult();
+            return objetivodemedicao;
+        } catch (Exception error) {
+            return null;
+        }
+    }
 
     public List<Objetivodemedicao> findObjetivoMedicaoByIdProjeto(int idProjeto) {
         List<Objetivodemedicao> listObjetivoMedicao = null;

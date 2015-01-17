@@ -165,6 +165,10 @@ public class Objetivodemedicao implements Serializable {
     public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
         this.registroobjetivomedicaoList = registroobjetivomedicaoList;
     }
+    
+    public void setRegistroobjetivomedicao(Registroobjetivomedicao registro) {
+        this.registroobjetivomedicaoList.add(registro);
+    }
 
     @Override
     public int hashCode() {

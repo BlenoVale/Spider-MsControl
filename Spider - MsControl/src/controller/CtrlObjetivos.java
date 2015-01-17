@@ -16,7 +16,22 @@ public class CtrlObjetivos {
 
     private final FacadeJpa facadejpa = FacadeJpa.getInstance();
 
-    public boolean criarNovoObjetivoMedicao(Objetivodemedicao objetivo) {
+    /**
+     * Cria um novo objetivo de medicao em um projeto.
+     *
+     * @param objetivo Objetivo que serah criado
+     * @param idProjeto Projeto onde serah criado o objetivo
+     * @return true caso seja criado um novo objetivo, false caso ja exista um
+     * objetivo com mesmo nome.
+     */
+    public boolean criarNovoObjetivoMedicao(Objetivodemedicao objetivo, int idProjeto) {
+
+        Objetivodemedicao objetivoAux = facadejpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), idProjeto);
+        if (objetivoAux != null) {
+            JOptionPane.showMessageDialog(null, "Ja existe um objetivo de medição com este nome neste projeto");
+            return false;
+        }
+
         try {
             facadejpa.getObjetivodemedicao().create(objetivo);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
@@ -28,7 +43,24 @@ public class CtrlObjetivos {
         }
     }
 
-    public boolean editarObjetivoMedicao(Objetivodemedicao objetivo) {
+     /**
+     * Edita um objetivo de medicao em um projeto.
+     *
+     * @param objetivo Objetivo que serah editado
+     * @param idProjeto Projeto onde serah editado o objetivo
+     * @return true caso o objetivo seja editado, false caso ja exista um
+     * objetivo com mesmo nome.
+     */
+    public boolean editarObjetivoMedicao(Objetivodemedicao objetivo, int idProjeto) {
+
+        Objetivodemedicao objetivoAux = facadejpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), idProjeto);
+        if (objetivoAux != null) {
+            if (objetivoAux.getObjetivodemedicaoPK().getId() != objetivo.getObjetivodemedicaoPK().getId()) {
+                JOptionPane.showMessageDialog(null, "Ja existe um objetivo de medição com este nome neste projeto");
+                return false;
+            }
+        }
+
         try {
             facadejpa.getObjetivodemedicao().edit(objetivo);
             JOptionPane.showMessageDialog(null, "Editado com sucesso");
@@ -113,9 +145,7 @@ public class CtrlObjetivos {
     public List<Objetivodequestao> buscaSeNomeQuestaoJaExiste(String nome, int id_projeto, int prioridade) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto, prioridade);
-        }
-        catch(Exception error)
-        {
+        } catch (Exception error) {
             throw error;
         }
     }
