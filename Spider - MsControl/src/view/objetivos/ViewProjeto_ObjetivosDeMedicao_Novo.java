@@ -27,6 +27,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         initComponents();
 
         agruparBotoes();
+        jRadioButtonOrganizacional.setSelected(true);
         this.setLocationRelativeTo(null);
     }
 
