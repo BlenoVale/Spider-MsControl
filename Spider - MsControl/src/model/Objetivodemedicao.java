@@ -148,6 +148,10 @@ public class Objetivodemedicao implements Serializable {
     public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
         this.objetivodequestaoList = objetivodequestaoList;
     }
+    
+    public void addObjetivodequestaoList(Objetivodequestao objetivodequestaoList) {
+        this.objetivodequestaoList.add(objetivodequestaoList);
+    }
 
     public Projeto getProjeto() {
         return projeto;

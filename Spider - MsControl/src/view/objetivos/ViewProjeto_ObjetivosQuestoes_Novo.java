@@ -2,8 +2,11 @@ package view.objetivos;
 
 import controller.CtrlObjetivos;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import jpa.exceptions.NonexistentEntityException;
 import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import model.Projeto;
@@ -407,11 +410,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
                 objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
                 objetivo_questao.setDataLevantamento(new Date());
-
-                Objetivodemedicao objetivoDeMedicao = new Objetivodemedicao();
-                objetivoDeMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString());
-                objetivo_questao.setObjetivodemedicao(objetivoDeMedicao);
-
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
 
                 // verifica se já existe Questão com o mesmo nome
@@ -419,7 +417,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                     ctrlObjetivos.editarQuestao(objetivo_questao);
                     this.dispose();
                 }
-
             }
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed

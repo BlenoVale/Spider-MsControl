@@ -94,6 +94,7 @@ public class CtrlObjetivos {
             return true;
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Não foi possível Editar", "ERRO DE EDIÇÃO", JOptionPane.ERROR_MESSAGE);
+            System.out.println(erro);
             return false;
         }
     }
