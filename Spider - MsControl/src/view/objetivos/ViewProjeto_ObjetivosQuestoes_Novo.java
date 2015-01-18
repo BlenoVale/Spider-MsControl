@@ -3,8 +3,8 @@ package view.objetivos;
 import controller.CtrlObjetivos;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import model.Projeto;
 import util.Copia;
@@ -27,8 +27,8 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
+        agruparBotoesRadio();
         this.setLocationRelativeTo(null);
-
         this.getModalityType();
     }
 
@@ -41,7 +41,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         ehNovaQuestao = true;
 
         popularComboboxObjetivoRelacionado();
-        jTextFieldNomeLevantador.setText(this.nomeUsuario_logado);
         jTextFieldDataDeLevantamento.setText(Texto.formataData(new Date()));
         this.setVisible(true);
     }
@@ -55,7 +54,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         ehNovaQuestao = false;
 
         popularComboboxObjetivoRelacionado();
-        jLabelNomeUsuario.setText("Nome do Editor");
         jLabelData.setText("Data de Edição:");
         preencherCampos();
         this.setVisible(true);
@@ -66,26 +64,26 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jTextFieldNomeQuestao.setText(objetivo_questao.getNome());
         jTextFieldNomeIndicador.setText(objetivo_questao.getIndicador());
         jTextAreaDescricaoIndicador.setText(objetivo_questao.getDescricaoIndicador());
-        selecionarCheckBox();
+        selecionarRadio();
         jTextFieldNomeLevantador.setText(this.nomeUsuario_logado);
         jTextFieldDataDeLevantamento.setText(Texto.formataData(new Date()));
         jComboBoxObjRelacionado.setSelectedItem(objetivo_questao.getObjetivodemedicao().getNome());
         jTextAreaObservacao.setText(objetivo_questao.getObservacao());
     }
 
-    private void selecionarCheckBox() {
+    private void selecionarRadio() {
         switch (objetivo_questao.getTipoDeDerivacao()) {
             case "Objetivo de Negócio":
-                jCheckBoxObjNegocio.setSelected(true);
+                jRadioButtonObjetivoDeNegocio.setSelected(true);
                 break;
             case "Legislação":
-                jCheckBoxLegislacao.setSelected(true);
+                jRadioButtonLegislacao.setSelected(true);
                 break;
             case "Objetivo de Produto":
-                jCheckBoxObjProduto.setSelected(true);
+                jRadioButtonObjetivoDeProduto.setSelected(true);
                 break;
             case "Objetivo de Processo":
-                jCheckBoxObjProcesso.setSelected(true);
+                jRadioButtonObjetivoDeProcesso.setSelected(true);
                 break;
         }
     }
@@ -100,24 +98,22 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jComboBoxObjRelacionado.setModel(comboboxModel);
     }
 
-    private void setTipodeVariacao(JCheckBox jCheckBox) {
-        jCheckBoxObjNegocio.setSelected(false);
-        jCheckBoxLegislacao.setSelected(false);
-        jCheckBoxObjProduto.setSelected(false);
-        jCheckBoxObjProcesso.setSelected(false);
-
-        jCheckBox.setSelected(true);
+    private void agruparBotoesRadio() {
+        buttonGroupTipoDeVariacao.add(jRadioButtonObjetivoDeNegocio);
+        buttonGroupTipoDeVariacao.add(jRadioButtonLegislacao);
+        buttonGroupTipoDeVariacao.add(jRadioButtonObjetivoDeProduto);
+        buttonGroupTipoDeVariacao.add(jRadioButtonObjetivoDeProcesso);
     }
 
     private String getTipoDeVariacao() {
         String variacao = null;
-        if (jCheckBoxObjNegocio.isSelected()) {
+        if (jRadioButtonObjetivoDeNegocio.isSelected()) {
             variacao = "Objetivo de Negócio";
-        } else if (jCheckBoxLegislacao.isSelected()) {
+        } else if (jRadioButtonLegislacao.isSelected()) {
             variacao = "Legislação";
-        } else if (jCheckBoxObjProduto.isSelected()) {
+        } else if (jRadioButtonObjetivoDeProduto.isSelected()) {
             variacao = "Objetivo de Produto";
-        } else if (jCheckBoxObjProcesso.isSelected()) {
+        } else if (jRadioButtonObjetivoDeProcesso.isSelected()) {
             variacao = "Objetivo de Processo";
         }
         return variacao;
@@ -167,6 +163,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupTipoDeVariacao = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -179,10 +176,10 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNomeIndicador = new javax.swing.JTextField();
         jPanelTipoDeVariacao = new javax.swing.JPanel();
-        jCheckBoxObjNegocio = new javax.swing.JCheckBox();
-        jCheckBoxLegislacao = new javax.swing.JCheckBox();
-        jCheckBoxObjProduto = new javax.swing.JCheckBox();
-        jCheckBoxObjProcesso = new javax.swing.JCheckBox();
+        jRadioButtonObjetivoDeNegocio = new javax.swing.JRadioButton();
+        jRadioButtonLegislacao = new javax.swing.JRadioButton();
+        jRadioButtonObjetivoDeProduto = new javax.swing.JRadioButton();
+        jRadioButtonObjetivoDeProcesso = new javax.swing.JRadioButton();
         jLabelData = new javax.swing.JLabel();
         jTextFieldDataDeLevantamento = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -199,10 +196,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         jLabel1.setText("Nome da Questão:");
 
-        jLabelNomeUsuario.setText("Nome do levantador:");
-
-        jTextFieldNomeLevantador.setEditable(false);
-        jTextFieldNomeLevantador.setBackground(new java.awt.Color(204, 204, 204));
+        jLabelNomeUsuario.setText("Ponto de Vista:");
 
         jTextAreaDescricaoIndicador.setColumns(20);
         jTextAreaDescricaoIndicador.setRows(5);
@@ -210,37 +204,17 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         jLabel4.setText("Descrição do Indicador:");
 
-        jLabel3.setText("Nome do Indicador: ");
+        jLabel3.setText("Indicador: ");
 
         jPanelTipoDeVariacao.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tipo de variação"));
 
-        jCheckBoxObjNegocio.setText("Objetivo de Negócio");
-        jCheckBoxObjNegocio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxObjNegocioActionPerformed(evt);
-            }
-        });
+        jRadioButtonObjetivoDeNegocio.setText("Objetivo de negócio");
 
-        jCheckBoxLegislacao.setText("Legislação");
-        jCheckBoxLegislacao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxLegislacaoActionPerformed(evt);
-            }
-        });
+        jRadioButtonLegislacao.setText("Legislação");
 
-        jCheckBoxObjProduto.setText("Objetivo de Produto");
-        jCheckBoxObjProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxObjProdutoActionPerformed(evt);
-            }
-        });
+        jRadioButtonObjetivoDeProduto.setText("Objetivo de Produto");
 
-        jCheckBoxObjProcesso.setText("Objetivo de Processo");
-        jCheckBoxObjProcesso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxObjProcessoActionPerformed(evt);
-            }
-        });
+        jRadioButtonObjetivoDeProcesso.setText("Objeivo de Processo");
 
         javax.swing.GroupLayout jPanelTipoDeVariacaoLayout = new javax.swing.GroupLayout(jPanelTipoDeVariacao);
         jPanelTipoDeVariacao.setLayout(jPanelTipoDeVariacaoLayout);
@@ -249,25 +223,25 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             .addGroup(jPanelTipoDeVariacaoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelTipoDeVariacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxObjNegocio)
-                    .addComponent(jCheckBoxLegislacao))
-                .addGap(18, 18, 18)
+                    .addComponent(jRadioButtonObjetivoDeNegocio)
+                    .addComponent(jRadioButtonLegislacao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelTipoDeVariacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxObjProcesso)
-                    .addComponent(jCheckBoxObjProduto))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jRadioButtonObjetivoDeProcesso)
+                    .addComponent(jRadioButtonObjetivoDeProduto))
+                .addContainerGap(403, Short.MAX_VALUE))
         );
         jPanelTipoDeVariacaoLayout.setVerticalGroup(
             jPanelTipoDeVariacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTipoDeVariacaoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelTipoDeVariacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxObjNegocio)
-                    .addComponent(jCheckBoxObjProduto))
+                    .addComponent(jRadioButtonObjetivoDeNegocio)
+                    .addComponent(jRadioButtonObjetivoDeProduto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelTipoDeVariacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxLegislacao)
-                    .addComponent(jCheckBoxObjProcesso))
+                    .addComponent(jRadioButtonLegislacao)
+                    .addComponent(jRadioButtonObjetivoDeProcesso))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -303,7 +277,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(469, Short.MAX_VALUE)
+                .addContainerGap(525, Short.MAX_VALUE)
                 .addComponent(jButtonSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,11 +395,9 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setPrioridade(ctrlObjetivos.getQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
 
                 // verifica se já existe Questão com o mesmo nome
-                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade()).isEmpty()) {
+                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
                     ctrlObjetivos.criarNovaQuestao(objetivo_questao);
                     this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
                 }
 
             } else {
@@ -435,44 +407,27 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
                 objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
                 objetivo_questao.setDataLevantamento(new Date());
-                objetivo_questao.setObjetivodemedicao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
+
+                Objetivodemedicao objetivoDeMedicao = new Objetivodemedicao();
+                objetivoDeMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString());
+                objetivo_questao.setObjetivodemedicao(objetivoDeMedicao);
+
                 objetivo_questao.setObservacao(jTextAreaObservacao.getText());
 
                 // verifica se já existe Questão com o mesmo nome
-                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade()).isEmpty()) {
+                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
                     ctrlObjetivos.editarQuestao(objetivo_questao);
                     this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
                 }
 
             }
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    private void jCheckBoxObjNegocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxObjNegocioActionPerformed
-        setTipodeVariacao(jCheckBoxObjNegocio);
-    }//GEN-LAST:event_jCheckBoxObjNegocioActionPerformed
-
-    private void jCheckBoxLegislacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxLegislacaoActionPerformed
-        setTipodeVariacao(jCheckBoxLegislacao);
-    }//GEN-LAST:event_jCheckBoxLegislacaoActionPerformed
-
-    private void jCheckBoxObjProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxObjProdutoActionPerformed
-        setTipodeVariacao(jCheckBoxObjProduto);
-    }//GEN-LAST:event_jCheckBoxObjProdutoActionPerformed
-
-    private void jCheckBoxObjProcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxObjProcessoActionPerformed
-        setTipodeVariacao(jCheckBoxObjProcesso);
-    }//GEN-LAST:event_jCheckBoxObjProcessoActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroupTipoDeVariacao;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JCheckBox jCheckBoxLegislacao;
-    private javax.swing.JCheckBox jCheckBoxObjNegocio;
-    private javax.swing.JCheckBox jCheckBoxObjProcesso;
-    private javax.swing.JCheckBox jCheckBoxObjProduto;
     private javax.swing.JComboBox jComboBoxObjRelacionado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -483,6 +438,10 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelNomeUsuario;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelTipoDeVariacao;
+    private javax.swing.JRadioButton jRadioButtonLegislacao;
+    private javax.swing.JRadioButton jRadioButtonObjetivoDeNegocio;
+    private javax.swing.JRadioButton jRadioButtonObjetivoDeProcesso;
+    private javax.swing.JRadioButton jRadioButtonObjetivoDeProduto;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPaneDescricaoIndicador;
     private javax.swing.JScrollPane jScrollPaneObservacao;

@@ -215,10 +215,10 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton1" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jButton4" max="32767" attributes="0"/>
+                          <Component id="jButtonAumentar" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jButtonDiminuir" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jButtonResetar" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jButtonConfirmar" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -227,41 +227,50 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAumentar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonDiminuir" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonResetar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonConfirmar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="jButtonAumentar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aumentar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAumentarActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="jButtonDiminuir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Diminuir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiminuirActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="jButtonResetar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Resetar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonResetarActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="jButtonConfirmar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar"/>
+                <Property name="text" type="java.lang.String" value="Confirmar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonConfirmarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroupTipoDeVariacao">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Cadastro de nova Quest&#xe3;o"/>
@@ -53,7 +57,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="469" max="32767" attributes="0"/>
+                      <EmptySpace pref="525" max="32767" attributes="0"/>
                       <Component id="jButtonSalvar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonCancelar" min="-2" pref="83" max="-2" attributes="0"/>
@@ -161,18 +165,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelNomeUsuario">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nome do levantador:"/>
+                <Property name="text" type="java.lang.String" value="Ponto de Vista:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldNomeQuestao">
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldNomeLevantador">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
-                </Property>
-              </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPaneDescricaoIndicador">
               <AuxValues>
@@ -196,7 +194,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nome do Indicador: "/>
+                <Property name="text" type="java.lang.String" value="Indicador: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldNomeIndicador">
@@ -220,15 +218,15 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jCheckBoxObjNegocio" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxLegislacao" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonObjetivoDeNegocio" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonLegislacao" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jCheckBoxObjProcesso" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxObjProduto" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonObjetivoDeProcesso" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonObjetivoDeProduto" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="403" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -237,13 +235,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jCheckBoxObjNegocio" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxObjProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonObjetivoDeNegocio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonObjetivoDeProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jCheckBoxLegislacao" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jCheckBoxObjProcesso" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonLegislacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButtonObjetivoDeProcesso" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -251,37 +249,25 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JCheckBox" name="jCheckBoxObjNegocio">
+                <Component class="javax.swing.JRadioButton" name="jRadioButtonObjetivoDeNegocio">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Objetivo de Neg&#xf3;cio"/>
+                    <Property name="text" type="java.lang.String" value="Objetivo de neg&#xf3;cio"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxObjNegocioActionPerformed"/>
-                  </Events>
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBoxLegislacao">
+                <Component class="javax.swing.JRadioButton" name="jRadioButtonLegislacao">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Legisla&#xe7;&#xe3;o"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxLegislacaoActionPerformed"/>
-                  </Events>
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBoxObjProduto">
+                <Component class="javax.swing.JRadioButton" name="jRadioButtonObjetivoDeProduto">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Objetivo de Produto"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxObjProdutoActionPerformed"/>
-                  </Events>
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="jCheckBoxObjProcesso">
+                <Component class="javax.swing.JRadioButton" name="jRadioButtonObjetivoDeProcesso">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Objetivo de Processo"/>
+                    <Property name="text" type="java.lang.String" value="Objeivo de Processo"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxObjProcessoActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

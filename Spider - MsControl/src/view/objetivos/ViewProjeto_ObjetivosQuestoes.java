@@ -76,7 +76,43 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoPeloNomeEIdProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
-    
+
+    private void aumentarPrioridade() {
+        if (jTable.getSelectedRow() > 0) {
+            int linha_selecionada = jTable.getSelectedRow();
+            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
+
+            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada - 1, 0).toString()));
+            lista_questoes.get(linha_selecionada - 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
+
+            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada - 1));
+            lista_questoes.set(linha_selecionada - 1, questao_selecionada);
+
+            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
+            jTable.addRowSelectionInterval(linha_selecionada - 1, linha_selecionada - 1);
+        } else if (jTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+        }
+    }
+
+    private void diminuirPrioridade() {
+        if (jTable.getSelectedRow() < lista_questoes.size() - 1 && jTable.getSelectedRow() != -1) {
+            int linha_selecionada = jTable.getSelectedRow();
+            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
+
+            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada + 1, 0).toString()));
+            lista_questoes.get(linha_selecionada + 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
+
+            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada + 1));
+            lista_questoes.set(linha_selecionada + 1, questao_selecionada);
+
+            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
+            jTable.addRowSelectionInterval(linha_selecionada + 1, linha_selecionada + 1);
+        } else if (jTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -91,10 +127,10 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         jButtonEditar = new javax.swing.JButton();
         jButtonNovoObjetivo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButtonAumentar = new javax.swing.JButton();
+        jButtonDiminuir = new javax.swing.JButton();
+        jButtonResetar = new javax.swing.JButton();
+        jButtonConfirmar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,18 +191,33 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Prioridade"));
 
-        jButton1.setText("Aumentar");
-
-        jButton2.setText("Diminuir");
-
-        jButton3.setText("Resetar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAumentar.setText("Aumentar");
+        jButtonAumentar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonAumentarActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Salvar");
+        jButtonDiminuir.setText("Diminuir");
+        jButtonDiminuir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiminuirActionPerformed(evt);
+            }
+        });
+
+        jButtonResetar.setText("Resetar");
+        jButtonResetar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonResetarActionPerformed(evt);
+            }
+        });
+
+        jButtonConfirmar.setText("Confirmar");
+        jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConfirmarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -175,22 +226,22 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButtonAumentar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDiminuir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonResetar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(jButtonAumentar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(jButtonDiminuir)
                 .addGap(27, 27, 27)
-                .addComponent(jButton3)
+                .addComponent(jButtonResetar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(jButtonConfirmar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -278,28 +329,46 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         preencherTabelaQuestoes();
     }//GEN-LAST:event_jButtonNovoObjetivoActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
-        List<Objetivodequestao> questoes = ctrlObjetivos.buscaParteDoNomeQuestao(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
-        preencheTabelaQuestoesPorParteDoNome(questoes);
+        lista_questoes = ctrlObjetivos.buscaParteDoNomeQuestao(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
+        preencheTabelaQuestoesPorParteDoNome(lista_questoes);
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
+    private void jButtonAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAumentarActionPerformed
+        aumentarPrioridade();
+    }//GEN-LAST:event_jButtonAumentarActionPerformed
+
+    private void jButtonDiminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiminuirActionPerformed
+        diminuirPrioridade();
+    }//GEN-LAST:event_jButtonDiminuirActionPerformed
+
+    private void jButtonResetarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetarActionPerformed
+        preencherTabelaQuestoes();
+    }//GEN-LAST:event_jButtonResetarActionPerformed
+
+    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        List<Objetivodequestao> lista_antiga = ctrlObjetivos.getQuestoesDoProjeto(idDoProjeto);
+        if ((!lista_questoes.equals(lista_antiga)) && lista_questoes.size() >= lista_antiga.size()) {
+            ctrlObjetivos.editarPrioridadeDaListaDeQuestoes(lista_questoes);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há modificações de Prioridades.");
+        }
+    }//GEN-LAST:event_jButtonConfirmarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonAumentar;
+    private javax.swing.JButton jButtonConfirmar;
+    private javax.swing.JButton jButtonDiminuir;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovoObjetivo;
+    private javax.swing.JButton jButtonResetar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

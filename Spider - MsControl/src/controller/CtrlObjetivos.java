@@ -43,7 +43,7 @@ public class CtrlObjetivos {
         }
     }
 
-     /**
+    /**
      * Edita um objetivo de medicao em um projeto.
      *
      * @param objetivo Objetivo que serah editado
@@ -91,6 +91,22 @@ public class CtrlObjetivos {
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Não foi possível Editar", "ERRO DE EDIÇÃO", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+    }
+
+    public void editarPrioridadeDaListaDeQuestoes(List<Objetivodequestao> lista_questao) {
+        try {
+            int resposta = JOptionPane.showConfirmDialog(null, "Confirmar alterações?\n\nAo Cofirmar as alterações de Prioridades elas se tornaram permanentes.");
+
+            if (resposta == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < lista_questao.size(); i++) {
+                    facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
+                }
+                JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso.");
+            }
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Erro inesperado.");
+            error.printStackTrace();
         }
     }
 
@@ -142,9 +158,14 @@ public class CtrlObjetivos {
         }
     }
 
-    public List<Objetivodequestao> buscaSeNomeQuestaoJaExiste(String nome, int id_projeto, int prioridade) {
+    public boolean buscaSeNomeQuestaoJaExiste(String nome, int id_projeto, int prioridade) {
         try {
-            return facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto, prioridade);
+            if (facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto, prioridade).isEmpty()) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
+                return false;
+            }
         } catch (Exception error) {
             throw error;
         }
