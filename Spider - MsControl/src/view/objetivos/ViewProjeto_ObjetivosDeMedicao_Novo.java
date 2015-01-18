@@ -1,16 +1,12 @@
 package view.objetivos;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import controller.CtrlObjetivos;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Objetivodemedicao;
 import model.Projeto;
 import model.Registroobjetivomedicao;
-import model.RegistroobjetivomedicaoPK;
-import util.Copia;
 import util.Texto;
 
 /**
@@ -281,6 +277,8 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
 
         jLabelEditado.setText("Editado por:");
 
+        jTextFieldEditado.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -407,13 +405,14 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         objetivo.setFoco(jTextAreaFoco.getText());
         objetivo.setAmbiente(jTextAreaAmbiente.getText());
         objetivo.setObservacao(jTextAreaObservacao.getText());
-           
+
         CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
         if (ehNovoObjetivo)
             objetivoCriadoEditado = ctrlObjetivos.criarNovoObjetivoMedicao(objetivo, projeto.getId());
-        else
+        else {
             objetivoCriadoEditado = ctrlObjetivos.editarObjetivoMedicao(objetivo, projeto.getId());
-
+            ctrlObjetivos.registrar(objetivo, Registroobjetivomedicao.EDICAO);
+        }
         if (objetivoCriadoEditado)
             this.dispose();
 

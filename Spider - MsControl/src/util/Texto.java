@@ -17,5 +17,4 @@ public class Texto {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE   dd / MMMM / yyyy");
         return sdf.format(data);
     }
-
 }
