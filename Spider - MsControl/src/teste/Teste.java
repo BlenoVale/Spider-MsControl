@@ -3,7 +3,10 @@ package teste;
 import facade.FacadeJpa;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Objetivodemedicao;
+import model.Registroobjetivomedicao;
 
 /**
  *
@@ -51,8 +54,22 @@ public class Teste {
 //        } catch (Exception e) {
 //            System.out.println("Não funfou");
 //        }
-      
+        Registroobjetivomedicao registro = new Registroobjetivomedicao();
+        try {
+            Objetivodemedicao objetivo = FacadeJpa.getInstance().getObjetivoDeMedicaoJpa().findObjetivodemedicaoEntities().get(0);
+            
+            registro.setData(new Date());
+            registro.setNomeUsuario("asdfasd");
+            registro.setTipo(1);
+            registro.setObjetivodemedicao(objetivo);
+            FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().create(registro);
+            System.out.println("Foi");
+        } catch (Exception ex) {
+            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
+
     public static String getData() {
         SimpleDateFormat formatador = new SimpleDateFormat("yy/MM/dd");
         Date data = new Date();

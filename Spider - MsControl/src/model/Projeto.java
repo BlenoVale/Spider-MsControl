@@ -76,8 +76,8 @@ public class Projeto implements Serializable {
     private List<Acessa> acessaList;
     
     public static final int ATIVO = 0;
-    public static final int INATIVO = 0;
-    public static final int FINALIZADO = 0;
+    public static final int INATIVO = 1;
+    public static final int FINALIZADO = 2;
 
     public Projeto() {
     }

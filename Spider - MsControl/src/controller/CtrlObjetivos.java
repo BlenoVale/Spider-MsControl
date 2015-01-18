@@ -1,12 +1,16 @@
 package controller;
 
 import facade.FacadeJpa;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Objetivodemedicao;
 import model.Objetivodequestao;
+import model.Registroobjetivomedicao;
+import util.Copia;
+import view.objetivos.ViewProjeto_ObjetivosDeMedicao_Novo;
 
 /**
  *
@@ -171,4 +175,23 @@ public class CtrlObjetivos {
         }
     }
 
+    /**
+     * Criar um registro sobre objetivo de medicao
+     *
+     * @param objetivo Objetivo ao qual serah acrescentado um registro
+     * @param tipo tipo de registro. Ex: CADASTRO, EDICAO ...
+     */
+    public void registrar(Objetivodemedicao objetivo, int tipo) {
+        Registroobjetivomedicao registro = new Registroobjetivomedicao();
+        registro.setData(new Date());
+        registro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
+        registro.setTipo(tipo);
+        registro.setObjetivodemedicao(objetivo);
+        try {
+            FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().create(registro);
+            System.out.println("Registro criado");
+        } catch (Exception ex) {
+            Logger.getLogger(ViewProjeto_ObjetivosDeMedicao_Novo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
