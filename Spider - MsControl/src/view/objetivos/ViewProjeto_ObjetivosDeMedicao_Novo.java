@@ -1,16 +1,12 @@
 package view.objetivos;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import controller.CtrlObjetivos;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Objetivodemedicao;
 import model.Projeto;
 import model.Registroobjetivomedicao;
-import model.RegistroobjetivomedicaoPK;
-import util.Copia;
 import util.Texto;
 
 /**
