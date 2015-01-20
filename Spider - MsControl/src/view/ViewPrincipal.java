@@ -58,7 +58,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         Copia.setViewPrincipal(this);
         jTree.setEnabled(false);
-        
+
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
     }
@@ -71,7 +71,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
         jTree.setEnabled(false);
-        
+
         Copia.setViewPrincipal(this);
 
         this.setLocationRelativeTo(null);
@@ -85,14 +85,15 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }
 
     private void popularComboboxDeProjetos() {
-        comboboxModel = new DefaultComboBoxModel(); 
+        comboboxModel = new DefaultComboBoxModel();
         comboboxModel.addElement("--Selecione um Projeto--");
-        
+
         List<String> lista_nomeProjetos = new ArrayList<>();
         lista_nomeProjetos = ctrlProjeto.buscarProjetosDoUsuario(this.usuario_logado.getId(), 0);
-        for (String lista_nomeProjeto : lista_nomeProjetos)
+        for (String lista_nomeProjeto : lista_nomeProjetos) {
             this.comboboxModel.addElement(lista_nomeProjeto);
-        
+        }
+
         jComboBoxSelecaoDeProjeto.setModel(this.comboboxModel);
     }
 
@@ -124,9 +125,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
             jTree.setEnabled(true);
             Copia.setViewPrincipal(this);
-        } else
+        } else {
             jTree.setEnabled(false);
-        
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -422,7 +424,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
     private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
-        if (jComboBoxSelecaoDeProjeto.getSelectedItem() != "--Selecione um Projeto--"){
+        if (jComboBoxSelecaoDeProjeto.getSelectedItem() != "--Selecione um Projeto--") {
+            this.projeto_selecionado = this.ctrlProjeto.buscaProjetoPeloNome(jComboBoxSelecaoDeProjeto.getSelectedItem().toString());
             trocaDeTelasPelaArvore();
         } else {
             JOptionPane.showMessageDialog(null, "Selecione um Projeto no combobox.");

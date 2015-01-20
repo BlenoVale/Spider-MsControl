@@ -2,12 +2,8 @@ package view.objetivos;
 
 import controller.CtrlObjetivos;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import jpa.exceptions.NonexistentEntityException;
-import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import model.Projeto;
 import util.Copia;

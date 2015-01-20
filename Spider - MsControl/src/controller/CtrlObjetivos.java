@@ -82,7 +82,7 @@ public class CtrlObjetivos {
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
             return true;
         } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "Não foi possível Cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Não foi possível cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -93,7 +93,7 @@ public class CtrlObjetivos {
             JOptionPane.showMessageDialog(null, "Editado om sucesso.");
             return true;
         } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, "Não foi possível Editar", "ERRO DE EDIÇÃO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Não foi possível editar", "ERRO DE EDIÇÃO", JOptionPane.ERROR_MESSAGE);
             System.out.println(erro);
             return false;
         }
@@ -101,7 +101,7 @@ public class CtrlObjetivos {
 
     public void editarPrioridadeDaListaDeQuestoes(List<Objetivodequestao> lista_questao) {
         try {
-            int resposta = JOptionPane.showConfirmDialog(null, "Confirmar alterações?\n\nAo Cofirmar as alterações de Prioridades elas se tornaram permanentes.");
+            int resposta = JOptionPane.showConfirmDialog(null, "Confirmar alterações?\n\nAo cofirmar as alterações de prioridades elas se tornaram permanentes.");
 
             if (resposta == JOptionPane.YES_OPTION) {
                 for (int i = 0; i < lista_questao.size(); i++) {

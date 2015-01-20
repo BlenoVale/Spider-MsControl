@@ -1,5 +1,6 @@
 package util;
 
+import controller.CtrlProjeto;
 import model.Projeto;
 import model.Usuario;
 import view.ViewPrincipal;
