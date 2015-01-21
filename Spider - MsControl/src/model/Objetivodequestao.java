@@ -44,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Objetivodequestao.findByTipoDeDerivacao", query = "SELECT o FROM Objetivodequestao o WHERE o.tipoDeDerivacao = :tipoDeDerivacao"),
     @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento")})
 public class Objetivodequestao implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "pontoDevista")
+    private String pontoDevista;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ObjetivodequestaoPK objetivodequestaoPK;
@@ -202,6 +205,14 @@ public class Objetivodequestao implements Serializable {
     @Override
     public String toString() {
         return "model.Objetivodequestao[ objetivodequestaoPK=" + objetivodequestaoPK + " ]";
+    }
+
+    public String getPontoDevista() {
+        return pontoDevista;
+    }
+
+    public void setPontoDevista(String pontoDevista) {
+        this.pontoDevista = pontoDevista;
     }
     
 }

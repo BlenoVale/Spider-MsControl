@@ -73,7 +73,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
 
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
-        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoPeloNomeEIdProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
+        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
 

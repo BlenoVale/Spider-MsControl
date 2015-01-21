@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import model.Registroobjetivomedicao;
+import model.Registroobjetivoquestao;
+import model.RegistroobjetivoquestaoPK;
 import util.Copia;
 import view.objetivos.ViewProjeto_ObjetivosDeMedicao_Novo;
 
@@ -139,15 +141,7 @@ public class CtrlObjetivos {
         }
     }
 
-    public int getQuantidadeQuestoesPorProjeto(int id_projeto) {
-        try {
-            return getQuestoesDoProjeto(id_projeto).size();
-        } catch (Exception error) {
-            throw error;
-        }
-    }
-
-    public Objetivodequestao buscaObjetivoDeQuestaoPeloNomeEIdProjeto(String nome_questao, int id_projeto) {
+    public Objetivodequestao buscaObjetivoDeQuestaoDoProjeto(String nome_questao, int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(nome_questao, id_projeto);
         } catch (Exception error) {
@@ -193,6 +187,22 @@ public class CtrlObjetivos {
             System.out.println("Registro criado");
         } catch (Exception ex) {
             Logger.getLogger(ViewProjeto_ObjetivosDeMedicao_Novo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void registraQuestao(Registroobjetivoquestao registroobjetivoquestao) {
+        try {
+            List<Registroobjetivoquestao> listaDeRegistros = facadejpa.getRegistroobjetivoquestaoJpa().findRegistroobjetivoquestaoEntities();
+            if (listaDeRegistros.isEmpty()) {
+                registroobjetivoquestao.getRegistroobjetivoquestaoPK().setId(1);
+                facadejpa.getRegistroobjetivoquestaoJpa().create(registroobjetivoquestao);
+            } else {
+                registroobjetivoquestao.getRegistroobjetivoquestaoPK().setId(listaDeRegistros.size() + 1);
+                facadejpa.getRegistroobjetivoquestaoJpa().create(registroobjetivoquestao);
+            }
+            System.out.println("--Registro de questão criado");
+        } catch (Exception error) {
+            error.printStackTrace();
         }
     }
 }

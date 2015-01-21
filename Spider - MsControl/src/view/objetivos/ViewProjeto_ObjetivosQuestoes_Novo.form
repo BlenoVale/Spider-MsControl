@@ -81,7 +81,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jTextFieldNomeQuestao" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldNomeLevantador" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldPontoDeVista" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
                                   <Component id="jTextFieldNomeIndicador" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
                                   <Component id="jScrollPaneDescricaoIndicador" alignment="0" min="-2" pref="477" max="-2" attributes="0"/>
                               </Group>
@@ -116,7 +116,7 @@
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabelNomeUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldNomeLevantador" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldPontoDeVista" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -170,7 +170,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldNomeQuestao">
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldNomeLevantador">
+            <Component class="javax.swing.JTextField" name="jTextFieldPontoDeVista">
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPaneDescricaoIndicador">
               <AuxValues>

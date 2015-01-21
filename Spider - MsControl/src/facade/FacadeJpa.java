@@ -12,12 +12,14 @@ import jpa.ObjetivodequestaoJpaController;
 import jpa.ProcedimentodeanaliseJpaController;
 import jpa.ProcedimentodecoletaJpaController;
 import jpa.RegistroobjetivomedicaoJpaController;
+import jpa.RegistroobjetivoquestaoJpaController;
 import jpa.extensao.FuncionalidadeJpa;
 import jpa.extensao.ObjetivoDeMedicaoJpa;
 import jpa.extensao.ObjetivoDeQuestaoJpa;
 import jpa.extensao.PerfilJpa;
 import jpa.extensao.ProjetoJpa;
 import jpa.extensao.UsuarioJpa;
+import model.Registroobjetivoquestao;
 import util.Conexao;
 
 /**
@@ -48,6 +50,7 @@ public class FacadeJpa {
     private final ObjetivoDeMedicaoJpa objetivoDeMedicaoJpa;
     private final ObjetivoDeQuestaoJpa objetivoDeQuestaoJpa;
     private final RegistroobjetivomedicaoJpaController registroObjetivoMedicaoJpa;
+    private final RegistroobjetivoquestaoJpaController registroobjetivoquestaoJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -68,11 +71,13 @@ public class FacadeJpa {
         objetivoDeMedicaoJpa = new ObjetivoDeMedicaoJpa();
         objetivoDeQuestaoJpa = new ObjetivoDeQuestaoJpa();
         registroObjetivoMedicaoJpa = new RegistroobjetivomedicaoJpaController(Conexao.conectar());
+        registroobjetivoquestaoJpa = new RegistroobjetivoquestaoJpaController(Conexao.conectar());
     }
 
     public static FacadeJpa getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new FacadeJpa();
+        }
         return instance;
     }
 
@@ -135,16 +140,20 @@ public class FacadeJpa {
     public UsuarioJpa getUsuarioJpa() {
         return usuarioJpa;
     }
-    
-    public ObjetivoDeMedicaoJpa getObjetivoDeMedicaoJpa(){
+
+    public ObjetivoDeMedicaoJpa getObjetivoDeMedicaoJpa() {
         return objetivoDeMedicaoJpa;
     }
-    
-    public ObjetivoDeQuestaoJpa getObjetivoDeQuestaoJpa (){
+
+    public ObjetivoDeQuestaoJpa getObjetivoDeQuestaoJpa() {
         return objetivoDeQuestaoJpa;
     }
 
     public RegistroobjetivomedicaoJpaController getRegistroObjetivoMedicaoJpa() {
         return registroObjetivoMedicaoJpa;
+    }
+
+    public RegistroobjetivoquestaoJpaController getRegistroobjetivoquestaoJpa() {
+        return registroobjetivoquestaoJpa;
     }
 }

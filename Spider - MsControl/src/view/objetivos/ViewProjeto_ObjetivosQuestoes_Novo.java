@@ -6,6 +6,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import model.Objetivodequestao;
 import model.Projeto;
+import model.Registroobjetivoquestao;
+import util.Constantes;
 import util.Copia;
 import util.Texto;
 
@@ -64,7 +66,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jTextFieldNomeIndicador.setText(objetivo_questao.getIndicador());
         jTextAreaDescricaoIndicador.setText(objetivo_questao.getDescricaoIndicador());
         selecionarRadio();
-        jTextFieldNomeLevantador.setText(this.nomeUsuario_logado);
+        jTextFieldPontoDeVista.setText(this.nomeUsuario_logado);
         jTextFieldDataDeLevantamento.setText(Texto.formataData(new Date()));
         jComboBoxObjRelacionado.setSelectedItem(objetivo_questao.getObjetivodemedicao().getNome());
         jTextAreaObservacao.setText(objetivo_questao.getObservacao());
@@ -126,7 +128,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             mensagem = "Campo \"Nome da Questão\" não pode ser vazio.";
             cont++;
         }
-        if (jTextFieldNomeLevantador.getText().isEmpty()) {
+        if (jTextFieldPontoDeVista.getText().isEmpty()) {
             mensagem = "Campo \"Nome do Levantador\" não pode ser vazio.";
             cont++;
         }
@@ -168,7 +170,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabelNomeUsuario = new javax.swing.JLabel();
         jTextFieldNomeQuestao = new javax.swing.JTextField();
-        jTextFieldNomeLevantador = new javax.swing.JTextField();
+        jTextFieldPontoDeVista = new javax.swing.JTextField();
         jScrollPaneDescricaoIndicador = new javax.swing.JScrollPane();
         jTextAreaDescricaoIndicador = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
@@ -297,7 +299,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldNomeQuestao, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNomeLevantador, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldPontoDeVista, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldNomeIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPaneDescricaoIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -323,7 +325,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNomeUsuario)
-                    .addComponent(jTextFieldNomeLevantador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPontoDeVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -382,37 +384,42 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if (validarCampos()) {
+            objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
+            objetivo_questao.setPontoDevista(jTextFieldPontoDeVista.getText());
+            objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
+            objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
+            objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
+            objetivo_questao.setDataLevantamento(new Date());
+            objetivo_questao.setObjetivodemedicao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
+            objetivo_questao.setObservacao(jTextAreaObservacao.getText());
+
+            Registroobjetivoquestao registroQuestao = new Registroobjetivoquestao();
+            registroQuestao.setNomeUsuario(nomeUsuario_logado);
+            registroQuestao.setData(new Date());
+            registroQuestao.setObjetivodequestao(objetivo_questao);
+
+            boolean feito = false;
             if (ehNovaQuestao) {
-                objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
-                //objetivo_questao.setNomeDoUsuario(jTextFieldNomeLevantador.getText());
-                objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
-                objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
-                objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
-                objetivo_questao.setDataLevantamento(new Date());
-                objetivo_questao.setObjetivodemedicao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
-                objetivo_questao.setObservacao(jTextAreaObservacao.getText());
-                objetivo_questao.setPrioridade(ctrlObjetivos.getQuantidadeQuestoesPorProjeto(projeto_selecionado.getId()) + 1);
-
                 // verifica se já existe Questão com o mesmo nome
                 if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                    ctrlObjetivos.criarNovaQuestao(objetivo_questao);
-                    this.dispose();
+                    registroQuestao.setTipo(Constantes.CADASTRO);
+                    ctrlObjetivos.registraQuestao(registroQuestao);
+                    
+                    objetivo_questao.setPrioridade(ctrlObjetivos.buscaListaDeQuestoes().size() + 1);
+                    feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
                 }
-
             } else {
-                objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
-                //objetivo_questao.setNomeDoUsuario(jTextFieldNomeLevantador.getText());
-                objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
-                objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
-                objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
-                objetivo_questao.setDataLevantamento(new Date());
-                objetivo_questao.setObservacao(jTextAreaObservacao.getText());
-
                 // verifica se já existe Questão com o mesmo nome
                 if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                    ctrlObjetivos.editarQuestao(objetivo_questao);
-                    this.dispose();
+                    registroQuestao.setTipo(Constantes.CADASTRO);
+                    ctrlObjetivos.registraQuestao(registroQuestao);
+
+                    feito = ctrlObjetivos.editarQuestao(objetivo_questao);
                 }
+            }
+
+            if (feito) {
+                this.dispose();
             }
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
@@ -442,7 +449,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextFieldDataDeLevantamento;
     private javax.swing.JTextField jTextFieldNomeIndicador;
-    private javax.swing.JTextField jTextFieldNomeLevantador;
     private javax.swing.JTextField jTextFieldNomeQuestao;
+    private javax.swing.JTextField jTextFieldPontoDeVista;
     // End of variables declaration//GEN-END:variables
 }
