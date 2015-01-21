@@ -402,19 +402,19 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             if (ehNovaQuestao) {
                 // verifica se já existe Questão com o mesmo nome
                 if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                    registroQuestao.setTipo(Constantes.CADASTRO);
-                    ctrlObjetivos.registraQuestao(registroQuestao);
-                    
                     objetivo_questao.setPrioridade(ctrlObjetivos.buscaListaDeQuestoes().size() + 1);
                     feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
+
+                    registroQuestao.setTipo(Constantes.CADASTRO);
+                    ctrlObjetivos.registraQuestao(registroQuestao);
                 }
             } else {
                 // verifica se já existe Questão com o mesmo nome
                 if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
+                    feito = ctrlObjetivos.editarQuestao(objetivo_questao);
+
                     registroQuestao.setTipo(Constantes.CADASTRO);
                     ctrlObjetivos.registraQuestao(registroQuestao);
-
-                    feito = ctrlObjetivos.editarQuestao(objetivo_questao);
                 }
             }
 

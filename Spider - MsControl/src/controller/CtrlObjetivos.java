@@ -178,6 +178,7 @@ public class CtrlObjetivos {
      */
     public void registrar(Objetivodemedicao objetivo, int tipo) {
         objetivo = facade.FacadeJpa.getInstance().getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), objetivo.getObjetivodemedicaoPK().getProjetoid());
+
         Registroobjetivomedicao registro = new Registroobjetivomedicao();
         registro.setData(new Date());
         registro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
@@ -194,13 +195,9 @@ public class CtrlObjetivos {
     public void registraQuestao(Registroobjetivoquestao registroobjetivoquestao) {
         try {
             List<Registroobjetivoquestao> listaDeRegistros = facadejpa.getRegistroobjetivoquestaoJpa().findRegistroobjetivoquestaoEntities();
-            if (listaDeRegistros.isEmpty()) {
-                registroobjetivoquestao.getRegistroobjetivoquestaoPK().setId(1);
-                facadejpa.getRegistroobjetivoquestaoJpa().create(registroobjetivoquestao);
-            } else {
-                registroobjetivoquestao.getRegistroobjetivoquestaoPK().setId(listaDeRegistros.size() + 1);
-                facadejpa.getRegistroobjetivoquestaoJpa().create(registroobjetivoquestao);
-            }
+            Objetivodequestao questãoAux = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(registroobjetivoquestao.getObjetivodequestao().getNome(), Copia.getProjetoSelecionado().getId());
+            registroobjetivoquestao.setObjetivodequestao(questãoAux);
+            facadejpa.getRegistroobjetivoquestaoJpa().create(registroobjetivoquestao);
             System.out.println("--Registro de questão criado");
         } catch (Exception error) {
             error.printStackTrace();
