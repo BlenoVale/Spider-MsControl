@@ -177,6 +177,7 @@ public class CtrlObjetivos {
      * @param tipo tipo de registro. Ex: CADASTRO, EDICAO ...
      */
     public void registrar(Objetivodemedicao objetivo, int tipo) {
+        objetivo = facade.FacadeJpa.getInstance().getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), objetivo.getObjetivodemedicaoPK().getProjetoid());
         Registroobjetivomedicao registro = new Registroobjetivomedicao();
         registro.setData(new Date());
         registro.setNomeUsuario(Copia.getUsuarioLogado().getNome());

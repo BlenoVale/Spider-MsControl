@@ -23,8 +23,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import model.Projeto;
 import model.Usuario;
 import util.Copia;
+import util.Observer;
 
 public class ViewPrincipal extends javax.swing.JFrame {
+    
+    private Observer observer;
 
     private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
     private Projeto projeto_selecionado;
@@ -61,6 +64,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
+        
+        observer = new Observer(usuario_logado);
     }
 
     public ViewPrincipal(Usuario usuario_logado) {
@@ -76,6 +81,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
+        
+        observer = new Observer(usuario_logado);
     }
 
     private void atualizaDadosDaTelaPrincipal() {
@@ -414,10 +421,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemGerenciarContaActionPerformed
 
     private void jMenuItemArquivoDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemArquivoDesconectarActionPerformed
+        deslogar();
+    }//GEN-LAST:event_jMenuItemArquivoDesconectarActionPerformed
+
+    public void deslogar() {
         ViewLogin viewLogin = new ViewLogin();
         viewLogin.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jMenuItemArquivoDesconectarActionPerformed
+    }
 
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
         atualizaDadosDaTelaPrincipal();

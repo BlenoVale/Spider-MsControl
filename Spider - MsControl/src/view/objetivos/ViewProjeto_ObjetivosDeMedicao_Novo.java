@@ -41,8 +41,12 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     public boolean showNovoObjetivoDialog(Projeto projeto) {
 
         this.setTitle("Cadastro de novo objetivo de medição");
-        jTextFieldEditado.setVisible(false);
-        jLabelEditado.setVisible(false);
+        jTextFieldLevantamento.setEditable(true);
+        jTextFieldEditadoPor.setVisible(false);
+        jLabelEditadoPor.setVisible(false);
+
+        jLabelCadastradoPor.setVisible(false);
+        jTextFieldCadastradoPor.setVisible(false);
 
         this.projeto = projeto;
         objetivo = new Objetivodemedicao();
@@ -62,11 +66,16 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     public boolean showEditarObjetivoDialog(Objetivodemedicao objetivo) {
 
         this.setTitle("Edição de objetivo de medição");
-        jTextFieldLevantamento.setEditable(false);
+        jTextFieldEditadoPor.setVisible(true);
+        jLabelEditadoPor.setVisible(true);
+
+        jLabelCadastradoPor.setVisible(true);
+        jTextFieldCadastradoPor.setVisible(true);
+
         registros = new ArrayList<>();
         registros = objetivo.getRegistroobjetivomedicaoList();
         if (registros.size() != 0)
-            jTextFieldEditado.setText(registros.get(registros.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(registros.size() - 1).getData()));
+            jTextFieldEditadoPor.setText(registros.get(registros.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(registros.size() - 1).getData()));
 
         this.projeto = objetivo.getProjeto();
         this.objetivo = objetivo;
@@ -86,11 +95,17 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     public void showDetalhesDoObjetivoDialog(Objetivodemedicao objetivo) {
         this.setTitle("Detalhes");
 
+        jTextFieldEditadoPor.setVisible(true);
+        jLabelEditadoPor.setVisible(true);
+
+        jLabelCadastradoPor.setVisible(true);
+        jTextFieldCadastradoPor.setVisible(true);
+
         jTextFieldLevantamento.setText(objetivo.getPontoDeVista());
 
         registros = new ArrayList<>();
         registros = objetivo.getRegistroobjetivomedicaoList();
-        jTextFieldEditado.setText(registros.get(registros.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(registros.size() - 1).getData()));
+        jTextFieldEditadoPor.setText(registros.get(registros.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(registros.size() - 1).getData()));
 
         this.objetivo = objetivo;
 
@@ -197,8 +212,10 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextAreaProposito = new javax.swing.JTextArea();
         jTextFieldLevantamento = new javax.swing.JTextField();
         jLabelLevantamento = new javax.swing.JLabel();
-        jLabelEditado = new javax.swing.JLabel();
-        jTextFieldEditado = new javax.swing.JTextField();
+        jLabelCadastradoPor = new javax.swing.JLabel();
+        jTextFieldEditadoPor = new javax.swing.JTextField();
+        jLabelEditadoPor = new javax.swing.JLabel();
+        jTextFieldCadastradoPor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro novo objetivo de medição");
@@ -274,11 +291,17 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextAreaProposito.setRows(5);
         jScrollPane9.setViewportView(jTextAreaProposito);
 
+        jTextFieldLevantamento.setEditable(false);
+
         jLabelLevantamento.setText("Levantado por:");
 
-        jLabelEditado.setText("Editado por:");
+        jLabelCadastradoPor.setText("Cadastrado por:");
 
-        jTextFieldEditado.setEditable(false);
+        jTextFieldEditadoPor.setEditable(false);
+
+        jLabelEditadoPor.setText("Ultima edição:");
+
+        jTextFieldCadastradoPor.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -312,24 +335,23 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelEditado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabelEditadoPor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelCadastradoPor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabelLevantamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextFieldLevantamento)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextFieldNomeObjetivo)
-                        .addGap(10, 10, 10))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextFieldEditado)
-                        .addContainerGap())))
+                    .addComponent(jTextFieldEditadoPor)
+                    .addComponent(jTextFieldNomeObjetivo)
+                    .addComponent(jTextFieldLevantamento)
+                    .addComponent(jTextFieldCadastradoPor))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,8 +366,12 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
                     .addComponent(jLabelLevantamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelEditado)
-                    .addComponent(jTextFieldEditado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelCadastradoPor)
+                    .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelEditadoPor)
+                    .addComponent(jTextFieldEditadoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -408,9 +434,10 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         objetivo.setObservacao(jTextAreaObservacao.getText());
 
         CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
-        if (ehNovoObjetivo)
+        if (ehNovoObjetivo) {
             objetivoCriadoEditado = ctrlObjetivos.criarNovoObjetivoMedicao(objetivo, projeto.getId());
-        else {
+            ctrlObjetivos.registrar(objetivo, Registroobjetivomedicao.CADASTRO);
+        } else {
             objetivoCriadoEditado = ctrlObjetivos.editarObjetivoMedicao(objetivo, projeto.getId());
             ctrlObjetivos.registrar(objetivo, Registroobjetivomedicao.EDICAO);
         }
@@ -432,7 +459,8 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabelEditado;
+    private javax.swing.JLabel jLabelCadastradoPor;
+    private javax.swing.JLabel jLabelEditadoPor;
     private javax.swing.JLabel jLabelLevantamento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -447,7 +475,8 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaFoco;
     private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextArea jTextAreaProposito;
-    private javax.swing.JTextField jTextFieldEditado;
+    private javax.swing.JTextField jTextFieldCadastradoPor;
+    private javax.swing.JTextField jTextFieldEditadoPor;
     private javax.swing.JTextField jTextFieldLevantamento;
     private javax.swing.JTextField jTextFieldNomeObjetivo;
     // End of variables declaration//GEN-END:variables
