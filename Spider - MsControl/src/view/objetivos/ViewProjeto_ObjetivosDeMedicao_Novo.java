@@ -41,8 +41,12 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     public boolean showNovoObjetivoDialog(Projeto projeto) {
 
         this.setTitle("Cadastro de novo objetivo de medição");
+        jTextFieldLevantamento.setEditable(true);
         jTextFieldEditadoPor.setVisible(false);
-        jLabelEditado.setVisible(false);
+        jLabelEditadoPor.setVisible(false);
+
+        jLabelCadastradoPor.setVisible(false);
+        jTextFieldCadastradoPor.setVisible(false);
 
         this.projeto = projeto;
         objetivo = new Objetivodemedicao();
@@ -62,7 +66,12 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     public boolean showEditarObjetivoDialog(Objetivodemedicao objetivo) {
 
         this.setTitle("Edição de objetivo de medição");
-        jTextFieldLevantamento.setEditable(false);
+        jTextFieldEditadoPor.setVisible(true);
+        jLabelEditadoPor.setVisible(true);
+
+        jLabelCadastradoPor.setVisible(true);
+        jTextFieldCadastradoPor.setVisible(true);
+
         registros = new ArrayList<>();
         registros = objetivo.getRegistroobjetivomedicaoList();
         if (registros.size() != 0)
@@ -85,6 +94,12 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
      */
     public void showDetalhesDoObjetivoDialog(Objetivodemedicao objetivo) {
         this.setTitle("Detalhes");
+
+        jTextFieldEditadoPor.setVisible(true);
+        jLabelEditadoPor.setVisible(true);
+
+        jLabelCadastradoPor.setVisible(true);
+        jTextFieldCadastradoPor.setVisible(true);
 
         jTextFieldLevantamento.setText(objetivo.getPontoDeVista());
 
@@ -197,9 +212,9 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextAreaProposito = new javax.swing.JTextArea();
         jTextFieldLevantamento = new javax.swing.JTextField();
         jLabelLevantamento = new javax.swing.JLabel();
-        jLabelEditado = new javax.swing.JLabel();
+        jLabelCadastradoPor = new javax.swing.JLabel();
         jTextFieldEditadoPor = new javax.swing.JTextField();
-        jLabelEditado1 = new javax.swing.JLabel();
+        jLabelEditadoPor = new javax.swing.JLabel();
         jTextFieldCadastradoPor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -276,13 +291,15 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextAreaProposito.setRows(5);
         jScrollPane9.setViewportView(jTextAreaProposito);
 
+        jTextFieldLevantamento.setEditable(false);
+
         jLabelLevantamento.setText("Levantado por:");
 
-        jLabelEditado.setText("Cadastrado por:");
+        jLabelCadastradoPor.setText("Cadastrado por:");
 
         jTextFieldEditadoPor.setEditable(false);
 
-        jLabelEditado1.setText("Ultima edição:");
+        jLabelEditadoPor.setText("Ultima edição:");
 
         jTextFieldCadastradoPor.setEditable(false);
 
@@ -318,10 +335,10 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelEditado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabelEditadoPor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelEditado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabelCadastradoPor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -349,11 +366,11 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
                     .addComponent(jLabelLevantamento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelEditado)
+                    .addComponent(jLabelCadastradoPor)
                     .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelEditado1)
+                    .addComponent(jLabelEditadoPor)
                     .addComponent(jTextFieldEditadoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -442,8 +459,8 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabelEditado;
-    private javax.swing.JLabel jLabelEditado1;
+    private javax.swing.JLabel jLabelCadastradoPor;
+    private javax.swing.JLabel jLabelEditadoPor;
     private javax.swing.JLabel jLabelLevantamento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
