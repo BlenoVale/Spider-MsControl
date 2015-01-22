@@ -354,7 +354,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
         List<Objetivodequestao> lista_antiga = ctrlObjetivos.getQuestoesDoProjeto(idDoProjeto);
         if ((!lista_questoes.equals(lista_antiga)) && lista_questoes.size() >= lista_antiga.size()) {
-            ctrlObjetivos.editarPrioridadeDaListaDeQuestoes(lista_questoes);
+            ctrlObjetivos.editarPrioridadeDaListaDeQuestoes(lista_questoes, Copia.getProjetoSelecionado().getId());
         } else {
             JOptionPane.showMessageDialog(null, "Não há modificações de Prioridades.");
         }
