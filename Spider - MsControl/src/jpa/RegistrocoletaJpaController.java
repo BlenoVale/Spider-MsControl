@@ -38,9 +38,9 @@ public class RegistrocoletaJpaController implements Serializable {
         if (registrocoleta.getRegistrocoletaPK() == null) {
             registrocoleta.setRegistrocoletaPK(new RegistrocoletaPK());
         }
+        registrocoleta.getRegistrocoletaPK().setColetaMedidaProjetoid(registrocoleta.getColeta().getColetaPK().getMedidaProjetoid());
         registrocoleta.getRegistrocoletaPK().setColetaMedidaid(registrocoleta.getColeta().getColetaPK().getMedidaid());
         registrocoleta.getRegistrocoletaPK().setColetaid(registrocoleta.getColeta().getColetaPK().getId());
-        registrocoleta.getRegistrocoletaPK().setColetaMedidaProjetoid(registrocoleta.getColeta().getColetaPK().getMedidaProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -69,9 +69,9 @@ public class RegistrocoletaJpaController implements Serializable {
     }
 
     public void edit(Registrocoleta registrocoleta) throws NonexistentEntityException, Exception {
+        registrocoleta.getRegistrocoletaPK().setColetaMedidaProjetoid(registrocoleta.getColeta().getColetaPK().getMedidaProjetoid());
         registrocoleta.getRegistrocoletaPK().setColetaMedidaid(registrocoleta.getColeta().getColetaPK().getMedidaid());
         registrocoleta.getRegistrocoletaPK().setColetaid(registrocoleta.getColeta().getColetaPK().getId());
-        registrocoleta.getRegistrocoletaPK().setColetaMedidaProjetoid(registrocoleta.getColeta().getColetaPK().getMedidaProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();

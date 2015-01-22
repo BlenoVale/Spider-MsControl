@@ -9,10 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -31,17 +32,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registroobjetivoquestao.findAll", query = "SELECT r FROM Registroobjetivoquestao r"),
-    @NamedQuery(name = "Registroobjetivoquestao.findById", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.registroobjetivoquestaoPK.id = :id"),
-    @NamedQuery(name = "Registroobjetivoquestao.findByObjetivoDeQuestaoid", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.registroobjetivoquestaoPK.objetivoDeQuestaoid = :objetivoDeQuestaoid"),
-    @NamedQuery(name = "Registroobjetivoquestao.findByObjetivoDeQuestaoObjetivoDeMedicaoid", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.registroobjetivoquestaoPK.objetivoDeQuestaoObjetivoDeMedicaoid = :objetivoDeQuestaoObjetivoDeMedicaoid"),
-    @NamedQuery(name = "Registroobjetivoquestao.findByObjetivoDeQuestaoObjetivoDeMedicaoProjetoid", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.registroobjetivoquestaoPK.objetivoDeQuestaoObjetivoDeMedicaoProjetoid = :objetivoDeQuestaoObjetivoDeMedicaoProjetoid"),
+    @NamedQuery(name = "Registroobjetivoquestao.findById", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.id = :id"),
     @NamedQuery(name = "Registroobjetivoquestao.findByTipo", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroobjetivoquestao.findByNomeUsuario", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroobjetivoquestao.findByData", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.data = :data")})
 public class Registroobjetivoquestao implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistroobjetivoquestaoPK registroobjetivoquestaoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -55,37 +56,30 @@ public class Registroobjetivoquestao implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumns({
-        @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "ObjetivoDeQuestao_ObjetivoDeMedicao_id", referencedColumnName = "ObjetivoDeMedicao_id", insertable = false, updatable = false),
-        @JoinColumn(name = "ObjetivoDeQuestao_ObjetivoDeMedicao_Projeto_id", referencedColumnName = "ObjetivoDeMedicao_Projeto_id", insertable = false, updatable = false)})
+    @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Objetivodequestao objetivodequestao;
+    private Objetivodequestao objetivoDeQuestaoid;
 
     public Registroobjetivoquestao() {
     }
 
-    public Registroobjetivoquestao(RegistroobjetivoquestaoPK registroobjetivoquestaoPK) {
-        this.registroobjetivoquestaoPK = registroobjetivoquestaoPK;
+    public Registroobjetivoquestao(Integer id) {
+        this.id = id;
     }
 
-    public Registroobjetivoquestao(RegistroobjetivoquestaoPK registroobjetivoquestaoPK, int tipo, String nomeUsuario, Date data) {
-        this.registroobjetivoquestaoPK = registroobjetivoquestaoPK;
+    public Registroobjetivoquestao(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registroobjetivoquestao(int id, int objetivoDeQuestaoid, int objetivoDeQuestaoObjetivoDeMedicaoid, int objetivoDeQuestaoObjetivoDeMedicaoProjetoid) {
-        this.registroobjetivoquestaoPK = new RegistroobjetivoquestaoPK(id, objetivoDeQuestaoid, objetivoDeQuestaoObjetivoDeMedicaoid, objetivoDeQuestaoObjetivoDeMedicaoProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistroobjetivoquestaoPK getRegistroobjetivoquestaoPK() {
-        return registroobjetivoquestaoPK;
-    }
-
-    public void setRegistroobjetivoquestaoPK(RegistroobjetivoquestaoPK registroobjetivoquestaoPK) {
-        this.registroobjetivoquestaoPK = registroobjetivoquestaoPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -120,18 +114,18 @@ public class Registroobjetivoquestao implements Serializable {
         this.data = data;
     }
 
-    public Objetivodequestao getObjetivodequestao() {
-        return objetivodequestao;
+    public Objetivodequestao getObjetivoDeQuestaoid() {
+        return objetivoDeQuestaoid;
     }
 
-    public void setObjetivodequestao(Objetivodequestao objetivodequestao) {
-        this.objetivodequestao = objetivodequestao;
+    public void setObjetivoDeQuestaoid(Objetivodequestao objetivoDeQuestaoid) {
+        this.objetivoDeQuestaoid = objetivoDeQuestaoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registroobjetivoquestaoPK != null ? registroobjetivoquestaoPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -142,14 +136,14 @@ public class Registroobjetivoquestao implements Serializable {
             return false;
         }
         Registroobjetivoquestao other = (Registroobjetivoquestao) object;
-        if ((this.registroobjetivoquestaoPK == null && other.registroobjetivoquestaoPK != null) || (this.registroobjetivoquestaoPK != null && !this.registroobjetivoquestaoPK.equals(other.registroobjetivoquestaoPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroobjetivoquestao[ registroobjetivoquestaoPK=" + registroobjetivoquestaoPK + " ]";
+        return "model.Registroobjetivoquestao[ id=" + id + " ]";
     }
     
 }

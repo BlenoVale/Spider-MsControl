@@ -60,7 +60,7 @@ public class ObjetivodemedicaoJpaController implements Serializable {
             }
             List<Objetivodequestao> attachedObjetivodequestaoList = new ArrayList<Objetivodequestao>();
             for (Objetivodequestao objetivodequestaoListObjetivodequestaoToAttach : objetivodemedicao.getObjetivodequestaoList()) {
-                objetivodequestaoListObjetivodequestaoToAttach = em.getReference(objetivodequestaoListObjetivodequestaoToAttach.getClass(), objetivodequestaoListObjetivodequestaoToAttach.getObjetivodequestaoPK());
+                objetivodequestaoListObjetivodequestaoToAttach = em.getReference(objetivodequestaoListObjetivodequestaoToAttach.getClass(), objetivodequestaoListObjetivodequestaoToAttach.getId());
                 attachedObjetivodequestaoList.add(objetivodequestaoListObjetivodequestaoToAttach);
             }
             objetivodemedicao.setObjetivodequestaoList(attachedObjetivodequestaoList);
@@ -145,7 +145,7 @@ public class ObjetivodemedicaoJpaController implements Serializable {
             }
             List<Objetivodequestao> attachedObjetivodequestaoListNew = new ArrayList<Objetivodequestao>();
             for (Objetivodequestao objetivodequestaoListNewObjetivodequestaoToAttach : objetivodequestaoListNew) {
-                objetivodequestaoListNewObjetivodequestaoToAttach = em.getReference(objetivodequestaoListNewObjetivodequestaoToAttach.getClass(), objetivodequestaoListNewObjetivodequestaoToAttach.getObjetivodequestaoPK());
+                objetivodequestaoListNewObjetivodequestaoToAttach = em.getReference(objetivodequestaoListNewObjetivodequestaoToAttach.getClass(), objetivodequestaoListNewObjetivodequestaoToAttach.getId());
                 attachedObjetivodequestaoListNew.add(objetivodequestaoListNewObjetivodequestaoToAttach);
             }
             objetivodequestaoListNew = attachedObjetivodequestaoListNew;

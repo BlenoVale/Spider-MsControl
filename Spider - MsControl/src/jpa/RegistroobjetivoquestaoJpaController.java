@@ -14,10 +14,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Objetivodequestao;
 import model.Registroobjetivoquestao;
-import model.RegistroobjetivoquestaoPK;
 
 /**
  *
@@ -34,33 +32,22 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroobjetivoquestao registroobjetivoquestao) throws PreexistingEntityException, Exception {
-        if (registroobjetivoquestao.getRegistroobjetivoquestaoPK() == null) {
-            registroobjetivoquestao.setRegistroobjetivoquestaoPK(new RegistroobjetivoquestaoPK());
-        }
-        registroobjetivoquestao.getRegistroobjetivoquestaoPK().setObjetivoDeQuestaoid(registroobjetivoquestao.getObjetivodequestao().getObjetivodequestaoPK().getId());
-        registroobjetivoquestao.getRegistroobjetivoquestaoPK().setObjetivoDeQuestaoObjetivoDeMedicaoProjetoid(registroobjetivoquestao.getObjetivodequestao().getObjetivodequestaoPK().getObjetivoDeMedicaoProjetoid());
-        registroobjetivoquestao.getRegistroobjetivoquestaoPK().setObjetivoDeQuestaoObjetivoDeMedicaoid(registroobjetivoquestao.getObjetivodequestao().getObjetivodequestaoPK().getObjetivoDeMedicaoid());
+    public void create(Registroobjetivoquestao registroobjetivoquestao) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Objetivodequestao objetivodequestao = registroobjetivoquestao.getObjetivodequestao();
-            if (objetivodequestao != null) {
-                objetivodequestao = em.getReference(objetivodequestao.getClass(), objetivodequestao.getObjetivodequestaoPK());
-                registroobjetivoquestao.setObjetivodequestao(objetivodequestao);
+            Objetivodequestao objetivoDeQuestaoid = registroobjetivoquestao.getObjetivoDeQuestaoid();
+            if (objetivoDeQuestaoid != null) {
+                objetivoDeQuestaoid = em.getReference(objetivoDeQuestaoid.getClass(), objetivoDeQuestaoid.getId());
+                registroobjetivoquestao.setObjetivoDeQuestaoid(objetivoDeQuestaoid);
             }
             em.persist(registroobjetivoquestao);
-            if (objetivodequestao != null) {
-                objetivodequestao.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
-                objetivodequestao = em.merge(objetivodequestao);
+            if (objetivoDeQuestaoid != null) {
+                objetivoDeQuestaoid.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
+                objetivoDeQuestaoid = em.merge(objetivoDeQuestaoid);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistroobjetivoquestao(registroobjetivoquestao.getRegistroobjetivoquestaoPK()) != null) {
-                throw new PreexistingEntityException("Registroobjetivoquestao " + registroobjetivoquestao + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -69,34 +56,31 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
     }
 
     public void edit(Registroobjetivoquestao registroobjetivoquestao) throws NonexistentEntityException, Exception {
-        registroobjetivoquestao.getRegistroobjetivoquestaoPK().setObjetivoDeQuestaoid(registroobjetivoquestao.getObjetivodequestao().getObjetivodequestaoPK().getId());
-        registroobjetivoquestao.getRegistroobjetivoquestaoPK().setObjetivoDeQuestaoObjetivoDeMedicaoProjetoid(registroobjetivoquestao.getObjetivodequestao().getObjetivodequestaoPK().getObjetivoDeMedicaoProjetoid());
-        registroobjetivoquestao.getRegistroobjetivoquestaoPK().setObjetivoDeQuestaoObjetivoDeMedicaoid(registroobjetivoquestao.getObjetivodequestao().getObjetivodequestaoPK().getObjetivoDeMedicaoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroobjetivoquestao persistentRegistroobjetivoquestao = em.find(Registroobjetivoquestao.class, registroobjetivoquestao.getRegistroobjetivoquestaoPK());
-            Objetivodequestao objetivodequestaoOld = persistentRegistroobjetivoquestao.getObjetivodequestao();
-            Objetivodequestao objetivodequestaoNew = registroobjetivoquestao.getObjetivodequestao();
-            if (objetivodequestaoNew != null) {
-                objetivodequestaoNew = em.getReference(objetivodequestaoNew.getClass(), objetivodequestaoNew.getObjetivodequestaoPK());
-                registroobjetivoquestao.setObjetivodequestao(objetivodequestaoNew);
+            Registroobjetivoquestao persistentRegistroobjetivoquestao = em.find(Registroobjetivoquestao.class, registroobjetivoquestao.getId());
+            Objetivodequestao objetivoDeQuestaoidOld = persistentRegistroobjetivoquestao.getObjetivoDeQuestaoid();
+            Objetivodequestao objetivoDeQuestaoidNew = registroobjetivoquestao.getObjetivoDeQuestaoid();
+            if (objetivoDeQuestaoidNew != null) {
+                objetivoDeQuestaoidNew = em.getReference(objetivoDeQuestaoidNew.getClass(), objetivoDeQuestaoidNew.getId());
+                registroobjetivoquestao.setObjetivoDeQuestaoid(objetivoDeQuestaoidNew);
             }
             registroobjetivoquestao = em.merge(registroobjetivoquestao);
-            if (objetivodequestaoOld != null && !objetivodequestaoOld.equals(objetivodequestaoNew)) {
-                objetivodequestaoOld.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
-                objetivodequestaoOld = em.merge(objetivodequestaoOld);
+            if (objetivoDeQuestaoidOld != null && !objetivoDeQuestaoidOld.equals(objetivoDeQuestaoidNew)) {
+                objetivoDeQuestaoidOld.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
+                objetivoDeQuestaoidOld = em.merge(objetivoDeQuestaoidOld);
             }
-            if (objetivodequestaoNew != null && !objetivodequestaoNew.equals(objetivodequestaoOld)) {
-                objetivodequestaoNew.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
-                objetivodequestaoNew = em.merge(objetivodequestaoNew);
+            if (objetivoDeQuestaoidNew != null && !objetivoDeQuestaoidNew.equals(objetivoDeQuestaoidOld)) {
+                objetivoDeQuestaoidNew.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
+                objetivoDeQuestaoidNew = em.merge(objetivoDeQuestaoidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistroobjetivoquestaoPK id = registroobjetivoquestao.getRegistroobjetivoquestaoPK();
+                Integer id = registroobjetivoquestao.getId();
                 if (findRegistroobjetivoquestao(id) == null) {
                     throw new NonexistentEntityException("The registroobjetivoquestao with id " + id + " no longer exists.");
                 }
@@ -109,7 +93,7 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistroobjetivoquestaoPK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -117,14 +101,14 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
             Registroobjetivoquestao registroobjetivoquestao;
             try {
                 registroobjetivoquestao = em.getReference(Registroobjetivoquestao.class, id);
-                registroobjetivoquestao.getRegistroobjetivoquestaoPK();
+                registroobjetivoquestao.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroobjetivoquestao with id " + id + " no longer exists.", enfe);
             }
-            Objetivodequestao objetivodequestao = registroobjetivoquestao.getObjetivodequestao();
-            if (objetivodequestao != null) {
-                objetivodequestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
-                objetivodequestao = em.merge(objetivodequestao);
+            Objetivodequestao objetivoDeQuestaoid = registroobjetivoquestao.getObjetivoDeQuestaoid();
+            if (objetivoDeQuestaoid != null) {
+                objetivoDeQuestaoid.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
+                objetivoDeQuestaoid = em.merge(objetivoDeQuestaoid);
             }
             em.remove(registroobjetivoquestao);
             em.getTransaction().commit();
@@ -159,7 +143,7 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public Registroobjetivoquestao findRegistroobjetivoquestao(RegistroobjetivoquestaoPK id) {
+    public Registroobjetivoquestao findRegistroobjetivoquestao(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroobjetivoquestao.class, id);

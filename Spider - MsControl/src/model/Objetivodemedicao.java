@@ -148,10 +148,6 @@ public class Objetivodemedicao implements Serializable {
     public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
         this.objetivodequestaoList = objetivodequestaoList;
     }
-    
-    public void addObjetivodequestaoList(Objetivodequestao objetivodequestaoList) {
-        this.objetivodequestaoList.add(objetivodequestaoList);
-    }
 
     public Projeto getProjeto() {
         return projeto;
@@ -168,10 +164,6 @@ public class Objetivodemedicao implements Serializable {
 
     public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
         this.registroobjetivomedicaoList = registroobjetivomedicaoList;
-    }
-    
-    public void setRegistroobjetivomedicao(Registroobjetivomedicao registro) {
-        this.registroobjetivomedicaoList.add(registro);
     }
 
     @Override

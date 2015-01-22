@@ -38,9 +38,9 @@ public class RegistrodefinicaoJpaController implements Serializable {
         if (registrodefinicao.getRegistrodefinicaoPK() == null) {
             registrodefinicao.setRegistrodefinicaoPK(new RegistrodefinicaoPK());
         }
-        registrodefinicao.getRegistrodefinicaoPK().setDefinicaoMedidaid(registrodefinicao.getDefinicao().getDefinicaoPK().getMedidaid());
         registrodefinicao.getRegistrodefinicaoPK().setDefinicaoid(registrodefinicao.getDefinicao().getDefinicaoPK().getId());
         registrodefinicao.getRegistrodefinicaoPK().setDefinicaoMedidaProjetoid(registrodefinicao.getDefinicao().getDefinicaoPK().getMedidaProjetoid());
+        registrodefinicao.getRegistrodefinicaoPK().setDefinicaoMedidaid(registrodefinicao.getDefinicao().getDefinicaoPK().getMedidaid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -69,9 +69,9 @@ public class RegistrodefinicaoJpaController implements Serializable {
     }
 
     public void edit(Registrodefinicao registrodefinicao) throws NonexistentEntityException, Exception {
-        registrodefinicao.getRegistrodefinicaoPK().setDefinicaoMedidaid(registrodefinicao.getDefinicao().getDefinicaoPK().getMedidaid());
         registrodefinicao.getRegistrodefinicaoPK().setDefinicaoid(registrodefinicao.getDefinicao().getDefinicaoPK().getId());
         registrodefinicao.getRegistrodefinicaoPK().setDefinicaoMedidaProjetoid(registrodefinicao.getDefinicao().getDefinicaoPK().getMedidaProjetoid());
+        registrodefinicao.getRegistrodefinicaoPK().setDefinicaoMedidaid(registrodefinicao.getDefinicao().getDefinicaoPK().getMedidaid());
         EntityManager em = null;
         try {
             em = getEntityManager();

@@ -4,6 +4,7 @@ import controller.CtrlObjetivos;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import model.Projeto;
 import util.Constantes;
@@ -382,40 +383,47 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if (validarCampos()) {
-            objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
-            objetivo_questao.setPontoDevista(jTextFieldPontoDeVista.getText());
-            objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
-            objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
-            objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
-            objetivo_questao.setDataLevantamento(new Date());
-            objetivo_questao.setObjetivodemedicao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
-            objetivo_questao.setObservacao(jTextAreaObservacao.getText());
+        if (!validarCampos())
+            return;
+        
+        objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
+        objetivo_questao.setPontoDeVista(jTextFieldPontoDeVista.getText());
+        objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
+        objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
+        objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
+        objetivo_questao.setDataLevantamento(new Date());
+        objetivo_questao.setObservacao(jTextAreaObservacao.getText());
+        
+        String nomeObjetivo = jComboBoxObjRelacionado.getSelectedItem().toString();
+        Objetivodemedicao objetivoMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(nomeObjetivo);
+        objetivo_questao.setObjetivodemedicao(objetivoMedicao);
+               
+       
+        boolean feito = false;
+        if (ehNovaQuestao) {
+            // verifica se já existe Questão com o mesmo nome
+            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
+                objetivo_questao.setPrioridade(ctrlObjetivos.buscaListaDeQuestoes().size() + 1);
+                feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
+                
 
-            boolean feito = false;
-            if (ehNovaQuestao) {
-                // verifica se já existe Questão com o mesmo nome
-                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                    objetivo_questao.setPrioridade(ctrlObjetivos.buscaListaDeQuestoes().size() + 1);
-                    feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
-
-                    ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.CADASTRO);
-                }
-            } else {
-                // verifica se já existe Questão com o mesmo nome
-                if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                    feito = ctrlObjetivos.editarQuestao(objetivo_questao);
-
-                    ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.EDICAO);
-                }
+                ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.CADASTRO);
             }
-
-            if (feito) {
-                this.dispose();
+        } else {
+            // verifica se já existe Questão com o mesmo nome
+            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
+                feito = ctrlObjetivos.editarQuestao(objetivo_questao);
+              
+                ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.EDICAO);
             }
+        }
+
+        if (feito) {
+            this.dispose();
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupTipoDeVariacao;
     private javax.swing.JButton jButtonCancelar;

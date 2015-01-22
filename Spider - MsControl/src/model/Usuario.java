@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login"),
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")})
 public class Usuario implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,10 +134,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null)
-                || (this.id != null && !this.id.equals(other.id))
-                || (this.acessaList == null && other.acessaList != null)
-                || (this.acessaList != null && !this.acessaList.equals(other.acessaList)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
@@ -147,5 +143,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "model.Usuario[ id=" + id + " ]";
     }
-
+    
 }

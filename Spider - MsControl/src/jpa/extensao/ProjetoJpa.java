@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.Projeto;
 import util.Conexao;
+import util.Constantes;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ProjetoJpa extends ProjetoJpaController {
         List<Projeto> projetoList = null;
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status ORDER BY p.nome ASC");
-        q.setParameter("status", Projeto.ATIVO);
+        q.setParameter("status", Constantes.ATIVO);
         projetoList = q.getResultList();
         return projetoList;
     }
@@ -39,7 +40,7 @@ public class ProjetoJpa extends ProjetoJpaController {
         List<Projeto> projetoList = null;
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status ORDER BY p.dataInicio DESC");
-        q.setParameter("status", Projeto.ATIVO);
+        q.setParameter("status", Constantes.ATIVO);
         projetoList = q.getResultList();
         return projetoList;
     }
@@ -48,7 +49,7 @@ public class ProjetoJpa extends ProjetoJpaController {
         List<Projeto> projetoList = null;
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status");
-        q.setParameter("status", Projeto.INATIVO);
+        q.setParameter("status", Constantes.INATIVO);
         projetoList = q.getResultList();
         return projetoList;
     }
@@ -57,7 +58,7 @@ public class ProjetoJpa extends ProjetoJpaController {
         List<Projeto> projetoList = null;
         EntityManager emf = super.getEntityManager();
         Query q = emf.createQuery("SELECT p FROM Projeto p WHERE p.status = :status");
-        q.setParameter("status", Projeto.FINALIZADO);
+        q.setParameter("status", Constantes.FINALIZADO);
         projetoList = q.getResultList();
         return projetoList;
     }

@@ -38,8 +38,8 @@ public class RegistromedidaJpaController implements Serializable {
         if (registromedida.getRegistromedidaPK() == null) {
             registromedida.setRegistromedidaPK(new RegistromedidaPK());
         }
-        registromedida.getRegistromedidaPK().setMedidaid(registromedida.getMedida().getMedidaPK().getId());
         registromedida.getRegistromedidaPK().setMedidaProjetoid(registromedida.getMedida().getMedidaPK().getProjetoid());
+        registromedida.getRegistromedidaPK().setMedidaid(registromedida.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -68,8 +68,8 @@ public class RegistromedidaJpaController implements Serializable {
     }
 
     public void edit(Registromedida registromedida) throws NonexistentEntityException, Exception {
-        registromedida.getRegistromedidaPK().setMedidaid(registromedida.getMedida().getMedidaPK().getId());
         registromedida.getRegistromedidaPK().setMedidaProjetoid(registromedida.getMedida().getMedidaPK().getProjetoid());
+        registromedida.getRegistromedidaPK().setMedidaid(registromedida.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Registroobjetivomedicao.findByNomeUsuario", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroobjetivomedicao.findByData", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.data = :data")})
 public class Registroobjetivomedicao implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RegistroobjetivomedicaoPK registroobjetivomedicaoPK;
@@ -60,9 +59,6 @@ public class Registroobjetivomedicao implements Serializable {
         @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Objetivodemedicao objetivodemedicao;
-
-    public static final int CADASTRO = 0;
-    public static final int EDICAO = 0;
 
     public Registroobjetivomedicao() {
     }
@@ -153,5 +149,5 @@ public class Registroobjetivomedicao implements Serializable {
     public String toString() {
         return "model.Registroobjetivomedicao[ registroobjetivomedicaoPK=" + registroobjetivomedicaoPK + " ]";
     }
-
+    
 }

@@ -2,6 +2,7 @@ package view.gerencia;
 
 import javax.swing.JOptionPane;
 import model.Projeto;
+import util.Constantes;
 
 /**
  *
@@ -28,9 +29,9 @@ public class ViewStatusProjetoDialog extends javax.swing.JDialog {
     public int showMudaStatusDialog(int statusAtual) {
         status = statusAtual;
 
-        if (statusAtual == Projeto.ATIVO)
+        if (statusAtual == Constantes.ATIVO)
             jCheckBoxAtivo.setVisible(false);
-        else if (statusAtual == Projeto.INATIVO)
+        else if (statusAtual == Constantes.INATIVO)
             jCheckBoxInativo.setVisible(false);
         else
             jCheckBoxFinalizado.setVisible(false);
@@ -118,13 +119,13 @@ public class ViewStatusProjetoDialog extends javax.swing.JDialog {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if (jCheckBoxAtivo.isSelected())
-            status = Projeto.ATIVO;
+            status = Constantes.ATIVO;
         else if (jCheckBoxInativo.isSelected())
-            status = Projeto.INATIVO;
+            status = Constantes.INATIVO;
         else if (jCheckBoxFinalizado.isSelected()) {
             int resp = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar este projeto? \n\nAo finalizar um projeto, este mesmo não poderá mais ser alterado");
             if (resp == JOptionPane.YES_OPTION)
-                status = Projeto.FINALIZADO;
+                status = Constantes.FINALIZADO;
             else
                 return;
         } else {

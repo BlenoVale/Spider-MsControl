@@ -44,8 +44,8 @@ public class AnaliseJpaController implements Serializable {
         if (analise.getRegistroanaliseList() == null) {
             analise.setRegistroanaliseList(new ArrayList<Registroanalise>());
         }
-        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         analise.getAnalisePK().setMedidaid(analise.getMedida().getMedidaPK().getId());
+        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -89,8 +89,8 @@ public class AnaliseJpaController implements Serializable {
     }
 
     public void edit(Analise analise) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         analise.getAnalisePK().setMedidaid(analise.getMedida().getMedidaPK().getId());
+        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();

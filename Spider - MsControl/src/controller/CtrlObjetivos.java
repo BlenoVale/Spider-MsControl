@@ -96,7 +96,7 @@ public class CtrlObjetivos {
             return true;
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Não foi possível editar", "ERRO DE EDIÇÃO", JOptionPane.ERROR_MESSAGE);
-            System.out.println(erro);
+            erro.printStackTrace();
             return false;
         }
     }
@@ -111,7 +111,7 @@ public class CtrlObjetivos {
                     for (int j = 0; j < lista_BD.size(); j++) {
                         if (lista_questao.get(i).getNome().equals(lista_BD.get(j).getNome()) && lista_questao.get(i).getPrioridade() != lista_BD.get(j).getPrioridade()) {
                             facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
-                            
+
                             registraQuestao(lista_questao.get(i), Constantes.EDICAO);
                         }
                     }
@@ -151,6 +151,15 @@ public class CtrlObjetivos {
     public Objetivodequestao buscaObjetivoDeQuestaoDoProjeto(String nome_questao, int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(nome_questao, id_projeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public Objetivodequestao buscaUltimaQuestao(String nome_questao) {
+        try {
+            List<Objetivodequestao> lista = facadejpa.getObjetivoDeQuestaoJpa().findLastQuestao(nome_questao);
+            return lista.get(lista.size() - 1);
         } catch (Exception error) {
             throw error;
         }
@@ -201,12 +210,12 @@ public class CtrlObjetivos {
 
     public void registraQuestao(Objetivodequestao objetivoQuestao, int tipo) {
         try {
-            objetivoQuestao = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(objetivoQuestao.getNome(), objetivoQuestao.getObjetivodequestaoPK().getObjetivoDeMedicaoProjetoid());
+            objetivoQuestao = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(objetivoQuestao.getNome(), Copia.getProjetoSelecionado().getId());
 
             Registroobjetivoquestao novoRegistro = new Registroobjetivoquestao();
             novoRegistro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
             novoRegistro.setData(new Date());
-            novoRegistro.setObjetivodequestao(objetivoQuestao);
+            novoRegistro.setObjetivoDeQuestaoid(objetivoQuestao);
             novoRegistro.setTipo(tipo);
 //          novoRegistro.setDescricao(null);
 

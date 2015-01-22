@@ -11,8 +11,10 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
@@ -35,21 +37,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Objetivodequestao.findAll", query = "SELECT o FROM Objetivodequestao o"),
-    @NamedQuery(name = "Objetivodequestao.findById", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.id = :id"),
-    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicaoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicaoid = :objetivoDeMedicaoid"),
-    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeMedicaoProjetoid", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivodequestaoPK.objetivoDeMedicaoProjetoid = :objetivoDeMedicaoProjetoid"),
+    @NamedQuery(name = "Objetivodequestao.findById", query = "SELECT o FROM Objetivodequestao o WHERE o.id = :id"),
     @NamedQuery(name = "Objetivodequestao.findByNome", query = "SELECT o FROM Objetivodequestao o WHERE o.nome = :nome"),
     @NamedQuery(name = "Objetivodequestao.findByIndicador", query = "SELECT o FROM Objetivodequestao o WHERE o.indicador = :indicador"),
     @NamedQuery(name = "Objetivodequestao.findByPrioridade", query = "SELECT o FROM Objetivodequestao o WHERE o.prioridade = :prioridade"),
     @NamedQuery(name = "Objetivodequestao.findByTipoDeDerivacao", query = "SELECT o FROM Objetivodequestao o WHERE o.tipoDeDerivacao = :tipoDeDerivacao"),
-    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento")})
+    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento"),
+    @NamedQuery(name = "Objetivodequestao.findByPontoDeVista", query = "SELECT o FROM Objetivodequestao o WHERE o.pontoDeVista = :pontoDeVista")})
 public class Objetivodequestao implements Serializable {
-    @Basic(optional = false)
-    @Column(name = "pontoDevista")
-    private String pontoDevista;
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ObjetivodequestaoPK objetivodequestaoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -73,41 +74,41 @@ public class Objetivodequestao implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
+    @Basic(optional = false)
+    @Column(name = "pontoDeVista")
+    private String pontoDeVista;
     @JoinColumns({
-        @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
+        @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id"),
+        @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
     private Objetivodemedicao objetivodemedicao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodequestao")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid")
     private List<Registroobjetivoquestao> registroobjetivoquestaoList;
 
     public Objetivodequestao() {
     }
 
-    public Objetivodequestao(ObjetivodequestaoPK objetivodequestaoPK) {
-        this.objetivodequestaoPK = objetivodequestaoPK;
+    public Objetivodequestao(Integer id) {
+        this.id = id;
     }
 
-    public Objetivodequestao(ObjetivodequestaoPK objetivodequestaoPK, String nome, String indicador, String descricaoIndicador, int prioridade, String tipoDeDerivacao, Date dataLevantamento) {
-        this.objetivodequestaoPK = objetivodequestaoPK;
+    public Objetivodequestao(Integer id, String nome, String indicador, String descricaoIndicador, int prioridade, String tipoDeDerivacao, Date dataLevantamento, String pontoDeVista) {
+        this.id = id;
         this.nome = nome;
         this.indicador = indicador;
         this.descricaoIndicador = descricaoIndicador;
         this.prioridade = prioridade;
         this.tipoDeDerivacao = tipoDeDerivacao;
         this.dataLevantamento = dataLevantamento;
+        this.pontoDeVista = pontoDeVista;
     }
 
-    public Objetivodequestao(int id, int objetivoDeMedicaoid, int objetivoDeMedicaoProjetoid) {
-        this.objetivodequestaoPK = new ObjetivodequestaoPK(id, objetivoDeMedicaoid, objetivoDeMedicaoProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public ObjetivodequestaoPK getObjetivodequestaoPK() {
-        return objetivodequestaoPK;
-    }
-
-    public void setObjetivodequestaoPK(ObjetivodequestaoPK objetivodequestaoPK) {
-        this.objetivodequestaoPK = objetivodequestaoPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -166,6 +167,14 @@ public class Objetivodequestao implements Serializable {
         this.observacao = observacao;
     }
 
+    public String getPontoDeVista() {
+        return pontoDeVista;
+    }
+
+    public void setPontoDeVista(String pontoDeVista) {
+        this.pontoDeVista = pontoDeVista;
+    }
+
     public Objetivodemedicao getObjetivodemedicao() {
         return objetivodemedicao;
     }
@@ -186,7 +195,7 @@ public class Objetivodequestao implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (objetivodequestaoPK != null ? objetivodequestaoPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -197,22 +206,14 @@ public class Objetivodequestao implements Serializable {
             return false;
         }
         Objetivodequestao other = (Objetivodequestao) object;
-        if ((this.objetivodequestaoPK == null && other.objetivodequestaoPK != null) || (this.objetivodequestaoPK != null && !this.objetivodequestaoPK.equals(other.objetivodequestaoPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Objetivodequestao[ objetivodequestaoPK=" + objetivodequestaoPK + " ]";
-    }
-
-    public String getPontoDevista() {
-        return pontoDevista;
-    }
-
-    public void setPontoDevista(String pontoDevista) {
-        this.pontoDevista = pontoDevista;
+        return "model.Objetivodequestao[ id=" + id + " ]";
     }
     
 }

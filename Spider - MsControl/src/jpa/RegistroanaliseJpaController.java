@@ -38,9 +38,9 @@ public class RegistroanaliseJpaController implements Serializable {
         if (registroanalise.getRegistroanalisePK() == null) {
             registroanalise.setRegistroanalisePK(new RegistroanalisePK());
         }
-        registroanalise.getRegistroanalisePK().setAnaliseMedidaProjetoid(registroanalise.getAnalise().getAnalisePK().getMedidaProjetoid());
         registroanalise.getRegistroanalisePK().setAnaliseMedidaid(registroanalise.getAnalise().getAnalisePK().getMedidaid());
         registroanalise.getRegistroanalisePK().setAnaliseid(registroanalise.getAnalise().getAnalisePK().getId());
+        registroanalise.getRegistroanalisePK().setAnaliseMedidaProjetoid(registroanalise.getAnalise().getAnalisePK().getMedidaProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -69,9 +69,9 @@ public class RegistroanaliseJpaController implements Serializable {
     }
 
     public void edit(Registroanalise registroanalise) throws NonexistentEntityException, Exception {
-        registroanalise.getRegistroanalisePK().setAnaliseMedidaProjetoid(registroanalise.getAnalise().getAnalisePK().getMedidaProjetoid());
         registroanalise.getRegistroanalisePK().setAnaliseMedidaid(registroanalise.getAnalise().getAnalisePK().getMedidaid());
         registroanalise.getRegistroanalisePK().setAnaliseid(registroanalise.getAnalise().getAnalisePK().getId());
+        registroanalise.getRegistroanalisePK().setAnaliseMedidaProjetoid(registroanalise.getAnalise().getAnalisePK().getMedidaProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();

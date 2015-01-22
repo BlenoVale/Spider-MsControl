@@ -9,6 +9,7 @@ import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import jpa.exceptions.NonexistentEntityException;
 import model.Projeto;
+import util.Constantes;
 
 /**
  * Class controladora para projetos.
@@ -26,7 +27,7 @@ public class CtrlProjeto {
 
         projeto.setNome(nomeProjeto);
         projeto.setDescricao(descricao);
-        projeto.setStatus(Projeto.ATIVO);
+        projeto.setStatus(Constantes.ATIVO);
         projeto.setDataInicio(new Date());
 
         return saveProjeto(projeto);

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import model.Projeto;
+import util.Constantes;
 import util.Internal;
 import util.MyDefaultTableModel;
 import util.Texto;
@@ -101,9 +102,9 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         if (projetoAtual.getStatus() != status) {
             projetoAtual.setStatus(status);
 
-            if (status == Projeto.INATIVO)
+            if (status == Constantes.INATIVO)
                 projetoAtual.setDataInatividade(new Date());
-            if (status == Projeto.FINALIZADO)
+            if (status == Constantes.FINALIZADO)
                 projetoAtual.setDataFim(new Date());
 
             ctrlProjeto.editarProjeto(projetoAtual);
@@ -125,7 +126,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         }
 
         String nomeDoProjeto = jTableInativos.getValueAt(jTableInativos.getSelectedRow(), 0).toString();
-        ctrlProjeto.mudarStatusDoProjeto(nomeDoProjeto, Projeto.ATIVO);
+        ctrlProjeto.mudarStatusDoProjeto(nomeDoProjeto, Constantes.ATIVO);
 
         atualizaTabelaAtivos();
         atualizaTabelaInativos();
