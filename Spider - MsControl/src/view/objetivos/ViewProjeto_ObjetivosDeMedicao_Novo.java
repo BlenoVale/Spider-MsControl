@@ -75,7 +75,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextFieldCadastradoPor.setVisible(true);
 
         registros = new ArrayList<>();
-        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid());
+        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
         if (registros.isEmpty()) {
             jTextFieldEditadoPor.setVisible(false);
             jLabelEditadoPor.setVisible(false);
@@ -87,9 +87,10 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         }
 
         registros = new ArrayList<>();
-        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid());
-        jTextFieldCadastradoPor.setText(registros.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(0).getData()));
-
+        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.CADASTRO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
+        if (!registros.isEmpty()) {
+            jTextFieldCadastradoPor.setText(registros.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(0).getData()));
+        }
         this.projeto = objetivo.getProjeto();
         this.objetivo = objetivo;
         ehNovoObjetivo = false;
@@ -117,7 +118,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextFieldLevantamento.setText(objetivo.getPontoDeVista());
 
         registros = new ArrayList<>();
-        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid());
+        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
         if (registros.isEmpty()) {
             jTextFieldEditadoPor.setVisible(false);
             jLabelEditadoPor.setVisible(false);
@@ -128,9 +129,10 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         }
 
         registros = new ArrayList<>();
-        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid());
-        jTextFieldCadastradoPor.setText(registros.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(0).getData()));
-
+        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.CADASTRO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
+        if (!registros.isEmpty()) {
+            jTextFieldCadastradoPor.setText(registros.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(0).getData()));
+        }
         this.objetivo = objetivo;
 
         preencherCampos();
@@ -460,7 +462,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
         if (ehNovoObjetivo) {
             objetivoCriadoEditado = ctrlObjetivos.criarNovoObjetivoMedicao(objetivo, projeto.getId());
-            ctrlObjetivos.registrar(objetivo, Registroobjetivomedicao.CADASTRO);
+            ctrlObjetivos.registrar(objetivo, Constantes.CADASTRO);
         } else {
             objetivoCriadoEditado = ctrlObjetivos.editarObjetivoMedicao(objetivo, projeto.getId());
             ctrlObjetivos.registrar(objetivo, Constantes.EDICAO);
