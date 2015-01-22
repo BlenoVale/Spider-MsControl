@@ -57,16 +57,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="525" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonSalvar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonCancelar" min="-2" pref="83" max="-2" attributes="0"/>
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanelTipoDeVariacao" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -80,10 +75,10 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextFieldNomeQuestao" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldPontoDeVista" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldNomeIndicador" alignment="0" min="-2" pref="266" max="-2" attributes="0"/>
-                                  <Component id="jScrollPaneDescricaoIndicador" alignment="0" min="-2" pref="477" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldPontoDeVista" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldNomeQuestao" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldNomeIndicador" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneDescricaoIndicador" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -95,10 +90,14 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPaneObservacao" alignment="0" min="-2" pref="474" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldDataDeLevantamento" min="-2" pref="262" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxObjRelacionado" min="-2" pref="261" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldDataDeLevantamento" alignment="0" min="-2" pref="262" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxObjRelacionado" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneObservacao" alignment="0" max="32767" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanelTipoDeVariacao" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -182,7 +181,9 @@
                 <Component class="javax.swing.JTextArea" name="jTextAreaDescricaoIndicador">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
+                    <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="rows" type="int" value="5"/>
+                    <Property name="wrapStyleWord" type="boolean" value="true"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -226,7 +227,7 @@
                               <Component id="jRadioButtonObjetivoDeProcesso" min="-2" max="-2" attributes="0"/>
                               <Component id="jRadioButtonObjetivoDeProduto" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="403" max="32767" attributes="0"/>
+                          <EmptySpace pref="133" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -320,7 +321,9 @@
                 <Component class="javax.swing.JTextArea" name="jTextAreaObservacao">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
+                    <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="rows" type="int" value="5"/>
+                    <Property name="wrapStyleWord" type="boolean" value="true"/>
                   </Properties>
                 </Component>
               </SubComponents>
