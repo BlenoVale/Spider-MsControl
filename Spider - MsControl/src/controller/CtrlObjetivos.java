@@ -10,7 +10,6 @@ import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import model.Registroobjetivomedicao;
 import model.Registroobjetivoquestao;
-import model.RegistroobjetivoquestaoPK;
 import util.Copia;
 import view.objetivos.ViewProjeto_ObjetivosDeMedicao_Novo;
 
@@ -19,7 +18,7 @@ import view.objetivos.ViewProjeto_ObjetivosDeMedicao_Novo;
  * @author DAN JHONATAN, bleno vale
  */
 public class CtrlObjetivos {
-
+    
     private final FacadeJpa facadejpa = FacadeJpa.getInstance();
 
     /**
@@ -31,13 +30,13 @@ public class CtrlObjetivos {
      * objetivo com mesmo nome.
      */
     public boolean criarNovoObjetivoMedicao(Objetivodemedicao objetivo, int idProjeto) {
-
+        
         Objetivodemedicao objetivoAux = facadejpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), idProjeto);
         if (objetivoAux != null) {
             JOptionPane.showMessageDialog(null, "Ja existe um objetivo de medição com este nome neste projeto");
             return false;
         }
-
+        
         try {
             facadejpa.getObjetivodemedicao().create(objetivo);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
@@ -58,7 +57,7 @@ public class CtrlObjetivos {
      * objetivo com mesmo nome.
      */
     public boolean editarObjetivoMedicao(Objetivodemedicao objetivo, int idProjeto) {
-
+        
         Objetivodemedicao objetivoAux = facadejpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), idProjeto);
         if (objetivoAux != null) {
             if (objetivoAux.getObjetivodemedicaoPK().getId() != objetivo.getObjetivodemedicaoPK().getId()) {
@@ -66,7 +65,7 @@ public class CtrlObjetivos {
                 return false;
             }
         }
-
+        
         try {
             facadejpa.getObjetivodemedicao().edit(objetivo);
             JOptionPane.showMessageDialog(null, "Editado com sucesso");
@@ -77,7 +76,7 @@ public class CtrlObjetivos {
             return false;
         }
     }
-
+    
     public boolean criarNovaQuestao(Objetivodequestao objetivodequestao) {
         try {
             facadejpa.getObjetivoDeQuestaoJpa().create(objetivodequestao);
@@ -88,7 +87,7 @@ public class CtrlObjetivos {
             return false;
         }
     }
-
+    
     public boolean editarQuestao(Objetivodequestao objetivodequestao) {
         try {
             facadejpa.getObjetivoDeQuestaoJpa().edit(objetivodequestao);
@@ -100,11 +99,11 @@ public class CtrlObjetivos {
             return false;
         }
     }
-
+    
     public void editarPrioridadeDaListaDeQuestoes(List<Objetivodequestao> lista_questao) {
         try {
             int resposta = JOptionPane.showConfirmDialog(null, "Confirmar alterações?\n\nAo cofirmar as alterações de prioridades elas se tornaram permanentes.");
-
+            
             if (resposta == JOptionPane.YES_OPTION) {
                 for (int i = 0; i < lista_questao.size(); i++) {
                     facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
@@ -116,7 +115,7 @@ public class CtrlObjetivos {
             error.printStackTrace();
         }
     }
-
+    
     public List<Objetivodequestao> buscaListaDeQuestoes() {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findObjetivodequestaoEntities();
@@ -124,7 +123,7 @@ public class CtrlObjetivos {
             throw error;
         }
     }
-
+    
     public Objetivodemedicao buscaObjetivoDeMedicaoPeloNome(String nome) {
         try {
             return facadejpa.getObjetivoDeMedicaoJpa().findByNome(nome);
@@ -132,7 +131,7 @@ public class CtrlObjetivos {
             throw error;
         }
     }
-
+    
     public List<Objetivodequestao> getQuestoesDoProjeto(int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().ListQuestoesByProjeto(id_projeto);
@@ -140,7 +139,7 @@ public class CtrlObjetivos {
             throw error;
         }
     }
-
+    
     public Objetivodequestao buscaObjetivoDeQuestaoDoProjeto(String nome_questao, int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(nome_questao, id_projeto);
@@ -148,7 +147,7 @@ public class CtrlObjetivos {
             throw error;
         }
     }
-
+    
     public List<Objetivodequestao> buscaParteDoNomeQuestao(String nome_questao, int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findParteNomeQuestao(nome_questao, id_projeto);
@@ -156,7 +155,7 @@ public class CtrlObjetivos {
             throw error;
         }
     }
-
+    
     public boolean buscaSeNomeQuestaoJaExiste(String nome, int id_projeto, int prioridade) {
         try {
             if (facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto, prioridade).isEmpty()) {
@@ -178,7 +177,7 @@ public class CtrlObjetivos {
      */
     public void registrar(Objetivodemedicao objetivo, int tipo) {
         objetivo = facade.FacadeJpa.getInstance().getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), objetivo.getObjetivodemedicaoPK().getProjetoid());
-
+        
         Registroobjetivomedicao registro = new Registroobjetivomedicao();
         registro.setData(new Date());
         registro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
@@ -191,13 +190,19 @@ public class CtrlObjetivos {
             Logger.getLogger(ViewProjeto_ObjetivosDeMedicao_Novo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void registraQuestao(Registroobjetivoquestao registroobjetivoquestao) {
+    
+    public void registraQuestao(Objetivodequestao objetivoQuestao, int tipo) {
         try {
-            List<Registroobjetivoquestao> listaDeRegistros = facadejpa.getRegistroobjetivoquestaoJpa().findRegistroobjetivoquestaoEntities();
-            Objetivodequestao questãoAux = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(registroobjetivoquestao.getObjetivodequestao().getNome(), Copia.getProjetoSelecionado().getId());
-            registroobjetivoquestao.setObjetivodequestao(questãoAux);
-            facadejpa.getRegistroobjetivoquestaoJpa().create(registroobjetivoquestao);
+            objetivoQuestao = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(objetivoQuestao.getNome(), objetivoQuestao.getObjetivodequestaoPK().getObjetivoDeMedicaoProjetoid());
+            
+            Registroobjetivoquestao novoRegistro = new Registroobjetivoquestao();
+            novoRegistro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
+            novoRegistro.setData(new Date());
+            novoRegistro.setObjetivodequestao(objetivoQuestao);
+            novoRegistro.setTipo(tipo);
+//          novoRegistro.setDescricao(null);
+            
+            facadejpa.getRegistroobjetivoquestaoJpa().create(novoRegistro);
             System.out.println("--Registro de questão criado");
         } catch (Exception error) {
             error.printStackTrace();
