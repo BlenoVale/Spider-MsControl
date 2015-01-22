@@ -6,7 +6,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import model.Objetivodequestao;
 import model.Projeto;
-import model.Registroobjetivoquestao;
 import util.Constantes;
 import util.Copia;
 import util.Texto;
@@ -393,11 +392,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             objetivo_questao.setObjetivodemedicao(ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(jComboBoxObjRelacionado.getSelectedItem().toString()));
             objetivo_questao.setObservacao(jTextAreaObservacao.getText());
 
-            Registroobjetivoquestao registroQuestao = new Registroobjetivoquestao();
-            registroQuestao.setNomeUsuario(nomeUsuario_logado);
-            registroQuestao.setData(new Date());
-            registroQuestao.setObjetivodequestao(objetivo_questao);
-
             boolean feito = false;
             if (ehNovaQuestao) {
                 // verifica se já existe Questão com o mesmo nome
@@ -405,16 +399,14 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                     objetivo_questao.setPrioridade(ctrlObjetivos.buscaListaDeQuestoes().size() + 1);
                     feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
 
-                    registroQuestao.setTipo(Constantes.CADASTRO);
-                    ctrlObjetivos.registraQuestao(registroQuestao);
+                    ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.CADASTRO);
                 }
             } else {
                 // verifica se já existe Questão com o mesmo nome
                 if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
                     feito = ctrlObjetivos.editarQuestao(objetivo_questao);
 
-                    registroQuestao.setTipo(Constantes.CADASTRO);
-                    ctrlObjetivos.registraQuestao(registroQuestao);
+                    ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.EDICAO);
                 }
             }
 
