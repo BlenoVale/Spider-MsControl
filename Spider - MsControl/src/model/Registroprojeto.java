@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -23,22 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registroprojeto")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registroprojeto.findAll", query = "SELECT r FROM Registroprojeto r"),
-    @NamedQuery(name = "Registroprojeto.findById", query = "SELECT r FROM Registroprojeto r WHERE r.registroprojetoPK.id = :id"),
-    @NamedQuery(name = "Registroprojeto.findByProjetoid", query = "SELECT r FROM Registroprojeto r WHERE r.registroprojetoPK.projetoid = :projetoid"),
+    @NamedQuery(name = "Registroprojeto.findById", query = "SELECT r FROM Registroprojeto r WHERE r.id = :id"),
     @NamedQuery(name = "Registroprojeto.findByTipo", query = "SELECT r FROM Registroprojeto r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroprojeto.findByNomeUsuario", query = "SELECT r FROM Registroprojeto r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroprojeto.findByData", query = "SELECT r FROM Registroprojeto r WHERE r.data = :data")})
 public class Registroprojeto implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistroprojetoPK registroprojetoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -52,34 +56,30 @@ public class Registroprojeto implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Projeto projeto;
+    private Projeto projetoid;
 
     public Registroprojeto() {
     }
 
-    public Registroprojeto(RegistroprojetoPK registroprojetoPK) {
-        this.registroprojetoPK = registroprojetoPK;
+    public Registroprojeto(Integer id) {
+        this.id = id;
     }
 
-    public Registroprojeto(RegistroprojetoPK registroprojetoPK, int tipo, String nomeUsuario, Date data) {
-        this.registroprojetoPK = registroprojetoPK;
+    public Registroprojeto(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registroprojeto(int id, int projetoid) {
-        this.registroprojetoPK = new RegistroprojetoPK(id, projetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistroprojetoPK getRegistroprojetoPK() {
-        return registroprojetoPK;
-    }
-
-    public void setRegistroprojetoPK(RegistroprojetoPK registroprojetoPK) {
-        this.registroprojetoPK = registroprojetoPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -114,18 +114,18 @@ public class Registroprojeto implements Serializable {
         this.data = data;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
+    public Projeto getProjetoid() {
+        return projetoid;
     }
 
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
+    public void setProjetoid(Projeto projetoid) {
+        this.projetoid = projetoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registroprojetoPK != null ? registroprojetoPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -136,14 +136,14 @@ public class Registroprojeto implements Serializable {
             return false;
         }
         Registroprojeto other = (Registroprojeto) object;
-        if ((this.registroprojetoPK == null && other.registroprojetoPK != null) || (this.registroprojetoPK != null && !this.registroprojetoPK.equals(other.registroprojetoPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroprojeto[ registroprojetoPK=" + registroprojetoPK + " ]";
+        return "model.Registroprojeto[ id=" + id + " ]";
     }
     
 }

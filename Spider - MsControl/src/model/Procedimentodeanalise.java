@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -74,14 +74,13 @@ public class Procedimentodeanalise implements Serializable {
     private String acoesAnalise;
     @Column(name = "comunicacao")
     private String comunicacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentodeanalise")
-    private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
     @JoinColumns({
-        @JoinColumn(name = "Coleta_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Coleta_Medida_id", referencedColumnName = "Medida_id"),
-        @JoinColumn(name = "Coleta_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id")})
+        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
-    private Coleta coleta;
+    private Medida medida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
+    private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
 
     public Procedimentodeanalise() {
     }
@@ -170,6 +169,14 @@ public class Procedimentodeanalise implements Serializable {
         this.comunicacao = comunicacao;
     }
 
+    public Medida getMedida() {
+        return medida;
+    }
+
+    public void setMedida(Medida medida) {
+        this.medida = medida;
+    }
+
     @XmlTransient
     public List<Registroprocedimentoanalise> getRegistroprocedimentoanaliseList() {
         return registroprocedimentoanaliseList;
@@ -177,14 +184,6 @@ public class Procedimentodeanalise implements Serializable {
 
     public void setRegistroprocedimentoanaliseList(List<Registroprocedimentoanalise> registroprocedimentoanaliseList) {
         this.registroprocedimentoanaliseList = registroprocedimentoanaliseList;
-    }
-
-    public Coleta getColeta() {
-        return coleta;
-    }
-
-    public void setColeta(Coleta coleta) {
-        this.coleta = coleta;
     }
 
     @Override

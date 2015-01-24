@@ -9,10 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,24 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registroanalise")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registroanalise.findAll", query = "SELECT r FROM Registroanalise r"),
-    @NamedQuery(name = "Registroanalise.findById", query = "SELECT r FROM Registroanalise r WHERE r.registroanalisePK.id = :id"),
-    @NamedQuery(name = "Registroanalise.findByAnaliseid", query = "SELECT r FROM Registroanalise r WHERE r.registroanalisePK.analiseid = :analiseid"),
-    @NamedQuery(name = "Registroanalise.findByAnaliseMedidaid", query = "SELECT r FROM Registroanalise r WHERE r.registroanalisePK.analiseMedidaid = :analiseMedidaid"),
-    @NamedQuery(name = "Registroanalise.findByAnaliseMedidaProjetoid", query = "SELECT r FROM Registroanalise r WHERE r.registroanalisePK.analiseMedidaProjetoid = :analiseMedidaProjetoid"),
+    @NamedQuery(name = "Registroanalise.findById", query = "SELECT r FROM Registroanalise r WHERE r.id = :id"),
     @NamedQuery(name = "Registroanalise.findByTipo", query = "SELECT r FROM Registroanalise r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroanalise.findByNomeUsuario", query = "SELECT r FROM Registroanalise r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroanalise.findByData", query = "SELECT r FROM Registroanalise r WHERE r.data = :data")})
 public class Registroanalise implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistroanalisePK registroanalisePK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -54,36 +55,29 @@ public class Registroanalise implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumns({
-        @JoinColumn(name = "Analise_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Analise_Medida_id", referencedColumnName = "Medida_id", insertable = false, updatable = false),
-        @JoinColumn(name = "Analise_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id", insertable = false, updatable = false)})
+    @JoinColumn(name = "Analise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Analise analise;
+    private Analise analiseid;
 
     public Registroanalise() {
     }
 
-    public Registroanalise(RegistroanalisePK registroanalisePK) {
-        this.registroanalisePK = registroanalisePK;
+    public Registroanalise(Integer id) {
+        this.id = id;
     }
 
-    public Registroanalise(RegistroanalisePK registroanalisePK, int tipo, String nomeUsuario) {
-        this.registroanalisePK = registroanalisePK;
+    public Registroanalise(Integer id, int tipo, String nomeUsuario) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
     }
 
-    public Registroanalise(int id, int analiseid, int analiseMedidaid, int analiseMedidaProjetoid) {
-        this.registroanalisePK = new RegistroanalisePK(id, analiseid, analiseMedidaid, analiseMedidaProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistroanalisePK getRegistroanalisePK() {
-        return registroanalisePK;
-    }
-
-    public void setRegistroanalisePK(RegistroanalisePK registroanalisePK) {
-        this.registroanalisePK = registroanalisePK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -118,18 +112,18 @@ public class Registroanalise implements Serializable {
         this.data = data;
     }
 
-    public Analise getAnalise() {
-        return analise;
+    public Analise getAnaliseid() {
+        return analiseid;
     }
 
-    public void setAnalise(Analise analise) {
-        this.analise = analise;
+    public void setAnaliseid(Analise analiseid) {
+        this.analiseid = analiseid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registroanalisePK != null ? registroanalisePK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -140,14 +134,14 @@ public class Registroanalise implements Serializable {
             return false;
         }
         Registroanalise other = (Registroanalise) object;
-        if ((this.registroanalisePK == null && other.registroanalisePK != null) || (this.registroanalisePK != null && !this.registroanalisePK.equals(other.registroanalisePK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroanalise[ registroanalisePK=" + registroanalisePK + " ]";
+        return "model.Registroanalise[ id=" + id + " ]";
     }
     
 }

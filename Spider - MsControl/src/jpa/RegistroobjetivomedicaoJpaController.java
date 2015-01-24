@@ -14,14 +14,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Objetivodemedicao;
 import model.Registroobjetivomedicao;
-import model.RegistroobjetivomedicaoPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistroobjetivomedicaoJpaController implements Serializable {
 
@@ -34,12 +32,7 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroobjetivomedicao registroobjetivomedicao) throws PreexistingEntityException, Exception {
-        if (registroobjetivomedicao.getRegistroobjetivomedicaoPK() == null) {
-            registroobjetivomedicao.setRegistroobjetivomedicaoPK(new RegistroobjetivomedicaoPK());
-        }
-        registroobjetivomedicao.getRegistroobjetivomedicaoPK().setObjetivoDeMedicaoProjetoid(registroobjetivomedicao.getObjetivodemedicao().getObjetivodemedicaoPK().getProjetoid());
-        registroobjetivomedicao.getRegistroobjetivomedicaoPK().setObjetivoDeMedicaoid(registroobjetivomedicao.getObjetivodemedicao().getObjetivodemedicaoPK().getId());
+    public void create(Registroobjetivomedicao registroobjetivomedicao) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,11 +48,6 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
                 objetivodemedicao = em.merge(objetivodemedicao);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistroobjetivomedicao(registroobjetivomedicao.getRegistroobjetivomedicaoPK()) != null) {
-                throw new PreexistingEntityException("Registroobjetivomedicao " + registroobjetivomedicao + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -68,13 +56,11 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
     }
 
     public void edit(Registroobjetivomedicao registroobjetivomedicao) throws NonexistentEntityException, Exception {
-        registroobjetivomedicao.getRegistroobjetivomedicaoPK().setObjetivoDeMedicaoProjetoid(registroobjetivomedicao.getObjetivodemedicao().getObjetivodemedicaoPK().getProjetoid());
-        registroobjetivomedicao.getRegistroobjetivomedicaoPK().setObjetivoDeMedicaoid(registroobjetivomedicao.getObjetivodemedicao().getObjetivodemedicaoPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroobjetivomedicao persistentRegistroobjetivomedicao = em.find(Registroobjetivomedicao.class, registroobjetivomedicao.getRegistroobjetivomedicaoPK());
+            Registroobjetivomedicao persistentRegistroobjetivomedicao = em.find(Registroobjetivomedicao.class, registroobjetivomedicao.getId());
             Objetivodemedicao objetivodemedicaoOld = persistentRegistroobjetivomedicao.getObjetivodemedicao();
             Objetivodemedicao objetivodemedicaoNew = registroobjetivomedicao.getObjetivodemedicao();
             if (objetivodemedicaoNew != null) {
@@ -94,7 +80,7 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistroobjetivomedicaoPK id = registroobjetivomedicao.getRegistroobjetivomedicaoPK();
+                Integer id = registroobjetivomedicao.getId();
                 if (findRegistroobjetivomedicao(id) == null) {
                     throw new NonexistentEntityException("The registroobjetivomedicao with id " + id + " no longer exists.");
                 }
@@ -107,7 +93,7 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistroobjetivomedicaoPK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -115,7 +101,7 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
             Registroobjetivomedicao registroobjetivomedicao;
             try {
                 registroobjetivomedicao = em.getReference(Registroobjetivomedicao.class, id);
-                registroobjetivomedicao.getRegistroobjetivomedicaoPK();
+                registroobjetivomedicao.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroobjetivomedicao with id " + id + " no longer exists.", enfe);
             }
@@ -157,7 +143,7 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public Registroobjetivomedicao findRegistroobjetivomedicao(RegistroobjetivomedicaoPK id) {
+    public Registroobjetivomedicao findRegistroobjetivomedicao(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroobjetivomedicao.class, id);

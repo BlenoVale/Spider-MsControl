@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -71,14 +71,13 @@ public class Procedimentodecoleta implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentodecoleta")
-    private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
     @JoinColumns({
-        @JoinColumn(name = "Coleta_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Coleta_Medida_id", referencedColumnName = "Medida_id"),
-        @JoinColumn(name = "Coleta_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id")})
+        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
-    private Coleta coleta;
+    private Medida medida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
+    private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
 
     public Procedimentodecoleta() {
     }
@@ -159,6 +158,14 @@ public class Procedimentodecoleta implements Serializable {
         this.observacao = observacao;
     }
 
+    public Medida getMedida() {
+        return medida;
+    }
+
+    public void setMedida(Medida medida) {
+        this.medida = medida;
+    }
+
     @XmlTransient
     public List<Registroprocedimentocoleta> getRegistroprocedimentocoletaList() {
         return registroprocedimentocoletaList;
@@ -166,14 +173,6 @@ public class Procedimentodecoleta implements Serializable {
 
     public void setRegistroprocedimentocoletaList(List<Registroprocedimentocoleta> registroprocedimentocoletaList) {
         this.registroprocedimentocoletaList = registroprocedimentocoletaList;
-    }
-
-    public Coleta getColeta() {
-        return coleta;
-    }
-
-    public void setColeta(Coleta coleta) {
-        this.coleta = coleta;
     }
 
     @Override

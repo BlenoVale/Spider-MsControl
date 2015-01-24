@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Coleta;
+import model.Medida;
 import model.Registroprocedimentoanalise;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import model.Procedimentodeanalise;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ProcedimentodeanaliseJpaController implements Serializable {
 
@@ -43,29 +43,29 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Coleta coleta = procedimentodeanalise.getColeta();
-            if (coleta != null) {
-                coleta = em.getReference(coleta.getClass(), coleta.getColetaPK());
-                procedimentodeanalise.setColeta(coleta);
+            Medida medida = procedimentodeanalise.getMedida();
+            if (medida != null) {
+                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
+                procedimentodeanalise.setMedida(medida);
             }
             List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseList = new ArrayList<Registroprocedimentoanalise>();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
-                registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getRegistroprocedimentoanalisePK());
+                registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getId());
                 attachedRegistroprocedimentoanaliseList.add(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach);
             }
             procedimentodeanalise.setRegistroprocedimentoanaliseList(attachedRegistroprocedimentoanaliseList);
             em.persist(procedimentodeanalise);
-            if (coleta != null) {
-                coleta.getProcedimentodeanaliseList().add(procedimentodeanalise);
-                coleta = em.merge(coleta);
+            if (medida != null) {
+                medida.getProcedimentodeanaliseList().add(procedimentodeanalise);
+                medida = em.merge(medida);
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanalise : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
-                Procedimentodeanalise oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = registroprocedimentoanaliseListRegistroprocedimentoanalise.getProcedimentodeanalise();
-                registroprocedimentoanaliseListRegistroprocedimentoanalise.setProcedimentodeanalise(procedimentodeanalise);
+                Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = registroprocedimentoanaliseListRegistroprocedimentoanalise.getProcedimentoDeAnaliseid();
+                registroprocedimentoanaliseListRegistroprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
                 registroprocedimentoanaliseListRegistroprocedimentoanalise = em.merge(registroprocedimentoanaliseListRegistroprocedimentoanalise);
-                if (oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise != null) {
-                    oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanaliseListRegistroprocedimentoanalise);
-                    oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = em.merge(oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise);
+                if (oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise != null) {
+                    oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanaliseListRegistroprocedimentoanalise);
+                    oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise);
                 }
             }
             em.getTransaction().commit();
@@ -82,8 +82,8 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Procedimentodeanalise persistentProcedimentodeanalise = em.find(Procedimentodeanalise.class, procedimentodeanalise.getId());
-            Coleta coletaOld = persistentProcedimentodeanalise.getColeta();
-            Coleta coletaNew = procedimentodeanalise.getColeta();
+            Medida medidaOld = persistentProcedimentodeanalise.getMedida();
+            Medida medidaNew = procedimentodeanalise.getMedida();
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListOld = persistentProcedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListNew = procedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<String> illegalOrphanMessages = null;
@@ -92,40 +92,40 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Registroprocedimentoanalise " + registroprocedimentoanaliseListOldRegistroprocedimentoanalise + " since its procedimentodeanalise field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registroprocedimentoanalise " + registroprocedimentoanaliseListOldRegistroprocedimentoanalise + " since its procedimentoDeAnaliseid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (coletaNew != null) {
-                coletaNew = em.getReference(coletaNew.getClass(), coletaNew.getColetaPK());
-                procedimentodeanalise.setColeta(coletaNew);
+            if (medidaNew != null) {
+                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
+                procedimentodeanalise.setMedida(medidaNew);
             }
             List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseListNew = new ArrayList<Registroprocedimentoanalise>();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach : registroprocedimentoanaliseListNew) {
-                registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getRegistroprocedimentoanalisePK());
+                registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getId());
                 attachedRegistroprocedimentoanaliseListNew.add(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach);
             }
             registroprocedimentoanaliseListNew = attachedRegistroprocedimentoanaliseListNew;
             procedimentodeanalise.setRegistroprocedimentoanaliseList(registroprocedimentoanaliseListNew);
             procedimentodeanalise = em.merge(procedimentodeanalise);
-            if (coletaOld != null && !coletaOld.equals(coletaNew)) {
-                coletaOld.getProcedimentodeanaliseList().remove(procedimentodeanalise);
-                coletaOld = em.merge(coletaOld);
+            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
+                medidaOld.getProcedimentodeanaliseList().remove(procedimentodeanalise);
+                medidaOld = em.merge(medidaOld);
             }
-            if (coletaNew != null && !coletaNew.equals(coletaOld)) {
-                coletaNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
-                coletaNew = em.merge(coletaNew);
+            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
+                medidaNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
+                medidaNew = em.merge(medidaNew);
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanalise : registroprocedimentoanaliseListNew) {
                 if (!registroprocedimentoanaliseListOld.contains(registroprocedimentoanaliseListNewRegistroprocedimentoanalise)) {
-                    Procedimentodeanalise oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise = registroprocedimentoanaliseListNewRegistroprocedimentoanalise.getProcedimentodeanalise();
-                    registroprocedimentoanaliseListNewRegistroprocedimentoanalise.setProcedimentodeanalise(procedimentodeanalise);
+                    Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise = registroprocedimentoanaliseListNewRegistroprocedimentoanalise.getProcedimentoDeAnaliseid();
+                    registroprocedimentoanaliseListNewRegistroprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
                     registroprocedimentoanaliseListNewRegistroprocedimentoanalise = em.merge(registroprocedimentoanaliseListNewRegistroprocedimentoanalise);
-                    if (oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise != null && !oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise.equals(procedimentodeanalise)) {
-                        oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanaliseListNewRegistroprocedimentoanalise);
-                        oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise = em.merge(oldProcedimentodeanaliseOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise);
+                    if (oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise != null && !oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise.equals(procedimentodeanalise)) {
+                        oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanaliseListNewRegistroprocedimentoanalise);
+                        oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListNewRegistroprocedimentoanalise);
                     }
                 }
             }
@@ -164,15 +164,15 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Registroprocedimentoanalise " + registroprocedimentoanaliseListOrphanCheckRegistroprocedimentoanalise + " in its registroprocedimentoanaliseList field has a non-nullable procedimentodeanalise field.");
+                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Registroprocedimentoanalise " + registroprocedimentoanaliseListOrphanCheckRegistroprocedimentoanalise + " in its registroprocedimentoanaliseList field has a non-nullable procedimentoDeAnaliseid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Coleta coleta = procedimentodeanalise.getColeta();
-            if (coleta != null) {
-                coleta.getProcedimentodeanaliseList().remove(procedimentodeanalise);
-                coleta = em.merge(coleta);
+            Medida medida = procedimentodeanalise.getMedida();
+            if (medida != null) {
+                medida.getProcedimentodeanaliseList().remove(procedimentodeanalise);
+                medida = em.merge(medida);
             }
             em.remove(procedimentodeanalise);
             em.getTransaction().commit();

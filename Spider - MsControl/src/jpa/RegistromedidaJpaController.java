@@ -14,14 +14,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Medida;
 import model.Registromedida;
-import model.RegistromedidaPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistromedidaJpaController implements Serializable {
 
@@ -34,12 +32,7 @@ public class RegistromedidaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registromedida registromedida) throws PreexistingEntityException, Exception {
-        if (registromedida.getRegistromedidaPK() == null) {
-            registromedida.setRegistromedidaPK(new RegistromedidaPK());
-        }
-        registromedida.getRegistromedidaPK().setMedidaProjetoid(registromedida.getMedida().getMedidaPK().getProjetoid());
-        registromedida.getRegistromedidaPK().setMedidaid(registromedida.getMedida().getMedidaPK().getId());
+    public void create(Registromedida registromedida) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,11 +48,6 @@ public class RegistromedidaJpaController implements Serializable {
                 medida = em.merge(medida);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistromedida(registromedida.getRegistromedidaPK()) != null) {
-                throw new PreexistingEntityException("Registromedida " + registromedida + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -68,13 +56,11 @@ public class RegistromedidaJpaController implements Serializable {
     }
 
     public void edit(Registromedida registromedida) throws NonexistentEntityException, Exception {
-        registromedida.getRegistromedidaPK().setMedidaProjetoid(registromedida.getMedida().getMedidaPK().getProjetoid());
-        registromedida.getRegistromedidaPK().setMedidaid(registromedida.getMedida().getMedidaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registromedida persistentRegistromedida = em.find(Registromedida.class, registromedida.getRegistromedidaPK());
+            Registromedida persistentRegistromedida = em.find(Registromedida.class, registromedida.getId());
             Medida medidaOld = persistentRegistromedida.getMedida();
             Medida medidaNew = registromedida.getMedida();
             if (medidaNew != null) {
@@ -94,7 +80,7 @@ public class RegistromedidaJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistromedidaPK id = registromedida.getRegistromedidaPK();
+                Integer id = registromedida.getId();
                 if (findRegistromedida(id) == null) {
                     throw new NonexistentEntityException("The registromedida with id " + id + " no longer exists.");
                 }
@@ -107,7 +93,7 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistromedidaPK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -115,7 +101,7 @@ public class RegistromedidaJpaController implements Serializable {
             Registromedida registromedida;
             try {
                 registromedida = em.getReference(Registromedida.class, id);
-                registromedida.getRegistromedidaPK();
+                registromedida.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registromedida with id " + id + " no longer exists.", enfe);
             }
@@ -157,7 +143,7 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public Registromedida findRegistromedida(RegistromedidaPK id) {
+    public Registromedida findRegistromedida(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registromedida.class, id);

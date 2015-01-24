@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -23,22 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registroaprovacao")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registroaprovacao.findAll", query = "SELECT r FROM Registroaprovacao r"),
-    @NamedQuery(name = "Registroaprovacao.findById", query = "SELECT r FROM Registroaprovacao r WHERE r.registroaprovacaoPK.id = :id"),
-    @NamedQuery(name = "Registroaprovacao.findByAprovacaoid", query = "SELECT r FROM Registroaprovacao r WHERE r.registroaprovacaoPK.aprovacaoid = :aprovacaoid"),
+    @NamedQuery(name = "Registroaprovacao.findById", query = "SELECT r FROM Registroaprovacao r WHERE r.id = :id"),
     @NamedQuery(name = "Registroaprovacao.findByTipo", query = "SELECT r FROM Registroaprovacao r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroaprovacao.findByNomeUsuario", query = "SELECT r FROM Registroaprovacao r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroaprovacao.findByData", query = "SELECT r FROM Registroaprovacao r WHERE r.data = :data")})
 public class Registroaprovacao implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistroaprovacaoPK registroaprovacaoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -52,34 +56,30 @@ public class Registroaprovacao implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "Aprovacao_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Aprovacao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Aprovacao aprovacao;
+    private Aprovacao aprovacaoid;
 
     public Registroaprovacao() {
     }
 
-    public Registroaprovacao(RegistroaprovacaoPK registroaprovacaoPK) {
-        this.registroaprovacaoPK = registroaprovacaoPK;
+    public Registroaprovacao(Integer id) {
+        this.id = id;
     }
 
-    public Registroaprovacao(RegistroaprovacaoPK registroaprovacaoPK, int tipo, String nomeUsuario, Date data) {
-        this.registroaprovacaoPK = registroaprovacaoPK;
+    public Registroaprovacao(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registroaprovacao(int id, int aprovacaoid) {
-        this.registroaprovacaoPK = new RegistroaprovacaoPK(id, aprovacaoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistroaprovacaoPK getRegistroaprovacaoPK() {
-        return registroaprovacaoPK;
-    }
-
-    public void setRegistroaprovacaoPK(RegistroaprovacaoPK registroaprovacaoPK) {
-        this.registroaprovacaoPK = registroaprovacaoPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -114,18 +114,18 @@ public class Registroaprovacao implements Serializable {
         this.data = data;
     }
 
-    public Aprovacao getAprovacao() {
-        return aprovacao;
+    public Aprovacao getAprovacaoid() {
+        return aprovacaoid;
     }
 
-    public void setAprovacao(Aprovacao aprovacao) {
-        this.aprovacao = aprovacao;
+    public void setAprovacaoid(Aprovacao aprovacaoid) {
+        this.aprovacaoid = aprovacaoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registroaprovacaoPK != null ? registroaprovacaoPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -136,14 +136,14 @@ public class Registroaprovacao implements Serializable {
             return false;
         }
         Registroaprovacao other = (Registroaprovacao) object;
-        if ((this.registroaprovacaoPK == null && other.registroaprovacaoPK != null) || (this.registroaprovacaoPK != null && !this.registroaprovacaoPK.equals(other.registroaprovacaoPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroaprovacao[ registroaprovacaoPK=" + registroaprovacaoPK + " ]";
+        return "model.Registroaprovacao[ id=" + id + " ]";
     }
     
 }

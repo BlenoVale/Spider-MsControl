@@ -21,17 +21,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "acessa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Acessa.findAll", query = "SELECT a FROM Acessa a"),
+    @NamedQuery(name = "Acessa.findByDataDeInicio", query = "SELECT a FROM Acessa a WHERE a.dataDeInicio = :dataDeInicio"),
     @NamedQuery(name = "Acessa.findByProjetoid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.projetoid = :projetoid"),
-    @NamedQuery(name = "Acessa.findByPerfilid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.perfilid = :perfilid"),
     @NamedQuery(name = "Acessa.findByUsuarioid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.usuarioid = :usuarioid"),
-    @NamedQuery(name = "Acessa.findByDataDeInicio", query = "SELECT a FROM Acessa a WHERE a.dataDeInicio = :dataDeInicio")})
+    @NamedQuery(name = "Acessa.findByPerfilid", query = "SELECT a FROM Acessa a WHERE a.acessaPK.perfilid = :perfilid")})
 public class Acessa implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -56,8 +56,8 @@ public class Acessa implements Serializable {
         this.acessaPK = acessaPK;
     }
 
-    public Acessa(int projetoid, int perfilid, int usuarioid) {
-        this.acessaPK = new AcessaPK(projetoid, perfilid, usuarioid);
+    public Acessa(int projetoid, int usuarioid, int perfilid) {
+        this.acessaPK = new AcessaPK(projetoid, usuarioid, perfilid);
     }
 
     public AcessaPK getAcessaPK() {

@@ -85,15 +85,10 @@
                                       <Component id="jTextField4" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="79" pref="79" max="-2" attributes="0"/>
-                                          <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="79" pref="79" max="-2" attributes="0"/>
+                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">

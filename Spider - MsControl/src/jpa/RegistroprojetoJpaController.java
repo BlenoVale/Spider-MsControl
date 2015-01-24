@@ -14,14 +14,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Projeto;
 import model.Registroprojeto;
-import model.RegistroprojetoPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistroprojetoJpaController implements Serializable {
 
@@ -34,31 +32,22 @@ public class RegistroprojetoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprojeto registroprojeto) throws PreexistingEntityException, Exception {
-        if (registroprojeto.getRegistroprojetoPK() == null) {
-            registroprojeto.setRegistroprojetoPK(new RegistroprojetoPK());
-        }
-        registroprojeto.getRegistroprojetoPK().setProjetoid(registroprojeto.getProjeto().getId());
+    public void create(Registroprojeto registroprojeto) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Projeto projeto = registroprojeto.getProjeto();
-            if (projeto != null) {
-                projeto = em.getReference(projeto.getClass(), projeto.getId());
-                registroprojeto.setProjeto(projeto);
+            Projeto projetoid = registroprojeto.getProjetoid();
+            if (projetoid != null) {
+                projetoid = em.getReference(projetoid.getClass(), projetoid.getId());
+                registroprojeto.setProjetoid(projetoid);
             }
             em.persist(registroprojeto);
-            if (projeto != null) {
-                projeto.getRegistroprojetoList().add(registroprojeto);
-                projeto = em.merge(projeto);
+            if (projetoid != null) {
+                projetoid.getRegistroprojetoList().add(registroprojeto);
+                projetoid = em.merge(projetoid);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistroprojeto(registroprojeto.getRegistroprojetoPK()) != null) {
-                throw new PreexistingEntityException("Registroprojeto " + registroprojeto + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -67,32 +56,31 @@ public class RegistroprojetoJpaController implements Serializable {
     }
 
     public void edit(Registroprojeto registroprojeto) throws NonexistentEntityException, Exception {
-        registroprojeto.getRegistroprojetoPK().setProjetoid(registroprojeto.getProjeto().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprojeto persistentRegistroprojeto = em.find(Registroprojeto.class, registroprojeto.getRegistroprojetoPK());
-            Projeto projetoOld = persistentRegistroprojeto.getProjeto();
-            Projeto projetoNew = registroprojeto.getProjeto();
-            if (projetoNew != null) {
-                projetoNew = em.getReference(projetoNew.getClass(), projetoNew.getId());
-                registroprojeto.setProjeto(projetoNew);
+            Registroprojeto persistentRegistroprojeto = em.find(Registroprojeto.class, registroprojeto.getId());
+            Projeto projetoidOld = persistentRegistroprojeto.getProjetoid();
+            Projeto projetoidNew = registroprojeto.getProjetoid();
+            if (projetoidNew != null) {
+                projetoidNew = em.getReference(projetoidNew.getClass(), projetoidNew.getId());
+                registroprojeto.setProjetoid(projetoidNew);
             }
             registroprojeto = em.merge(registroprojeto);
-            if (projetoOld != null && !projetoOld.equals(projetoNew)) {
-                projetoOld.getRegistroprojetoList().remove(registroprojeto);
-                projetoOld = em.merge(projetoOld);
+            if (projetoidOld != null && !projetoidOld.equals(projetoidNew)) {
+                projetoidOld.getRegistroprojetoList().remove(registroprojeto);
+                projetoidOld = em.merge(projetoidOld);
             }
-            if (projetoNew != null && !projetoNew.equals(projetoOld)) {
-                projetoNew.getRegistroprojetoList().add(registroprojeto);
-                projetoNew = em.merge(projetoNew);
+            if (projetoidNew != null && !projetoidNew.equals(projetoidOld)) {
+                projetoidNew.getRegistroprojetoList().add(registroprojeto);
+                projetoidNew = em.merge(projetoidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistroprojetoPK id = registroprojeto.getRegistroprojetoPK();
+                Integer id = registroprojeto.getId();
                 if (findRegistroprojeto(id) == null) {
                     throw new NonexistentEntityException("The registroprojeto with id " + id + " no longer exists.");
                 }
@@ -105,7 +93,7 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistroprojetoPK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -113,14 +101,14 @@ public class RegistroprojetoJpaController implements Serializable {
             Registroprojeto registroprojeto;
             try {
                 registroprojeto = em.getReference(Registroprojeto.class, id);
-                registroprojeto.getRegistroprojetoPK();
+                registroprojeto.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroprojeto with id " + id + " no longer exists.", enfe);
             }
-            Projeto projeto = registroprojeto.getProjeto();
-            if (projeto != null) {
-                projeto.getRegistroprojetoList().remove(registroprojeto);
-                projeto = em.merge(projeto);
+            Projeto projetoid = registroprojeto.getProjetoid();
+            if (projetoid != null) {
+                projetoid.getRegistroprojetoList().remove(registroprojeto);
+                projetoid = em.merge(projetoid);
             }
             em.remove(registroprojeto);
             em.getTransaction().commit();
@@ -155,7 +143,7 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public Registroprojeto findRegistroprojeto(RegistroprojetoPK id) {
+    public Registroprojeto findRegistroprojeto(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroprojeto.class, id);

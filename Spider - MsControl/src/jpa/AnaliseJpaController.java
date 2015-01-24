@@ -18,13 +18,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Analise;
-import model.AnalisePK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class AnaliseJpaController implements Serializable {
 
@@ -37,15 +35,10 @@ public class AnaliseJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Analise analise) throws PreexistingEntityException, Exception {
-        if (analise.getAnalisePK() == null) {
-            analise.setAnalisePK(new AnalisePK());
-        }
+    public void create(Analise analise) {
         if (analise.getRegistroanaliseList() == null) {
             analise.setRegistroanaliseList(new ArrayList<Registroanalise>());
         }
-        analise.getAnalisePK().setMedidaid(analise.getMedida().getMedidaPK().getId());
-        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -57,7 +50,7 @@ public class AnaliseJpaController implements Serializable {
             }
             List<Registroanalise> attachedRegistroanaliseList = new ArrayList<Registroanalise>();
             for (Registroanalise registroanaliseListRegistroanaliseToAttach : analise.getRegistroanaliseList()) {
-                registroanaliseListRegistroanaliseToAttach = em.getReference(registroanaliseListRegistroanaliseToAttach.getClass(), registroanaliseListRegistroanaliseToAttach.getRegistroanalisePK());
+                registroanaliseListRegistroanaliseToAttach = em.getReference(registroanaliseListRegistroanaliseToAttach.getClass(), registroanaliseListRegistroanaliseToAttach.getId());
                 attachedRegistroanaliseList.add(registroanaliseListRegistroanaliseToAttach);
             }
             analise.setRegistroanaliseList(attachedRegistroanaliseList);
@@ -67,20 +60,15 @@ public class AnaliseJpaController implements Serializable {
                 medida = em.merge(medida);
             }
             for (Registroanalise registroanaliseListRegistroanalise : analise.getRegistroanaliseList()) {
-                Analise oldAnaliseOfRegistroanaliseListRegistroanalise = registroanaliseListRegistroanalise.getAnalise();
-                registroanaliseListRegistroanalise.setAnalise(analise);
+                Analise oldAnaliseidOfRegistroanaliseListRegistroanalise = registroanaliseListRegistroanalise.getAnaliseid();
+                registroanaliseListRegistroanalise.setAnaliseid(analise);
                 registroanaliseListRegistroanalise = em.merge(registroanaliseListRegistroanalise);
-                if (oldAnaliseOfRegistroanaliseListRegistroanalise != null) {
-                    oldAnaliseOfRegistroanaliseListRegistroanalise.getRegistroanaliseList().remove(registroanaliseListRegistroanalise);
-                    oldAnaliseOfRegistroanaliseListRegistroanalise = em.merge(oldAnaliseOfRegistroanaliseListRegistroanalise);
+                if (oldAnaliseidOfRegistroanaliseListRegistroanalise != null) {
+                    oldAnaliseidOfRegistroanaliseListRegistroanalise.getRegistroanaliseList().remove(registroanaliseListRegistroanalise);
+                    oldAnaliseidOfRegistroanaliseListRegistroanalise = em.merge(oldAnaliseidOfRegistroanaliseListRegistroanalise);
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findAnalise(analise.getAnalisePK()) != null) {
-                throw new PreexistingEntityException("Analise " + analise + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -89,13 +77,11 @@ public class AnaliseJpaController implements Serializable {
     }
 
     public void edit(Analise analise) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        analise.getAnalisePK().setMedidaid(analise.getMedida().getMedidaPK().getId());
-        analise.getAnalisePK().setMedidaProjetoid(analise.getMedida().getMedidaPK().getProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Analise persistentAnalise = em.find(Analise.class, analise.getAnalisePK());
+            Analise persistentAnalise = em.find(Analise.class, analise.getId());
             Medida medidaOld = persistentAnalise.getMedida();
             Medida medidaNew = analise.getMedida();
             List<Registroanalise> registroanaliseListOld = persistentAnalise.getRegistroanaliseList();
@@ -106,7 +92,7 @@ public class AnaliseJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Registroanalise " + registroanaliseListOldRegistroanalise + " since its analise field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registroanalise " + registroanaliseListOldRegistroanalise + " since its analiseid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -118,7 +104,7 @@ public class AnaliseJpaController implements Serializable {
             }
             List<Registroanalise> attachedRegistroanaliseListNew = new ArrayList<Registroanalise>();
             for (Registroanalise registroanaliseListNewRegistroanaliseToAttach : registroanaliseListNew) {
-                registroanaliseListNewRegistroanaliseToAttach = em.getReference(registroanaliseListNewRegistroanaliseToAttach.getClass(), registroanaliseListNewRegistroanaliseToAttach.getRegistroanalisePK());
+                registroanaliseListNewRegistroanaliseToAttach = em.getReference(registroanaliseListNewRegistroanaliseToAttach.getClass(), registroanaliseListNewRegistroanaliseToAttach.getId());
                 attachedRegistroanaliseListNew.add(registroanaliseListNewRegistroanaliseToAttach);
             }
             registroanaliseListNew = attachedRegistroanaliseListNew;
@@ -134,12 +120,12 @@ public class AnaliseJpaController implements Serializable {
             }
             for (Registroanalise registroanaliseListNewRegistroanalise : registroanaliseListNew) {
                 if (!registroanaliseListOld.contains(registroanaliseListNewRegistroanalise)) {
-                    Analise oldAnaliseOfRegistroanaliseListNewRegistroanalise = registroanaliseListNewRegistroanalise.getAnalise();
-                    registroanaliseListNewRegistroanalise.setAnalise(analise);
+                    Analise oldAnaliseidOfRegistroanaliseListNewRegistroanalise = registroanaliseListNewRegistroanalise.getAnaliseid();
+                    registroanaliseListNewRegistroanalise.setAnaliseid(analise);
                     registroanaliseListNewRegistroanalise = em.merge(registroanaliseListNewRegistroanalise);
-                    if (oldAnaliseOfRegistroanaliseListNewRegistroanalise != null && !oldAnaliseOfRegistroanaliseListNewRegistroanalise.equals(analise)) {
-                        oldAnaliseOfRegistroanaliseListNewRegistroanalise.getRegistroanaliseList().remove(registroanaliseListNewRegistroanalise);
-                        oldAnaliseOfRegistroanaliseListNewRegistroanalise = em.merge(oldAnaliseOfRegistroanaliseListNewRegistroanalise);
+                    if (oldAnaliseidOfRegistroanaliseListNewRegistroanalise != null && !oldAnaliseidOfRegistroanaliseListNewRegistroanalise.equals(analise)) {
+                        oldAnaliseidOfRegistroanaliseListNewRegistroanalise.getRegistroanaliseList().remove(registroanaliseListNewRegistroanalise);
+                        oldAnaliseidOfRegistroanaliseListNewRegistroanalise = em.merge(oldAnaliseidOfRegistroanaliseListNewRegistroanalise);
                     }
                 }
             }
@@ -147,7 +133,7 @@ public class AnaliseJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                AnalisePK id = analise.getAnalisePK();
+                Integer id = analise.getId();
                 if (findAnalise(id) == null) {
                     throw new NonexistentEntityException("The analise with id " + id + " no longer exists.");
                 }
@@ -160,7 +146,7 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(AnalisePK id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -168,7 +154,7 @@ public class AnaliseJpaController implements Serializable {
             Analise analise;
             try {
                 analise = em.getReference(Analise.class, id);
-                analise.getAnalisePK();
+                analise.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The analise with id " + id + " no longer exists.", enfe);
             }
@@ -178,7 +164,7 @@ public class AnaliseJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Analise (" + analise + ") cannot be destroyed since the Registroanalise " + registroanaliseListOrphanCheckRegistroanalise + " in its registroanaliseList field has a non-nullable analise field.");
+                illegalOrphanMessages.add("This Analise (" + analise + ") cannot be destroyed since the Registroanalise " + registroanaliseListOrphanCheckRegistroanalise + " in its registroanaliseList field has a non-nullable analiseid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -221,7 +207,7 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public Analise findAnalise(AnalisePK id) {
+    public Analise findAnalise(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Analise.class, id);

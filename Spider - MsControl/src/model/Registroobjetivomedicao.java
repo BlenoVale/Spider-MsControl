@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
@@ -24,23 +26,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registroobjetivomedicao")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registroobjetivomedicao.findAll", query = "SELECT r FROM Registroobjetivomedicao r"),
-    @NamedQuery(name = "Registroobjetivomedicao.findById", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.registroobjetivomedicaoPK.id = :id"),
-    @NamedQuery(name = "Registroobjetivomedicao.findByObjetivoDeMedicaoid", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.registroobjetivomedicaoPK.objetivoDeMedicaoid = :objetivoDeMedicaoid"),
-    @NamedQuery(name = "Registroobjetivomedicao.findByObjetivoDeMedicaoProjetoid", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.registroobjetivomedicaoPK.objetivoDeMedicaoProjetoid = :objetivoDeMedicaoProjetoid"),
+    @NamedQuery(name = "Registroobjetivomedicao.findById", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.id = :id"),
     @NamedQuery(name = "Registroobjetivomedicao.findByTipo", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroobjetivomedicao.findByNomeUsuario", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroobjetivomedicao.findByData", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.data = :data")})
 public class Registroobjetivomedicao implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistroobjetivomedicaoPK registroobjetivomedicaoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -55,35 +58,31 @@ public class Registroobjetivomedicao implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date data;
     @JoinColumns({
-        @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
+        @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id"),
+        @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
     private Objetivodemedicao objetivodemedicao;
 
     public Registroobjetivomedicao() {
     }
 
-    public Registroobjetivomedicao(RegistroobjetivomedicaoPK registroobjetivomedicaoPK) {
-        this.registroobjetivomedicaoPK = registroobjetivomedicaoPK;
+    public Registroobjetivomedicao(Integer id) {
+        this.id = id;
     }
 
-    public Registroobjetivomedicao(RegistroobjetivomedicaoPK registroobjetivomedicaoPK, int tipo, String nomeUsuario, Date data) {
-        this.registroobjetivomedicaoPK = registroobjetivomedicaoPK;
+    public Registroobjetivomedicao(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registroobjetivomedicao(int id, int objetivoDeMedicaoid, int objetivoDeMedicaoProjetoid) {
-        this.registroobjetivomedicaoPK = new RegistroobjetivomedicaoPK(id, objetivoDeMedicaoid, objetivoDeMedicaoProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistroobjetivomedicaoPK getRegistroobjetivomedicaoPK() {
-        return registroobjetivomedicaoPK;
-    }
-
-    public void setRegistroobjetivomedicaoPK(RegistroobjetivomedicaoPK registroobjetivomedicaoPK) {
-        this.registroobjetivomedicaoPK = registroobjetivomedicaoPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -129,7 +128,7 @@ public class Registroobjetivomedicao implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registroobjetivomedicaoPK != null ? registroobjetivomedicaoPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -140,14 +139,14 @@ public class Registroobjetivomedicao implements Serializable {
             return false;
         }
         Registroobjetivomedicao other = (Registroobjetivomedicao) object;
-        if ((this.registroobjetivomedicaoPK == null && other.registroobjetivomedicaoPK != null) || (this.registroobjetivomedicaoPK != null && !this.registroobjetivomedicaoPK.equals(other.registroobjetivomedicaoPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroobjetivomedicao[ registroobjetivomedicaoPK=" + registroobjetivomedicaoPK + " ]";
+        return "model.Registroobjetivomedicao[ id=" + id + " ]";
     }
     
 }

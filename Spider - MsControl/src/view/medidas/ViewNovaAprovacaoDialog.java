@@ -30,10 +30,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jLabel3 = new javax.swing.JLabel();
         jRadioButtonAprovado = new javax.swing.JRadioButton();
         jRadioButtonNaoAprovado = new javax.swing.JRadioButton();
@@ -44,6 +41,9 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jTextArea1 = new javax.swing.JTextArea();
         jButtonCancelar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova aprovação");
@@ -51,16 +51,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Medida:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel2.setText("Objetivo(s) de Medição:");
-
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 0" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jLabel2.setText("Objetivos Relacionados:");
 
         jLabel3.setText("Status:");
 
@@ -89,6 +80,22 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
         jButton2.setText("Salvar");
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Questão", "Objetivo de Medição"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Nome da medida");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,39 +103,39 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButtonAprovado)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButtonNaoAprovado)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)
-                    .addComponent(jTextFieldData, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(246, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCancelar)
-                .addGap(10, 10, 10))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jRadioButtonAprovado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonNaoAprovado)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2)
+                            .addComponent(jTextFieldData, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCancelar)
+                        .addGap(10, 10, 10))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1)
-                .addGap(10, 10, 10))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -137,12 +144,12 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jRadioButtonAprovado)
@@ -173,17 +180,17 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonCancelar;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jList1;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JRadioButton jRadioButtonAprovado;
     private javax.swing.JRadioButton jRadioButtonNaoAprovado;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextFieldData;
     // End of variables declaration//GEN-END:variables

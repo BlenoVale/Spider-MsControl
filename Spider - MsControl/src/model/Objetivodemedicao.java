@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "objetivodemedicao")
@@ -59,11 +59,11 @@ public class Objetivodemedicao implements Serializable {
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicao")
     private List<Objetivodequestao> objetivodequestaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicao")
+    private List<Registroobjetivomedicao> registroobjetivomedicaoList;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicao")
-    private List<Registroobjetivomedicao> registroobjetivomedicaoList;
 
     public Objetivodemedicao() {
     }
@@ -149,14 +149,6 @@ public class Objetivodemedicao implements Serializable {
         this.objetivodequestaoList = objetivodequestaoList;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
-    }
-
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
-    }
-
     @XmlTransient
     public List<Registroobjetivomedicao> getRegistroobjetivomedicaoList() {
         return registroobjetivomedicaoList;
@@ -164,6 +156,14 @@ public class Objetivodemedicao implements Serializable {
 
     public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
         this.registroobjetivomedicaoList = registroobjetivomedicaoList;
+    }
+
+    public Projeto getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
     }
 
     @Override

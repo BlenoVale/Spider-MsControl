@@ -17,14 +17,15 @@ public class RegistroobjetivomedicaoJpa extends RegistroobjetivomedicaoJpaContro
         super(Conexao.conectar());
     }
 
-    public List<Registroobjetivomedicao> findRegistroMedicaoByTipo(int tipo, int idProjeto, int idObjetoMedicao) {
+    public List<Registroobjetivomedicao> findRegistroMedicaoByTipo(int tipo, int projetoid, int idObjetoMedicao) {
         List<Registroobjetivomedicao> listRegistroMedicao = null;
 
         EntityManager entityManager = super.getEntityManager();
-        Query query = entityManager.createQuery("SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo AND r.registroobjetivomedicaoPK.objetivoDeMedicaoProjetoid = :idProjeto AND r.registroobjetivomedicaoPK.objetivoDeMedicaoid = :idObjetoMedicao");
+        Query query;// = entityManager.createQuery("SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo AND r.registroobjetivomedicaoPK = :idProjeto AND r.registroobjetivomedicaoPK.objetivoDeMedicaoid = :idObjetoMedicao");
+        query = entityManager.createQuery("SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo AND r.objetivodemedicao.objetivodemedicaoPK.projetoid = :projetoid AND r.objetivodemedicao.objetivodemedicaoPK.id = :id");
         query.setParameter("tipo", tipo);
-        query.setParameter("idProjeto", idProjeto);
-        query.setParameter("idObjetoMedicao", idObjetoMedicao);
+        query.setParameter("projetoid", projetoid);
+        query.setParameter("id", idObjetoMedicao);
         listRegistroMedicao = query.getResultList();
 
         return listRegistroMedicao;

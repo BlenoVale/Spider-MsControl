@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Definicao;
+import model.Medida;
 import model.Registroaprovacao;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import model.Aprovacao;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class AprovacaoJpaController implements Serializable {
 
@@ -43,29 +43,29 @@ public class AprovacaoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Definicao definicao = aprovacao.getDefinicao();
-            if (definicao != null) {
-                definicao = em.getReference(definicao.getClass(), definicao.getDefinicaoPK());
-                aprovacao.setDefinicao(definicao);
+            Medida medida = aprovacao.getMedida();
+            if (medida != null) {
+                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
+                aprovacao.setMedida(medida);
             }
             List<Registroaprovacao> attachedRegistroaprovacaoList = new ArrayList<Registroaprovacao>();
             for (Registroaprovacao registroaprovacaoListRegistroaprovacaoToAttach : aprovacao.getRegistroaprovacaoList()) {
-                registroaprovacaoListRegistroaprovacaoToAttach = em.getReference(registroaprovacaoListRegistroaprovacaoToAttach.getClass(), registroaprovacaoListRegistroaprovacaoToAttach.getRegistroaprovacaoPK());
+                registroaprovacaoListRegistroaprovacaoToAttach = em.getReference(registroaprovacaoListRegistroaprovacaoToAttach.getClass(), registroaprovacaoListRegistroaprovacaoToAttach.getId());
                 attachedRegistroaprovacaoList.add(registroaprovacaoListRegistroaprovacaoToAttach);
             }
             aprovacao.setRegistroaprovacaoList(attachedRegistroaprovacaoList);
             em.persist(aprovacao);
-            if (definicao != null) {
-                definicao.getAprovacaoList().add(aprovacao);
-                definicao = em.merge(definicao);
+            if (medida != null) {
+                medida.getAprovacaoList().add(aprovacao);
+                medida = em.merge(medida);
             }
             for (Registroaprovacao registroaprovacaoListRegistroaprovacao : aprovacao.getRegistroaprovacaoList()) {
-                Aprovacao oldAprovacaoOfRegistroaprovacaoListRegistroaprovacao = registroaprovacaoListRegistroaprovacao.getAprovacao();
-                registroaprovacaoListRegistroaprovacao.setAprovacao(aprovacao);
+                Aprovacao oldAprovacaoidOfRegistroaprovacaoListRegistroaprovacao = registroaprovacaoListRegistroaprovacao.getAprovacaoid();
+                registroaprovacaoListRegistroaprovacao.setAprovacaoid(aprovacao);
                 registroaprovacaoListRegistroaprovacao = em.merge(registroaprovacaoListRegistroaprovacao);
-                if (oldAprovacaoOfRegistroaprovacaoListRegistroaprovacao != null) {
-                    oldAprovacaoOfRegistroaprovacaoListRegistroaprovacao.getRegistroaprovacaoList().remove(registroaprovacaoListRegistroaprovacao);
-                    oldAprovacaoOfRegistroaprovacaoListRegistroaprovacao = em.merge(oldAprovacaoOfRegistroaprovacaoListRegistroaprovacao);
+                if (oldAprovacaoidOfRegistroaprovacaoListRegistroaprovacao != null) {
+                    oldAprovacaoidOfRegistroaprovacaoListRegistroaprovacao.getRegistroaprovacaoList().remove(registroaprovacaoListRegistroaprovacao);
+                    oldAprovacaoidOfRegistroaprovacaoListRegistroaprovacao = em.merge(oldAprovacaoidOfRegistroaprovacaoListRegistroaprovacao);
                 }
             }
             em.getTransaction().commit();
@@ -82,8 +82,8 @@ public class AprovacaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Aprovacao persistentAprovacao = em.find(Aprovacao.class, aprovacao.getId());
-            Definicao definicaoOld = persistentAprovacao.getDefinicao();
-            Definicao definicaoNew = aprovacao.getDefinicao();
+            Medida medidaOld = persistentAprovacao.getMedida();
+            Medida medidaNew = aprovacao.getMedida();
             List<Registroaprovacao> registroaprovacaoListOld = persistentAprovacao.getRegistroaprovacaoList();
             List<Registroaprovacao> registroaprovacaoListNew = aprovacao.getRegistroaprovacaoList();
             List<String> illegalOrphanMessages = null;
@@ -92,40 +92,40 @@ public class AprovacaoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Registroaprovacao " + registroaprovacaoListOldRegistroaprovacao + " since its aprovacao field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registroaprovacao " + registroaprovacaoListOldRegistroaprovacao + " since its aprovacaoid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (definicaoNew != null) {
-                definicaoNew = em.getReference(definicaoNew.getClass(), definicaoNew.getDefinicaoPK());
-                aprovacao.setDefinicao(definicaoNew);
+            if (medidaNew != null) {
+                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
+                aprovacao.setMedida(medidaNew);
             }
             List<Registroaprovacao> attachedRegistroaprovacaoListNew = new ArrayList<Registroaprovacao>();
             for (Registroaprovacao registroaprovacaoListNewRegistroaprovacaoToAttach : registroaprovacaoListNew) {
-                registroaprovacaoListNewRegistroaprovacaoToAttach = em.getReference(registroaprovacaoListNewRegistroaprovacaoToAttach.getClass(), registroaprovacaoListNewRegistroaprovacaoToAttach.getRegistroaprovacaoPK());
+                registroaprovacaoListNewRegistroaprovacaoToAttach = em.getReference(registroaprovacaoListNewRegistroaprovacaoToAttach.getClass(), registroaprovacaoListNewRegistroaprovacaoToAttach.getId());
                 attachedRegistroaprovacaoListNew.add(registroaprovacaoListNewRegistroaprovacaoToAttach);
             }
             registroaprovacaoListNew = attachedRegistroaprovacaoListNew;
             aprovacao.setRegistroaprovacaoList(registroaprovacaoListNew);
             aprovacao = em.merge(aprovacao);
-            if (definicaoOld != null && !definicaoOld.equals(definicaoNew)) {
-                definicaoOld.getAprovacaoList().remove(aprovacao);
-                definicaoOld = em.merge(definicaoOld);
+            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
+                medidaOld.getAprovacaoList().remove(aprovacao);
+                medidaOld = em.merge(medidaOld);
             }
-            if (definicaoNew != null && !definicaoNew.equals(definicaoOld)) {
-                definicaoNew.getAprovacaoList().add(aprovacao);
-                definicaoNew = em.merge(definicaoNew);
+            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
+                medidaNew.getAprovacaoList().add(aprovacao);
+                medidaNew = em.merge(medidaNew);
             }
             for (Registroaprovacao registroaprovacaoListNewRegistroaprovacao : registroaprovacaoListNew) {
                 if (!registroaprovacaoListOld.contains(registroaprovacaoListNewRegistroaprovacao)) {
-                    Aprovacao oldAprovacaoOfRegistroaprovacaoListNewRegistroaprovacao = registroaprovacaoListNewRegistroaprovacao.getAprovacao();
-                    registroaprovacaoListNewRegistroaprovacao.setAprovacao(aprovacao);
+                    Aprovacao oldAprovacaoidOfRegistroaprovacaoListNewRegistroaprovacao = registroaprovacaoListNewRegistroaprovacao.getAprovacaoid();
+                    registroaprovacaoListNewRegistroaprovacao.setAprovacaoid(aprovacao);
                     registroaprovacaoListNewRegistroaprovacao = em.merge(registroaprovacaoListNewRegistroaprovacao);
-                    if (oldAprovacaoOfRegistroaprovacaoListNewRegistroaprovacao != null && !oldAprovacaoOfRegistroaprovacaoListNewRegistroaprovacao.equals(aprovacao)) {
-                        oldAprovacaoOfRegistroaprovacaoListNewRegistroaprovacao.getRegistroaprovacaoList().remove(registroaprovacaoListNewRegistroaprovacao);
-                        oldAprovacaoOfRegistroaprovacaoListNewRegistroaprovacao = em.merge(oldAprovacaoOfRegistroaprovacaoListNewRegistroaprovacao);
+                    if (oldAprovacaoidOfRegistroaprovacaoListNewRegistroaprovacao != null && !oldAprovacaoidOfRegistroaprovacaoListNewRegistroaprovacao.equals(aprovacao)) {
+                        oldAprovacaoidOfRegistroaprovacaoListNewRegistroaprovacao.getRegistroaprovacaoList().remove(registroaprovacaoListNewRegistroaprovacao);
+                        oldAprovacaoidOfRegistroaprovacaoListNewRegistroaprovacao = em.merge(oldAprovacaoidOfRegistroaprovacaoListNewRegistroaprovacao);
                     }
                 }
             }
@@ -164,15 +164,15 @@ public class AprovacaoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Aprovacao (" + aprovacao + ") cannot be destroyed since the Registroaprovacao " + registroaprovacaoListOrphanCheckRegistroaprovacao + " in its registroaprovacaoList field has a non-nullable aprovacao field.");
+                illegalOrphanMessages.add("This Aprovacao (" + aprovacao + ") cannot be destroyed since the Registroaprovacao " + registroaprovacaoListOrphanCheckRegistroaprovacao + " in its registroaprovacaoList field has a non-nullable aprovacaoid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Definicao definicao = aprovacao.getDefinicao();
-            if (definicao != null) {
-                definicao.getAprovacaoList().remove(aprovacao);
-                definicao = em.merge(definicao);
+            Medida medida = aprovacao.getMedida();
+            if (medida != null) {
+                medida.getAprovacaoList().remove(aprovacao);
+                medida = em.merge(medida);
             }
             em.remove(aprovacao);
             em.getTransaction().commit();

@@ -10,21 +10,21 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Objetivodemedicao;
+import model.Medida;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
-import model.Medida;
 import model.Registroprojeto;
+import model.Objetivodemedicao;
 import model.Acessa;
 import model.Projeto;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ProjetoJpaController implements Serializable {
 
@@ -38,14 +38,14 @@ public class ProjetoJpaController implements Serializable {
     }
 
     public void create(Projeto projeto) {
-        if (projeto.getObjetivodemedicaoList() == null) {
-            projeto.setObjetivodemedicaoList(new ArrayList<Objetivodemedicao>());
-        }
         if (projeto.getMedidaList() == null) {
             projeto.setMedidaList(new ArrayList<Medida>());
         }
         if (projeto.getRegistroprojetoList() == null) {
             projeto.setRegistroprojetoList(new ArrayList<Registroprojeto>());
+        }
+        if (projeto.getObjetivodemedicaoList() == null) {
+            projeto.setObjetivodemedicaoList(new ArrayList<Objetivodemedicao>());
         }
         if (projeto.getAcessaList() == null) {
             projeto.setAcessaList(new ArrayList<Acessa>());
@@ -54,12 +54,6 @@ public class ProjetoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Objetivodemedicao> attachedObjetivodemedicaoList = new ArrayList<Objetivodemedicao>();
-            for (Objetivodemedicao objetivodemedicaoListObjetivodemedicaoToAttach : projeto.getObjetivodemedicaoList()) {
-                objetivodemedicaoListObjetivodemedicaoToAttach = em.getReference(objetivodemedicaoListObjetivodemedicaoToAttach.getClass(), objetivodemedicaoListObjetivodemedicaoToAttach.getObjetivodemedicaoPK());
-                attachedObjetivodemedicaoList.add(objetivodemedicaoListObjetivodemedicaoToAttach);
-            }
-            projeto.setObjetivodemedicaoList(attachedObjetivodemedicaoList);
             List<Medida> attachedMedidaList = new ArrayList<Medida>();
             for (Medida medidaListMedidaToAttach : projeto.getMedidaList()) {
                 medidaListMedidaToAttach = em.getReference(medidaListMedidaToAttach.getClass(), medidaListMedidaToAttach.getMedidaPK());
@@ -68,10 +62,16 @@ public class ProjetoJpaController implements Serializable {
             projeto.setMedidaList(attachedMedidaList);
             List<Registroprojeto> attachedRegistroprojetoList = new ArrayList<Registroprojeto>();
             for (Registroprojeto registroprojetoListRegistroprojetoToAttach : projeto.getRegistroprojetoList()) {
-                registroprojetoListRegistroprojetoToAttach = em.getReference(registroprojetoListRegistroprojetoToAttach.getClass(), registroprojetoListRegistroprojetoToAttach.getRegistroprojetoPK());
+                registroprojetoListRegistroprojetoToAttach = em.getReference(registroprojetoListRegistroprojetoToAttach.getClass(), registroprojetoListRegistroprojetoToAttach.getId());
                 attachedRegistroprojetoList.add(registroprojetoListRegistroprojetoToAttach);
             }
             projeto.setRegistroprojetoList(attachedRegistroprojetoList);
+            List<Objetivodemedicao> attachedObjetivodemedicaoList = new ArrayList<Objetivodemedicao>();
+            for (Objetivodemedicao objetivodemedicaoListObjetivodemedicaoToAttach : projeto.getObjetivodemedicaoList()) {
+                objetivodemedicaoListObjetivodemedicaoToAttach = em.getReference(objetivodemedicaoListObjetivodemedicaoToAttach.getClass(), objetivodemedicaoListObjetivodemedicaoToAttach.getObjetivodemedicaoPK());
+                attachedObjetivodemedicaoList.add(objetivodemedicaoListObjetivodemedicaoToAttach);
+            }
+            projeto.setObjetivodemedicaoList(attachedObjetivodemedicaoList);
             List<Acessa> attachedAcessaList = new ArrayList<Acessa>();
             for (Acessa acessaListAcessaToAttach : projeto.getAcessaList()) {
                 acessaListAcessaToAttach = em.getReference(acessaListAcessaToAttach.getClass(), acessaListAcessaToAttach.getAcessaPK());
@@ -79,15 +79,6 @@ public class ProjetoJpaController implements Serializable {
             }
             projeto.setAcessaList(attachedAcessaList);
             em.persist(projeto);
-            for (Objetivodemedicao objetivodemedicaoListObjetivodemedicao : projeto.getObjetivodemedicaoList()) {
-                Projeto oldProjetoOfObjetivodemedicaoListObjetivodemedicao = objetivodemedicaoListObjetivodemedicao.getProjeto();
-                objetivodemedicaoListObjetivodemedicao.setProjeto(projeto);
-                objetivodemedicaoListObjetivodemedicao = em.merge(objetivodemedicaoListObjetivodemedicao);
-                if (oldProjetoOfObjetivodemedicaoListObjetivodemedicao != null) {
-                    oldProjetoOfObjetivodemedicaoListObjetivodemedicao.getObjetivodemedicaoList().remove(objetivodemedicaoListObjetivodemedicao);
-                    oldProjetoOfObjetivodemedicaoListObjetivodemedicao = em.merge(oldProjetoOfObjetivodemedicaoListObjetivodemedicao);
-                }
-            }
             for (Medida medidaListMedida : projeto.getMedidaList()) {
                 Projeto oldProjetoOfMedidaListMedida = medidaListMedida.getProjeto();
                 medidaListMedida.setProjeto(projeto);
@@ -98,12 +89,21 @@ public class ProjetoJpaController implements Serializable {
                 }
             }
             for (Registroprojeto registroprojetoListRegistroprojeto : projeto.getRegistroprojetoList()) {
-                Projeto oldProjetoOfRegistroprojetoListRegistroprojeto = registroprojetoListRegistroprojeto.getProjeto();
-                registroprojetoListRegistroprojeto.setProjeto(projeto);
+                Projeto oldProjetoidOfRegistroprojetoListRegistroprojeto = registroprojetoListRegistroprojeto.getProjetoid();
+                registroprojetoListRegistroprojeto.setProjetoid(projeto);
                 registroprojetoListRegistroprojeto = em.merge(registroprojetoListRegistroprojeto);
-                if (oldProjetoOfRegistroprojetoListRegistroprojeto != null) {
-                    oldProjetoOfRegistroprojetoListRegistroprojeto.getRegistroprojetoList().remove(registroprojetoListRegistroprojeto);
-                    oldProjetoOfRegistroprojetoListRegistroprojeto = em.merge(oldProjetoOfRegistroprojetoListRegistroprojeto);
+                if (oldProjetoidOfRegistroprojetoListRegistroprojeto != null) {
+                    oldProjetoidOfRegistroprojetoListRegistroprojeto.getRegistroprojetoList().remove(registroprojetoListRegistroprojeto);
+                    oldProjetoidOfRegistroprojetoListRegistroprojeto = em.merge(oldProjetoidOfRegistroprojetoListRegistroprojeto);
+                }
+            }
+            for (Objetivodemedicao objetivodemedicaoListObjetivodemedicao : projeto.getObjetivodemedicaoList()) {
+                Projeto oldProjetoOfObjetivodemedicaoListObjetivodemedicao = objetivodemedicaoListObjetivodemedicao.getProjeto();
+                objetivodemedicaoListObjetivodemedicao.setProjeto(projeto);
+                objetivodemedicaoListObjetivodemedicao = em.merge(objetivodemedicaoListObjetivodemedicao);
+                if (oldProjetoOfObjetivodemedicaoListObjetivodemedicao != null) {
+                    oldProjetoOfObjetivodemedicaoListObjetivodemedicao.getObjetivodemedicaoList().remove(objetivodemedicaoListObjetivodemedicao);
+                    oldProjetoOfObjetivodemedicaoListObjetivodemedicao = em.merge(oldProjetoOfObjetivodemedicaoListObjetivodemedicao);
                 }
             }
             for (Acessa acessaListAcessa : projeto.getAcessaList()) {
@@ -129,23 +129,15 @@ public class ProjetoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Projeto persistentProjeto = em.find(Projeto.class, projeto.getId());
-            List<Objetivodemedicao> objetivodemedicaoListOld = persistentProjeto.getObjetivodemedicaoList();
-            List<Objetivodemedicao> objetivodemedicaoListNew = projeto.getObjetivodemedicaoList();
             List<Medida> medidaListOld = persistentProjeto.getMedidaList();
             List<Medida> medidaListNew = projeto.getMedidaList();
             List<Registroprojeto> registroprojetoListOld = persistentProjeto.getRegistroprojetoList();
             List<Registroprojeto> registroprojetoListNew = projeto.getRegistroprojetoList();
+            List<Objetivodemedicao> objetivodemedicaoListOld = persistentProjeto.getObjetivodemedicaoList();
+            List<Objetivodemedicao> objetivodemedicaoListNew = projeto.getObjetivodemedicaoList();
             List<Acessa> acessaListOld = persistentProjeto.getAcessaList();
             List<Acessa> acessaListNew = projeto.getAcessaList();
             List<String> illegalOrphanMessages = null;
-            for (Objetivodemedicao objetivodemedicaoListOldObjetivodemedicao : objetivodemedicaoListOld) {
-                if (!objetivodemedicaoListNew.contains(objetivodemedicaoListOldObjetivodemedicao)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Objetivodemedicao " + objetivodemedicaoListOldObjetivodemedicao + " since its projeto field is not nullable.");
-                }
-            }
             for (Medida medidaListOldMedida : medidaListOld) {
                 if (!medidaListNew.contains(medidaListOldMedida)) {
                     if (illegalOrphanMessages == null) {
@@ -159,7 +151,15 @@ public class ProjetoJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Registroprojeto " + registroprojetoListOldRegistroprojeto + " since its projeto field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registroprojeto " + registroprojetoListOldRegistroprojeto + " since its projetoid field is not nullable.");
+                }
+            }
+            for (Objetivodemedicao objetivodemedicaoListOldObjetivodemedicao : objetivodemedicaoListOld) {
+                if (!objetivodemedicaoListNew.contains(objetivodemedicaoListOldObjetivodemedicao)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Objetivodemedicao " + objetivodemedicaoListOldObjetivodemedicao + " since its projeto field is not nullable.");
                 }
             }
             for (Acessa acessaListOldAcessa : acessaListOld) {
@@ -173,13 +173,6 @@ public class ProjetoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Objetivodemedicao> attachedObjetivodemedicaoListNew = new ArrayList<Objetivodemedicao>();
-            for (Objetivodemedicao objetivodemedicaoListNewObjetivodemedicaoToAttach : objetivodemedicaoListNew) {
-                objetivodemedicaoListNewObjetivodemedicaoToAttach = em.getReference(objetivodemedicaoListNewObjetivodemedicaoToAttach.getClass(), objetivodemedicaoListNewObjetivodemedicaoToAttach.getObjetivodemedicaoPK());
-                attachedObjetivodemedicaoListNew.add(objetivodemedicaoListNewObjetivodemedicaoToAttach);
-            }
-            objetivodemedicaoListNew = attachedObjetivodemedicaoListNew;
-            projeto.setObjetivodemedicaoList(objetivodemedicaoListNew);
             List<Medida> attachedMedidaListNew = new ArrayList<Medida>();
             for (Medida medidaListNewMedidaToAttach : medidaListNew) {
                 medidaListNewMedidaToAttach = em.getReference(medidaListNewMedidaToAttach.getClass(), medidaListNewMedidaToAttach.getMedidaPK());
@@ -189,11 +182,18 @@ public class ProjetoJpaController implements Serializable {
             projeto.setMedidaList(medidaListNew);
             List<Registroprojeto> attachedRegistroprojetoListNew = new ArrayList<Registroprojeto>();
             for (Registroprojeto registroprojetoListNewRegistroprojetoToAttach : registroprojetoListNew) {
-                registroprojetoListNewRegistroprojetoToAttach = em.getReference(registroprojetoListNewRegistroprojetoToAttach.getClass(), registroprojetoListNewRegistroprojetoToAttach.getRegistroprojetoPK());
+                registroprojetoListNewRegistroprojetoToAttach = em.getReference(registroprojetoListNewRegistroprojetoToAttach.getClass(), registroprojetoListNewRegistroprojetoToAttach.getId());
                 attachedRegistroprojetoListNew.add(registroprojetoListNewRegistroprojetoToAttach);
             }
             registroprojetoListNew = attachedRegistroprojetoListNew;
             projeto.setRegistroprojetoList(registroprojetoListNew);
+            List<Objetivodemedicao> attachedObjetivodemedicaoListNew = new ArrayList<Objetivodemedicao>();
+            for (Objetivodemedicao objetivodemedicaoListNewObjetivodemedicaoToAttach : objetivodemedicaoListNew) {
+                objetivodemedicaoListNewObjetivodemedicaoToAttach = em.getReference(objetivodemedicaoListNewObjetivodemedicaoToAttach.getClass(), objetivodemedicaoListNewObjetivodemedicaoToAttach.getObjetivodemedicaoPK());
+                attachedObjetivodemedicaoListNew.add(objetivodemedicaoListNewObjetivodemedicaoToAttach);
+            }
+            objetivodemedicaoListNew = attachedObjetivodemedicaoListNew;
+            projeto.setObjetivodemedicaoList(objetivodemedicaoListNew);
             List<Acessa> attachedAcessaListNew = new ArrayList<Acessa>();
             for (Acessa acessaListNewAcessaToAttach : acessaListNew) {
                 acessaListNewAcessaToAttach = em.getReference(acessaListNewAcessaToAttach.getClass(), acessaListNewAcessaToAttach.getAcessaPK());
@@ -202,17 +202,6 @@ public class ProjetoJpaController implements Serializable {
             acessaListNew = attachedAcessaListNew;
             projeto.setAcessaList(acessaListNew);
             projeto = em.merge(projeto);
-            for (Objetivodemedicao objetivodemedicaoListNewObjetivodemedicao : objetivodemedicaoListNew) {
-                if (!objetivodemedicaoListOld.contains(objetivodemedicaoListNewObjetivodemedicao)) {
-                    Projeto oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao = objetivodemedicaoListNewObjetivodemedicao.getProjeto();
-                    objetivodemedicaoListNewObjetivodemedicao.setProjeto(projeto);
-                    objetivodemedicaoListNewObjetivodemedicao = em.merge(objetivodemedicaoListNewObjetivodemedicao);
-                    if (oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao != null && !oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao.equals(projeto)) {
-                        oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao.getObjetivodemedicaoList().remove(objetivodemedicaoListNewObjetivodemedicao);
-                        oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao = em.merge(oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao);
-                    }
-                }
-            }
             for (Medida medidaListNewMedida : medidaListNew) {
                 if (!medidaListOld.contains(medidaListNewMedida)) {
                     Projeto oldProjetoOfMedidaListNewMedida = medidaListNewMedida.getProjeto();
@@ -226,12 +215,23 @@ public class ProjetoJpaController implements Serializable {
             }
             for (Registroprojeto registroprojetoListNewRegistroprojeto : registroprojetoListNew) {
                 if (!registroprojetoListOld.contains(registroprojetoListNewRegistroprojeto)) {
-                    Projeto oldProjetoOfRegistroprojetoListNewRegistroprojeto = registroprojetoListNewRegistroprojeto.getProjeto();
-                    registroprojetoListNewRegistroprojeto.setProjeto(projeto);
+                    Projeto oldProjetoidOfRegistroprojetoListNewRegistroprojeto = registroprojetoListNewRegistroprojeto.getProjetoid();
+                    registroprojetoListNewRegistroprojeto.setProjetoid(projeto);
                     registroprojetoListNewRegistroprojeto = em.merge(registroprojetoListNewRegistroprojeto);
-                    if (oldProjetoOfRegistroprojetoListNewRegistroprojeto != null && !oldProjetoOfRegistroprojetoListNewRegistroprojeto.equals(projeto)) {
-                        oldProjetoOfRegistroprojetoListNewRegistroprojeto.getRegistroprojetoList().remove(registroprojetoListNewRegistroprojeto);
-                        oldProjetoOfRegistroprojetoListNewRegistroprojeto = em.merge(oldProjetoOfRegistroprojetoListNewRegistroprojeto);
+                    if (oldProjetoidOfRegistroprojetoListNewRegistroprojeto != null && !oldProjetoidOfRegistroprojetoListNewRegistroprojeto.equals(projeto)) {
+                        oldProjetoidOfRegistroprojetoListNewRegistroprojeto.getRegistroprojetoList().remove(registroprojetoListNewRegistroprojeto);
+                        oldProjetoidOfRegistroprojetoListNewRegistroprojeto = em.merge(oldProjetoidOfRegistroprojetoListNewRegistroprojeto);
+                    }
+                }
+            }
+            for (Objetivodemedicao objetivodemedicaoListNewObjetivodemedicao : objetivodemedicaoListNew) {
+                if (!objetivodemedicaoListOld.contains(objetivodemedicaoListNewObjetivodemedicao)) {
+                    Projeto oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao = objetivodemedicaoListNewObjetivodemedicao.getProjeto();
+                    objetivodemedicaoListNewObjetivodemedicao.setProjeto(projeto);
+                    objetivodemedicaoListNewObjetivodemedicao = em.merge(objetivodemedicaoListNewObjetivodemedicao);
+                    if (oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao != null && !oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao.equals(projeto)) {
+                        oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao.getObjetivodemedicaoList().remove(objetivodemedicaoListNewObjetivodemedicao);
+                        oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao = em.merge(oldProjetoOfObjetivodemedicaoListNewObjetivodemedicao);
                     }
                 }
             }
@@ -276,13 +276,6 @@ public class ProjetoJpaController implements Serializable {
                 throw new NonexistentEntityException("The projeto with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Objetivodemedicao> objetivodemedicaoListOrphanCheck = projeto.getObjetivodemedicaoList();
-            for (Objetivodemedicao objetivodemedicaoListOrphanCheckObjetivodemedicao : objetivodemedicaoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Projeto (" + projeto + ") cannot be destroyed since the Objetivodemedicao " + objetivodemedicaoListOrphanCheckObjetivodemedicao + " in its objetivodemedicaoList field has a non-nullable projeto field.");
-            }
             List<Medida> medidaListOrphanCheck = projeto.getMedidaList();
             for (Medida medidaListOrphanCheckMedida : medidaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -295,7 +288,14 @@ public class ProjetoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Projeto (" + projeto + ") cannot be destroyed since the Registroprojeto " + registroprojetoListOrphanCheckRegistroprojeto + " in its registroprojetoList field has a non-nullable projeto field.");
+                illegalOrphanMessages.add("This Projeto (" + projeto + ") cannot be destroyed since the Registroprojeto " + registroprojetoListOrphanCheckRegistroprojeto + " in its registroprojetoList field has a non-nullable projetoid field.");
+            }
+            List<Objetivodemedicao> objetivodemedicaoListOrphanCheck = projeto.getObjetivodemedicaoList();
+            for (Objetivodemedicao objetivodemedicaoListOrphanCheckObjetivodemedicao : objetivodemedicaoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Projeto (" + projeto + ") cannot be destroyed since the Objetivodemedicao " + objetivodemedicaoListOrphanCheckObjetivodemedicao + " in its objetivodemedicaoList field has a non-nullable projeto field.");
             }
             List<Acessa> acessaListOrphanCheck = projeto.getAcessaList();
             for (Acessa acessaListOrphanCheckAcessa : acessaListOrphanCheck) {

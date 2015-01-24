@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
@@ -24,23 +26,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registromedida")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registromedida.findAll", query = "SELECT r FROM Registromedida r"),
-    @NamedQuery(name = "Registromedida.findById", query = "SELECT r FROM Registromedida r WHERE r.registromedidaPK.id = :id"),
-    @NamedQuery(name = "Registromedida.findByMedidaid", query = "SELECT r FROM Registromedida r WHERE r.registromedidaPK.medidaid = :medidaid"),
-    @NamedQuery(name = "Registromedida.findByMedidaProjetoid", query = "SELECT r FROM Registromedida r WHERE r.registromedidaPK.medidaProjetoid = :medidaProjetoid"),
+    @NamedQuery(name = "Registromedida.findById", query = "SELECT r FROM Registromedida r WHERE r.id = :id"),
     @NamedQuery(name = "Registromedida.findByTipo", query = "SELECT r FROM Registromedida r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registromedida.findByNomeUsuario", query = "SELECT r FROM Registromedida r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registromedida.findByData", query = "SELECT r FROM Registromedida r WHERE r.data = :data")})
 public class Registromedida implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistromedidaPK registromedidaPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -55,35 +58,31 @@ public class Registromedida implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date data;
     @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
+        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
     private Medida medida;
 
     public Registromedida() {
     }
 
-    public Registromedida(RegistromedidaPK registromedidaPK) {
-        this.registromedidaPK = registromedidaPK;
+    public Registromedida(Integer id) {
+        this.id = id;
     }
 
-    public Registromedida(RegistromedidaPK registromedidaPK, int tipo, String nomeUsuario, Date data) {
-        this.registromedidaPK = registromedidaPK;
+    public Registromedida(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registromedida(int id, int medidaid, int medidaProjetoid) {
-        this.registromedidaPK = new RegistromedidaPK(id, medidaid, medidaProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistromedidaPK getRegistromedidaPK() {
-        return registromedidaPK;
-    }
-
-    public void setRegistromedidaPK(RegistromedidaPK registromedidaPK) {
-        this.registromedidaPK = registromedidaPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -129,7 +128,7 @@ public class Registromedida implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registromedidaPK != null ? registromedidaPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -140,14 +139,14 @@ public class Registromedida implements Serializable {
             return false;
         }
         Registromedida other = (Registromedida) object;
-        if ((this.registromedidaPK == null && other.registromedidaPK != null) || (this.registromedidaPK != null && !this.registromedidaPK.equals(other.registromedidaPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registromedida[ registromedidaPK=" + registromedidaPK + " ]";
+        return "model.Registromedida[ id=" + id + " ]";
     }
     
 }

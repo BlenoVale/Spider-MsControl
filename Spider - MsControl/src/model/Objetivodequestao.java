@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -77,6 +78,8 @@ public class Objetivodequestao implements Serializable {
     @Basic(optional = false)
     @Column(name = "pontoDeVista")
     private String pontoDeVista;
+    @ManyToMany(mappedBy = "objetivodequestaoList")
+    private List<Medida> medidaList;
     @JoinColumns({
         @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id"),
         @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id")})
@@ -173,6 +176,15 @@ public class Objetivodequestao implements Serializable {
 
     public void setPontoDeVista(String pontoDeVista) {
         this.pontoDeVista = pontoDeVista;
+    }
+
+    @XmlTransient
+    public List<Medida> getMedidaList() {
+        return medidaList;
+    }
+
+    public void setMedidaList(List<Medida> medidaList) {
+        this.medidaList = medidaList;
     }
 
     public Objetivodemedicao getObjetivodemedicao() {

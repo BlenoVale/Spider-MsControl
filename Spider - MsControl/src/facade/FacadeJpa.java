@@ -4,15 +4,11 @@ import jpa.AcessaJpaController;
 import jpa.AnaliseJpaController;
 import jpa.AprovacaoJpaController;
 import jpa.ColetaJpaController;
-import jpa.ComposicaoJpaController;
-import jpa.DefinicaoJpaController;
 import jpa.MedidaJpaController;
 import jpa.ObjetivodemedicaoJpaController;
 import jpa.ObjetivodequestaoJpaController;
 import jpa.ProcedimentodeanaliseJpaController;
 import jpa.ProcedimentodecoletaJpaController;
-import jpa.RegistroobjetivomedicaoJpaController;
-import jpa.RegistroobjetivoquestaoJpaController;
 import jpa.extensao.FuncionalidadeJpa;
 import jpa.extensao.ObjetivoDeMedicaoJpa;
 import jpa.extensao.ObjetivoDeQuestaoJpa;
@@ -37,8 +33,6 @@ public class FacadeJpa {
     private final AnaliseJpaController analiseJpa;
     private final AprovacaoJpaController aprovacaoJpa;
     private final ColetaJpaController coletaJpa;
-    private final ComposicaoJpaController composicaoJpa;
-    private final DefinicaoJpaController definicaoJpa;
     private final FuncionalidadeJpa funcionalidadeJpa;
     private final MedidaJpaController medidaJpa;
     private final ObjetivodemedicaoJpaController objetivodemedicacao;
@@ -58,8 +52,6 @@ public class FacadeJpa {
         analiseJpa = new AnaliseJpaController(Conexao.conectar());
         aprovacaoJpa = new AprovacaoJpaController(Conexao.conectar());
         coletaJpa = new ColetaJpaController(Conexao.conectar());
-        composicaoJpa = new ComposicaoJpaController(Conexao.conectar());
-        definicaoJpa = new DefinicaoJpaController(Conexao.conectar());
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpa = new MedidaJpaController(Conexao.conectar());
         objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
@@ -96,14 +88,6 @@ public class FacadeJpa {
 
     public ColetaJpaController getColetaJpa() {
         return coletaJpa;
-    }
-
-    public ComposicaoJpaController getComposicaoJpa() {
-        return composicaoJpa;
-    }
-
-    public DefinicaoJpaController getDefinicaoJpa() {
-        return definicaoJpa;
     }
 
     public FuncionalidadeJpa getFuncionalidadeJpa() {

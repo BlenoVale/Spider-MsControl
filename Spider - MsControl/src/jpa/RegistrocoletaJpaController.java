@@ -14,14 +14,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Coleta;
 import model.Registrocoleta;
-import model.RegistrocoletaPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistrocoletaJpaController implements Serializable {
 
@@ -34,33 +32,22 @@ public class RegistrocoletaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registrocoleta registrocoleta) throws PreexistingEntityException, Exception {
-        if (registrocoleta.getRegistrocoletaPK() == null) {
-            registrocoleta.setRegistrocoletaPK(new RegistrocoletaPK());
-        }
-        registrocoleta.getRegistrocoletaPK().setColetaMedidaProjetoid(registrocoleta.getColeta().getColetaPK().getMedidaProjetoid());
-        registrocoleta.getRegistrocoletaPK().setColetaMedidaid(registrocoleta.getColeta().getColetaPK().getMedidaid());
-        registrocoleta.getRegistrocoletaPK().setColetaid(registrocoleta.getColeta().getColetaPK().getId());
+    public void create(Registrocoleta registrocoleta) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Coleta coleta = registrocoleta.getColeta();
-            if (coleta != null) {
-                coleta = em.getReference(coleta.getClass(), coleta.getColetaPK());
-                registrocoleta.setColeta(coleta);
+            Coleta coletaid = registrocoleta.getColetaid();
+            if (coletaid != null) {
+                coletaid = em.getReference(coletaid.getClass(), coletaid.getId());
+                registrocoleta.setColetaid(coletaid);
             }
             em.persist(registrocoleta);
-            if (coleta != null) {
-                coleta.getRegistrocoletaList().add(registrocoleta);
-                coleta = em.merge(coleta);
+            if (coletaid != null) {
+                coletaid.getRegistrocoletaList().add(registrocoleta);
+                coletaid = em.merge(coletaid);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistrocoleta(registrocoleta.getRegistrocoletaPK()) != null) {
-                throw new PreexistingEntityException("Registrocoleta " + registrocoleta + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -69,34 +56,31 @@ public class RegistrocoletaJpaController implements Serializable {
     }
 
     public void edit(Registrocoleta registrocoleta) throws NonexistentEntityException, Exception {
-        registrocoleta.getRegistrocoletaPK().setColetaMedidaProjetoid(registrocoleta.getColeta().getColetaPK().getMedidaProjetoid());
-        registrocoleta.getRegistrocoletaPK().setColetaMedidaid(registrocoleta.getColeta().getColetaPK().getMedidaid());
-        registrocoleta.getRegistrocoletaPK().setColetaid(registrocoleta.getColeta().getColetaPK().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registrocoleta persistentRegistrocoleta = em.find(Registrocoleta.class, registrocoleta.getRegistrocoletaPK());
-            Coleta coletaOld = persistentRegistrocoleta.getColeta();
-            Coleta coletaNew = registrocoleta.getColeta();
-            if (coletaNew != null) {
-                coletaNew = em.getReference(coletaNew.getClass(), coletaNew.getColetaPK());
-                registrocoleta.setColeta(coletaNew);
+            Registrocoleta persistentRegistrocoleta = em.find(Registrocoleta.class, registrocoleta.getId());
+            Coleta coletaidOld = persistentRegistrocoleta.getColetaid();
+            Coleta coletaidNew = registrocoleta.getColetaid();
+            if (coletaidNew != null) {
+                coletaidNew = em.getReference(coletaidNew.getClass(), coletaidNew.getId());
+                registrocoleta.setColetaid(coletaidNew);
             }
             registrocoleta = em.merge(registrocoleta);
-            if (coletaOld != null && !coletaOld.equals(coletaNew)) {
-                coletaOld.getRegistrocoletaList().remove(registrocoleta);
-                coletaOld = em.merge(coletaOld);
+            if (coletaidOld != null && !coletaidOld.equals(coletaidNew)) {
+                coletaidOld.getRegistrocoletaList().remove(registrocoleta);
+                coletaidOld = em.merge(coletaidOld);
             }
-            if (coletaNew != null && !coletaNew.equals(coletaOld)) {
-                coletaNew.getRegistrocoletaList().add(registrocoleta);
-                coletaNew = em.merge(coletaNew);
+            if (coletaidNew != null && !coletaidNew.equals(coletaidOld)) {
+                coletaidNew.getRegistrocoletaList().add(registrocoleta);
+                coletaidNew = em.merge(coletaidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistrocoletaPK id = registrocoleta.getRegistrocoletaPK();
+                Integer id = registrocoleta.getId();
                 if (findRegistrocoleta(id) == null) {
                     throw new NonexistentEntityException("The registrocoleta with id " + id + " no longer exists.");
                 }
@@ -109,7 +93,7 @@ public class RegistrocoletaJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistrocoletaPK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -117,14 +101,14 @@ public class RegistrocoletaJpaController implements Serializable {
             Registrocoleta registrocoleta;
             try {
                 registrocoleta = em.getReference(Registrocoleta.class, id);
-                registrocoleta.getRegistrocoletaPK();
+                registrocoleta.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registrocoleta with id " + id + " no longer exists.", enfe);
             }
-            Coleta coleta = registrocoleta.getColeta();
-            if (coleta != null) {
-                coleta.getRegistrocoletaList().remove(registrocoleta);
-                coleta = em.merge(coleta);
+            Coleta coletaid = registrocoleta.getColetaid();
+            if (coletaid != null) {
+                coletaid.getRegistrocoletaList().remove(registrocoleta);
+                coletaid = em.merge(coletaid);
             }
             em.remove(registrocoleta);
             em.getTransaction().commit();
@@ -159,7 +143,7 @@ public class RegistrocoletaJpaController implements Serializable {
         }
     }
 
-    public Registrocoleta findRegistrocoleta(RegistrocoletaPK id) {
+    public Registrocoleta findRegistrocoleta(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registrocoleta.class, id);

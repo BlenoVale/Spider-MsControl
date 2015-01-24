@@ -14,14 +14,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Analise;
 import model.Registroanalise;
-import model.RegistroanalisePK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistroanaliseJpaController implements Serializable {
 
@@ -34,33 +32,22 @@ public class RegistroanaliseJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroanalise registroanalise) throws PreexistingEntityException, Exception {
-        if (registroanalise.getRegistroanalisePK() == null) {
-            registroanalise.setRegistroanalisePK(new RegistroanalisePK());
-        }
-        registroanalise.getRegistroanalisePK().setAnaliseMedidaid(registroanalise.getAnalise().getAnalisePK().getMedidaid());
-        registroanalise.getRegistroanalisePK().setAnaliseid(registroanalise.getAnalise().getAnalisePK().getId());
-        registroanalise.getRegistroanalisePK().setAnaliseMedidaProjetoid(registroanalise.getAnalise().getAnalisePK().getMedidaProjetoid());
+    public void create(Registroanalise registroanalise) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Analise analise = registroanalise.getAnalise();
-            if (analise != null) {
-                analise = em.getReference(analise.getClass(), analise.getAnalisePK());
-                registroanalise.setAnalise(analise);
+            Analise analiseid = registroanalise.getAnaliseid();
+            if (analiseid != null) {
+                analiseid = em.getReference(analiseid.getClass(), analiseid.getId());
+                registroanalise.setAnaliseid(analiseid);
             }
             em.persist(registroanalise);
-            if (analise != null) {
-                analise.getRegistroanaliseList().add(registroanalise);
-                analise = em.merge(analise);
+            if (analiseid != null) {
+                analiseid.getRegistroanaliseList().add(registroanalise);
+                analiseid = em.merge(analiseid);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistroanalise(registroanalise.getRegistroanalisePK()) != null) {
-                throw new PreexistingEntityException("Registroanalise " + registroanalise + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -69,34 +56,31 @@ public class RegistroanaliseJpaController implements Serializable {
     }
 
     public void edit(Registroanalise registroanalise) throws NonexistentEntityException, Exception {
-        registroanalise.getRegistroanalisePK().setAnaliseMedidaid(registroanalise.getAnalise().getAnalisePK().getMedidaid());
-        registroanalise.getRegistroanalisePK().setAnaliseid(registroanalise.getAnalise().getAnalisePK().getId());
-        registroanalise.getRegistroanalisePK().setAnaliseMedidaProjetoid(registroanalise.getAnalise().getAnalisePK().getMedidaProjetoid());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroanalise persistentRegistroanalise = em.find(Registroanalise.class, registroanalise.getRegistroanalisePK());
-            Analise analiseOld = persistentRegistroanalise.getAnalise();
-            Analise analiseNew = registroanalise.getAnalise();
-            if (analiseNew != null) {
-                analiseNew = em.getReference(analiseNew.getClass(), analiseNew.getAnalisePK());
-                registroanalise.setAnalise(analiseNew);
+            Registroanalise persistentRegistroanalise = em.find(Registroanalise.class, registroanalise.getId());
+            Analise analiseidOld = persistentRegistroanalise.getAnaliseid();
+            Analise analiseidNew = registroanalise.getAnaliseid();
+            if (analiseidNew != null) {
+                analiseidNew = em.getReference(analiseidNew.getClass(), analiseidNew.getId());
+                registroanalise.setAnaliseid(analiseidNew);
             }
             registroanalise = em.merge(registroanalise);
-            if (analiseOld != null && !analiseOld.equals(analiseNew)) {
-                analiseOld.getRegistroanaliseList().remove(registroanalise);
-                analiseOld = em.merge(analiseOld);
+            if (analiseidOld != null && !analiseidOld.equals(analiseidNew)) {
+                analiseidOld.getRegistroanaliseList().remove(registroanalise);
+                analiseidOld = em.merge(analiseidOld);
             }
-            if (analiseNew != null && !analiseNew.equals(analiseOld)) {
-                analiseNew.getRegistroanaliseList().add(registroanalise);
-                analiseNew = em.merge(analiseNew);
+            if (analiseidNew != null && !analiseidNew.equals(analiseidOld)) {
+                analiseidNew.getRegistroanaliseList().add(registroanalise);
+                analiseidNew = em.merge(analiseidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistroanalisePK id = registroanalise.getRegistroanalisePK();
+                Integer id = registroanalise.getId();
                 if (findRegistroanalise(id) == null) {
                     throw new NonexistentEntityException("The registroanalise with id " + id + " no longer exists.");
                 }
@@ -109,7 +93,7 @@ public class RegistroanaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistroanalisePK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -117,14 +101,14 @@ public class RegistroanaliseJpaController implements Serializable {
             Registroanalise registroanalise;
             try {
                 registroanalise = em.getReference(Registroanalise.class, id);
-                registroanalise.getRegistroanalisePK();
+                registroanalise.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroanalise with id " + id + " no longer exists.", enfe);
             }
-            Analise analise = registroanalise.getAnalise();
-            if (analise != null) {
-                analise.getRegistroanaliseList().remove(registroanalise);
-                analise = em.merge(analise);
+            Analise analiseid = registroanalise.getAnaliseid();
+            if (analiseid != null) {
+                analiseid.getRegistroanaliseList().remove(registroanalise);
+                analiseid = em.merge(analiseid);
             }
             em.remove(registroanalise);
             em.getTransaction().commit();
@@ -159,7 +143,7 @@ public class RegistroanaliseJpaController implements Serializable {
         }
     }
 
-    public Registroanalise findRegistroanalise(RegistroanalisePK id) {
+    public Registroanalise findRegistroanalise(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroanalise.class, id);

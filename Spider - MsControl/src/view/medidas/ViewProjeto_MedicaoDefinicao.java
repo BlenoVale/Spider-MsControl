@@ -7,8 +7,8 @@ import util.Internal;
 import facade.FacadeJpa;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import model.Medida;
 import util.Copia;
-import model.Definicao;
 
 /**
  *
@@ -32,7 +32,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         jTableMedida.setModel(tableModel);
     }
 
-    private void preencherTabela(List<Definicao> listDefinicao) {
+    private void preencherTabela(List<Medida> listDefinicao) {
 
         for (int i = 0; i < listDefinicao.size(); i++) {
             String[] linhas = new String[]{
@@ -63,7 +63,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         
     }
 
-    public Definicao buscarDefinicaoSelecionada(JTable table) {
+    public Medida buscarDefinicaoSelecionada(JTable table) {
         return null;
     }
 

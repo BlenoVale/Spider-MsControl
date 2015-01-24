@@ -14,14 +14,12 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Procedimentodecoleta;
 import model.Registroprocedimentocoleta;
-import model.RegistroprocedimentocoletaPK;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistroprocedimentocoletaJpaController implements Serializable {
 
@@ -34,31 +32,22 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprocedimentocoleta registroprocedimentocoleta) throws PreexistingEntityException, Exception {
-        if (registroprocedimentocoleta.getRegistroprocedimentocoletaPK() == null) {
-            registroprocedimentocoleta.setRegistroprocedimentocoletaPK(new RegistroprocedimentocoletaPK());
-        }
-        registroprocedimentocoleta.getRegistroprocedimentocoletaPK().setProcedimentoDeColetaid(registroprocedimentocoleta.getProcedimentodecoleta().getId());
+    public void create(Registroprocedimentocoleta registroprocedimentocoleta) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Procedimentodecoleta procedimentodecoleta = registroprocedimentocoleta.getProcedimentodecoleta();
-            if (procedimentodecoleta != null) {
-                procedimentodecoleta = em.getReference(procedimentodecoleta.getClass(), procedimentodecoleta.getId());
-                registroprocedimentocoleta.setProcedimentodecoleta(procedimentodecoleta);
+            Procedimentodecoleta procedimentoDeColetaid = registroprocedimentocoleta.getProcedimentoDeColetaid();
+            if (procedimentoDeColetaid != null) {
+                procedimentoDeColetaid = em.getReference(procedimentoDeColetaid.getClass(), procedimentoDeColetaid.getId());
+                registroprocedimentocoleta.setProcedimentoDeColetaid(procedimentoDeColetaid);
             }
             em.persist(registroprocedimentocoleta);
-            if (procedimentodecoleta != null) {
-                procedimentodecoleta.getRegistroprocedimentocoletaList().add(registroprocedimentocoleta);
-                procedimentodecoleta = em.merge(procedimentodecoleta);
+            if (procedimentoDeColetaid != null) {
+                procedimentoDeColetaid.getRegistroprocedimentocoletaList().add(registroprocedimentocoleta);
+                procedimentoDeColetaid = em.merge(procedimentoDeColetaid);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findRegistroprocedimentocoleta(registroprocedimentocoleta.getRegistroprocedimentocoletaPK()) != null) {
-                throw new PreexistingEntityException("Registroprocedimentocoleta " + registroprocedimentocoleta + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -67,32 +56,31 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
     }
 
     public void edit(Registroprocedimentocoleta registroprocedimentocoleta) throws NonexistentEntityException, Exception {
-        registroprocedimentocoleta.getRegistroprocedimentocoletaPK().setProcedimentoDeColetaid(registroprocedimentocoleta.getProcedimentodecoleta().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprocedimentocoleta persistentRegistroprocedimentocoleta = em.find(Registroprocedimentocoleta.class, registroprocedimentocoleta.getRegistroprocedimentocoletaPK());
-            Procedimentodecoleta procedimentodecoletaOld = persistentRegistroprocedimentocoleta.getProcedimentodecoleta();
-            Procedimentodecoleta procedimentodecoletaNew = registroprocedimentocoleta.getProcedimentodecoleta();
-            if (procedimentodecoletaNew != null) {
-                procedimentodecoletaNew = em.getReference(procedimentodecoletaNew.getClass(), procedimentodecoletaNew.getId());
-                registroprocedimentocoleta.setProcedimentodecoleta(procedimentodecoletaNew);
+            Registroprocedimentocoleta persistentRegistroprocedimentocoleta = em.find(Registroprocedimentocoleta.class, registroprocedimentocoleta.getId());
+            Procedimentodecoleta procedimentoDeColetaidOld = persistentRegistroprocedimentocoleta.getProcedimentoDeColetaid();
+            Procedimentodecoleta procedimentoDeColetaidNew = registroprocedimentocoleta.getProcedimentoDeColetaid();
+            if (procedimentoDeColetaidNew != null) {
+                procedimentoDeColetaidNew = em.getReference(procedimentoDeColetaidNew.getClass(), procedimentoDeColetaidNew.getId());
+                registroprocedimentocoleta.setProcedimentoDeColetaid(procedimentoDeColetaidNew);
             }
             registroprocedimentocoleta = em.merge(registroprocedimentocoleta);
-            if (procedimentodecoletaOld != null && !procedimentodecoletaOld.equals(procedimentodecoletaNew)) {
-                procedimentodecoletaOld.getRegistroprocedimentocoletaList().remove(registroprocedimentocoleta);
-                procedimentodecoletaOld = em.merge(procedimentodecoletaOld);
+            if (procedimentoDeColetaidOld != null && !procedimentoDeColetaidOld.equals(procedimentoDeColetaidNew)) {
+                procedimentoDeColetaidOld.getRegistroprocedimentocoletaList().remove(registroprocedimentocoleta);
+                procedimentoDeColetaidOld = em.merge(procedimentoDeColetaidOld);
             }
-            if (procedimentodecoletaNew != null && !procedimentodecoletaNew.equals(procedimentodecoletaOld)) {
-                procedimentodecoletaNew.getRegistroprocedimentocoletaList().add(registroprocedimentocoleta);
-                procedimentodecoletaNew = em.merge(procedimentodecoletaNew);
+            if (procedimentoDeColetaidNew != null && !procedimentoDeColetaidNew.equals(procedimentoDeColetaidOld)) {
+                procedimentoDeColetaidNew.getRegistroprocedimentocoletaList().add(registroprocedimentocoleta);
+                procedimentoDeColetaidNew = em.merge(procedimentoDeColetaidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                RegistroprocedimentocoletaPK id = registroprocedimentocoleta.getRegistroprocedimentocoletaPK();
+                Integer id = registroprocedimentocoleta.getId();
                 if (findRegistroprocedimentocoleta(id) == null) {
                     throw new NonexistentEntityException("The registroprocedimentocoleta with id " + id + " no longer exists.");
                 }
@@ -105,7 +93,7 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public void destroy(RegistroprocedimentocoletaPK id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -113,14 +101,14 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
             Registroprocedimentocoleta registroprocedimentocoleta;
             try {
                 registroprocedimentocoleta = em.getReference(Registroprocedimentocoleta.class, id);
-                registroprocedimentocoleta.getRegistroprocedimentocoletaPK();
+                registroprocedimentocoleta.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroprocedimentocoleta with id " + id + " no longer exists.", enfe);
             }
-            Procedimentodecoleta procedimentodecoleta = registroprocedimentocoleta.getProcedimentodecoleta();
-            if (procedimentodecoleta != null) {
-                procedimentodecoleta.getRegistroprocedimentocoletaList().remove(registroprocedimentocoleta);
-                procedimentodecoleta = em.merge(procedimentodecoleta);
+            Procedimentodecoleta procedimentoDeColetaid = registroprocedimentocoleta.getProcedimentoDeColetaid();
+            if (procedimentoDeColetaid != null) {
+                procedimentoDeColetaid.getRegistroprocedimentocoletaList().remove(registroprocedimentocoleta);
+                procedimentoDeColetaid = em.merge(procedimentoDeColetaid);
             }
             em.remove(registroprocedimentocoleta);
             em.getTransaction().commit();
@@ -155,7 +143,7 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public Registroprocedimentocoleta findRegistroprocedimentocoleta(RegistroprocedimentocoletaPK id) {
+    public Registroprocedimentocoleta findRegistroprocedimentocoleta(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroprocedimentocoleta.class, id);

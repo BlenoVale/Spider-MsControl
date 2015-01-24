@@ -8,10 +8,13 @@ package model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
@@ -26,25 +29,27 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "coleta")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
-    @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.coletaPK.id = :id"),
-    @NamedQuery(name = "Coleta.findByMedidaid", query = "SELECT c FROM Coleta c WHERE c.coletaPK.medidaid = :medidaid"),
-    @NamedQuery(name = "Coleta.findByMedidaProjetoid", query = "SELECT c FROM Coleta c WHERE c.coletaPK.medidaProjetoid = :medidaProjetoid"),
+    @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
     @NamedQuery(name = "Coleta.findByVersao", query = "SELECT c FROM Coleta c WHERE c.versao = :versao"),
     @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
     @NamedQuery(name = "Coleta.findByComposicao", query = "SELECT c FROM Coleta c WHERE c.composicao = :composicao"),
     @NamedQuery(name = "Coleta.findByTipoDeColeta", query = "SELECT c FROM Coleta c WHERE c.tipoDeColeta = :tipoDeColeta"),
-    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao")})
+    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao"),
+    @NamedQuery(name = "Coleta.findByTipoComposicao", query = "SELECT c FROM Coleta c WHERE c.tipoComposicao = :tipoComposicao")})
 public class Coleta implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ColetaPK coletaPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "versao")
     private String versao;
     @Column(name = "data")
@@ -56,35 +61,29 @@ public class Coleta implements Serializable {
     private String tipoDeColeta;
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coleta")
-    private List<Registrocoleta> registrocoletaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coleta")
-    private List<Procedimentodeanalise> procedimentodeanaliseList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coleta")
-    private List<Procedimentodecoleta> procedimentodecoletaList;
+    @Column(name = "tipoComposicao")
+    private String tipoComposicao;
     @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id", insertable = false, updatable = false)})
+        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
     private Medida medida;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coletaid")
+    private List<Registrocoleta> registrocoletaList;
 
     public Coleta() {
     }
 
-    public Coleta(ColetaPK coletaPK) {
-        this.coletaPK = coletaPK;
+    public Coleta(Integer id) {
+        this.id = id;
     }
 
-    public Coleta(int id, int medidaid, int medidaProjetoid) {
-        this.coletaPK = new ColetaPK(id, medidaid, medidaProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public ColetaPK getColetaPK() {
-        return coletaPK;
-    }
-
-    public void setColetaPK(ColetaPK coletaPK) {
-        this.coletaPK = coletaPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getVersao() {
@@ -127,31 +126,12 @@ public class Coleta implements Serializable {
         this.observacao = observacao;
     }
 
-    @XmlTransient
-    public List<Registrocoleta> getRegistrocoletaList() {
-        return registrocoletaList;
+    public String getTipoComposicao() {
+        return tipoComposicao;
     }
 
-    public void setRegistrocoletaList(List<Registrocoleta> registrocoletaList) {
-        this.registrocoletaList = registrocoletaList;
-    }
-
-    @XmlTransient
-    public List<Procedimentodeanalise> getProcedimentodeanaliseList() {
-        return procedimentodeanaliseList;
-    }
-
-    public void setProcedimentodeanaliseList(List<Procedimentodeanalise> procedimentodeanaliseList) {
-        this.procedimentodeanaliseList = procedimentodeanaliseList;
-    }
-
-    @XmlTransient
-    public List<Procedimentodecoleta> getProcedimentodecoletaList() {
-        return procedimentodecoletaList;
-    }
-
-    public void setProcedimentodecoletaList(List<Procedimentodecoleta> procedimentodecoletaList) {
-        this.procedimentodecoletaList = procedimentodecoletaList;
+    public void setTipoComposicao(String tipoComposicao) {
+        this.tipoComposicao = tipoComposicao;
     }
 
     public Medida getMedida() {
@@ -162,10 +142,19 @@ public class Coleta implements Serializable {
         this.medida = medida;
     }
 
+    @XmlTransient
+    public List<Registrocoleta> getRegistrocoletaList() {
+        return registrocoletaList;
+    }
+
+    public void setRegistrocoletaList(List<Registrocoleta> registrocoletaList) {
+        this.registrocoletaList = registrocoletaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (coletaPK != null ? coletaPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -176,14 +165,14 @@ public class Coleta implements Serializable {
             return false;
         }
         Coleta other = (Coleta) object;
-        if ((this.coletaPK == null && other.coletaPK != null) || (this.coletaPK != null && !this.coletaPK.equals(other.coletaPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Coleta[ coletaPK=" + coletaPK + " ]";
+        return "model.Coleta[ id=" + id + " ]";
     }
     
 }

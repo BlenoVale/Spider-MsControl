@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -23,22 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registroprocedimentoanalise")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registroprocedimentoanalise.findAll", query = "SELECT r FROM Registroprocedimentoanalise r"),
-    @NamedQuery(name = "Registroprocedimentoanalise.findById", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.registroprocedimentoanalisePK.id = :id"),
-    @NamedQuery(name = "Registroprocedimentoanalise.findByProcedimentoDeAnaliseid", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.registroprocedimentoanalisePK.procedimentoDeAnaliseid = :procedimentoDeAnaliseid"),
+    @NamedQuery(name = "Registroprocedimentoanalise.findById", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.id = :id"),
     @NamedQuery(name = "Registroprocedimentoanalise.findByTipo", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroprocedimentoanalise.findByNomeUsuario", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registroprocedimentoanalise.findByData", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.data = :data")})
 public class Registroprocedimentoanalise implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistroprocedimentoanalisePK registroprocedimentoanalisePK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -52,34 +56,30 @@ public class Registroprocedimentoanalise implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Procedimentodeanalise procedimentodeanalise;
+    private Procedimentodeanalise procedimentoDeAnaliseid;
 
     public Registroprocedimentoanalise() {
     }
 
-    public Registroprocedimentoanalise(RegistroprocedimentoanalisePK registroprocedimentoanalisePK) {
-        this.registroprocedimentoanalisePK = registroprocedimentoanalisePK;
+    public Registroprocedimentoanalise(Integer id) {
+        this.id = id;
     }
 
-    public Registroprocedimentoanalise(RegistroprocedimentoanalisePK registroprocedimentoanalisePK, int tipo, String nomeUsuario, Date data) {
-        this.registroprocedimentoanalisePK = registroprocedimentoanalisePK;
+    public Registroprocedimentoanalise(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registroprocedimentoanalise(int id, int procedimentoDeAnaliseid) {
-        this.registroprocedimentoanalisePK = new RegistroprocedimentoanalisePK(id, procedimentoDeAnaliseid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistroprocedimentoanalisePK getRegistroprocedimentoanalisePK() {
-        return registroprocedimentoanalisePK;
-    }
-
-    public void setRegistroprocedimentoanalisePK(RegistroprocedimentoanalisePK registroprocedimentoanalisePK) {
-        this.registroprocedimentoanalisePK = registroprocedimentoanalisePK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -114,18 +114,18 @@ public class Registroprocedimentoanalise implements Serializable {
         this.data = data;
     }
 
-    public Procedimentodeanalise getProcedimentodeanalise() {
-        return procedimentodeanalise;
+    public Procedimentodeanalise getProcedimentoDeAnaliseid() {
+        return procedimentoDeAnaliseid;
     }
 
-    public void setProcedimentodeanalise(Procedimentodeanalise procedimentodeanalise) {
-        this.procedimentodeanalise = procedimentodeanalise;
+    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid) {
+        this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registroprocedimentoanalisePK != null ? registroprocedimentoanalisePK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -136,14 +136,14 @@ public class Registroprocedimentoanalise implements Serializable {
             return false;
         }
         Registroprocedimentoanalise other = (Registroprocedimentoanalise) object;
-        if ((this.registroprocedimentoanalisePK == null && other.registroprocedimentoanalisePK != null) || (this.registroprocedimentoanalisePK != null && !this.registroprocedimentoanalisePK.equals(other.registroprocedimentoanalisePK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroprocedimentoanalise[ registroprocedimentoanalisePK=" + registroprocedimentoanalisePK + " ]";
+        return "model.Registroprocedimentoanalise[ id=" + id + " ]";
     }
     
 }

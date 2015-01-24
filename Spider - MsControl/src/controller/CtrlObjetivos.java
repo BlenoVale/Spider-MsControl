@@ -82,7 +82,7 @@ public class CtrlObjetivos {
         try {
             if (objetivodemedicao.getObjetivodequestaoList().isEmpty()){
                 for (int i = 0; i < objetivodemedicao.getRegistroobjetivomedicaoList().size(); i++ ){
-                    facadejpa.getRegistroObjetivoMedicaoJpa().destroy(objetivodemedicao.getRegistroobjetivomedicaoList().get(i).getRegistroobjetivomedicaoPK());
+                    facadejpa.getRegistroObjetivoMedicaoJpa().destroy(objetivodemedicao.getRegistroobjetivomedicaoList().get(i).getId());
                 }
                 Objetivodemedicao objAux = facadejpa.getObjetivoDeMedicaoJpa().findObjetivo(objetivodemedicao.getObjetivodemedicaoPK().getId());
                 facadejpa.getObjetivoDeMedicaoJpa().destroy(objAux.getObjetivodemedicaoPK());

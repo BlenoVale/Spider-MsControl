@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Objetivodemedicao;
-import model.Registroobjetivoquestao;
+import model.Medida;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,10 +19,11 @@ import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Objetivodequestao;
+import model.Registroobjetivoquestao;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ObjetivodequestaoJpaController implements Serializable {
 
@@ -36,6 +37,9 @@ public class ObjetivodequestaoJpaController implements Serializable {
     }
 
     public void create(Objetivodequestao objetivodequestao) {
+        if (objetivodequestao.getMedidaList() == null) {
+            objetivodequestao.setMedidaList(new ArrayList<Medida>());
+        }
         if (objetivodequestao.getRegistroobjetivoquestaoList() == null) {
             objetivodequestao.setRegistroobjetivoquestaoList(new ArrayList<Registroobjetivoquestao>());
         }
@@ -48,6 +52,12 @@ public class ObjetivodequestaoJpaController implements Serializable {
                 objetivodemedicao = em.getReference(objetivodemedicao.getClass(), objetivodemedicao.getObjetivodemedicaoPK());
                 objetivodequestao.setObjetivodemedicao(objetivodemedicao);
             }
+            List<Medida> attachedMedidaList = new ArrayList<Medida>();
+            for (Medida medidaListMedidaToAttach : objetivodequestao.getMedidaList()) {
+                medidaListMedidaToAttach = em.getReference(medidaListMedidaToAttach.getClass(), medidaListMedidaToAttach.getMedidaPK());
+                attachedMedidaList.add(medidaListMedidaToAttach);
+            }
+            objetivodequestao.setMedidaList(attachedMedidaList);
             List<Registroobjetivoquestao> attachedRegistroobjetivoquestaoList = new ArrayList<Registroobjetivoquestao>();
             for (Registroobjetivoquestao registroobjetivoquestaoListRegistroobjetivoquestaoToAttach : objetivodequestao.getRegistroobjetivoquestaoList()) {
                 registroobjetivoquestaoListRegistroobjetivoquestaoToAttach = em.getReference(registroobjetivoquestaoListRegistroobjetivoquestaoToAttach.getClass(), registroobjetivoquestaoListRegistroobjetivoquestaoToAttach.getId());
@@ -58,6 +68,10 @@ public class ObjetivodequestaoJpaController implements Serializable {
             if (objetivodemedicao != null) {
                 objetivodemedicao.getObjetivodequestaoList().add(objetivodequestao);
                 objetivodemedicao = em.merge(objetivodemedicao);
+            }
+            for (Medida medidaListMedida : objetivodequestao.getMedidaList()) {
+                medidaListMedida.getObjetivodequestaoList().add(objetivodequestao);
+                medidaListMedida = em.merge(medidaListMedida);
             }
             for (Registroobjetivoquestao registroobjetivoquestaoListRegistroobjetivoquestao : objetivodequestao.getRegistroobjetivoquestaoList()) {
                 Objetivodequestao oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao = registroobjetivoquestaoListRegistroobjetivoquestao.getObjetivoDeQuestaoid();
@@ -84,6 +98,8 @@ public class ObjetivodequestaoJpaController implements Serializable {
             Objetivodequestao persistentObjetivodequestao = em.find(Objetivodequestao.class, objetivodequestao.getId());
             Objetivodemedicao objetivodemedicaoOld = persistentObjetivodequestao.getObjetivodemedicao();
             Objetivodemedicao objetivodemedicaoNew = objetivodequestao.getObjetivodemedicao();
+            List<Medida> medidaListOld = persistentObjetivodequestao.getMedidaList();
+            List<Medida> medidaListNew = objetivodequestao.getMedidaList();
             List<Registroobjetivoquestao> registroobjetivoquestaoListOld = persistentObjetivodequestao.getRegistroobjetivoquestaoList();
             List<Registroobjetivoquestao> registroobjetivoquestaoListNew = objetivodequestao.getRegistroobjetivoquestaoList();
             List<String> illegalOrphanMessages = null;
@@ -102,6 +118,13 @@ public class ObjetivodequestaoJpaController implements Serializable {
                 objetivodemedicaoNew = em.getReference(objetivodemedicaoNew.getClass(), objetivodemedicaoNew.getObjetivodemedicaoPK());
                 objetivodequestao.setObjetivodemedicao(objetivodemedicaoNew);
             }
+            List<Medida> attachedMedidaListNew = new ArrayList<Medida>();
+            for (Medida medidaListNewMedidaToAttach : medidaListNew) {
+                medidaListNewMedidaToAttach = em.getReference(medidaListNewMedidaToAttach.getClass(), medidaListNewMedidaToAttach.getMedidaPK());
+                attachedMedidaListNew.add(medidaListNewMedidaToAttach);
+            }
+            medidaListNew = attachedMedidaListNew;
+            objetivodequestao.setMedidaList(medidaListNew);
             List<Registroobjetivoquestao> attachedRegistroobjetivoquestaoListNew = new ArrayList<Registroobjetivoquestao>();
             for (Registroobjetivoquestao registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach : registroobjetivoquestaoListNew) {
                 registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach = em.getReference(registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach.getClass(), registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach.getId());
@@ -117,6 +140,18 @@ public class ObjetivodequestaoJpaController implements Serializable {
             if (objetivodemedicaoNew != null && !objetivodemedicaoNew.equals(objetivodemedicaoOld)) {
                 objetivodemedicaoNew.getObjetivodequestaoList().add(objetivodequestao);
                 objetivodemedicaoNew = em.merge(objetivodemedicaoNew);
+            }
+            for (Medida medidaListOldMedida : medidaListOld) {
+                if (!medidaListNew.contains(medidaListOldMedida)) {
+                    medidaListOldMedida.getObjetivodequestaoList().remove(objetivodequestao);
+                    medidaListOldMedida = em.merge(medidaListOldMedida);
+                }
+            }
+            for (Medida medidaListNewMedida : medidaListNew) {
+                if (!medidaListOld.contains(medidaListNewMedida)) {
+                    medidaListNewMedida.getObjetivodequestaoList().add(objetivodequestao);
+                    medidaListNewMedida = em.merge(medidaListNewMedida);
+                }
             }
             for (Registroobjetivoquestao registroobjetivoquestaoListNewRegistroobjetivoquestao : registroobjetivoquestaoListNew) {
                 if (!registroobjetivoquestaoListOld.contains(registroobjetivoquestaoListNewRegistroobjetivoquestao)) {
@@ -173,6 +208,11 @@ public class ObjetivodequestaoJpaController implements Serializable {
             if (objetivodemedicao != null) {
                 objetivodemedicao.getObjetivodequestaoList().remove(objetivodequestao);
                 objetivodemedicao = em.merge(objetivodemedicao);
+            }
+            List<Medida> medidaList = objetivodequestao.getMedidaList();
+            for (Medida medidaListMedida : medidaList) {
+                medidaListMedida.getObjetivodequestaoList().remove(objetivodequestao);
+                medidaListMedida = em.merge(medidaListMedida);
             }
             em.remove(objetivodequestao);
             em.getTransaction().commit();

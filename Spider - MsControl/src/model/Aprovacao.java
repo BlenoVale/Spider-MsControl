@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "aprovacao")
@@ -55,14 +55,13 @@ public class Aprovacao implements Serializable {
     private String observacao;
     @Column(name = "status")
     private Boolean status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aprovacao")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aprovacaoid")
     private List<Registroaprovacao> registroaprovacaoList;
     @JoinColumns({
-        @JoinColumn(name = "Definicao_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Definicao_Medida_id", referencedColumnName = "Medida_id"),
-        @JoinColumn(name = "Definicao_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id")})
+        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
+        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
     @ManyToOne(optional = false)
-    private Definicao definicao;
+    private Medida medida;
 
     public Aprovacao() {
     }
@@ -112,12 +111,12 @@ public class Aprovacao implements Serializable {
         this.registroaprovacaoList = registroaprovacaoList;
     }
 
-    public Definicao getDefinicao() {
-        return definicao;
+    public Medida getMedida() {
+        return medida;
     }
 
-    public void setDefinicao(Definicao definicao) {
-        this.definicao = definicao;
+    public void setMedida(Medida medida) {
+        this.medida = medida;
     }
 
     @Override

@@ -9,10 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,24 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 @Entity
 @Table(name = "registrocoleta")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Registrocoleta.findAll", query = "SELECT r FROM Registrocoleta r"),
-    @NamedQuery(name = "Registrocoleta.findById", query = "SELECT r FROM Registrocoleta r WHERE r.registrocoletaPK.id = :id"),
-    @NamedQuery(name = "Registrocoleta.findByColetaid", query = "SELECT r FROM Registrocoleta r WHERE r.registrocoletaPK.coletaid = :coletaid"),
-    @NamedQuery(name = "Registrocoleta.findByColetaMedidaid", query = "SELECT r FROM Registrocoleta r WHERE r.registrocoletaPK.coletaMedidaid = :coletaMedidaid"),
-    @NamedQuery(name = "Registrocoleta.findByColetaMedidaProjetoid", query = "SELECT r FROM Registrocoleta r WHERE r.registrocoletaPK.coletaMedidaProjetoid = :coletaMedidaProjetoid"),
+    @NamedQuery(name = "Registrocoleta.findById", query = "SELECT r FROM Registrocoleta r WHERE r.id = :id"),
     @NamedQuery(name = "Registrocoleta.findByTipo", query = "SELECT r FROM Registrocoleta r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registrocoleta.findByNomeUsuario", query = "SELECT r FROM Registrocoleta r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Registrocoleta.findByData", query = "SELECT r FROM Registrocoleta r WHERE r.data = :data")})
 public class Registrocoleta implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected RegistrocoletaPK registrocoletaPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @Column(name = "tipo")
     private int tipo;
@@ -55,37 +56,30 @@ public class Registrocoleta implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumns({
-        @JoinColumn(name = "Coleta_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Coleta_Medida_id", referencedColumnName = "Medida_id", insertable = false, updatable = false),
-        @JoinColumn(name = "Coleta_Medida_Projeto_id", referencedColumnName = "Medida_Projeto_id", insertable = false, updatable = false)})
+    @JoinColumn(name = "Coleta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Coleta coleta;
+    private Coleta coletaid;
 
     public Registrocoleta() {
     }
 
-    public Registrocoleta(RegistrocoletaPK registrocoletaPK) {
-        this.registrocoletaPK = registrocoletaPK;
+    public Registrocoleta(Integer id) {
+        this.id = id;
     }
 
-    public Registrocoleta(RegistrocoletaPK registrocoletaPK, int tipo, String nomeUsuario, Date data) {
-        this.registrocoletaPK = registrocoletaPK;
+    public Registrocoleta(Integer id, int tipo, String nomeUsuario, Date data) {
+        this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Registrocoleta(int id, int coletaid, int coletaMedidaid, int coletaMedidaProjetoid) {
-        this.registrocoletaPK = new RegistrocoletaPK(id, coletaid, coletaMedidaid, coletaMedidaProjetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public RegistrocoletaPK getRegistrocoletaPK() {
-        return registrocoletaPK;
-    }
-
-    public void setRegistrocoletaPK(RegistrocoletaPK registrocoletaPK) {
-        this.registrocoletaPK = registrocoletaPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getTipo() {
@@ -120,18 +114,18 @@ public class Registrocoleta implements Serializable {
         this.data = data;
     }
 
-    public Coleta getColeta() {
-        return coleta;
+    public Coleta getColetaid() {
+        return coletaid;
     }
 
-    public void setColeta(Coleta coleta) {
-        this.coleta = coleta;
+    public void setColetaid(Coleta coletaid) {
+        this.coletaid = coletaid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (registrocoletaPK != null ? registrocoletaPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -142,14 +136,14 @@ public class Registrocoleta implements Serializable {
             return false;
         }
         Registrocoleta other = (Registrocoleta) object;
-        if ((this.registrocoletaPK == null && other.registrocoletaPK != null) || (this.registrocoletaPK != null && !this.registrocoletaPK.equals(other.registrocoletaPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registrocoleta[ registrocoletaPK=" + registrocoletaPK + " ]";
+        return "model.Registrocoleta[ id=" + id + " ]";
     }
     
 }

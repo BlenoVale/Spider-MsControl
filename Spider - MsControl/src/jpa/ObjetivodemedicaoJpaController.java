@@ -25,7 +25,7 @@ import model.Registroobjetivomedicao;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ObjetivodemedicaoJpaController implements Serializable {
 
@@ -66,7 +66,7 @@ public class ObjetivodemedicaoJpaController implements Serializable {
             objetivodemedicao.setObjetivodequestaoList(attachedObjetivodequestaoList);
             List<Registroobjetivomedicao> attachedRegistroobjetivomedicaoList = new ArrayList<Registroobjetivomedicao>();
             for (Registroobjetivomedicao registroobjetivomedicaoListRegistroobjetivomedicaoToAttach : objetivodemedicao.getRegistroobjetivomedicaoList()) {
-                registroobjetivomedicaoListRegistroobjetivomedicaoToAttach = em.getReference(registroobjetivomedicaoListRegistroobjetivomedicaoToAttach.getClass(), registroobjetivomedicaoListRegistroobjetivomedicaoToAttach.getRegistroobjetivomedicaoPK());
+                registroobjetivomedicaoListRegistroobjetivomedicaoToAttach = em.getReference(registroobjetivomedicaoListRegistroobjetivomedicaoToAttach.getClass(), registroobjetivomedicaoListRegistroobjetivomedicaoToAttach.getId());
                 attachedRegistroobjetivomedicaoList.add(registroobjetivomedicaoListRegistroobjetivomedicaoToAttach);
             }
             objetivodemedicao.setRegistroobjetivomedicaoList(attachedRegistroobjetivomedicaoList);
@@ -152,7 +152,7 @@ public class ObjetivodemedicaoJpaController implements Serializable {
             objetivodemedicao.setObjetivodequestaoList(objetivodequestaoListNew);
             List<Registroobjetivomedicao> attachedRegistroobjetivomedicaoListNew = new ArrayList<Registroobjetivomedicao>();
             for (Registroobjetivomedicao registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach : registroobjetivomedicaoListNew) {
-                registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach = em.getReference(registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach.getClass(), registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach.getRegistroobjetivomedicaoPK());
+                registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach = em.getReference(registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach.getClass(), registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach.getId());
                 attachedRegistroobjetivomedicaoListNew.add(registroobjetivomedicaoListNewRegistroobjetivomedicaoToAttach);
             }
             registroobjetivomedicaoListNew = attachedRegistroobjetivomedicaoListNew;
