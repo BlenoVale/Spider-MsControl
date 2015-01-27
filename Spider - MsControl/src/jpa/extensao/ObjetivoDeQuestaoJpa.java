@@ -3,7 +3,6 @@ package jpa.extensao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jpa.ObjetivodequestaoJpaController;
-import model.Objetivodemedicao;
 import model.Objetivodequestao;
 import util.Conexao;
 
@@ -48,7 +47,7 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
             throw error;
         }
     }
-    
+
     public List findLastQuestao(String nome_questao) {
         try {
             EntityManager entityManager = super.getEntityManager();
@@ -84,37 +83,5 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
             throw error;
         }
     }
-//
-//    public void myEdit(Objetivodequestao objetivodequestao, Objetivodemedicao objetivodemedicao) {
-////        objetivodequestao.getObjetivodequestaoPK().setObjetivoDeMedicaoid(objetivodequestao.getObjetivodemedicao().getObjetivodemedicaoPK().getId());
-////        objetivodequestao.getObjetivodequestaoPK().setObjetivoDeMedicaoProjetoid(objetivodequestao.getObjetivodemedicao().getObjetivodemedicaoPK().getProjetoid());
-////        objetivodequestao.getObjetivodequestaoPK().setId(objetivodequestao.getObjetivodequestaoPK().getId());
-//
-//        EntityManager entityManager = super.getEntityManager();
-//        try {
-//            entityManager.getTransaction().begin();
-//            Objetivodequestao questaoNew = entityManager.find(Objetivodequestao.class, objetivodequestao.getObjetivodequestaoPK());
-//           
-//            Objetivodemedicao objetivodemedicaoOld = findQuestaoByNomeAndIdProjeto(objetivodequestao.getNome(), objetivodequestao.getObjetivodequestaoPK().getObjetivoDeMedicaoProjetoid()).getObjetivodemedicao();
-//            if (objetivodemedicaoOld != null && !objetivodemedicaoOld.equals(objetivodequestao.getObjetivodemedicao())) {
-//                objetivodemedicaoOld.getObjetivodequestaoList().remove(objetivodequestao);
-//                entityManager.merge(objetivodemedicaoOld);
-//            }
-//            if (objetivodequestao.getObjetivodemedicao() != null && !objetivodequestao.getObjetivodemedicao().equals(objetivodemedicaoOld)) {
-//                objetivodequestao.getObjetivodemedicao().getObjetivodequestaoList().add(objetivodequestao);
-//                entityManager.merge(objetivodequestao.getObjetivodemedicao());
-//            }
-//            
-//            questaoNew.setObjetivodemedicao(objetivodemedicao);
-//            entityManager.merge(questaoNew);
-//            entityManager.getTransaction().commit();
-//        } catch (Exception error) {
-//            System.out.println("Error: " + error.getMessage());
-//            error.printStackTrace();
-//        } finally {
-//            if (entityManager != null) {
-//                entityManager.close();
-//            }
-//        }
-//    }
+
 }

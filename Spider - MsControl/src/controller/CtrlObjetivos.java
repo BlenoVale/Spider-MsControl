@@ -219,10 +219,18 @@ public class CtrlObjetivos {
             novoRegistro.setTipo(tipo);
 //          novoRegistro.setDescricao(null);
 
-            facadejpa.getRegistroobjetivoquestaoJpa().create(novoRegistro);
+            facadejpa.getRegistroObjetivoQuestaoJpa().create(novoRegistro);
             System.out.println("--Registro de questão criado");
         } catch (Exception error) {
             error.printStackTrace();
+        }
+    }
+
+    public List<Registroobjetivoquestao> buscaListaQuestaoPeloTipo(int tipo, int idQuestao) {
+        try {
+            return facadejpa.getRegistroObjetivoQuestaoJpa().findRegistroByTipoAndIdQuestao(tipo, idQuestao);
+        } catch (Exception error) {
+            throw error;
         }
     }
 }

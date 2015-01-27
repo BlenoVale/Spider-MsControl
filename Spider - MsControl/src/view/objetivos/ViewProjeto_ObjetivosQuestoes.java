@@ -166,6 +166,11 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                 "Questões", "Indicador"
             }
         ));
+        jTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable);
 
         jButtonExcluir.setText("Excluir ?");
@@ -359,6 +364,15 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Não há modificações de Prioridades.");
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
+
+    private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
+        if (jTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+        } else {
+            editaQuestão();
+            preencherTabelaQuestoes();
+        }
+    }//GEN-LAST:event_jTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

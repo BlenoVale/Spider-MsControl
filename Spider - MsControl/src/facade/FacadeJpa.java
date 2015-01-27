@@ -18,6 +18,7 @@ import jpa.extensao.ObjetivoDeMedicaoJpa;
 import jpa.extensao.ObjetivoDeQuestaoJpa;
 import jpa.extensao.PerfilJpa;
 import jpa.extensao.ProjetoJpa;
+import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.extensao.UsuarioJpa;
 import util.Conexao;
@@ -50,7 +51,7 @@ public class FacadeJpa {
     private final ObjetivoDeMedicaoJpa objetivoDeMedicaoJpa;
     private final ObjetivoDeQuestaoJpa objetivoDeQuestaoJpa;
     private final RegistroobjetivomedicaoJpa registroObjetivoMedicaoJpa;
-    private final RegistroobjetivoquestaoJpaController registroobjetivoquestaoJpa;
+    private final RegistroObjetivoQuestaoJpa registroObjetivoQuestaoJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -71,7 +72,7 @@ public class FacadeJpa {
         objetivoDeMedicaoJpa = new ObjetivoDeMedicaoJpa();
         objetivoDeQuestaoJpa = new ObjetivoDeQuestaoJpa();
         registroObjetivoMedicaoJpa = new RegistroobjetivomedicaoJpa();
-        registroobjetivoquestaoJpa = new RegistroobjetivoquestaoJpaController(Conexao.conectar());
+        registroObjetivoQuestaoJpa = new RegistroObjetivoQuestaoJpa();
     }
 
     public static FacadeJpa getInstance() {
@@ -153,7 +154,7 @@ public class FacadeJpa {
         return registroObjetivoMedicaoJpa;
     }
 
-    public RegistroobjetivoquestaoJpaController getRegistroobjetivoquestaoJpa() {
-        return registroobjetivoquestaoJpa;
+    public RegistroObjetivoQuestaoJpa getRegistroObjetivoQuestaoJpa() {
+        return registroObjetivoQuestaoJpa;
     }
 }
