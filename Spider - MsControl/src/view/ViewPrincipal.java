@@ -24,6 +24,7 @@ import model.Projeto;
 import model.Usuario;
 import util.Copia;
 import util.Observer;
+import view.medida.ViewProjeto_MedicaoDefinicao;
 import view.medidas.ViewProjeto_Aprovacao;
 
 public class ViewPrincipal extends javax.swing.JFrame {
@@ -51,6 +52,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewProjeto_ProcedimentoColeta viewProjeto_ProcedimentoColeta = new ViewProjeto_ProcedimentoColeta();
     // Medidas
     private final ViewProjeto_Aprovacao viewProjeto_Aprovacao = new ViewProjeto_Aprovacao();
+    private final ViewProjeto_MedicaoDefinicao viewProjeto_MedicaoDefinicao = new ViewProjeto_MedicaoDefinicao();
     //Resultados
     private final ViewProjeto_Resultados viewProjeto_Resultados = new ViewProjeto_Resultados();
 
@@ -499,6 +501,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_ProcedimentoColeta);
         jDesktopPane.add(viewProjeto_Resultados);
         jDesktopPane.add(viewProjeto_Aprovacao);
+        jDesktopPane.add(viewProjeto_MedicaoDefinicao);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -510,6 +513,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_ProcedimentoColeta.setMaximum(true);
             viewProjeto_Resultados.setMaximum(true);
             viewProjeto_Aprovacao.setMaximum(true);
+            viewProjeto_MedicaoDefinicao.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -525,8 +529,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_ProcedimentoColeta.setVisible(false);
         viewProjeto_Resultados.setVisible(false);
         viewProjeto_Aprovacao.setVisible(false);
+        viewProjeto_MedicaoDefinicao.setVisible(false);
 
-        tela.setVisible(true);
+        if (tela != null)
+            tela.setVisible(true);
     }
 
     private void trocaDeTelasPelaArvore() {
@@ -558,7 +564,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")) {
 
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
-
+            trocaTelas(viewProjeto_MedicaoDefinicao);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
             trocaTelas(viewProjeto_ProcedimentoAnalise);
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Procedimentos")) {
