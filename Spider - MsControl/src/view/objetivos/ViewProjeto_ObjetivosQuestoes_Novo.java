@@ -216,7 +216,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         setTitle("Cadastro de nova Questão");
         setResizable(false);
 
-        jLabel1.setText("Nome da Questão:");
+        jLabel1.setText("Questão:");
 
         jLabelNomeUsuario.setText("Ponto de Vista:");
 

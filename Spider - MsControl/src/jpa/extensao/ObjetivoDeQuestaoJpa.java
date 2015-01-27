@@ -19,7 +19,7 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
     public String countQuantidadeDeQuestoes() {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (String) entityManager.createQuery("SELECT COUNT(q.objetivodequestaoPK.id) FROM Objetivodequestao q")
+            return (String) entityManager.createQuery("SELECT COUNT(q.id) FROM Objetivodequestao q")
                     .getSingleResult();
         } catch (Exception error) {
             throw error;

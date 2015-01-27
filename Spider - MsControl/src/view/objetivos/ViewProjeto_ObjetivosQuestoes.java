@@ -67,13 +67,17 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         jTable.setModel(tableModel);
     }
 
+    private void pegaQuestaoSelecionada() {
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
+    }
+
     private void editaQuestão() {
         String nomeUsuario_logado = Copia.getUsuarioLogado().getNome();
 
         ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
 
-        int idDoProjeto = Copia.getProjetoSelecionado().getId();
-        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
+        pegaQuestaoSelecionada();
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
 
@@ -111,6 +115,12 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         } else if (jTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
         }
+    }
+
+    private void excluirQuestao() {
+        pegaQuestaoSelecionada();
+        ctrlObjetivos.exlcluiQuestao(objetivodequestao_selecionado);
+        preencherTabelaQuestoes();
     }
 
     @SuppressWarnings("unchecked")
@@ -328,7 +338,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed
         String nomeUsuario_logado = Copia.getUsuarioLogado().getNome();
-        
+
         ViewProjeto_ObjetivosQuestoes_Novo novoObjetivoQuestao = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
         novoObjetivoQuestao.showNovaQuestaoDialog(Copia.getProjetoSelecionado(), nomeUsuario_logado);
         preencherTabelaQuestoes();
@@ -340,7 +350,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        // TODO add your handling code here:
+        excluirQuestao();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAumentarActionPerformed
@@ -360,6 +370,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         List<Objetivodequestao> lista_antiga = ctrlObjetivos.getQuestoesDoProjeto(idDoProjeto);
         if ((!lista_questoes.equals(lista_antiga)) && lista_questoes.size() >= lista_antiga.size()) {
             ctrlObjetivos.editarPrioridadeDaListaDeQuestoes(lista_questoes, Copia.getProjetoSelecionado().getId());
+            preencherTabelaQuestoes();
         } else {
             JOptionPane.showMessageDialog(null, "Não há modificações de Prioridades.");
         }

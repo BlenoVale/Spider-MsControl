@@ -156,7 +156,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nome da Quest&#xe3;o:"/>
+                <Property name="text" type="java.lang.String" value="Quest&#xe3;o:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelNomeUsuario">
