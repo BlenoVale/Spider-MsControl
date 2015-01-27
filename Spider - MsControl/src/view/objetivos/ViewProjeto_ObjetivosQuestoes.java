@@ -366,7 +366,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
     private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
-        if (jTable.getSelectedRow() == -1) {
+        if (evt.getClickCount() >= 2) {
             JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
         } else {
             editaQuestão();
