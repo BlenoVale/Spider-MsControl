@@ -119,7 +119,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void excluirQuestao() {
         pegaQuestaoSelecionada();
-        ctrlObjetivos.exlcluiQuestao(objetivodequestao_selecionado);
+        ctrlObjetivos.exlcluiQuestao(objetivodequestao_selecionado, Copia.getProjetoSelecionado().getId());
         preencherTabelaQuestoes();
     }
 
@@ -350,7 +350,12 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        excluirQuestao();
+        if (jTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+        } else {
+            excluirQuestao();
+            preencherTabelaQuestoes();
+        }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAumentarActionPerformed

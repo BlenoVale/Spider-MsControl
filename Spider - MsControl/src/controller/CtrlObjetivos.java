@@ -132,20 +132,28 @@ public class CtrlObjetivos {
         }
     }
 
-    public void exlcluiQuestao(Objetivodequestao objetivodequestao) {
+    public void exlcluiQuestao(Objetivodequestao objetivodequestao, int idProjeto) {
         try {
-            for (int i = 0; i < objetivodequestao.getRegistroobjetivoquestaoList().size(); i++) {
-                facadejpa.getRegistroObjetivoQuestaoJpa().destroy(objetivodequestao.getRegistroobjetivoquestaoList().get(i).getId());
-            }
+            int resposta = JOptionPane.showConfirmDialog(null, "Excluir Questão?");
 
-            List<Objetivodequestao> listaquestao = getQuestoesDoProjeto(Copia.getProjetoSelecionado().getId());
-            for (int i = 0; i < listaquestao.size(); i++){
-                if (listaquestao.get(i).equals(objetivodequestao)){
-                
+            if (resposta == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < objetivodequestao.getRegistroobjetivoquestaoList().size(); i++) {
+                    facadejpa.getRegistroObjetivoQuestaoJpa().destroy(objetivodequestao.getRegistroobjetivoquestaoList().get(i).getId());
                 }
+                facadejpa.getObjetivoDeQuestaoJpa().destroy(objetivodequestao.getId());
+
+                //reorganiza prioridades após uma questão ter sido excluída
+                List<Objetivodequestao> listaquestao = getQuestoesDoProjeto(idProjeto);
+                for (int i = 0; i < listaquestao.size(); i++) {
+                    if (i + 1 < listaquestao.get(i).getPrioridade()) {
+                        listaquestao.get(i).setPrioridade(i + 1);
+                        facadejpa.getObjetivoDeQuestaoJpa().edit(listaquestao.get(i));
+
+                        registraQuestao(listaquestao.get(i), Constantes.EDICAO);
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "Questão excluída com sucesso.");
             }
-            facadejpa.getObjetivoDeQuestaoJpa().destroy(objetivodequestao.getId());
-            JOptionPane.showMessageDialog(null, "Questão excluída com sucesso.");
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Erro inesperado.");
             error.printStackTrace();
