@@ -419,14 +419,14 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         objetivo_questao.setObservacao(jTextAreaObservacao.getText());
 
         String nomeObjetivo = jComboBoxObjRelacionado.getSelectedItem().toString();
-        Objetivodemedicao objetivoMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(nomeObjetivo);
+        Objetivodemedicao objetivoMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(nomeObjetivo, projeto_selecionado.getId());
         objetivo_questao.setObjetivodemedicao(objetivoMedicao);
 
         boolean feito = false;
         if (ehNovaQuestao) {
             // verifica se já existe Questão com o mesmo nome
             if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                objetivo_questao.setPrioridade(ctrlObjetivos.buscaListaDeQuestoes().size() + 1);
+                objetivo_questao.setPrioridade(ctrlObjetivos.getQuestoesDoProjeto(projeto_selecionado.getId()).size() + 1);
                 objetivo_questao.setDataLevantamento(new Date());
                 feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
 

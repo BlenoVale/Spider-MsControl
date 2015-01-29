@@ -1,5 +1,6 @@
 package view.objetivos;
 
+import controller.CtrlObjetivos;
 import java.util.List;
 import util.MyDefaultTableModel;
 
@@ -19,10 +20,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     private MyDefaultTableModel tableModel;
     private List<Objetivodemedicao> listObjetivodemedicacaos;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
+    private final CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
 
     public ViewProjeto_ObjetivosDeMedicao() {
         initComponents();
-        
+
         iniciarTabela();
 
         Internal.retiraBotao(this);
@@ -57,7 +59,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }
 
     public void preencherTabelaRecarregar() {
-        iniciarTabela();        
+        iniciarTabela();
         int idProjeto = Copia.getProjetoSelecionado().getId();
         listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(idProjeto);
         preencherTabela(listObjetivodemedicacaos);
@@ -74,16 +76,16 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     public Objetivodemedicao buscarObjetivoSelcionado(JTable table) {
         String nomeObjetivo = table.getValueAt(table.getSelectedRow(), 0).toString();
-        Objetivodemedicao objetivodemedicacao = jpa.getObjetivoDeMedicaoJpa().findByNome(nomeObjetivo);
+        Objetivodemedicao objetivodemedicacao = jpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(nomeObjetivo, Copia.getProjetoSelecionado().getId());
         return objetivodemedicacao;
     }
 
     public void excluirObjetivo() {
 
-        //checkLinhaSelecionada();
-        //Objetivodemedicacao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
-        //jpa.getObjetivoDeMedicaoJpa().excluirObjetivo(objetivodemedicacao.getNome(), ctrlProjeto.getIdProjeto());
-        //jpa.getObjetivoDeMedicaoJpa().destroy(objetivodemedicacao.getObjetivodemedicacaoPK().getId());
+//        checkLinhaSelecionada();
+//        Objetivodemedicao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
+//        ctrlObjetivos.excluirObjetivoMedicao(objetivodemedicacao);
+        
     }
 
     public void checkLinhaSelecionada() {
@@ -264,7 +266,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jTableObjetivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableObjetivoMouseClicked
-        if(evt.getClickCount() >= 2){
+        if (evt.getClickCount() >= 2) {
             ViewProjeto_ObjetivosDeMedicao_Novo objetivoMedicao = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
             objetivoMedicao.showDetalhesDoObjetivoDialog(listObjetivodemedicacaos.get(jTableObjetivo.getSelectedRow()));
         }

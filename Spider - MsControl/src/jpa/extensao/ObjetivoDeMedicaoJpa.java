@@ -17,16 +17,6 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
     public ObjetivoDeMedicaoJpa() {
         super(Conexao.conectar());
     }
-
-    public Objetivodemedicao findByNome(String nomeObjMedicao) {
-        try {
-            EntityManager entityManager = super.getEntityManager();
-            return (Objetivodemedicao) entityManager.createQuery("SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome")
-                    .setParameter("nome", nomeObjMedicao).getSingleResult();
-        } catch (Exception error) {
-            throw error;
-        }
-    }
     
     public Objetivodemedicao findByNomeAndIdProjeto(String nomeObjMedicao, int idProjeto) {
         try {

@@ -78,6 +78,22 @@ public class CtrlObjetivos {
         }
     }
 
+    public void excluirObjetivoMedicao(Objetivodemedicao objetivodemedicao) {
+        try {
+            if (objetivodemedicao.getObjetivodequestaoList().isEmpty()){
+                for (int i = 0; i < objetivodemedicao.getRegistroobjetivomedicaoList().size(); i++ ){
+                    facadejpa.getRegistroObjetivoMedicaoJpa().destroy(objetivodemedicao.getRegistroobjetivomedicaoList().get(i).getRegistroobjetivomedicaoPK());
+                }
+                Objetivodemedicao objAux = facadejpa.getObjetivoDeMedicaoJpa().findObjetivo(objetivodemedicao.getObjetivodemedicaoPK().getId());
+                facadejpa.getObjetivoDeMedicaoJpa().destroy(objAux.getObjetivodemedicaoPK());
+            } else {
+                JOptionPane.showMessageDialog(null, "Objetivo de medição tem Questões relacioandas.");
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
+
     public boolean criarNovaQuestao(Objetivodequestao objetivodequestao) {
         try {
             facadejpa.getObjetivoDeQuestaoJpa().create(objetivodequestao);
@@ -160,9 +176,9 @@ public class CtrlObjetivos {
         }
     }
 
-    public Objetivodemedicao buscaObjetivoDeMedicaoPeloNome(String nome) {
+    public Objetivodemedicao buscaObjetivoDeMedicaoPeloNome(String nome, int idProjeto) {
         try {
-            return facadejpa.getObjetivoDeMedicaoJpa().findByNome(nome);
+            return facadejpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(nome, idProjeto);
         } catch (Exception error) {
             throw error;
         }
