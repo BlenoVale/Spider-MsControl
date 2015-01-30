@@ -25,6 +25,7 @@ import model.Usuario;
 import util.Copia;
 import util.Observer;
 import view.medida.ViewProjeto_MedicaoDefinicao;
+import view.medidas.ViewProjeto_Analise;
 import view.medidas.ViewProjeto_Aprovacao;
 
 public class ViewPrincipal extends javax.swing.JFrame {
@@ -53,6 +54,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // Medidas
     private final ViewProjeto_Aprovacao viewProjeto_Aprovacao = new ViewProjeto_Aprovacao();
     private final ViewProjeto_MedicaoDefinicao viewProjeto_MedicaoDefinicao = new ViewProjeto_MedicaoDefinicao();
+    private final ViewProjeto_Analise viewProjeto_Analise = new ViewProjeto_Analise();
     //Resultados
     private final ViewProjeto_Resultados viewProjeto_Resultados = new ViewProjeto_Resultados();
 
@@ -502,6 +504,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_Resultados);
         jDesktopPane.add(viewProjeto_Aprovacao);
         jDesktopPane.add(viewProjeto_MedicaoDefinicao);
+        jDesktopPane.add(viewProjeto_Analise);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -514,6 +517,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Resultados.setMaximum(true);
             viewProjeto_Aprovacao.setMaximum(true);
             viewProjeto_MedicaoDefinicao.setMaximum(true);
+            viewProjeto_Analise.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -530,6 +534,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_Resultados.setVisible(false);
         viewProjeto_Aprovacao.setVisible(false);
         viewProjeto_MedicaoDefinicao.setVisible(false);
+        viewProjeto_Analise.setVisible(false); 
 
         if (tela != null)
             tela.setVisible(true);
@@ -558,7 +563,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         } else if (no_filho.equals("Acompanhamento") && no_pai.endsWith("Medidas")) {
 
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Medidas")) {
-
+            trocaTelas(viewProjeto_Analise);
         } else if (no_filho.equals("Aprovação") && no_pai.endsWith("Medidas")) {
             trocaTelas(viewProjeto_Aprovacao);
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")) {
