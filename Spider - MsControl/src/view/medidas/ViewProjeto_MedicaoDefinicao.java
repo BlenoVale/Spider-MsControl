@@ -1,4 +1,4 @@
-package view.medida;
+package view.medidas;
 
 import java.util.List;
 import util.MyDefaultTableModel;

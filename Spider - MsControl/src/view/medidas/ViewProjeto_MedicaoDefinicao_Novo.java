@@ -1,11 +1,11 @@
-package view.medida;
+package view.medidas;
 
 import javax.swing.DefaultComboBoxModel;
 
 
 /**
  *
- * @author BlenoVale, DAN JHONATAN
+ * @author BlenoVale, DAN JHONATAN, paulo
  */
 public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
@@ -20,182 +20,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
 
-    /**
-     * Criar um novo objetivo de medicao.
-     *
-     * @param projeto O projeto que o objetivo vai pertencer.
-     * @return true caso o objetivo seja criado com sucesso, false caso.
-     * contrario
-     */
-//    public boolean showNovoObjetivoDialog(Projeto projeto) {
-//
-//        this.setTitle("Cadastro de novo objetivo de medição");
-//        jTextFieldLevantamento.setEditable(true);
-//        jTextFieldEditadoPor.setVisible(false);
-//        jLabelEditadoPor.setVisible(false);
-//
-//        jLabelCadastradoPor.setVisible(false);
-//        jTextFieldCadastradoPor.setVisible(false);
-//
-//        this.projeto = projeto;
-//        objetivo = new Objetivodemedicao();
-//        ehNovoObjetivo = true;
-//
-//        this.setVisible(true);
-//        return objetivoCriadoEditado;
-//    }
-
-    /**
-     * Edicao dos dados do objetivo de medicao.
-     *
-     * @param objetivo O objetivo que serah editado
-     * @return true caso o objetivo seja editado com sucesso, false caso
-     * contrario.
-     */
-//    public boolean showEditarObjetivoDialog(Objetivodemedicao objetivo) {
-//
-//        this.setTitle("Edição de objetivo de medição");
-//        jTextFieldEditadoPor.setVisible(true);
-//        jLabelEditadoPor.setVisible(true);
-//
-//        jLabelCadastradoPor.setVisible(true);
-//        jTextFieldCadastradoPor.setVisible(true);
-//
-//        registros = new ArrayList<>();
-//        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
-//        if (registros.isEmpty()) {
-//            jTextFieldEditadoPor.setVisible(false);
-//            jLabelEditadoPor.setVisible(false);
-//        } else {
-//            jTextFieldEditadoPor.setText(registros.get(registros.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(registros.size() - 1).getData()));
-//
-//            jTextFieldEditadoPor.setVisible(true);
-//            jLabelEditadoPor.setVisible(true);
-//        }
-//
-//        registros = new ArrayList<>();
-//        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.CADASTRO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
-//        if (!registros.isEmpty()) {
-//            jTextFieldCadastradoPor.setText(registros.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(0).getData()));
-//        }
-//        this.projeto = objetivo.getProjeto();
-//        this.objetivo = objetivo;
-//        ehNovoObjetivo = false;
-//
-//        preencherCampos();
-//
-//        this.setVisible(true);
-//        return objetivoCriadoEditado;
-//    }
-//
-//    /**
-//     * Mostra os dados do objetivo de medicao, sem poder altera-lo
-//     *
-//     * @param objetivo O objetivo que terah os dados detalhados
-//     */
-//    public void showDetalhesDoObjetivoDialog(Objetivodemedicao objetivo) {
-//        this.setTitle("Detalhes");
-//
-//        jTextFieldEditadoPor.setVisible(true);
-//        jLabelEditadoPor.setVisible(true);
-//
-//        jLabelCadastradoPor.setVisible(true);
-//        jTextFieldCadastradoPor.setVisible(true);
-//
-//        jTextFieldLevantamento.setText(objetivo.getPontoDeVista());
-//
-//        registros = new ArrayList<>();
-//        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.EDICAO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
-//        if (registros.isEmpty()) {
-//            jTextFieldEditadoPor.setVisible(false);
-//            jLabelEditadoPor.setVisible(false);
-//        } else {
-//            jTextFieldEditadoPor.setText(registros.get(registros.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(registros.size() - 1).getData()));
-//            jTextFieldEditadoPor.setVisible(true);
-//            jLabelEditadoPor.setVisible(true);
-//        }
-//
-//        registros = new ArrayList<>();
-//        registros = FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().findRegistroMedicaoByTipo(Constantes.CADASTRO, objetivo.getObjetivodemedicaoPK().getProjetoid(), objetivo.getObjetivodemedicaoPK().getId());
-//        if (!registros.isEmpty()) {
-//            jTextFieldCadastradoPor.setText(registros.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registros.get(0).getData()));
-//        }
-//        this.objetivo = objetivo;
-//
-//        preencherCampos();
-//        bloquearCampos();
-//
-//        jButtonSalvar.setVisible(false);
-//        jButtonCancelar.setText("OK");
-//
-//        this.setVisible(true);
-//    }
-
-//    private void preencherCampos() {
-//        jTextFieldNomeObjetivo.setText(objetivo.getNome());
-//        jTextFieldLevantamento.setText(objetivo.getPontoDeVista());
-//        jTextAreaProposito.setText(objetivo.getProposito());
-//        jTextAreaFoco.setText(objetivo.getFoco());
-//        jTextAreaAmbiente.setText(objetivo.getAmbiente());
-//        jTextAreaObservacao.setText(objetivo.getObservacao());
-//        selecionarCheckBox();
-//    }
-//
-//    private void selecionarCheckBox() {
-//        if (objetivo.getNivelObjetivo().equals("Organizacional"))
-//            jRadioButtonOrganizacional.setSelected(true);
-//        else
-//            jRadioButtonDeProjeto.setSelected(true);
-//    }
-//
-//    private String getSelectedNivelObjetivo() {
-//        if (jRadioButtonDeProjeto.isSelected())
-//            return "De Projeto";
-//        else
-//            return "Organizacional";
-//    }
-//
-//    public boolean checarCampos() {
-//        if (jTextFieldNomeObjetivo.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "O campo \"Nome do objetivo\" não pode ser vazio");
-//            return false;
-//        } else if (jTextFieldLevantamento.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Digite quem levantou este objetivo");
-//            return false;
-//        } else if (jTextAreaProposito.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "A descrição do propósito não pode ser vazio");
-//            return false;
-//        } else if (jTextAreaFoco.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "A descrição do foco não pode ser vazio");
-//            return false;
-//        } else if (jTextAreaAmbiente.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "A descrição do ambiente não pode ser vazio");
-//            return false;
-//        } else
-//            return true;
-//    }
-//
-//    private void agruparBotoes() {
-//        buttonGroup1.add(jRadioButtonDeProjeto);
-//        buttonGroup1.add(jRadioButtonOrganizacional);
-//    }
-//
-//    private void bloquearCampos() {
-//        jTextFieldNomeObjetivo.setEditable(false);
-//        jTextAreaProposito.setEditable(false);
-//        jTextAreaFoco.setEditable(false);
-//        jTextAreaAmbiente.setEditable(false);
-//        jTextAreaObservacao.setEditable(false);
-//        selecionarCheckBox();
-//
-//        if (jRadioButtonDeProjeto.isSelected()) {
-//            jRadioButtonDeProjeto.setVisible(true);
-//            jRadioButtonOrganizacional.setVisible(false);
-//        } else {
-//            jRadioButtonDeProjeto.setVisible(false);
-//            jRadioButtonOrganizacional.setVisible(true);
-//        }
-//    }
+  
     
     protected void popularComboBoxEntidadeMedida(){
                 
