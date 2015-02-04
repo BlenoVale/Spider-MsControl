@@ -7,7 +7,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Cadastro de nova Quest&#xe3;o"/>
+    <Property name="title" type="java.lang.String" value="Cadastro de nova Necessidade de informa&#xe7;&#xe3;o"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -156,7 +156,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Quest&#xe3;o:"/>
+                <Property name="text" type="java.lang.String" value="Necessidade de informa&#xe7;&#xe3;o:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelNomeUsuario">

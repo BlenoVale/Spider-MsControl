@@ -250,7 +250,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Objetivos");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Objetivo da Medição");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Questões");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Necessidade de informações");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Indicadores");
@@ -568,7 +568,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         String no_filho = node.toString();
         String no_pai = parent.toString();
 
-        if (no_filho.equals("Questões") && no_pai.endsWith("Objetivos")) {
+        if (no_filho.equals("Necessidade de informações") && no_pai.endsWith("Objetivos")) {
             viewProjeto_ObjetivosQuestoes.preencherTabelaQuestoes();
             trocaTelas(viewProjeto_ObjetivosQuestoes);
         } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {

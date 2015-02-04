@@ -37,7 +37,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
         atualizaListaQuestoesDoProjeto();
 
-        String[] colunas = {"Prioridade", "Objetivo de Medição", "Questão", "Indicador"};
+        String[] colunas = {"Prioridade", "Objetivo de Medição", "Necessidade de informação", "Indicador"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
         for (int i = 0; i < lista_questoes.size(); i++) {
             String linha[] = {
@@ -52,7 +52,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }
 
     public void preencheTabelaQuestoesPorParteDoNome(List<Objetivodequestao> questoes) {
-        String[] colunas = {"Prioridade", "Objetivo de Medição", "Questão", "Indicador"};
+        String[] colunas = {"Prioridade", "Objetivo de Medição", "Necessidade de informação", "Indicador"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
 
         for (int i = 0; i < questoes.size(); i++) {
@@ -95,7 +95,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             preencheTabelaQuestoesPorParteDoNome(lista_questoes);
             jTable.addRowSelectionInterval(linha_selecionada - 1, linha_selecionada - 1);
         } else if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
         }
     }
 
@@ -113,7 +113,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             preencheTabelaQuestoesPorParteDoNome(lista_questoes);
             jTable.addRowSelectionInterval(linha_selecionada + 1, linha_selecionada + 1);
         } else if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
         }
     }
 
@@ -153,11 +153,11 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setTitle("Questões");
+        setTitle("Necessidade de informações");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar Questão:");
+        jLabel1.setText("Buscar Necessidade de informação:");
 
         jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,7 +329,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
         } else {
             editaQuestão();
             preencherTabelaQuestoes();
@@ -351,7 +351,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Questão na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
         } else {
             excluirQuestao();
             preencherTabelaQuestoes();

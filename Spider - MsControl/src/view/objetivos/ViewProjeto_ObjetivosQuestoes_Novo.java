@@ -213,10 +213,10 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabelUltimaEdicao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de nova Questão");
+        setTitle("Cadastro de nova Necessidade de informação");
         setResizable(false);
 
-        jLabel1.setText("Questão:");
+        jLabel1.setText("Necessidade de informação:");
 
         jLabelNomeUsuario.setText("Ponto de Vista:");
 
