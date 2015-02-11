@@ -87,6 +87,11 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         jButtonSalvar.setText("Salvar");
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jTextAreaDefinicao.setColumns(20);
         jTextAreaDefinicao.setRows(5);
@@ -117,7 +122,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jTextFieldEntidademedidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jTextFieldEntidademedidaLayout.createSequentialGroup()
-                        .addComponent(jTextFieldNomeObjetivoFaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                        .addComponent(jTextFieldNomeObjetivoFaixa, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                         .addGap(205, 205, 205))
                     .addGroup(jTextFieldEntidademedidaLayout.createSequentialGroup()
                         .addGroup(jTextFieldEntidademedidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,14 +146,13 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                     .addGroup(jTextFieldEntidademedidaLayout.createSequentialGroup()
                         .addComponent(jLabelObservacoes)
                         .addGap(71, 71, 71)
-                        .addComponent(jScrollPane3)
-                        .addContainerGap())
+                        .addComponent(jScrollPane3))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTextFieldEntidademedidaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonCancelar)
-                        .addGap(27, 27, 27))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCancelar)))
+                .addContainerGap())
         );
         jTextFieldEntidademedidaLayout.setVerticalGroup(
             jTextFieldEntidademedidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,19 +206,24 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+    this.dispose();
+          
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonCancelar;
