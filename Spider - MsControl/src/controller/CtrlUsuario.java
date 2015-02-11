@@ -142,11 +142,30 @@ public class CtrlUsuario {
         }
     }
     
-    public Usuario buscaListaDeUsuariosPeloEmail (String email){
+    public List<Usuario> buscaListaDeUsuariosPeloEmail (String email){
         try {
             return facadeJpa.getUsuarioJpa().findUsuarioByEmail(email);
         } catch (Exception error) {
             throw error;
         }
+    }
+    
+    public boolean existeEmailCadastrado (String email){  
+        try {
+            List<Usuario> listaUsuario = facadeJpa.getUsuarioJpa().findUsuarioByEmail(email);
+            if (!listaUsuario.isEmpty()) {
+                System.out.println("Não esta vazio");
+            } else {
+                JOptionPane.showMessageDialog(null, "O e-mail não existe.");
+            }
+            return true;
+        } catch (Exception error) {
+            throw error;
+        }
+        
+    }
+    
+    public void geraNovaSenha (){
+        
     }
 }
