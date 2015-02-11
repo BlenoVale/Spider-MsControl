@@ -28,7 +28,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     }
 
     private void iniciarTabela() {
-        tableModel = new MyDefaultTableModel(new String[]{"Medida", "Versão", "Data", "Autor","Status"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"Medida", "Data", "Autor"}, 0, false);
         jTableMedida.setModel(tableModel);
     }
 
@@ -223,7 +223,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     private void jButtonNovaMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaMedidaActionPerformed
 
         ViewProjeto_MedicaoDefinicao_Novo definicaoMedicao_Novo1 = new ViewProjeto_MedicaoDefinicao_Novo(null, true);
-        definicaoMedicao_Novo1.popularComboBoxEntidadeMedida();
         definicaoMedicao_Novo1.setVisible(true);
     }//GEN-LAST:event_jButtonNovaMedidaActionPerformed
 
