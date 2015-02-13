@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "registroanalise")
@@ -134,9 +134,8 @@ public class Registroanalise implements Serializable {
             return false;
         }
         Registroanalise other = (Registroanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

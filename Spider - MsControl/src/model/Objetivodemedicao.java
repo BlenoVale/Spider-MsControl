@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "objetivodemedicao")
@@ -69,6 +69,8 @@ public class Objetivodemedicao implements Serializable {
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Projeto projetoid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicao")
+    private List<MedicaoHasQuestao> medicaoHasQuestaoList;
 
     public Objetivodemedicao() {
     }
@@ -167,6 +169,15 @@ public class Objetivodemedicao implements Serializable {
         this.projetoid = projetoid;
     }
 
+    @XmlTransient
+    public List<MedicaoHasQuestao> getMedicaoHasQuestaoList() {
+        return medicaoHasQuestaoList;
+    }
+
+    public void setMedicaoHasQuestaoList(List<MedicaoHasQuestao> medicaoHasQuestaoList) {
+        this.medicaoHasQuestaoList = medicaoHasQuestaoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -181,9 +192,8 @@ public class Objetivodemedicao implements Serializable {
             return false;
         }
         Objetivodemedicao other = (Objetivodemedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

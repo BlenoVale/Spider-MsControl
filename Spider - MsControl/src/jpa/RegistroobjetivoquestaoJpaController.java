@@ -19,7 +19,7 @@ import model.Registroobjetivoquestao;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 public class RegistroobjetivoquestaoJpaController implements Serializable {
 

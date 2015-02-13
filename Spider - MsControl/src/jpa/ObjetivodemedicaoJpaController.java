@@ -18,12 +18,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
-import model.Objetivodemedicao;
 import model.Registroobjetivomedicao;
+import model.MedicaoHasQuestao;
+import model.Objetivodemedicao;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 public class ObjetivodemedicaoJpaController implements Serializable {
 
@@ -42,6 +43,9 @@ public class ObjetivodemedicaoJpaController implements Serializable {
         }
         if (objetivodemedicao.getRegistroobjetivomedicaoList() == null) {
             objetivodemedicao.setRegistroobjetivomedicaoList(new ArrayList<Registroobjetivomedicao>());
+        }
+        if (objetivodemedicao.getMedicaoHasQuestaoList() == null) {
+            objetivodemedicao.setMedicaoHasQuestaoList(new ArrayList<MedicaoHasQuestao>());
         }
         EntityManager em = null;
         try {
@@ -64,6 +68,12 @@ public class ObjetivodemedicaoJpaController implements Serializable {
                 attachedRegistroobjetivomedicaoList.add(registroobjetivomedicaoListRegistroobjetivomedicaoToAttach);
             }
             objetivodemedicao.setRegistroobjetivomedicaoList(attachedRegistroobjetivomedicaoList);
+            List<MedicaoHasQuestao> attachedMedicaoHasQuestaoList = new ArrayList<MedicaoHasQuestao>();
+            for (MedicaoHasQuestao medicaoHasQuestaoListMedicaoHasQuestaoToAttach : objetivodemedicao.getMedicaoHasQuestaoList()) {
+                medicaoHasQuestaoListMedicaoHasQuestaoToAttach = em.getReference(medicaoHasQuestaoListMedicaoHasQuestaoToAttach.getClass(), medicaoHasQuestaoListMedicaoHasQuestaoToAttach.getMedicaoHasQuestaoPK());
+                attachedMedicaoHasQuestaoList.add(medicaoHasQuestaoListMedicaoHasQuestaoToAttach);
+            }
+            objetivodemedicao.setMedicaoHasQuestaoList(attachedMedicaoHasQuestaoList);
             em.persist(objetivodemedicao);
             if (projetoid != null) {
                 projetoid.getObjetivodemedicaoList().add(objetivodemedicao);
@@ -87,6 +97,15 @@ public class ObjetivodemedicaoJpaController implements Serializable {
                     oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListRegistroobjetivomedicao = em.merge(oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListRegistroobjetivomedicao);
                 }
             }
+            for (MedicaoHasQuestao medicaoHasQuestaoListMedicaoHasQuestao : objetivodemedicao.getMedicaoHasQuestaoList()) {
+                Objetivodemedicao oldObjetivodemedicaoOfMedicaoHasQuestaoListMedicaoHasQuestao = medicaoHasQuestaoListMedicaoHasQuestao.getObjetivodemedicao();
+                medicaoHasQuestaoListMedicaoHasQuestao.setObjetivodemedicao(objetivodemedicao);
+                medicaoHasQuestaoListMedicaoHasQuestao = em.merge(medicaoHasQuestaoListMedicaoHasQuestao);
+                if (oldObjetivodemedicaoOfMedicaoHasQuestaoListMedicaoHasQuestao != null) {
+                    oldObjetivodemedicaoOfMedicaoHasQuestaoListMedicaoHasQuestao.getMedicaoHasQuestaoList().remove(medicaoHasQuestaoListMedicaoHasQuestao);
+                    oldObjetivodemedicaoOfMedicaoHasQuestaoListMedicaoHasQuestao = em.merge(oldObjetivodemedicaoOfMedicaoHasQuestaoListMedicaoHasQuestao);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -107,6 +126,8 @@ public class ObjetivodemedicaoJpaController implements Serializable {
             List<Objetivodequestao> objetivodequestaoListNew = objetivodemedicao.getObjetivodequestaoList();
             List<Registroobjetivomedicao> registroobjetivomedicaoListOld = persistentObjetivodemedicao.getRegistroobjetivomedicaoList();
             List<Registroobjetivomedicao> registroobjetivomedicaoListNew = objetivodemedicao.getRegistroobjetivomedicaoList();
+            List<MedicaoHasQuestao> medicaoHasQuestaoListOld = persistentObjetivodemedicao.getMedicaoHasQuestaoList();
+            List<MedicaoHasQuestao> medicaoHasQuestaoListNew = objetivodemedicao.getMedicaoHasQuestaoList();
             List<String> illegalOrphanMessages = null;
             for (Objetivodequestao objetivodequestaoListOldObjetivodequestao : objetivodequestaoListOld) {
                 if (!objetivodequestaoListNew.contains(objetivodequestaoListOldObjetivodequestao)) {
@@ -122,6 +143,14 @@ public class ObjetivodemedicaoJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Registroobjetivomedicao " + registroobjetivomedicaoListOldRegistroobjetivomedicao + " since its objetivoDeMedicaoid1 field is not nullable.");
+                }
+            }
+            for (MedicaoHasQuestao medicaoHasQuestaoListOldMedicaoHasQuestao : medicaoHasQuestaoListOld) {
+                if (!medicaoHasQuestaoListNew.contains(medicaoHasQuestaoListOldMedicaoHasQuestao)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain MedicaoHasQuestao " + medicaoHasQuestaoListOldMedicaoHasQuestao + " since its objetivodemedicao field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -145,6 +174,13 @@ public class ObjetivodemedicaoJpaController implements Serializable {
             }
             registroobjetivomedicaoListNew = attachedRegistroobjetivomedicaoListNew;
             objetivodemedicao.setRegistroobjetivomedicaoList(registroobjetivomedicaoListNew);
+            List<MedicaoHasQuestao> attachedMedicaoHasQuestaoListNew = new ArrayList<MedicaoHasQuestao>();
+            for (MedicaoHasQuestao medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach : medicaoHasQuestaoListNew) {
+                medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach = em.getReference(medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach.getClass(), medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach.getMedicaoHasQuestaoPK());
+                attachedMedicaoHasQuestaoListNew.add(medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach);
+            }
+            medicaoHasQuestaoListNew = attachedMedicaoHasQuestaoListNew;
+            objetivodemedicao.setMedicaoHasQuestaoList(medicaoHasQuestaoListNew);
             objetivodemedicao = em.merge(objetivodemedicao);
             if (projetoidOld != null && !projetoidOld.equals(projetoidNew)) {
                 projetoidOld.getObjetivodemedicaoList().remove(objetivodemedicao);
@@ -173,6 +209,17 @@ public class ObjetivodemedicaoJpaController implements Serializable {
                     if (oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListNewRegistroobjetivomedicao != null && !oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListNewRegistroobjetivomedicao.equals(objetivodemedicao)) {
                         oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListNewRegistroobjetivomedicao.getRegistroobjetivomedicaoList().remove(registroobjetivomedicaoListNewRegistroobjetivomedicao);
                         oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListNewRegistroobjetivomedicao = em.merge(oldObjetivoDeMedicaoid1OfRegistroobjetivomedicaoListNewRegistroobjetivomedicao);
+                    }
+                }
+            }
+            for (MedicaoHasQuestao medicaoHasQuestaoListNewMedicaoHasQuestao : medicaoHasQuestaoListNew) {
+                if (!medicaoHasQuestaoListOld.contains(medicaoHasQuestaoListNewMedicaoHasQuestao)) {
+                    Objetivodemedicao oldObjetivodemedicaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao = medicaoHasQuestaoListNewMedicaoHasQuestao.getObjetivodemedicao();
+                    medicaoHasQuestaoListNewMedicaoHasQuestao.setObjetivodemedicao(objetivodemedicao);
+                    medicaoHasQuestaoListNewMedicaoHasQuestao = em.merge(medicaoHasQuestaoListNewMedicaoHasQuestao);
+                    if (oldObjetivodemedicaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao != null && !oldObjetivodemedicaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao.equals(objetivodemedicao)) {
+                        oldObjetivodemedicaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao.getMedicaoHasQuestaoList().remove(medicaoHasQuestaoListNewMedicaoHasQuestao);
+                        oldObjetivodemedicaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao = em.merge(oldObjetivodemedicaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao);
                     }
                 }
             }
@@ -219,6 +266,13 @@ public class ObjetivodemedicaoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Objetivodemedicao (" + objetivodemedicao + ") cannot be destroyed since the Registroobjetivomedicao " + registroobjetivomedicaoListOrphanCheckRegistroobjetivomedicao + " in its registroobjetivomedicaoList field has a non-nullable objetivoDeMedicaoid1 field.");
+            }
+            List<MedicaoHasQuestao> medicaoHasQuestaoListOrphanCheck = objetivodemedicao.getMedicaoHasQuestaoList();
+            for (MedicaoHasQuestao medicaoHasQuestaoListOrphanCheckMedicaoHasQuestao : medicaoHasQuestaoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Objetivodemedicao (" + objetivodemedicao + ") cannot be destroyed since the MedicaoHasQuestao " + medicaoHasQuestaoListOrphanCheckMedicaoHasQuestao + " in its medicaoHasQuestaoList field has a non-nullable objetivodemedicao field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

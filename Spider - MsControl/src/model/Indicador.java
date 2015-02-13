@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "indicador")
@@ -74,8 +74,9 @@ public class Indicador implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
+    @Basic(optional = false)
     @Column(name = "prioridade")
-    private String prioridade;
+    private int prioridade;
     @JoinTable(name = "indicador_has_medida", joinColumns = {
         @JoinColumn(name = "Indicador_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "Medida_id", referencedColumnName = "id")})
@@ -98,7 +99,7 @@ public class Indicador implements Serializable {
         this.id = id;
     }
 
-    public Indicador(Integer id, String nome, String descricao, String pontoDeVista, String mnemonico, String entidadeDeMedida, String aprovacao) {
+    public Indicador(Integer id, String nome, String descricao, String pontoDeVista, String mnemonico, String entidadeDeMedida, String aprovacao, int prioridade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -106,6 +107,7 @@ public class Indicador implements Serializable {
         this.mnemonico = mnemonico;
         this.entidadeDeMedida = entidadeDeMedida;
         this.aprovacao = aprovacao;
+        this.prioridade = prioridade;
     }
 
     public Integer getId() {
@@ -180,11 +182,11 @@ public class Indicador implements Serializable {
         this.observacao = observacao;
     }
 
-    public String getPrioridade() {
+    public int getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(int prioridade) {
         this.prioridade = prioridade;
     }
 
@@ -246,9 +248,8 @@ public class Indicador implements Serializable {
             return false;
         }
         Indicador other = (Indicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

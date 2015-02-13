@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "projeto")
@@ -184,9 +184,8 @@ public class Projeto implements Serializable {
             return false;
         }
         Projeto other = (Projeto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

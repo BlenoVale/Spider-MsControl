@@ -37,14 +37,12 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
         atualizaListaQuestoesDoProjeto();
 
-        String[] colunas = {"Prioridade", "Objetivo de Medição", "Necessidade de informação", "Indicador"};
+        String[] colunas = {"Objetivo de Medição", "Necessidade de informação"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
         for (int i = 0; i < lista_questoes.size(); i++) {
             String linha[] = {
-                String.valueOf(lista_questoes.get(i).getPrioridade()),
-                lista_questoes.get(i).getObjetivodemedicao().getNome(),
-                lista_questoes.get(i).getNome(),
-                lista_questoes.get(i).getIndicador()
+                lista_questoes.get(i).getObjetivoDeMedicaoid().getNome(),
+                lista_questoes.get(i).getNome()
             };
             tableModel.addRow(linha);
         }
@@ -52,15 +50,12 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }
 
     public void preencheTabelaQuestoesPorParteDoNome(List<Objetivodequestao> questoes) {
-        String[] colunas = {"Prioridade", "Objetivo de Medição", "Necessidade de informação", "Indicador"};
+        String[] colunas = {"Objetivo de Medição", "Necessidade de informação"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
-
-        for (int i = 0; i < questoes.size(); i++) {
+        for (int i = 0; i < lista_questoes.size(); i++) {
             String linha[] = {
-                String.valueOf(questoes.get(i).getPrioridade()),
-                questoes.get(i).getObjetivodemedicao().getNome(),
-                questoes.get(i).getNome(),
-                questoes.get(i).getIndicador()
+                lista_questoes.get(i).getObjetivoDeMedicaoid().getNome(),
+                lista_questoes.get(i).getNome()
             };
             tableModel.addRow(linha);
         }
@@ -86,8 +81,8 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             int linha_selecionada = jTable.getSelectedRow();
             Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
 
-            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada - 1, 0).toString()));
-            lista_questoes.get(linha_selecionada - 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
+//            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada - 1, 0).toString()));
+//            lista_questoes.get(linha_selecionada - 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
 
             lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada - 1));
             lista_questoes.set(linha_selecionada - 1, questao_selecionada);
@@ -104,8 +99,8 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             int linha_selecionada = jTable.getSelectedRow();
             Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
 
-            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada + 1, 0).toString()));
-            lista_questoes.get(linha_selecionada + 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
+//            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada + 1, 0).toString()));
+//            lista_questoes.get(linha_selecionada + 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
 
             lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada + 1));
             lista_questoes.set(linha_selecionada + 1, questao_selecionada);

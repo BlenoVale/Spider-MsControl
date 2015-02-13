@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -40,8 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Objetivodequestao.findByNome", query = "SELECT o FROM Objetivodequestao o WHERE o.nome = :nome"),
     @NamedQuery(name = "Objetivodequestao.findByTipoDeDerivacao", query = "SELECT o FROM Objetivodequestao o WHERE o.tipoDeDerivacao = :tipoDeDerivacao"),
     @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento"),
-    @NamedQuery(name = "Objetivodequestao.findByPontoDeVista", query = "SELECT o FROM Objetivodequestao o WHERE o.pontoDeVista = :pontoDeVista"),
-    @NamedQuery(name = "Objetivodequestao.findByObjetivoDeQuestaocol", query = "SELECT o FROM Objetivodequestao o WHERE o.objetivoDeQuestaocol = :objetivoDeQuestaocol")})
+    @NamedQuery(name = "Objetivodequestao.findByPontoDeVista", query = "SELECT o FROM Objetivodequestao o WHERE o.pontoDeVista = :pontoDeVista")})
 public class Objetivodequestao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,8 +64,6 @@ public class Objetivodequestao implements Serializable {
     @Basic(optional = false)
     @Column(name = "pontoDeVista")
     private String pontoDeVista;
-    @Column(name = "ObjetivoDeQuestaocol")
-    private String objetivoDeQuestaocol;
     @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Objetivodemedicao objetivoDeMedicaoid;
@@ -74,6 +71,8 @@ public class Objetivodequestao implements Serializable {
     private List<Registroobjetivoquestao> registroobjetivoquestaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid")
     private List<Indicador> indicadorList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodequestao")
+    private List<MedicaoHasQuestao> medicaoHasQuestaoList;
 
     public Objetivodequestao() {
     }
@@ -138,14 +137,6 @@ public class Objetivodequestao implements Serializable {
         this.pontoDeVista = pontoDeVista;
     }
 
-    public String getObjetivoDeQuestaocol() {
-        return objetivoDeQuestaocol;
-    }
-
-    public void setObjetivoDeQuestaocol(String objetivoDeQuestaocol) {
-        this.objetivoDeQuestaocol = objetivoDeQuestaocol;
-    }
-
     public Objetivodemedicao getObjetivoDeMedicaoid() {
         return objetivoDeMedicaoid;
     }
@@ -172,6 +163,15 @@ public class Objetivodequestao implements Serializable {
         this.indicadorList = indicadorList;
     }
 
+    @XmlTransient
+    public List<MedicaoHasQuestao> getMedicaoHasQuestaoList() {
+        return medicaoHasQuestaoList;
+    }
+
+    public void setMedicaoHasQuestaoList(List<MedicaoHasQuestao> medicaoHasQuestaoList) {
+        this.medicaoHasQuestaoList = medicaoHasQuestaoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -186,9 +186,8 @@ public class Objetivodequestao implements Serializable {
             return false;
         }
         Objetivodequestao other = (Objetivodequestao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

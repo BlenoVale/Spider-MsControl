@@ -68,8 +68,8 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
     private void preencherCampos() {
         jTextFieldNomeQuestao.setText(objetivo_questao.getNome());
-        jTextFieldNomeIndicador.setText(objetivo_questao.getIndicador());
-        jTextAreaDescricaoIndicador.setText(objetivo_questao.getDescricaoIndicador());
+//        jTextFieldNomeIndicador.setText(objetivo_questao.getIndicador());
+//        jTextAreaDescricaoIndicador.setText(objetivo_questao.getDescricaoIndicador());
 
         selecionarRadio();
 
@@ -87,7 +87,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         }
 
         jTextFieldPontoDeVista.setText(objetivo_questao.getPontoDeVista());
-        jComboBoxObjRelacionado.setSelectedItem(objetivo_questao.getObjetivodemedicao().getNome());
+        jComboBoxObjRelacionado.setSelectedItem(objetivo_questao.getObjetivoDeMedicaoid().getNome());
         jTextAreaObservacao.setText(objetivo_questao.getObservacao());
     }
 
@@ -413,20 +413,20 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
         objetivo_questao.setPontoDeVista(jTextFieldPontoDeVista.getText());
-        objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
-        objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
+//        objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
+//        objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
         objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
         objetivo_questao.setObservacao(jTextAreaObservacao.getText());
 
         String nomeObjetivo = jComboBoxObjRelacionado.getSelectedItem().toString();
         Objetivodemedicao objetivoMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(nomeObjetivo, projeto_selecionado.getId());
-        objetivo_questao.setObjetivodemedicao(objetivoMedicao);
+        objetivo_questao.setObjetivoDeMedicaoid(objetivoMedicao);
 
         boolean feito = false;
         if (ehNovaQuestao) {
             // verifica se já existe Questão com o mesmo nome
-            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
-                objetivo_questao.setPrioridade(ctrlObjetivos.getQuestoesDoProjeto(projeto_selecionado.getId()).size() + 1);
+            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), 0)) { // ZERO SOH PRA FUNFAR
+                //objetivo_questao.setPrioridade(ctrlObjetivos.getQuestoesDoProjeto(projeto_selecionado.getId()).size() + 1);
                 objetivo_questao.setDataLevantamento(new Date());
                 feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
 
@@ -434,7 +434,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             }
         } else {
             // verifica se já existe Questão com o mesmo nome
-            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), objetivo_questao.getPrioridade())) {
+            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), 0)) {// ZERO SOH PRA FUNFAR
                 feito = ctrlObjetivos.editarQuestao(objetivo_questao);
 
                 ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.EDICAO);

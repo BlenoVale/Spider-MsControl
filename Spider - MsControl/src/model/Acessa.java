@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author Dan
  */
 @Entity
 @Table(name = "acessa")
@@ -114,9 +114,8 @@ public class Acessa implements Serializable {
             return false;
         }
         Acessa other = (Acessa) object;
-        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK))) {
+        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK)))
             return false;
-        }
         return true;
     }
 
