@@ -28,15 +28,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Spider
  */
 @Entity
-@Table(name = "registroaprovacao")
+@Table(name = "registroindicador")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Registroaprovacao.findAll", query = "SELECT r FROM Registroaprovacao r"),
-    @NamedQuery(name = "Registroaprovacao.findById", query = "SELECT r FROM Registroaprovacao r WHERE r.id = :id"),
-    @NamedQuery(name = "Registroaprovacao.findByTipo", query = "SELECT r FROM Registroaprovacao r WHERE r.tipo = :tipo"),
-    @NamedQuery(name = "Registroaprovacao.findByNomeUsuario", query = "SELECT r FROM Registroaprovacao r WHERE r.nomeUsuario = :nomeUsuario"),
-    @NamedQuery(name = "Registroaprovacao.findByData", query = "SELECT r FROM Registroaprovacao r WHERE r.data = :data")})
-public class Registroaprovacao implements Serializable {
+    @NamedQuery(name = "Registroindicador.findAll", query = "SELECT r FROM Registroindicador r"),
+    @NamedQuery(name = "Registroindicador.findById", query = "SELECT r FROM Registroindicador r WHERE r.id = :id"),
+    @NamedQuery(name = "Registroindicador.findByTipo", query = "SELECT r FROM Registroindicador r WHERE r.tipo = :tipo"),
+    @NamedQuery(name = "Registroindicador.findByNomeUsuario", query = "SELECT r FROM Registroindicador r WHERE r.nomeUsuario = :nomeUsuario"),
+    @NamedQuery(name = "Registroindicador.findByData", query = "SELECT r FROM Registroindicador r WHERE r.data = :data")})
+public class Registroindicador implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,18 +56,18 @@ public class Registroaprovacao implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "Aprovacao_id", referencedColumnName = "id")
+    @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Aprovacao aprovacaoid;
+    private Indicador indicadorid;
 
-    public Registroaprovacao() {
+    public Registroindicador() {
     }
 
-    public Registroaprovacao(Integer id) {
+    public Registroindicador(Integer id) {
         this.id = id;
     }
 
-    public Registroaprovacao(Integer id, int tipo, String nomeUsuario, Date data) {
+    public Registroindicador(Integer id, int tipo, String nomeUsuario, Date data) {
         this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
@@ -114,12 +114,12 @@ public class Registroaprovacao implements Serializable {
         this.data = data;
     }
 
-    public Aprovacao getAprovacaoid() {
-        return aprovacaoid;
+    public Indicador getIndicadorid() {
+        return indicadorid;
     }
 
-    public void setAprovacaoid(Aprovacao aprovacaoid) {
-        this.aprovacaoid = aprovacaoid;
+    public void setIndicadorid(Indicador indicadorid) {
+        this.indicadorid = indicadorid;
     }
 
     @Override
@@ -132,18 +132,19 @@ public class Registroaprovacao implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Registroaprovacao)) {
+        if (!(object instanceof Registroindicador)) {
             return false;
         }
-        Registroaprovacao other = (Registroaprovacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        Registroindicador other = (Registroindicador) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Registroaprovacao[ id=" + id + " ]";
+        return "model.Registroindicador[ id=" + id + " ]";
     }
     
 }

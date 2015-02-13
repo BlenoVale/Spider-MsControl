@@ -11,15 +11,15 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Objetivodemedicao;
-import model.Medida;
+import model.Registroobjetivoquestao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
+import model.Indicador;
 import model.Objetivodequestao;
-import model.Registroobjetivoquestao;
 
 /**
  *
@@ -37,49 +37,54 @@ public class ObjetivodequestaoJpaController implements Serializable {
     }
 
     public void create(Objetivodequestao objetivodequestao) {
-        if (objetivodequestao.getMedidaList() == null) {
-            objetivodequestao.setMedidaList(new ArrayList<Medida>());
-        }
         if (objetivodequestao.getRegistroobjetivoquestaoList() == null) {
             objetivodequestao.setRegistroobjetivoquestaoList(new ArrayList<Registroobjetivoquestao>());
+        }
+        if (objetivodequestao.getIndicadorList() == null) {
+            objetivodequestao.setIndicadorList(new ArrayList<Indicador>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Objetivodemedicao objetivodemedicao = objetivodequestao.getObjetivodemedicao();
-            if (objetivodemedicao != null) {
-                objetivodemedicao = em.getReference(objetivodemedicao.getClass(), objetivodemedicao.getObjetivodemedicaoPK());
-                objetivodequestao.setObjetivodemedicao(objetivodemedicao);
+            Objetivodemedicao objetivoDeMedicaoid = objetivodequestao.getObjetivoDeMedicaoid();
+            if (objetivoDeMedicaoid != null) {
+                objetivoDeMedicaoid = em.getReference(objetivoDeMedicaoid.getClass(), objetivoDeMedicaoid.getId());
+                objetivodequestao.setObjetivoDeMedicaoid(objetivoDeMedicaoid);
             }
-            List<Medida> attachedMedidaList = new ArrayList<Medida>();
-            for (Medida medidaListMedidaToAttach : objetivodequestao.getMedidaList()) {
-                medidaListMedidaToAttach = em.getReference(medidaListMedidaToAttach.getClass(), medidaListMedidaToAttach.getMedidaPK());
-                attachedMedidaList.add(medidaListMedidaToAttach);
-            }
-            objetivodequestao.setMedidaList(attachedMedidaList);
             List<Registroobjetivoquestao> attachedRegistroobjetivoquestaoList = new ArrayList<Registroobjetivoquestao>();
             for (Registroobjetivoquestao registroobjetivoquestaoListRegistroobjetivoquestaoToAttach : objetivodequestao.getRegistroobjetivoquestaoList()) {
                 registroobjetivoquestaoListRegistroobjetivoquestaoToAttach = em.getReference(registroobjetivoquestaoListRegistroobjetivoquestaoToAttach.getClass(), registroobjetivoquestaoListRegistroobjetivoquestaoToAttach.getId());
                 attachedRegistroobjetivoquestaoList.add(registroobjetivoquestaoListRegistroobjetivoquestaoToAttach);
             }
             objetivodequestao.setRegistroobjetivoquestaoList(attachedRegistroobjetivoquestaoList);
-            em.persist(objetivodequestao);
-            if (objetivodemedicao != null) {
-                objetivodemedicao.getObjetivodequestaoList().add(objetivodequestao);
-                objetivodemedicao = em.merge(objetivodemedicao);
+            List<Indicador> attachedIndicadorList = new ArrayList<Indicador>();
+            for (Indicador indicadorListIndicadorToAttach : objetivodequestao.getIndicadorList()) {
+                indicadorListIndicadorToAttach = em.getReference(indicadorListIndicadorToAttach.getClass(), indicadorListIndicadorToAttach.getId());
+                attachedIndicadorList.add(indicadorListIndicadorToAttach);
             }
-            for (Medida medidaListMedida : objetivodequestao.getMedidaList()) {
-                medidaListMedida.getObjetivodequestaoList().add(objetivodequestao);
-                medidaListMedida = em.merge(medidaListMedida);
+            objetivodequestao.setIndicadorList(attachedIndicadorList);
+            em.persist(objetivodequestao);
+            if (objetivoDeMedicaoid != null) {
+                objetivoDeMedicaoid.getObjetivodequestaoList().add(objetivodequestao);
+                objetivoDeMedicaoid = em.merge(objetivoDeMedicaoid);
             }
             for (Registroobjetivoquestao registroobjetivoquestaoListRegistroobjetivoquestao : objetivodequestao.getRegistroobjetivoquestaoList()) {
-                Objetivodequestao oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao = registroobjetivoquestaoListRegistroobjetivoquestao.getObjetivoDeQuestaoid();
-                registroobjetivoquestaoListRegistroobjetivoquestao.setObjetivoDeQuestaoid(objetivodequestao);
+                Objetivodequestao oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao = registroobjetivoquestaoListRegistroobjetivoquestao.getObjetivoDeQuestaoid1();
+                registroobjetivoquestaoListRegistroobjetivoquestao.setObjetivoDeQuestaoid1(objetivodequestao);
                 registroobjetivoquestaoListRegistroobjetivoquestao = em.merge(registroobjetivoquestaoListRegistroobjetivoquestao);
-                if (oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao != null) {
-                    oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListRegistroobjetivoquestao);
-                    oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao);
+                if (oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao != null) {
+                    oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListRegistroobjetivoquestao);
+                    oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao);
+                }
+            }
+            for (Indicador indicadorListIndicador : objetivodequestao.getIndicadorList()) {
+                Objetivodequestao oldObjetivoDeQuestaoidOfIndicadorListIndicador = indicadorListIndicador.getObjetivoDeQuestaoid();
+                indicadorListIndicador.setObjetivoDeQuestaoid(objetivodequestao);
+                indicadorListIndicador = em.merge(indicadorListIndicador);
+                if (oldObjetivoDeQuestaoidOfIndicadorListIndicador != null) {
+                    oldObjetivoDeQuestaoidOfIndicadorListIndicador.getIndicadorList().remove(indicadorListIndicador);
+                    oldObjetivoDeQuestaoidOfIndicadorListIndicador = em.merge(oldObjetivoDeQuestaoidOfIndicadorListIndicador);
                 }
             }
             em.getTransaction().commit();
@@ -96,35 +101,36 @@ public class ObjetivodequestaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Objetivodequestao persistentObjetivodequestao = em.find(Objetivodequestao.class, objetivodequestao.getId());
-            Objetivodemedicao objetivodemedicaoOld = persistentObjetivodequestao.getObjetivodemedicao();
-            Objetivodemedicao objetivodemedicaoNew = objetivodequestao.getObjetivodemedicao();
-            List<Medida> medidaListOld = persistentObjetivodequestao.getMedidaList();
-            List<Medida> medidaListNew = objetivodequestao.getMedidaList();
+            Objetivodemedicao objetivoDeMedicaoidOld = persistentObjetivodequestao.getObjetivoDeMedicaoid();
+            Objetivodemedicao objetivoDeMedicaoidNew = objetivodequestao.getObjetivoDeMedicaoid();
             List<Registroobjetivoquestao> registroobjetivoquestaoListOld = persistentObjetivodequestao.getRegistroobjetivoquestaoList();
             List<Registroobjetivoquestao> registroobjetivoquestaoListNew = objetivodequestao.getRegistroobjetivoquestaoList();
+            List<Indicador> indicadorListOld = persistentObjetivodequestao.getIndicadorList();
+            List<Indicador> indicadorListNew = objetivodequestao.getIndicadorList();
             List<String> illegalOrphanMessages = null;
             for (Registroobjetivoquestao registroobjetivoquestaoListOldRegistroobjetivoquestao : registroobjetivoquestaoListOld) {
                 if (!registroobjetivoquestaoListNew.contains(registroobjetivoquestaoListOldRegistroobjetivoquestao)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Registroobjetivoquestao " + registroobjetivoquestaoListOldRegistroobjetivoquestao + " since its objetivoDeQuestaoid field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registroobjetivoquestao " + registroobjetivoquestaoListOldRegistroobjetivoquestao + " since its objetivoDeQuestaoid1 field is not nullable.");
+                }
+            }
+            for (Indicador indicadorListOldIndicador : indicadorListOld) {
+                if (!indicadorListNew.contains(indicadorListOldIndicador)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Indicador " + indicadorListOldIndicador + " since its objetivoDeQuestaoid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (objetivodemedicaoNew != null) {
-                objetivodemedicaoNew = em.getReference(objetivodemedicaoNew.getClass(), objetivodemedicaoNew.getObjetivodemedicaoPK());
-                objetivodequestao.setObjetivodemedicao(objetivodemedicaoNew);
+            if (objetivoDeMedicaoidNew != null) {
+                objetivoDeMedicaoidNew = em.getReference(objetivoDeMedicaoidNew.getClass(), objetivoDeMedicaoidNew.getId());
+                objetivodequestao.setObjetivoDeMedicaoid(objetivoDeMedicaoidNew);
             }
-            List<Medida> attachedMedidaListNew = new ArrayList<Medida>();
-            for (Medida medidaListNewMedidaToAttach : medidaListNew) {
-                medidaListNewMedidaToAttach = em.getReference(medidaListNewMedidaToAttach.getClass(), medidaListNewMedidaToAttach.getMedidaPK());
-                attachedMedidaListNew.add(medidaListNewMedidaToAttach);
-            }
-            medidaListNew = attachedMedidaListNew;
-            objetivodequestao.setMedidaList(medidaListNew);
             List<Registroobjetivoquestao> attachedRegistroobjetivoquestaoListNew = new ArrayList<Registroobjetivoquestao>();
             for (Registroobjetivoquestao registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach : registroobjetivoquestaoListNew) {
                 registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach = em.getReference(registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach.getClass(), registroobjetivoquestaoListNewRegistroobjetivoquestaoToAttach.getId());
@@ -132,35 +138,41 @@ public class ObjetivodequestaoJpaController implements Serializable {
             }
             registroobjetivoquestaoListNew = attachedRegistroobjetivoquestaoListNew;
             objetivodequestao.setRegistroobjetivoquestaoList(registroobjetivoquestaoListNew);
+            List<Indicador> attachedIndicadorListNew = new ArrayList<Indicador>();
+            for (Indicador indicadorListNewIndicadorToAttach : indicadorListNew) {
+                indicadorListNewIndicadorToAttach = em.getReference(indicadorListNewIndicadorToAttach.getClass(), indicadorListNewIndicadorToAttach.getId());
+                attachedIndicadorListNew.add(indicadorListNewIndicadorToAttach);
+            }
+            indicadorListNew = attachedIndicadorListNew;
+            objetivodequestao.setIndicadorList(indicadorListNew);
             objetivodequestao = em.merge(objetivodequestao);
-            if (objetivodemedicaoOld != null && !objetivodemedicaoOld.equals(objetivodemedicaoNew)) {
-                objetivodemedicaoOld.getObjetivodequestaoList().remove(objetivodequestao);
-                objetivodemedicaoOld = em.merge(objetivodemedicaoOld);
+            if (objetivoDeMedicaoidOld != null && !objetivoDeMedicaoidOld.equals(objetivoDeMedicaoidNew)) {
+                objetivoDeMedicaoidOld.getObjetivodequestaoList().remove(objetivodequestao);
+                objetivoDeMedicaoidOld = em.merge(objetivoDeMedicaoidOld);
             }
-            if (objetivodemedicaoNew != null && !objetivodemedicaoNew.equals(objetivodemedicaoOld)) {
-                objetivodemedicaoNew.getObjetivodequestaoList().add(objetivodequestao);
-                objetivodemedicaoNew = em.merge(objetivodemedicaoNew);
-            }
-            for (Medida medidaListOldMedida : medidaListOld) {
-                if (!medidaListNew.contains(medidaListOldMedida)) {
-                    medidaListOldMedida.getObjetivodequestaoList().remove(objetivodequestao);
-                    medidaListOldMedida = em.merge(medidaListOldMedida);
-                }
-            }
-            for (Medida medidaListNewMedida : medidaListNew) {
-                if (!medidaListOld.contains(medidaListNewMedida)) {
-                    medidaListNewMedida.getObjetivodequestaoList().add(objetivodequestao);
-                    medidaListNewMedida = em.merge(medidaListNewMedida);
-                }
+            if (objetivoDeMedicaoidNew != null && !objetivoDeMedicaoidNew.equals(objetivoDeMedicaoidOld)) {
+                objetivoDeMedicaoidNew.getObjetivodequestaoList().add(objetivodequestao);
+                objetivoDeMedicaoidNew = em.merge(objetivoDeMedicaoidNew);
             }
             for (Registroobjetivoquestao registroobjetivoquestaoListNewRegistroobjetivoquestao : registroobjetivoquestaoListNew) {
                 if (!registroobjetivoquestaoListOld.contains(registroobjetivoquestaoListNewRegistroobjetivoquestao)) {
-                    Objetivodequestao oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = registroobjetivoquestaoListNewRegistroobjetivoquestao.getObjetivoDeQuestaoid();
-                    registroobjetivoquestaoListNewRegistroobjetivoquestao.setObjetivoDeQuestaoid(objetivodequestao);
+                    Objetivodequestao oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = registroobjetivoquestaoListNewRegistroobjetivoquestao.getObjetivoDeQuestaoid1();
+                    registroobjetivoquestaoListNewRegistroobjetivoquestao.setObjetivoDeQuestaoid1(objetivodequestao);
                     registroobjetivoquestaoListNewRegistroobjetivoquestao = em.merge(registroobjetivoquestaoListNewRegistroobjetivoquestao);
-                    if (oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao != null && !oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.equals(objetivodequestao)) {
-                        oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListNewRegistroobjetivoquestao);
-                        oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao);
+                    if (oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao != null && !oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.equals(objetivodequestao)) {
+                        oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListNewRegistroobjetivoquestao);
+                        oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao);
+                    }
+                }
+            }
+            for (Indicador indicadorListNewIndicador : indicadorListNew) {
+                if (!indicadorListOld.contains(indicadorListNewIndicador)) {
+                    Objetivodequestao oldObjetivoDeQuestaoidOfIndicadorListNewIndicador = indicadorListNewIndicador.getObjetivoDeQuestaoid();
+                    indicadorListNewIndicador.setObjetivoDeQuestaoid(objetivodequestao);
+                    indicadorListNewIndicador = em.merge(indicadorListNewIndicador);
+                    if (oldObjetivoDeQuestaoidOfIndicadorListNewIndicador != null && !oldObjetivoDeQuestaoidOfIndicadorListNewIndicador.equals(objetivodequestao)) {
+                        oldObjetivoDeQuestaoidOfIndicadorListNewIndicador.getIndicadorList().remove(indicadorListNewIndicador);
+                        oldObjetivoDeQuestaoidOfIndicadorListNewIndicador = em.merge(oldObjetivoDeQuestaoidOfIndicadorListNewIndicador);
                     }
                 }
             }
@@ -199,20 +211,22 @@ public class ObjetivodequestaoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the Registroobjetivoquestao " + registroobjetivoquestaoListOrphanCheckRegistroobjetivoquestao + " in its registroobjetivoquestaoList field has a non-nullable objetivoDeQuestaoid field.");
+                illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the Registroobjetivoquestao " + registroobjetivoquestaoListOrphanCheckRegistroobjetivoquestao + " in its registroobjetivoquestaoList field has a non-nullable objetivoDeQuestaoid1 field.");
+            }
+            List<Indicador> indicadorListOrphanCheck = objetivodequestao.getIndicadorList();
+            for (Indicador indicadorListOrphanCheckIndicador : indicadorListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the Indicador " + indicadorListOrphanCheckIndicador + " in its indicadorList field has a non-nullable objetivoDeQuestaoid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Objetivodemedicao objetivodemedicao = objetivodequestao.getObjetivodemedicao();
-            if (objetivodemedicao != null) {
-                objetivodemedicao.getObjetivodequestaoList().remove(objetivodequestao);
-                objetivodemedicao = em.merge(objetivodemedicao);
-            }
-            List<Medida> medidaList = objetivodequestao.getMedidaList();
-            for (Medida medidaListMedida : medidaList) {
-                medidaListMedida.getObjetivodequestaoList().remove(objetivodequestao);
-                medidaListMedida = em.merge(medidaListMedida);
+            Objetivodemedicao objetivoDeMedicaoid = objetivodequestao.getObjetivoDeMedicaoid();
+            if (objetivoDeMedicaoid != null) {
+                objetivoDeMedicaoid.getObjetivodequestaoList().remove(objetivodequestao);
+                objetivoDeMedicaoid = em.merge(objetivoDeMedicaoid);
             }
             em.remove(objetivodequestao);
             em.getTransaction().commit();

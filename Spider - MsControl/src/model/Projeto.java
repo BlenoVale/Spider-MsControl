@@ -66,11 +66,9 @@ public class Projeto implements Serializable {
     @Lob
     @Column(name = "descricao")
     private String descricao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
-    private List<Medida> medidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
     private List<Registroprojeto> registroprojetoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
     private List<Objetivodemedicao> objetivodemedicaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
@@ -146,15 +144,6 @@ public class Projeto implements Serializable {
     }
 
     @XmlTransient
-    public List<Medida> getMedidaList() {
-        return medidaList;
-    }
-
-    public void setMedidaList(List<Medida> medidaList) {
-        this.medidaList = medidaList;
-    }
-
-    @XmlTransient
     public List<Registroprojeto> getRegistroprojetoList() {
         return registroprojetoList;
     }
@@ -195,8 +184,9 @@ public class Projeto implements Serializable {
             return false;
         }
         Projeto other = (Projeto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

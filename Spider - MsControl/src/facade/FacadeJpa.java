@@ -2,7 +2,6 @@ package facade;
 
 import jpa.AcessaJpaController;
 import jpa.AnaliseJpaController;
-import jpa.AprovacaoJpaController;
 import jpa.ColetaJpaController;
 import jpa.MedidaJpaController;
 import jpa.ObjetivodemedicaoJpaController;
@@ -31,7 +30,6 @@ public class FacadeJpa {
 
     private final AcessaJpaController acessaJpa;
     private final AnaliseJpaController analiseJpa;
-    private final AprovacaoJpaController aprovacaoJpa;
     private final ColetaJpaController coletaJpa;
     private final FuncionalidadeJpa funcionalidadeJpa;
     private final MedidaJpaController medidaJpa;
@@ -50,7 +48,6 @@ public class FacadeJpa {
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
         analiseJpa = new AnaliseJpaController(Conexao.conectar());
-        aprovacaoJpa = new AprovacaoJpaController(Conexao.conectar());
         coletaJpa = new ColetaJpaController(Conexao.conectar());
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpa = new MedidaJpaController(Conexao.conectar());
@@ -80,10 +77,6 @@ public class FacadeJpa {
 
     public AnaliseJpaController getAnaliseJpa() {
         return analiseJpa;
-    }
-
-    public AprovacaoJpaController getAprovacaoJpa() {
-        return aprovacaoJpa;
     }
 
     public ColetaJpaController getColetaJpa() {

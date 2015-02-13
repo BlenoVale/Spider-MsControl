@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -38,13 +37,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Procedimentodeanalise.findAll", query = "SELECT p FROM Procedimentodeanalise p"),
     @NamedQuery(name = "Procedimentodeanalise.findById", query = "SELECT p FROM Procedimentodeanalise p WHERE p.id = :id"),
-    @NamedQuery(name = "Procedimentodeanalise.findByVersao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.versao = :versao"),
+    @NamedQuery(name = "Procedimentodeanalise.findByResponsavel", query = "SELECT p FROM Procedimentodeanalise p WHERE p.responsavel = :responsavel"),
+    @NamedQuery(name = "Procedimentodeanalise.findByComposicao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.composicao = :composicao"),
     @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidadeInicio", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidadeInicio = :periodicidadeInicio"),
     @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidadeFim", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidadeFim = :periodicidadeFim"),
     @NamedQuery(name = "Procedimentodeanalise.findByGraficoNome", query = "SELECT p FROM Procedimentodeanalise p WHERE p.graficoNome = :graficoNome"),
-    @NamedQuery(name = "Procedimentodeanalise.findByLimiteAnalise", query = "SELECT p FROM Procedimentodeanalise p WHERE p.limiteAnalise = :limiteAnalise"),
-    @NamedQuery(name = "Procedimentodeanalise.findByCriterioAnalise", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioAnalise = :criterioAnalise"),
-    @NamedQuery(name = "Procedimentodeanalise.findByAcoesAnalise", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesAnalise = :acoesAnalise"),
+    @NamedQuery(name = "Procedimentodeanalise.findByMeta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.meta = :meta"),
+    @NamedQuery(name = "Procedimentodeanalise.findByCriterioDeAnalise", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioDeAnalise = :criterioDeAnalise"),
+    @NamedQuery(name = "Procedimentodeanalise.findByAcoes", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoes = :acoes"),
     @NamedQuery(name = "Procedimentodeanalise.findByComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.comunicacao = :comunicacao")})
 public class Procedimentodeanalise implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,32 +53,49 @@ public class Procedimentodeanalise implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "versao")
-    private String versao;
-    @Column(name = "periodicidade_inicio")
+    @Basic(optional = false)
+    @Column(name = "responsavel")
+    private String responsavel;
+    @Basic(optional = false)
+    @Column(name = "composicao")
+    private String composicao;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "formula")
+    private String formula;
+    @Basic(optional = false)
+    @Column(name = "periodicidadeInicio")
     @Temporal(TemporalType.DATE)
     private Date periodicidadeInicio;
-    @Column(name = "periodicidade_fim")
+    @Basic(optional = false)
+    @Column(name = "periodicidadeFim")
     @Temporal(TemporalType.DATE)
     private Date periodicidadeFim;
+    @Basic(optional = false)
     @Lob
     @Column(name = "frequencia")
     private String frequencia;
-    @Column(name = "grafico_nome")
+    @Basic(optional = false)
+    @Column(name = "graficoNome")
     private String graficoNome;
-    @Column(name = "limite_analise")
-    private String limiteAnalise;
-    @Column(name = "criterio_analise")
-    private String criterioAnalise;
-    @Column(name = "acoes_analise")
-    private String acoesAnalise;
+    @Basic(optional = false)
+    @Column(name = "meta")
+    private String meta;
+    @Basic(optional = false)
+    @Column(name = "criterioDeAnalise")
+    private String criterioDeAnalise;
+    @Basic(optional = false)
+    @Column(name = "acoes")
+    private String acoes;
+    @Basic(optional = false)
     @Column(name = "comunicacao")
     private String comunicacao;
-    @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
+    @Lob
+    @Column(name = "observacao")
+    private String observacao;
+    @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Medida medida;
+    private Indicador indicadorid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
     private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
 
@@ -89,6 +106,21 @@ public class Procedimentodeanalise implements Serializable {
         this.id = id;
     }
 
+    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, Date periodicidadeInicio, Date periodicidadeFim, String frequencia, String graficoNome, String meta, String criterioDeAnalise, String acoes, String comunicacao) {
+        this.id = id;
+        this.responsavel = responsavel;
+        this.composicao = composicao;
+        this.formula = formula;
+        this.periodicidadeInicio = periodicidadeInicio;
+        this.periodicidadeFim = periodicidadeFim;
+        this.frequencia = frequencia;
+        this.graficoNome = graficoNome;
+        this.meta = meta;
+        this.criterioDeAnalise = criterioDeAnalise;
+        this.acoes = acoes;
+        this.comunicacao = comunicacao;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -97,12 +129,28 @@ public class Procedimentodeanalise implements Serializable {
         this.id = id;
     }
 
-    public String getVersao() {
-        return versao;
+    public String getResponsavel() {
+        return responsavel;
     }
 
-    public void setVersao(String versao) {
-        this.versao = versao;
+    public void setResponsavel(String responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public String getComposicao() {
+        return composicao;
+    }
+
+    public void setComposicao(String composicao) {
+        this.composicao = composicao;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
     }
 
     public Date getPeriodicidadeInicio() {
@@ -137,28 +185,28 @@ public class Procedimentodeanalise implements Serializable {
         this.graficoNome = graficoNome;
     }
 
-    public String getLimiteAnalise() {
-        return limiteAnalise;
+    public String getMeta() {
+        return meta;
     }
 
-    public void setLimiteAnalise(String limiteAnalise) {
-        this.limiteAnalise = limiteAnalise;
+    public void setMeta(String meta) {
+        this.meta = meta;
     }
 
-    public String getCriterioAnalise() {
-        return criterioAnalise;
+    public String getCriterioDeAnalise() {
+        return criterioDeAnalise;
     }
 
-    public void setCriterioAnalise(String criterioAnalise) {
-        this.criterioAnalise = criterioAnalise;
+    public void setCriterioDeAnalise(String criterioDeAnalise) {
+        this.criterioDeAnalise = criterioDeAnalise;
     }
 
-    public String getAcoesAnalise() {
-        return acoesAnalise;
+    public String getAcoes() {
+        return acoes;
     }
 
-    public void setAcoesAnalise(String acoesAnalise) {
-        this.acoesAnalise = acoesAnalise;
+    public void setAcoes(String acoes) {
+        this.acoes = acoes;
     }
 
     public String getComunicacao() {
@@ -169,12 +217,20 @@ public class Procedimentodeanalise implements Serializable {
         this.comunicacao = comunicacao;
     }
 
-    public Medida getMedida() {
-        return medida;
+    public String getObservacao() {
+        return observacao;
     }
 
-    public void setMedida(Medida medida) {
-        this.medida = medida;
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Indicador getIndicadorid() {
+        return indicadorid;
+    }
+
+    public void setIndicadorid(Indicador indicadorid) {
+        this.indicadorid = indicadorid;
     }
 
     @XmlTransient
@@ -200,8 +256,9 @@ public class Procedimentodeanalise implements Serializable {
             return false;
         }
         Procedimentodeanalise other = (Procedimentodeanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

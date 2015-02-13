@@ -15,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,8 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Analise.findAll", query = "SELECT a FROM Analise a"),
     @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.id = :id"),
-    @NamedQuery(name = "Analise.findByVersao", query = "SELECT a FROM Analise a WHERE a.versao = :versao"),
-    @NamedQuery(name = "Analise.findByIndicador", query = "SELECT a FROM Analise a WHERE a.indicador = :indicador"),
     @NamedQuery(name = "Analise.findByCriterioDeAnalise", query = "SELECT a FROM Analise a WHERE a.criterioDeAnalise = :criterioDeAnalise")})
 public class Analise implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,19 +41,13 @@ public class Analise implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "versao")
-    private String versao;
-    @Column(name = "indicador")
-    private String indicador;
     @Column(name = "criterioDeAnalise")
     private String criterioDeAnalise;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
     private List<Registroanalise> registroanaliseList;
-    @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
+    @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Medida medida;
+    private Indicador indicadorid;
 
     public Analise() {
     }
@@ -71,22 +62,6 @@ public class Analise implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getVersao() {
-        return versao;
-    }
-
-    public void setVersao(String versao) {
-        this.versao = versao;
-    }
-
-    public String getIndicador() {
-        return indicador;
-    }
-
-    public void setIndicador(String indicador) {
-        this.indicador = indicador;
     }
 
     public String getCriterioDeAnalise() {
@@ -106,12 +81,12 @@ public class Analise implements Serializable {
         this.registroanaliseList = registroanaliseList;
     }
 
-    public Medida getMedida() {
-        return medida;
+    public Indicador getIndicadorid() {
+        return indicadorid;
     }
 
-    public void setMedida(Medida medida) {
-        this.medida = medida;
+    public void setIndicadorid(Indicador indicadorid) {
+        this.indicadorid = indicadorid;
     }
 
     @Override
@@ -128,8 +103,9 @@ public class Analise implements Serializable {
             return false;
         }
         Analise other = (Analise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

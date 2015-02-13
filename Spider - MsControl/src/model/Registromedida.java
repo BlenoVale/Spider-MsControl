@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -57,11 +56,9 @@ public class Registromedida implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
+    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Medida medida;
+    private Medida medidaid;
 
     public Registromedida() {
     }
@@ -117,12 +114,12 @@ public class Registromedida implements Serializable {
         this.data = data;
     }
 
-    public Medida getMedida() {
-        return medida;
+    public Medida getMedidaid() {
+        return medidaid;
     }
 
-    public void setMedida(Medida medida) {
-        this.medida = medida;
+    public void setMedidaid(Medida medidaid) {
+        this.medidaid = medidaid;
     }
 
     @Override
@@ -139,8 +136,9 @@ public class Registromedida implements Serializable {
             return false;
         }
         Registromedida other = (Registromedida) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

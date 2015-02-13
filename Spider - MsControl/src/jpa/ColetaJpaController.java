@@ -43,10 +43,10 @@ public class ColetaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Medida medida = coleta.getMedida();
-            if (medida != null) {
-                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
-                coleta.setMedida(medida);
+            Medida medidaid = coleta.getMedidaid();
+            if (medidaid != null) {
+                medidaid = em.getReference(medidaid.getClass(), medidaid.getId());
+                coleta.setMedidaid(medidaid);
             }
             List<Registrocoleta> attachedRegistrocoletaList = new ArrayList<Registrocoleta>();
             for (Registrocoleta registrocoletaListRegistrocoletaToAttach : coleta.getRegistrocoletaList()) {
@@ -55,9 +55,9 @@ public class ColetaJpaController implements Serializable {
             }
             coleta.setRegistrocoletaList(attachedRegistrocoletaList);
             em.persist(coleta);
-            if (medida != null) {
-                medida.getColetaList().add(coleta);
-                medida = em.merge(medida);
+            if (medidaid != null) {
+                medidaid.getColetaList().add(coleta);
+                medidaid = em.merge(medidaid);
             }
             for (Registrocoleta registrocoletaListRegistrocoleta : coleta.getRegistrocoletaList()) {
                 Coleta oldColetaidOfRegistrocoletaListRegistrocoleta = registrocoletaListRegistrocoleta.getColetaid();
@@ -82,8 +82,8 @@ public class ColetaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Coleta persistentColeta = em.find(Coleta.class, coleta.getId());
-            Medida medidaOld = persistentColeta.getMedida();
-            Medida medidaNew = coleta.getMedida();
+            Medida medidaidOld = persistentColeta.getMedidaid();
+            Medida medidaidNew = coleta.getMedidaid();
             List<Registrocoleta> registrocoletaListOld = persistentColeta.getRegistrocoletaList();
             List<Registrocoleta> registrocoletaListNew = coleta.getRegistrocoletaList();
             List<String> illegalOrphanMessages = null;
@@ -98,9 +98,9 @@ public class ColetaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (medidaNew != null) {
-                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
-                coleta.setMedida(medidaNew);
+            if (medidaidNew != null) {
+                medidaidNew = em.getReference(medidaidNew.getClass(), medidaidNew.getId());
+                coleta.setMedidaid(medidaidNew);
             }
             List<Registrocoleta> attachedRegistrocoletaListNew = new ArrayList<Registrocoleta>();
             for (Registrocoleta registrocoletaListNewRegistrocoletaToAttach : registrocoletaListNew) {
@@ -110,13 +110,13 @@ public class ColetaJpaController implements Serializable {
             registrocoletaListNew = attachedRegistrocoletaListNew;
             coleta.setRegistrocoletaList(registrocoletaListNew);
             coleta = em.merge(coleta);
-            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
-                medidaOld.getColetaList().remove(coleta);
-                medidaOld = em.merge(medidaOld);
+            if (medidaidOld != null && !medidaidOld.equals(medidaidNew)) {
+                medidaidOld.getColetaList().remove(coleta);
+                medidaidOld = em.merge(medidaidOld);
             }
-            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
-                medidaNew.getColetaList().add(coleta);
-                medidaNew = em.merge(medidaNew);
+            if (medidaidNew != null && !medidaidNew.equals(medidaidOld)) {
+                medidaidNew.getColetaList().add(coleta);
+                medidaidNew = em.merge(medidaidNew);
             }
             for (Registrocoleta registrocoletaListNewRegistrocoleta : registrocoletaListNew) {
                 if (!registrocoletaListOld.contains(registrocoletaListNewRegistrocoleta)) {
@@ -169,10 +169,10 @@ public class ColetaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Medida medida = coleta.getMedida();
-            if (medida != null) {
-                medida.getColetaList().remove(coleta);
-                medida = em.merge(medida);
+            Medida medidaid = coleta.getMedidaid();
+            if (medidaid != null) {
+                medidaid.getColetaList().remove(coleta);
+                medidaid = em.merge(medidaid);
             }
             em.remove(coleta);
             em.getTransaction().commit();

@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Registroobjetivoquestao.findById", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.id = :id"),
     @NamedQuery(name = "Registroobjetivoquestao.findByTipo", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroobjetivoquestao.findByNomeUsuario", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.nomeUsuario = :nomeUsuario"),
-    @NamedQuery(name = "Registroobjetivoquestao.findByData", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.data = :data")})
+    @NamedQuery(name = "Registroobjetivoquestao.findByData", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.data = :data"),
+    @NamedQuery(name = "Registroobjetivoquestao.findByObjetivoDeQuestaoid", query = "SELECT r FROM Registroobjetivoquestao r WHERE r.objetivoDeQuestaoid = :objetivoDeQuestaoid")})
 public class Registroobjetivoquestao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,9 +57,12 @@ public class Registroobjetivoquestao implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id")
+    @Basic(optional = false)
+    @Column(name = "ObjetivoDeQuestao_id")
+    private int objetivoDeQuestaoid;
+    @JoinColumn(name = "ObjetivoDeQuestao_id1", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Objetivodequestao objetivoDeQuestaoid;
+    private Objetivodequestao objetivoDeQuestaoid1;
 
     public Registroobjetivoquestao() {
     }
@@ -67,11 +71,12 @@ public class Registroobjetivoquestao implements Serializable {
         this.id = id;
     }
 
-    public Registroobjetivoquestao(Integer id, int tipo, String nomeUsuario, Date data) {
+    public Registroobjetivoquestao(Integer id, int tipo, String nomeUsuario, Date data, int objetivoDeQuestaoid) {
         this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
+        this.objetivoDeQuestaoid = objetivoDeQuestaoid;
     }
 
     public Integer getId() {
@@ -114,12 +119,20 @@ public class Registroobjetivoquestao implements Serializable {
         this.data = data;
     }
 
-    public Objetivodequestao getObjetivoDeQuestaoid() {
+    public int getObjetivoDeQuestaoid() {
         return objetivoDeQuestaoid;
     }
 
-    public void setObjetivoDeQuestaoid(Objetivodequestao objetivoDeQuestaoid) {
+    public void setObjetivoDeQuestaoid(int objetivoDeQuestaoid) {
         this.objetivoDeQuestaoid = objetivoDeQuestaoid;
+    }
+
+    public Objetivodequestao getObjetivoDeQuestaoid1() {
+        return objetivoDeQuestaoid1;
+    }
+
+    public void setObjetivoDeQuestaoid1(Objetivodequestao objetivoDeQuestaoid1) {
+        this.objetivoDeQuestaoid1 = objetivoDeQuestaoid1;
     }
 
     @Override
@@ -136,8 +149,9 @@ public class Registroobjetivoquestao implements Serializable {
             return false;
         }
         Registroobjetivoquestao other = (Registroobjetivoquestao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

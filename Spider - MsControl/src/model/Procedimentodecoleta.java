@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -40,9 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findById", query = "SELECT p FROM Procedimentodecoleta p WHERE p.id = :id"),
     @NamedQuery(name = "Procedimentodecoleta.findByMomento", query = "SELECT p FROM Procedimentodecoleta p WHERE p.momento = :momento"),
     @NamedQuery(name = "Procedimentodecoleta.findByPeriodicidadeInicio", query = "SELECT p FROM Procedimentodecoleta p WHERE p.periodicidadeInicio = :periodicidadeInicio"),
-    @NamedQuery(name = "Procedimentodecoleta.findByProcedimentoFim", query = "SELECT p FROM Procedimentodecoleta p WHERE p.procedimentoFim = :procedimentoFim"),
-    @NamedQuery(name = "Procedimentodecoleta.findByColetaTip", query = "SELECT p FROM Procedimentodecoleta p WHERE p.coletaTip = :coletaTip"),
-    @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada")})
+    @NamedQuery(name = "Procedimentodecoleta.findByPeriodicidadeFim", query = "SELECT p FROM Procedimentodecoleta p WHERE p.periodicidadeFim = :periodicidadeFim"),
+    @NamedQuery(name = "Procedimentodecoleta.findByTipoDeColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.tipoDeColeta = :tipoDeColeta"),
+    @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada"),
+    @NamedQuery(name = "Procedimentodecoleta.findByResponsavelPelaPreservacao", query = "SELECT p FROM Procedimentodecoleta p WHERE p.responsavelPelaPreservacao = :responsavelPelaPreservacao")})
 public class Procedimentodecoleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,32 +50,44 @@ public class Procedimentodecoleta implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "momento")
     private String momento;
-    @Column(name = "periodicidade_inicio")
+    @Basic(optional = false)
+    @Column(name = "periodicidadeInicio")
     @Temporal(TemporalType.DATE)
     private Date periodicidadeInicio;
-    @Column(name = "procedimento_fim")
+    @Basic(optional = false)
+    @Column(name = "periodicidadeFim")
     @Temporal(TemporalType.DATE)
-    private Date procedimentoFim;
+    private Date periodicidadeFim;
+    @Basic(optional = false)
     @Lob
     @Column(name = "frequencia")
     private String frequencia;
+    @Basic(optional = false)
     @Lob
-    @Column(name = "procedimento_coleta_descricao")
-    private String procedimentoColetaDescricao;
-    @Column(name = "coleta_tip")
-    private String coletaTip;
-    @Column(name = " ferramentas_utilizada")
+    @Column(name = "descricao")
+    private String descricao;
+    @Basic(optional = false)
+    @Column(name = "tipoDeColeta")
+    private String tipoDeColeta;
+    @Basic(optional = false)
+    @Column(name = "ferramentasUtilizada")
     private String ferramentasUtilizada;
+    @Basic(optional = false)
+    @Column(name = "responsavelPelaPreservacao")
+    private String responsavelPelaPreservacao;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "formula")
+    private String formula;
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
+    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Medida medida;
+    private Medida medidaid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
     private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
 
@@ -84,6 +96,19 @@ public class Procedimentodecoleta implements Serializable {
 
     public Procedimentodecoleta(Integer id) {
         this.id = id;
+    }
+
+    public Procedimentodecoleta(Integer id, String momento, Date periodicidadeInicio, Date periodicidadeFim, String frequencia, String descricao, String tipoDeColeta, String ferramentasUtilizada, String responsavelPelaPreservacao, String formula) {
+        this.id = id;
+        this.momento = momento;
+        this.periodicidadeInicio = periodicidadeInicio;
+        this.periodicidadeFim = periodicidadeFim;
+        this.frequencia = frequencia;
+        this.descricao = descricao;
+        this.tipoDeColeta = tipoDeColeta;
+        this.ferramentasUtilizada = ferramentasUtilizada;
+        this.responsavelPelaPreservacao = responsavelPelaPreservacao;
+        this.formula = formula;
     }
 
     public Integer getId() {
@@ -110,12 +135,12 @@ public class Procedimentodecoleta implements Serializable {
         this.periodicidadeInicio = periodicidadeInicio;
     }
 
-    public Date getProcedimentoFim() {
-        return procedimentoFim;
+    public Date getPeriodicidadeFim() {
+        return periodicidadeFim;
     }
 
-    public void setProcedimentoFim(Date procedimentoFim) {
-        this.procedimentoFim = procedimentoFim;
+    public void setPeriodicidadeFim(Date periodicidadeFim) {
+        this.periodicidadeFim = periodicidadeFim;
     }
 
     public String getFrequencia() {
@@ -126,20 +151,20 @@ public class Procedimentodecoleta implements Serializable {
         this.frequencia = frequencia;
     }
 
-    public String getProcedimentoColetaDescricao() {
-        return procedimentoColetaDescricao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setProcedimentoColetaDescricao(String procedimentoColetaDescricao) {
-        this.procedimentoColetaDescricao = procedimentoColetaDescricao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getColetaTip() {
-        return coletaTip;
+    public String getTipoDeColeta() {
+        return tipoDeColeta;
     }
 
-    public void setColetaTip(String coletaTip) {
-        this.coletaTip = coletaTip;
+    public void setTipoDeColeta(String tipoDeColeta) {
+        this.tipoDeColeta = tipoDeColeta;
     }
 
     public String getFerramentasUtilizada() {
@@ -150,6 +175,22 @@ public class Procedimentodecoleta implements Serializable {
         this.ferramentasUtilizada = ferramentasUtilizada;
     }
 
+    public String getResponsavelPelaPreservacao() {
+        return responsavelPelaPreservacao;
+    }
+
+    public void setResponsavelPelaPreservacao(String responsavelPelaPreservacao) {
+        this.responsavelPelaPreservacao = responsavelPelaPreservacao;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
+    public void setFormula(String formula) {
+        this.formula = formula;
+    }
+
     public String getObservacao() {
         return observacao;
     }
@@ -158,12 +199,12 @@ public class Procedimentodecoleta implements Serializable {
         this.observacao = observacao;
     }
 
-    public Medida getMedida() {
-        return medida;
+    public Medida getMedidaid() {
+        return medidaid;
     }
 
-    public void setMedida(Medida medida) {
-        this.medida = medida;
+    public void setMedidaid(Medida medidaid) {
+        this.medidaid = medidaid;
     }
 
     @XmlTransient
@@ -189,8 +230,9 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

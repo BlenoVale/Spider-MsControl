@@ -7,10 +7,13 @@ package model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -30,14 +33,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Objetivodemedicao.findAll", query = "SELECT o FROM Objetivodemedicao o"),
-    @NamedQuery(name = "Objetivodemedicao.findById", query = "SELECT o FROM Objetivodemedicao o WHERE o.objetivodemedicaoPK.id = :id"),
+    @NamedQuery(name = "Objetivodemedicao.findById", query = "SELECT o FROM Objetivodemedicao o WHERE o.id = :id"),
     @NamedQuery(name = "Objetivodemedicao.findByNome", query = "SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome"),
-    @NamedQuery(name = "Objetivodemedicao.findByNivelObjetivo", query = "SELECT o FROM Objetivodemedicao o WHERE o.nivelObjetivo = :nivelObjetivo"),
-    @NamedQuery(name = "Objetivodemedicao.findByProjetoid", query = "SELECT o FROM Objetivodemedicao o WHERE o.objetivodemedicaoPK.projetoid = :projetoid")})
+    @NamedQuery(name = "Objetivodemedicao.findByNivelObjetivo", query = "SELECT o FROM Objetivodemedicao o WHERE o.nivelObjetivo = :nivelObjetivo")})
 public class Objetivodemedicao implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ObjetivodemedicaoPK objetivodemedicaoPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "nome")
     private String nome;
     @Column(name = "nivelObjetivo")
@@ -57,31 +62,27 @@ public class Objetivodemedicao implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicao")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
     private List<Objetivodequestao> objetivodequestaoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodemedicao")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid1")
     private List<Registroobjetivomedicao> registroobjetivomedicaoList;
-    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Projeto projeto;
+    private Projeto projetoid;
 
     public Objetivodemedicao() {
     }
 
-    public Objetivodemedicao(ObjetivodemedicaoPK objetivodemedicaoPK) {
-        this.objetivodemedicaoPK = objetivodemedicaoPK;
+    public Objetivodemedicao(Integer id) {
+        this.id = id;
     }
 
-    public Objetivodemedicao(int id, int projetoid) {
-        this.objetivodemedicaoPK = new ObjetivodemedicaoPK(id, projetoid);
+    public Integer getId() {
+        return id;
     }
 
-    public ObjetivodemedicaoPK getObjetivodemedicaoPK() {
-        return objetivodemedicaoPK;
-    }
-
-    public void setObjetivodemedicaoPK(ObjetivodemedicaoPK objetivodemedicaoPK) {
-        this.objetivodemedicaoPK = objetivodemedicaoPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -158,18 +159,18 @@ public class Objetivodemedicao implements Serializable {
         this.registroobjetivomedicaoList = registroobjetivomedicaoList;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
+    public Projeto getProjetoid() {
+        return projetoid;
     }
 
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
+    public void setProjetoid(Projeto projetoid) {
+        this.projetoid = projetoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (objetivodemedicaoPK != null ? objetivodemedicaoPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -180,14 +181,15 @@ public class Objetivodemedicao implements Serializable {
             return false;
         }
         Objetivodemedicao other = (Objetivodemedicao) object;
-        if ((this.objetivodemedicaoPK == null && other.objetivodemedicaoPK != null) || (this.objetivodemedicaoPK != null && !this.objetivodemedicaoPK.equals(other.objetivodemedicaoPK)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "model.Objetivodemedicao[ objetivodemedicaoPK=" + objetivodemedicaoPK + " ]";
+        return "model.Objetivodemedicao[ id=" + id + " ]";
     }
     
 }

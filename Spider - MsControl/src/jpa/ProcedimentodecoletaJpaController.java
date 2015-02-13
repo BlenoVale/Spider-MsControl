@@ -43,10 +43,10 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Medida medida = procedimentodecoleta.getMedida();
-            if (medida != null) {
-                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
-                procedimentodecoleta.setMedida(medida);
+            Medida medidaid = procedimentodecoleta.getMedidaid();
+            if (medidaid != null) {
+                medidaid = em.getReference(medidaid.getClass(), medidaid.getId());
+                procedimentodecoleta.setMedidaid(medidaid);
             }
             List<Registroprocedimentocoleta> attachedRegistroprocedimentocoletaList = new ArrayList<Registroprocedimentocoleta>();
             for (Registroprocedimentocoleta registroprocedimentocoletaListRegistroprocedimentocoletaToAttach : procedimentodecoleta.getRegistroprocedimentocoletaList()) {
@@ -55,9 +55,9 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             }
             procedimentodecoleta.setRegistroprocedimentocoletaList(attachedRegistroprocedimentocoletaList);
             em.persist(procedimentodecoleta);
-            if (medida != null) {
-                medida.getProcedimentodecoletaList().add(procedimentodecoleta);
-                medida = em.merge(medida);
+            if (medidaid != null) {
+                medidaid.getProcedimentodecoletaList().add(procedimentodecoleta);
+                medidaid = em.merge(medidaid);
             }
             for (Registroprocedimentocoleta registroprocedimentocoletaListRegistroprocedimentocoleta : procedimentodecoleta.getRegistroprocedimentocoletaList()) {
                 Procedimentodecoleta oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListRegistroprocedimentocoleta = registroprocedimentocoletaListRegistroprocedimentocoleta.getProcedimentoDeColetaid();
@@ -82,8 +82,8 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Procedimentodecoleta persistentProcedimentodecoleta = em.find(Procedimentodecoleta.class, procedimentodecoleta.getId());
-            Medida medidaOld = persistentProcedimentodecoleta.getMedida();
-            Medida medidaNew = procedimentodecoleta.getMedida();
+            Medida medidaidOld = persistentProcedimentodecoleta.getMedidaid();
+            Medida medidaidNew = procedimentodecoleta.getMedidaid();
             List<Registroprocedimentocoleta> registroprocedimentocoletaListOld = persistentProcedimentodecoleta.getRegistroprocedimentocoletaList();
             List<Registroprocedimentocoleta> registroprocedimentocoletaListNew = procedimentodecoleta.getRegistroprocedimentocoletaList();
             List<String> illegalOrphanMessages = null;
@@ -98,9 +98,9 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (medidaNew != null) {
-                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
-                procedimentodecoleta.setMedida(medidaNew);
+            if (medidaidNew != null) {
+                medidaidNew = em.getReference(medidaidNew.getClass(), medidaidNew.getId());
+                procedimentodecoleta.setMedidaid(medidaidNew);
             }
             List<Registroprocedimentocoleta> attachedRegistroprocedimentocoletaListNew = new ArrayList<Registroprocedimentocoleta>();
             for (Registroprocedimentocoleta registroprocedimentocoletaListNewRegistroprocedimentocoletaToAttach : registroprocedimentocoletaListNew) {
@@ -110,13 +110,13 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             registroprocedimentocoletaListNew = attachedRegistroprocedimentocoletaListNew;
             procedimentodecoleta.setRegistroprocedimentocoletaList(registroprocedimentocoletaListNew);
             procedimentodecoleta = em.merge(procedimentodecoleta);
-            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
-                medidaOld.getProcedimentodecoletaList().remove(procedimentodecoleta);
-                medidaOld = em.merge(medidaOld);
+            if (medidaidOld != null && !medidaidOld.equals(medidaidNew)) {
+                medidaidOld.getProcedimentodecoletaList().remove(procedimentodecoleta);
+                medidaidOld = em.merge(medidaidOld);
             }
-            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
-                medidaNew.getProcedimentodecoletaList().add(procedimentodecoleta);
-                medidaNew = em.merge(medidaNew);
+            if (medidaidNew != null && !medidaidNew.equals(medidaidOld)) {
+                medidaidNew.getProcedimentodecoletaList().add(procedimentodecoleta);
+                medidaidNew = em.merge(medidaidNew);
             }
             for (Registroprocedimentocoleta registroprocedimentocoletaListNewRegistroprocedimentocoleta : registroprocedimentocoletaListNew) {
                 if (!registroprocedimentocoletaListOld.contains(registroprocedimentocoletaListNewRegistroprocedimentocoleta)) {
@@ -169,10 +169,10 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Medida medida = procedimentodecoleta.getMedida();
-            if (medida != null) {
-                medida.getProcedimentodecoletaList().remove(procedimentodecoleta);
-                medida = em.merge(medida);
+            Medida medidaid = procedimentodecoleta.getMedidaid();
+            if (medidaid != null) {
+                medidaid.getProcedimentodecoletaList().remove(procedimentodecoleta);
+                medidaid = em.merge(medidaid);
             }
             em.remove(procedimentodecoleta);
             em.getTransaction().commit();

@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Medida;
+import model.Indicador;
 import model.Registroanalise;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +43,10 @@ public class AnaliseJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Medida medida = analise.getMedida();
-            if (medida != null) {
-                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
-                analise.setMedida(medida);
+            Indicador indicadorid = analise.getIndicadorid();
+            if (indicadorid != null) {
+                indicadorid = em.getReference(indicadorid.getClass(), indicadorid.getId());
+                analise.setIndicadorid(indicadorid);
             }
             List<Registroanalise> attachedRegistroanaliseList = new ArrayList<Registroanalise>();
             for (Registroanalise registroanaliseListRegistroanaliseToAttach : analise.getRegistroanaliseList()) {
@@ -55,9 +55,9 @@ public class AnaliseJpaController implements Serializable {
             }
             analise.setRegistroanaliseList(attachedRegistroanaliseList);
             em.persist(analise);
-            if (medida != null) {
-                medida.getAnaliseList().add(analise);
-                medida = em.merge(medida);
+            if (indicadorid != null) {
+                indicadorid.getAnaliseList().add(analise);
+                indicadorid = em.merge(indicadorid);
             }
             for (Registroanalise registroanaliseListRegistroanalise : analise.getRegistroanaliseList()) {
                 Analise oldAnaliseidOfRegistroanaliseListRegistroanalise = registroanaliseListRegistroanalise.getAnaliseid();
@@ -82,8 +82,8 @@ public class AnaliseJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Analise persistentAnalise = em.find(Analise.class, analise.getId());
-            Medida medidaOld = persistentAnalise.getMedida();
-            Medida medidaNew = analise.getMedida();
+            Indicador indicadoridOld = persistentAnalise.getIndicadorid();
+            Indicador indicadoridNew = analise.getIndicadorid();
             List<Registroanalise> registroanaliseListOld = persistentAnalise.getRegistroanaliseList();
             List<Registroanalise> registroanaliseListNew = analise.getRegistroanaliseList();
             List<String> illegalOrphanMessages = null;
@@ -98,9 +98,9 @@ public class AnaliseJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (medidaNew != null) {
-                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
-                analise.setMedida(medidaNew);
+            if (indicadoridNew != null) {
+                indicadoridNew = em.getReference(indicadoridNew.getClass(), indicadoridNew.getId());
+                analise.setIndicadorid(indicadoridNew);
             }
             List<Registroanalise> attachedRegistroanaliseListNew = new ArrayList<Registroanalise>();
             for (Registroanalise registroanaliseListNewRegistroanaliseToAttach : registroanaliseListNew) {
@@ -110,13 +110,13 @@ public class AnaliseJpaController implements Serializable {
             registroanaliseListNew = attachedRegistroanaliseListNew;
             analise.setRegistroanaliseList(registroanaliseListNew);
             analise = em.merge(analise);
-            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
-                medidaOld.getAnaliseList().remove(analise);
-                medidaOld = em.merge(medidaOld);
+            if (indicadoridOld != null && !indicadoridOld.equals(indicadoridNew)) {
+                indicadoridOld.getAnaliseList().remove(analise);
+                indicadoridOld = em.merge(indicadoridOld);
             }
-            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
-                medidaNew.getAnaliseList().add(analise);
-                medidaNew = em.merge(medidaNew);
+            if (indicadoridNew != null && !indicadoridNew.equals(indicadoridOld)) {
+                indicadoridNew.getAnaliseList().add(analise);
+                indicadoridNew = em.merge(indicadoridNew);
             }
             for (Registroanalise registroanaliseListNewRegistroanalise : registroanaliseListNew) {
                 if (!registroanaliseListOld.contains(registroanaliseListNewRegistroanalise)) {
@@ -169,10 +169,10 @@ public class AnaliseJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Medida medida = analise.getMedida();
-            if (medida != null) {
-                medida.getAnaliseList().remove(analise);
-                medida = em.merge(medida);
+            Indicador indicadorid = analise.getIndicadorid();
+            if (indicadorid != null) {
+                indicadorid.getAnaliseList().remove(analise);
+                indicadorid = em.merge(indicadorid);
             }
             em.remove(analise);
             em.getTransaction().commit();

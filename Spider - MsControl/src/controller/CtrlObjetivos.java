@@ -61,7 +61,7 @@ public class CtrlObjetivos {
 
         Objetivodemedicao objetivoAux = facadejpa.getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), idProjeto);
         if (objetivoAux != null) {
-            if (objetivoAux.getObjetivodemedicaoPK().getId() != objetivo.getObjetivodemedicaoPK().getId()) {
+            if (objetivoAux.getId() != objetivo.getId()) {
                 JOptionPane.showMessageDialog(null, "Ja existe um objetivo de medição com este nome neste projeto");
                 return false;
             }
@@ -84,8 +84,8 @@ public class CtrlObjetivos {
                 for (int i = 0; i < objetivodemedicao.getRegistroobjetivomedicaoList().size(); i++ ){
                     facadejpa.getRegistroObjetivoMedicaoJpa().destroy(objetivodemedicao.getRegistroobjetivomedicaoList().get(i).getId());
                 }
-                Objetivodemedicao objAux = facadejpa.getObjetivoDeMedicaoJpa().findObjetivo(objetivodemedicao.getObjetivodemedicaoPK().getId());
-                facadejpa.getObjetivoDeMedicaoJpa().destroy(objAux.getObjetivodemedicaoPK());
+//                Objetivodemedicao objAux = facadejpa.getObjetivoDeMedicaoJpa().findObjetivo(objetivodemedicao.getObjetivodemedicaoPK().getId());
+//                facadejpa.getObjetivoDeMedicaoJpa().destroy(objAux.getObjetivodemedicaoPK());
             } else {
                 JOptionPane.showMessageDialog(null, "Objetivo de medição tem Questões relacioandas.");
             }
@@ -125,11 +125,11 @@ public class CtrlObjetivos {
                 List<Objetivodequestao> lista_BD = facadejpa.getObjetivoDeQuestaoJpa().ListQuestoesByProjeto(idProjeto);
                 for (int i = 0; i < lista_questao.size(); i++) {
                     for (int j = 0; j < lista_BD.size(); j++) {
-                        if (lista_questao.get(i).getNome().equals(lista_BD.get(j).getNome()) && lista_questao.get(i).getPrioridade() != lista_BD.get(j).getPrioridade()) {
-                            facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
-
-                            registraQuestao(lista_questao.get(i), Constantes.EDICAO);
-                        }
+//                        if (lista_questao.get(i).getNome().equals(lista_BD.get(j).getNome()) && lista_questao.get(i).getPrioridade() != lista_BD.get(j).getPrioridade()) {
+//                            facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
+//
+//                            registraQuestao(lista_questao.get(i), Constantes.EDICAO);
+//                        }
                     }
                 }
                 JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso.");
@@ -161,12 +161,12 @@ public class CtrlObjetivos {
                 //reorganiza prioridades após uma questão ter sido excluída
                 List<Objetivodequestao> listaquestao = getQuestoesDoProjeto(idProjeto);
                 for (int i = 0; i < listaquestao.size(); i++) {
-                    if (i + 1 < listaquestao.get(i).getPrioridade()) {
-                        listaquestao.get(i).setPrioridade(i + 1);
-                        facadejpa.getObjetivoDeQuestaoJpa().edit(listaquestao.get(i));
-
-                        registraQuestao(listaquestao.get(i), Constantes.EDICAO);
-                    }
+//                    if (i + 1 < listaquestao.get(i).getPrioridade()) {
+//                        listaquestao.get(i).setPrioridade(i + 1);
+//                        facadejpa.getObjetivoDeQuestaoJpa().edit(listaquestao.get(i));
+//
+//                        registraQuestao(listaquestao.get(i), Constantes.EDICAO);
+//                    }
                 }
                 JOptionPane.showMessageDialog(null, "Questão excluída com sucesso.");
             }
@@ -237,13 +237,13 @@ public class CtrlObjetivos {
      * @param tipo tipo de registro. Ex: CADASTRO, EDICAO ...
      */
     public void registrar(Objetivodemedicao objetivo, int tipo) {
-        objetivo = facade.FacadeJpa.getInstance().getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), objetivo.getObjetivodemedicaoPK().getProjetoid());
+        objetivo = facade.FacadeJpa.getInstance().getObjetivoDeMedicaoJpa().findByNomeAndIdProjeto(objetivo.getNome(), objetivo.getProjetoid().getId());
 
         Registroobjetivomedicao registro = new Registroobjetivomedicao();
         registro.setData(new Date());
         registro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
         registro.setTipo(tipo);
-        registro.setObjetivodemedicao(objetivo);
+        registro.setObjetivoDeMedicaoid(objetivo.getId());
         try {
             FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().create(registro);
             System.out.println("Registro criado");
@@ -259,7 +259,7 @@ public class CtrlObjetivos {
             Registroobjetivoquestao novoRegistro = new Registroobjetivoquestao();
             novoRegistro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
             novoRegistro.setData(new Date());
-            novoRegistro.setObjetivoDeQuestaoid(objetivoQuestao);
+            novoRegistro.setObjetivoDeQuestaoid(objetivoQuestao.getId());
             novoRegistro.setTipo(tipo);
 //          novoRegistro.setDescricao(null);
 

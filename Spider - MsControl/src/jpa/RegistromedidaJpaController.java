@@ -37,15 +37,15 @@ public class RegistromedidaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Medida medida = registromedida.getMedida();
-            if (medida != null) {
-                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
-                registromedida.setMedida(medida);
+            Medida medidaid = registromedida.getMedidaid();
+            if (medidaid != null) {
+                medidaid = em.getReference(medidaid.getClass(), medidaid.getId());
+                registromedida.setMedidaid(medidaid);
             }
             em.persist(registromedida);
-            if (medida != null) {
-                medida.getRegistromedidaList().add(registromedida);
-                medida = em.merge(medida);
+            if (medidaid != null) {
+                medidaid.getRegistromedidaList().add(registromedida);
+                medidaid = em.merge(medidaid);
             }
             em.getTransaction().commit();
         } finally {
@@ -61,20 +61,20 @@ public class RegistromedidaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Registromedida persistentRegistromedida = em.find(Registromedida.class, registromedida.getId());
-            Medida medidaOld = persistentRegistromedida.getMedida();
-            Medida medidaNew = registromedida.getMedida();
-            if (medidaNew != null) {
-                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
-                registromedida.setMedida(medidaNew);
+            Medida medidaidOld = persistentRegistromedida.getMedidaid();
+            Medida medidaidNew = registromedida.getMedidaid();
+            if (medidaidNew != null) {
+                medidaidNew = em.getReference(medidaidNew.getClass(), medidaidNew.getId());
+                registromedida.setMedidaid(medidaidNew);
             }
             registromedida = em.merge(registromedida);
-            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
-                medidaOld.getRegistromedidaList().remove(registromedida);
-                medidaOld = em.merge(medidaOld);
+            if (medidaidOld != null && !medidaidOld.equals(medidaidNew)) {
+                medidaidOld.getRegistromedidaList().remove(registromedida);
+                medidaidOld = em.merge(medidaidOld);
             }
-            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
-                medidaNew.getRegistromedidaList().add(registromedida);
-                medidaNew = em.merge(medidaNew);
+            if (medidaidNew != null && !medidaidNew.equals(medidaidOld)) {
+                medidaidNew.getRegistromedidaList().add(registromedida);
+                medidaidNew = em.merge(medidaidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -105,10 +105,10 @@ public class RegistromedidaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registromedida with id " + id + " no longer exists.", enfe);
             }
-            Medida medida = registromedida.getMedida();
-            if (medida != null) {
-                medida.getRegistromedidaList().remove(registromedida);
-                medida = em.merge(medida);
+            Medida medidaid = registromedida.getMedidaid();
+            if (medidaid != null) {
+                medidaid.getRegistromedidaList().remove(registromedida);
+                medidaid = em.merge(medidaid);
             }
             em.remove(registromedida);
             em.getTransaction().commit();

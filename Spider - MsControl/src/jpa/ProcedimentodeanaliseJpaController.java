@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Medida;
+import model.Indicador;
 import model.Registroprocedimentoanalise;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +43,10 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Medida medida = procedimentodeanalise.getMedida();
-            if (medida != null) {
-                medida = em.getReference(medida.getClass(), medida.getMedidaPK());
-                procedimentodeanalise.setMedida(medida);
+            Indicador indicadorid = procedimentodeanalise.getIndicadorid();
+            if (indicadorid != null) {
+                indicadorid = em.getReference(indicadorid.getClass(), indicadorid.getId());
+                procedimentodeanalise.setIndicadorid(indicadorid);
             }
             List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseList = new ArrayList<Registroprocedimentoanalise>();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
@@ -55,9 +55,9 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             }
             procedimentodeanalise.setRegistroprocedimentoanaliseList(attachedRegistroprocedimentoanaliseList);
             em.persist(procedimentodeanalise);
-            if (medida != null) {
-                medida.getProcedimentodeanaliseList().add(procedimentodeanalise);
-                medida = em.merge(medida);
+            if (indicadorid != null) {
+                indicadorid.getProcedimentodeanaliseList().add(procedimentodeanalise);
+                indicadorid = em.merge(indicadorid);
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanalise : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
                 Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = registroprocedimentoanaliseListRegistroprocedimentoanalise.getProcedimentoDeAnaliseid();
@@ -82,8 +82,8 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Procedimentodeanalise persistentProcedimentodeanalise = em.find(Procedimentodeanalise.class, procedimentodeanalise.getId());
-            Medida medidaOld = persistentProcedimentodeanalise.getMedida();
-            Medida medidaNew = procedimentodeanalise.getMedida();
+            Indicador indicadoridOld = persistentProcedimentodeanalise.getIndicadorid();
+            Indicador indicadoridNew = procedimentodeanalise.getIndicadorid();
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListOld = persistentProcedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListNew = procedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<String> illegalOrphanMessages = null;
@@ -98,9 +98,9 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (medidaNew != null) {
-                medidaNew = em.getReference(medidaNew.getClass(), medidaNew.getMedidaPK());
-                procedimentodeanalise.setMedida(medidaNew);
+            if (indicadoridNew != null) {
+                indicadoridNew = em.getReference(indicadoridNew.getClass(), indicadoridNew.getId());
+                procedimentodeanalise.setIndicadorid(indicadoridNew);
             }
             List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseListNew = new ArrayList<Registroprocedimentoanalise>();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach : registroprocedimentoanaliseListNew) {
@@ -110,13 +110,13 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             registroprocedimentoanaliseListNew = attachedRegistroprocedimentoanaliseListNew;
             procedimentodeanalise.setRegistroprocedimentoanaliseList(registroprocedimentoanaliseListNew);
             procedimentodeanalise = em.merge(procedimentodeanalise);
-            if (medidaOld != null && !medidaOld.equals(medidaNew)) {
-                medidaOld.getProcedimentodeanaliseList().remove(procedimentodeanalise);
-                medidaOld = em.merge(medidaOld);
+            if (indicadoridOld != null && !indicadoridOld.equals(indicadoridNew)) {
+                indicadoridOld.getProcedimentodeanaliseList().remove(procedimentodeanalise);
+                indicadoridOld = em.merge(indicadoridOld);
             }
-            if (medidaNew != null && !medidaNew.equals(medidaOld)) {
-                medidaNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
-                medidaNew = em.merge(medidaNew);
+            if (indicadoridNew != null && !indicadoridNew.equals(indicadoridOld)) {
+                indicadoridNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
+                indicadoridNew = em.merge(indicadoridNew);
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanalise : registroprocedimentoanaliseListNew) {
                 if (!registroprocedimentoanaliseListOld.contains(registroprocedimentoanaliseListNewRegistroprocedimentoanalise)) {
@@ -169,10 +169,10 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Medida medida = procedimentodeanalise.getMedida();
-            if (medida != null) {
-                medida.getProcedimentodeanaliseList().remove(procedimentodeanalise);
-                medida = em.merge(medida);
+            Indicador indicadorid = procedimentodeanalise.getIndicadorid();
+            if (indicadorid != null) {
+                indicadorid.getProcedimentodeanaliseList().remove(procedimentodeanalise);
+                indicadorid = em.merge(indicadorid);
             }
             em.remove(procedimentodeanalise);
             em.getTransaction().commit();

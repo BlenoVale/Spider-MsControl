@@ -75,12 +75,15 @@ public class AcessaPK implements Serializable {
             return false;
         }
         AcessaPK other = (AcessaPK) object;
-        if (this.projetoid != other.projetoid)
+        if (this.projetoid != other.projetoid) {
             return false;
-        if (this.usuarioid != other.usuarioid)
+        }
+        if (this.usuarioid != other.usuarioid) {
             return false;
-        if (this.perfilid != other.perfilid)
+        }
+        if (this.perfilid != other.perfilid) {
             return false;
+        }
         return true;
     }
 

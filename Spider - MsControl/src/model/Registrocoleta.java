@@ -136,8 +136,9 @@ public class Registrocoleta implements Serializable {
             return false;
         }
         Registrocoleta other = (Registrocoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

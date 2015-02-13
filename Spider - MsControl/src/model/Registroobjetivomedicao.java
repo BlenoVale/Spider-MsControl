@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -36,7 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Registroobjetivomedicao.findById", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.id = :id"),
     @NamedQuery(name = "Registroobjetivomedicao.findByTipo", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroobjetivomedicao.findByNomeUsuario", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.nomeUsuario = :nomeUsuario"),
-    @NamedQuery(name = "Registroobjetivomedicao.findByData", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.data = :data")})
+    @NamedQuery(name = "Registroobjetivomedicao.findByData", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.data = :data"),
+    @NamedQuery(name = "Registroobjetivomedicao.findByObjetivoDeMedicaoid", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.objetivoDeMedicaoid = :objetivoDeMedicaoid"),
+    @NamedQuery(name = "Registroobjetivomedicao.findByObjetivoDeMedicaoProjetoid", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.objetivoDeMedicaoProjetoid = :objetivoDeMedicaoProjetoid")})
 public class Registroobjetivomedicao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,11 +58,15 @@ public class Registroobjetivomedicao implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumns({
-        @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id"),
-        @JoinColumn(name = "ObjetivoDeMedicao_Projeto_id", referencedColumnName = "Projeto_id")})
+    @Basic(optional = false)
+    @Column(name = "ObjetivoDeMedicao_id")
+    private int objetivoDeMedicaoid;
+    @Basic(optional = false)
+    @Column(name = "ObjetivoDeMedicao_Projeto_id")
+    private int objetivoDeMedicaoProjetoid;
+    @JoinColumn(name = "ObjetivoDeMedicao_id1", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Objetivodemedicao objetivodemedicao;
+    private Objetivodemedicao objetivoDeMedicaoid1;
 
     public Registroobjetivomedicao() {
     }
@@ -70,11 +75,13 @@ public class Registroobjetivomedicao implements Serializable {
         this.id = id;
     }
 
-    public Registroobjetivomedicao(Integer id, int tipo, String nomeUsuario, Date data) {
+    public Registroobjetivomedicao(Integer id, int tipo, String nomeUsuario, Date data, int objetivoDeMedicaoid, int objetivoDeMedicaoProjetoid) {
         this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
+        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
+        this.objetivoDeMedicaoProjetoid = objetivoDeMedicaoProjetoid;
     }
 
     public Integer getId() {
@@ -117,12 +124,28 @@ public class Registroobjetivomedicao implements Serializable {
         this.data = data;
     }
 
-    public Objetivodemedicao getObjetivodemedicao() {
-        return objetivodemedicao;
+    public int getObjetivoDeMedicaoid() {
+        return objetivoDeMedicaoid;
     }
 
-    public void setObjetivodemedicao(Objetivodemedicao objetivodemedicao) {
-        this.objetivodemedicao = objetivodemedicao;
+    public void setObjetivoDeMedicaoid(int objetivoDeMedicaoid) {
+        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
+    }
+
+    public int getObjetivoDeMedicaoProjetoid() {
+        return objetivoDeMedicaoProjetoid;
+    }
+
+    public void setObjetivoDeMedicaoProjetoid(int objetivoDeMedicaoProjetoid) {
+        this.objetivoDeMedicaoProjetoid = objetivoDeMedicaoProjetoid;
+    }
+
+    public Objetivodemedicao getObjetivoDeMedicaoid1() {
+        return objetivoDeMedicaoid1;
+    }
+
+    public void setObjetivoDeMedicaoid1(Objetivodemedicao objetivoDeMedicaoid1) {
+        this.objetivoDeMedicaoid1 = objetivoDeMedicaoid1;
     }
 
     @Override
@@ -139,8 +162,9 @@ public class Registroobjetivomedicao implements Serializable {
             return false;
         }
         Registroobjetivomedicao other = (Registroobjetivomedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

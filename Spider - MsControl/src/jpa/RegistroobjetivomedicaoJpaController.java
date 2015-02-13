@@ -37,15 +37,15 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Objetivodemedicao objetivodemedicao = registroobjetivomedicao.getObjetivodemedicao();
-            if (objetivodemedicao != null) {
-                objetivodemedicao = em.getReference(objetivodemedicao.getClass(), objetivodemedicao.getObjetivodemedicaoPK());
-                registroobjetivomedicao.setObjetivodemedicao(objetivodemedicao);
+            Objetivodemedicao objetivoDeMedicaoid1 = registroobjetivomedicao.getObjetivoDeMedicaoid1();
+            if (objetivoDeMedicaoid1 != null) {
+                objetivoDeMedicaoid1 = em.getReference(objetivoDeMedicaoid1.getClass(), objetivoDeMedicaoid1.getId());
+                registroobjetivomedicao.setObjetivoDeMedicaoid1(objetivoDeMedicaoid1);
             }
             em.persist(registroobjetivomedicao);
-            if (objetivodemedicao != null) {
-                objetivodemedicao.getRegistroobjetivomedicaoList().add(registroobjetivomedicao);
-                objetivodemedicao = em.merge(objetivodemedicao);
+            if (objetivoDeMedicaoid1 != null) {
+                objetivoDeMedicaoid1.getRegistroobjetivomedicaoList().add(registroobjetivomedicao);
+                objetivoDeMedicaoid1 = em.merge(objetivoDeMedicaoid1);
             }
             em.getTransaction().commit();
         } finally {
@@ -61,20 +61,20 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Registroobjetivomedicao persistentRegistroobjetivomedicao = em.find(Registroobjetivomedicao.class, registroobjetivomedicao.getId());
-            Objetivodemedicao objetivodemedicaoOld = persistentRegistroobjetivomedicao.getObjetivodemedicao();
-            Objetivodemedicao objetivodemedicaoNew = registroobjetivomedicao.getObjetivodemedicao();
-            if (objetivodemedicaoNew != null) {
-                objetivodemedicaoNew = em.getReference(objetivodemedicaoNew.getClass(), objetivodemedicaoNew.getObjetivodemedicaoPK());
-                registroobjetivomedicao.setObjetivodemedicao(objetivodemedicaoNew);
+            Objetivodemedicao objetivoDeMedicaoid1Old = persistentRegistroobjetivomedicao.getObjetivoDeMedicaoid1();
+            Objetivodemedicao objetivoDeMedicaoid1New = registroobjetivomedicao.getObjetivoDeMedicaoid1();
+            if (objetivoDeMedicaoid1New != null) {
+                objetivoDeMedicaoid1New = em.getReference(objetivoDeMedicaoid1New.getClass(), objetivoDeMedicaoid1New.getId());
+                registroobjetivomedicao.setObjetivoDeMedicaoid1(objetivoDeMedicaoid1New);
             }
             registroobjetivomedicao = em.merge(registroobjetivomedicao);
-            if (objetivodemedicaoOld != null && !objetivodemedicaoOld.equals(objetivodemedicaoNew)) {
-                objetivodemedicaoOld.getRegistroobjetivomedicaoList().remove(registroobjetivomedicao);
-                objetivodemedicaoOld = em.merge(objetivodemedicaoOld);
+            if (objetivoDeMedicaoid1Old != null && !objetivoDeMedicaoid1Old.equals(objetivoDeMedicaoid1New)) {
+                objetivoDeMedicaoid1Old.getRegistroobjetivomedicaoList().remove(registroobjetivomedicao);
+                objetivoDeMedicaoid1Old = em.merge(objetivoDeMedicaoid1Old);
             }
-            if (objetivodemedicaoNew != null && !objetivodemedicaoNew.equals(objetivodemedicaoOld)) {
-                objetivodemedicaoNew.getRegistroobjetivomedicaoList().add(registroobjetivomedicao);
-                objetivodemedicaoNew = em.merge(objetivodemedicaoNew);
+            if (objetivoDeMedicaoid1New != null && !objetivoDeMedicaoid1New.equals(objetivoDeMedicaoid1Old)) {
+                objetivoDeMedicaoid1New.getRegistroobjetivomedicaoList().add(registroobjetivomedicao);
+                objetivoDeMedicaoid1New = em.merge(objetivoDeMedicaoid1New);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -105,10 +105,10 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroobjetivomedicao with id " + id + " no longer exists.", enfe);
             }
-            Objetivodemedicao objetivodemedicao = registroobjetivomedicao.getObjetivodemedicao();
-            if (objetivodemedicao != null) {
-                objetivodemedicao.getRegistroobjetivomedicaoList().remove(registroobjetivomedicao);
-                objetivodemedicao = em.merge(objetivodemedicao);
+            Objetivodemedicao objetivoDeMedicaoid1 = registroobjetivomedicao.getObjetivoDeMedicaoid1();
+            if (objetivoDeMedicaoid1 != null) {
+                objetivoDeMedicaoid1.getRegistroobjetivomedicaoList().remove(registroobjetivomedicao);
+                objetivoDeMedicaoid1 = em.merge(objetivoDeMedicaoid1);
             }
             em.remove(registroobjetivomedicao);
             em.getTransaction().commit();

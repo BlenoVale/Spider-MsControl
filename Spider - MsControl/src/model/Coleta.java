@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,12 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
     @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
-    @NamedQuery(name = "Coleta.findByVersao", query = "SELECT c FROM Coleta c WHERE c.versao = :versao"),
     @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
     @NamedQuery(name = "Coleta.findByComposicao", query = "SELECT c FROM Coleta c WHERE c.composicao = :composicao"),
     @NamedQuery(name = "Coleta.findByTipoDeColeta", query = "SELECT c FROM Coleta c WHERE c.tipoDeColeta = :tipoDeColeta"),
-    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao"),
-    @NamedQuery(name = "Coleta.findByTipoComposicao", query = "SELECT c FROM Coleta c WHERE c.tipoComposicao = :tipoComposicao")})
+    @NamedQuery(name = "Coleta.findByTipoComposicao", query = "SELECT c FROM Coleta c WHERE c.tipoComposicao = :tipoComposicao"),
+    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao")})
 public class Coleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,24 +48,23 @@ public class Coleta implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "versao")
-    private String versao;
+    @Basic(optional = false)
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
+    @Basic(optional = false)
     @Column(name = "composicao")
     private String composicao;
     @Column(name = "tipoDeColeta")
     private String tipoDeColeta;
-    @Column(name = "observacao")
-    private String observacao;
+    @Basic(optional = false)
     @Column(name = "tipoComposicao")
     private String tipoComposicao;
-    @JoinColumns({
-        @JoinColumn(name = "Medida_id", referencedColumnName = "id"),
-        @JoinColumn(name = "Medida_Projeto_id", referencedColumnName = "Projeto_id")})
+    @Column(name = "observacao")
+    private String observacao;
+    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Medida medida;
+    private Medida medidaid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coletaid")
     private List<Registrocoleta> registrocoletaList;
 
@@ -78,20 +75,19 @@ public class Coleta implements Serializable {
         this.id = id;
     }
 
+    public Coleta(Integer id, Date data, String composicao, String tipoComposicao) {
+        this.id = id;
+        this.data = data;
+        this.composicao = composicao;
+        this.tipoComposicao = tipoComposicao;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getVersao() {
-        return versao;
-    }
-
-    public void setVersao(String versao) {
-        this.versao = versao;
     }
 
     public Date getData() {
@@ -118,14 +114,6 @@ public class Coleta implements Serializable {
         this.tipoDeColeta = tipoDeColeta;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
     public String getTipoComposicao() {
         return tipoComposicao;
     }
@@ -134,12 +122,20 @@ public class Coleta implements Serializable {
         this.tipoComposicao = tipoComposicao;
     }
 
-    public Medida getMedida() {
-        return medida;
+    public String getObservacao() {
+        return observacao;
     }
 
-    public void setMedida(Medida medida) {
-        this.medida = medida;
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Medida getMedidaid() {
+        return medidaid;
+    }
+
+    public void setMedidaid(Medida medidaid) {
+        this.medidaid = medidaid;
     }
 
     @XmlTransient
@@ -165,8 +161,9 @@ public class Coleta implements Serializable {
             return false;
         }
         Coleta other = (Coleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
