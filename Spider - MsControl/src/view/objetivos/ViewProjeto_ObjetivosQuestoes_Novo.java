@@ -68,8 +68,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
     private void preencherCampos() {
         jTextFieldNomeQuestao.setText(objetivo_questao.getNome());
-//        jTextFieldNomeIndicador.setText(objetivo_questao.getIndicador());
-//        jTextAreaDescricaoIndicador.setText(objetivo_questao.getDescricaoIndicador());
+        dateFieldDataDeLevantamento.setValue(objetivo_questao.getDataLevantamento());
 
         selecionarRadio();
 
@@ -151,14 +150,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             mensagem = "Campo \"Nome do Levantador\" não pode ser vazio.";
             cont++;
         }
-        if (jTextFieldNomeIndicador.getText().isEmpty()) {
-            mensagem = "Campo \"Nome do Indicador\" não pode ser vazio.";
-            cont++;
-        }
-        if (jTextAreaDescricaoIndicador.getText().isEmpty()) {
-            mensagem = "Campo \"Descrição do Indicador\" não pode ser vazio.";
-            cont++;
-        }
         if (getTipoDeVariacao() == null) {
             mensagem = "É necessário selecionar um \"Tipo de variação\".";
             cont++;
@@ -190,11 +181,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabelNomeUsuario = new javax.swing.JLabel();
         jTextFieldNomeQuestao = new javax.swing.JTextField();
         jTextFieldPontoDeVista = new javax.swing.JTextField();
-        jScrollPaneDescricaoIndicador = new javax.swing.JScrollPane();
-        jTextAreaDescricaoIndicador = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextFieldNomeIndicador = new javax.swing.JTextField();
         jPanelTipoDeVariacao = new javax.swing.JPanel();
         jRadioButtonObjetivoDeNegocio = new javax.swing.JRadioButton();
         jRadioButtonLegislacao = new javax.swing.JRadioButton();
@@ -211,6 +197,8 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabelCadastradoPor = new javax.swing.JLabel();
         jTextFieldUltimaEdicao = new javax.swing.JTextField();
         jLabelUltimaEdicao = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        dateFieldDataDeLevantamento = new net.sf.nachocalendar.components.DateField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de nova Necessidade de informação");
@@ -219,16 +207,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabel1.setText("Necessidade de informação:");
 
         jLabelNomeUsuario.setText("Ponto de Vista:");
-
-        jTextAreaDescricaoIndicador.setColumns(20);
-        jTextAreaDescricaoIndicador.setLineWrap(true);
-        jTextAreaDescricaoIndicador.setRows(3);
-        jTextAreaDescricaoIndicador.setWrapStyleWord(true);
-        jScrollPaneDescricaoIndicador.setViewportView(jTextAreaDescricaoIndicador);
-
-        jLabel4.setText("Descrição do Indicador:");
-
-        jLabel3.setText("Indicador: ");
 
         jPanelTipoDeVariacao.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tipo de variação"));
 
@@ -303,41 +281,45 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
+        jLabel2.setText("Data de levantamento");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanelTipoDeVariacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabelNomeUsuario)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabelCadastradoPor)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabelUltimaEdicao)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneObservacao)
+                    .addComponent(jTextFieldUltimaEdicao)
+                    .addComponent(jTextFieldCadastradoPor)
+                    .addComponent(jTextFieldNomeQuestao)
+                    .addComponent(jTextFieldPontoDeVista)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabelNomeUsuario)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabelCadastradoPor)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabelUltimaEdicao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldNomeQuestao, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldPontoDeVista, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldNomeIndicador, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPaneDescricaoIndicador, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPaneObservacao, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButtonSalvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jComboBoxObjRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 240, Short.MAX_VALUE)))))
+                            .addComponent(jComboBoxObjRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateFieldDataDeLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(442, Short.MAX_VALUE)
+                .addComponent(jButtonSalvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanelTipoDeVariacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,10 +332,10 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNomeUsuario)
                     .addComponent(jTextFieldPontoDeVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldNomeIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(dateFieldDataDeLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -362,11 +344,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelUltimaEdicao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPaneDescricaoIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelTipoDeVariacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -392,14 +370,14 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -413,8 +391,6 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         objetivo_questao.setNome(jTextFieldNomeQuestao.getText());
         objetivo_questao.setPontoDeVista(jTextFieldPontoDeVista.getText());
-//        objetivo_questao.setIndicador(jTextFieldNomeIndicador.getText());
-//        objetivo_questao.setDescricaoIndicador(jTextAreaDescricaoIndicador.getText());
         objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
         objetivo_questao.setObservacao(jTextAreaObservacao.getText());
 
@@ -425,16 +401,15 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         boolean feito = false;
         if (ehNovaQuestao) {
             // verifica se já existe Questão com o mesmo nome
-            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), 0)) { // ZERO SOH PRA FUNFAR
-                //objetivo_questao.setPrioridade(ctrlObjetivos.getQuestoesDoProjeto(projeto_selecionado.getId()).size() + 1);
-                objetivo_questao.setDataLevantamento(new Date());
+            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId())) {
+                objetivo_questao.setDataLevantamento((Date) dateFieldDataDeLevantamento.getValue());
                 feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
 
                 ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.CADASTRO);
             }
         } else {
             // verifica se já existe Questão com o mesmo nome
-            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId(), 0)) {// ZERO SOH PRA FUNFAR
+            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId())) {
                 feito = ctrlObjetivos.editarQuestao(objetivo_questao);
 
                 ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.EDICAO);
@@ -453,12 +428,12 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupTipoDeVariacao;
+    private net.sf.nachocalendar.components.DateField dateFieldDataDeLevantamento;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxObjRelacionado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelCadastradoPor;
@@ -471,12 +446,9 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButtonObjetivoDeProcesso;
     private javax.swing.JRadioButton jRadioButtonObjetivoDeProduto;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPaneDescricaoIndicador;
     private javax.swing.JScrollPane jScrollPaneObservacao;
-    private javax.swing.JTextArea jTextAreaDescricaoIndicador;
     private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextFieldCadastradoPor;
-    private javax.swing.JTextField jTextFieldNomeIndicador;
     private javax.swing.JTextField jTextFieldNomeQuestao;
     private javax.swing.JTextField jTextFieldPontoDeVista;
     private javax.swing.JTextField jTextFieldUltimaEdicao;

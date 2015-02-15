@@ -22,7 +22,7 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
         try {
             Objetivodemedicao objetivodemedicao = null;
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome AND o.objetivodemedicaoPK.projetoid = :idProjeto");
+            Query query = entityManager.createQuery("SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome AND o.projetoid.id = :idProjeto");
             query.setParameter("nome", nomeObjMedicao);
             query.setParameter("idProjeto", idProjeto);
             objetivodemedicao = (Objetivodemedicao) query.getSingleResult();
@@ -37,7 +37,7 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
 
         
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicao u WHERE u.objetivodemedicaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
+            Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicao u WHERE u.projetoid.id = :idProjeto ORDER BY u.nome ASC");
             query.setParameter("idProjeto", idProjeto);
             listObjetivoMedicao = query.getResultList();
 
@@ -49,8 +49,7 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
         List<Objetivodemedicao> listobObjetivoMedicao = null;
 
         EntityManager entityManager = super.getEntityManager();
-        Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicao u WHERE"
-                + " u.nome LIKE :nome AND u.objetivodemedicaoPK.projetoid = :idProjeto ORDER BY u.nome ASC");
+        Query query = entityManager.createQuery("SELECT u FROM Objetivodemedicao u WHERE u.nome LIKE :nome AND u.projetoid.id = :idProjeto ORDER BY u.nome ASC");
         query.setParameter("nome", nome + "%");
         query.setParameter("idProjeto", idProjeto);
 
@@ -69,7 +68,7 @@ public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
     public void excluirObjetivo(String nomeObjetivo, int idProjeto){
        
         EntityManager entityManager = super.getEntityManager();
-        Query query = entityManager.createQuery("DELETE FROM Objetivodemedicao u WHERE u.nome = :nome AND u.objetivodemedicaoPK.projetoid = :idProjeto");
+        Query query = entityManager.createQuery("DELETE FROM Objetivodemedicao u WHERE u.nome = :nome AND u.projetoid.id = :idProjeto");
         query.setParameter("nome", nomeObjetivo);
         query.setParameter("idProjeto", idProjeto);
         query.getSingleResult();

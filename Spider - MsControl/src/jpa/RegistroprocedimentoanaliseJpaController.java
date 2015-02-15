@@ -19,7 +19,7 @@ import model.Registroprocedimentoanalise;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 public class RegistroprocedimentoanaliseJpaController implements Serializable {
 

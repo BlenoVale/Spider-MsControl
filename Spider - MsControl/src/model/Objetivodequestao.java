@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -38,9 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Objetivodequestao.findAll", query = "SELECT o FROM Objetivodequestao o"),
     @NamedQuery(name = "Objetivodequestao.findById", query = "SELECT o FROM Objetivodequestao o WHERE o.id = :id"),
     @NamedQuery(name = "Objetivodequestao.findByNome", query = "SELECT o FROM Objetivodequestao o WHERE o.nome = :nome"),
+    @NamedQuery(name = "Objetivodequestao.findByPontoDeVista", query = "SELECT o FROM Objetivodequestao o WHERE o.pontoDeVista = :pontoDeVista"),
     @NamedQuery(name = "Objetivodequestao.findByTipoDeDerivacao", query = "SELECT o FROM Objetivodequestao o WHERE o.tipoDeDerivacao = :tipoDeDerivacao"),
-    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento"),
-    @NamedQuery(name = "Objetivodequestao.findByPontoDeVista", query = "SELECT o FROM Objetivodequestao o WHERE o.pontoDeVista = :pontoDeVista")})
+    @NamedQuery(name = "Objetivodequestao.findByDataLevantamento", query = "SELECT o FROM Objetivodequestao o WHERE o.dataLevantamento = :dataLevantamento")})
 public class Objetivodequestao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,6 +52,9 @@ public class Objetivodequestao implements Serializable {
     @Column(name = "nome")
     private String nome;
     @Basic(optional = false)
+    @Column(name = "pontoDeVista")
+    private String pontoDeVista;
+    @Basic(optional = false)
     @Column(name = "tipoDeDerivacao")
     private String tipoDeDerivacao;
     @Basic(optional = false)
@@ -61,18 +64,13 @@ public class Objetivodequestao implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @Basic(optional = false)
-    @Column(name = "pontoDeVista")
-    private String pontoDeVista;
-    @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Objetivodemedicao objetivoDeMedicaoid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid")
     private List<Registroobjetivoquestao> registroobjetivoquestaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid")
     private List<Indicador> indicadorList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivodequestao")
-    private List<MedicaoHasQuestao> medicaoHasQuestaoList;
+    @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Objetivodemedicao objetivoDeMedicaoid;
 
     public Objetivodequestao() {
     }
@@ -81,12 +79,12 @@ public class Objetivodequestao implements Serializable {
         this.id = id;
     }
 
-    public Objetivodequestao(Integer id, String nome, String tipoDeDerivacao, Date dataLevantamento, String pontoDeVista) {
+    public Objetivodequestao(Integer id, String nome, String pontoDeVista, String tipoDeDerivacao, Date dataLevantamento) {
         this.id = id;
         this.nome = nome;
+        this.pontoDeVista = pontoDeVista;
         this.tipoDeDerivacao = tipoDeDerivacao;
         this.dataLevantamento = dataLevantamento;
-        this.pontoDeVista = pontoDeVista;
     }
 
     public Integer getId() {
@@ -103,6 +101,14 @@ public class Objetivodequestao implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getPontoDeVista() {
+        return pontoDeVista;
+    }
+
+    public void setPontoDeVista(String pontoDeVista) {
+        this.pontoDeVista = pontoDeVista;
     }
 
     public String getTipoDeDerivacao() {
@@ -129,22 +135,6 @@ public class Objetivodequestao implements Serializable {
         this.observacao = observacao;
     }
 
-    public String getPontoDeVista() {
-        return pontoDeVista;
-    }
-
-    public void setPontoDeVista(String pontoDeVista) {
-        this.pontoDeVista = pontoDeVista;
-    }
-
-    public Objetivodemedicao getObjetivoDeMedicaoid() {
-        return objetivoDeMedicaoid;
-    }
-
-    public void setObjetivoDeMedicaoid(Objetivodemedicao objetivoDeMedicaoid) {
-        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
-    }
-
     @XmlTransient
     public List<Registroobjetivoquestao> getRegistroobjetivoquestaoList() {
         return registroobjetivoquestaoList;
@@ -163,13 +153,12 @@ public class Objetivodequestao implements Serializable {
         this.indicadorList = indicadorList;
     }
 
-    @XmlTransient
-    public List<MedicaoHasQuestao> getMedicaoHasQuestaoList() {
-        return medicaoHasQuestaoList;
+    public Objetivodemedicao getObjetivoDeMedicaoid() {
+        return objetivoDeMedicaoid;
     }
 
-    public void setMedicaoHasQuestaoList(List<MedicaoHasQuestao> medicaoHasQuestaoList) {
-        this.medicaoHasQuestaoList = medicaoHasQuestaoList;
+    public void setObjetivoDeMedicaoid(Objetivodemedicao objetivoDeMedicaoid) {
+        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
     }
 
     @Override
@@ -186,8 +175,9 @@ public class Objetivodequestao implements Serializable {
             return false;
         }
         Objetivodequestao other = (Objetivodequestao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

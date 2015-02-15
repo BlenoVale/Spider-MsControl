@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "registroobjetivomedicao")
@@ -35,9 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Registroobjetivomedicao.findById", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.id = :id"),
     @NamedQuery(name = "Registroobjetivomedicao.findByTipo", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo"),
     @NamedQuery(name = "Registroobjetivomedicao.findByNomeUsuario", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.nomeUsuario = :nomeUsuario"),
-    @NamedQuery(name = "Registroobjetivomedicao.findByData", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.data = :data"),
-    @NamedQuery(name = "Registroobjetivomedicao.findByObjetivoDeMedicaoid", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.objetivoDeMedicaoid = :objetivoDeMedicaoid"),
-    @NamedQuery(name = "Registroobjetivomedicao.findByObjetivoDeMedicaoProjetoid", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.objetivoDeMedicaoProjetoid = :objetivoDeMedicaoProjetoid")})
+    @NamedQuery(name = "Registroobjetivomedicao.findByData", query = "SELECT r FROM Registroobjetivomedicao r WHERE r.data = :data")})
 public class Registroobjetivomedicao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,15 +56,9 @@ public class Registroobjetivomedicao implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @Basic(optional = false)
-    @Column(name = "ObjetivoDeMedicao_id")
-    private int objetivoDeMedicaoid;
-    @Basic(optional = false)
-    @Column(name = "ObjetivoDeMedicao_Projeto_id")
-    private int objetivoDeMedicaoProjetoid;
-    @JoinColumn(name = "ObjetivoDeMedicao_id1", referencedColumnName = "id")
+    @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Objetivodemedicao objetivoDeMedicaoid1;
+    private Objetivodemedicao objetivoDeMedicaoid;
 
     public Registroobjetivomedicao() {
     }
@@ -75,13 +67,11 @@ public class Registroobjetivomedicao implements Serializable {
         this.id = id;
     }
 
-    public Registroobjetivomedicao(Integer id, int tipo, String nomeUsuario, Date data, int objetivoDeMedicaoid, int objetivoDeMedicaoProjetoid) {
+    public Registroobjetivomedicao(Integer id, int tipo, String nomeUsuario, Date data) {
         this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
-        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
-        this.objetivoDeMedicaoProjetoid = objetivoDeMedicaoProjetoid;
     }
 
     public Integer getId() {
@@ -124,28 +114,12 @@ public class Registroobjetivomedicao implements Serializable {
         this.data = data;
     }
 
-    public int getObjetivoDeMedicaoid() {
+    public Objetivodemedicao getObjetivoDeMedicaoid() {
         return objetivoDeMedicaoid;
     }
 
-    public void setObjetivoDeMedicaoid(int objetivoDeMedicaoid) {
+    public void setObjetivoDeMedicaoid(Objetivodemedicao objetivoDeMedicaoid) {
         this.objetivoDeMedicaoid = objetivoDeMedicaoid;
-    }
-
-    public int getObjetivoDeMedicaoProjetoid() {
-        return objetivoDeMedicaoProjetoid;
-    }
-
-    public void setObjetivoDeMedicaoProjetoid(int objetivoDeMedicaoProjetoid) {
-        this.objetivoDeMedicaoProjetoid = objetivoDeMedicaoProjetoid;
-    }
-
-    public Objetivodemedicao getObjetivoDeMedicaoid1() {
-        return objetivoDeMedicaoid1;
-    }
-
-    public void setObjetivoDeMedicaoid1(Objetivodemedicao objetivoDeMedicaoid1) {
-        this.objetivoDeMedicaoid1 = objetivoDeMedicaoid1;
     }
 
     @Override
@@ -162,8 +136,9 @@ public class Registroobjetivomedicao implements Serializable {
             return false;
         }
         Registroobjetivomedicao other = (Registroobjetivomedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

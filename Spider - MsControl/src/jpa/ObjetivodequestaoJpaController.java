@@ -19,12 +19,11 @@ import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Indicador;
-import model.MedicaoHasQuestao;
 import model.Objetivodequestao;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 public class ObjetivodequestaoJpaController implements Serializable {
 
@@ -43,9 +42,6 @@ public class ObjetivodequestaoJpaController implements Serializable {
         }
         if (objetivodequestao.getIndicadorList() == null) {
             objetivodequestao.setIndicadorList(new ArrayList<Indicador>());
-        }
-        if (objetivodequestao.getMedicaoHasQuestaoList() == null) {
-            objetivodequestao.setMedicaoHasQuestaoList(new ArrayList<MedicaoHasQuestao>());
         }
         EntityManager em = null;
         try {
@@ -68,24 +64,18 @@ public class ObjetivodequestaoJpaController implements Serializable {
                 attachedIndicadorList.add(indicadorListIndicadorToAttach);
             }
             objetivodequestao.setIndicadorList(attachedIndicadorList);
-            List<MedicaoHasQuestao> attachedMedicaoHasQuestaoList = new ArrayList<MedicaoHasQuestao>();
-            for (MedicaoHasQuestao medicaoHasQuestaoListMedicaoHasQuestaoToAttach : objetivodequestao.getMedicaoHasQuestaoList()) {
-                medicaoHasQuestaoListMedicaoHasQuestaoToAttach = em.getReference(medicaoHasQuestaoListMedicaoHasQuestaoToAttach.getClass(), medicaoHasQuestaoListMedicaoHasQuestaoToAttach.getMedicaoHasQuestaoPK());
-                attachedMedicaoHasQuestaoList.add(medicaoHasQuestaoListMedicaoHasQuestaoToAttach);
-            }
-            objetivodequestao.setMedicaoHasQuestaoList(attachedMedicaoHasQuestaoList);
             em.persist(objetivodequestao);
             if (objetivoDeMedicaoid != null) {
                 objetivoDeMedicaoid.getObjetivodequestaoList().add(objetivodequestao);
                 objetivoDeMedicaoid = em.merge(objetivoDeMedicaoid);
             }
             for (Registroobjetivoquestao registroobjetivoquestaoListRegistroobjetivoquestao : objetivodequestao.getRegistroobjetivoquestaoList()) {
-                Objetivodequestao oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao = registroobjetivoquestaoListRegistroobjetivoquestao.getObjetivoDeQuestaoid1();
-                registroobjetivoquestaoListRegistroobjetivoquestao.setObjetivoDeQuestaoid1(objetivodequestao);
+                Objetivodequestao oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao = registroobjetivoquestaoListRegistroobjetivoquestao.getObjetivoDeQuestaoid();
+                registroobjetivoquestaoListRegistroobjetivoquestao.setObjetivoDeQuestaoid(objetivodequestao);
                 registroobjetivoquestaoListRegistroobjetivoquestao = em.merge(registroobjetivoquestaoListRegistroobjetivoquestao);
-                if (oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao != null) {
-                    oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListRegistroobjetivoquestao);
-                    oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListRegistroobjetivoquestao);
+                if (oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao != null) {
+                    oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListRegistroobjetivoquestao);
+                    oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListRegistroobjetivoquestao);
                 }
             }
             for (Indicador indicadorListIndicador : objetivodequestao.getIndicadorList()) {
@@ -95,15 +85,6 @@ public class ObjetivodequestaoJpaController implements Serializable {
                 if (oldObjetivoDeQuestaoidOfIndicadorListIndicador != null) {
                     oldObjetivoDeQuestaoidOfIndicadorListIndicador.getIndicadorList().remove(indicadorListIndicador);
                     oldObjetivoDeQuestaoidOfIndicadorListIndicador = em.merge(oldObjetivoDeQuestaoidOfIndicadorListIndicador);
-                }
-            }
-            for (MedicaoHasQuestao medicaoHasQuestaoListMedicaoHasQuestao : objetivodequestao.getMedicaoHasQuestaoList()) {
-                Objetivodequestao oldObjetivodequestaoOfMedicaoHasQuestaoListMedicaoHasQuestao = medicaoHasQuestaoListMedicaoHasQuestao.getObjetivodequestao();
-                medicaoHasQuestaoListMedicaoHasQuestao.setObjetivodequestao(objetivodequestao);
-                medicaoHasQuestaoListMedicaoHasQuestao = em.merge(medicaoHasQuestaoListMedicaoHasQuestao);
-                if (oldObjetivodequestaoOfMedicaoHasQuestaoListMedicaoHasQuestao != null) {
-                    oldObjetivodequestaoOfMedicaoHasQuestaoListMedicaoHasQuestao.getMedicaoHasQuestaoList().remove(medicaoHasQuestaoListMedicaoHasQuestao);
-                    oldObjetivodequestaoOfMedicaoHasQuestaoListMedicaoHasQuestao = em.merge(oldObjetivodequestaoOfMedicaoHasQuestaoListMedicaoHasQuestao);
                 }
             }
             em.getTransaction().commit();
@@ -126,15 +107,13 @@ public class ObjetivodequestaoJpaController implements Serializable {
             List<Registroobjetivoquestao> registroobjetivoquestaoListNew = objetivodequestao.getRegistroobjetivoquestaoList();
             List<Indicador> indicadorListOld = persistentObjetivodequestao.getIndicadorList();
             List<Indicador> indicadorListNew = objetivodequestao.getIndicadorList();
-            List<MedicaoHasQuestao> medicaoHasQuestaoListOld = persistentObjetivodequestao.getMedicaoHasQuestaoList();
-            List<MedicaoHasQuestao> medicaoHasQuestaoListNew = objetivodequestao.getMedicaoHasQuestaoList();
             List<String> illegalOrphanMessages = null;
             for (Registroobjetivoquestao registroobjetivoquestaoListOldRegistroobjetivoquestao : registroobjetivoquestaoListOld) {
                 if (!registroobjetivoquestaoListNew.contains(registroobjetivoquestaoListOldRegistroobjetivoquestao)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Registroobjetivoquestao " + registroobjetivoquestaoListOldRegistroobjetivoquestao + " since its objetivoDeQuestaoid1 field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registroobjetivoquestao " + registroobjetivoquestaoListOldRegistroobjetivoquestao + " since its objetivoDeQuestaoid field is not nullable.");
                 }
             }
             for (Indicador indicadorListOldIndicador : indicadorListOld) {
@@ -143,14 +122,6 @@ public class ObjetivodequestaoJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Indicador " + indicadorListOldIndicador + " since its objetivoDeQuestaoid field is not nullable.");
-                }
-            }
-            for (MedicaoHasQuestao medicaoHasQuestaoListOldMedicaoHasQuestao : medicaoHasQuestaoListOld) {
-                if (!medicaoHasQuestaoListNew.contains(medicaoHasQuestaoListOldMedicaoHasQuestao)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain MedicaoHasQuestao " + medicaoHasQuestaoListOldMedicaoHasQuestao + " since its objetivodequestao field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -174,13 +145,6 @@ public class ObjetivodequestaoJpaController implements Serializable {
             }
             indicadorListNew = attachedIndicadorListNew;
             objetivodequestao.setIndicadorList(indicadorListNew);
-            List<MedicaoHasQuestao> attachedMedicaoHasQuestaoListNew = new ArrayList<MedicaoHasQuestao>();
-            for (MedicaoHasQuestao medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach : medicaoHasQuestaoListNew) {
-                medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach = em.getReference(medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach.getClass(), medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach.getMedicaoHasQuestaoPK());
-                attachedMedicaoHasQuestaoListNew.add(medicaoHasQuestaoListNewMedicaoHasQuestaoToAttach);
-            }
-            medicaoHasQuestaoListNew = attachedMedicaoHasQuestaoListNew;
-            objetivodequestao.setMedicaoHasQuestaoList(medicaoHasQuestaoListNew);
             objetivodequestao = em.merge(objetivodequestao);
             if (objetivoDeMedicaoidOld != null && !objetivoDeMedicaoidOld.equals(objetivoDeMedicaoidNew)) {
                 objetivoDeMedicaoidOld.getObjetivodequestaoList().remove(objetivodequestao);
@@ -192,12 +156,12 @@ public class ObjetivodequestaoJpaController implements Serializable {
             }
             for (Registroobjetivoquestao registroobjetivoquestaoListNewRegistroobjetivoquestao : registroobjetivoquestaoListNew) {
                 if (!registroobjetivoquestaoListOld.contains(registroobjetivoquestaoListNewRegistroobjetivoquestao)) {
-                    Objetivodequestao oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = registroobjetivoquestaoListNewRegistroobjetivoquestao.getObjetivoDeQuestaoid1();
-                    registroobjetivoquestaoListNewRegistroobjetivoquestao.setObjetivoDeQuestaoid1(objetivodequestao);
+                    Objetivodequestao oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = registroobjetivoquestaoListNewRegistroobjetivoquestao.getObjetivoDeQuestaoid();
+                    registroobjetivoquestaoListNewRegistroobjetivoquestao.setObjetivoDeQuestaoid(objetivodequestao);
                     registroobjetivoquestaoListNewRegistroobjetivoquestao = em.merge(registroobjetivoquestaoListNewRegistroobjetivoquestao);
-                    if (oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao != null && !oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.equals(objetivodequestao)) {
-                        oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListNewRegistroobjetivoquestao);
-                        oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoid1OfRegistroobjetivoquestaoListNewRegistroobjetivoquestao);
+                    if (oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao != null && !oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.equals(objetivodequestao)) {
+                        oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao.getRegistroobjetivoquestaoList().remove(registroobjetivoquestaoListNewRegistroobjetivoquestao);
+                        oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao = em.merge(oldObjetivoDeQuestaoidOfRegistroobjetivoquestaoListNewRegistroobjetivoquestao);
                     }
                 }
             }
@@ -209,17 +173,6 @@ public class ObjetivodequestaoJpaController implements Serializable {
                     if (oldObjetivoDeQuestaoidOfIndicadorListNewIndicador != null && !oldObjetivoDeQuestaoidOfIndicadorListNewIndicador.equals(objetivodequestao)) {
                         oldObjetivoDeQuestaoidOfIndicadorListNewIndicador.getIndicadorList().remove(indicadorListNewIndicador);
                         oldObjetivoDeQuestaoidOfIndicadorListNewIndicador = em.merge(oldObjetivoDeQuestaoidOfIndicadorListNewIndicador);
-                    }
-                }
-            }
-            for (MedicaoHasQuestao medicaoHasQuestaoListNewMedicaoHasQuestao : medicaoHasQuestaoListNew) {
-                if (!medicaoHasQuestaoListOld.contains(medicaoHasQuestaoListNewMedicaoHasQuestao)) {
-                    Objetivodequestao oldObjetivodequestaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao = medicaoHasQuestaoListNewMedicaoHasQuestao.getObjetivodequestao();
-                    medicaoHasQuestaoListNewMedicaoHasQuestao.setObjetivodequestao(objetivodequestao);
-                    medicaoHasQuestaoListNewMedicaoHasQuestao = em.merge(medicaoHasQuestaoListNewMedicaoHasQuestao);
-                    if (oldObjetivodequestaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao != null && !oldObjetivodequestaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao.equals(objetivodequestao)) {
-                        oldObjetivodequestaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao.getMedicaoHasQuestaoList().remove(medicaoHasQuestaoListNewMedicaoHasQuestao);
-                        oldObjetivodequestaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao = em.merge(oldObjetivodequestaoOfMedicaoHasQuestaoListNewMedicaoHasQuestao);
                     }
                 }
             }
@@ -258,7 +211,7 @@ public class ObjetivodequestaoJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the Registroobjetivoquestao " + registroobjetivoquestaoListOrphanCheckRegistroobjetivoquestao + " in its registroobjetivoquestaoList field has a non-nullable objetivoDeQuestaoid1 field.");
+                illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the Registroobjetivoquestao " + registroobjetivoquestaoListOrphanCheckRegistroobjetivoquestao + " in its registroobjetivoquestaoList field has a non-nullable objetivoDeQuestaoid field.");
             }
             List<Indicador> indicadorListOrphanCheck = objetivodequestao.getIndicadorList();
             for (Indicador indicadorListOrphanCheckIndicador : indicadorListOrphanCheck) {
@@ -266,13 +219,6 @@ public class ObjetivodequestaoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the Indicador " + indicadorListOrphanCheckIndicador + " in its indicadorList field has a non-nullable objetivoDeQuestaoid field.");
-            }
-            List<MedicaoHasQuestao> medicaoHasQuestaoListOrphanCheck = objetivodequestao.getMedicaoHasQuestaoList();
-            for (MedicaoHasQuestao medicaoHasQuestaoListOrphanCheckMedicaoHasQuestao : medicaoHasQuestaoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Objetivodequestao (" + objetivodequestao + ") cannot be destroyed since the MedicaoHasQuestao " + medicaoHasQuestaoListOrphanCheckMedicaoHasQuestao + " in its medicaoHasQuestaoList field has a non-nullable objetivodequestao field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

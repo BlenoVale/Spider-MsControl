@@ -19,7 +19,7 @@ import model.Registroobjetivoquestao;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 public class RegistroobjetivoquestaoJpaController implements Serializable {
 
@@ -37,15 +37,15 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Objetivodequestao objetivoDeQuestaoid1 = registroobjetivoquestao.getObjetivoDeQuestaoid1();
-            if (objetivoDeQuestaoid1 != null) {
-                objetivoDeQuestaoid1 = em.getReference(objetivoDeQuestaoid1.getClass(), objetivoDeQuestaoid1.getId());
-                registroobjetivoquestao.setObjetivoDeQuestaoid1(objetivoDeQuestaoid1);
+            Objetivodequestao objetivoDeQuestaoid = registroobjetivoquestao.getObjetivoDeQuestaoid();
+            if (objetivoDeQuestaoid != null) {
+                objetivoDeQuestaoid = em.getReference(objetivoDeQuestaoid.getClass(), objetivoDeQuestaoid.getId());
+                registroobjetivoquestao.setObjetivoDeQuestaoid(objetivoDeQuestaoid);
             }
             em.persist(registroobjetivoquestao);
-            if (objetivoDeQuestaoid1 != null) {
-                objetivoDeQuestaoid1.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
-                objetivoDeQuestaoid1 = em.merge(objetivoDeQuestaoid1);
+            if (objetivoDeQuestaoid != null) {
+                objetivoDeQuestaoid.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
+                objetivoDeQuestaoid = em.merge(objetivoDeQuestaoid);
             }
             em.getTransaction().commit();
         } finally {
@@ -61,20 +61,20 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Registroobjetivoquestao persistentRegistroobjetivoquestao = em.find(Registroobjetivoquestao.class, registroobjetivoquestao.getId());
-            Objetivodequestao objetivoDeQuestaoid1Old = persistentRegistroobjetivoquestao.getObjetivoDeQuestaoid1();
-            Objetivodequestao objetivoDeQuestaoid1New = registroobjetivoquestao.getObjetivoDeQuestaoid1();
-            if (objetivoDeQuestaoid1New != null) {
-                objetivoDeQuestaoid1New = em.getReference(objetivoDeQuestaoid1New.getClass(), objetivoDeQuestaoid1New.getId());
-                registroobjetivoquestao.setObjetivoDeQuestaoid1(objetivoDeQuestaoid1New);
+            Objetivodequestao objetivoDeQuestaoidOld = persistentRegistroobjetivoquestao.getObjetivoDeQuestaoid();
+            Objetivodequestao objetivoDeQuestaoidNew = registroobjetivoquestao.getObjetivoDeQuestaoid();
+            if (objetivoDeQuestaoidNew != null) {
+                objetivoDeQuestaoidNew = em.getReference(objetivoDeQuestaoidNew.getClass(), objetivoDeQuestaoidNew.getId());
+                registroobjetivoquestao.setObjetivoDeQuestaoid(objetivoDeQuestaoidNew);
             }
             registroobjetivoquestao = em.merge(registroobjetivoquestao);
-            if (objetivoDeQuestaoid1Old != null && !objetivoDeQuestaoid1Old.equals(objetivoDeQuestaoid1New)) {
-                objetivoDeQuestaoid1Old.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
-                objetivoDeQuestaoid1Old = em.merge(objetivoDeQuestaoid1Old);
+            if (objetivoDeQuestaoidOld != null && !objetivoDeQuestaoidOld.equals(objetivoDeQuestaoidNew)) {
+                objetivoDeQuestaoidOld.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
+                objetivoDeQuestaoidOld = em.merge(objetivoDeQuestaoidOld);
             }
-            if (objetivoDeQuestaoid1New != null && !objetivoDeQuestaoid1New.equals(objetivoDeQuestaoid1Old)) {
-                objetivoDeQuestaoid1New.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
-                objetivoDeQuestaoid1New = em.merge(objetivoDeQuestaoid1New);
+            if (objetivoDeQuestaoidNew != null && !objetivoDeQuestaoidNew.equals(objetivoDeQuestaoidOld)) {
+                objetivoDeQuestaoidNew.getRegistroobjetivoquestaoList().add(registroobjetivoquestao);
+                objetivoDeQuestaoidNew = em.merge(objetivoDeQuestaoidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -105,10 +105,10 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The registroobjetivoquestao with id " + id + " no longer exists.", enfe);
             }
-            Objetivodequestao objetivoDeQuestaoid1 = registroobjetivoquestao.getObjetivoDeQuestaoid1();
-            if (objetivoDeQuestaoid1 != null) {
-                objetivoDeQuestaoid1.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
-                objetivoDeQuestaoid1 = em.merge(objetivoDeQuestaoid1);
+            Objetivodequestao objetivoDeQuestaoid = registroobjetivoquestao.getObjetivoDeQuestaoid();
+            if (objetivoDeQuestaoid != null) {
+                objetivoDeQuestaoid.getRegistroobjetivoquestaoList().remove(registroobjetivoquestao);
+                objetivoDeQuestaoid = em.merge(objetivoDeQuestaoid);
             }
             em.remove(registroobjetivoquestao);
             em.getTransaction().commit();

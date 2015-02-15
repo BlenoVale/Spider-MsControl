@@ -76,41 +76,41 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
 
-    private void aumentarPrioridade() {
-        if (jTable.getSelectedRow() > 0) {
-            int linha_selecionada = jTable.getSelectedRow();
-            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
+//    private void aumentarPrioridade() {
+//        if (jTable.getSelectedRow() > 0) {
+//            int linha_selecionada = jTable.getSelectedRow();
+//            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
+//
+////            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada - 1, 0).toString()));
+////            lista_questoes.get(linha_selecionada - 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
+//
+//            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada - 1));
+//            lista_questoes.set(linha_selecionada - 1, questao_selecionada);
+//
+//            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
+//            jTable.addRowSelectionInterval(linha_selecionada - 1, linha_selecionada - 1);
+//        } else if (jTable.getSelectedRow() == -1) {
+//            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
+//        }
+//    }
 
-//            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada - 1, 0).toString()));
-//            lista_questoes.get(linha_selecionada - 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
-
-            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada - 1));
-            lista_questoes.set(linha_selecionada - 1, questao_selecionada);
-
-            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
-            jTable.addRowSelectionInterval(linha_selecionada - 1, linha_selecionada - 1);
-        } else if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
-        }
-    }
-
-    private void diminuirPrioridade() {
-        if (jTable.getSelectedRow() < lista_questoes.size() - 1 && jTable.getSelectedRow() != -1) {
-            int linha_selecionada = jTable.getSelectedRow();
-            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
-
-//            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada + 1, 0).toString()));
-//            lista_questoes.get(linha_selecionada + 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
-
-            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada + 1));
-            lista_questoes.set(linha_selecionada + 1, questao_selecionada);
-
-            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
-            jTable.addRowSelectionInterval(linha_selecionada + 1, linha_selecionada + 1);
-        } else if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
-        }
-    }
+//    private void diminuirPrioridade() {
+//        if (jTable.getSelectedRow() < lista_questoes.size() - 1 && jTable.getSelectedRow() != -1) {
+//            int linha_selecionada = jTable.getSelectedRow();
+//            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
+//
+////            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada + 1, 0).toString()));
+////            lista_questoes.get(linha_selecionada + 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
+//
+//            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada + 1));
+//            lista_questoes.set(linha_selecionada + 1, questao_selecionada);
+//
+//            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
+//            jTable.addRowSelectionInterval(linha_selecionada + 1, linha_selecionada + 1);
+//        } else if (jTable.getSelectedRow() == -1) {
+//            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
+//        }
+//    }
 
     private void excluirQuestao() {
         pegaQuestaoSelecionada();
@@ -131,11 +131,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonNovoObjetivo = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jButtonAumentar = new javax.swing.JButton();
-        jButtonDiminuir = new javax.swing.JButton();
-        jButtonResetar = new javax.swing.JButton();
-        jButtonConfirmar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -199,62 +194,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Prioridade"));
-
-        jButtonAumentar.setText("Aumentar");
-        jButtonAumentar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAumentarActionPerformed(evt);
-            }
-        });
-
-        jButtonDiminuir.setText("Diminuir");
-        jButtonDiminuir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDiminuirActionPerformed(evt);
-            }
-        });
-
-        jButtonResetar.setText("Resetar");
-        jButtonResetar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonResetarActionPerformed(evt);
-            }
-        });
-
-        jButtonConfirmar.setText("Confirmar");
-        jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonConfirmarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonAumentar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDiminuir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonResetar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonAumentar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDiminuir)
-                .addGap(27, 27, 27)
-                .addComponent(jButtonResetar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonConfirmar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -266,20 +205,16 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 292, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonEditar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonExcluir)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6))))
+                        .addComponent(jButtonEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonExcluir))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,11 +224,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonExcluir)
@@ -353,29 +284,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
-    private void jButtonAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAumentarActionPerformed
-        aumentarPrioridade();
-    }//GEN-LAST:event_jButtonAumentarActionPerformed
-
-    private void jButtonDiminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiminuirActionPerformed
-        diminuirPrioridade();
-    }//GEN-LAST:event_jButtonDiminuirActionPerformed
-
-    private void jButtonResetarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetarActionPerformed
-        preencherTabelaQuestoes();
-    }//GEN-LAST:event_jButtonResetarActionPerformed
-
-    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        int idDoProjeto = Copia.getProjetoSelecionado().getId();
-        List<Objetivodequestao> lista_antiga = ctrlObjetivos.getQuestoesDoProjeto(idDoProjeto);
-        if ((!lista_questoes.equals(lista_antiga)) && lista_questoes.size() >= lista_antiga.size()) {
-            ctrlObjetivos.editarPrioridadeDaListaDeQuestoes(lista_questoes, Copia.getProjetoSelecionado().getId());
-            preencherTabelaQuestoes();
-        } else {
-            JOptionPane.showMessageDialog(null, "Não há modificações de Prioridades.");
-        }
-    }//GEN-LAST:event_jButtonConfirmarActionPerformed
-
     private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
         if (evt.getClickCount() >= 2) {
             editaQuestão();
@@ -385,17 +293,12 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAumentar;
-    private javax.swing.JButton jButtonConfirmar;
-    private javax.swing.JButton jButtonDiminuir;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovoObjetivo;
-    private javax.swing.JButton jButtonResetar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     private javax.swing.JTextField jTextFieldBuscar;

@@ -101,6 +101,7 @@ public class CtrlObjetivos {
             return true;
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Não foi possível cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            error.printStackTrace();
             return false;
         }
     }
@@ -217,9 +218,9 @@ public class CtrlObjetivos {
         }
     }
 
-    public boolean buscaSeNomeQuestaoJaExiste(String nome, int id_projeto, int prioridade) {
+    public boolean buscaSeNomeQuestaoJaExiste(String nome, int id_projeto) {
         try {
-            if (facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto, prioridade).isEmpty()) {
+            if (facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto).isEmpty()) {
                 return true;
             } else {
                 JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
@@ -243,7 +244,7 @@ public class CtrlObjetivos {
         registro.setData(new Date());
         registro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
         registro.setTipo(tipo);
-        registro.setObjetivoDeMedicaoid(objetivo.getId());
+        registro.setObjetivoDeMedicaoid(objetivo);
         try {
             FacadeJpa.getInstance().getRegistroObjetivoMedicaoJpa().create(registro);
             System.out.println("Registro criado");
@@ -259,7 +260,7 @@ public class CtrlObjetivos {
             Registroobjetivoquestao novoRegistro = new Registroobjetivoquestao();
             novoRegistro.setNomeUsuario(Copia.getUsuarioLogado().getNome());
             novoRegistro.setData(new Date());
-            novoRegistro.setObjetivoDeQuestaoid(objetivoQuestao.getId());
+            novoRegistro.setObjetivoDeQuestaoid(objetivoQuestao);
             novoRegistro.setTipo(tipo);
 //          novoRegistro.setDescricao(null);
 

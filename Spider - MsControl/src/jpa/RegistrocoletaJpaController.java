@@ -19,7 +19,7 @@ import model.Registrocoleta;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 public class RegistrocoletaJpaController implements Serializable {
 

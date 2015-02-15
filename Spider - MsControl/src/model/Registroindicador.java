@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "registroindicador")
@@ -136,8 +136,9 @@ public class Registroindicador implements Serializable {
             return false;
         }
         Registroindicador other = (Registroindicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
