@@ -64,7 +64,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void pegaQuestaoSelecionada() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
-        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jTable.getValueAt(jTable.getSelectedRow(), 2).toString(), idDoProjeto);
+        objetivodequestao_selecionado = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jTable.getValueAt(jTable.getSelectedRow(), 1).toString(), idDoProjeto);
     }
 
     private void editaQuestão() {

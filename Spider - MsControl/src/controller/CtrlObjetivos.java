@@ -118,28 +118,28 @@ public class CtrlObjetivos {
         }
     }
 
-    public void editarPrioridadeDaListaDeQuestoes(List<Objetivodequestao> lista_questao, int idProjeto) {
-        try {
-            int resposta = JOptionPane.showConfirmDialog(null, "Confirmar alterações?\n\nAo cofirmar as alterações de prioridades elas se tornaram permanentes.");
-
-            if (resposta == JOptionPane.YES_OPTION) {
-                List<Objetivodequestao> lista_BD = facadejpa.getObjetivoDeQuestaoJpa().ListQuestoesByProjeto(idProjeto);
-                for (int i = 0; i < lista_questao.size(); i++) {
-                    for (int j = 0; j < lista_BD.size(); j++) {
-//                        if (lista_questao.get(i).getNome().equals(lista_BD.get(j).getNome()) && lista_questao.get(i).getPrioridade() != lista_BD.get(j).getPrioridade()) {
-//                            facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
+//    public void editarPrioridadeDaListaDeQuestoes(List<Objetivodequestao> lista_questao, int idProjeto) {
+//        try {
+//            int resposta = JOptionPane.showConfirmDialog(null, "Confirmar alterações?\n\nAo cofirmar as alterações de prioridades elas se tornaram permanentes.");
 //
-//                            registraQuestao(lista_questao.get(i), Constantes.EDICAO);
-//                        }
-                    }
-                }
-                JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso.");
-            }
-        } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "Erro inesperado.");
-            error.printStackTrace();
-        }
-    }
+//            if (resposta == JOptionPane.YES_OPTION) {
+//                List<Objetivodequestao> lista_BD = facadejpa.getObjetivoDeQuestaoJpa().ListQuestoesByProjeto(idProjeto);
+//                for (int i = 0; i < lista_questao.size(); i++) {
+//                    for (int j = 0; j < lista_BD.size(); j++) {
+////                        if (lista_questao.get(i).getNome().equals(lista_BD.get(j).getNome()) && lista_questao.get(i).getPrioridade() != lista_BD.get(j).getPrioridade()) {
+////                            facadejpa.getObjetivoDeQuestaoJpa().edit(lista_questao.get(i));
+////
+////                            registraQuestao(lista_questao.get(i), Constantes.EDICAO);
+////                        }
+//                    }
+//                }
+//                JOptionPane.showMessageDialog(null, "Alterações salvas com sucesso.");
+//            }
+//        } catch (Exception error) {
+//            JOptionPane.showMessageDialog(null, "Erro inesperado.");
+//            error.printStackTrace();
+//        }
+//    }
 
     public List<Objetivodequestao> buscaListaDeQuestoes() {
         try {
@@ -158,17 +158,6 @@ public class CtrlObjetivos {
                     facadejpa.getRegistroObjetivoQuestaoJpa().destroy(objetivodequestao.getRegistroobjetivoquestaoList().get(i).getId());
                 }
                 facadejpa.getObjetivoDeQuestaoJpa().destroy(objetivodequestao.getId());
-
-                //reorganiza prioridades após uma questão ter sido excluída
-                List<Objetivodequestao> listaquestao = getQuestoesDoProjeto(idProjeto);
-                for (int i = 0; i < listaquestao.size(); i++) {
-//                    if (i + 1 < listaquestao.get(i).getPrioridade()) {
-//                        listaquestao.get(i).setPrioridade(i + 1);
-//                        facadejpa.getObjetivoDeQuestaoJpa().edit(listaquestao.get(i));
-//
-//                        registraQuestao(listaquestao.get(i), Constantes.EDICAO);
-//                    }
-                }
                 JOptionPane.showMessageDialog(null, "Questão excluída com sucesso.");
             }
         } catch (Exception error) {
