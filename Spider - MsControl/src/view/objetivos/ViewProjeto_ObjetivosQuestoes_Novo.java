@@ -393,6 +393,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         objetivo_questao.setPontoDeVista(jTextFieldPontoDeVista.getText());
         objetivo_questao.setTipoDeDerivacao(getTipoDeVariacao());
         objetivo_questao.setObservacao(jTextAreaObservacao.getText());
+        objetivo_questao.setDataLevantamento((Date) dateFieldDataDeLevantamento.getValue());
 
         String nomeObjetivo = jComboBoxObjRelacionado.getSelectedItem().toString();
         Objetivodemedicao objetivoMedicao = ctrlObjetivos.buscaObjetivoDeMedicaoPeloNome(nomeObjetivo, projeto_selecionado.getId());
@@ -400,20 +401,9 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         boolean feito = false;
         if (ehNovaQuestao) {
-            // verifica se já existe Questão com o mesmo nome
-            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId())) {
-                objetivo_questao.setDataLevantamento((Date) dateFieldDataDeLevantamento.getValue());
-                feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
-
-                ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.CADASTRO);
-            }
+            feito = ctrlObjetivos.criarNovaQuestao(objetivo_questao);
         } else {
-            // verifica se já existe Questão com o mesmo nome
-            if (ctrlObjetivos.buscaSeNomeQuestaoJaExiste(objetivo_questao.getNome(), projeto_selecionado.getId())) {
-                feito = ctrlObjetivos.editarQuestao(objetivo_questao);
-
-                ctrlObjetivos.registraQuestao(objetivo_questao, Constantes.EDICAO);
-            }
+            feito = ctrlObjetivos.editarQuestao(objetivo_questao);
         }
 
         if (feito) {

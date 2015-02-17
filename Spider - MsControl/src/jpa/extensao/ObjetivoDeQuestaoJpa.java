@@ -43,7 +43,7 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
                     .setParameter("nome_questao", nome_questao)
                     .setParameter("id_projeto", id_projeto).getSingleResult();
         } catch (Exception error) {
-            throw error;
+            return null;
         }
     }
 
@@ -61,8 +61,7 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
     public List<Objetivodequestao> findParteNomeQuestao(String nome_questao, int id_projeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            String query = "SELECT q FROM Objetivodequestao q WHERE q.objetivodemedicao.objetivodemedicaoPK.projetoid = :id_projeto AND q.nome LIKE :nome_questao ORDER by q.prioridade ASC";
-            return entityManager.createQuery(query)
+            return entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.objetivoDeMedicaoid.projetoid.id = :id_projeto AND q.nome LIKE :nome_questao ORDER by q.id  ASC")
                     .setParameter("nome_questao", nome_questao + "%")
                     .setParameter("id_projeto", id_projeto).getResultList();
         } catch (Exception error) {

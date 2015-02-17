@@ -3,6 +3,7 @@ package controller;
 import facade.FacadeJpa;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -80,8 +81,8 @@ public class CtrlObjetivos {
 
     public void excluirObjetivoMedicao(Objetivodemedicao objetivodemedicao) {
         try {
-            if (objetivodemedicao.getObjetivodequestaoList().isEmpty()){
-                for (int i = 0; i < objetivodemedicao.getRegistroobjetivomedicaoList().size(); i++ ){
+            if (objetivodemedicao.getObjetivodequestaoList().isEmpty()) {
+                for (int i = 0; i < objetivodemedicao.getRegistroobjetivomedicaoList().size(); i++) {
                     facadejpa.getRegistroObjetivoMedicaoJpa().destroy(objetivodemedicao.getRegistroobjetivomedicaoList().get(i).getId());
                 }
 //                Objetivodemedicao objAux = facadejpa.getObjetivoDeMedicaoJpa().findObjetivo(objetivodemedicao.getObjetivodemedicaoPK().getId());
@@ -95,8 +96,15 @@ public class CtrlObjetivos {
     }
 
     public boolean criarNovaQuestao(Objetivodequestao objetivodequestao) {
+        Objetivodequestao questaoAux = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(objetivodequestao.getNome(), Copia.getProjetoSelecionado().getId());
+        if (questaoAux != null) {
+            JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
+            return false;
+        }
+
         try {
             facadejpa.getObjetivoDeQuestaoJpa().create(objetivodequestao);
+            registraQuestao(objetivodequestao, Constantes.CADASTRO);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
             return true;
         } catch (Exception error) {
@@ -107,8 +115,17 @@ public class CtrlObjetivos {
     }
 
     public boolean editarQuestao(Objetivodequestao objetivodequestao) {
+        Objetivodequestao questaoAux = facadejpa.getObjetivoDeQuestaoJpa().findQuestaoByNomeAndIdProjeto(objetivodequestao.getNome(), Copia.getProjetoSelecionado().getId());
+        if (questaoAux != null) {
+            if (!Objects.equals(questaoAux.getId(), objetivodequestao.getId())) {
+                JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
+                return false;
+            }
+        }
+
         try {
             facadejpa.getObjetivoDeQuestaoJpa().edit(objetivodequestao);
+            registraQuestao(objetivodequestao, Constantes.EDICAO);
             JOptionPane.showMessageDialog(null, "Editado om sucesso.");
             return true;
         } catch (Exception erro) {
@@ -140,7 +157,6 @@ public class CtrlObjetivos {
 //            error.printStackTrace();
 //        }
 //    }
-
     public List<Objetivodequestao> buscaListaDeQuestoes() {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findObjetivodequestaoEntities();
@@ -202,19 +218,6 @@ public class CtrlObjetivos {
     public List<Objetivodequestao> buscaParteDoNomeQuestao(String nome_questao, int id_projeto) {
         try {
             return facadejpa.getObjetivoDeQuestaoJpa().findParteNomeQuestao(nome_questao, id_projeto);
-        } catch (Exception error) {
-            throw error;
-        }
-    }
-
-    public boolean buscaSeNomeQuestaoJaExiste(String nome, int id_projeto) {
-        try {
-            if (facadejpa.getObjetivoDeQuestaoJpa().findListQuestaoByNomeAndIdProejto(nome, id_projeto).isEmpty()) {
-                return true;
-            } else {
-                JOptionPane.showMessageDialog(null, "Nome de questão já existe.");
-                return false;
-            }
         } catch (Exception error) {
             throw error;
         }
