@@ -3,6 +3,7 @@ package controller;
 import facade.FacadeJpa;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.swing.JOptionPane;
 import model.Acessa;
 import model.Perfil;
@@ -129,7 +130,7 @@ public class CtrlUsuario {
 
     /**
      * Avalia se o email digitado é válido;
-     * 
+     *
      * @param email
      * @return true se o email for válido false caso contrário.
      */
@@ -141,31 +142,44 @@ public class CtrlUsuario {
             throw error;
         }
     }
-    
-    public List<Usuario> buscaListaDeUsuariosPeloEmail (String email){
+
+    public List<Usuario> buscaListaDeUsuariosPeloEmail(String email) {
         try {
             return facadeJpa.getUsuarioJpa().findUsuarioByEmail(email);
         } catch (Exception error) {
             throw error;
         }
     }
-    
-    public boolean existeEmailCadastrado (String email){  
+
+    public boolean existeEmailCadastrado(String email) {
         try {
             List<Usuario> listaUsuario = facadeJpa.getUsuarioJpa().findUsuarioByEmail(email);
             if (!listaUsuario.isEmpty()) {
-                System.out.println("Não esta vazio");
+                geraNovaSenha(listaUsuario.get(0));
+                return true;
             } else {
-                JOptionPane.showMessageDialog(null, "O e-mail não existe.");
+                JOptionPane.showMessageDialog(null, "O e-mail não Cadastrado.");
+                return false;
             }
-            return true;
         } catch (Exception error) {
             throw error;
         }
-        
+
     }
-    
-    public void geraNovaSenha (){
-        
+
+    public void geraNovaSenha(Usuario usuario) {
+        try {
+            //cria string aletória de 6 digitos.
+            UUID uuid = UUID.randomUUID();
+            String novaSenha = uuid.toString().substring(0, 6);
+
+            String novaSenhaCrip = criptografia.criptografaMensagem(novaSenha);
+            usuario.setSenha(novaSenhaCrip);
+            facadeJpa.getUsuarioJpa().edit(usuario);
+            JOptionPane.showMessageDialog(null, "Nova senha criada.\nPor favor cheque seu E-mail.");
+        } catch (Exception error) {
+            error.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro inesperado.");
+        }
     }
 }
