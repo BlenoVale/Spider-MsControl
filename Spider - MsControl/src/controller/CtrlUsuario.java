@@ -176,12 +176,14 @@ public class CtrlUsuario {
 
             String novaSenhaCrip = criptografia.criptografaMensagem(novaSenha);
             usuario.setSenha(novaSenhaCrip);
-            facadeJpa.getUsuarioJpa().edit(usuario);
 
             Correio correio = new Correio();
-            correio.enviarEmailRecuperacaoDeSenha(usuario.getEmail(), usuario.getLogin(), novaSenha);
-
-            JOptionPane.showMessageDialog(null, "Nova senha criada.\nPor favor cheque seu E-mail.");
+            if (correio.enviarEmailRecuperacaoDeSenha(usuario.getEmail(), usuario.getLogin(), novaSenha)){
+                facadeJpa.getUsuarioJpa().edit(usuario);
+                JOptionPane.showMessageDialog(null, "Nova senha criada.\nPor favor cheque seu E-mail.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Nova foi possível enviar a mensagem de recuperação.\n Por favor, verifique sua conexão.");
+            }     
         } catch (Exception error) {
             error.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro inesperado.");
