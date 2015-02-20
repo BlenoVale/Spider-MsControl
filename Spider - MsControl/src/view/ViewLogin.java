@@ -5,7 +5,6 @@ import controller.CtrlUsuario;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import model.Usuario;
-import util.CorreioEletronico;
 
 /*@author Dan Jhonatan, Géssica
  */
@@ -218,8 +217,8 @@ public class ViewLogin extends javax.swing.JFrame {
             if (ctrlUsuario.existeEmailCadastrado(jTextFieldEmailRecuperacao.getText())) {
                 jPanelAlterarSenha.setVisible(false);
                 this.pack();
-                CorreioEletronico correio = new CorreioEletronico();
-                correio.enviaEmail();
+                //CorreioEletronico correio = new CorreioEletronico();
+                // correio.enviaEmail();
             }
         } else {
             JOptionPane.showMessageDialog(this, "E-mail inválido.");
