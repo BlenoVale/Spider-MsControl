@@ -22,7 +22,7 @@ public class RegistroobjetivomedicaoJpa extends RegistroobjetivomedicaoJpaContro
 
         EntityManager entityManager = super.getEntityManager();
         Query query;// = entityManager.createQuery("SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo AND r.registroobjetivomedicaoPK = :idProjeto AND r.registroobjetivomedicaoPK.objetivoDeMedicaoid = :idObjetoMedicao");
-        query = entityManager.createQuery("SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo AND r.objetivodemedicao.objetivodemedicaoPK.projetoid = :projetoid AND r.objetivodemedicao.objetivodemedicaoPK.id = :id");
+        query = entityManager.createQuery("SELECT r FROM Registroobjetivomedicao r WHERE r.tipo = :tipo AND r.objetivoDeMedicaoid.projetoid.id = :projetoid AND r.objetivoDeMedicaoid.id = :id");
         query.setParameter("tipo", tipo);
         query.setParameter("projetoid", projetoid);
         query.setParameter("id", idObjetoMedicao);
