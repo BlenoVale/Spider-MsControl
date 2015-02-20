@@ -9,6 +9,7 @@ import model.Acessa;
 import model.Perfil;
 import model.Projeto;
 import model.Usuario;
+import util.Correio;
 import util.Criptografia;
 
 /**
@@ -176,6 +177,10 @@ public class CtrlUsuario {
             String novaSenhaCrip = criptografia.criptografaMensagem(novaSenha);
             usuario.setSenha(novaSenhaCrip);
             facadeJpa.getUsuarioJpa().edit(usuario);
+
+            Correio correio = new Correio();
+            correio.enviarEmailRecuperacaoDeSenha(usuario.getEmail(), usuario.getLogin(), novaSenha);
+
             JOptionPane.showMessageDialog(null, "Nova senha criada.\nPor favor cheque seu E-mail.");
         } catch (Exception error) {
             error.printStackTrace();

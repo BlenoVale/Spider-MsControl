@@ -90,7 +90,7 @@ public class Correio {
 
             //Autenticacao
             email.setAuthentication(remetente, senha);
-            email.setSSL(true);
+            email.setSSLOnConnect(true);
 
             email.send();
 
