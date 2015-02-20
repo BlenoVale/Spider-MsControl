@@ -66,6 +66,55 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
     }
 
+    public void showDetalhesQuestaoDialog(Objetivodequestao objetivo_selecionado, String nomeUsuario_logado) {
+        this.setTitle("Detalhes Necessidade de Informação");
+        jButtonSalvar.setVisible(false);
+        jButtonCancelar.setText("Ok");
+
+        this.projeto_selecionado = Copia.getProjetoSelecionado();
+        this.nomeUsuario_logado = nomeUsuario_logado;
+        objetivo_questao = objetivo_selecionado;
+
+        jTextFieldNomeQuestao.setEditable(false);
+        jTextFieldPontoDeVista.setEditable(false);
+        jTextFieldDataLevantamento.setVisible(true);
+        jTextFieldDataLevantamento.setText(Texto.formataData(objetivo_questao.getDataLevantamento()));
+
+        dateFieldDataDeLevantamento.setVisible(false);
+
+        jComboBoxObjRelacionado.setVisible(false);
+        jTextFieldObjetivoRelacionado.setVisible(true);
+        jTextFieldObjetivoRelacionado.setText(objetivo_questao.getObjetivoDeMedicaoid().getNome());
+
+        jTextAreaObservacao.setEditable(false);
+
+        ehNovaQuestao = false;
+
+        //popularComboboxObjetivoRelacionado();
+        preencherCampos();
+        escondeRadioButton();
+        this.setVisible(true);
+
+    }
+
+    private void escondeRadioButton() {
+        if (!jRadioButtonLegislacao.isSelected()) {
+            jRadioButtonLegislacao.setVisible(false);
+        }
+
+        if (!jRadioButtonObjetivoDeNegocio.isSelected()) {
+            jRadioButtonObjetivoDeNegocio.setVisible(false);
+        }
+
+        if (!jRadioButtonObjetivoDeProcesso.isSelected()) {
+            jRadioButtonObjetivoDeProcesso.setVisible(false);
+        }
+
+        if (!jRadioButtonObjetivoDeProduto.isSelected()) {
+            jRadioButtonObjetivoDeProduto.setVisible(false);
+        }
+    }
+
     private void preencherCampos() {
         jTextFieldNomeQuestao.setText(objetivo_questao.getNome());
         dateFieldDataDeLevantamento.setValue(objetivo_questao.getDataLevantamento());
@@ -199,6 +248,10 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jLabelUltimaEdicao = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         dateFieldDataDeLevantamento = new net.sf.nachocalendar.components.DateField();
+        jTextFieldDataLevantamento = new javax.swing.JTextField();
+        jTextFieldDataLevantamento.setVisible(false);
+        jTextFieldObjetivoRelacionado = new javax.swing.JTextField();
+        jTextFieldObjetivoRelacionado.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de nova Necessidade de informação");
@@ -283,6 +336,10 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         jLabel2.setText("Data de levantamento");
 
+        jTextFieldDataLevantamento.setEditable(false);
+
+        jTextFieldObjetivoRelacionado.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -305,10 +362,13 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                     .addComponent(jTextFieldNomeQuestao)
                     .addComponent(jTextFieldPontoDeVista)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxObjRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateFieldDataDeLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jComboBoxObjRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldObjetivoRelacionado, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(dateFieldDataDeLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldDataLevantamento)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(442, Short.MAX_VALUE)
@@ -332,15 +392,16 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNomeUsuario)
                     .addComponent(jTextFieldPontoDeVista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addComponent(dateFieldDataDeLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateFieldDataDeLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldDataLevantamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCadastradoPor))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelUltimaEdicao))
@@ -349,7 +410,8 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBoxObjRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxObjRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldObjetivoRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -370,7 +432,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -439,7 +501,9 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPaneObservacao;
     private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextFieldCadastradoPor;
+    private javax.swing.JTextField jTextFieldDataLevantamento;
     private javax.swing.JTextField jTextFieldNomeQuestao;
+    private javax.swing.JTextField jTextFieldObjetivoRelacionado;
     private javax.swing.JTextField jTextFieldPontoDeVista;
     private javax.swing.JTextField jTextFieldUltimaEdicao;
     // End of variables declaration//GEN-END:variables

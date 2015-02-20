@@ -75,6 +75,15 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         pegaQuestaoSelecionada();
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
+    
+    private void mostrarDetalhesQuestão() {
+        String nomeUsuario_logado = Copia.getUsuarioLogado().getNome();
+
+        ViewProjeto_ObjetivosQuestoes_Novo viewProjeto_ObjetivosQuestao_Novo = new ViewProjeto_ObjetivosQuestoes_Novo(null, true);
+
+        pegaQuestaoSelecionada();
+        viewProjeto_ObjetivosQuestao_Novo.showDetalhesQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
+    }
 
 //    private void aumentarPrioridade() {
 //        if (jTable.getSelectedRow() > 0) {
@@ -286,7 +295,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
         if (evt.getClickCount() >= 2) {
-            editaQuestão();
+            mostrarDetalhesQuestão();
             preencherTabelaQuestoes();
         }
     }//GEN-LAST:event_jTableMouseClicked
