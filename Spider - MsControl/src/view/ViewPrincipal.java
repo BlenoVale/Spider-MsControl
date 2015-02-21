@@ -26,7 +26,7 @@ import util.Copia;
 import util.Observer;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
 import view.medidas.ViewProjeto_Analise;
-import view.medidas.ViewProjeto_Aprovacao;
+import view.aprovacao.ViewProjetoAprovacao;
 import view.medidas.ViewProjeto_Coleta;
 
 public class ViewPrincipal extends javax.swing.JFrame {
@@ -53,7 +53,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
     private final ViewProjeto_ProcedimentoColeta viewProjeto_ProcedimentoColeta = new ViewProjeto_ProcedimentoColeta();
     // Medidas
-    private final ViewProjeto_Aprovacao viewProjeto_Aprovacao = new ViewProjeto_Aprovacao();
+    private final ViewProjetoAprovacao viewProjeto_Aprovacao = new ViewProjetoAprovacao();
     private final ViewProjeto_MedicaoDefinicao viewProjeto_MedicaoDefinicao = new ViewProjeto_MedicaoDefinicao();
     private final ViewProjeto_Analise viewProjeto_Analise = new ViewProjeto_Analise();
     private final ViewProjeto_Coleta viewProjeto_Coleta = new ViewProjeto_Coleta();

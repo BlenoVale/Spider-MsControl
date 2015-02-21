@@ -1,13 +1,35 @@
-package view.medidas;
+package view.aprovacao;
+
+import controller.CtrlIndicador;
+import java.util.List;
+import model.Indicador;
+import util.MyDefaultTableModel;
 
 /**
  *
  * @author DAN JHONATAN
  */
-public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
+public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
-    public ViewProjeto_Aprovacao() {
+    private CtrlIndicador ctrlIndicador = new CtrlIndicador();
+
+    public ViewProjetoAprovacao() {
         initComponents();
+        preencherTabela("");
+    }
+
+    private void preencherTabela(String nome) {
+        String colunas[] = new String[]{"Indicador", "Aprovação"};
+        List<Indicador> indicadorList = ctrlIndicador.findByParteNome(nome);
+
+        MyDefaultTableModel model = new MyDefaultTableModel(colunas, indicadorList.size(), false);
+        jTableAprovacao.setModel(model);
+        for (int i = 0; i < jTableAprovacao.getRowCount(); i++)
+            for (int j = 0; j < jTableAprovacao.getColumnCount(); j++) {
+                jTableAprovacao.setValueAt(indicadorList.get(i).getNome(), i, j);
+                jTableAprovacao.setValueAt(indicadorList.get(i).getAprovacao(), i, j);
+            }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -19,8 +41,6 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
         jTextFieldBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableAprovacao = new javax.swing.JTable();
-        jButtonExcluir = new javax.swing.JButton();
-        jButtonEditar = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
@@ -32,6 +52,12 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setText("Buscar medida:");
+
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
 
         jTableAprovacao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -46,26 +72,19 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTableAprovacao);
 
-        jButtonExcluir.setText("Excluir ?");
-
-        jButtonEditar.setText("Editar");
-
-        jButtonNovo.setText("Novo");
+        jButtonNovo.setText("Aprovar / Não aprovar");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoActionPerformed(evt);
             }
         });
 
-        jCheckBox1.setSelected(true);
         jCheckBox1.setText("Aprovados");
 
         jLabel2.setText("Mostrar medidas:");
 
-        jCheckBox2.setSelected(true);
         jCheckBox2.setText("Não analisadas");
 
-        jCheckBox3.setSelected(true);
         jCheckBox3.setText("Não aprovadas");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -76,13 +95,6 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExcluir))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -97,7 +109,10 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
                                 .addComponent(jCheckBox3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBox2)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonNovo)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -114,12 +129,9 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
                     .addComponent(jCheckBox2)
                     .addComponent(jCheckBox3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonExcluir)
-                    .addComponent(jButtonEditar)
-                    .addComponent(jButtonNovo))
+                .addComponent(jButtonNovo)
                 .addContainerGap())
         );
 
@@ -148,10 +160,18 @@ public class ViewProjeto_Aprovacao extends javax.swing.JInternalFrame {
         novaAprovacaoDialog.showNovaAprovacaoDialog();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
+    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
+        if (jTextFieldBuscar.getText().isEmpty())
+            return;
+        
+        String nomeParaBuscar = jTextFieldBuscar.getText();
+        preencherTabela(nomeParaBuscar);
+        
+        jTextFieldBuscar.setText("");
+    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonEditar;
-    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;

@@ -1,4 +1,4 @@
-package view.medidas;
+package view.aprovacao;
 
 import java.util.Date;
 import util.Texto;
