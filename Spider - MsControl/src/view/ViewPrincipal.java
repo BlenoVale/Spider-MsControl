@@ -26,7 +26,7 @@ import util.Copia;
 import util.Observer;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
 import view.medidas.ViewProjeto_Analise;
-import view.aprovacao.ViewProjetoAprovacao;
+import view.indicadores.ViewProjetoAprovacao;
 import view.medidas.ViewProjeto_Coleta;
 
 public class ViewPrincipal extends javax.swing.JFrame {

@@ -1,4 +1,4 @@
-package view.aprovacao;
+package view.indicadores;
 
 import controller.CtrlIndicador;
 import java.util.List;
