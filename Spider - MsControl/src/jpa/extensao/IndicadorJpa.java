@@ -28,5 +28,19 @@ public class IndicadorJpa extends IndicadorJpaController {
         lista = q.getResultList();
         return lista;
     }
+    
+    public List<Indicador> findListaIndicadoresByProjeto(int idDoProjeto){
+        try{
+            List<Indicador> lista = null;
+            EntityManager emf = super.getEntityManager();
+            Query q = emf.createQuery("SELECT i FROM Indicador i WHERE i.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto ORDER By i.prioridade ASC")
+            .setParameter("idDoProjeto", idDoProjeto);
+            
+            lista = q.getResultList();
+            return lista;
+        }catch(Exception error){
+            throw error;
+        }
+    }
 
 }

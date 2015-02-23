@@ -15,4 +15,12 @@ public class CtrlIndicador {
     public List<Indicador> findByParteNome(String nome){
         return facadeJpa.getIndicadorJpa().findByParteNome(nome);
     }
+    
+    public List<Indicador> getIndicadoresDoProjeto(int idDoProjeto){
+        try{
+            return facadeJpa.getIndicadorJpa().findListaIndicadoresByProjeto(idDoProjeto);
+        }catch(Exception error){
+            throw error;
+        }
+    }    
 }
