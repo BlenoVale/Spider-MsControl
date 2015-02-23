@@ -27,6 +27,7 @@ import util.Observer;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
 import view.medidas.ViewProjeto_Analise;
 import view.indicadores.ViewProjetoAprovacao;
+import view.indicadores.ViewProjeto_Indicadores;
 import view.medidas.ViewProjeto_Coleta;
 
 public class ViewPrincipal extends javax.swing.JFrame {
@@ -49,6 +50,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // Objetivos
     private final ViewProjeto_ObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosDeMedicao();
     private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
+    //Indicadores
+    private final ViewProjeto_Indicadores viewProjeto_Indicadores = new ViewProjeto_Indicadores();
     // Procedimentos
     private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
     private final ViewProjeto_ProcedimentoColeta viewProjeto_ProcedimentoColeta = new ViewProjeto_ProcedimentoColeta();
@@ -516,6 +519,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_MedicaoDefinicao);
         jDesktopPane.add(viewProjeto_Analise);
         jDesktopPane.add(viewProjeto_Coleta);
+        jDesktopPane.add(viewProjeto_Indicadores);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -530,6 +534,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_MedicaoDefinicao.setMaximum(true);
             viewProjeto_Analise.setMaximum(true);
             viewProjeto_Coleta.setMaximum(true);
+            viewProjeto_Indicadores.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -548,6 +553,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_MedicaoDefinicao.setVisible(false);
         viewProjeto_Analise.setVisible(false);
         viewProjeto_Coleta.setVisible(false);
+        viewProjeto_Indicadores.setVisible(false);
 
         if (tela != null) {
             tela.setVisible(true);
@@ -575,7 +581,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_ObjetivosDeMedicao.preencherTabelaRecarregar();
             trocaTelas(viewProjeto_ObjetivosDeMedicao);
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Indicadores")) {
-
+            trocaTelas(viewProjeto_Indicadores);
         } else if (no_filho.equals("Aprovação") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_Aprovacao);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Indicadores")) {
