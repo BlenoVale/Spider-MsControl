@@ -3,6 +3,7 @@ package view.indicadores;
 import controller.CtrlIndicador;
 import java.util.List;
 import model.Indicador;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 /**
@@ -11,25 +12,58 @@ import util.MyDefaultTableModel;
  */
 public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
-    private CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private MyDefaultTableModel modelIndicadores;
 
     public ViewProjetoAprovacao() {
         initComponents();
-        preencherTabela("");
+        pesquisarIndicadorEPreencherTabela("");
+
+        Internal.retiraBotao(this);
     }
 
-    private void preencherTabela(String nome) {
-        String colunas[] = new String[]{"Indicador", "Aprovação"};
+    private void pesquisarIndicadorEPreencherTabela(String nome) {
+
+        String nomeColunas[] = new String[]{"Indicador", "Aprovação"};
+        modelIndicadores = new MyDefaultTableModel(nomeColunas, 0, false);
+        jTableAprovacao.setModel(modelIndicadores);
+
         List<Indicador> indicadorList = ctrlIndicador.findByParteNome(nome);
+        System.out.println(indicadorList.size());
 
-        MyDefaultTableModel model = new MyDefaultTableModel(colunas, indicadorList.size(), false);
-        jTableAprovacao.setModel(model);
-        for (int i = 0; i < jTableAprovacao.getRowCount(); i++)
-            for (int j = 0; j < jTableAprovacao.getColumnCount(); j++) {
-                jTableAprovacao.setValueAt(indicadorList.get(i).getNome(), i, j);
-                jTableAprovacao.setValueAt(indicadorList.get(i).getAprovacao(), i, j);
-            }
+        if (jCheckBoxAprovado.isSelected() || jCheckBoxNaoAnalisado.isSelected() || jCheckBoxNaoAprovado.isSelected()) {
+            if (!jCheckBoxAprovado.isSelected())
+                filtrarIndicadores(indicadorList, "Aprovado");
+            if (!jCheckBoxNaoAprovado.isSelected())
+                filtrarIndicadores(indicadorList, "Não aprovado");
+            if (!jCheckBoxNaoAnalisado.isSelected())
+                filtrarIndicadores(indicadorList, "Não analisado");
+        }
 
+        preencherTabela(indicadorList);
+    }
+
+    private void filtrarIndicadores(List<Indicador> indicadorList, String filtro) {
+        for (int i = 0; i < indicadorList.size(); i++)
+            if (indicadorList.get(i).getAprovacao().equals(filtro))
+                indicadorList.remove(i);
+    }
+
+    private void preencherTabela(List<Indicador> indicadorList) {
+
+        for (int i = 0; i < indicadorList.size(); i++) {
+            String linha[] = new String[]{
+                indicadorList.get(i).getNome(),
+                indicadorList.get(i).getAprovacao()};
+
+            modelIndicadores.addRow(linha);
+        }
+        jTableAprovacao.setModel(modelIndicadores);
+    }
+
+    private void buscarIndicador() {
+        String nomeParaBuscar = jTextFieldBuscar.getText();
+        pesquisarIndicadorEPreencherTabela(nomeParaBuscar);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,10 +76,10 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableAprovacao = new javax.swing.JTable();
         jButtonNovo = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBoxAprovado = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBoxNaoAnalisado = new javax.swing.JCheckBox();
+        jCheckBoxNaoAprovado = new javax.swing.JCheckBox();
 
         setTitle("Aprovação");
 
@@ -72,20 +106,35 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTableAprovacao);
 
-        jButtonNovo.setText("Aprovar / Não aprovar");
+        jButtonNovo.setText("Analisar aprovação");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoActionPerformed(evt);
             }
         });
 
-        jCheckBox1.setText("Aprovados");
+        jCheckBoxAprovado.setText("Aprovados");
+        jCheckBoxAprovado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAprovadoActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Mostrar medidas:");
+        jLabel2.setText("Filtro:");
 
-        jCheckBox2.setText("Não analisadas");
+        jCheckBoxNaoAnalisado.setText("Não analisadas");
+        jCheckBoxNaoAnalisado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxNaoAnalisadoActionPerformed(evt);
+            }
+        });
 
-        jCheckBox3.setText("Não aprovadas");
+        jCheckBoxNaoAprovado.setText("Não aprovadas");
+        jCheckBoxNaoAprovado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxNaoAprovadoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -104,11 +153,11 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox1)
+                                .addComponent(jCheckBoxAprovado)
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBox3)
+                                .addComponent(jCheckBoxNaoAprovado)
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBox2)))
+                                .addComponent(jCheckBoxNaoAnalisado)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -124,10 +173,10 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBoxAprovado)
                     .addComponent(jLabel2)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(jCheckBoxNaoAnalisado)
+                    .addComponent(jCheckBoxNaoAprovado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -161,21 +210,29 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
-        if (jTextFieldBuscar.getText().isEmpty())
-            return;
-        
-        String nomeParaBuscar = jTextFieldBuscar.getText();
-        preencherTabela(nomeParaBuscar);
-        
-        jTextFieldBuscar.setText("");
+        buscarIndicador();
+
+        //jTextFieldBuscar.setText("");
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
+
+    private void jCheckBoxAprovadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAprovadoActionPerformed
+        buscarIndicador();
+    }//GEN-LAST:event_jCheckBoxAprovadoActionPerformed
+
+    private void jCheckBoxNaoAprovadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxNaoAprovadoActionPerformed
+        buscarIndicador();
+    }//GEN-LAST:event_jCheckBoxNaoAprovadoActionPerformed
+
+    private void jCheckBoxNaoAnalisadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxNaoAnalisadoActionPerformed
+        buscarIndicador();
+    }//GEN-LAST:event_jCheckBoxNaoAnalisadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonNovo;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBoxAprovado;
+    private javax.swing.JCheckBox jCheckBoxNaoAnalisado;
+    private javax.swing.JCheckBox jCheckBoxNaoAprovado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
