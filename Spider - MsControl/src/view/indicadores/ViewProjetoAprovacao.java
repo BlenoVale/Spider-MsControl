@@ -2,7 +2,9 @@ package view.indicadores;
 
 import controller.CtrlIndicador;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.Indicador;
+import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
 
@@ -17,18 +19,17 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
     public ViewProjetoAprovacao() {
         initComponents();
-        pesquisarIndicadorEPreencherTabela("");
+
+        iniciarTabela();
 
         Internal.retiraBotao(this);
     }
 
     private void pesquisarIndicadorEPreencherTabela(String nome) {
 
-        String nomeColunas[] = new String[]{"Indicador", "Aprovação"};
-        modelIndicadores = new MyDefaultTableModel(nomeColunas, 0, false);
-        jTableAprovacao.setModel(modelIndicadores);
+        iniciarTabela();
 
-        List<Indicador> indicadorList = ctrlIndicador.findByParteNome(nome);
+        List<Indicador> indicadorList = ctrlIndicador.findByParteNome(nome, Copia.getProjetoSelecionado().getId());
         System.out.println(indicadorList.size());
 
         if (jCheckBoxAprovado.isSelected() || jCheckBoxNaoAnalisado.isSelected() || jCheckBoxNaoAprovado.isSelected()) {
@@ -41,6 +42,12 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         }
 
         preencherTabela(indicadorList);
+    }
+
+    private void iniciarTabela() {
+        String nomeColunas[] = new String[]{"Indicador", "Aprovação"};
+        modelIndicadores = new MyDefaultTableModel(nomeColunas, 0, false);
+        jTableAprovacao.setModel(modelIndicadores);
     }
 
     private void filtrarIndicadores(List<Indicador> indicadorList, String filtro) {
@@ -106,7 +113,7 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTableAprovacao);
 
-        jButtonNovo.setText("Analisar aprovação");
+        jButtonNovo.setText("Aprovação");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoActionPerformed(evt);
@@ -144,12 +151,11 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonNovo))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -157,11 +163,12 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBoxNaoAprovado)
                                 .addGap(18, 18, 18)
-                                .addComponent(jCheckBoxNaoAnalisado)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonNovo)))
+                                .addComponent(jCheckBoxNaoAnalisado))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -178,7 +185,7 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
                     .addComponent(jCheckBoxNaoAnalisado)
                     .addComponent(jCheckBoxNaoAprovado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonNovo)
                 .addContainerGap())
@@ -205,8 +212,16 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
+
+        if (jTableAprovacao.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Você deve selecionar um indicador na tabela.");
+            return;
+        }
+
+        Indicador indicadorAux = ctrlIndicador.findByParteNome(jTableAprovacao.getValueAt(jTableAprovacao.getSelectedRow(), 0).toString(), Copia.getProjetoSelecionado().getId()).get(0);
+
         ViewNovaAprovacaoDialog novaAprovacaoDialog = new ViewNovaAprovacaoDialog(null, true);
-        novaAprovacaoDialog.showNovaAprovacaoDialog();
+        novaAprovacaoDialog.showNovaAprovacaoDialog(indicadorAux);
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed

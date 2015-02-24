@@ -54,7 +54,7 @@ public class Observer {
                     }
 
                     count++;
-                    System.out.println("Checagem: " + count);
+                    //System.out.println("Checagem: " + count);
                 }
             }
         };
