@@ -62,6 +62,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jLabel4.setText("Data:");
 
         jTextFieldData.setEditable(false);
+        jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel5.setText("Observação:");
 
