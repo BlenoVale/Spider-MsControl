@@ -111,6 +111,11 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
                 "Título 1", "Título 2", "Título 3"
             }
         ));
+        jTableAprovacao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAprovacaoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableAprovacao);
 
         jButtonNovo.setText("Aprovação");
@@ -241,6 +246,22 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
     private void jCheckBoxNaoAnalisadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxNaoAnalisadoActionPerformed
         buscarIndicador();
     }//GEN-LAST:event_jCheckBoxNaoAnalisadoActionPerformed
+
+    private void jTableAprovacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAprovacaoMouseClicked
+        if (evt.getClickCount() < 2)
+            return;
+
+        if (jTableAprovacao.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Você deve selecionar um indicador na tabela.");
+            return;
+        }
+
+        Indicador indicadorAux = ctrlIndicador.findByParteNome(jTableAprovacao.getValueAt(jTableAprovacao.getSelectedRow(), 0).toString(), Copia.getProjetoSelecionado().getId()).get(0);
+
+        ViewNovaAprovacaoDialog novaAprovacaoDialog = new ViewNovaAprovacaoDialog(null, true);
+        novaAprovacaoDialog.showDetalhesDoIndicadorDialog(indicadorAux);
+
+    }//GEN-LAST:event_jTableAprovacaoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -12,6 +12,7 @@ import util.Texto;
 public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
     private Indicador indicador;
+    private boolean ehNovo;
 
     public ViewNovaAprovacaoDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -26,6 +27,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
     public void showNovaAprovacaoDialog(Indicador indicador) {
         this.indicador = indicador;
+        ehNovo = true;
 
         jLabelNomeIndicador.setText(indicador.getNome());
         if (indicador.getAprovacao().equals("Aprovado"))
@@ -36,6 +38,31 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
         model.addRow(new String[]{indicador.getObjetivoDeQuestaoid().getNome(), indicador.getObjetivoDeQuestaoid().getObjetivoDeMedicaoid().getNome()});
         jTableRelacionado.setModel(model);
+
+        this.setVisible(true);
+    }
+
+    public void showDetalhesDoIndicadorDialog(Indicador indicador) {
+        this.indicador = indicador;
+        ehNovo = false;
+
+        jLabelNomeIndicador.setText(indicador.getNome());
+        if (indicador.getAprovacao().equals("Aprovado")) {
+            jRadioButtonAprovado.setSelected(true);
+            jRadioButtonNaoAprovado.setVisible(false);
+        } else if (indicador.getAprovacao().equals("Não aprovado")) {
+            jRadioButtonAprovado.setVisible(false);
+            jRadioButtonNaoAprovado.setSelected(true);
+        }
+
+        MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
+        model.addRow(new String[]{indicador.getObjetivoDeQuestaoid().getNome(), indicador.getObjetivoDeQuestaoid().getObjetivoDeMedicaoid().getNome()});
+        jTableRelacionado.setModel(model);
+
+        jTextAreaObservacao.setEditable(false);
+        jButtonSalvar.setVisible(false);
+        jButtonCancelar.setText("Ok");
+        
 
         this.setVisible(true);
     }
