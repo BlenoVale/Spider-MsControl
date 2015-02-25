@@ -75,7 +75,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         pegaQuestaoSelecionada();
         viewProjeto_ObjetivosQuestao_Novo.showEditarQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
-    
+
     private void mostrarDetalhesQuestão() {
         String nomeUsuario_logado = Copia.getUsuarioLogado().getNome();
 
@@ -84,42 +84,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         pegaQuestaoSelecionada();
         viewProjeto_ObjetivosQuestao_Novo.showDetalhesQuestaoDialog(objetivodequestao_selecionado, nomeUsuario_logado);
     }
-
-//    private void aumentarPrioridade() {
-//        if (jTable.getSelectedRow() > 0) {
-//            int linha_selecionada = jTable.getSelectedRow();
-//            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
-//
-////            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada - 1, 0).toString()));
-////            lista_questoes.get(linha_selecionada - 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
-//
-//            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada - 1));
-//            lista_questoes.set(linha_selecionada - 1, questao_selecionada);
-//
-//            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
-//            jTable.addRowSelectionInterval(linha_selecionada - 1, linha_selecionada - 1);
-//        } else if (jTable.getSelectedRow() == -1) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
-//        }
-//    }
-
-//    private void diminuirPrioridade() {
-//        if (jTable.getSelectedRow() < lista_questoes.size() - 1 && jTable.getSelectedRow() != -1) {
-//            int linha_selecionada = jTable.getSelectedRow();
-//            Objetivodequestao questao_selecionada = lista_questoes.get(linha_selecionada);
-//
-////            lista_questoes.get(linha_selecionada).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada + 1, 0).toString()));
-////            lista_questoes.get(linha_selecionada + 1).setPrioridade(Integer.parseInt(jTable.getValueAt(linha_selecionada, 0).toString()));
-//
-//            lista_questoes.set(linha_selecionada, lista_questoes.get(linha_selecionada + 1));
-//            lista_questoes.set(linha_selecionada + 1, questao_selecionada);
-//
-//            preencheTabelaQuestoesPorParteDoNome(lista_questoes);
-//            jTable.addRowSelectionInterval(linha_selecionada + 1, linha_selecionada + 1);
-//        } else if (jTable.getSelectedRow() == -1) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
-//        }
-//    }
 
     private void excluirQuestao() {
         pegaQuestaoSelecionada();
