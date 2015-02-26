@@ -1,7 +1,10 @@
 package view.indicadores;
 
-import java.util.Date;
+import controller.CtrlIndicador;
+import javax.swing.JOptionPane;
 import model.Indicador;
+import model.Registroindicador;
+import util.Constantes;
 import util.MyDefaultTableModel;
 import util.Texto;
 
@@ -11,8 +14,9 @@ import util.Texto;
  */
 public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
+    private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
     private Indicador indicador;
-    private boolean ehNovo;
+    private boolean ehDetalhes;
 
     public ViewNovaAprovacaoDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -26,7 +30,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
     public void showNovaAprovacaoDialog(Indicador indicador) {
         this.indicador = indicador;
-        ehNovo = true;
+        ehDetalhes = false;
 
         jLabelNomeIndicador.setText(indicador.getNome());
         if (indicador.getAprovacao().equals("Aprovado"))
@@ -37,14 +41,16 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
         model.addRow(new String[]{indicador.getObjetivoDeQuestaoid().getNome(), indicador.getObjetivoDeQuestaoid().getObjetivoDeMedicaoid().getNome()});
         jTableRelacionado.setModel(model);
-        
+
+        mostrarUltimaAnalise();
+        this.pack();
 
         this.setVisible(true);
     }
 
     public void showDetalhesDoIndicadorDialog(Indicador indicador) {
         this.indicador = indicador;
-        ehNovo = false;
+        ehDetalhes = true;
 
         jLabelNomeIndicador.setText(indicador.getNome());
         if (indicador.getAprovacao().equals("Aprovado")) {
@@ -53,6 +59,10 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         } else if (indicador.getAprovacao().equals("Não aprovado")) {
             jRadioButtonAprovado.setVisible(false);
             jRadioButtonNaoAprovado.setSelected(true);
+        } else {
+            jRadioButtonAprovado.setVisible(false);
+            jRadioButtonNaoAprovado.setVisible(false);
+            jRadioButtonNaoAnalisado.setVisible(true);
         }
 
         MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
@@ -63,7 +73,24 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jButtonSalvar.setVisible(false);
         jButtonCancelar.setText("Ok");
 
+        mostrarUltimaAnalise();
+        this.pack();
+
         this.setVisible(true);
+    }
+
+    private void mostrarUltimaAnalise() {
+        Registroindicador registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.ANALISE_DE_APROVACAO);
+        System.out.println("Registro = " + registro);
+        if (registro != null) {
+            jPanelUltimaAnalise.setVisible(true);
+            jTextFieldResponsavel.setText(registro.getNomeUsuario());
+            jTextFieldData.setText(Texto.formataData(registro.getData()));
+            jTextAreaObservacao.setText(registro.getDescricao());
+        } else if (ehDetalhes) {
+            jScrollPane2.setVisible(false);
+            jLabelObservacao.setVisible(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -76,7 +103,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jRadioButtonAprovado = new javax.swing.JRadioButton();
         jRadioButtonNaoAprovado = new javax.swing.JRadioButton();
-        jLabel5 = new javax.swing.JLabel();
+        jLabelObservacao = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaObservacao = new javax.swing.JTextArea();
         jButtonCancelar = new javax.swing.JButton();
@@ -84,11 +111,14 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableRelacionado = new javax.swing.JTable();
         jLabelNomeIndicador = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelUltimaAnalise = new javax.swing.JPanel();
+        jPanelUltimaAnalise.setVisible(false);
         jLabel4 = new javax.swing.JLabel();
         jTextFieldResponsavel = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldData = new javax.swing.JTextField();
+        jRadioButtonNaoAnalisado = new javax.swing.JRadioButton();
+        jRadioButtonNaoAnalisado.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Aprovação");
@@ -104,7 +134,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
         jRadioButtonNaoAprovado.setText("Não aprovado");
 
-        jLabel5.setText("Observação:");
+        jLabelObservacao.setText("Observação:");
 
         jTextAreaObservacao.setColumns(20);
         jTextAreaObservacao.setLineWrap(true);
@@ -120,6 +150,11 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         });
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jTableRelacionado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,7 +171,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jLabelNomeIndicador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNomeIndicador.setText("Nome do indicador");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ultima análise de aprovação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+        jPanelUltimaAnalise.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ultima análise de aprovação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
         jLabel4.setText("Responsável:");
 
@@ -148,34 +183,37 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jTextFieldData.setEditable(false);
         jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelUltimaAnaliseLayout = new javax.swing.GroupLayout(jPanelUltimaAnalise);
+        jPanelUltimaAnalise.setLayout(jPanelUltimaAnaliseLayout);
+        jPanelUltimaAnaliseLayout.setHorizontalGroup(
+            jPanelUltimaAnaliseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelUltimaAnaliseLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanelUltimaAnaliseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelUltimaAnaliseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldResponsavel)
                     .addComponent(jTextFieldData))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelUltimaAnaliseLayout.setVerticalGroup(
+            jPanelUltimaAnaliseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelUltimaAnaliseLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelUltimaAnaliseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelUltimaAnaliseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextFieldData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jRadioButtonNaoAnalisado.setSelected(true);
+        jRadioButtonNaoAnalisado.setText("Não analisado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,18 +237,20 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelUltimaAnalise, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabelObservacao))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jRadioButtonAprovado)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jRadioButtonNaoAprovado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonNaoAnalisado)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane2))
                         .addContainerGap())
@@ -236,12 +276,13 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jRadioButtonAprovado)
-                    .addComponent(jRadioButtonNaoAprovado))
+                    .addComponent(jRadioButtonNaoAprovado)
+                    .addComponent(jRadioButtonNaoAnalisado))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelUltimaAnalise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addComponent(jLabelObservacao)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,6 +298,23 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+
+        if (!jRadioButtonAprovado.isSelected() && !jRadioButtonNaoAprovado.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Você deve selecionar o status do indicador.");
+            return;
+        }
+
+        if (jRadioButtonAprovado.isSelected())
+            indicador.setAprovacao("Aprovado");
+        else if (jRadioButtonNaoAprovado.isSelected())
+            indicador.setAprovacao("Não aprovado");
+
+        ctrlIndicador.editarIndicador(indicador);
+        ctrlIndicador.registrar(indicador, Constantes.ANALISE_DE_APROVACAO, jTextAreaObservacao.getText());
+        this.dispose();
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonCancelar;
@@ -265,11 +323,12 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelNomeIndicador;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabelObservacao;
+    private javax.swing.JPanel jPanelUltimaAnalise;
     private javax.swing.JRadioButton jRadioButtonAprovado;
+    private javax.swing.JRadioButton jRadioButtonNaoAnalisado;
     private javax.swing.JRadioButton jRadioButtonNaoAprovado;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

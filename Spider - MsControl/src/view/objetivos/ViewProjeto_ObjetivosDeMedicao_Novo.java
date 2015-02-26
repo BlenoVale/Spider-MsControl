@@ -54,7 +54,6 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         objetivo = new Objetivodemedicao();
         ehNovoObjetivo = true;
 
-        
         this.pack();
         this.setVisible(true);
         return objetivoCriadoEditado;
@@ -431,7 +430,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
 
         if (!checarCampos())
-        return;
+            return;
 
         objetivo.setProjetoid(projeto);
         objetivo.setNome(jTextFieldNomeObjetivo.getText());
@@ -451,7 +450,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
             ctrlObjetivos.registrar(objetivo, Constantes.EDICAO);
         }
         if (objetivoCriadoEditado)
-        this.dispose();
+            this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

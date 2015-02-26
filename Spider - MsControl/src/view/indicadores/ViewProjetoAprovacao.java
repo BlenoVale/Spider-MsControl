@@ -227,6 +227,8 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
         ViewNovaAprovacaoDialog novaAprovacaoDialog = new ViewNovaAprovacaoDialog(null, true);
         novaAprovacaoDialog.showNovaAprovacaoDialog(indicadorAux);
+
+        buscarIndicador();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed

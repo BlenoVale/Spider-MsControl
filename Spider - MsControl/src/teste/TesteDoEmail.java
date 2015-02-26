@@ -5,10 +5,14 @@
  */
 package teste;
 
+import facade.FacadeJpa;
+
 /**
  *
  * @author Dan
  */
 public class TesteDoEmail {
-    
+    public static void main(String[] args) {
+        System.out.println(FacadeJpa.getInstance().getIndicadorJpa().findRegistrosDoIndicadorByTipo(1, 1));
+    }
 }
