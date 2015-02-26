@@ -61,6 +61,10 @@ public class CtrlIndicador {
         }
     }
 
+//    public boolean criarNovoIndicador(Indicador indicador){
+//        
+//    }
+    
     private void registraIndicador(Indicador indicador, int tipo) {
         try {
             indicador = facadeJpa.getIndicadorJpa().findIndicador(indicador.getId());

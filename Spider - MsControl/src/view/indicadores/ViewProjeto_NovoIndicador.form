@@ -78,7 +78,7 @@
                                       <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jTextFieldMnemonico" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jTextFieldUltimaEdicao" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldCadastradoPor" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jTextFieldPontoDeVista" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jScrollPane1" alignment="0" pref="423" max="32767" attributes="0"/>
                                       <Component id="jTextFieldIndicador" alignment="0" max="32767" attributes="0"/>
@@ -138,7 +138,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabelCadastradoPor" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldCadastradoPor" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -237,6 +237,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonSalvar">
           <Properties>
@@ -258,7 +261,7 @@
             <Property name="text" type="java.lang.String" value="Cadastrado Por:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="jTextFieldCadastradoPor">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>

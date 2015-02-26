@@ -280,7 +280,6 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ViewProjeto_NovoIndicador viewProjeto_NovoIndicador = new ViewProjeto_NovoIndicador(null, true);
         viewProjeto_NovoIndicador.showNovoIndicadorDialog();
-        viewProjeto_NovoIndicador.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed

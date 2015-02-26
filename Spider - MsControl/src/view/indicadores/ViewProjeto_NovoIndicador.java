@@ -7,11 +7,14 @@ package view.indicadores;
 
 import controller.CtrlIndicador;
 import controller.CtrlObjetivos;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import model.Indicador;
 import model.Objetivodequestao;
 import util.Copia;
+import util.Texto;
 
 /**
  *
@@ -20,6 +23,10 @@ import util.Copia;
 public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     private DefaultComboBoxModel comboboxModel;
     private CtrlIndicador ctrlIndicador;
+    private CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
+    
+    private Indicador indicador;
+    private boolean ehNovoIndicador;
     
     public ViewProjeto_NovoIndicador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -28,14 +35,21 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     }
     
     public void showNovoIndicadorDialog(){
+        indicador = new Indicador();
+       
+        ehNovoIndicador = true;
+        
+        this.jLabelUltimaEdicao.setVisible(false);
+        this.jTextFieldUltimaEdicao.setVisible(false);
         popularComboboxRelacionadoANecesssidade();
+        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome()+ ". Em: " + Texto.formataData(new Date()));
+        this.setVisible(true);
     }
-    
+     
     private void popularComboboxRelacionadoANecesssidade(){
         comboboxModel = new DefaultComboBoxModel();
         
         comboboxModel.addElement("-Selecione uma Necessidade de Informação-");
-        CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
         List<Objetivodequestao> listaQuestoes = ctrlObjetivos.getQuestoesDoProjeto(Copia.getProjetoSelecionado().getId());
         for(int i = 0; i < listaQuestoes.size(); i++){
             comboboxModel.addElement(listaQuestoes.get(i).getNome());
@@ -118,7 +132,7 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         jButtonSalvar = new javax.swing.JButton();
         jComboBoxRelacionado = new javax.swing.JComboBox();
         jLabelCadastradoPor = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldCadastradoPor = new javax.swing.JTextField();
         jLabelUltimaEdicao = new javax.swing.JLabel();
         jTextFieldUltimaEdicao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -150,6 +164,11 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         jLabel9.setText("Observação:");
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +179,7 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
 
         jLabelCadastradoPor.setText("Cadastrado Por:");
 
-        jTextField1.setEditable(false);
+        jTextFieldCadastradoPor.setEditable(false);
 
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
@@ -204,7 +223,7 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
                                     .addComponent(jScrollPane2)
                                     .addComponent(jTextFieldMnemonico)
                                     .addComponent(jTextFieldUltimaEdicao)
-                                    .addComponent(jTextField1)
+                                    .addComponent(jTextFieldCadastradoPor)
                                     .addComponent(jTextFieldPontoDeVista)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                                     .addComponent(jTextFieldIndicador)
@@ -247,7 +266,7 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCadastradoPor)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelUltimaEdicao)
@@ -305,7 +324,31 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         if(!validarCampos()){
             return;
         }
+        
+        indicador.setNome(jTextFieldIndicador.getText());
+        indicador.setDescricao(jTextAreaDescricao.getText());
+        indicador.setPontoDeVista(jTextFieldPontoDeVista.getText());
+        indicador.setMnemonico(jTextFieldMnemonico.getText());
+        indicador.setEntidadeDeMedida("");
+        indicador.setPropriedadeDeMedidade(jTextFieldPropriedade.getText());
+        Objetivodequestao objetivodequestao = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jComboBoxRelacionado.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
+        indicador.setObjetivoDeQuestaoid(objetivodequestao);
+        indicador.setObservacao(jTextAreaObservacao.getText());
+        
+        boolean feito = false;
+//        if(ehNovoIndicador){
+//            feito = ctrlIndicador.criarNovoIndicador(indicador);
+//        }else {
+//            feito = ctrlIndicador.editarIndicador(indicador);
+//        }
+        if(feito){
+            this.dispose();
+        }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -370,7 +413,7 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextAreaDescricao;
     private javax.swing.JTextArea jTextAreaObservacao;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldCadastradoPor;
     private javax.swing.JTextField jTextFieldIndicador;
     private javax.swing.JTextField jTextFieldMnemonico;
     private javax.swing.JTextField jTextFieldPontoDeVista;
