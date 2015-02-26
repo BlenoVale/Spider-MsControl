@@ -5,19 +5,90 @@
  */
 package view.indicadores;
 
+import controller.CtrlIndicador;
+import controller.CtrlObjetivos;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import model.Objetivodequestao;
+import util.Copia;
+
 /**
  *
  * @author Spider-02
  */
 public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
-
-    /**
-     * Creates new form ViewProjeto_NovoIndicador
-     */
+    private DefaultComboBoxModel comboboxModel;
+    private CtrlIndicador ctrlIndicador;
+    
     public ViewProjeto_NovoIndicador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+    
+    public void showNovoIndicadorDialog(){
+        popularComboboxRelacionadoANecesssidade();
+    }
+    
+    private void popularComboboxRelacionadoANecesssidade(){
+        comboboxModel = new DefaultComboBoxModel();
+        
+        comboboxModel.addElement("-Selecione uma Necessidade de Informação-");
+        CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
+        List<Objetivodequestao> listaQuestoes = ctrlObjetivos.getQuestoesDoProjeto(Copia.getProjetoSelecionado().getId());
+        for(int i = 0; i < listaQuestoes.size(); i++){
+            comboboxModel.addElement(listaQuestoes.get(i).getNome());
+        }
+        jComboBoxRelacionado.setModel(comboboxModel);
+    }
+    
+    private boolean validarCampos(){
+        int cont = 0;
+        String mensagem = null;
+        
+        if(jTextFieldIndicador.getText().isEmpty()){
+            mensagem = "Campo \"Indicador\" não pode ser vazio.";
+            cont++;
+        }
+        if(jTextAreaDescricao.getText().isEmpty()){
+            mensagem = "Campo \"Descrição\" não pode ser vazio.";
+            cont++;
+        }
+        if(jTextFieldPontoDeVista.getText().isEmpty()){
+            mensagem = "Campo \"Ponto de vista\" não pode ser vazio.";
+            cont++;
+        }
+        if(jTextFieldMnemonico.getText().isEmpty()){
+            mensagem = "Campo \"Mnemônico\" não pode ser vazio.";
+            cont++;
+        }
+        if(jTextFieldPropriedade.getText().isEmpty()){
+            mensagem = "Campo \"Propiedade\" não pode ser vazio.";
+            cont++;
+        }
+        if(jTextAreaObservacao.getText().isEmpty()){
+            mensagem = "Campo \"Observação\" não pode ser vazio.";
+            cont++;
+        }
+        if(jComboBoxEntidade.getSelectedItem() == "-Selecione uma Entidade Medida-" ){
+            mensagem = "É necessário selecionar uma \"Entidade\" no Combobox.";
+            cont++;
+        }
+        if(jComboBoxRelacionado.getSelectedItem() == "-Selecione uma Necessidade de Informação-"){
+            mensagem = "É necessário selecionar uma \"Necessidade\" no Combobox.";
+            cont ++;
+        }
+        
+        if (cont == 0) {
+            return true;
+        } else if(cont == 1) {
+            JOptionPane.showMessageDialog(null, mensagem);
+            return false;
+        } else {
+            JOptionPane.showMessageDialog(null, "Mais de um campo estão vazios ou inválidos.");
+            return false;
+        }
     }
 
     /**
@@ -39,22 +110,22 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jTextFieldMnemonico = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextFieldEntidade = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldPropriedade = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButtonCancelar = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBoxRelacionado = new javax.swing.JComboBox();
         jLabelCadastradoPor = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabelUltimaEdicao = new javax.swing.JLabel();
         jTextFieldUltimaEdicao = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaDescricao = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextAreaObservacao = new javax.swing.JTextArea();
+        jComboBoxEntidade = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Novo Indicador");
@@ -72,13 +143,6 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
 
         jLabel6.setText("Entidade Medida:");
 
-        jTextFieldEntidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jTextFieldEntidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldEntidadeActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("Propriedade Medida:");
 
         jLabel8.setText("<html> \nRelacionado a <br>\nNecessidade de Informação:\n</html>");
@@ -88,8 +152,11 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         jButtonCancelar.setText("Cancelar");
 
         jButtonSalvar.setText("Salvar");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jLabelCadastradoPor.setText("Cadastrado Por:");
 
@@ -99,26 +166,22 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
 
         jTextFieldUltimaEdicao.setEditable(false);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaDescricao.setColumns(20);
+        jTextAreaDescricao.setLineWrap(true);
+        jTextAreaDescricao.setRows(5);
+        jTextAreaDescricao.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextAreaDescricao);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jTextArea2.setWrapStyleWord(true);
-        jScrollPane2.setViewportView(jTextArea2);
+        jTextAreaObservacao.setColumns(20);
+        jTextAreaObservacao.setLineWrap(true);
+        jTextAreaObservacao.setRows(5);
+        jTextAreaObservacao.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(jTextAreaObservacao);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(12, 12, 12))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,44 +190,44 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
-                            .addComponent(jLabelUltimaEdicao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 2, Short.MAX_VALUE)
+                            .addComponent(jLabelUltimaEdicao)
+                            .addComponent(jLabelCadastradoPor)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(jTextFieldMnemonico)
+                                    .addComponent(jTextFieldUltimaEdicao)
+                                    .addComponent(jTextField1)
+                                    .addComponent(jTextFieldPontoDeVista)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldIndicador)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextFieldPropriedade, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBoxRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 2, Short.MAX_VALUE)))
+                                .addGap(11, 11, 11))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jComboBoxEntidade, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(79, 79, 79)))))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jTextFieldPropriedade, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldMnemonico)
-                    .addComponent(jTextFieldUltimaEdicao)
-                    .addComponent(jTextFieldEntidade, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextFieldPontoDeVista)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
-                    .addComponent(jTextFieldIndicador))
-                .addGap(11, 11, 11))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCancelar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelCadastradoPor)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jLabel4)
+                                .addGap(12, 12, 12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonCancelar)
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,18 +258,18 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
                     .addComponent(jTextFieldMnemonico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextFieldEntidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldPropriedade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxEntidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPropriedade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxRelacionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -238,9 +301,11 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEntidadeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldEntidadeActionPerformed
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        if(!validarCampos()){
+            return;
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,7 +352,8 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxEntidade;
+    private javax.swing.JComboBox jComboBoxRelacionado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -302,10 +368,9 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextAreaDescricao;
+    private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JComboBox jTextFieldEntidade;
     private javax.swing.JTextField jTextFieldIndicador;
     private javax.swing.JTextField jTextFieldMnemonico;
     private javax.swing.JTextField jTextFieldPontoDeVista;

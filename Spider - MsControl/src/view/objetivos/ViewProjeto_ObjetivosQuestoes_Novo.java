@@ -214,7 +214,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, mensagem);
             return false;
         } else {
-            JOptionPane.showMessageDialog(null, "Mais de um campo estão vazios ou invalidos.");
+            JOptionPane.showMessageDialog(null, "Mais de um campo estão vazios ou inválidos.");
             return false;
         }
     }
