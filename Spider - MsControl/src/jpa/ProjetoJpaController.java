@@ -10,13 +10,14 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Registroprojeto;
+import model.Entidademedida;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
+import model.Registroprojeto;
 import model.Objetivodemedicao;
 import model.Acessa;
 import model.Projeto;
@@ -37,6 +38,9 @@ public class ProjetoJpaController implements Serializable {
     }
 
     public void create(Projeto projeto) {
+        if (projeto.getEntidademedidaList() == null) {
+            projeto.setEntidademedidaList(new ArrayList<Entidademedida>());
+        }
         if (projeto.getRegistroprojetoList() == null) {
             projeto.setRegistroprojetoList(new ArrayList<Registroprojeto>());
         }
@@ -50,6 +54,12 @@ public class ProjetoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Entidademedida> attachedEntidademedidaList = new ArrayList<Entidademedida>();
+            for (Entidademedida entidademedidaListEntidademedidaToAttach : projeto.getEntidademedidaList()) {
+                entidademedidaListEntidademedidaToAttach = em.getReference(entidademedidaListEntidademedidaToAttach.getClass(), entidademedidaListEntidademedidaToAttach.getId());
+                attachedEntidademedidaList.add(entidademedidaListEntidademedidaToAttach);
+            }
+            projeto.setEntidademedidaList(attachedEntidademedidaList);
             List<Registroprojeto> attachedRegistroprojetoList = new ArrayList<Registroprojeto>();
             for (Registroprojeto registroprojetoListRegistroprojetoToAttach : projeto.getRegistroprojetoList()) {
                 registroprojetoListRegistroprojetoToAttach = em.getReference(registroprojetoListRegistroprojetoToAttach.getClass(), registroprojetoListRegistroprojetoToAttach.getId());
@@ -69,6 +79,15 @@ public class ProjetoJpaController implements Serializable {
             }
             projeto.setAcessaList(attachedAcessaList);
             em.persist(projeto);
+            for (Entidademedida entidademedidaListEntidademedida : projeto.getEntidademedidaList()) {
+                Projeto oldProjetoidOfEntidademedidaListEntidademedida = entidademedidaListEntidademedida.getProjetoid();
+                entidademedidaListEntidademedida.setProjetoid(projeto);
+                entidademedidaListEntidademedida = em.merge(entidademedidaListEntidademedida);
+                if (oldProjetoidOfEntidademedidaListEntidademedida != null) {
+                    oldProjetoidOfEntidademedidaListEntidademedida.getEntidademedidaList().remove(entidademedidaListEntidademedida);
+                    oldProjetoidOfEntidademedidaListEntidademedida = em.merge(oldProjetoidOfEntidademedidaListEntidademedida);
+                }
+            }
             for (Registroprojeto registroprojetoListRegistroprojeto : projeto.getRegistroprojetoList()) {
                 Projeto oldProjetoidOfRegistroprojetoListRegistroprojeto = registroprojetoListRegistroprojeto.getProjetoid();
                 registroprojetoListRegistroprojeto.setProjetoid(projeto);
@@ -110,6 +129,8 @@ public class ProjetoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Projeto persistentProjeto = em.find(Projeto.class, projeto.getId());
+            List<Entidademedida> entidademedidaListOld = persistentProjeto.getEntidademedidaList();
+            List<Entidademedida> entidademedidaListNew = projeto.getEntidademedidaList();
             List<Registroprojeto> registroprojetoListOld = persistentProjeto.getRegistroprojetoList();
             List<Registroprojeto> registroprojetoListNew = projeto.getRegistroprojetoList();
             List<Objetivodemedicao> objetivodemedicaoListOld = persistentProjeto.getObjetivodemedicaoList();
@@ -144,6 +165,13 @@ public class ProjetoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            List<Entidademedida> attachedEntidademedidaListNew = new ArrayList<Entidademedida>();
+            for (Entidademedida entidademedidaListNewEntidademedidaToAttach : entidademedidaListNew) {
+                entidademedidaListNewEntidademedidaToAttach = em.getReference(entidademedidaListNewEntidademedidaToAttach.getClass(), entidademedidaListNewEntidademedidaToAttach.getId());
+                attachedEntidademedidaListNew.add(entidademedidaListNewEntidademedidaToAttach);
+            }
+            entidademedidaListNew = attachedEntidademedidaListNew;
+            projeto.setEntidademedidaList(entidademedidaListNew);
             List<Registroprojeto> attachedRegistroprojetoListNew = new ArrayList<Registroprojeto>();
             for (Registroprojeto registroprojetoListNewRegistroprojetoToAttach : registroprojetoListNew) {
                 registroprojetoListNewRegistroprojetoToAttach = em.getReference(registroprojetoListNewRegistroprojetoToAttach.getClass(), registroprojetoListNewRegistroprojetoToAttach.getId());
@@ -166,6 +194,23 @@ public class ProjetoJpaController implements Serializable {
             acessaListNew = attachedAcessaListNew;
             projeto.setAcessaList(acessaListNew);
             projeto = em.merge(projeto);
+            for (Entidademedida entidademedidaListOldEntidademedida : entidademedidaListOld) {
+                if (!entidademedidaListNew.contains(entidademedidaListOldEntidademedida)) {
+                    entidademedidaListOldEntidademedida.setProjetoid(null);
+                    entidademedidaListOldEntidademedida = em.merge(entidademedidaListOldEntidademedida);
+                }
+            }
+            for (Entidademedida entidademedidaListNewEntidademedida : entidademedidaListNew) {
+                if (!entidademedidaListOld.contains(entidademedidaListNewEntidademedida)) {
+                    Projeto oldProjetoidOfEntidademedidaListNewEntidademedida = entidademedidaListNewEntidademedida.getProjetoid();
+                    entidademedidaListNewEntidademedida.setProjetoid(projeto);
+                    entidademedidaListNewEntidademedida = em.merge(entidademedidaListNewEntidademedida);
+                    if (oldProjetoidOfEntidademedidaListNewEntidademedida != null && !oldProjetoidOfEntidademedidaListNewEntidademedida.equals(projeto)) {
+                        oldProjetoidOfEntidademedidaListNewEntidademedida.getEntidademedidaList().remove(entidademedidaListNewEntidademedida);
+                        oldProjetoidOfEntidademedidaListNewEntidademedida = em.merge(oldProjetoidOfEntidademedidaListNewEntidademedida);
+                    }
+                }
+            }
             for (Registroprojeto registroprojetoListNewRegistroprojeto : registroprojetoListNew) {
                 if (!registroprojetoListOld.contains(registroprojetoListNewRegistroprojeto)) {
                     Projeto oldProjetoidOfRegistroprojetoListNewRegistroprojeto = registroprojetoListNewRegistroprojeto.getProjetoid();
@@ -253,6 +298,11 @@ public class ProjetoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            List<Entidademedida> entidademedidaList = projeto.getEntidademedidaList();
+            for (Entidademedida entidademedidaListEntidademedida : entidademedidaList) {
+                entidademedidaListEntidademedida.setProjetoid(null);
+                entidademedidaListEntidademedida = em.merge(entidademedidaListEntidademedida);
+            }
             em.remove(projeto);
             em.getTransaction().commit();
         } finally {
@@ -307,4 +357,5 @@ public class ProjetoJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

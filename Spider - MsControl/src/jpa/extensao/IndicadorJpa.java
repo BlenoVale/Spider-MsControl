@@ -18,6 +18,18 @@ public class IndicadorJpa extends IndicadorJpaController {
     public IndicadorJpa() {
         super(Conexao.conectar());
     }
+    
+    public Indicador findBYNomeAndProjeto (String nome, int idProjeto){
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return (Indicador) entityManager.createQuery("SELECT i FROM Indicador i WHERE i.nome = :nome AND i.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
+                    .setParameter("nome", nome)
+                    .setParameter("idProjeto", idProjeto)
+                    .getSingleResult();
+        } catch (Exception error) {
+            return null;
+        }
+    }
 
     public List<Indicador> findByParteNome(String nome, int idProjeto) {
 
@@ -98,6 +110,17 @@ public class IndicadorJpa extends IndicadorJpaController {
         q.setParameter("tipo", tipo);
         registroIndicador = q.getResultList();
         return registroIndicador;
+    }
+    
+    public long countIndicadoresByProjeto(int idProjeto){
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return (long) entityManager.createQuery("SELECT COUNT(i.id) FROM Indicador i WHERE i.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
+                    .setParameter("idProjeto", idProjeto)
+                    .getSingleResult();
+        } catch (Exception error) {
+            throw error;
+        }
     }
 
 }

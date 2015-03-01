@@ -7,12 +7,16 @@ package view.indicadores;
 
 import controller.CtrlIndicador;
 import controller.CtrlObjetivos;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import model.Entidademedida;
 import model.Indicador;
 import model.Objetivodequestao;
+import model.Registroindicador;
+import util.Constantes;
 import util.Copia;
 import util.Texto;
 
@@ -21,82 +25,136 @@ import util.Texto;
  * @author Spider-02
  */
 public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
+
     private DefaultComboBoxModel comboboxModel;
-    private CtrlIndicador ctrlIndicador;
-    private CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
-    
+    private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private final CtrlObjetivos ctrlObjetivos = new CtrlObjetivos();
+    private Registroindicador registro;
+
     private Indicador indicador;
     private boolean ehNovoIndicador;
-    
+
     public ViewProjeto_NovoIndicador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
-    public void showNovoIndicadorDialog(){
+
+    public void showNovoIndicadorDialog() {
         indicador = new Indicador();
-       
+
         ehNovoIndicador = true;
-        
+
         this.jLabelUltimaEdicao.setVisible(false);
         this.jTextFieldUltimaEdicao.setVisible(false);
+        popularComboboxEntidadeMedida();
         popularComboboxRelacionadoANecesssidade();
-        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome()+ ". Em: " + Texto.formataData(new Date()));
+        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + ". Em: " + Texto.formataData(new Date()));
         this.setVisible(true);
     }
-     
-    private void popularComboboxRelacionadoANecesssidade(){
-        comboboxModel = new DefaultComboBoxModel();
+
+    public void showEditarIndicadorDialog(Indicador indicador){
+        this.setTitle("Editar Indicador");
+        this.indicador = new Indicador();
+        this.indicador = indicador;
         
+        ehNovoIndicador = false;
+        
+        popularComboboxEntidadeMedida();
+        popularComboboxRelacionadoANecesssidade();
+        preencherCampos();
+        this.setVisible(true);
+        
+    }
+    
+    private void preencherCampos(){
+        jTextFieldIndicador.setText(indicador.getNome());
+        jTextAreaDescricao.setText(indicador.getDescricao());
+        jTextFieldPontoDeVista.setText(indicador.getPontoDeVista());
+        
+        registro = new Registroindicador();
+        registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.CADASTRO);
+        jTextFieldCadastradoPor.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
+        
+        registro = new Registroindicador();
+        registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.EDICAO);
+        if(registro != null){
+            jTextFieldUltimaEdicao.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
+        } else {
+            jLabelUltimaEdicao.setVisible(false);
+            jTextFieldUltimaEdicao.setVisible(false);
+        }
+        
+        jTextFieldMnemonico.setText(indicador.getMnemonico());
+        jComboBoxEntidade.setSelectedItem(indicador.getEntidadeDeMedida());
+        jTextFieldPropriedade.setText(indicador.getPropriedadeDeMedidade());
+        jComboBoxRelacionado.setSelectedItem(indicador.getObjetivoDeQuestaoid().getNome());
+        jTextAreaObservacao.setText(indicador.getObservacao());
+    }
+    
+    private void popularComboboxRelacionadoANecesssidade() {
+        comboboxModel = new DefaultComboBoxModel();
+
         comboboxModel.addElement("-Selecione uma Necessidade de Informação-");
         List<Objetivodequestao> listaQuestoes = ctrlObjetivos.getQuestoesDoProjeto(Copia.getProjetoSelecionado().getId());
-        for(int i = 0; i < listaQuestoes.size(); i++){
+        for (int i = 0; i < listaQuestoes.size(); i++) {
             comboboxModel.addElement(listaQuestoes.get(i).getNome());
         }
         jComboBoxRelacionado.setModel(comboboxModel);
     }
-    
-    private boolean validarCampos(){
+
+    private void popularComboboxEntidadeMedida() {
+        comboboxModel = new DefaultComboBoxModel();
+
+        comboboxModel.addElement("-Selecione uma entidade medida-");
+        List<Entidademedida> listaEntidadeMedida = ctrlIndicador.buscarListaEntidadeMedidas(Copia.getProjetoSelecionado().getId());
+        for (int i = 0; i < listaEntidadeMedida.size(); i++) {
+            comboboxModel.addElement(listaEntidadeMedida.get(i).getNome());
+        }
+        comboboxModel.addElement("Cadastrar um novo?");
+        jComboBoxEntidade.setModel(comboboxModel);
+    }
+
+    private boolean validarCampos() {
         int cont = 0;
         String mensagem = null;
-        
-        if(jTextFieldIndicador.getText().isEmpty()){
+
+        if (jTextFieldIndicador.getText().isEmpty()) {
             mensagem = "Campo \"Indicador\" não pode ser vazio.";
             cont++;
         }
-        if(jTextAreaDescricao.getText().isEmpty()){
+        if (jTextAreaDescricao.getText().isEmpty()) {
             mensagem = "Campo \"Descrição\" não pode ser vazio.";
             cont++;
         }
-        if(jTextFieldPontoDeVista.getText().isEmpty()){
+        if (jTextFieldPontoDeVista.getText().isEmpty()) {
             mensagem = "Campo \"Ponto de vista\" não pode ser vazio.";
             cont++;
         }
-        if(jTextFieldMnemonico.getText().isEmpty()){
+        if (jTextFieldMnemonico.getText().isEmpty()) {
             mensagem = "Campo \"Mnemônico\" não pode ser vazio.";
             cont++;
         }
-        if(jTextFieldPropriedade.getText().isEmpty()){
+        if (jTextFieldPropriedade.getText().isEmpty()) {
             mensagem = "Campo \"Propiedade\" não pode ser vazio.";
             cont++;
         }
-        if(jTextAreaObservacao.getText().isEmpty()){
+        if (jTextAreaObservacao.getText().isEmpty()) {
             mensagem = "Campo \"Observação\" não pode ser vazio.";
             cont++;
         }
-        if(jComboBoxEntidade.getSelectedItem() == "-Selecione uma Entidade Medida-" ){
+        if (jComboBoxEntidade.getSelectedItem() == "-Selecione uma entidade medida-") {
             mensagem = "É necessário selecionar uma \"Entidade\" no Combobox.";
             cont++;
         }
-        if(jComboBoxRelacionado.getSelectedItem() == "-Selecione uma Necessidade de Informação-"){
+        if (jComboBoxRelacionado.getSelectedItem() == "-Selecione uma Necessidade de Informação-") {
             mensagem = "É necessário selecionar uma \"Necessidade\" no Combobox.";
-            cont ++;
+            cont++;
         }
-        
+
         if (cont == 0) {
             return true;
-        } else if(cont == 1) {
+        } else if (cont == 1) {
             JOptionPane.showMessageDialog(null, mensagem);
             return false;
         } else {
@@ -180,10 +238,12 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         jLabelCadastradoPor.setText("Cadastrado Por:");
 
         jTextFieldCadastradoPor.setEditable(false);
+        jTextFieldCadastradoPor.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
         jTextFieldUltimaEdicao.setEditable(false);
+        jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));
 
         jTextAreaDescricao.setColumns(20);
         jTextAreaDescricao.setLineWrap(true);
@@ -196,6 +256,12 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         jTextAreaObservacao.setRows(5);
         jTextAreaObservacao.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextAreaObservacao);
+
+        jComboBoxEntidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxEntidadeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -293,11 +359,11 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar)
                     .addComponent(jButtonCancelar))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -305,43 +371,43 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if(!validarCampos()){
+        if (!validarCampos()) {
             return;
         }
-        
+
         indicador.setNome(jTextFieldIndicador.getText());
         indicador.setDescricao(jTextAreaDescricao.getText());
         indicador.setPontoDeVista(jTextFieldPontoDeVista.getText());
         indicador.setMnemonico(jTextFieldMnemonico.getText());
-        indicador.setEntidadeDeMedida("");
+        indicador.setEntidadeDeMedida(jComboBoxEntidade.getSelectedItem().toString());
         indicador.setPropriedadeDeMedidade(jTextFieldPropriedade.getText());
         Objetivodequestao objetivodequestao = ctrlObjetivos.buscaObjetivoDeQuestaoDoProjeto(jComboBoxRelacionado.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
         indicador.setObjetivoDeQuestaoid(objetivodequestao);
         indicador.setObservacao(jTextAreaObservacao.getText());
-        
+
         boolean feito = false;
-//        if(ehNovoIndicador){
-//            feito = ctrlIndicador.criarNovoIndicador(indicador);
-//        }else {
-//            feito = ctrlIndicador.editarIndicador(indicador);
-//        }
-        if(feito){
+        if (ehNovoIndicador) {
+            feito = ctrlIndicador.criarNovoIndicador(indicador);
+        } else {
+            feito = ctrlIndicador.editarIndicadorCompleto(indicador);
+        }
+        if (feito) {
             this.dispose();
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
@@ -349,6 +415,14 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jComboBoxEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEntidadeActionPerformed
+        if (jComboBoxEntidade.getSelectedItem() == "Cadastrar um novo?") {
+            viewProjeto_EntidadeMedida viewProjeto_EntidadeMedida = new viewProjeto_EntidadeMedida(null, true);
+            viewProjeto_EntidadeMedida.setVisible(true);
+            popularComboboxEntidadeMedida();
+        }
+    }//GEN-LAST:event_jComboBoxEntidadeActionPerformed
 
     /**
      * @param args the command line arguments

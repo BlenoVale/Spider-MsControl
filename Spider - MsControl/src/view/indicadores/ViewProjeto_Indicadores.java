@@ -18,6 +18,7 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
     private List<Indicador> lista_indicadores;
     private DefaultTableModel defaultTableModel;
     private CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private Indicador indicadorSelecionado = new Indicador();
 
     public ViewProjeto_Indicadores() {
         initComponents();
@@ -61,9 +62,9 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
             lista_indicadores.get(linhaSelecionada).setPrioridade(Integer.parseInt(jTableIndicadores.getValueAt(linhaSelecionada - 1, 0).toString()));
             lista_indicadores.get(linhaSelecionada - 1).setPrioridade(Integer.parseInt(jTableIndicadores.getValueAt(linhaSelecionada, 0).toString()));
 
-            Indicador indicadorSelecionado = lista_indicadores.get(linhaSelecionada);
+            Indicador indicador_Selecionado = lista_indicadores.get(linhaSelecionada);
             lista_indicadores.set(linhaSelecionada, lista_indicadores.get(linhaSelecionada - 1));
-            lista_indicadores.set(linhaSelecionada - 1, indicadorSelecionado);
+            lista_indicadores.set(linhaSelecionada - 1, indicador_Selecionado);
 
             preencherTabelaIndicadores(lista_indicadores);
             jTableIndicadores.addRowSelectionInterval(linhaSelecionada - 1, linhaSelecionada - 1);
@@ -79,9 +80,9 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
             lista_indicadores.get(linhaSelecionada).setPrioridade(Integer.parseInt(jTableIndicadores.getValueAt(linhaSelecionada + 1, 0).toString()));
             lista_indicadores.get(linhaSelecionada + 1).setPrioridade(Integer.parseInt(jTableIndicadores.getValueAt(linhaSelecionada, 0).toString()));
 
-            Indicador indicadorSelecionado = lista_indicadores.get(linhaSelecionada);
+            Indicador indicador_Selecionado = lista_indicadores.get(linhaSelecionada);
             lista_indicadores.set(linhaSelecionada, lista_indicadores.get(linhaSelecionada + 1));
-            lista_indicadores.set(linhaSelecionada + 1, indicadorSelecionado);
+            lista_indicadores.set(linhaSelecionada + 1, indicador_Selecionado);
 
             preencherTabelaIndicadores(lista_indicadores);
             jTableIndicadores.addRowSelectionInterval(linhaSelecionada + 1, linhaSelecionada + 1);
@@ -98,6 +99,17 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Não há modificações de Prioridades.");
         }
+    }
+
+    private void editarIndicador() {
+        ViewProjeto_NovoIndicador viewProjeto_NovoIndicador = new ViewProjeto_NovoIndicador(null, true);
+        pegarIndicadorSelecionado();
+        viewProjeto_NovoIndicador.showEditarIndicadorDialog(indicadorSelecionado);
+    }
+    
+    private void pegarIndicadorSelecionado(){
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        indicadorSelecionado = ctrlIndicador.buscarIndicadorPeloNome(jTableIndicadores.getValueAt(jTableIndicadores.getSelectedRow(), 1).toString(), idDoProjeto);
     }
 
     @SuppressWarnings("unchecked")
@@ -144,6 +156,11 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
         jButton1.setText("Excluir?");
 
         jButton2.setText("Editar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Novo");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +262,7 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -280,6 +297,7 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ViewProjeto_NovoIndicador viewProjeto_NovoIndicador = new ViewProjeto_NovoIndicador(null, true);
         viewProjeto_NovoIndicador.showNovoIndicadorDialog();
+        preencherTabelaIndicadoresDoProjeto();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
@@ -304,6 +322,15 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
         ConfirmarAuteraçãoDePrioridade();
         preencherTabelaIndicadoresDoProjeto();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (jTableIndicadores.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um indicador na Tabela.");
+        } else {
+            editarIndicador();
+            preencherTabelaIndicadoresDoProjeto();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
