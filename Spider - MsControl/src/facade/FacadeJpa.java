@@ -12,6 +12,7 @@ import jpa.RegistroindicadorJpaController;
 import jpa.extensao.EntidadeMedidaJpa;
 import jpa.extensao.FuncionalidadeJpa;
 import jpa.extensao.IndicadorJpa;
+import jpa.extensao.MedidaJpa;
 import jpa.extensao.ObjetivoDeMedicaoJpa;
 import jpa.extensao.ObjetivoDeQuestaoJpa;
 import jpa.extensao.PerfilJpa;
@@ -19,6 +20,7 @@ import jpa.extensao.ProjetoJpa;
 import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.extensao.UsuarioJpa;
+import jpa.extensao.RegistroMedidaJpa;
 import util.Conexao;
 
 /**
@@ -36,6 +38,7 @@ public class FacadeJpa {
     private final ColetaJpaController coletaJpa;
     private final FuncionalidadeJpa funcionalidadeJpa;
     private final MedidaJpaController medidaJpa;
+    private final MedidaJpa medicaoJpa; //@paulo
     private final ObjetivodemedicaoJpaController objetivodemedicacao;
     private final ObjetivodequestaoJpaController objetivodequestaoJpa;
     private final PerfilJpa perfilJpa;
@@ -45,6 +48,7 @@ public class FacadeJpa {
     private final UsuarioJpa usuarioJpa;
     private final ObjetivoDeMedicaoJpa objetivoDeMedicaoJpa;
     private final ObjetivoDeQuestaoJpa objetivoDeQuestaoJpa;
+    private final RegistroMedidaJpa registroMedidaJpa;
     private final RegistroobjetivomedicaoJpa registroObjetivoMedicaoJpa;
     private final RegistroObjetivoQuestaoJpa registroObjetivoQuestaoJpa;
     private final IndicadorJpa indicadorJpa;
@@ -57,6 +61,7 @@ public class FacadeJpa {
         coletaJpa = new ColetaJpaController(Conexao.conectar());
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpa = new MedidaJpaController(Conexao.conectar());
+        medicaoJpa = new MedidaJpa(); 
         objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
@@ -66,6 +71,7 @@ public class FacadeJpa {
         usuarioJpa = new UsuarioJpa();
         objetivoDeMedicaoJpa = new ObjetivoDeMedicaoJpa();
         objetivoDeQuestaoJpa = new ObjetivoDeQuestaoJpa();
+        registroMedidaJpa = new RegistroMedidaJpa();
         registroObjetivoMedicaoJpa = new RegistroobjetivomedicaoJpa();
         registroObjetivoQuestaoJpa = new RegistroObjetivoQuestaoJpa();
         indicadorJpa = new IndicadorJpa();
@@ -82,6 +88,12 @@ public class FacadeJpa {
 
     public AcessaJpaController getAcessaJpa() {
         return acessaJpa;
+    }
+    public MedidaJpa getMedicaoJpa(){
+        return medicaoJpa;
+    }
+    public RegistroMedidaJpa getRegistroMedidaJpa(){
+        return registroMedidaJpa;
     }
 
     public AnaliseJpaController getAnaliseJpa() {
