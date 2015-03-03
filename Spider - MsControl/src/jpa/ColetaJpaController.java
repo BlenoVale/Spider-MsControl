@@ -22,7 +22,7 @@ import model.Coleta;
 
 /**
  *
- * @author BlenoVale
+ * @author Dan
  */
 public class ColetaJpaController implements Serializable {
 

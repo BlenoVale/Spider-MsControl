@@ -33,9 +33,9 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         ehDetalhes = false;
 
         jLabelNomeIndicador.setText(indicador.getNome());
-        if (indicador.getAprovacao().equals("Aprovado"))
+        if (indicador.getAprovacao() == Constantes.APROVADO)
             jRadioButtonAprovado.setSelected(true);
-        else if (indicador.getAprovacao().equals("Não aprovado"))
+        else if (indicador.getAprovacao() == Constantes.NAO_APROVADO)
             jRadioButtonNaoAprovado.setSelected(true);
 
         MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
@@ -53,10 +53,10 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         ehDetalhes = true;
 
         jLabelNomeIndicador.setText(indicador.getNome());
-        if (indicador.getAprovacao().equals("Aprovado")) {
+        if (indicador.getAprovacao() == Constantes.APROVADO) {
             jRadioButtonAprovado.setSelected(true);
             jRadioButtonNaoAprovado.setVisible(false);
-        } else if (indicador.getAprovacao().equals("Não aprovado")) {
+        } else if (indicador.getAprovacao() == Constantes.NAO_APROVADO) {
             jRadioButtonAprovado.setVisible(false);
             jRadioButtonNaoAprovado.setSelected(true);
         } else {
@@ -82,7 +82,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
     private void mostrarUltimaAnalise() {
         Registroindicador registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.ANALISE_DE_APROVACAO);
         System.out.println("Registro = " + registro);
-        if (registro != null && !indicador.getAprovacao().equals("Não analisado")) {
+        if (registro != null && indicador.getAprovacao() != Constantes.NAO_ANALISADO) {
             jPanelUltimaAnalise.setVisible(true);
             jTextFieldResponsavel.setText(registro.getNomeUsuario());
             jTextFieldData.setText(Texto.formataData(registro.getData()));
@@ -306,9 +306,9 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         }
 
         if (jRadioButtonAprovado.isSelected())
-            indicador.setAprovacao("Aprovado");
+            indicador.setAprovacao(Constantes.APROVADO);
         else if (jRadioButtonNaoAprovado.isSelected())
-            indicador.setAprovacao("Não aprovado");
+            indicador.setAprovacao(Constantes.NAO_APROVADO);
 
         if (jRadioButtonNaoAprovado.isSelected() && jTextAreaObservacao.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você deve digitar uma observação.");

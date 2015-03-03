@@ -22,7 +22,7 @@ import model.Procedimentodecoleta;
 
 /**
  *
- * @author BlenoVale
+ * @author Dan
  */
 public class ProcedimentodecoletaJpaController implements Serializable {
 

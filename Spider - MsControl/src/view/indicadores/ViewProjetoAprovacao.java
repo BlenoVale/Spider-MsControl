@@ -4,6 +4,7 @@ import controller.CtrlIndicador;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Indicador;
+import util.Constantes;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
@@ -34,11 +35,11 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
         if (jCheckBoxAprovado.isSelected() || jCheckBoxNaoAnalisado.isSelected() || jCheckBoxNaoAprovado.isSelected()) {
             if (!jCheckBoxAprovado.isSelected())
-                filtrarIndicadores(indicadorList, "Aprovado");
+                retirarDaLista(indicadorList, Constantes.APROVADO);
             if (!jCheckBoxNaoAprovado.isSelected())
-                filtrarIndicadores(indicadorList, "Não aprovado");
+                retirarDaLista(indicadorList, Constantes.NAO_APROVADO);
             if (!jCheckBoxNaoAnalisado.isSelected())
-                filtrarIndicadores(indicadorList, "Não analisado");
+                retirarDaLista(indicadorList, Constantes.NAO_ANALISADO);
         }
 
         preencherTabela(indicadorList);
@@ -50,10 +51,15 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         jTableAprovacao.setModel(modelIndicadores);
     }
 
-    private void filtrarIndicadores(List<Indicador> indicadorList, String filtro) {
+    private void retirarDaLista(List<Indicador> indicadorList, int filtro) {
+
         for (int i = 0; i < indicadorList.size(); i++)
-            if (indicadorList.get(i).getAprovacao().equals(filtro))
+            if (indicadorList.get(i).getAprovacao() == filtro) {
                 indicadorList.remove(i);
+
+                retirarDaLista(indicadorList, filtro);
+                break;
+            }
     }
 
     private void preencherTabela(List<Indicador> indicadorList) {
@@ -61,11 +67,23 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         for (int i = 0; i < indicadorList.size(); i++) {
             String linha[] = new String[]{
                 indicadorList.get(i).getNome(),
-                indicadorList.get(i).getAprovacao()};
+                getAprovacao(indicadorList.get(i))};
 
             modelIndicadores.addRow(linha);
         }
         jTableAprovacao.setModel(modelIndicadores);
+    }
+
+    private String getAprovacao(Indicador indicador) {
+        switch (indicador.getAprovacao()) {
+            case 0:
+                return "Aprovado";
+            case 1:
+                return "Não aprovado";
+            case 2:
+                return "Não analisado";
+        }
+        return "Não analisado";
     }
 
     public void buscarIndicador() {

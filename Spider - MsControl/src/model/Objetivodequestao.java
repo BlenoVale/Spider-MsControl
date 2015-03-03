@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Dan
  */
 @Entity
 @Table(name = "objetivodequestao")
@@ -64,13 +64,13 @@ public class Objetivodequestao implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
+    @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Objetivodemedicao objetivoDeMedicaoid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid")
     private List<Registroobjetivoquestao> registroobjetivoquestaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeQuestaoid")
     private List<Indicador> indicadorList;
-    @JoinColumn(name = "ObjetivoDeMedicao_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Objetivodemedicao objetivoDeMedicaoid;
 
     public Objetivodequestao() {
     }
@@ -135,6 +135,14 @@ public class Objetivodequestao implements Serializable {
         this.observacao = observacao;
     }
 
+    public Objetivodemedicao getObjetivoDeMedicaoid() {
+        return objetivoDeMedicaoid;
+    }
+
+    public void setObjetivoDeMedicaoid(Objetivodemedicao objetivoDeMedicaoid) {
+        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
+    }
+
     @XmlTransient
     public List<Registroobjetivoquestao> getRegistroobjetivoquestaoList() {
         return registroobjetivoquestaoList;
@@ -153,14 +161,6 @@ public class Objetivodequestao implements Serializable {
         this.indicadorList = indicadorList;
     }
 
-    public Objetivodemedicao getObjetivoDeMedicaoid() {
-        return objetivoDeMedicaoid;
-    }
-
-    public void setObjetivoDeMedicaoid(Objetivodemedicao objetivoDeMedicaoid) {
-        this.objetivoDeMedicaoid = objetivoDeMedicaoid;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -175,9 +175,8 @@ public class Objetivodequestao implements Serializable {
             return false;
         }
         Objetivodequestao other = (Objetivodequestao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

@@ -83,7 +83,7 @@ public class CtrlIndicador {
         }
 
         try {
-            indicador.setAprovacao("Não analisado");
+            indicador.setAprovacao(Constantes.NAO_ANALISADO);
             facadeJpa.getIndicadorJpa().edit(indicador);
             registraIndicador(indicador, Constantes.EDICAO);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
@@ -105,7 +105,7 @@ public class CtrlIndicador {
         try {
             int qtdIndicadores = (int) facadeJpa.getIndicadorJpa().countIndicadoresByProjeto(Copia.getProjetoSelecionado().getId());
             indicador.setPrioridade(qtdIndicadores + 1);
-            indicador.setAprovacao("Não analisado");
+            indicador.setAprovacao(Constantes.NAO_ANALISADO);
             facadeJpa.getIndicadorJpa().create(indicador);
             registraIndicador(indicador, Constantes.CADASTRO);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");

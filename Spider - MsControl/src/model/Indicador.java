@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Dan
  */
 @Entity
 @Table(name = "indicador")
@@ -70,7 +70,7 @@ public class Indicador implements Serializable {
     private String propriedadeDeMedidade;
     @Basic(optional = false)
     @Column(name = "aprovacao")
-    private String aprovacao;
+    private int aprovacao;
     @Lob
     @Column(name = "observacao")
     private String observacao;
@@ -83,14 +83,14 @@ public class Indicador implements Serializable {
     @ManyToMany
     private List<Medida> medidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Registroindicador> registroindicadorList;
+    private List<Procedimentodeanalise> procedimentodeanaliseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Analise> analiseList;
+    private List<Registroindicador> registroindicadorList;
     @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Objetivodequestao objetivoDeQuestaoid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Procedimentodeanalise> procedimentodeanaliseList;
+    private List<Analise> analiseList;
 
     public Indicador() {
     }
@@ -99,7 +99,7 @@ public class Indicador implements Serializable {
         this.id = id;
     }
 
-    public Indicador(Integer id, String nome, String descricao, String pontoDeVista, String mnemonico, String entidadeDeMedida, String aprovacao, int prioridade) {
+    public Indicador(Integer id, String nome, String descricao, String pontoDeVista, String mnemonico, String entidadeDeMedida, int aprovacao, int prioridade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -166,11 +166,11 @@ public class Indicador implements Serializable {
         this.propriedadeDeMedidade = propriedadeDeMedidade;
     }
 
-    public String getAprovacao() {
+    public int getAprovacao() {
         return aprovacao;
     }
 
-    public void setAprovacao(String aprovacao) {
+    public void setAprovacao(int aprovacao) {
         this.aprovacao = aprovacao;
     }
 
@@ -200,21 +200,21 @@ public class Indicador implements Serializable {
     }
 
     @XmlTransient
+    public List<Procedimentodeanalise> getProcedimentodeanaliseList() {
+        return procedimentodeanaliseList;
+    }
+
+    public void setProcedimentodeanaliseList(List<Procedimentodeanalise> procedimentodeanaliseList) {
+        this.procedimentodeanaliseList = procedimentodeanaliseList;
+    }
+
+    @XmlTransient
     public List<Registroindicador> getRegistroindicadorList() {
         return registroindicadorList;
     }
 
     public void setRegistroindicadorList(List<Registroindicador> registroindicadorList) {
         this.registroindicadorList = registroindicadorList;
-    }
-
-    @XmlTransient
-    public List<Analise> getAnaliseList() {
-        return analiseList;
-    }
-
-    public void setAnaliseList(List<Analise> analiseList) {
-        this.analiseList = analiseList;
     }
 
     public Objetivodequestao getObjetivoDeQuestaoid() {
@@ -226,12 +226,12 @@ public class Indicador implements Serializable {
     }
 
     @XmlTransient
-    public List<Procedimentodeanalise> getProcedimentodeanaliseList() {
-        return procedimentodeanaliseList;
+    public List<Analise> getAnaliseList() {
+        return analiseList;
     }
 
-    public void setProcedimentodeanaliseList(List<Procedimentodeanalise> procedimentodeanaliseList) {
-        this.procedimentodeanaliseList = procedimentodeanaliseList;
+    public void setAnaliseList(List<Analise> analiseList) {
+        this.analiseList = analiseList;
     }
 
     @Override
@@ -248,9 +248,8 @@ public class Indicador implements Serializable {
             return false;
         }
         Indicador other = (Indicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

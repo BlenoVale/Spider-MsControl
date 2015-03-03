@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Dan
  */
 @Entity
 @Table(name = "analise")
@@ -43,11 +43,11 @@ public class Analise implements Serializable {
     private Integer id;
     @Column(name = "criterioDeAnalise")
     private String criterioDeAnalise;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
+    private List<Registroanalise> registroanaliseList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Indicador indicadorid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
-    private List<Registroanalise> registroanaliseList;
 
     public Analise() {
     }
@@ -72,14 +72,6 @@ public class Analise implements Serializable {
         this.criterioDeAnalise = criterioDeAnalise;
     }
 
-    public Indicador getIndicadorid() {
-        return indicadorid;
-    }
-
-    public void setIndicadorid(Indicador indicadorid) {
-        this.indicadorid = indicadorid;
-    }
-
     @XmlTransient
     public List<Registroanalise> getRegistroanaliseList() {
         return registroanaliseList;
@@ -87,6 +79,14 @@ public class Analise implements Serializable {
 
     public void setRegistroanaliseList(List<Registroanalise> registroanaliseList) {
         this.registroanaliseList = registroanaliseList;
+    }
+
+    public Indicador getIndicadorid() {
+        return indicadorid;
+    }
+
+    public void setIndicadorid(Indicador indicadorid) {
+        this.indicadorid = indicadorid;
     }
 
     @Override
@@ -103,9 +103,8 @@ public class Analise implements Serializable {
             return false;
         }
         Analise other = (Analise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

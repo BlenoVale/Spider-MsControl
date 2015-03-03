@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Dan
  */
 @Entity
 @Table(name = "coleta")
@@ -62,11 +62,11 @@ public class Coleta implements Serializable {
     private String tipoComposicao;
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coletaid")
-    private List<Registrocoleta> registrocoletaList;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Medida medidaid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coletaid")
+    private List<Registrocoleta> registrocoletaList;
 
     public Coleta() {
     }
@@ -130,6 +130,14 @@ public class Coleta implements Serializable {
         this.observacao = observacao;
     }
 
+    public Medida getMedidaid() {
+        return medidaid;
+    }
+
+    public void setMedidaid(Medida medidaid) {
+        this.medidaid = medidaid;
+    }
+
     @XmlTransient
     public List<Registrocoleta> getRegistrocoletaList() {
         return registrocoletaList;
@@ -137,14 +145,6 @@ public class Coleta implements Serializable {
 
     public void setRegistrocoletaList(List<Registrocoleta> registrocoletaList) {
         this.registrocoletaList = registrocoletaList;
-    }
-
-    public Medida getMedidaid() {
-        return medidaid;
-    }
-
-    public void setMedidaid(Medida medidaid) {
-        this.medidaid = medidaid;
     }
 
     @Override
@@ -161,9 +161,8 @@ public class Coleta implements Serializable {
             return false;
         }
         Coleta other = (Coleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
