@@ -81,8 +81,9 @@ public class CtrlIndicador {
                 return false;
             }
         }
-        
+
         try {
+            indicador.setAprovacao("Não analisado");
             facadeJpa.getIndicadorJpa().edit(indicador);
             registraIndicador(indicador, Constantes.EDICAO);
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
