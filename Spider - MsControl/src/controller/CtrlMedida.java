@@ -9,7 +9,6 @@ import facade.FacadeJpa;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import model.Medida;
-import util.Constantes;
 import model.Registromedida;
 import util.Copia;
 /**
