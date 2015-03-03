@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
-      private Medida medida;
+      private Medida medida = new Medida();
 
     public ViewProjeto_MedicaoDefinicao_Novo(java.awt.Frame parent, boolean modal) {
 

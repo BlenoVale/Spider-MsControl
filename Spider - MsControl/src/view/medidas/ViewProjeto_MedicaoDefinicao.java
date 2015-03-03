@@ -8,7 +8,6 @@ import facade.FacadeJpa;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Medida;
-import util.Copia;
 
 /**
  *
@@ -17,27 +16,30 @@ import util.Copia;
 public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
     private MyDefaultTableModel tableModel;
+    private List<Medida> listMedida;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewProjeto_MedicaoDefinicao() {
         initComponents();
-        
         iniciarTabela();
+        preencherTabelaRecarregar();
 
         Internal.retiraBotao(this);
     }
 
     private void iniciarTabela() {
-        tableModel = new MyDefaultTableModel(new String[]{"Medida", "Data", "Autor"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"Medida", "Mnenônico", "Escala" , "Faixa"}, 0, false);
         jTableMedida.setModel(tableModel);
     }
 
-    private void preencherTabela(List<Medida> listDefinicao) {
+    private void preencherTabela(List<Medida> listMedida) {
 
-        for (int i = 0; i < listDefinicao.size(); i++) {
+        for (int i = 0; i < listMedida.size(); i++) {
             String[] linhas = new String[]{
-                listDefinicao.get(i).getDefinicao(),
-                //listDefinicao.get(i).getNivelObjetivo()
+                listMedida.get(i).getNome(),
+                listMedida.get(i).getMnemonico(),
+                listMedida.get(i).getEscala(),
+                listMedida.get(i).getFaixa()
             };
             tableModel.addRow(linhas);
         }
@@ -48,13 +50,14 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
         iniciarTabela();
 
-        String objetivoBuscado = jTextFieldBuscarMedida.getText();
-        int idProjeto = Copia.getProjetoSelecionado().getId();
+        listMedida = jpa.getMedicaoJpa().findByNome(jTextFieldBuscarMedida.getText());
+        preencherTabela(listMedida);
     }
 
     public void preencherTabelaRecarregar() {
         iniciarTabela();        
-        int idProjeto = Copia.getProjetoSelecionado().getId();
+        listMedida = jpa.getMedicaoJpa().findAllMedida();
+        preencherTabela(listMedida);
         
     }
 

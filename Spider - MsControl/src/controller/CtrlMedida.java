@@ -31,7 +31,7 @@ public class CtrlMedida {
         
     }
     public void registrarMedida(Medida medida, int tipo){
-        medida = facadeJpa.getMedicaoJpa().findByNome(medida.getNome());
+        medida = facadeJpa.getMedicaoJpa().findByNomeSingle(medida.getNome());
         Registromedida registro = new Registromedida();
         
         registro.setData(new Date());

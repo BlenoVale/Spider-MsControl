@@ -5,6 +5,7 @@
  */
 package jpa.extensao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.Medida;
@@ -21,18 +22,43 @@ public class MedidaJpa extends MedidaJpaController {
         super(Conexao.conectar());
     }
 
-    public Medida findByNome(String nomeMedicao) {
-        Medida medida = null;
+    public List<Medida> findByNome(String nomeMedicao) {
+       
+        List<Medida> listMedida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT u FROM Medida u WHERE u.nome = :nomeMedicao");
-            query.setParameter("nomoMedicao", nomeMedicao);
-            medida = (Medida) query.getResultList();
-            return medida;
+            Query query = entityManager.createQuery("SELECT u FROM Medida u WHERE u.nome LIKE :nome ORDER BY u.nome ASC");
+            query.setParameter("nome", nomeMedicao + "%");
+            listMedida = query.getResultList();
+            return listMedida;
         } catch (Exception e) {
             return null;
         }
 
+    }
+    public Medida findByNomeSingle(String nomeMedida){
+        Medida medida = null;
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome LIKE :nome");
+            query.setParameter("nome", nomeMedida + "%");
+            medida = (Medida) query.getSingleResult();
+            return medida;
+        } catch (Exception e) {
+            return null;
+                    
+        }
+    }
+    public List<Medida> findAllMedida (){
+        List<Medida> listMedida = null;
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Medida m ORDER BY m.nome ASC");
+            listMedida = query.getResultList();
+            return listMedida;
+        } catch (Exception e) {
+            return  null;
+        }
     }
 
 }
