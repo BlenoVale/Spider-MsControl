@@ -68,7 +68,7 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
         jTableAprovacao.setModel(modelIndicadores);
     }
 
-    private void buscarIndicador() {
+    public void buscarIndicador() {
         String nomeParaBuscar = jTextFieldBuscar.getText();
         pesquisarIndicadorEPreencherTabela(nomeParaBuscar);
     }

@@ -82,7 +82,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
     private void mostrarUltimaAnalise() {
         Registroindicador registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.ANALISE_DE_APROVACAO);
         System.out.println("Registro = " + registro);
-        if (registro != null) {
+        if (registro != null && !indicador.getAprovacao().equals("Não analisado")) {
             jPanelUltimaAnalise.setVisible(true);
             jTextFieldResponsavel.setText(registro.getNomeUsuario());
             jTextFieldData.setText(Texto.formataData(registro.getData()));
@@ -309,6 +309,11 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
             indicador.setAprovacao("Aprovado");
         else if (jRadioButtonNaoAprovado.isSelected())
             indicador.setAprovacao("Não aprovado");
+
+        if (jRadioButtonNaoAprovado.isSelected() && jTextAreaObservacao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Você deve digitar uma observação.");
+            return;
+        }
 
         ctrlIndicador.editarIndicador(indicador);
         ctrlIndicador.registrar(indicador, Constantes.ANALISE_DE_APROVACAO, jTextAreaObservacao.getText());

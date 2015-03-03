@@ -584,6 +584,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Indicadores.preencherTabelaIndicadoresDoProjeto();
             trocaTelas(viewProjeto_Indicadores);
         } else if (no_filho.equals("Aprovação") && no_pai.endsWith("Indicadores")) {
+            viewProjeto_Aprovacao.buscarIndicador();
             trocaTelas(viewProjeto_Aprovacao);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_Analise);
