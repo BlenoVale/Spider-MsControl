@@ -227,6 +227,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
         ViewProjeto_MedicaoDefinicao_Novo definicaoMedicao_Novo1 = new ViewProjeto_MedicaoDefinicao_Novo(null, true);
         definicaoMedicao_Novo1.setVisible(true);
+        preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonNovaMedidaActionPerformed
 
     private void jTextFieldBuscarMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarMedidaActionPerformed
