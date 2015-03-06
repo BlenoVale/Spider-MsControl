@@ -141,6 +141,8 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jLabel1.setText("Escala:");
 
+        jTextFieldEscala.setToolTipText("Valores que podem ser atribuídos à medida (ex: número inteiros, números reais positivos, ...).");
+
         jTextFieldNomeFaixaInicio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextFieldNomeFaixaInicio.setToolTipText("Limites de valores da escala definida de acordo com dados históricos ou com metas estabelecidas (ex: [0, 10], ...).");
         jTextFieldNomeFaixaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
