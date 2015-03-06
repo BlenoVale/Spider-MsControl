@@ -35,7 +35,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         } else if (jTextFieldMnemonico.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Mnemônico\" é obrigatório");
             return false;
-        } else if (!isSelectedRadio()) {
+        } else if (jTextFieldEscala.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Escala\" é obrigatório");
             return false;
         } else if (jTextFieldNomeFaixaInicio.getText().isEmpty()) {
@@ -47,29 +47,6 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         } else {
             return true;
         }
-    }
-
-    public boolean isSelectedRadio() {
-        if (jRadioButtonAlta.isSelected()) {
-            return true;
-        } else if (jRadioButtonMedia.isSelected()) {
-            return true;
-        } else if (jRadioButtonBaixa.isSelected()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public String isSelectedRadioText() {
-        if (jRadioButtonAlta.isSelected()) {
-            return jRadioButtonAlta.getText();
-        } else if (jRadioButtonMedia.isSelected()) {
-            return jRadioButtonMedia.getText();
-        } else {
-            return jRadioButtonBaixa.getText();
-        }
-
     }
 
     public void JTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
@@ -101,25 +78,24 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         jButtonCancelar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextAreaDefinicao = new javax.swing.JTextArea();
-        jPanel1 = new javax.swing.JPanel();
-        jRadioButtonAlta = new javax.swing.JRadioButton();
-        jRadioButtonMedia = new javax.swing.JRadioButton();
-        jRadioButtonBaixa = new javax.swing.JRadioButton();
-        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldEscala = new javax.swing.JTextField();
         jTextFieldNomeFaixaInicio = new javax.swing.JTextField();
-        jLabelDe = new javax.swing.JLabel();
-        jLabelAte = new javax.swing.JLabel();
         jTextFieldFaixaFim = new javax.swing.JTextField();
+        jLabelDe = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro nova definição medida");
-        setPreferredSize(new java.awt.Dimension(650, 580));
+        setMaximumSize(new java.awt.Dimension(640, 500));
+        setPreferredSize(new java.awt.Dimension(650, 510));
         setResizable(false);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(580, 470));
 
         Jpainel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        Jpainel3.setPreferredSize(new java.awt.Dimension(500, 460));
+        Jpainel3.setPreferredSize(new java.awt.Dimension(500, 440));
 
         jLabelNomeMedida.setText("Medida:");
 
@@ -163,42 +139,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         jTextAreaDefinicao.setToolTipText("Uma breve definição e/ou descrição sobre a medida que está sendo cadastrada.");
         jScrollPane4.setViewportView(jTextAreaDefinicao);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Escala"));
-
-        jRadioButtonAlta.setText("Alta");
-        jRadioButtonAlta.setToolTipText("Valores que podem ser atribuídos à medida");
-
-        jRadioButtonMedia.setText("Média");
-        jRadioButtonMedia.setToolTipText("Valores que podem ser atribuídos à medida");
-
-        jRadioButtonBaixa.setText("Baixa");
-        jRadioButtonBaixa.setToolTipText("Valores que podem ser atribuídos à medida");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButtonAlta)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButtonMedia)
-                .addGap(18, 18, 18)
-                .addComponent(jRadioButtonBaixa)
-                .addGap(214, 214, 214))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButtonAlta)
-                    .addComponent(jRadioButtonMedia)
-                    .addComponent(jRadioButtonBaixa))
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Faixa"));
+        jLabel1.setText("Escala:");
 
         jTextFieldNomeFaixaInicio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextFieldNomeFaixaInicio.setToolTipText("Limites de valores da escala definida de acordo com dados históricos ou com metas estabelecidas (ex: [0, 10], ...).");
@@ -208,41 +149,17 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             }
         });
 
-        jLabelDe.setText("De:");
-
-        jLabelAte.setText("Até:");
-
         jTextFieldFaixaFim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFaixaFimKeyTyped(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(204, 204, 204)
-                .addComponent(jLabelDe)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldNomeFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelAte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldFaixaFim, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldNomeFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelDe)
-                    .addComponent(jLabelAte)
-                    .addComponent(jTextFieldFaixaFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 11, Short.MAX_VALUE))
-        );
+        jLabelDe.setText("De:");
+
+        jLabel2.setText("Faixa:");
+
+        jLabel3.setText("Até:");
 
         javax.swing.GroupLayout Jpainel3Layout = new javax.swing.GroupLayout(Jpainel3);
         Jpainel3.setLayout(Jpainel3Layout);
@@ -269,19 +186,28 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                         .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldNomeMedida)
                             .addGroup(Jpainel3Layout.createSequentialGroup()
-                                .addComponent(jTextFieldResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jTextFieldResponsavel)
+                                .addGap(31, 31, 31)))
                         .addGap(142, 142, 142))
                     .addGroup(Jpainel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane4)
                         .addContainerGap())
                     .addGroup(Jpainel3Layout.createSequentialGroup()
-                        .addComponent(jTextFieldMnemonico, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(Jpainel3Layout.createSequentialGroup()
+                                .addComponent(jLabelDe)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldNomeFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldFaixaFim, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldMnemonico, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                            .addComponent(jTextFieldEscala))
+                        .addGap(173, 173, 173))))
             .addGroup(Jpainel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Jpainel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSalvar)
@@ -291,7 +217,11 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                         .addComponent(jLabelObservacoes)
                         .addGap(71, 71, 71)
                         .addComponent(jScrollPane3))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(Jpainel3Layout.createSequentialGroup()
+                        .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         Jpainel3Layout.setVerticalGroup(
@@ -316,23 +246,30 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                 .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMnemonico)
                     .addComponent(jTextFieldMnemonico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldEscala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldNomeFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFaixaFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDe)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Jpainel3Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabelObservacoes))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Jpainel3Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabelObservacoes)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonCancelar))
                 .addContainerGap())
         );
-
-        jPanel1.getAccessibleContext().setAccessibleName("Escala");
 
         jScrollPane1.setViewportView(Jpainel3);
 
@@ -342,19 +279,26 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldFaixaFimKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFaixaFimKeyTyped
+        JTextFieldSomenteNumeros(evt);
+    }//GEN-LAST:event_jTextFieldFaixaFimKeyTyped
+
+    private void jTextFieldNomeFaixaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeFaixaInicioKeyTyped
+        JTextFieldSomenteNumeros(evt);
+    }//GEN-LAST:event_jTextFieldNomeFaixaInicioKeyTyped
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
@@ -370,8 +314,8 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         medida.setDefinicao(jTextAreaDefinicao.getText());
         medida.setPontoDeVista(jTextFieldResponsavel.getText());
         medida.setMnemonico(jTextFieldMnemonico.getText());
-        medida.setEscala(isSelectedRadioText());
-        medida.setFaixa(jTextFieldNomeFaixaInicio.getText() + "/" + jTextFieldFaixaFim.getText());
+        medida.setEscala(jTextFieldEscala.getText());
+        medida.setFaixa(jTextFieldNomeFaixaInicio.getText() + "-" + jTextFieldFaixaFim.getText());
         medida.setObservacao(jTextAreaObservacoes.getText());
 
         //@paulo excluir do bd unidadeMedida
@@ -383,17 +327,9 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao Salvar");
         }
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-
-    private void jTextFieldNomeFaixaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeFaixaInicioKeyTyped
-        JTextFieldSomenteNumeros(evt);
-    }//GEN-LAST:event_jTextFieldNomeFaixaInicioKeyTyped
-
-    private void jTextFieldFaixaFimKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFaixaFimKeyTyped
-        JTextFieldSomenteNumeros(evt);
-    }//GEN-LAST:event_jTextFieldFaixaFimKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Jpainel3;
@@ -401,23 +337,21 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JLabel jLabelAte;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelDe;
     private javax.swing.JLabel jLabelDefinicao;
     private javax.swing.JLabel jLabelMnemonico;
     private javax.swing.JLabel jLabelNomeMedida;
     private javax.swing.JLabel jLabelObservacoes;
     private javax.swing.JLabel jLabelResponsavel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButtonAlta;
-    private javax.swing.JRadioButton jRadioButtonBaixa;
-    private javax.swing.JRadioButton jRadioButtonMedia;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextAreaDefinicao;
     private javax.swing.JTextArea jTextAreaObservacoes;
+    private javax.swing.JTextField jTextFieldEscala;
     private javax.swing.JTextField jTextFieldFaixaFim;
     private javax.swing.JTextField jTextFieldMnemonico;
     private javax.swing.JTextField jTextFieldNomeFaixaInicio;
