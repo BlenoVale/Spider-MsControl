@@ -228,5 +228,9 @@ public class ColetaJpaController implements Serializable {
             em.close();
         }
     }
+
+    public List<Coleta> findListaColetaByProjeto(int idDoProjeto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
