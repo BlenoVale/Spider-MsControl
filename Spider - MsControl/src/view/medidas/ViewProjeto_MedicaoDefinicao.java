@@ -39,7 +39,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
                 listMedida.get(i).getNome(),
                 listMedida.get(i).getMnemonico(),
                 listMedida.get(i).getEscala(),
-                listMedida.get(i).getFaixa()
+                String.valueOf(listMedida.get(i).getFaixaInicio()) + "-" +String.valueOf(listMedida.get(i).getFaixaFim())
             };
             tableModel.addRow(linhas);
         }

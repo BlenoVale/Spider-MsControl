@@ -3,6 +3,7 @@ package view.medidas;
 import model.Medida;
 import controller.CtrlMedida;
 import util.Constantes;
+import util.Copia;
 
 import javax.swing.JOptionPane;
 
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
     private Medida medida = new Medida();
+    
 
     public ViewProjeto_MedicaoDefinicao_Novo(java.awt.Frame parent, boolean modal) {
 
@@ -38,7 +40,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         } else if (jTextFieldEscala.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Escala\" é obrigatório");
             return false;
-        } else if (jTextFieldNomeFaixaInicio.getText().isEmpty()) {
+        } else if (jTextFieldFaixaInicio.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Faixa\" é obrigatório");
             return false;
         } else if (jTextFieldFaixaFim.getText().isEmpty()) {
@@ -80,7 +82,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         jTextAreaDefinicao = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldEscala = new javax.swing.JTextField();
-        jTextFieldNomeFaixaInicio = new javax.swing.JTextField();
+        jTextFieldFaixaInicio = new javax.swing.JTextField();
         jTextFieldFaixaFim = new javax.swing.JTextField();
         jLabelDe = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -143,11 +145,11 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jTextFieldEscala.setToolTipText("Valores que podem ser atribuídos à medida (ex: número inteiros, números reais positivos, ...).");
 
-        jTextFieldNomeFaixaInicio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jTextFieldNomeFaixaInicio.setToolTipText("Limites de valores da escala definida de acordo com dados históricos ou com metas estabelecidas (ex: [0, 10], ...).");
-        jTextFieldNomeFaixaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextFieldFaixaInicio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTextFieldFaixaInicio.setToolTipText("Limites de valores da escala definida de acordo com dados históricos ou com metas estabelecidas (ex: [0, 10], ...).");
+        jTextFieldFaixaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldNomeFaixaInicioKeyTyped(evt);
+                jTextFieldFaixaInicioKeyTyped(evt);
             }
         });
 
@@ -199,7 +201,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                             .addGroup(Jpainel3Layout.createSequentialGroup()
                                 .addComponent(jLabelDe)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextFieldNomeFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -254,7 +256,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                     .addComponent(jTextFieldEscala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(Jpainel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldNomeFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFaixaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldFaixaFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDe)
                     .addComponent(jLabel2)
@@ -298,9 +300,9 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         JTextFieldSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldFaixaFimKeyTyped
 
-    private void jTextFieldNomeFaixaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeFaixaInicioKeyTyped
+    private void jTextFieldFaixaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFaixaInicioKeyTyped
         JTextFieldSomenteNumeros(evt);
-    }//GEN-LAST:event_jTextFieldNomeFaixaInicioKeyTyped
+    }//GEN-LAST:event_jTextFieldFaixaInicioKeyTyped
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
@@ -311,17 +313,19 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         if (!verificaCampos()) {
             return;
         }
-
+        
+        medida.setProjetoId(Copia.getProjetoSelecionado().getId());
         medida.setNome(jTextFieldNomeMedida.getText());
         medida.setDefinicao(jTextAreaDefinicao.getText());
         medida.setPontoDeVista(jTextFieldResponsavel.getText());
         medida.setMnemonico(jTextFieldMnemonico.getText());
         medida.setEscala(jTextFieldEscala.getText());
-        medida.setFaixa(jTextFieldNomeFaixaInicio.getText() + "-" + jTextFieldFaixaFim.getText());
+        medida.setFaixaInicio(Double.parseDouble(jTextFieldFaixaInicio.getText()));
+        medida.setFaixaInicio(Double.parseDouble(jTextFieldFaixaFim.getText()));
         medida.setObservacao(jTextAreaObservacoes.getText());
 
-        //@paulo excluir do bd unidadeMedida
-        medida.setUnidadeMedida("excluir");
+        
+        
         CtrlMedida ctrlMedida = new CtrlMedida();
         try {
             ctrlMedida.criarNovaMedida(medida);
@@ -355,8 +359,8 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaObservacoes;
     private javax.swing.JTextField jTextFieldEscala;
     private javax.swing.JTextField jTextFieldFaixaFim;
+    private javax.swing.JTextField jTextFieldFaixaInicio;
     private javax.swing.JTextField jTextFieldMnemonico;
-    private javax.swing.JTextField jTextFieldNomeFaixaInicio;
     private javax.swing.JTextField jTextFieldNomeMedida;
     private javax.swing.JTextField jTextFieldResponsavel;
     // End of variables declaration//GEN-END:variables

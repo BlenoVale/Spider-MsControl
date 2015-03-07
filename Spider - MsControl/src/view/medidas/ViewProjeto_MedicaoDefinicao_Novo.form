@@ -120,7 +120,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabelDe" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jTextFieldNomeFaixaInicio" min="-2" pref="49" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldFaixaInicio" min="-2" pref="49" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -194,7 +194,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextFieldNomeFaixaInicio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldFaixaInicio" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldFaixaFim" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabelDe" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -327,7 +327,7 @@
                 <Property name="toolTipText" type="java.lang.String" value="Valores que podem ser atribu&#xed;dos &#xe0; medida (ex: n&#xfa;mero inteiros, n&#xfa;meros reais positivos, ...)."/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldNomeFaixaInicio">
+            <Component class="javax.swing.JTextField" name="jTextFieldFaixaInicio">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
@@ -335,7 +335,7 @@
                 <Property name="toolTipText" type="java.lang.String" value="Limites de valores da escala definida de acordo com dados hist&#xf3;ricos ou com metas estabelecidas (ex: [0, 10], ...)."/>
               </Properties>
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldNomeFaixaInicioKeyTyped"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldFaixaInicioKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldFaixaFim">

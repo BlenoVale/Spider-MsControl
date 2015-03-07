@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Paulo
  */
 @Entity
 @Table(name = "medida")
@@ -33,12 +33,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Medida.findAll", query = "SELECT m FROM Medida m"),
     @NamedQuery(name = "Medida.findById", query = "SELECT m FROM Medida m WHERE m.id = :id"),
+    @NamedQuery(name = "Medida.findByProjetoId", query = "SELECT m FROM Medida m WHERE m.projetoId = :projetoId"),
     @NamedQuery(name = "Medida.findByNome", query = "SELECT m FROM Medida m WHERE m.nome = :nome"),
     @NamedQuery(name = "Medida.findByPontoDeVista", query = "SELECT m FROM Medida m WHERE m.pontoDeVista = :pontoDeVista"),
     @NamedQuery(name = "Medida.findByMnemonico", query = "SELECT m FROM Medida m WHERE m.mnemonico = :mnemonico"),
-    @NamedQuery(name = "Medida.findByUnidadeMedida", query = "SELECT m FROM Medida m WHERE m.unidadeMedida = :unidadeMedida"),
     @NamedQuery(name = "Medida.findByEscala", query = "SELECT m FROM Medida m WHERE m.escala = :escala"),
-    @NamedQuery(name = "Medida.findByFaixa", query = "SELECT m FROM Medida m WHERE m.faixa = :faixa")})
+    @NamedQuery(name = "Medida.findByFaixaInicio", query = "SELECT m FROM Medida m WHERE m.faixaInicio = :faixaInicio"),
+    @NamedQuery(name = "Medida.findByFaixaFim", query = "SELECT m FROM Medida m WHERE m.faixaFim = :faixaFim")})
 public class Medida implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,6 +47,9 @@ public class Medida implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "projeto_id")
+    private int projetoId;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -59,14 +63,15 @@ public class Medida implements Serializable {
     @Basic(optional = false)
     @Column(name = "mnemonico")
     private String mnemonico;
-    @Column(name = "unidadeMedida")
-    private String unidadeMedida;
     @Basic(optional = false)
     @Column(name = "escala")
     private String escala;
     @Basic(optional = false)
-    @Column(name = "faixa")
-    private String faixa;
+    @Column(name = "faixaInicio")
+    private double faixaInicio;
+    @Basic(optional = false)
+    @Column(name = "faixaFim")
+    private double faixaFim;
     @Lob
     @Column(name = "observacao")
     private String observacao;
@@ -86,14 +91,16 @@ public class Medida implements Serializable {
         this.id = id;
     }
 
-    public Medida(Integer id, String nome, String definicao, String pontoDeVista, String mnemonico, String escala, String faixa) {
+    public Medida(Integer id, int projetoId, String nome, String definicao, String pontoDeVista, String mnemonico, String escala, double faixaInicio, double faixaFim) {
         this.id = id;
+        this.projetoId = projetoId;
         this.nome = nome;
         this.definicao = definicao;
         this.pontoDeVista = pontoDeVista;
         this.mnemonico = mnemonico;
         this.escala = escala;
-        this.faixa = faixa;
+        this.faixaInicio = faixaInicio;
+        this.faixaFim = faixaFim;
     }
 
     public Integer getId() {
@@ -102,6 +109,14 @@ public class Medida implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getProjetoId() {
+        return projetoId;
+    }
+
+    public void setProjetoId(int projetoId) {
+        this.projetoId = projetoId;
     }
 
     public String getNome() {
@@ -136,14 +151,6 @@ public class Medida implements Serializable {
         this.mnemonico = mnemonico;
     }
 
-    public String getUnidadeMedida() {
-        return unidadeMedida;
-    }
-
-    public void setUnidadeMedida(String unidadeMedida) {
-        this.unidadeMedida = unidadeMedida;
-    }
-
     public String getEscala() {
         return escala;
     }
@@ -152,12 +159,20 @@ public class Medida implements Serializable {
         this.escala = escala;
     }
 
-    public String getFaixa() {
-        return faixa;
+    public double getFaixaInicio() {
+        return faixaInicio;
     }
 
-    public void setFaixa(String faixa) {
-        this.faixa = faixa;
+    public void setFaixaInicio(double faixaInicio) {
+        this.faixaInicio = faixaInicio;
+    }
+
+    public double getFaixaFim() {
+        return faixaFim;
+    }
+
+    public void setFaixaFim(double faixaFim) {
+        this.faixaFim = faixaFim;
     }
 
     public String getObservacao() {
@@ -218,8 +233,9 @@ public class Medida implements Serializable {
             return false;
         }
         Medida other = (Medida) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
