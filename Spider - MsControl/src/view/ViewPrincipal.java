@@ -590,6 +590,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
             trocaTelas(viewProjeto_MedicaoDefinicao);
+            viewProjeto_MedicaoDefinicao.preencherTabelaRecarregar();
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")){
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {

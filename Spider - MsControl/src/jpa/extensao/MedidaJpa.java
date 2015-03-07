@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import model.Medida;
 import util.Conexao;
 import jpa.MedidaJpaController;
+import model.Medida_;
 
 /**
  *
@@ -22,13 +23,14 @@ public class MedidaJpa extends MedidaJpaController {
         super(Conexao.conectar());
     }
 
-    public List<Medida> findByNome(String nomeMedicao) {
+    public List<Medida> findByNome(String nomeMedicao, int idProjeto) {
        
         List<Medida> listMedida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT u FROM Medida u WHERE u.nome LIKE :nome ORDER BY u.nome ASC");
+            Query query = entityManager.createQuery("SELECT u FROM Medida u WHERE u.projetoId = :idProjeto AND U.nome LIKE :nome ORDER BY u.nome ASC");
             query.setParameter("nome", nomeMedicao + "%");
+            query.setParameter("idProjeto", idProjeto);
             listMedida = query.getResultList();
             return listMedida;
         } catch (Exception e) {
@@ -49,11 +51,12 @@ public class MedidaJpa extends MedidaJpaController {
                     
         }
     }
-    public List<Medida> findAllMedida (){
+    public List<Medida> findMedidaByProjeto (int idProjeto){
         List<Medida> listMedida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT m FROM Medida m ORDER BY m.nome ASC");
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.projetoId = :idProjeto ORDER BY m.nome ASC");
+            query.setParameter("idProjeto", idProjeto);
             listMedida = query.getResultList();
             return listMedida;
         } catch (Exception e) {

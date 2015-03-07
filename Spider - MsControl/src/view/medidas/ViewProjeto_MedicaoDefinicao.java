@@ -8,6 +8,7 @@ import facade.FacadeJpa;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Medida;
+import util.Copia;
 
 /**
  *
@@ -22,8 +23,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     public ViewProjeto_MedicaoDefinicao() {
         initComponents();
         iniciarTabela();
-        preencherTabelaRecarregar();
-
         Internal.retiraBotao(this);
     }
 
@@ -39,7 +38,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
                 listMedida.get(i).getNome(),
                 listMedida.get(i).getMnemonico(),
                 listMedida.get(i).getEscala(),
-                String.valueOf(listMedida.get(i).getFaixaInicio()) + "-" +String.valueOf(listMedida.get(i).getFaixaFim())
+                String.valueOf(listMedida.get(i).getFaixaInicio()) + " - " +String.valueOf(listMedida.get(i).getFaixaFim())
             };
             tableModel.addRow(linhas);
         }
@@ -50,13 +49,13 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
         iniciarTabela();
 
-        listMedida = jpa.getMedicaoJpa().findByNome(jTextFieldBuscarMedida.getText());
+        listMedida = jpa.getMedicaoJpa().findByNome(jTextFieldBuscarMedida.getText(), Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
     }
 
     public void preencherTabelaRecarregar() {
         iniciarTabela();        
-        listMedida = jpa.getMedicaoJpa().findAllMedida();
+        listMedida = jpa.getMedicaoJpa().findMedidaByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
         
     }

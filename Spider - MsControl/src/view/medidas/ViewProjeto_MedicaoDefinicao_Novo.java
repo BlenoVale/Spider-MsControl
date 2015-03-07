@@ -321,7 +321,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         medida.setMnemonico(jTextFieldMnemonico.getText());
         medida.setEscala(jTextFieldEscala.getText());
         medida.setFaixaInicio(Double.parseDouble(jTextFieldFaixaInicio.getText()));
-        medida.setFaixaInicio(Double.parseDouble(jTextFieldFaixaFim.getText()));
+        medida.setFaixaFim(Double.parseDouble(jTextFieldFaixaFim.getText()));
         medida.setObservacao(jTextAreaObservacoes.getText());
 
         
