@@ -55,7 +55,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
     public void preencherTabelaRecarregar() {
         iniciarTabela();        
-        listMedida = jpa.getMedicaoJpa().findMedidaByProjeto(Copia.getProjetoSelecionado().getId());
+        listMedida = jpa.getMedicaoJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
         
     }

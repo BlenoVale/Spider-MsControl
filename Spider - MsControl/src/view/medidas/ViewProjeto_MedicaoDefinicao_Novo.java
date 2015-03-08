@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
     private Medida medida = new Medida();
-    
 
     public ViewProjeto_MedicaoDefinicao_Novo(java.awt.Frame parent, boolean modal) {
 
@@ -55,6 +54,17 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         String caracteres = "0987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
+        }
+    }
+
+    public boolean validaFaixa() {
+        double numInicio = Double.parseDouble(jTextFieldFaixaInicio.getText());
+        double numFim = Double.parseDouble(jTextFieldFaixaFim.getText());
+
+        if (numFim < numInicio) {
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -310,10 +320,24 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
 
+        CtrlMedida ctrlMedida = new CtrlMedida();
+
         if (!verificaCampos()) {
             return;
         }
-        
+        if (ctrlMedida.checkNomeMedida(jTextFieldNomeMedida.getText())) {
+            JOptionPane.showMessageDialog(null, "Já existe uma medida com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (ctrlMedida.checkNomeMnemonico(jTextFieldMnemonico.getText())) {
+            JOptionPane.showMessageDialog(null, "Já existe um mnemônico com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!validaFaixa()){
+            JOptionPane.showMessageDialog(null, "A faixa de inicio não deve ser maior que a de fim.", "", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         medida.setProjetoId(Copia.getProjetoSelecionado().getId());
         medida.setNome(jTextFieldNomeMedida.getText());
         medida.setDefinicao(jTextAreaDefinicao.getText());
@@ -324,12 +348,10 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         medida.setFaixaFim(Double.parseDouble(jTextFieldFaixaFim.getText()));
         medida.setObservacao(jTextAreaObservacoes.getText());
 
-        
-        
-        CtrlMedida ctrlMedida = new CtrlMedida();
         try {
             ctrlMedida.criarNovaMedida(medida);
             ctrlMedida.registrarMedida(medida, Constantes.CADASTRO);
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao Salvar");
         }

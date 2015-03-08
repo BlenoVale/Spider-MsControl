@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import model.Medida;
 import util.Conexao;
 import jpa.MedidaJpaController;
-import model.Medida_;
 
 /**
  *
@@ -38,20 +37,33 @@ public class MedidaJpa extends MedidaJpaController {
         }
 
     }
-    public Medida findByNomeSingle(String nomeMedida){
+    public Medida findByNomeAndProjeto(String nomeMedida, int idProjeto){
         Medida medida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome LIKE :nome");
-            query.setParameter("nome", nomeMedida + "%");
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome = :nome AND m.projetoId = :idProjeto");
+            query.setParameter("nome", nomeMedida);
+            query.setParameter("idProjeto", idProjeto);
             medida = (Medida) query.getSingleResult();
             return medida;
         } catch (Exception e) {
             return null;
-                    
         }
     }
-    public List<Medida> findMedidaByProjeto (int idProjeto){
+    public Medida findByMnemonicoAndProjeto(String nomeMnemonico, int idProjeto){
+        Medida medida = null;
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.mnemonico = :nomeMnemonico AND m.projetoId = :idProjeto");
+            query.setParameter("nomeMnemonico", nomeMnemonico);
+            query.setParameter("idProjeto", idProjeto);
+            medida = (Medida) query.getSingleResult();
+            return medida;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public List<Medida> findByProjeto (int idProjeto){
         List<Medida> listMedida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
