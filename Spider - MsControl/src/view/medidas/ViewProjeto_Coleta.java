@@ -1,12 +1,15 @@
 package view.medidas;
 
 import controller.CtrlColeta;
+import facade.FacadeJpa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import model.Coleta;
+import model.Medida;
 import util.Copia;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 /**
@@ -15,38 +18,35 @@ import util.MyDefaultTableModel;
  */
 public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
-    private List<Coleta> lista_coleta;
     private DefaultTableModel defaultTableModel;
     private CtrlColeta ctrlColeta = new CtrlColeta();
     private DefaultListModel model = new DefaultListModel();
+    private MyDefaultTableModel tableModel;
+    private List<Medida> listMedida;
+    private final FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewProjeto_Coleta() {
         initComponents();
+        iniciarTabela();
+        Internal.retiraBotao(this);
     }
 
-    private void atualizaListaColetaDoProjeto() {
-        int idDoProjeto = Copia.getProjetoSelecionado().getId();
-
-        lista_coleta = new ArrayList<>();
-        lista_coleta = ctrlColeta.getColetaDoProjeto(idDoProjeto);
+     private void iniciarTabela() {
+        tableModel = new MyDefaultTableModel(new String[]{"Medida"}, 0, false);
+        jTableMedidas.setModel(tableModel);
     }
+     
+     private void preencherTabela(List<Medida> listMedida) {
 
-    /**
-     * Preenche tabela de indicadores a partir do projeto selecionado
-     *
-     * @param lista
-     */
-//    private void preencherTabelaColeta(List<Coleta> lista) {
-//        String[] colunas = {"Coleta"};
-//        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-//        for (int i = 0; i < lista.size(); i++) {
-//            String linha[] = {
-//                String.valueOf(lista.get(i).getColeta())
-//            };
-//            defaultTableModel.addRow(linha);
-//        }
-//        jTableColetas.setModel(defaultTableModel);
-//    }
+        for (int i = 0; i < listMedida.size(); i++) {
+            String[] linhas = new String[]{
+                listMedida.get(i).getNome()
+                };
+            tableModel.addRow(linhas);
+        }
+        jTableMedidas.setModel(tableModel);
+    }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
