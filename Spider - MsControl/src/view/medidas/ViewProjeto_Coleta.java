@@ -1,12 +1,12 @@
 package view.medidas;
 
 import controller.CtrlColeta;
+import controller.CtrlMedida;
 import facade.FacadeJpa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
-import model.Coleta;
 import model.Medida;
 import util.Copia;
 import util.Internal;
@@ -19,34 +19,42 @@ import util.MyDefaultTableModel;
 public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private DefaultTableModel defaultTableModel;
-    private CtrlColeta ctrlColeta = new CtrlColeta();
-    private DefaultListModel model = new DefaultListModel();
+    private final CtrlColeta ctrlColeta = new CtrlColeta();
+    private final CtrlMedida ctrlMedida = new CtrlMedida();
+    private final DefaultListModel model = new DefaultListModel();
     private MyDefaultTableModel tableModel;
     private List<Medida> listMedida;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewProjeto_Coleta() {
         initComponents();
-        iniciarTabela();
         Internal.retiraBotao(this);
     }
 
-     private void iniciarTabela() {
+    public void preencherTabela(List<Medida> listMedida) {
         tableModel = new MyDefaultTableModel(new String[]{"Medida"}, 0, false);
         jTableMedidas.setModel(tableModel);
-    }
-     
-     private void preencherTabela(List<Medida> listMedida) {
-
         for (int i = 0; i < listMedida.size(); i++) {
             String[] linhas = new String[]{
                 listMedida.get(i).getNome()
-                };
+            };
             tableModel.addRow(linhas);
         }
         jTableMedidas.setModel(tableModel);
     }
-     
+    
+    private void atualizaListaMedidaDoProjeto(){
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        
+        listMedida = new ArrayList<Medida>();
+        listMedida = ctrlMedida.getMedidaDoProjeto(idDoProjeto);
+    }
+
+    public void preencherTabelaMedidaDoProjeto(){
+        atualizaListaMedidaDoProjeto();
+        preencherTabela(listMedida);
+    }
+            
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

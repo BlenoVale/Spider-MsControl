@@ -49,13 +49,13 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
         iniciarTabela();
 
-        listMedida = jpa.getMedicaoJpa().findByNome(jTextFieldBuscarMedida.getText(), Copia.getProjetoSelecionado().getId());
+        listMedida = jpa.getMedidaJpa().findByNome(jTextFieldBuscarMedida.getText(), Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
     }
 
     public void preencherTabelaRecarregar() {
         iniciarTabela();        
-        listMedida = jpa.getMedicaoJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
+        listMedida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
         
     }

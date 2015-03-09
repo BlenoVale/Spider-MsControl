@@ -37,8 +37,8 @@ public class FacadeJpa {
     private final AnaliseJpaController analiseJpa;
     private final ColetaJpaController coletaJpa;
     private final FuncionalidadeJpa funcionalidadeJpa;
-    private final MedidaJpaController medidaJpa;
-    private final MedidaJpa medicaoJpa; //@paulo
+    private final MedidaJpaController medidaJpaController;
+    private final MedidaJpa medidaJpa; //@paulo
     private final ObjetivodemedicaoJpaController objetivodemedicacao;
     private final ObjetivodequestaoJpaController objetivodequestaoJpa;
     private final PerfilJpa perfilJpa;
@@ -60,8 +60,8 @@ public class FacadeJpa {
         analiseJpa = new AnaliseJpaController(Conexao.conectar());
         coletaJpa = new ColetaJpaController(Conexao.conectar());
         funcionalidadeJpa = new FuncionalidadeJpa();
-        medidaJpa = new MedidaJpaController(Conexao.conectar());
-        medicaoJpa = new MedidaJpa(); 
+        medidaJpaController = new MedidaJpaController(Conexao.conectar());
+        medidaJpa = new MedidaJpa(); 
         objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
@@ -89,8 +89,8 @@ public class FacadeJpa {
     public AcessaJpaController getAcessaJpa() {
         return acessaJpa;
     }
-    public MedidaJpa getMedicaoJpa(){
-        return medicaoJpa;
+    public MedidaJpa getMedidaJpa(){
+        return medidaJpa;
     }
     public RegistroMedidaJpa getRegistroMedidaJpa(){
         return registroMedidaJpa;
@@ -108,8 +108,8 @@ public class FacadeJpa {
         return funcionalidadeJpa;
     }
 
-    public MedidaJpaController getMedidaJpa() {
-        return medidaJpa;
+    public MedidaJpaController getMedidaJpaController() {
+        return medidaJpaController;
     }
 
     public ObjetivodemedicaoJpaController getObjetivodemedicao() {

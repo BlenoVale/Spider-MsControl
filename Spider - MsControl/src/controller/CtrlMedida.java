@@ -2,6 +2,7 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.Date;
+import java.util.List;
 import model.Medida;
 import model.Registromedida;
 import util.Copia;
@@ -16,7 +17,7 @@ public class CtrlMedida {
 
     public void criarNovaMedida(Medida medida) {
         try {
-            facadeJpa.getMedidaJpa().create(medida);
+            facadeJpa.getMedidaJpaController().create(medida);
             System.out.println("Medida Criada");
         } catch (Exception e) {
             System.out.println("Erro cadastro Medida");
@@ -25,7 +26,7 @@ public class CtrlMedida {
     }
 
     public void registrarMedida(Medida medida, int tipo) {
-        medida = facadeJpa.getMedicaoJpa().findByNomeAndProjeto(medida.getNome(), medida.getProjetoId());
+        medida = facadeJpa.getMedidaJpa().findByNomeAndProjeto(medida.getNome(), medida.getProjetoId());
         Registromedida registro = new Registromedida();
 
         registro.setData(new Date());
@@ -42,7 +43,7 @@ public class CtrlMedida {
 
     public boolean checkNomeMedida(String nomeMedida) {
         Medida medida = new Medida();
-        medida = facadeJpa.getMedicaoJpa().findByNomeAndProjeto(nomeMedida, Copia.getProjetoSelecionado().getId());
+        medida = facadeJpa.getMedidaJpa().findByNomeAndProjeto(nomeMedida, Copia.getProjetoSelecionado().getId());
         if (medida != null) {
             return true;
         } else {
@@ -52,12 +53,20 @@ public class CtrlMedida {
 
     public boolean checkNomeMnemonico(String nomeMnemonico) {
         Medida medida = new Medida();
-        medida = facadeJpa.getMedicaoJpa().findByMnemonicoAndProjeto(nomeMnemonico, Copia.getProjetoSelecionado().getId());
+        medida = facadeJpa.getMedidaJpa().findByMnemonicoAndProjeto(nomeMnemonico, Copia.getProjetoSelecionado().getId());
 
         if (medida != null) {
             return true;
         } else {
             return false;
+        }
+    }
+    
+    public List<Medida> getMedidaDoProjeto(int idDoProjeto){
+        try{
+            return facadeJpa.getMedidaJpa().findByProjeto(idDoProjeto);
+        }catch(Exception error){
+            throw(error); 
         }
     }
 
