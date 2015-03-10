@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Dan
+ * @author Spider-02
  */
 @Entity
 @Table(name = "registroobjetivoquestao")

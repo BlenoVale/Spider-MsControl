@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dan
+ * @author Spider-02
  */
 @Entity
 @Table(name = "coleta")
@@ -37,9 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
     @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
     @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
-    @NamedQuery(name = "Coleta.findByComposicao", query = "SELECT c FROM Coleta c WHERE c.composicao = :composicao"),
     @NamedQuery(name = "Coleta.findByTipoDeColeta", query = "SELECT c FROM Coleta c WHERE c.tipoDeColeta = :tipoDeColeta"),
-    @NamedQuery(name = "Coleta.findByTipoComposicao", query = "SELECT c FROM Coleta c WHERE c.tipoComposicao = :tipoComposicao"),
     @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao")})
 public class Coleta implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -52,14 +50,8 @@ public class Coleta implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @Basic(optional = false)
-    @Column(name = "composicao")
-    private String composicao;
     @Column(name = "tipoDeColeta")
     private String tipoDeColeta;
-    @Basic(optional = false)
-    @Column(name = "tipoComposicao")
-    private String tipoComposicao;
     @Column(name = "observacao")
     private String observacao;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
@@ -75,11 +67,9 @@ public class Coleta implements Serializable {
         this.id = id;
     }
 
-    public Coleta(Integer id, Date data, String composicao, String tipoComposicao) {
+    public Coleta(Integer id, Date data) {
         this.id = id;
         this.data = data;
-        this.composicao = composicao;
-        this.tipoComposicao = tipoComposicao;
     }
 
     public Integer getId() {
@@ -98,28 +88,12 @@ public class Coleta implements Serializable {
         this.data = data;
     }
 
-    public String getComposicao() {
-        return composicao;
-    }
-
-    public void setComposicao(String composicao) {
-        this.composicao = composicao;
-    }
-
     public String getTipoDeColeta() {
         return tipoDeColeta;
     }
 
     public void setTipoDeColeta(String tipoDeColeta) {
         this.tipoDeColeta = tipoDeColeta;
-    }
-
-    public String getTipoComposicao() {
-        return tipoComposicao;
-    }
-
-    public void setTipoComposicao(String tipoComposicao) {
-        this.tipoComposicao = tipoComposicao;
     }
 
     public String getObservacao() {

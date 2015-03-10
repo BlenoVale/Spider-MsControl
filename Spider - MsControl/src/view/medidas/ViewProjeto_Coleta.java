@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
+import model.Coleta;
 import model.Medida;
 import util.Copia;
 import util.Internal;
@@ -24,6 +25,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private final DefaultListModel model = new DefaultListModel();
     private MyDefaultTableModel tableModel;
     private List<Medida> listMedida;
+    private List<Coleta> listColeta;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
 
     public ViewProjeto_Coleta() {
@@ -31,6 +33,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         Internal.retiraBotao(this);
     }
 
+    //Tabela de medidas:
+    
     public void preencherTabela(List<Medida> listMedida) {
         tableModel = new MyDefaultTableModel(new String[]{"Medida"}, 0, false);
         jTableMedidas.setModel(tableModel);
@@ -54,7 +58,33 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         atualizaListaMedidaDoProjeto();
         preencherTabela(listMedida);
     }
-            
+    
+    //Tabela de Coletas:
+    
+//    public void preencherTabelaColeta(List<Coleta> listcoleta){
+//        tableModel = new MyDefaultTableModel(new String[]{"Coleta"},0,false);
+//        jTableColetas.setModel(tableModel);
+//        for (int i = 0; i < listColeta.size(); i++) {
+//            String[] linhas = new String[]{
+//                listColeta.get(i).get()
+//            };
+//            tableModel.addRow(linhas);
+//        }
+//        jTableColetas.setModel(tableModel);
+//    }
+   
+//    private void atualizaListaColetaDoProjeto(){
+//        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+//        
+//        listColeta = new ArrayList<Coleta>();
+//        listColeta = ctrlColeta.getColetaDoProjeto(idDoProjeto);
+//    }
+    
+//    public void preencherTabelaColetaDoProjeto(){
+//        atualizaListaColetaDoProjeto();
+//        preencherTabelaColeta(listColeta);
+//    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
