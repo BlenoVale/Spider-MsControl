@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
     @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
     @NamedQuery(name = "Coleta.findByTipoDeColeta", query = "SELECT c FROM Coleta c WHERE c.tipoDeColeta = :tipoDeColeta"),
+    @NamedQuery(name = "Coleta.findByValorDaColeta", query = "SELECT c FROM Coleta c WHERE c.valorDaColeta = :valorDaColeta"),
     @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao")})
 public class Coleta implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -52,6 +53,9 @@ public class Coleta implements Serializable {
     private Date data;
     @Column(name = "tipoDeColeta")
     private String tipoDeColeta;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valorDaColeta")
+    private Double valorDaColeta;
     @Column(name = "observacao")
     private String observacao;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
@@ -94,6 +98,14 @@ public class Coleta implements Serializable {
 
     public void setTipoDeColeta(String tipoDeColeta) {
         this.tipoDeColeta = tipoDeColeta;
+    }
+
+    public Double getValorDaColeta() {
+        return valorDaColeta;
+    }
+
+    public void setValorDaColeta(Double valorDaColeta) {
+        this.valorDaColeta = valorDaColeta;
     }
 
     public String getObservacao() {

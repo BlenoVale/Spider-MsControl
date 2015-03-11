@@ -69,5 +69,13 @@ public class CtrlMedida {
             throw(error); 
         }
     }
+    
+     public Medida buscarMedidaPeloNome(String nome, int idProjeto) {
+        try {
+            return facadeJpa.getMedidaJpa().findByNomeAndProjeto(nome, idProjeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
 
 }

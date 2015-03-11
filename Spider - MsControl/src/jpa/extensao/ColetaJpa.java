@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import jpa.ColetaJpaController;
 import model.Coleta;
+import model.Medida;
 import util.Conexao;
 
 /**
@@ -28,6 +29,18 @@ public class ColetaJpa extends ColetaJpaController {
             return lista;
         } catch (Exception error) {
             throw error;
+        }
+    }
+    
+    public Medida findByNomeAndProjeto (String nome, int idProjeto){
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return (Medida) entityManager.createQuery("SELECT i FROM Medida i WHERE i.nome = :nome AND i.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
+                    .setParameter("nome", nome)
+                    .setParameter("idProjeto", idProjeto)
+                    .getSingleResult();
+        } catch (Exception error) {
+            return null;
         }
     }
     
