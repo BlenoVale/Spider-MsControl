@@ -96,6 +96,34 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         preencherTabelaColeta(listColeta);
     }
     
+    public String checaTextoDigitadoEmFormatoDouble(String numero) {
+ 
+        if (numero.length() == 0)
+            return numero;
+ 
+        String numeroQuebrado[] = numero.split(",");
+ 
+        if (numero.substring(numero.length() - 1, numero.length()).equals(","))
+            return numero;
+ 
+        if (numeroQuebrado.length == 2)
+            numero = numeroQuebrado[0] + "." + numeroQuebrado[1];
+ 
+        String ultimaStringValida = "";
+        for (int i = 0; i < numero.length(); i++) {
+            String letras = numero.substring(0, i + 1);
+            try {
+                Double.parseDouble(letras);
+                ultimaStringValida = letras;
+            } catch (Exception e) {
+                break;
+            }
+        }
+ 
+        return ultimaStringValida;
+ 
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -115,7 +143,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        jListColetasASalvar = new javax.swing.JList();
         jSeparator1 = new javax.swing.JSeparator();
 
         setTitle("Coletas");
@@ -180,6 +208,11 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 jTextFieldValorColetaActionPerformed(evt);
             }
         });
+        jTextFieldValorColeta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldValorColetaKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Manual");
 
@@ -191,7 +224,12 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Coletas a salvar");
 
-        jScrollPane3.setViewportView(jList1);
+        jListColetasASalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListColetasASalvarMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jListColetasASalvar);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -279,7 +317,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
         model.addElement(jTextFieldValorColeta.getText());
         jTextFieldValorColeta.setText("");
-        jList1.setModel(model);
+        jListColetasASalvar.setModel(model);
 
     }//GEN-LAST:event_jTextFieldValorColetaActionPerformed
 
@@ -288,6 +326,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         listColeta = medidaSelecionada.getColetaList();
         preencherTabelaColeta(listColeta);
     }//GEN-LAST:event_jTableMedidasMouseClicked
+
+    private void jListColetasASalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListColetasASalvarMouseClicked
+        String coletaSelecionada = jListColetasASalvar.getSelectedValue().toString();
+        jTextFieldValorColeta.setText(coletaSelecionada);
+    }//GEN-LAST:event_jListColetasASalvarMouseClicked
+
+    private void jTextFieldValorColetaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorColetaKeyReleased
+        jTextFieldValorColeta.setText(checaTextoDigitadoEmFormatoDouble(jTextFieldValorColeta.getText()));
+    }//GEN-LAST:event_jTextFieldValorColetaKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -298,7 +345,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList jList1;
+    private javax.swing.JList jListColetasASalvar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
