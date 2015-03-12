@@ -124,6 +124,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
  
     }
     
+     private boolean validarCampos() {
+        String mensagem = null;
+
+        if (jListColetasASalvar.getSelectedValuesList().isEmpty()) {
+            mensagem = "Não há novas medidas a serem salvas.";
+        }
+        return false;
+     }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -217,6 +226,11 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jLabel3.setText("Manual");
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
 
@@ -335,6 +349,12 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private void jTextFieldValorColetaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorColetaKeyReleased
         jTextFieldValorColeta.setText(checaTextoDigitadoEmFormatoDouble(jTextFieldValorColeta.getText()));
     }//GEN-LAST:event_jTextFieldValorColetaKeyReleased
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        if (!validarCampos()) {
+            return;
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

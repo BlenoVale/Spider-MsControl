@@ -103,7 +103,11 @@ public class FacadeJpa {
     public ColetaJpaController getColetaJpa() {
         return coletaJpa;
     }
-
+    
+//    public RegistrocoletaJpaController getRegistroColeta() {
+//        return registroColetaJpa;
+//    }    
+        
     public FuncionalidadeJpa getFuncionalidadeJpa() {
         return funcionalidadeJpa;
     }
