@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.Coleta;
 import model.Medida;
@@ -259,9 +261,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         });
 
         jButtonImporta.setText("Importar");
+        jButtonImporta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImportaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Coletas a salvar");
 
+        jListColetasASalvar.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListColetasASalvar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListColetasASalvarMouseClicked(evt);
@@ -376,7 +384,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private void jListColetasASalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListColetasASalvarMouseClicked
 
-        if(jListColetasASalvar.getSelectedIndex()== -1){
+        if (jListColetasASalvar.getSelectedIndex() == -1) {
             jButtonRemover.setEnabled(false);
         } else {
             jButtonRemover.setEnabled(true);
@@ -397,15 +405,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         preencherTabelaColeta(listaColeta);
         modelJlist = new DefaultListModel();
         jListColetasASalvar.setModel(modelJlist);
+        
+        jButtonRemover.setEnabled(false);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
         modelJlist.removeElementAt(jListColetasASalvar.getSelectedIndex());
         jListColetasASalvar.setModel(modelJlist);
-        
-        if(modelJlist.isEmpty()){
-            jButtonRemover.setEnabled(false);
-        }
+
+        jButtonRemover.setEnabled(false);
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -413,6 +421,25 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jListColetasASalvar.setModel(modelJlist);
         jButtonRemover.setEnabled(false);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonImportaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImportaActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        //chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setFileFilter(new FileNameExtensionFilter("Excel", "xls", "xlsx"));
+        chooser.showOpenDialog(this);
+        List<Coleta> listaDaColeta = new ArrayList<>();
+        try {
+            String file = chooser.getSelectedFile().getAbsolutePath();
+            listaDaColeta = new viewExcelDialog(null, true).showExcelDialog(file);
+        } catch (Exception ex) {
+            return;
+        }
+        
+        for(Coleta coleta:listaDaColeta){
+            modelJlist.addElement(coleta.getValorDaColeta());
+        }
+        jListColetasASalvar.setModel(modelJlist);
+    }//GEN-LAST:event_jButtonImportaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
