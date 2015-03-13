@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Coleta;
 import model.Medida;
@@ -23,13 +24,13 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private DefaultTableModel defaultTableModel;
     private final CtrlColeta ctrlColeta = new CtrlColeta();
     private final CtrlMedida ctrlMedida = new CtrlMedida();
-    private final DefaultListModel model = new DefaultListModel();
+    private DefaultListModel modelJlist = new DefaultListModel();
     private MyDefaultTableModel tableModel;
     private List<Medida> listMedida;
     private List<Coleta> listaColeta;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
     private Medida medidaSelecionada = new Medida();
-    
+
     private Coleta coleta;
     private boolean ehNovaColeta;
 
@@ -39,7 +40,6 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     }
 
     //Tabela de medidas:
-    
     public void preencherTabela(List<Medida> listMedida) {
         tableModel = new MyDefaultTableModel(new String[]{"Medida"}, 0, false);
         jTableMedidas.setModel(tableModel);
@@ -51,28 +51,27 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         }
         jTableMedidas.setModel(tableModel);
     }
-    
-    private void atualizaListaMedidaDoProjeto(){
+
+    private void atualizaListaMedidaDoProjeto() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
-        
+
         listMedida = new ArrayList<Medida>();
         listMedida = ctrlMedida.getMedidaDoProjeto(idDoProjeto);
     }
 
-    public void preencherTabelaMedidaDoProjeto(){
+    public void preencherTabelaMedidaDoProjeto() {
         atualizaListaMedidaDoProjeto();
         preencherTabela(listMedida);
     }
-    
+
     private void pegarMedidaSelecionada() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
         medidaSelecionada = ctrlMedida.buscarMedidaPeloNome(jTableMedidas.getValueAt(jTableMedidas.getSelectedRow(), 0).toString(), idDoProjeto);
-}
-    
+    }
+
     //Tabela de Coletas:
-    
-    public void preencherTabelaColeta(List<Coleta> listcoleta){
-        tableModel = new MyDefaultTableModel(new String[]{"Coleta"},0,false);
+    public void preencherTabelaColeta(List<Coleta> listcoleta) {
+        tableModel = new MyDefaultTableModel(new String[]{"Coleta"}, 0, false);
         jTableColetas.setModel(tableModel);
         for (int i = 0; i < listaColeta.size(); i++) {
             String[] linhas = new String[]{
@@ -82,32 +81,32 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         }
         jTableColetas.setModel(tableModel);
     }
-   
-    private void atualizaListaColetaDoProjeto(){
+
+    private void atualizaListaColetaDoProjeto() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
-        
+
         listaColeta = new ArrayList<Coleta>();
         listaColeta = ctrlColeta.getColetaDoProjeto(idDoProjeto);
     }
-    
-    public void preencherTabelaColetaDoProjeto(){
+
+    public void preencherTabelaColetaDoProjeto() {
         atualizaListaColetaDoProjeto();
         preencherTabelaColeta(listaColeta);
     }
-    
+
     public String checaTextoDigitadoEmFormatoDouble(String numero) {
- 
+
         if (numero.length() == 0)
             return numero;
- 
+
         String numeroQuebrado[] = numero.split(",");
- 
+
         if (numero.substring(numero.length() - 1, numero.length()).equals(","))
             return numero;
- 
+
         if (numeroQuebrado.length == 2)
             numero = numeroQuebrado[0] + "." + numeroQuebrado[1];
- 
+
         String ultimaStringValida = "";
         for (int i = 0; i < numero.length(); i++) {
             String letras = numero.substring(0, i + 1);
@@ -118,31 +117,40 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 break;
             }
         }
- 
+
         return ultimaStringValida;
- 
+
     }
-    
+
     private void cadastraColeta() {
-        Coleta coleta = new Coleta();
-        for (int i = 0; i < jListColetasASalvar.getMaxSelectionIndex(); i++) {
-            coleta.setData(new Date());
-            coleta.setMedidaid(medidaSelecionada);
-            coleta.setValorDaColeta(Double.parseDouble(jListColetasASalvar.getSelectedValue().toString()));
-            System.out.println("Coleta: " + coleta.getValorDaColeta());
-        }  
+        pegarMedidaSelecionada();
+        Coleta coletaAux = new Coleta();
+        boolean passou = true;
+        for (int i = 0; i < jListColetasASalvar.getModel().getSize(); i++) {
+            coletaAux.setData(new Date());
+            coletaAux.setMedidaid(medidaSelecionada);
+            coletaAux.setValorDaColeta(Double.parseDouble(jListColetasASalvar.getModel().getElementAt(i).toString()));
+            System.out.println("Coleta: " + coletaAux.getValorDaColeta());
+            passou = ctrlColeta.cadastrarColeta(coletaAux);
+        }
+        if (passou) {
+            JOptionPane.showMessageDialog(null, "Cadastrado como sucesso.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    
-     private boolean validarCampos() {
-        String mensagem = null;
-
-        if (jListColetasASalvar.getSelectedValuesList().isEmpty()) {
-            mensagem = "Não há novas medidas a serem salvas.";
+    private boolean validarCampos() {
+        if (jListColetasASalvar.getModel().getSize() == 0) {
+            JOptionPane.showMessageDialog(this, "Não há novas medidas a serem salvas.");
+            return false;
+        } else if (jTableMedidas.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma medida");
+            return false;
         }
-        return false;
-     }
-     
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -159,11 +167,12 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonImporta = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jListColetasASalvar = new javax.swing.JList();
         jSeparator1 = new javax.swing.JSeparator();
+        jButtonRemover = new javax.swing.JButton();
 
         setTitle("Coletas");
 
@@ -243,8 +252,13 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Importar");
+        jButtonImporta.setText("Importar");
 
         jLabel4.setText("Coletas a salvar");
 
@@ -254,6 +268,14 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane3.setViewportView(jListColetasASalvar);
+
+        jButtonRemover.setText("Remover");
+        jButtonRemover.setEnabled(false);
+        jButtonRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -276,14 +298,14 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldValorColeta, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)))
+                                .addComponent(jButtonImporta))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButtonRemover)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonCancelar)))
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCancelar)
-                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,11 +313,12 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
-                    .addComponent(jButtonSalvar))
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jButtonRemover))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -306,7 +329,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldValorColeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonImporta))
                 .addContainerGap())
         );
 
@@ -339,9 +362,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             return;
         }
 
-        model.addElement(jTextFieldValorColeta.getText());
+        modelJlist.addElement(jTextFieldValorColeta.getText());
         jTextFieldValorColeta.setText("");
-        jListColetasASalvar.setModel(model);
+        jListColetasASalvar.setModel(modelJlist);
 
     }//GEN-LAST:event_jTextFieldValorColetaActionPerformed
 
@@ -352,8 +375,12 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTableMedidasMouseClicked
 
     private void jListColetasASalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListColetasASalvarMouseClicked
-        String coletaSelecionada = jListColetasASalvar.getSelectedValue().toString();
-        jTextFieldValorColeta.setText(coletaSelecionada);
+
+        if(jListColetasASalvar.getSelectedIndex()== -1){
+            jButtonRemover.setEnabled(false);
+        } else {
+            jButtonRemover.setEnabled(true);
+        }
     }//GEN-LAST:event_jListColetasASalvarMouseClicked
 
     private void jTextFieldValorColetaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorColetaKeyReleased
@@ -365,12 +392,33 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             return;
         }
         cadastraColeta();
+        pegarMedidaSelecionada();
+        listaColeta = medidaSelecionada.getColetaList();
+        preencherTabelaColeta(listaColeta);
+        modelJlist = new DefaultListModel();
+        jListColetasASalvar.setModel(modelJlist);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
+        modelJlist.removeElementAt(jListColetasASalvar.getSelectedIndex());
+        jListColetasASalvar.setModel(modelJlist);
+        
+        if(modelJlist.isEmpty()){
+            jButtonRemover.setEnabled(false);
+        }
+    }//GEN-LAST:event_jButtonRemoverActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        modelJlist.removeAllElements();
+        jListColetasASalvar.setModel(modelJlist);
+        jButtonRemover.setEnabled(false);
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonImporta;
+    private javax.swing.JButton jButtonRemover;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
