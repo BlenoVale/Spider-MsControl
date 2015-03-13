@@ -37,7 +37,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
         jButtonEditar = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
 
-        setTitle("Coleta");
+        setTitle("Procedimentos de Coleta");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
