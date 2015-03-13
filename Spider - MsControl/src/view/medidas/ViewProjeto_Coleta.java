@@ -4,6 +4,7 @@ import controller.CtrlColeta;
 import controller.CtrlMedida;
 import facade.FacadeJpa;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
@@ -123,6 +124,17 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         return ultimaStringValida;
  
     }
+    
+    private void cadastraColeta() {
+        Coleta coleta = new Coleta();
+        for (int i = 0; i < jListColetasASalvar.getMaxSelectionIndex(); i++) {
+            coleta.setData(new Date());
+            coleta.setMedidaid(medidaSelecionada);
+            coleta.setValorDaColeta(Double.parseDouble(jListColetasASalvar.getSelectedValue().toString()));
+            System.out.println("Coleta: " + coleta.getValorDaColeta());
+        }  
+    }
+
     
      private boolean validarCampos() {
         String mensagem = null;
@@ -354,6 +366,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         if (!validarCampos()) {
             return;
         }
+        cadastraColeta();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
 
