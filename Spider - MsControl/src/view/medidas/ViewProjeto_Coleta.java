@@ -10,7 +10,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import model.Coleta;
 import model.Medida;
-import model.Registrocoleta;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
@@ -27,9 +26,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private final DefaultListModel model = new DefaultListModel();
     private MyDefaultTableModel tableModel;
     private List<Medida> listMedida;
-    private List<Coleta> listColeta;
+    private List<Coleta> listaColeta;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
-    private Registrocoleta registro;
     private Medida medidaSelecionada = new Medida();
     
     private Coleta coleta;
@@ -76,9 +74,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     public void preencherTabelaColeta(List<Coleta> listcoleta){
         tableModel = new MyDefaultTableModel(new String[]{"Coleta"},0,false);
         jTableColetas.setModel(tableModel);
-        for (int i = 0; i < listColeta.size(); i++) {
+        for (int i = 0; i < listaColeta.size(); i++) {
             String[] linhas = new String[]{
-                listColeta.get(i).getValorDaColeta().toString()
+                listaColeta.get(i).getValorDaColeta().toString()
             };
             tableModel.addRow(linhas);
         }
@@ -88,13 +86,13 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private void atualizaListaColetaDoProjeto(){
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
         
-        listColeta = new ArrayList<Coleta>();
-        listColeta = ctrlColeta.getColetaDoProjeto(idDoProjeto);
+        listaColeta = new ArrayList<Coleta>();
+        listaColeta = ctrlColeta.getColetaDoProjeto(idDoProjeto);
     }
     
     public void preencherTabelaColetaDoProjeto(){
         atualizaListaColetaDoProjeto();
-        preencherTabelaColeta(listColeta);
+        preencherTabelaColeta(listaColeta);
     }
     
     public String checaTextoDigitadoEmFormatoDouble(String numero) {
@@ -349,8 +347,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private void jTableMedidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidasMouseClicked
         pegarMedidaSelecionada();
-        listColeta = medidaSelecionada.getColetaList();
-        preencherTabelaColeta(listColeta);
+        listaColeta = medidaSelecionada.getColetaList();
+        preencherTabelaColeta(listaColeta);
     }//GEN-LAST:event_jTableMedidasMouseClicked
 
     private void jListColetasASalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListColetasASalvarMouseClicked

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider-02
+ * @author Spider
  */
 @Entity
 @Table(name = "medida")

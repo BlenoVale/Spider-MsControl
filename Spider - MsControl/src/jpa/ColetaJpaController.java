@@ -6,23 +6,20 @@
 package jpa;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Medida;
-import model.Registrocoleta;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Coleta;
+import model.Medida;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class ColetaJpaController implements Serializable {
 
@@ -36,9 +33,6 @@ public class ColetaJpaController implements Serializable {
     }
 
     public void create(Coleta coleta) {
-        if (coleta.getRegistrocoletaList() == null) {
-            coleta.setRegistrocoletaList(new ArrayList<Registrocoleta>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -48,25 +42,10 @@ public class ColetaJpaController implements Serializable {
                 medidaid = em.getReference(medidaid.getClass(), medidaid.getId());
                 coleta.setMedidaid(medidaid);
             }
-            List<Registrocoleta> attachedRegistrocoletaList = new ArrayList<Registrocoleta>();
-            for (Registrocoleta registrocoletaListRegistrocoletaToAttach : coleta.getRegistrocoletaList()) {
-                registrocoletaListRegistrocoletaToAttach = em.getReference(registrocoletaListRegistrocoletaToAttach.getClass(), registrocoletaListRegistrocoletaToAttach.getId());
-                attachedRegistrocoletaList.add(registrocoletaListRegistrocoletaToAttach);
-            }
-            coleta.setRegistrocoletaList(attachedRegistrocoletaList);
             em.persist(coleta);
             if (medidaid != null) {
                 medidaid.getColetaList().add(coleta);
                 medidaid = em.merge(medidaid);
-            }
-            for (Registrocoleta registrocoletaListRegistrocoleta : coleta.getRegistrocoletaList()) {
-                Coleta oldColetaidOfRegistrocoletaListRegistrocoleta = registrocoletaListRegistrocoleta.getColetaid();
-                registrocoletaListRegistrocoleta.setColetaid(coleta);
-                registrocoletaListRegistrocoleta = em.merge(registrocoletaListRegistrocoleta);
-                if (oldColetaidOfRegistrocoletaListRegistrocoleta != null) {
-                    oldColetaidOfRegistrocoletaListRegistrocoleta.getRegistrocoletaList().remove(registrocoletaListRegistrocoleta);
-                    oldColetaidOfRegistrocoletaListRegistrocoleta = em.merge(oldColetaidOfRegistrocoletaListRegistrocoleta);
-                }
             }
             em.getTransaction().commit();
         } finally {
@@ -76,7 +55,7 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public void edit(Coleta coleta) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Coleta coleta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -84,31 +63,10 @@ public class ColetaJpaController implements Serializable {
             Coleta persistentColeta = em.find(Coleta.class, coleta.getId());
             Medida medidaidOld = persistentColeta.getMedidaid();
             Medida medidaidNew = coleta.getMedidaid();
-            List<Registrocoleta> registrocoletaListOld = persistentColeta.getRegistrocoletaList();
-            List<Registrocoleta> registrocoletaListNew = coleta.getRegistrocoletaList();
-            List<String> illegalOrphanMessages = null;
-            for (Registrocoleta registrocoletaListOldRegistrocoleta : registrocoletaListOld) {
-                if (!registrocoletaListNew.contains(registrocoletaListOldRegistrocoleta)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Registrocoleta " + registrocoletaListOldRegistrocoleta + " since its coletaid field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (medidaidNew != null) {
                 medidaidNew = em.getReference(medidaidNew.getClass(), medidaidNew.getId());
                 coleta.setMedidaid(medidaidNew);
             }
-            List<Registrocoleta> attachedRegistrocoletaListNew = new ArrayList<Registrocoleta>();
-            for (Registrocoleta registrocoletaListNewRegistrocoletaToAttach : registrocoletaListNew) {
-                registrocoletaListNewRegistrocoletaToAttach = em.getReference(registrocoletaListNewRegistrocoletaToAttach.getClass(), registrocoletaListNewRegistrocoletaToAttach.getId());
-                attachedRegistrocoletaListNew.add(registrocoletaListNewRegistrocoletaToAttach);
-            }
-            registrocoletaListNew = attachedRegistrocoletaListNew;
-            coleta.setRegistrocoletaList(registrocoletaListNew);
             coleta = em.merge(coleta);
             if (medidaidOld != null && !medidaidOld.equals(medidaidNew)) {
                 medidaidOld.getColetaList().remove(coleta);
@@ -117,17 +75,6 @@ public class ColetaJpaController implements Serializable {
             if (medidaidNew != null && !medidaidNew.equals(medidaidOld)) {
                 medidaidNew.getColetaList().add(coleta);
                 medidaidNew = em.merge(medidaidNew);
-            }
-            for (Registrocoleta registrocoletaListNewRegistrocoleta : registrocoletaListNew) {
-                if (!registrocoletaListOld.contains(registrocoletaListNewRegistrocoleta)) {
-                    Coleta oldColetaidOfRegistrocoletaListNewRegistrocoleta = registrocoletaListNewRegistrocoleta.getColetaid();
-                    registrocoletaListNewRegistrocoleta.setColetaid(coleta);
-                    registrocoletaListNewRegistrocoleta = em.merge(registrocoletaListNewRegistrocoleta);
-                    if (oldColetaidOfRegistrocoletaListNewRegistrocoleta != null && !oldColetaidOfRegistrocoletaListNewRegistrocoleta.equals(coleta)) {
-                        oldColetaidOfRegistrocoletaListNewRegistrocoleta.getRegistrocoletaList().remove(registrocoletaListNewRegistrocoleta);
-                        oldColetaidOfRegistrocoletaListNewRegistrocoleta = em.merge(oldColetaidOfRegistrocoletaListNewRegistrocoleta);
-                    }
-                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -146,7 +93,7 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -157,17 +104,6 @@ public class ColetaJpaController implements Serializable {
                 coleta.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The coleta with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            List<Registrocoleta> registrocoletaListOrphanCheck = coleta.getRegistrocoletaList();
-            for (Registrocoleta registrocoletaListOrphanCheckRegistrocoleta : registrocoletaListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Coleta (" + coleta + ") cannot be destroyed since the Registrocoleta " + registrocoletaListOrphanCheckRegistrocoleta + " in its registrocoletaList field has a non-nullable coletaid field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Medida medidaid = coleta.getMedidaid();
             if (medidaid != null) {
@@ -227,10 +163,6 @@ public class ColetaJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-
-    public List<Coleta> findListaColetaByProjeto(int idDoProjeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -7,9 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,16 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider-02
+ * @author Spider
  */
 @Entity
 @Table(name = "coleta")
@@ -37,9 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
     @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
     @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
-    @NamedQuery(name = "Coleta.findByTipoDeColeta", query = "SELECT c FROM Coleta c WHERE c.tipoDeColeta = :tipoDeColeta"),
-    @NamedQuery(name = "Coleta.findByValorDaColeta", query = "SELECT c FROM Coleta c WHERE c.valorDaColeta = :valorDaColeta"),
-    @NamedQuery(name = "Coleta.findByObservacao", query = "SELECT c FROM Coleta c WHERE c.observacao = :observacao")})
+    @NamedQuery(name = "Coleta.findByValorDaColeta", query = "SELECT c FROM Coleta c WHERE c.valorDaColeta = :valorDaColeta")})
 public class Coleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,18 +45,12 @@ public class Coleta implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @Column(name = "tipoDeColeta")
-    private String tipoDeColeta;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valorDaColeta")
     private Double valorDaColeta;
-    @Column(name = "observacao")
-    private String observacao;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Medida medidaid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coletaid")
-    private List<Registrocoleta> registrocoletaList;
 
     public Coleta() {
     }
@@ -92,14 +80,6 @@ public class Coleta implements Serializable {
         this.data = data;
     }
 
-    public String getTipoDeColeta() {
-        return tipoDeColeta;
-    }
-
-    public void setTipoDeColeta(String tipoDeColeta) {
-        this.tipoDeColeta = tipoDeColeta;
-    }
-
     public Double getValorDaColeta() {
         return valorDaColeta;
     }
@@ -108,29 +88,12 @@ public class Coleta implements Serializable {
         this.valorDaColeta = valorDaColeta;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
     public Medida getMedidaid() {
         return medidaid;
     }
 
     public void setMedidaid(Medida medidaid) {
         this.medidaid = medidaid;
-    }
-
-    @XmlTransient
-    public List<Registrocoleta> getRegistrocoletaList() {
-        return registrocoletaList;
-    }
-
-    public void setRegistrocoletaList(List<Registrocoleta> registrocoletaList) {
-        this.registrocoletaList = registrocoletaList;
     }
 
     @Override

@@ -19,7 +19,7 @@ import model.Registromedida;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class RegistromedidaJpaController implements Serializable {
 

@@ -22,7 +22,7 @@ import model.Analise;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class AnaliseJpaController implements Serializable {
 

@@ -1,11 +1,8 @@
 package controller;
 
 import facade.FacadeJpa;
-import java.util.Date;
 import java.util.List;
 import model.Coleta;
-import model.Registrocoleta;
-import util.Copia;
 
 /**
  *

@@ -25,7 +25,7 @@ import model.Indicador;
 
 /**
  *
- * @author Dan
+ * @author Spider
  */
 public class IndicadorJpaController implements Serializable {
 
