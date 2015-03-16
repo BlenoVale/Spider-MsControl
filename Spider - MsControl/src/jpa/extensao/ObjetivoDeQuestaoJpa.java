@@ -29,7 +29,7 @@ public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
     public List<Objetivodequestao> ListQuestoesByProjeto(int idProjeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.objetivoDeMedicaoid.projetoid.id = :idProjeto ORDER BY q.objetivoDeMedicaoid ASC")
+            return entityManager.createQuery("SELECT q FROM Objetivodequestao q WHERE q.objetivoDeMedicaoid.projetoid.id = :idProjeto ORDER BY q.objetivoDeMedicaoid.nome ASC")
                     .setParameter("idProjeto", idProjeto).getResultList();
         } catch (Exception error) {
             throw error;
