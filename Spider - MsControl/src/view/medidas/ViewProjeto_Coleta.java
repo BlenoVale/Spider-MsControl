@@ -3,11 +3,13 @@ package view.medidas;
 import controller.CtrlColeta;
 import controller.CtrlMedida;
 import facade.FacadeJpa;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +41,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     public ViewProjeto_Coleta() {
         initComponents();
         Internal.retiraBotao(this);
+
+        temProcedimento(null);
     }
 
     //Tabela de medidas:
@@ -73,7 +77,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     //Tabela de Coletas:
     public void preencherTabelaColeta(List<Coleta> listcoleta) {
-        tableModel = new MyDefaultTableModel(new String[]{"Coleta"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"<html>Coletas da medida <b>" + medidaSelecionada.getNome() + "</html>"}, 0, false);
         jTableColetas.setModel(tableModel);
         for (int i = 0; i < listaColeta.size(); i++) {
             String[] linhas = new String[]{
@@ -153,6 +157,48 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         return true;
     }
 
+    private void temProcedimento(Medida medida) {
+        if (medida == null) {
+            jLabelTipo.setHorizontalAlignment(JLabel.CENTER);
+            jLabelTipo.setText("<html>Selecione uma medida na tabela.<br>&nbsp;</html>");
+            jLabelTipo.setForeground(Color.BLACK);
+            jLabelTipoDescri.setVisible(false);
+            jLabelValor.setVisible(false);
+            jTextFieldValorColeta.setVisible(false);
+            jButtonImporta.setVisible(false);
+            jButtonSalvar.setEnabled(false);
+            return;
+        }
+        if (medida.getProcedimentodecoletaList().isEmpty()) {
+            jLabelTipo.setHorizontalAlignment(JLabel.CENTER);
+            jLabelTipo.setText("<html>Esta medida não possui<br>procedimento de coleta. Você deve criar <br>um procedimento de coleta para poder<br>fazer a coleta de dados.<br>&nbsp;</html>");
+            jLabelTipo.setForeground(Color.RED);
+            jLabelTipoDescri.setVisible(false);
+            jLabelValor.setVisible(false);
+            jTextFieldValorColeta.setVisible(false);
+            jButtonImporta.setVisible(false);
+            jButtonSalvar.setEnabled(false);
+            return;
+        }
+        switch (medida.getProcedimentodecoletaList().get(0).getTipoDeColeta()) {
+            case "Manual":
+                jLabelTipo.setText("Manual");
+                jTextFieldValorColeta.setVisible(true);
+                jButtonImporta.setVisible(false);
+                break;
+            case "Planilha eletrônica":
+                jLabelTipo.setText("Planilha eletrônica");
+                jTextFieldValorColeta.setVisible(false);
+                jButtonImporta.setVisible(true);
+                break;
+        }
+        jLabelTipo.setForeground(Color.BLACK);
+        jLabelTipo.setHorizontalAlignment(JLabel.LEADING);
+        jLabelValor.setVisible(true);
+        jButtonSalvar.setEnabled(true);
+        jLabelTipoDescri.setVisible(true);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -163,10 +209,10 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableColetas = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelTipoDescri = new javax.swing.JLabel();
+        jLabelValor = new javax.swing.JLabel();
         jTextFieldValorColeta = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jLabelTipo = new javax.swing.JLabel();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jButtonImporta = new javax.swing.JButton();
@@ -213,8 +259,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -229,9 +275,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Cadastro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
-        jLabel1.setText("Tipo de Coleta:");
+        jLabelTipoDescri.setText("Tipo de Coleta:");
 
-        jLabel2.setText("Valor da Coleta:");
+        jLabelValor.setText("Valor da Coleta:");
 
         jTextFieldValorColeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,7 +290,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("Manual");
+        jLabelTipo.setText("Sem procedimento de coleta");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -290,53 +336,60 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelTipoDescri)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelTipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelValor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonImporta, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldValorColeta)))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jSeparator1)
+                .addGap(10, 10, 10))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(175, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jButtonRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addComponent(jButtonSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldValorColeta, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonImporta))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButtonRemover)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonSalvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonCancelar)))
-                        .addContainerGap())))
+                        .addComponent(jButtonCancelar))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonSalvar)
                     .addComponent(jButtonRemover))
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabelTipoDescri, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTipo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldValorColeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabelValor)
                     .addComponent(jButtonImporta))
                 .addContainerGap())
         );
@@ -380,6 +433,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         pegarMedidaSelecionada();
         listaColeta = medidaSelecionada.getColetaList();
         preencherTabelaColeta(listaColeta);
+
+        temProcedimento(medidaSelecionada);
     }//GEN-LAST:event_jTableMedidasMouseClicked
 
     private void jListColetasASalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListColetasASalvarMouseClicked
@@ -405,7 +460,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         preencherTabelaColeta(listaColeta);
         modelJlist = new DefaultListModel();
         jListColetasASalvar.setModel(modelJlist);
-        
+
         jButtonRemover.setEnabled(false);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -434,8 +489,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         } catch (Exception ex) {
             return;
         }
-        
-        for(Coleta coleta:listaDaColeta){
+
+        for (Coleta coleta : listaDaColeta) {
             modelJlist.addElement(coleta.getValorDaColeta());
         }
         jListColetasASalvar.setModel(modelJlist);
@@ -447,10 +502,10 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonImporta;
     private javax.swing.JButton jButtonRemover;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelTipo;
+    private javax.swing.JLabel jLabelTipoDescri;
+    private javax.swing.JLabel jLabelValor;
     private javax.swing.JList jListColetasASalvar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
