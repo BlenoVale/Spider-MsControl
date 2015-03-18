@@ -96,6 +96,8 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
         for (int i = 0; i < listaQuestoes.size(); i++) {
             if (listaQuestoes.get(i).getIndicadorList().isEmpty()){
                 comboboxModel.addElement(listaQuestoes.get(i).getNome());
+            } else if (!ehNovoIndicador) {
+               comboboxModel.addElement(listaQuestoes.get(i).getNome()); 
             }
         }
         jComboBoxRelacionado.setModel(comboboxModel);
