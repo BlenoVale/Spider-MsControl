@@ -6,6 +6,7 @@ import java.util.List;
 import model.Medida;
 import model.Registromedida;
 import util.Copia;
+import util.Constantes;
 
 /**
  *
@@ -21,6 +22,15 @@ public class CtrlMedida {
             System.out.println("Medida Criada");
         } catch (Exception e) {
             System.out.println("Erro cadastro Medida");
+        }
+
+    }
+    public void editarMedida(Medida medida) {
+        try {
+            facadeJpa.getMedidaJpaController().edit(medida);
+            System.out.println("Medida Editada");
+        } catch (Exception e) {
+            System.out.println("Erro ao editar Medida");
         }
 
     }
@@ -77,5 +87,13 @@ public class CtrlMedida {
             throw error;
         }
     }
+     // criar select registro medida
+     public List<Registromedida> buscarRegistroMedidaPeloIdMedida(int tipo, int idMedida){
+         try {
+             return facadeJpa.getRegistroMedidaJpa().findRegistroByIdMedida(tipo, idMedida);
+         } catch (Exception error) {
+             throw (error);
+         }
+     }
 
 }

@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,12 +21,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Paulo
  */
 @Entity
 @Table(name = "medida")
@@ -39,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Medida.findByMnemonico", query = "SELECT m FROM Medida m WHERE m.mnemonico = :mnemonico"),
     @NamedQuery(name = "Medida.findByEscala", query = "SELECT m FROM Medida m WHERE m.escala = :escala"),
     @NamedQuery(name = "Medida.findByFaixaInicio", query = "SELECT m FROM Medida m WHERE m.faixaInicio = :faixaInicio"),
-    @NamedQuery(name = "Medida.findByFaixaFim", query = "SELECT m FROM Medida m WHERE m.faixaFim = :faixaFim")})
+    @NamedQuery(name = "Medida.findByFaixaFim", query = "SELECT m FROM Medida m WHERE m.faixaFim = :faixaFim"),
+    @NamedQuery(name = "Medida.findByData", query = "SELECT m FROM Medida m WHERE m.data = :data")})
 public class Medida implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,6 +79,10 @@ public class Medida implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
+    @Basic(optional = false)
+    @Column(name = "data")
+    @Temporal(TemporalType.DATE)
+    private Date data;
     @ManyToMany(mappedBy = "medidaList")
     private List<Indicador> indicadorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
@@ -91,7 +99,7 @@ public class Medida implements Serializable {
         this.id = id;
     }
 
-    public Medida(Integer id, int projetoId, String nome, String definicao, String pontoDeVista, String mnemonico, String escala, double faixaInicio, double faixaFim) {
+    public Medida(Integer id, int projetoId, String nome, String definicao, String pontoDeVista, String mnemonico, String escala, double faixaInicio, double faixaFim, Date data) {
         this.id = id;
         this.projetoId = projetoId;
         this.nome = nome;
@@ -101,6 +109,7 @@ public class Medida implements Serializable {
         this.escala = escala;
         this.faixaInicio = faixaInicio;
         this.faixaFim = faixaFim;
+        this.data = data;
     }
 
     public Integer getId() {
@@ -183,6 +192,14 @@ public class Medida implements Serializable {
         this.observacao = observacao;
     }
 
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
     @XmlTransient
     public List<Indicador> getIndicadorList() {
         return indicadorList;
@@ -233,8 +250,9 @@ public class Medida implements Serializable {
             return false;
         }
         Medida other = (Medida) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

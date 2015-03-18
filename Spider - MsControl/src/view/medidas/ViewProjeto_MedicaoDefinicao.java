@@ -1,5 +1,6 @@
 package view.medidas;
 
+import controller.CtrlMedida;
 import java.util.List;
 import util.MyDefaultTableModel;
 
@@ -19,6 +20,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     private MyDefaultTableModel tableModel;
     private List<Medida> listMedida;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
+    private Medida medidaSelecionada = new Medida();
 
     public ViewProjeto_MedicaoDefinicao() {
         initComponents();
@@ -59,21 +61,25 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         preencherTabela(listMedida);
         
     }
-
-    public void editarObjetivo() {
-        checkLinhaSelecionada();
-        
-    }
-
+    
     public Medida buscarDefinicaoSelecionada(JTable table) {
         return null;
     }
-
-    public void checkLinhaSelecionada() {
-        if (jTableMedida.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma medida na tabela");
-            return;
-        }
+    
+    public void editarMedida(){
+    pegaMedida();
+    ViewProjeto_MedicaoDefinicao_Novo medicaoDefinicao_Novo = new ViewProjeto_MedicaoDefinicao_Novo(null, true);
+    medicaoDefinicao_Novo.showEditarDialog(medidaSelecionada);
+    medicaoDefinicao_Novo.setVisible(true);
+    
+        
+    }
+    public String captureNomeLinhaTabela(){
+        return jTableMedida.getValueAt(jTableMedida.getSelectedRow() , 0).toString();
+    }
+    public void pegaMedida(){
+        CtrlMedida ctrlMedida = new CtrlMedida();
+        medidaSelecionada =  ctrlMedida.buscarMedidaPeloNome(captureNomeLinhaTabela() , Copia.getProjetoSelecionado().getId());
     }
 
     /**
@@ -218,8 +224,14 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        editarObjetivo();
-        preencherTabelaRecarregar();
+        
+        if (jTableMedida.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma medida na tabela");
+            return;
+        }else {
+            editarMedida();
+            preencherTabelaRecarregar();
+        }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovaMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaMedidaActionPerformed
@@ -245,7 +257,8 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
         if(evt.getClickCount() >= 2){
-            
+            editarMedida();
+            preencherTabelaRecarregar();
           
         }
     }//GEN-LAST:event_jTableMedidaMouseClicked
