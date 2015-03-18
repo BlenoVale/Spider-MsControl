@@ -20,6 +20,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
+import jpa.extensao.AcessaJpa;
 import model.Projeto;
 import model.Usuario;
 import util.Copia;
@@ -68,6 +69,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         initComponents();
 
         usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
+        observer = new Observer(usuario_logado);
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
 
@@ -77,13 +79,13 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
 
-        observer = new Observer(usuario_logado);
     }
 
     public ViewPrincipal(Usuario usuario_logado) {
         initComponents();
 
-        this.usuario_logado = usuario_logado;
+        this.usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuario(usuario_logado.getId());
+        observer = new Observer(usuario_logado);
 
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
@@ -94,7 +96,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
 
-        observer = new Observer(usuario_logado);
     }
 
     private void atualizaDadosDaTelaPrincipal() {
@@ -126,7 +127,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             System.out.println("--Projeto: " + this.projeto_selecionado.getNome());
 
             List<String> perfis = new ArrayList<>();
-            for (int i = 0; i < this.usuario_logado.getAcessaList().size(); i++) {
+            for (int i = 0; i < new AcessaJpa().findAcessaByIdUsuario(usuario_logado.getId()).size(); i++) {
                 if (this.usuario_logado.getAcessaList().get(i).getProjeto().getNome().equals(jComboBoxSelecaoDeProjeto.getSelectedItem().toString())) {
                     perfis.add(this.usuario_logado.getAcessaList().get(i).getPerfil().getNome());
                 }
@@ -445,6 +446,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     public void deslogar() {
         ViewLogin viewLogin = new ViewLogin();
         viewLogin.setVisible(true);
+        observer = null;
         this.dispose();
     }
 
@@ -591,7 +593,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
             trocaTelas(viewProjeto_MedicaoDefinicao);
             viewProjeto_MedicaoDefinicao.preencherTabelaRecarregar();
-        } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")){
+        } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")) {
             viewProjeto_Coletas.preencherTabelaMedidaDoProjeto();
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {

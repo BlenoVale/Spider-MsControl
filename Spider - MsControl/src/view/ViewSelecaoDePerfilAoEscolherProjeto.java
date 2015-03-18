@@ -3,7 +3,6 @@ package view;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import model.Usuario;
 
 public class ViewSelecaoDePerfilAoEscolherProjeto extends javax.swing.JDialog {
 

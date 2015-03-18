@@ -189,7 +189,7 @@ public class ViewLogin extends javax.swing.JFrame {
         Usuario usuario_acessando = new Usuario();
 
         pegaSenhaLogin();
-        usuario_acessando = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario.getLogin());
+        usuario_acessando = ctrlUsuario.buscarUsuarioPeloLogin(usuario.getLogin());
 
         if (usuario_acessando == null) {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");

@@ -1,9 +1,14 @@
 package util;
 
 import facade.FacadeJpa;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import jpa.extensao.AcessaJpa;
+import jpa.extensao.UsuarioJpa;
+import model.Acessa;
 import model.Usuario;
 
 /**
@@ -12,13 +17,14 @@ import model.Usuario;
  */
 public class Observer {
 
-    private final Usuario usuario;
+    private int idUsuario;
+    private List<Acessa> acessoDoUsuario;
     private static Thread thread = null;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
-    private int count = 0;
 
     public Observer(Usuario usuario) {
-        this.usuario = usuario;
+        idUsuario = usuario.getId();
+        acessoDoUsuario = new AcessaJpa().findAcessaByIdUsuario(idUsuario);
 
         inicarThread();
         System.out.println("Observer iniciou");
@@ -37,11 +43,10 @@ public class Observer {
 
             @Override
             public void run() {
-
                 while (true) {
-                    Usuario usuarioAux = jpa.getUsuarioJpa().findByLogin(usuario.getLogin());
+                    List<Acessa> acessaList = new AcessaJpa().findAcessaByIdUsuario(idUsuario);
 
-                    if (!usuario.equals(usuarioAux)) {
+                    if (!acessaList.equals(acessoDoUsuario)) {
                         JOptionPane.showMessageDialog(null, "Houve uma alteração em sua conta.\nA programa irá reiniciar.");
                         Copia.getViewPrincipal().deslogar();
                         break;
@@ -52,9 +57,6 @@ public class Observer {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Observer.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    count++;
-                    //System.out.println("Checagem: " + count);
                 }
             }
         };
