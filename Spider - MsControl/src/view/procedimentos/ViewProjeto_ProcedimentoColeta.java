@@ -34,8 +34,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jButtonExcluir = new javax.swing.JButton();
-        jButtonEditar = new javax.swing.JButton();
-        jButtonNovo = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setTitle("Procedimentos de Coleta");
 
@@ -51,21 +50,27 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Medida", "Data", "Versão", "Autor"
+                "Indicador", "Mnemônico", "Responsável pela Coleta", "Possui Procedimento"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable);
 
         jButtonExcluir.setText("Excluir ?");
 
-        jButtonEditar.setText("Editar");
-        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Procedimento");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-
-        jButtonNovo.setText("Novo");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -82,9 +87,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditar)
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonExcluir)))
                 .addContainerGap())
@@ -97,12 +100,11 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonExcluir)
-                    .addComponent(jButtonEditar)
-                    .addComponent(jButtonNovo))
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -126,15 +128,16 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        //ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true);
-    }//GEN-LAST:event_jButtonEditarActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        ViewProjeto_ProcedimentoColetaNovo procedimentoColetaNovo = new ViewProjeto_ProcedimentoColetaNovo(null, true);
+        procedimentoColetaNovo.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonEditar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonExcluir;
-    private javax.swing.JButton jButtonNovo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
