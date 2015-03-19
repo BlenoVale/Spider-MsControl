@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package view.procedimentos;
 
 /**
@@ -16,8 +10,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
      * Creates new form ViewProjeto_ProcedimentoAnalise
      */
     public ViewProjeto_ProcedimentoAnalise() {
-        initComponents();
-        
+        initComponents();   
     }
 
     /**
@@ -70,6 +63,11 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         jButtonExcluir.setText("Excluir ?");
 
         jButtonProcedimento.setText("Procedimento");
+        jButtonProcedimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProcedimentoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,6 +110,11 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonProcedimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedimentoActionPerformed
+        ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
+        viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise();
+    }//GEN-LAST:event_jButtonProcedimentoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
