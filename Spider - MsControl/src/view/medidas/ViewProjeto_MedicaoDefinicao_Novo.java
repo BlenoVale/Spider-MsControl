@@ -173,7 +173,6 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jLabelNomeMedida.setText("Medida:");
 
-        jTextFieldNomeMedida.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextFieldNomeMedida.setToolTipText("Nome da Medida a ser cadastrada (ex: Tarefas Planejadas, Horas Trabalhadas, Nº de bugs, ...).");
 
         jLabelDefinicao.setText("Definição:");
@@ -182,10 +181,8 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jLabelMnemonico.setText("Mnemônico:");
 
-        jTextFieldResponsavel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextFieldResponsavel.setToolTipText("Pessoa que definiu a medida que está sendo cadastrada.");
 
-        jTextFieldMnemonico.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextFieldMnemonico.setToolTipText("Sigla que representa a medida (ex: THT - Total de Horas Trabalhadas, NG - Número de Bugs, ...).");
 
         jTextAreaObservacoes.setColumns(20);
@@ -217,7 +214,6 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jTextFieldEscala.setToolTipText("Valores que podem ser atribuídos à medida (ex: número inteiros, números reais positivos, ...).");
 
-        jTextFieldFaixaInicio.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextFieldFaixaInicio.setToolTipText("Limites de valores da escala definida de acordo com dados históricos ou com metas estabelecidas (ex: [0, 10], ...).");
         jTextFieldFaixaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {

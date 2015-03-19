@@ -238,9 +238,6 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldNomeMedida">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
-                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Nome da Medida a ser cadastrada (ex: Tarefas Planejadas, Horas Trabalhadas, N&#xba; de bugs, ...)."/>
               </Properties>
             </Component>
@@ -261,17 +258,11 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldResponsavel">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
-                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Pessoa que definiu a medida que est&#xe1; sendo cadastrada."/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldMnemonico">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
-                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Sigla que representa a medida (ex: THT - Total de Horas Trabalhadas, NG - N&#xfa;mero de Bugs, ...)."/>
               </Properties>
             </Component>
@@ -339,9 +330,6 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldFaixaInicio">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
-                </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Limites de valores da escala definida de acordo com dados hist&#xf3;ricos ou com metas estabelecidas (ex: [0, 10], ...)."/>
               </Properties>
               <Events>
