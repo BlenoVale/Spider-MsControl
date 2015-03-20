@@ -77,10 +77,9 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
     public void showCadastrarDialog() {
         this.setTitle("Cadastrar definição medida");
-        this.jLabel4CadastradoPor.setVisible(false);
         this.jLabelUltimaEdicao.setVisible(false);
-        this.jTextFieldCadastradoPor.setVisible(false);
         this.jTextFieldUltimaEdicao.setVisible(false);
+        this.jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
 
         novaMedida = true;
     }
