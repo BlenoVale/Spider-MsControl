@@ -7,6 +7,9 @@ import model.Medida;
 import model.Registromedida;
 import util.Copia;
 import util.Constantes;
+import controller.CtrlMedida;
+import java.util.Objects;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,19 +21,24 @@ public class CtrlMedida {
 
     public void criarNovaMedida(Medida medida) {
         try {
-            facadeJpa.getMedidaJpaController().create(medida);
+            facadeJpa.getMedidaJpa().create(medida);
             System.out.println("Medida Criada");
         } catch (Exception e) {
             System.out.println("Erro cadastro Medida");
         }
 
     }
-    public void editarMedida(Medida medida) {
+    public boolean editarMedida(Medida medida, String nomeM, String MneMed) {
+           
         try {
-            facadeJpa.getMedidaJpaController().edit(medida);
+            facadeJpa.getMedidaJpa().edit(medida);
             System.out.println("Medida Editada");
+            JOptionPane.showMessageDialog(null, "Editado com sucesso.");
+            return  true;
         } catch (Exception e) {
-            System.out.println("Erro ao editar Medida");
+            System.out.println("Erro ao editar Medida " +e);
+            e.printStackTrace();
+            return  false;
         }
 
     }

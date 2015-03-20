@@ -50,6 +50,19 @@ public class MedidaJpa extends MedidaJpaController {
             return null;
         }
     }
+    public Medida findByMnemonicoAndProjetoDiferente(String mnemonico, int idProjeto){
+        Medida medida = null;
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.mnemonico = :mnemonico AND m.projetoId = :idProjeto AND m.id != :id");
+            query.setParameter("mnemonico", mnemonico);
+            query.setParameter("idProjeto", idProjeto);
+            medida = (Medida) query.getSingleResult();
+            return medida;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     public Medida findByMnemonicoAndProjeto(String nomeMnemonico, int idProjeto){
         Medida medida = null;
         try {
