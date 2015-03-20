@@ -40,7 +40,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar coleta:");
+        jLabel1.setText("Buscar medida:");
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -50,7 +50,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Indicador", "Mnemônico", "Responsável pela Coleta", "Possui Procedimento"
+                "Medida", "Mnemônico", "Responsável pela Coleta", "Possui Procedimento"
             }
         ) {
             boolean[] canEdit = new boolean [] {
