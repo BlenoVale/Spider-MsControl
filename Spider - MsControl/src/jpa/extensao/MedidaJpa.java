@@ -37,6 +37,18 @@ public class MedidaJpa extends MedidaJpaController {
         }
 
     }
+    public  List<Medida> getListMedidaProjeto(int idProjeto){
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.projetoId = :idProjeto ORDER BY ASC");
+            query.setParameter("idProjeto", idProjeto);
+            return query.getResultList();
+        } catch (Exception e) {
+            return  null;
+        }
+    }
+    
+    
     public Medida findByNomeAndProjeto(String nomeMedida, int idProjeto){
         Medida medida = null;
         try {

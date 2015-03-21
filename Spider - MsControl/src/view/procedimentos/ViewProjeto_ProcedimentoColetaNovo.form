@@ -74,7 +74,8 @@
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelUltimaEdicao" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -85,6 +86,7 @@
                                       <Component id="jComboBoxMedida" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jTextFieldFrequencia" max="32767" attributes="0"/>
                                       <Component id="jTextFieldCadastradoPor" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldUltimaEdicao" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -123,6 +125,11 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldCadastradoPor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabelUltimaEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldUltimaEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -249,11 +256,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Manual"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonManualActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButtonPlanilha">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Planilha Eletr&#xf4;nica"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButtonPlanilhaActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -276,7 +289,7 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="8">
-                <StringItem index="0" value="Selecione uma periodicidade"/>
+                <StringItem index="0" value="-Selecione uma periodicidade-"/>
                 <StringItem index="1" value="Di&#xe1;ria"/>
                 <StringItem index="2" value="Semanal"/>
                 <StringItem index="3" value="Mensal"/>
@@ -346,6 +359,9 @@
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Quantas vezes a coleta &#xe9; realizada dentro do periodo (ex: 5 vezes dentro de um periodo)."/>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldFrequenciaKeyTyped"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
@@ -369,6 +385,19 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldCadastradoPor">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelUltimaEdicao">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="&#xda;ltima edi&#xe7;&#xe3;o:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jTextFieldUltimaEdicao">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

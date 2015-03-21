@@ -20,6 +20,7 @@ import jpa.extensao.PerfilJpa;
 import jpa.extensao.ProjetoJpa;
 import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
+import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
 import util.Conexao;
@@ -54,6 +55,7 @@ public class FacadeJpa {
     private final RegistroObjetivoQuestaoJpa registroObjetivoQuestaoJpa;
     private final IndicadorJpa indicadorJpa;
     private final RegistroindicadorJpaController registroindicadorJpa;
+    private final RegistroprocedimentocoletaJpaController registroprocedimentocoletaJpaController;
     private final EntidadeMedidaJpa entidadeMedidaJpa;
     private final ColetaJpa coletaJpa;
 
@@ -78,6 +80,7 @@ public class FacadeJpa {
         registroObjetivoQuestaoJpa = new RegistroObjetivoQuestaoJpa();
         indicadorJpa = new IndicadorJpa();
         registroindicadorJpa = new RegistroindicadorJpaController(Conexao.conectar());
+        registroprocedimentocoletaJpaController = new RegistroprocedimentocoletaJpaController(Conexao.conectar());
         entidadeMedidaJpa = new EntidadeMedidaJpa();
     }
 
@@ -137,7 +140,9 @@ public class FacadeJpa {
     public ProcedimentodecoletaJpaController getProcedimentodecoletaJpa() {
         return procedimentodecoletaJpa;
     }
-
+    public RegistroprocedimentocoletaJpaController getRegistroprocedimentocoletaJpaController(){
+        return registroprocedimentocoletaJpaController;
+    }
     public ProjetoJpa getProjetoJpa() {
         return projetoJpa;
     }

@@ -138,6 +138,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     private void jButtonProcedimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedimentoActionPerformed
 
         ViewProjeto_ProcedimentoColetaNovo procedimentoColetaNovo = new ViewProjeto_ProcedimentoColetaNovo(null, true);
+        procedimentoColetaNovo.showDialogCadastrar();
         procedimentoColetaNovo.setVisible(true);
     }//GEN-LAST:event_jButtonProcedimentoActionPerformed
 
