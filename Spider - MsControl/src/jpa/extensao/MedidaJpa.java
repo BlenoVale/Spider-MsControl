@@ -50,13 +50,28 @@ public class MedidaJpa extends MedidaJpaController {
             return null;
         }
     }
-    public Medida findByMnemonicoAndProjetoDiferente(String mnemonico, int idProjeto){
+     public Medida findByNomeAndProjetoDiferente(String nomeMedida, int idProjeto, int id){
+        Medida medida = null;
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome = :nome AND m.projetoId = :idProjeto AND m.id != :id");
+            query.setParameter("nome", nomeMedida);
+            query.setParameter("idProjeto", idProjeto);
+            query.setParameter("id", id);
+            medida = (Medida) query.getSingleResult();
+            return medida;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Medida findByMnemonicoAndProjetoDiferente(String mnemonico, int idProjeto, int id){
         Medida medida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
             Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.mnemonico = :mnemonico AND m.projetoId = :idProjeto AND m.id != :id");
             query.setParameter("mnemonico", mnemonico);
             query.setParameter("idProjeto", idProjeto);
+            query.setParameter("id", id);
             medida = (Medida) query.getSingleResult();
             return medida;
         } catch (Exception e) {

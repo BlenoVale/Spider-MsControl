@@ -89,7 +89,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         this.setTitle("Editar definição medida");
         popularCamposEditarMedida(medidaSelecionada);
         popularCamposEditarMedidaRegistro(medidaSelecionada);
-        
+
         medida = medidaSelecionada;
 
         novaMedida = false;
@@ -370,6 +370,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
 
         CtrlMedida ctrlMedida = new CtrlMedida();
+        boolean save;
 
         if (!verificaCampos()) {
             return;
@@ -395,25 +396,20 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             if (ctrlMedida.checkNomeMedida(jTextFieldNomeMedida.getText())) {
                 JOptionPane.showMessageDialog(null, "Já existe uma medida com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
                 return;
-            }
-            if (ctrlMedida.checkNomeMnemonico(jTextFieldMnemonico.getText())) {
+            }else if (ctrlMedida.checkNomeMnemonico(jTextFieldMnemonico.getText())) {
                 JOptionPane.showMessageDialog(null, "Já existe um mnemônico com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            ctrlMedida.criarNovaMedida(medida);
-            ctrlMedida.registrarMedida(medida, Constantes.CADASTRO);
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-        } else {
+            save = ctrlMedida.criarNovaMedida(medida);
+        } else 
+            save = ctrlMedida.editarMedida(medida);
+        
+        if (save) 
+            this.dispose();
+        
 
-            ctrlMedida.editarMedida(medida, jTextFieldNomeMedida.getText(), jTextFieldMnemonico.getText());
-            ctrlMedida.registrarMedida(medida, Constantes.EDICAO);
-
-        }
-
-        this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

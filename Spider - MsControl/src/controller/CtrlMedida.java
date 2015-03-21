@@ -19,19 +19,35 @@ public class CtrlMedida {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
 
-    public void criarNovaMedida(Medida medida) {
+    public boolean criarNovaMedida(Medida medida) {
         try {
             facadeJpa.getMedidaJpa().create(medida);
+            registrarMedida(medida, Constantes.CADASTRO);
             System.out.println("Medida Criada");
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+            return  true;
         } catch (Exception e) {
             System.out.println("Erro cadastro Medida");
+            return false;
         }
 
     }
-    public boolean editarMedida(Medida medida, String nomeM, String MneMed) {
+    public boolean editarMedida(Medida medida) {
+        
+        Medida  medida1 = facadeJpa.getMedidaJpa().findByNomeAndProjetoDiferente(medida.getNome(), Copia.getProjetoSelecionado().getId(), medida.getId());
+        Medida medida2 = facadeJpa.getMedidaJpa().findByMnemonicoAndProjetoDiferente(medida.getMnemonico(), Copia.getProjetoSelecionado().getId(), medida.getId());
+       
+        if (medida1 != null) {
+            JOptionPane.showMessageDialog(null, "Já existe uma medida com esse nome no projeto, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else if (medida2 != null){
+            JOptionPane.showMessageDialog(null, "Já existe um mnemônico com esse nome no projeto, escolha outro mnemônico.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
            
         try {
             facadeJpa.getMedidaJpa().edit(medida);
+            registrarMedida(medida, Constantes.EDICAO);
             System.out.println("Medida Editada");
             JOptionPane.showMessageDialog(null, "Editado com sucesso.");
             return  true;
