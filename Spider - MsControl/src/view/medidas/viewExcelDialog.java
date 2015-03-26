@@ -5,7 +5,6 @@
  */
 package view.medidas;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import controller.Excel;
 import java.util.ArrayList;
 import java.util.List;
