@@ -85,6 +85,8 @@ public class ViewProjeto_ProcedimentoDeAnaliseProcedimento extends javax.swing.J
         jLabelCadastradoPor1 = new javax.swing.JLabel();
         jTextFieldCadastradoPor1 = new javax.swing.JTextField();
 
+        setTitle("Procedimento");
+
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
         jTextFieldUltimaEdicao.setEditable(false);
