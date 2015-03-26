@@ -26,7 +26,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     }
 
   public void iniciarTabela(){
-      tableModel = new MyDefaultTableModel(new String [] {"Medida" , "Mnemônico" , "Responsável pela Coleta", "Possui Procedimento"}, 0 , false); 
+      tableModel = new MyDefaultTableModel(new String [] {"Medida" , "Periodicidade" , "Frequência", "Responsável pela coleta"}, 0 , false); 
       jTableProcedimentoColeta.setModel(tableModel);
  }  
       

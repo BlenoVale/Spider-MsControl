@@ -5,7 +5,7 @@
  */
 package view.procedimentos;
 
-import controller.CtrlProcedimentos;
+import controller.CtrlProcedimentosColeta;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -397,7 +397,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado()); 
         
         if (novoProcedimento) {
-            CtrlProcedimentos ctrlProcedimentos = new CtrlProcedimentos();
+            CtrlProcedimentosColeta ctrlProcedimentos = new CtrlProcedimentosColeta();
             save = ctrlProcedimentos.criarProcedimentoColeta(procedimentodecoleta);
         }else {
             

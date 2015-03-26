@@ -1,6 +1,6 @@
 package view.procedimentos;
 
-import controller.CtrlProcedimentos;
+import controller.CtrlProcedimentosColeta;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import model.Procedimentodeanalise;
@@ -12,7 +12,7 @@ import util.Constantes;
  */
 public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
-    private final CtrlProcedimentos ctrlProcedimentos = new CtrlProcedimentos();
+    private final CtrlProcedimentosColeta ctrlProcedimentos = new CtrlProcedimentosColeta();
     private DefaultComboBoxModel comboboxModel;
     private Procedimentodeanalise procedimentodeanalise;
 

@@ -10,9 +10,9 @@ import util.Constantes;
 
 /**
  *
- * @author Géssica
+ * @author Paulo
  */
-public class CtrlProcedimentos {
+public class CtrlProcedimentosColeta {
     
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     
