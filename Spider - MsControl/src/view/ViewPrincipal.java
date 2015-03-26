@@ -30,6 +30,7 @@ import view.medidas.ViewProjeto_Analise;
 import view.indicadores.ViewProjetoAprovacao;
 import view.indicadores.ViewProjeto_Indicadores;
 import view.medidas.ViewProjeto_Coleta;
+import view.procedimentos.ViewProjeto_ProcedimentoDeAnaliseProcedimento;
 
 public class ViewPrincipal extends javax.swing.JFrame {
 
@@ -56,6 +57,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // Procedimentos
     private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
     private final ViewProjeto_ProcedimentoColeta viewProjeto_ProcedimentoColeta = new ViewProjeto_ProcedimentoColeta();
+    private final ViewProjeto_ProcedimentoDeAnaliseProcedimento viewProjeto_ProcedimentoDeAnaliseProcedimento = new ViewProjeto_ProcedimentoDeAnaliseProcedimento();
     // Medidas
     private final ViewProjetoAprovacao viewProjeto_Aprovacao = new ViewProjetoAprovacao();
     private final ViewProjeto_MedicaoDefinicao viewProjeto_MedicaoDefinicao = new ViewProjeto_MedicaoDefinicao();
@@ -520,6 +522,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_Analise);
         jDesktopPane.add(viewProjeto_Indicadores);
         jDesktopPane.add(viewProjeto_Coletas);
+        jDesktopPane.add(viewProjeto_ProcedimentoDeAnaliseProcedimento);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -535,13 +538,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Analise.setMaximum(true);
             viewProjeto_Indicadores.setMaximum(true);
             viewProjeto_Coletas.setMaximum(true);
+            viewProjeto_ProcedimentoDeAnaliseProcedimento.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
         }
     }
 
-    protected void trocaTelas(JInternalFrame tela) {
+    public void trocaTelas(JInternalFrame tela) {
         viewGerenciarProjetos.setVisible(false);
         viewGerenciarUsuarios.setVisible(false);
         viewProjeto_ObjetivosDeMedicao.setVisible(false);
@@ -554,10 +558,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_Analise.setVisible(false);
         viewProjeto_Indicadores.setVisible(false);
         viewProjeto_Coletas.setVisible(false);
+        viewProjeto_ProcedimentoDeAnaliseProcedimento.setVisible(false);
 
-        if (tela != null) {
+        if (tela != null)
             tela.setVisible(true);
-        }
     }
 
     private void trocaDeTelasPelaArvore() {
@@ -643,4 +647,13 @@ public class ViewPrincipal extends javax.swing.JFrame {
     public Projeto getProjeto_selecionado() {
         return projeto_selecionado;
     }
+
+    public ViewProjeto_ProcedimentoDeAnaliseProcedimento getViewProjeto_ProcedimentoDeAnaliseProcedimento() {
+        return viewProjeto_ProcedimentoDeAnaliseProcedimento;
+    }
+
+    public ViewProjeto_ProcedimentoAnalise getViewProjeto_ProcedimentoAnalise() {
+        return viewProjeto_ProcedimentoAnalise;
+    }
+
 }
