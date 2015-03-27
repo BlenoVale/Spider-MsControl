@@ -21,6 +21,7 @@ import jpa.extensao.ProjetoJpa;
 import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
+import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
 import util.Conexao;
@@ -45,7 +46,7 @@ public class FacadeJpa {
     private final ObjetivodequestaoJpaController objetivodequestaoJpa;
     private final PerfilJpa perfilJpa;
     private final ProcedimentodeanaliseJpaController procedimentodeanaliseJpa;
-    private final ProcedimentodecoletaJpaController procedimentodecoletaJpa;
+    private final ProcedimentodecoletaJpaController ProcedimentodecoletaJpaController;
     private final ProjetoJpa projetoJpa;
     private final UsuarioJpa usuarioJpa;
     private final ObjetivoDeMedicaoJpa objetivoDeMedicaoJpa;
@@ -56,6 +57,7 @@ public class FacadeJpa {
     private final IndicadorJpa indicadorJpa;
     private final RegistroindicadorJpaController registroindicadorJpa;
     private final RegistroprocedimentocoletaJpaController registroprocedimentocoletaJpaController;
+    private final ProcedimentoColetaJpa procedimentoColetaJpa;
     private final EntidadeMedidaJpa entidadeMedidaJpa;
     private final ColetaJpa coletaJpa;
 
@@ -70,7 +72,8 @@ public class FacadeJpa {
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
         procedimentodeanaliseJpa = new ProcedimentodeanaliseJpaController(Conexao.conectar());
-        procedimentodecoletaJpa = new ProcedimentodecoletaJpaController(Conexao.conectar());
+        ProcedimentodecoletaJpaController = new ProcedimentodecoletaJpaController(Conexao.conectar());
+        procedimentoColetaJpa = new ProcedimentoColetaJpa();
         projetoJpa = new ProjetoJpa();
         usuarioJpa = new UsuarioJpa();
         objetivoDeMedicaoJpa = new ObjetivoDeMedicaoJpa();
@@ -137,8 +140,11 @@ public class FacadeJpa {
         return procedimentodeanaliseJpa;
     }
 
-    public ProcedimentodecoletaJpaController getProcedimentodecoletaJpa() {
-        return procedimentodecoletaJpa;
+    public ProcedimentodecoletaJpaController getProcedimentodecoletaJpaController() {
+        return ProcedimentodecoletaJpaController;
+    }
+    public ProcedimentoColetaJpa getProcedimentoColetaJpa(){
+        return procedimentoColetaJpa;
     }
     public RegistroprocedimentocoletaJpaController getRegistroprocedimentocoletaJpaController(){
         return registroprocedimentocoletaJpaController;

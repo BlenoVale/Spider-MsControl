@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Procedimentodecoleta.findAll", query = "SELECT p FROM Procedimentodecoleta p"),
     @NamedQuery(name = "Procedimentodecoleta.findById", query = "SELECT p FROM Procedimentodecoleta p WHERE p.id = :id"),
+    @NamedQuery(name = "Procedimentodecoleta.findByProjetoId", query = "SELECT p FROM Procedimentodecoleta p WHERE p.projetoId = :projetoId"),
     @NamedQuery(name = "Procedimentodecoleta.findByResponsavelPelaColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.responsavelPelaColeta = :responsavelPelaColeta"),
     @NamedQuery(name = "Procedimentodecoleta.findByMomento", query = "SELECT p FROM Procedimentodecoleta p WHERE p.momento = :momento"),
     @NamedQuery(name = "Procedimentodecoleta.findByPeriodicidade", query = "SELECT p FROM Procedimentodecoleta p WHERE p.periodicidade = :periodicidade"),
@@ -51,6 +52,9 @@ public class Procedimentodecoleta implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "projeto_id")
+    private int projetoId;
     @Basic(optional = false)
     @Column(name = "responsavelPelaColeta")
     private String responsavelPelaColeta;
@@ -93,8 +97,9 @@ public class Procedimentodecoleta implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodecoleta(Integer id, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String ferramentasUtilizada, Date data) {
+    public Procedimentodecoleta(Integer id, int projetoId, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String ferramentasUtilizada, Date data) {
         this.id = id;
+        this.projetoId = projetoId;
         this.responsavelPelaColeta = responsavelPelaColeta;
         this.momento = momento;
         this.periodicidade = periodicidade;
@@ -111,6 +116,14 @@ public class Procedimentodecoleta implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getProjetoId() {
+        return projetoId;
+    }
+
+    public void setProjetoId(int projetoId) {
+        this.projetoId = projetoId;
     }
 
     public String getResponsavelPelaColeta() {

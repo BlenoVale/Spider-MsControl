@@ -47,7 +47,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         jTableMedida.setModel(tableModel);
     }
 
-    private void preencherTabelaObjetivoDigitado() {
+    private void preencherTabelaBuscarDigitado() {
 
         iniciarTabela();
 
@@ -243,7 +243,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovaMedidaActionPerformed
 
     private void jTextFieldBuscarMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarMedidaActionPerformed
-        preencherTabelaObjetivoDigitado();
+        preencherTabelaBuscarDigitado();
     }//GEN-LAST:event_jTextFieldBuscarMedidaActionPerformed
 
     private void jButtonRecarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecarregarActionPerformed

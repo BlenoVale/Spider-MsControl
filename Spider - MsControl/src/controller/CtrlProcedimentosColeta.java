@@ -2,7 +2,9 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
+import model.Medida;
 import model.Procedimentodecoleta;
 import model.Registroprocedimentocoleta;
 import util.Copia;
@@ -18,7 +20,7 @@ public class CtrlProcedimentosColeta {
     
     public boolean criarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta){
         try {
-            facadeJpa.getProcedimentodecoletaJpa().create(procedimentodecoleta);
+            facadeJpa.getProcedimentodecoletaJpaController().create(procedimentodecoleta);
             registrarProcedimentoColeta(procedimentodecoleta, Constantes.CADASTRO);
             System.out.println("Procedimento coleta criado");
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
@@ -43,6 +45,27 @@ public class CtrlProcedimentosColeta {
             System.out.println("erro registro procedimento coleta ");
             e.printStackTrace();
                     
+        }
+    }
+    public List<Procedimentodecoleta> findByProjeto(int idProjeto){
+        try {
+            return  facadeJpa.getProcedimentoColetaJpa().getListByProjeto(idProjeto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+    public List<Procedimentodecoleta> findByProjetoBsucar(int idProjeto, String nomeMedida){
+    
+        Medida medida = new Medida();
+        
+        //medida = facadeJpa.getMedidaJpa().findByNome(nomeMedida, idProjeto);
+        
+        try {
+            return  (List<Procedimentodecoleta>) facadeJpa.getProcedimentoColetaJpa().findByProjeto(medida.getId(), idProjeto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  null;
         }
     }
 }

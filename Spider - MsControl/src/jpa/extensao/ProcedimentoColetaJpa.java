@@ -11,7 +11,7 @@ import javax.persistence.Query;
 import util.Conexao;
 import jpa.ProcedimentodecoletaJpaController;
 import model.Procedimentodecoleta;
-import model.Medida;
+
 
 /**
  *
@@ -27,8 +27,25 @@ public class ProcedimentoColetaJpa extends ProcedimentodecoletaJpaController{
         
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT p FROM Procedimentodecoleta p, Medida m WHERE m.projetoId = :idProjeto ");
+            Query query = entityManager.createQuery("SELECT p FROM Procedimentodecoleta p WHERE p.projetoId = :idProjeto ");
+            query.setParameter("idProjeto", idProjeto);
             return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+        
+    }
+    
+    public Procedimentodecoleta findByProjeto(int idMedida, int idProjeto){
+        
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT p FROM Procedimentodecoleta p WHERE p.projetoId = :idProjeto AND p.medidaid = :idMedida ");
+            query.setParameter("idProjeto", idProjeto);
+            query.setParameter("idMedida", idMedida);
+            return (Procedimentodecoleta) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

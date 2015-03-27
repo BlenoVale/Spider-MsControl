@@ -111,12 +111,20 @@ public class CtrlMedida {
             throw error;
         }
     }
-     // criar select registro medida
+     
      public List<Registromedida> buscarRegistroMedidaPeloIdMedida(int tipo, int idMedida){
          try {
              return facadeJpa.getRegistroMedidaJpa().findRegistroByIdMedida(tipo, idMedida);
          } catch (Exception error) {
              throw (error);
+         }
+     }
+     public String buscarNome(int idMedida, int idProjeto){
+         try {
+             return facadeJpa.getMedidaJpa().findNomeByProjeto(idMedida, idProjeto);
+         } catch (Exception e) {
+             e.printStackTrace();
+             return null;
          }
      }
 

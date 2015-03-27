@@ -53,8 +53,8 @@ public class MedidaJpa extends MedidaJpaController {
         Medida medida = null;
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome = :nome AND m.projetoId = :idProjeto");
-            query.setParameter("nome", nomeMedida);
+            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome = :nomeMedida AND m.projetoId = :idProjeto");
+            query.setParameter("nomeMedida", nomeMedida);
             query.setParameter("idProjeto", idProjeto);
             medida = (Medida) query.getSingleResult();
             return medida;
@@ -115,5 +115,32 @@ public class MedidaJpa extends MedidaJpaController {
             return  null;
         }
     }
+    public String findNomeByProjeto(int idMedida, int idProjeto){
+        try {
+            EntityManager  entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m.nome FROM Medida m WHERE m.id = :idMedida AND m.projetoId = :idProjeto");
+            query.setParameter("idMedida", idMedida);
+            query.setParameter("idProjeto", idProjeto);
+            return (String) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+    
+      public List<Medida> findNomeByProjetoAndNomeMedida(String nomeMedida, int idProjeto){
+        try {
+            EntityManager  entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m.nome,m.id FROM Medida m WHERE m.nome = :nomeMedida AND m.projetoId = :idProjeto");
+            query.setParameter("nomeMedida", nomeMedida);
+            query.setParameter("idProjeto", idProjeto);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+    
+    
 
 }
