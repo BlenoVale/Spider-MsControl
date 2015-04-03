@@ -63,10 +63,11 @@ public class Constantes {
     public static List<String> preencherListaPerfis(){
         List<String> listaPerfis = new ArrayList<>();
         
-        listaPerfis.add("Administrador");
         listaPerfis.add("Alta Administração");
-        listaPerfis.add("Analista");
-        listaPerfis.add("Gerente");
+        listaPerfis.add("Gerente de Projetos");
+        listaPerfis.add("Bibliotecário de Medição");
+        listaPerfis.add("Analista de Medição");
+        listaPerfis.add("Usuário de Medição");
         
         return listaPerfis;
     } 
