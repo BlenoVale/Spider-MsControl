@@ -59,4 +59,15 @@ public class Constantes {
         return listaMeio;
     } 
     
+    //LISTA DE PERFIS
+    public static List<String> preencherListaPerfis(){
+        List<String> listaPerfis = new ArrayList<>();
+        
+        listaPerfis.add("Administrador");
+        listaPerfis.add("Alta Administração");
+        listaPerfis.add("Analista");
+        listaPerfis.add("Gerente");
+        
+        return listaPerfis;
+    } 
 }

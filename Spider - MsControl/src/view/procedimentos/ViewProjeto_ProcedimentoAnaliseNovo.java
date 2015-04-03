@@ -1,11 +1,8 @@
 package view.procedimentos;
 
-import controller.CtrlPerfil;
-import controller.CtrlProcedimentosColeta;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import model.Perfil;
 import model.Procedimentodeanalise;
 import util.Constantes;
 
@@ -14,10 +11,7 @@ import util.Constantes;
  * @author Géssica
  */
 public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
-
-    CtrlPerfil ctrlPermissoesDePerfil = new CtrlPerfil();
-    
-    private final CtrlProcedimentosColeta ctrlProcedimentos = new CtrlProcedimentosColeta();
+   
     private DefaultComboBoxModel comboboxModel;
     private Procedimentodeanalise procedimentodeanalise;
     private DefaultListModel model_listaDePerfis;
@@ -27,7 +21,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     public ViewProjeto_ProcedimentoAnaliseNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
         agruparBotoesRadio();
         this.setLocationRelativeTo(null);
     }
@@ -131,12 +124,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxComunicacaoPeriodicidade.setModel(comboboxModel);
     }
     
-    private void preencherListaDePerfis() {
+    private void popularListaPerfis() {
         model_listaDePerfis = new DefaultListModel();
-        List<Perfil> lista_Perfil = ctrlPermissoesDePerfil.buscaListaDePerfil();
-        for (int i = 0; i < lista_Perfil.size(); i++) {
-            model_listaDePerfis.addElement(lista_Perfil.get(i).getNome());
+        List<String> listaPerfis = Constantes.preencherListaPerfis();
+        
+        for (int i = 0; i < listaPerfis.size(); i++) {
+            model_listaDePerfis.addElement(listaPerfis.get(i));
         }
+        jListPerfis.setModel(model_listaDePerfis);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -150,8 +146,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldCadastradoPor1 = new javax.swing.JTextField();
         jTextFieldUltimaEdicao = new javax.swing.JTextField();
         jLabelUltimaEdicao = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonSalvar = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jTextFieldResponsavel = new javax.swing.JTextField();
@@ -228,9 +224,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
-        jButton2.setText("Salvar");
+        jButtonSalvar.setText("Salvar");
 
-        jButton1.setText("Cancelar");
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Responsável pela Análise:");
 
@@ -662,9 +663,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                             .addComponent(jTextFieldCadastradoPor1)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(jButtonCancelar)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -686,8 +687,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonCancelar)
+                    .addComponent(jButtonSalvar))
                 .addContainerGap())
         );
 
@@ -711,14 +712,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxComunicacaoPeriodicidade;
     private javax.swing.JComboBox jComboBoxPeriodicidade;
     private javax.swing.JComboBox jComboBoxTipoGrafico;

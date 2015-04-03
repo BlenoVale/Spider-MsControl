@@ -1,11 +1,9 @@
 package view.procedimentos;
 
-import controller.CtrlIndicador;
-import java.util.ArrayList;
+import controller.CtrlProcedimentoDeAnalise;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import model.Indicador;
-import util.Copia;
+import model.Procedimentodeanalise;
 import util.MyDefaultTableModel;
 
 /**
@@ -13,9 +11,32 @@ import util.MyDefaultTableModel;
  * @author BlenoVale, Géssica
  */
 public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame {
+    
+    private List<Procedimentodeanalise> lista_ProcedimentoAnalise;
+    private DefaultTableModel defaultTableModel;
+    private CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
 
     public ViewProjeto_ProcedimentoAnalise() {
         initComponents();
+    }
+    
+    private void preencherTabelaProcedimentoAnalise(List<Procedimentodeanalise> lista) {
+        String[] colunas = {"Indicador", "Composição", "Periodicidade", "Responsável"};
+        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
+        for (int i = 0; i < lista.size(); i++) {
+            String linha[] = {
+                String.valueOf(lista.get(i).getIndicadorid().getNome()),
+                lista.get(i).getComposicao(),
+                lista.get(i).getPeriodicidadeInicio().toString(),
+                lista.get(i).getResponsavel()
+            };
+            defaultTableModel.addRow(linha);
+        }
+        jTableProcedimentoAnalise.setModel(defaultTableModel);
+    }
+    
+    public void preencherTabelaProcedimentoAnaliseDoProjeto() {
+        preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
     }
     
     @SuppressWarnings("unchecked")
@@ -26,15 +47,15 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        jTableProcedimentoAnalise = new javax.swing.JTable();
+        jButtonProcedimento = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setTitle("Procedimentos de Análise");
 
         jLabel1.setText("Buscar Indicador:");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableProcedimentoAnalise.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -42,15 +63,15 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
                 {null, null, null, null}
             },
             new String [] {
-                "Indicador", "Mnemônico", "Responsável", "Estado"
+                "Indicador", "Composição", "Periodicidade", "Responsável"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(jTableProcedimentoAnalise);
 
-        jButton2.setText("Procedimento");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonProcedimento.setText("Procedimento");
+        jButtonProcedimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonProcedimentoActionPerformed(evt);
             }
         });
 
@@ -82,7 +103,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(jButtonProcedimento))
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -98,7 +119,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(jButtonProcedimento)
                 .addContainerGap())
         );
 
@@ -122,19 +143,20 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonProcedimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedimentoActionPerformed
         ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
         viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise();
-    }//GEN-LAST:event_jButton2ActionPerformed
+        preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
+    }//GEN-LAST:event_jButtonProcedimentoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonProcedimento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableProcedimentoAnalise;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
