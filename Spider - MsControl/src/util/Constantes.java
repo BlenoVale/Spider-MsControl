@@ -33,4 +33,30 @@ public class Constantes {
         
         return listaGraficos;
     }
+    
+    //LISTA DE PERIODICIDADES
+    public static List<String> preencherListaPeriodicidade(){
+        List<String> listaPeriodicidade = new ArrayList<>();
+        
+        listaPeriodicidade.add("Diário");
+        listaPeriodicidade.add("Semanal");
+        listaPeriodicidade.add("Mensal");
+        listaPeriodicidade.add("Bimestral");
+        listaPeriodicidade.add("Trimestral");
+        listaPeriodicidade.add("Semestral");
+        listaPeriodicidade.add("Anual");
+        
+        return listaPeriodicidade;
+    }
+    
+    //LISTA DE MEIO
+    public static List<String> preencherListaMeio(){
+        List<String> listaMeio = new ArrayList<>();
+        
+        listaMeio.add("E-mail");
+        listaMeio.add("Telefone");
+        
+        return listaMeio;
+    } 
+    
 }
