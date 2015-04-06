@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author Spider-02
  */
 @Entity
 @Table(name = "coleta")

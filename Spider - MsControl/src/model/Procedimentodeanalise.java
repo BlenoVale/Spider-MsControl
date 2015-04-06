@@ -6,7 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -22,14 +21,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author Spider-02
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -39,12 +36,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodeanalise.findById", query = "SELECT p FROM Procedimentodeanalise p WHERE p.id = :id"),
     @NamedQuery(name = "Procedimentodeanalise.findByResponsavel", query = "SELECT p FROM Procedimentodeanalise p WHERE p.responsavel = :responsavel"),
     @NamedQuery(name = "Procedimentodeanalise.findByComposicao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.composicao = :composicao"),
-    @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidadeInicio", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidadeInicio = :periodicidadeInicio"),
-    @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidadeFim", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidadeFim = :periodicidadeFim"),
+    @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidade", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidade = :periodicidade"),
+    @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidadeComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidadeComunicacao = :periodicidadeComunicacao"),
     @NamedQuery(name = "Procedimentodeanalise.findByGraficoNome", query = "SELECT p FROM Procedimentodeanalise p WHERE p.graficoNome = :graficoNome"),
-    @NamedQuery(name = "Procedimentodeanalise.findByMeta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.meta = :meta"),
-    @NamedQuery(name = "Procedimentodeanalise.findByCriterioDeAnalise", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioDeAnalise = :criterioDeAnalise"),
-    @NamedQuery(name = "Procedimentodeanalise.findByAcoes", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoes = :acoes"),
+    @NamedQuery(name = "Procedimentodeanalise.findByMetaOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaOk = :metaOk"),
+    @NamedQuery(name = "Procedimentodeanalise.findByMetaAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaAlerta = :metaAlerta"),
+    @NamedQuery(name = "Procedimentodeanalise.findByMetaCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaCritico = :metaCritico"),
+    @NamedQuery(name = "Procedimentodeanalise.findByCriterioOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioOk = :criterioOk"),
+    @NamedQuery(name = "Procedimentodeanalise.findByCriterioAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioAlerta = :criterioAlerta"),
+    @NamedQuery(name = "Procedimentodeanalise.findByCriterioCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioCritico = :criterioCritico"),
+    @NamedQuery(name = "Procedimentodeanalise.findByAcoesOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesOk = :acoesOk"),
+    @NamedQuery(name = "Procedimentodeanalise.findByAcoesAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesAlerta = :acoesAlerta"),
+    @NamedQuery(name = "Procedimentodeanalise.findByAcoesCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesCritico = :acoesCritico"),
     @NamedQuery(name = "Procedimentodeanalise.findByComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.comunicacao = :comunicacao")})
 public class Procedimentodeanalise implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -64,13 +67,11 @@ public class Procedimentodeanalise implements Serializable {
     @Column(name = "formula")
     private String formula;
     @Basic(optional = false)
-    @Column(name = "periodicidadeInicio")
-    @Temporal(TemporalType.DATE)
-    private Date periodicidadeInicio;
+    @Column(name = "periodicidade")
+    private String periodicidade;
     @Basic(optional = false)
-    @Column(name = "periodicidadeFim")
-    @Temporal(TemporalType.DATE)
-    private Date periodicidadeFim;
+    @Column(name = "periodicidadeComunicacao")
+    private String periodicidadeComunicacao;
     @Basic(optional = false)
     @Lob
     @Column(name = "frequencia")
@@ -79,14 +80,32 @@ public class Procedimentodeanalise implements Serializable {
     @Column(name = "graficoNome")
     private String graficoNome;
     @Basic(optional = false)
-    @Column(name = "meta")
-    private String meta;
+    @Column(name = "metaOk")
+    private String metaOk;
     @Basic(optional = false)
-    @Column(name = "criterioDeAnalise")
-    private String criterioDeAnalise;
+    @Column(name = "metaAlerta")
+    private String metaAlerta;
     @Basic(optional = false)
-    @Column(name = "acoes")
-    private String acoes;
+    @Column(name = "metaCritico")
+    private String metaCritico;
+    @Basic(optional = false)
+    @Column(name = "criterioOk")
+    private String criterioOk;
+    @Basic(optional = false)
+    @Column(name = "criterioAlerta")
+    private String criterioAlerta;
+    @Basic(optional = false)
+    @Column(name = "criterioCritico")
+    private String criterioCritico;
+    @Basic(optional = false)
+    @Column(name = "acoesOk")
+    private String acoesOk;
+    @Basic(optional = false)
+    @Column(name = "acoesAlerta")
+    private String acoesAlerta;
+    @Basic(optional = false)
+    @Column(name = "acoesCritico")
+    private String acoesCritico;
     @Basic(optional = false)
     @Column(name = "comunicacao")
     private String comunicacao;
@@ -106,18 +125,24 @@ public class Procedimentodeanalise implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, Date periodicidadeInicio, Date periodicidadeFim, String frequencia, String graficoNome, String meta, String criterioDeAnalise, String acoes, String comunicacao) {
+    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String periodicidadeComunicacao, String frequencia, String graficoNome, String metaOk, String metaAlerta, String metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, String comunicacao) {
         this.id = id;
         this.responsavel = responsavel;
         this.composicao = composicao;
         this.formula = formula;
-        this.periodicidadeInicio = periodicidadeInicio;
-        this.periodicidadeFim = periodicidadeFim;
+        this.periodicidade = periodicidade;
+        this.periodicidadeComunicacao = periodicidadeComunicacao;
         this.frequencia = frequencia;
         this.graficoNome = graficoNome;
-        this.meta = meta;
-        this.criterioDeAnalise = criterioDeAnalise;
-        this.acoes = acoes;
+        this.metaOk = metaOk;
+        this.metaAlerta = metaAlerta;
+        this.metaCritico = metaCritico;
+        this.criterioOk = criterioOk;
+        this.criterioAlerta = criterioAlerta;
+        this.criterioCritico = criterioCritico;
+        this.acoesOk = acoesOk;
+        this.acoesAlerta = acoesAlerta;
+        this.acoesCritico = acoesCritico;
         this.comunicacao = comunicacao;
     }
 
@@ -153,20 +178,20 @@ public class Procedimentodeanalise implements Serializable {
         this.formula = formula;
     }
 
-    public Date getPeriodicidadeInicio() {
-        return periodicidadeInicio;
+    public String getPeriodicidade() {
+        return periodicidade;
     }
 
-    public void setPeriodicidadeInicio(Date periodicidadeInicio) {
-        this.periodicidadeInicio = periodicidadeInicio;
+    public void setPeriodicidade(String periodicidade) {
+        this.periodicidade = periodicidade;
     }
 
-    public Date getPeriodicidadeFim() {
-        return periodicidadeFim;
+    public String getPeriodicidadeComunicacao() {
+        return periodicidadeComunicacao;
     }
 
-    public void setPeriodicidadeFim(Date periodicidadeFim) {
-        this.periodicidadeFim = periodicidadeFim;
+    public void setPeriodicidadeComunicacao(String periodicidadeComunicacao) {
+        this.periodicidadeComunicacao = periodicidadeComunicacao;
     }
 
     public String getFrequencia() {
@@ -185,28 +210,76 @@ public class Procedimentodeanalise implements Serializable {
         this.graficoNome = graficoNome;
     }
 
-    public String getMeta() {
-        return meta;
+    public String getMetaOk() {
+        return metaOk;
     }
 
-    public void setMeta(String meta) {
-        this.meta = meta;
+    public void setMetaOk(String metaOk) {
+        this.metaOk = metaOk;
     }
 
-    public String getCriterioDeAnalise() {
-        return criterioDeAnalise;
+    public String getMetaAlerta() {
+        return metaAlerta;
     }
 
-    public void setCriterioDeAnalise(String criterioDeAnalise) {
-        this.criterioDeAnalise = criterioDeAnalise;
+    public void setMetaAlerta(String metaAlerta) {
+        this.metaAlerta = metaAlerta;
     }
 
-    public String getAcoes() {
-        return acoes;
+    public String getMetaCritico() {
+        return metaCritico;
     }
 
-    public void setAcoes(String acoes) {
-        this.acoes = acoes;
+    public void setMetaCritico(String metaCritico) {
+        this.metaCritico = metaCritico;
+    }
+
+    public String getCriterioOk() {
+        return criterioOk;
+    }
+
+    public void setCriterioOk(String criterioOk) {
+        this.criterioOk = criterioOk;
+    }
+
+    public String getCriterioAlerta() {
+        return criterioAlerta;
+    }
+
+    public void setCriterioAlerta(String criterioAlerta) {
+        this.criterioAlerta = criterioAlerta;
+    }
+
+    public String getCriterioCritico() {
+        return criterioCritico;
+    }
+
+    public void setCriterioCritico(String criterioCritico) {
+        this.criterioCritico = criterioCritico;
+    }
+
+    public String getAcoesOk() {
+        return acoesOk;
+    }
+
+    public void setAcoesOk(String acoesOk) {
+        this.acoesOk = acoesOk;
+    }
+
+    public String getAcoesAlerta() {
+        return acoesAlerta;
+    }
+
+    public void setAcoesAlerta(String acoesAlerta) {
+        this.acoesAlerta = acoesAlerta;
+    }
+
+    public String getAcoesCritico() {
+        return acoesCritico;
+    }
+
+    public void setAcoesCritico(String acoesCritico) {
+        this.acoesCritico = acoesCritico;
     }
 
     public String getComunicacao() {

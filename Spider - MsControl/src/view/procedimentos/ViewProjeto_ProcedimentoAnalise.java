@@ -27,7 +27,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
             String linha[] = {
                 String.valueOf(lista.get(i).getIndicadorid().getNome()),
                 lista.get(i).getComposicao(),
-                lista.get(i).getPeriodicidadeInicio().toString(),
+                lista.get(i).getPeriodicidade().toString(),
                 lista.get(i).getResponsavel()
             };
             defaultTableModel.addRow(linha);

@@ -31,6 +31,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         ehNovoProcedimentoAnalise = true;
 
         popularComboboxTipoDeGrafico();
+        popularComboboxPeriodicidade();
+        popularComboboxComunicacaoPeriodicidade();
         this.setVisible(true);
     }
 
@@ -48,18 +50,20 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldIndicador.setText(procedimentodeanalise.getIndicadorid().toString());
         jTextFieldResponsavel.setText(procedimentodeanalise.getResponsavel());
         selecionarRadio();
-        jComboBoxPeriodicidade.setSelectedItem(procedimentodeanalise.getPeriodicidadeInicio());
+        jComboBoxPeriodicidade.setSelectedItem(procedimentodeanalise.getPeriodicidade());
         jComboBoxTipoGrafico.setSelectedItem(procedimentodeanalise.getGraficoNome());
         jTextAreaObservacao.setText(procedimentodeanalise.getObservacao());
-        jTextFieldMetaOk.setText(procedimentodeanalise.getMeta());
-        jTextFieldMetaAlerta.setText(procedimentodeanalise.getMeta());
-        jTextFieldMetaCritico.setText(procedimentodeanalise.getMeta());
-        jTextAreaCriterioOk.setText(procedimentodeanalise.getCriterioDeAnalise());
-        jTextAreaCriterioAlerta.setText(procedimentodeanalise.getCriterioDeAnalise());
-        jTextAreaCriterioCritico.setText(procedimentodeanalise.getCriterioDeAnalise());
-        jTextAreaAcoesOk.setText(procedimentodeanalise.getAcoes());
-        jTextAreaAcoesAlerta.setText(procedimentodeanalise.getAcoes());
-        jTextAreaAcoesCritico.setText(procedimentodeanalise.getAcoes());
+        jTextFieldMetaOk.setText(procedimentodeanalise.getMetaOk());
+        jTextFieldMetaAlerta.setText(procedimentodeanalise.getMetaAlerta());
+        jTextFieldMetaCritico.setText(procedimentodeanalise.getMetaCritico());
+        jTextAreaCriterioOk.setText(procedimentodeanalise.getCriterioOk());
+        jTextAreaCriterioAlerta.setText(procedimentodeanalise.getCriterioAlerta());
+        jTextAreaCriterioCritico.setText(procedimentodeanalise.getCriterioCritico());
+        jTextAreaAcoesOk.setText(procedimentodeanalise.getAcoesOk());
+        jTextAreaAcoesAlerta.setText(procedimentodeanalise.getAcoesAlerta());
+        jTextAreaAcoesCritico.setText(procedimentodeanalise.getAcoesCritico());
+        jComboBoxComunicacaoPeriodicidade.setSelectedItem(procedimentodeanalise.getPeriodicidadeComunicacao());
+        jTextFieldFrequencia.setText(procedimentodeanalise.getFrequencia());
     }
 
     private void selecionarRadio() {
@@ -450,6 +454,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabel10.setText("Crítico:");
 
+        jTextFieldMetaCritico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMetaCriticoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -458,31 +468,28 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaOk, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldMetaOk, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaAlerta, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldMetaAlerta, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                .addGap(49, 49, 49))
+                .addComponent(jTextFieldMetaCritico)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9)
-                        .addComponent(jTextFieldMetaAlerta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jTextFieldMetaOk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextFieldMetaOk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextFieldMetaAlerta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -604,18 +611,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                 .addComponent(jLabel18)
                                 .addGap(8, 8, 8)))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldFrequencia)
                             .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addComponent(jComboBoxComunicacaoPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 290, Short.MAX_VALUE))
-                            .addComponent(jTextFieldFrequencia)))
+                                .addComponent(jComboBoxComunicacaoPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane8)
-                            .addComponent(jScrollPane6))
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                            .addComponent(jScrollPane8))
                         .addGap(2, 2, 2)))
                 .addContainerGap())
         );
@@ -715,6 +722,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jTextFieldMetaCriticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMetaCriticoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMetaCriticoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
