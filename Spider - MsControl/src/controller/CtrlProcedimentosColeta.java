@@ -55,17 +55,30 @@ public class CtrlProcedimentosColeta {
             return  null;
         }
     }
-    public List<Procedimentodecoleta> findByProjetoBsucar(int idProjeto, String nomeMedida){
+    public List<Procedimentodecoleta> findByProjetoBuscar(int idProjeto, String nomeMedida){
     
         Medida medida = new Medida();
         
-        //medida = facadeJpa.getMedidaJpa().findByNome(nomeMedida, idProjeto);
+        medida = facadeJpa.getMedidaJpa().findByNomeProjeto(nomeMedida, idProjeto);
         
         try {
             return  (List<Procedimentodecoleta>) facadeJpa.getProcedimentoColetaJpa().findByProjeto(medida.getId(), idProjeto);
         } catch (Exception e) {
             e.printStackTrace();
             return  null;
+        }
+    }
+
+    public boolean editarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta) {
+        try {
+            facadeJpa.getProcedimentoColetaJpa().edit(procedimentodecoleta);
+            registrarProcedimentoColeta(procedimentodecoleta, Constantes.EDICAO);
+            System.out.println("Procedimento coleta Editado");
+            JOptionPane.showMessageDialog(null, "Editado com sucesso.");
+            return  true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

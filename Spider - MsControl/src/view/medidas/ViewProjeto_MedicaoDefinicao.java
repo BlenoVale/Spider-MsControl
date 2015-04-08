@@ -62,10 +62,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         
     }
     
-    public Medida buscarDefinicaoSelecionada(JTable table) {
-        return null;
-    }
-    
     public void editarMedida(){
     pegaMedida();
     ViewProjeto_MedicaoDefinicao_Novo medicaoDefinicao_Novo = new ViewProjeto_MedicaoDefinicao_Novo(null, true);

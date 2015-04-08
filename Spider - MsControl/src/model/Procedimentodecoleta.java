@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider-02
+ * @author Paulo
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findByFrequencia", query = "SELECT p FROM Procedimentodecoleta p WHERE p.frequencia = :frequencia"),
     @NamedQuery(name = "Procedimentodecoleta.findByTipoDeColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.tipoDeColeta = :tipoDeColeta"),
     @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada"),
-    @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data")})
+    @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data"),
+    @NamedQuery(name = "Procedimentodecoleta.findByProjetoId", query = "SELECT p FROM Procedimentodecoleta p WHERE p.projetoId = :projetoId")})
 public class Procedimentodecoleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,6 +81,9 @@ public class Procedimentodecoleta implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
+    @Basic(optional = false)
+    @Column(name = "projeto_id")
+    private int projetoId;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Medida medidaid;
@@ -93,7 +97,7 @@ public class Procedimentodecoleta implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodecoleta(Integer id, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String ferramentasUtilizada, Date data) {
+    public Procedimentodecoleta(Integer id, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String ferramentasUtilizada, Date data, int projetoId) {
         this.id = id;
         this.responsavelPelaColeta = responsavelPelaColeta;
         this.momento = momento;
@@ -103,6 +107,7 @@ public class Procedimentodecoleta implements Serializable {
         this.tipoDeColeta = tipoDeColeta;
         this.ferramentasUtilizada = ferramentasUtilizada;
         this.data = data;
+        this.projetoId = projetoId;
     }
 
     public Integer getId() {
@@ -185,6 +190,14 @@ public class Procedimentodecoleta implements Serializable {
         this.data = data;
     }
 
+    public int getProjetoId() {
+        return projetoId;
+    }
+
+    public void setProjetoId(int projetoId) {
+        this.projetoId = projetoId;
+    }
+
     public Medida getMedidaid() {
         return medidaid;
     }
@@ -216,8 +229,9 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

@@ -108,6 +108,7 @@ public class CtrlMedida {
         try {
             return facadeJpa.getMedidaJpa().findByNomeAndProjeto(nome, idProjeto);
         } catch (Exception error) {
+            error.printStackTrace();
             throw error;
         }
     }

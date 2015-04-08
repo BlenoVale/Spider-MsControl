@@ -42,9 +42,9 @@ public class ProcedimentoColetaJpa extends ProcedimentodecoletaJpaController{
         
         try {
             EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT p FROM Procedimentodecoleta p WHERE p.projetoId = :idProjeto AND p.medidaid = :idMedida ");
-            query.setParameter("idProjeto", idProjeto);
+            Query query = entityManager.createQuery("SELECT p FROM Procedimentodecoleta p WHERE p.medidaid.id = :idMedida AND p.projetoId = :idProjeto");
             query.setParameter("idMedida", idMedida);
+            query.setParameter("idProjeto", idProjeto);
             return (Procedimentodecoleta) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();

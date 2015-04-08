@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.Medida;
+import model.Procedimentodecoleta;
 import util.Conexao;
 import jpa.MedidaJpaController;
 
@@ -37,18 +38,6 @@ public class MedidaJpa extends MedidaJpaController {
         }
 
     }
-    public  List<Medida> getListMedidaProjeto(int idProjeto){
-        try {
-            EntityManager entityManager = super.getEntityManager();
-            Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.projetoId = :idProjeto ORDER BY ASC");
-            query.setParameter("idProjeto", idProjeto);
-            return query.getResultList();
-        } catch (Exception e) {
-            return  null;
-        }
-    }
-    
-    
     public Medida findByNomeAndProjeto(String nomeMedida, int idProjeto){
         Medida medida = null;
         try {
@@ -140,6 +129,31 @@ public class MedidaJpa extends MedidaJpaController {
             return  null;
         }
     }
+      public List<Medida> findJoinProcedimentoColeta(int idProjeto){
+          try {
+              EntityManager entityManager = super.getEntityManager();
+              //Query query = entityManager.createQuery("SELECT m FROM Medida m, Procedimentodecoleta p WHERE m.id != p.medidaid.id AND m.projetoId = :idProjeto");
+              //Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.id != m.coletaList.id AND m.projetoId = :idProjeto");
+              Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.projetoId = :idProjeto");
+              query.setParameter("idProjeto", idProjeto);
+              return query.getResultList();
+          } catch (Exception e) {
+              e.printStackTrace();
+              return null;
+          }
+      }
+      public Medida findByNomeProjeto(String nome, int idProjeto){
+          try {
+              EntityManager entityManager = super.getEntityManager();
+              Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome LIKE :nome AND m.projetoId = :idProjeto");
+              query.setParameter("nome", nome + "%");
+              query.setParameter("idProjeto", idProjeto);
+              return  (Medida) query.getSingleResult();
+          } catch (Exception e) {
+              e.printStackTrace();
+              return null;
+          }
+      }
     
     
 

@@ -11,8 +11,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import model.Procedimentodecoleta;
 import facade.FacadeJpa;
+import java.util.ArrayList;
 import java.util.Date;
 import model.Medida;
+import model.Registroprocedimentocoleta;
+import util.Constantes;
 import util.Copia;
 import util.Texto;
 
@@ -27,17 +30,18 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
      */
     private DefaultComboBoxModel comboBoxModelMedida;
     private Procedimentodecoleta procedimentodecoleta = new Procedimentodecoleta();
+    private List<Registroprocedimentocoleta> registroprocedimentocoletas;
     private FacadeJpa jpa = FacadeJpa.getInstance();
-    private boolean novoProcedimento;
-    
+    private boolean novoProcedimento = false;
+
     public ViewProjeto_ProcedimentoColetaNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
         this.pack();
-        
+
     }
-    
+
     public boolean validaCampos() {
         if (jComboBoxMedida.getSelectedItem() == "-Selecione uma medida-") {
             JOptionPane.showMessageDialog(null, "Você deve selecionar uma medida");
@@ -63,7 +67,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         } else if (!validaRadio()) {
             JOptionPane.showMessageDialog(null, "Você deve escolher um \"Tipo de coleta\"");
             return false;
-        }        
+        }
         return true;
     }
 
@@ -79,8 +83,8 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         }
     }
 
-    public void popularComboBoxMedida() {
-        
+    public void popularComboBoxMedidaCadastrar() {
+
         comboBoxModelMedida = new DefaultComboBoxModel();
         comboBoxModelMedida.addElement("-Selecione uma medida-");
         List<Medida> medida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
@@ -89,27 +93,95 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         }
         jComboBoxMedida.setModel(comboBoxModelMedida);
     }
-    public void showDialogCadastrar(){
-        popularComboBoxMedida();        
+
+    public void showDialogCadastrar() {
+
+        popularComboBoxMedidaCadastrar();
         this.setTitle("Cadastrar procedimento de coleta");
         jLabelUltimaEdicao.setVisible(false);
         jTextFieldUltimaEdicao.setVisible(false);
         jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
         novoProcedimento = true;
     }
-     public void JTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
+
+    public void showDialogEditar(Medida medida) {
+
+        popularComboBoxEditarMedida(medida);
+        this.setTitle("Editar procedimento coleta");
+                
+        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
+        preencherCamposEditar(medida);
+
+        
+        procedimentodecoleta = FacadeJpa.getInstance().getProcedimentoColetaJpa().findByProjeto(medida.getId(), Copia.getProjetoSelecionado().getId());
+        popularRegistroEditar(procedimentodecoleta);
+        novoProcedimento = false;
+
+    }
+
+    public void popularComboBoxEditarMedida(Medida medida) {
+        comboBoxModelMedida = new DefaultComboBoxModel();
+        comboBoxModelMedida.addElement(medida.getNome());
+        jComboBoxMedida.setModel(comboBoxModelMedida);
+        jComboBoxMedida.setEnabled(false);
+
+    }
+
+    public void preencherCamposEditar(Medida medida) {
+        procedimentodecoleta = jpa.getProcedimentoColetaJpa().findByProjeto(medida.getId(), Copia.getProjetoSelecionado().getId());
+        jTextFieldResponsavelColeta.setText(procedimentodecoleta.getResponsavelPelaColeta());
+        jTextFieldMomento.setText(procedimentodecoleta.getMomento());
+        jComboBoxPeriodicidade.setSelectedItem(procedimentodecoleta.getPeriodicidade());
+        jTextFieldFrequencia.setText(String.valueOf(procedimentodecoleta.getFrequencia()));
+        jTextAreaPassosColeta.setText(procedimentodecoleta.getPassosColeta());
+        preencherRadioEditar(procedimentodecoleta.getTipoDeColeta());
+        jTextFieldFerramentaUtilizada.setText(procedimentodecoleta.getFerramentasUtilizada());
+        jTextAreaObservacao.setText(procedimentodecoleta.getObservacao());
+
+    }
+     public void popularRegistroEditar(Procedimentodecoleta procedimentodecoleta){
+               
+        registroprocedimentocoletas = new ArrayList<>();
+        
+         System.out.println(procedimentodecoleta.getId());
+        registroprocedimentocoletas = jpa.getRegistroProcedimentoColeta().findByIdProcedimento(procedimentodecoleta.getId(), Constantes.CADASTRO);
+         
+        jTextFieldCadastradoPor.setText(registroprocedimentocoletas.get(0).getNomeUsuario() + " Em " + Texto.formataData(registroprocedimentocoletas.get(0).getData()));
+        
+        registroprocedimentocoletas = new ArrayList<>();
+        registroprocedimentocoletas = jpa.getRegistroProcedimentoColeta().findByIdProcedimento(procedimentodecoleta.getId(), Constantes.EDICAO);
+                
+         if (registroprocedimentocoletas.isEmpty()) {
+            
+             jTextFieldUltimaEdicao.setVisible(false);
+             jLabelUltimaEdicao.setVisible(false);             
+         }else {
+             jTextFieldUltimaEdicao.setText(registroprocedimentocoletas.get(registroprocedimentocoletas.size() - 1).getNomeUsuario() + " Em " + Texto.formataData(registroprocedimentocoletas.get(registroprocedimentocoletas.size() - 1).getData()));
+         }
+    }
+
+    public void preencherRadioEditar(String valorName) {
+        if (valorName.equals("Manual")) {
+            jRadioButtonManual.setSelected(true);
+        } else {
+            jRadioButtonPlanilha.setSelected(true);
+        }
+    }
+
+    public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
         String caracteres = "987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
     }
-     public String pegarRadioSelecionado(){
-         if (jRadioButtonManual.isSelected()) {
-             return jRadioButtonManual.getText();
-         } else {
-             return jRadioButtonPlanilha.getText();
-         }
-     }
+
+    public String pegarRadioSelecionado() {
+        if (jRadioButtonManual.isSelected()) {
+            return jRadioButtonManual.getText();
+        } else {
+            return jRadioButtonPlanilha.getText();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -373,18 +445,20 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        
+
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        
+
+        CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
+
         if (!validaCampos()) {
             return;
         }
         boolean save = false;
         Medida medida = jpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedida.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
-        
+
         procedimentodecoleta.setData(new Date());
         procedimentodecoleta.setFerramentasUtilizada(jTextFieldFerramentaUtilizada.getText());
         procedimentodecoleta.setFrequencia(Integer.parseInt(jTextFieldFrequencia.getText()));
@@ -394,39 +468,40 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setPassosColeta(jTextAreaPassosColeta.getText());
         procedimentodecoleta.setPeriodicidade(jComboBoxPeriodicidade.getSelectedItem().toString());
         procedimentodecoleta.setResponsavelPelaColeta(jTextFieldResponsavelColeta.getText());
-        procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado()); 
+        procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado());
         procedimentodecoleta.setProjetoId(Copia.getProjetoSelecionado().getId());
-        
+
         if (novoProcedimento) {
-            CtrlProcedimentosColeta ctrlProcedimentos = new CtrlProcedimentosColeta();
-            save = ctrlProcedimentos.criarProcedimentoColeta(procedimentodecoleta);
-        }else {
-            
+
+            save = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta);
+        } else {
+
+            save = ctrlProcedimentosColeta.editarProcedimentoColeta(procedimentodecoleta);
         }
-        
+
         if (save) {
             this.dispose();
         }
-        
-        
 
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jTextFieldFrequenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaKeyTyped
         // TODO add your handling code here:
-        JTextFieldSomenteNumeros(evt);
+        jTextFieldSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldFrequenciaKeyTyped
 
     private void jRadioButtonPlanilhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPlanilhaActionPerformed
 
-        if(jRadioButtonPlanilha.isSelected())
+        if (jRadioButtonPlanilha.isSelected()) {
             jRadioButtonManual.setSelected(false);
+        }
     }//GEN-LAST:event_jRadioButtonPlanilhaActionPerformed
 
     private void jRadioButtonManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonManualActionPerformed
 
-        if(jRadioButtonManual.isSelected())
+        if (jRadioButtonManual.isSelected()) {
             jRadioButtonPlanilha.setSelected(false);
+        }
     }//GEN-LAST:event_jRadioButtonManualActionPerformed
 
     /**

@@ -24,7 +24,9 @@ import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
+import jpa.extensao.RegistroProcedimentoColetaJpa;
 import util.Conexao;
+
 
 /**
  * Classe criada para servir de interface com os controladores JPA A classe eh
@@ -57,6 +59,7 @@ public class FacadeJpa {
     private final IndicadorJpa indicadorJpa;
     private final RegistroindicadorJpaController registroindicadorJpa;
     private final RegistroprocedimentocoletaJpaController registroprocedimentocoletaJpaController;
+    private final RegistroProcedimentoColetaJpa registroProcedimentoColeta;
     private final ProcedimentoColetaJpa procedimentoColetaJpa;
     private final EntidadeMedidaJpa entidadeMedidaJpa;
     private final ColetaJpa coletaJpa;
@@ -84,6 +87,7 @@ public class FacadeJpa {
         indicadorJpa = new IndicadorJpa();
         registroindicadorJpa = new RegistroindicadorJpaController(Conexao.conectar());
         registroprocedimentocoletaJpaController = new RegistroprocedimentocoletaJpaController(Conexao.conectar());
+        registroProcedimentoColeta = new RegistroProcedimentoColetaJpa();
         entidadeMedidaJpa = new EntidadeMedidaJpa();
     }
 
@@ -179,6 +183,10 @@ public class FacadeJpa {
 
     public RegistroindicadorJpaController getRegistroIndicador() {
         return registroindicadorJpa;
+    }
+    
+    public RegistroProcedimentoColetaJpa getRegistroProcedimentoColeta(){
+        return registroProcedimentoColeta;
     }
 
     public EntidadeMedidaJpa getEntidadeMedidaJpa() {
