@@ -1,10 +1,17 @@
 package view.procedimentos;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Procedimentodeanalise;
+import model.Projeto;
+import model.Registroprocedimentoanalise;
 import util.Constantes;
+import util.Copia;
+import util.Texto;
 
 /**
  *
@@ -14,8 +21,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
    
     private DefaultComboBoxModel comboboxModel;
     private Procedimentodeanalise procedimentodeanalise;
+    private Projeto projeto_selecionado;
+    private String nomeUsuario_logado;
     private DefaultListModel model_listaDePerfis;
     private DefaultListModel model_listaMeio;
+    private List<Registroprocedimentoanalise> registro;
 
     private boolean ehNovoProcedimentoAnalise;
 
@@ -27,15 +37,37 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }
 
     public void showNovoProcedimentodeanalise() {
+        
+        this.setTitle("Cadastro de Novo Procedimento de Análise");
         procedimentodeanalise = new Procedimentodeanalise();
 
         ehNovoProcedimentoAnalise = true;
+
+        this.jLabelUltimaEdicao.setVisible(false);
+        this.jTextFieldUltimaEdicao.setVisible(false);
+        popularComboboxTipoDeGrafico();
+        popularComboboxPeriodicidade();
+        popularComboboxComunicacaoPeriodicidade();
+        popularListaMeio();
+        popularListaPerfis();
+        this.setVisible(true);
+        jTextFieldCadastradoPor.setText(this.nomeUsuario_logado + ". Em: " + Texto.formataData(new Date()));
+    }
+    
+    public void showEditarProcedimentoAnaliseDialog(Procedimentodeanalise procedimentoAnalise_selecionado, String nomeUsuario_logado) {
+        this.setTitle("Editar Procedimento de Análise");
+        this.projeto_selecionado = Copia.getProjetoSelecionado();
+        this.nomeUsuario_logado = nomeUsuario_logado;
+        procedimentodeanalise = procedimentoAnalise_selecionado;
+
+        ehNovoProcedimentoAnalise = false;
 
         popularComboboxTipoDeGrafico();
         popularComboboxPeriodicidade();
         popularComboboxComunicacaoPeriodicidade();
         popularListaMeio();
         popularListaPerfis();
+        preencherCampos();
         this.setVisible(true);
     }
 
@@ -51,6 +83,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void preencherCampos() {
         jTextFieldIndicador.setText(procedimentodeanalise.getIndicadorid().toString());
+        
+        registro = new ArrayList<>();
+        jTextFieldCadastradoPor.setText(registro.get(0).getNomeUsuario() + ". Em: " + Texto.formataData(registro.get(0).getData()));
+        
+        registro = new ArrayList<>();
+        if (registro.isEmpty()) {
+            this.jLabelUltimaEdicao.setVisible(false);
+            this.jTextFieldUltimaEdicao.setVisible(false);
+        } else {
+            jTextFieldUltimaEdicao.setText(registro.get(registro.size() - 1).getNomeUsuario() + ". Em: " + Texto.formataData(registro.get(registro.size() - 1).getData()));
+        }
+        
         jTextFieldResponsavel.setText(procedimentodeanalise.getResponsavel());
         selecionarRadio();
         jComboBoxPeriodicidade.setSelectedItem(procedimentodeanalise.getPeriodicidade());
@@ -69,6 +113,86 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldFrequencia.setText(procedimentodeanalise.getFrequencia());
     }
 
+    private boolean validarCampos() {
+        int cont = 0;
+        String mensagem = null;
+
+        if (jTextFieldIndicador.getText().isEmpty()) {
+            mensagem = "Campo \"Indicador\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextFieldResponsavel.getText().isEmpty()) {
+            mensagem = "Campo \"Responsável pela análise\" não pode ser vazio.";
+            cont++;
+        }
+        if (getComposicao()== null) {
+            mensagem = "É necessário selecionar uma \"Composição\".";
+            cont++;
+        }
+        if (jComboBoxPeriodicidade.getSelectedItem() == "-Selecione uma Periodicidade-") {
+            mensagem = "É necessário selecionar uma \"Periodicidade\" no Combobox.";
+            cont++;
+        }
+        if (jComboBoxTipoGrafico.getSelectedItem() == "-Selecione um Tipo de Gráfico-") {
+            mensagem = "É necessário selecionar um \"Tipo de Gráfico\" no Combobox.";
+            cont++;
+        }
+        if (jTextFieldMetaOk.getText().isEmpty()) {
+            mensagem = "Campo \"Meta\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextFieldMetaAlerta.getText().isEmpty()) {
+            mensagem = "Campo \"Meta\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextFieldMetaCritico.getText().isEmpty()) {
+            mensagem = "Campo \"Meta\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextAreaCriterioOk.getText().isEmpty()) {
+            mensagem = "Campo \"Critério de Análise\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextAreaCriterioAlerta.getText().isEmpty()) {
+            mensagem = "Campo \"Critério de Análise\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextAreaCriterioCritico.getText().isEmpty()) {
+            mensagem = "Campo \"Critério de Análise\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextAreaAcoesOk.getText().isEmpty()) {
+            mensagem = "Campo \"Ações\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextAreaAcoesAlerta.getText().isEmpty()) {
+            mensagem = "Campo \"Ações\" não pode ser vazio.";
+            cont++;
+        }
+        if (jTextAreaAcoesCritico.getText().isEmpty()) {
+            mensagem = "Campo \"Ações\" não pode ser vazio.";
+            cont++;
+        }
+        if (jComboBoxComunicacaoPeriodicidade.getSelectedItem() == "-Selecione uma Periodicidade-") {
+            mensagem = "É necessário selecionar uma \"Periodicidade\" no Combobox.";
+            cont++;
+        }
+        if (jTextFieldFrequencia.getText().isEmpty()) {
+            mensagem = "Campo \"Frequência\" não pode ser vazio.";
+            cont++;
+        }
+
+        if (cont == 0) {
+            return true;
+        } else if (cont == 1) {
+            JOptionPane.showMessageDialog(null, mensagem);
+            return false;
+        } else {
+            JOptionPane.showMessageDialog(null, "Mais de um campo estão vazios ou inválidos.");
+            return false;
+        }
+    }
+    
     private void selecionarRadio() {
         switch (procedimentodeanalise.getGraficoNome()) {
             case "Base":
@@ -160,7 +284,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldIndicador = new javax.swing.JTextField();
         jLabelCadastradoPor1 = new javax.swing.JLabel();
-        jTextFieldCadastradoPor1 = new javax.swing.JTextField();
+        jTextFieldCadastradoPor = new javax.swing.JTextField();
         jTextFieldUltimaEdicao = new javax.swing.JTextField();
         jLabelUltimaEdicao = new javax.swing.JLabel();
         jButtonSalvar = new javax.swing.JButton();
@@ -233,8 +357,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabelCadastradoPor1.setText("Cadastrado por:");
 
-        jTextFieldCadastradoPor1.setEditable(false);
-        jTextFieldCadastradoPor1.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldCadastradoPor.setEditable(false);
+        jTextFieldCadastradoPor.setBackground(new java.awt.Color(204, 204, 204));
 
         jTextFieldUltimaEdicao.setEditable(false);
         jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));
@@ -242,6 +366,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -467,12 +596,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabel10.setText("Crítico:");
 
-        jTextFieldMetaCritico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldMetaCriticoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -674,7 +797,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldIndicador)
                             .addComponent(jTextFieldUltimaEdicao)
-                            .addComponent(jTextFieldCadastradoPor1)))
+                            .addComponent(jTextFieldCadastradoPor)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -691,7 +814,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jTextFieldIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldCadastradoPor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldCadastradoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCadastradoPor1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -730,9 +853,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
-    private void jTextFieldMetaCriticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMetaCriticoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldMetaCriticoActionPerformed
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        if (!validarCampos()) {
+            return;
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
@@ -796,7 +921,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaCriterioOk;
     private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextFieldCadastradoPor1;
+    private javax.swing.JTextField jTextFieldCadastradoPor;
     private javax.swing.JTextField jTextFieldFrequencia;
     private javax.swing.JTextField jTextFieldIndicador;
     private javax.swing.JTextField jTextFieldMetaAlerta;

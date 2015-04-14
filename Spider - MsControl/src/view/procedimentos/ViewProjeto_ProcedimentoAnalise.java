@@ -4,6 +4,7 @@ import controller.CtrlProcedimentoDeAnalise;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.Procedimentodeanalise;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 /**
@@ -18,6 +19,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
     public ViewProjeto_ProcedimentoAnalise() {
         initComponents();
+        Internal.retiraBotao(this);
     }
     
     private void preencherTabelaProcedimentoAnalise(List<Procedimentodeanalise> lista) {
@@ -27,7 +29,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
             String linha[] = {
                 String.valueOf(lista.get(i).getIndicadorid().getNome()),
                 lista.get(i).getComposicao(),
-                lista.get(i).getPeriodicidade().toString(),
+                lista.get(i).getPeriodicidade(),
                 lista.get(i).getResponsavel()
             };
             defaultTableModel.addRow(linha);
