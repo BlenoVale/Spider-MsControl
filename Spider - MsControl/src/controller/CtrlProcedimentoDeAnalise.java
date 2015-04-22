@@ -17,12 +17,12 @@ public class CtrlProcedimentoDeAnalise {
     
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     
-//    public List<Procedimentodeanalise> getProcedimentoDeAnaliseDoProjeto(int idDoProjeto) {
-//        try {
-//            return facadeJpa.getProcedimentodeanaliseJpa().findListaProcedimentoDeAnaliseByProjeto(idDoProjeto);
-//        } catch (Exception error) {
-//            throw error;
-//        }
-//    }
-    
+    public List<Procedimentodeanalise> getIndicadoresDoProjeto(int idDoProjeto) {
+        try {
+            return facadeJpa.getProcedimentodeanaliseJpa().findListaIndicadoresByProjeto(idDoProjeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+   
 }

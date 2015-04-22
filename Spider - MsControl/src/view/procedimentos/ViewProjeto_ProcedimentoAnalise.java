@@ -1,9 +1,13 @@
 package view.procedimentos;
 
+import controller.CtrlIndicador;
 import controller.CtrlProcedimentoDeAnalise;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import model.Indicador;
 import model.Procedimentodeanalise;
+import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
 
@@ -14,12 +18,22 @@ import util.MyDefaultTableModel;
 public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame {
     
     private List<Procedimentodeanalise> lista_ProcedimentoAnalise;
+    private List<Indicador> lista_indicadores;
     private DefaultTableModel defaultTableModel;
     private CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
+    private Indicador indicadorSelecionado = new Indicador();
+    private CtrlIndicador ctrlIndicador = new CtrlIndicador();
 
     public ViewProjeto_ProcedimentoAnalise() {
         initComponents();
         Internal.retiraBotao(this);
+    }
+    
+    public void atualizaListaIndicadoresDoProjeto() {
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+
+        lista_indicadores = new ArrayList<>();
+        lista_indicadores = ctrlIndicador.getIndicadoresDoProjeto(idDoProjeto);
     }
     
     private void preencherTabelaProcedimentoAnalise(List<Procedimentodeanalise> lista) {
@@ -39,6 +53,11 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     
     public void preencherTabelaProcedimentoAnaliseDoProjeto() {
         preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
+    }
+    
+    private void pegarIndicadorSelecionado(){
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        indicadorSelecionado = ctrlIndicador.buscarIndicadorPeloNome(jTableProcedimentoAnalise.getValueAt(jTableProcedimentoAnalise.getSelectedRow(), 0).toString(), idDoProjeto);
     }
     
     @SuppressWarnings("unchecked")

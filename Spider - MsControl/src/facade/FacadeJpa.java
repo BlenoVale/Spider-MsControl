@@ -22,6 +22,7 @@ import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.extensao.ProcedimentoColetaJpa;
+import jpa.extensao.ProcedimentoDeAnaliseJpa;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
@@ -47,7 +48,7 @@ public class FacadeJpa {
     private final ObjetivodemedicaoJpaController objetivodemedicacao;
     private final ObjetivodequestaoJpaController objetivodequestaoJpa;
     private final PerfilJpa perfilJpa;
-    private final ProcedimentodeanaliseJpaController procedimentodeanaliseJpa;
+    private final ProcedimentoDeAnaliseJpa procedimentodeanaliseJpa;
     private final ProcedimentodecoletaJpaController ProcedimentodecoletaJpaController;
     private final ProjetoJpa projetoJpa;
     private final UsuarioJpa usuarioJpa;
@@ -74,7 +75,7 @@ public class FacadeJpa {
         objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
-        procedimentodeanaliseJpa = new ProcedimentodeanaliseJpaController(Conexao.conectar());
+        procedimentodeanaliseJpa = new ProcedimentoDeAnaliseJpa();
         ProcedimentodecoletaJpaController = new ProcedimentodecoletaJpaController(Conexao.conectar());
         procedimentoColetaJpa = new ProcedimentoColetaJpa();
         projetoJpa = new ProjetoJpa();
@@ -140,7 +141,7 @@ public class FacadeJpa {
         return perfilJpa;
     }
 
-    public ProcedimentodeanaliseJpaController getProcedimentodeanaliseJpa() {
+    public ProcedimentoDeAnaliseJpa getProcedimentodeanaliseJpa() {
         return procedimentodeanaliseJpa;
     }
 
