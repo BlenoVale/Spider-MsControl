@@ -28,8 +28,9 @@ public class Constantes {
     public static List<String> preencherListaGraficos(){
         List<String> listaGraficos = new ArrayList<>();
         
-        listaGraficos.add("Pizza");
         listaGraficos.add("Linha");
+        listaGraficos.add("Barra");
+        listaGraficos.add("Pizza");
         
         return listaGraficos;
     }
@@ -53,8 +54,14 @@ public class Constantes {
     public static List<String> preencherListaMeio(){
         List<String> listaMeio = new ArrayList<>();
         
+        listaMeio.add("Reunião");
         listaMeio.add("E-mail");
-        listaMeio.add("Telefone");
+        listaMeio.add("WhatsApp");
+        listaMeio.add("Hangout");
+        listaMeio.add("Facebook");
+        listaMeio.add("Ligação Telefônica");
+        listaMeio.add("SMS");
+        listaMeio.add("Outros");
         
         return listaMeio;
     } 
