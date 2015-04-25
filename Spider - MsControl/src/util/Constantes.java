@@ -71,4 +71,29 @@ public class Constantes {
         
         return listaPerfis;
     } 
+    
+    //LISTA DE CÁLCULO
+    public static List<String> preencherListaCalculo(){
+        List<String> listaCalculo = new ArrayList<>();
+        
+        listaCalculo.add("Média");
+        listaCalculo.add("Mediana");
+        listaCalculo.add("Moda");
+        
+        return listaCalculo;
+    } 
+    
+    //LISTA DE MOMENTO
+    public static List<String> preencherListaMomento(){
+        List<String> listaMomento = new ArrayList<>();
+        
+        listaMomento.add("Requisitos");
+        listaMomento.add("Prototipação");
+        listaMomento.add("Codificação");
+        listaMomento.add("Testes");
+        listaMomento.add("Implantação");
+        listaMomento.add("Manutenção");
+        
+        return listaMomento;
+    } 
 }
