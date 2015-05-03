@@ -889,11 +889,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
             calendario.showCalendarioSemanalDialog();
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
-            calendario.showCalendarioMensalDialog();
-        } else {
-
+            calendario.showCalendarioOutrosPeriodosDialog("Mensal");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
+            calendario.showCalendarioOutrosPeriodosDialog("Bimestral");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
+            calendario.showCalendarioOutrosPeriodosDialog("Trimestral");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
+            calendario.showCalendarioOutrosPeriodosDialog("Semestral");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
+            calendario.showCalendarioOutrosPeriodosDialog("Anual");
         }
-
     }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

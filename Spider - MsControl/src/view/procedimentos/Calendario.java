@@ -1,23 +1,47 @@
 package view.procedimentos;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Spider
  */
 public class Calendario extends javax.swing.JDialog {
 
+    private int frequencia;
+    private String tipo;
+    List<String> listaDias;
+    Date dataInicio;
+    Date dataFim;
+
     public Calendario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        agruparBotoesSemanal();
+    }
+
+    public void setFrequencia(int frequencia) {
+        this.frequencia = frequencia;
+    }
+
+    public int getFrequencia() {
+        return this.frequencia;
     }
 
     public void showCalendarioDiarioDialog() {
         this.setLocationRelativeTo(null);
 
+        tipo = "diario";
         jTextFieldfrequencia.setText("0");
         setDiarioEnable(true);
         setSemanalEnable(false);
         datePanel.setEnabled(false);
+        jLabelObservacao.setText("");
         this.setVisible(true);
     }
 
@@ -34,10 +58,12 @@ public class Calendario extends javax.swing.JDialog {
     public void showCalendarioSemanalDialog() {
         this.setLocationRelativeTo(null);
 
+        tipo = "Semanal";
         jTextFieldfrequencia.setText("1");
         setDiarioEnable(false);
         setSemanalEnable(true);
         datePanel.setEnabled(false);
+        jLabelObservacao.setText("*Coleta semanal dura 7 dias, começando pelo dia selecionado.");
         this.setVisible(true);
     }
 
@@ -51,13 +77,133 @@ public class Calendario extends javax.swing.JDialog {
         jRadioButtonDomingo.setEnabled(aux);
     }
 
-    public void showCalendarioMensalDialog() {
+    public void showCalendarioOutrosPeriodosDialog(String tipo) {
         this.setLocationRelativeTo(null);
+
+        this.tipo = tipo;
         jTextFieldfrequencia.setText("1");
+        switch (tipo) {
+            case "Mensal":
+                jLabelObservacao.setText("*Coleta mensal dura 28 dias, começando pelo dia selecionado.");
+                break;
+            case "Bimestral":
+                jLabelObservacao.setText("*Coleta Bimestral dura 56 dias, começando pelo dia selecionado.");
+                break;
+            case "Trimestral":
+                jLabelObservacao.setText("*Coleta Trimestal dura 84 dias, começando pelo dia selecionado.");
+                break;
+            case "Semestral":
+                jLabelObservacao.setText("*Coleta Semestral dura 168 dias, começando pelo dia selecionado.");
+                break;
+            case "Anual":
+                jLabelObservacao.setText("*Coleta Anual dura 336 dias, começando pelo dia selecionado.");
+                break;
+        }
         setDiarioEnable(false);
         setSemanalEnable(false);
         datePanel.setEnabled(true);
         this.setVisible(true);
+    }
+
+    private boolean validacaoDiario() {
+        int cont = 0;
+        listaDias = new ArrayList<>();
+        if (jCheckBoxSegunda.isSelected()) {
+            listaDias.add("Segunda-feira");
+            cont++;
+        }
+        if (jCheckBoxTerca.isSelected()) {
+            listaDias.add("Terça-feira");
+            cont++;
+        }
+        if (jCheckBoxQuarta.isSelected()) {
+            listaDias.add("Quarta-feira");
+            cont++;
+        }
+        if (jCheckBoxQuinta.isSelected()) {
+            listaDias.add("Quinta-feira");
+            cont++;
+        }
+        if (jCheckBoxSexta.isSelected()) {
+            listaDias.add("Sexta-feira");
+            cont++;
+        }
+        if (jCheckBoxSabado.isSelected()) {
+            listaDias.add("Sabádo");
+            cont++;
+        }
+        if (jCheckBoxDomingo.isSelected()) {
+            listaDias.add("Domingo");
+            cont++;
+        }
+
+        if (cont != frequencia) {
+            JOptionPane.showMessageDialog(null, "A quantidades de dias selecionados deve ser igual a frequencia.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void agruparBotoesSemanal() {
+        buttonGroup1.add(jRadioButtonSegunda);
+        buttonGroup1.add(jRadioButtonTerca);
+        buttonGroup1.add(jRadioButtonQuarta);
+        buttonGroup1.add(jRadioButtonQuinta);
+        buttonGroup1.add(jRadioButtonSexta);
+        buttonGroup1.add(jRadioButtonSabado);
+        buttonGroup1.add(jRadioButtonDomingo);
+    }
+
+    private void validaSemanal() {
+        listaDias = new ArrayList<>();
+        if (jRadioButtonSegunda.isSelected()) {
+            listaDias.add("Segunda-feira");
+            listaDias.add("Domingo");
+        }
+        if (jRadioButtonTerca.isSelected()) {
+            listaDias.add("Terça-feira");
+            listaDias.add("Segunda-feira");
+        }
+        if (jRadioButtonQuarta.isSelected()) {
+            listaDias.add("Quarta-feira");
+            listaDias.add("Terça-feira");
+        }
+        if (jRadioButtonQuinta.isSelected()) {
+            listaDias.add("Quinta-feira");
+            listaDias.add("Quarta-feira");
+        }
+        if (jRadioButtonSexta.isSelected()) {
+            listaDias.add("Sexta-feira");
+            listaDias.add("Quinta-feira");
+        }
+        if (jRadioButtonSabado.isSelected()) {
+            listaDias.add("Sabádo");
+            listaDias.add("Sexata-feira");
+        }
+        if (jRadioButtonDomingo.isSelected()) {
+            listaDias.add("Domingo");
+            listaDias.add("Sabádo");
+        }
+    }
+
+    private boolean validaOutrosPeriodos() {
+        if (datePanel.getDate().getDay() < (new Date().getDay())) {
+            JOptionPane.showMessageDialog(null, "Dia selecionado invalido.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void somaDiasNaData(int qtdDias) {
+        dataInicio = datePanel.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dataInicio);
+        calendar.add(Calendar.DAY_OF_MONTH, qtdDias);
+        dataFim = calendar.getTime();
+        System.out.println("----->Data inicio: " + dataInicio);
+        System.out.println("----->Data Fim: " + dataFim);
     }
 
     @SuppressWarnings("unchecked")
@@ -203,6 +349,11 @@ public class Calendario extends javax.swing.JDialog {
         jLabelObservacao.setText("jLabel1");
 
         jButton1.setText("Confirmar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabelDecricao.setText("Determine uma Frequêcia:");
 
@@ -258,6 +409,40 @@ public class Calendario extends javax.swing.JDialog {
     private void jPanelDiarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelDiarioMouseClicked
 
     }//GEN-LAST:event_jPanelDiarioMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        frequencia = Integer.parseInt(jTextFieldfrequencia.getText());
+        if ("diario".equals(tipo)) {
+            if (!validacaoDiario()) {
+                return;
+            }
+            
+            for (String listaDia : listaDias) {
+                System.out.println("----->Dia: " + listaDia);
+            }
+        } else if ("Semanal".equals(tipo)) {
+            validaSemanal();
+            System.out.println("----->Dia inicial: " + listaDias.get(0));
+            System.out.println("----->Dia final: " + listaDias.get(1));
+        } else {
+            if(!validaOutrosPeriodos()){
+                return;
+            }
+            
+            if ("Mensal".equals(tipo)) {
+                somaDiasNaData(28);
+            } else if ("Bimestral".equals(tipo)) {
+                somaDiasNaData(56);
+            } else if ("Trimestal".equals(tipo)) {
+                somaDiasNaData(84);
+            } else if ("Semestral".equals(tipo)) {
+                somaDiasNaData(168);
+            } else if ("Anual".equals(tipo)) {
+                somaDiasNaData(336);
+            }
+        }
+        System.out.println("----->Frequencia: " + frequencia);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
