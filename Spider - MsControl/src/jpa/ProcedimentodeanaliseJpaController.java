@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Indicador;
-import model.Registroprocedimentoanalise;
+import model.Datasprocedimentoanalise;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Procedimentodeanalise;
+import model.Registroprocedimentoanalise;
 
 /**
  *
@@ -36,6 +37,9 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
     }
 
     public void create(Procedimentodeanalise procedimentodeanalise) {
+        if (procedimentodeanalise.getDatasprocedimentoanaliseList() == null) {
+            procedimentodeanalise.setDatasprocedimentoanaliseList(new ArrayList<Datasprocedimentoanalise>());
+        }
         if (procedimentodeanalise.getRegistroprocedimentoanaliseList() == null) {
             procedimentodeanalise.setRegistroprocedimentoanaliseList(new ArrayList<Registroprocedimentoanalise>());
         }
@@ -48,6 +52,12 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 indicadorid = em.getReference(indicadorid.getClass(), indicadorid.getId());
                 procedimentodeanalise.setIndicadorid(indicadorid);
             }
+            List<Datasprocedimentoanalise> attachedDatasprocedimentoanaliseList = new ArrayList<Datasprocedimentoanalise>();
+            for (Datasprocedimentoanalise datasprocedimentoanaliseListDatasprocedimentoanaliseToAttach : procedimentodeanalise.getDatasprocedimentoanaliseList()) {
+                datasprocedimentoanaliseListDatasprocedimentoanaliseToAttach = em.getReference(datasprocedimentoanaliseListDatasprocedimentoanaliseToAttach.getClass(), datasprocedimentoanaliseListDatasprocedimentoanaliseToAttach.getId());
+                attachedDatasprocedimentoanaliseList.add(datasprocedimentoanaliseListDatasprocedimentoanaliseToAttach);
+            }
+            procedimentodeanalise.setDatasprocedimentoanaliseList(attachedDatasprocedimentoanaliseList);
             List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseList = new ArrayList<Registroprocedimentoanalise>();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
                 registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getId());
@@ -58,6 +68,15 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             if (indicadorid != null) {
                 indicadorid.getProcedimentodeanaliseList().add(procedimentodeanalise);
                 indicadorid = em.merge(indicadorid);
+            }
+            for (Datasprocedimentoanalise datasprocedimentoanaliseListDatasprocedimentoanalise : procedimentodeanalise.getDatasprocedimentoanaliseList()) {
+                Procedimentodeanalise oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListDatasprocedimentoanalise = datasprocedimentoanaliseListDatasprocedimentoanalise.getProcedimentoDeAnaliseid();
+                datasprocedimentoanaliseListDatasprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
+                datasprocedimentoanaliseListDatasprocedimentoanalise = em.merge(datasprocedimentoanaliseListDatasprocedimentoanalise);
+                if (oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListDatasprocedimentoanalise != null) {
+                    oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListDatasprocedimentoanalise.getDatasprocedimentoanaliseList().remove(datasprocedimentoanaliseListDatasprocedimentoanalise);
+                    oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListDatasprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListDatasprocedimentoanalise);
+                }
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanalise : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
                 Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = registroprocedimentoanaliseListRegistroprocedimentoanalise.getProcedimentoDeAnaliseid();
@@ -84,9 +103,19 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             Procedimentodeanalise persistentProcedimentodeanalise = em.find(Procedimentodeanalise.class, procedimentodeanalise.getId());
             Indicador indicadoridOld = persistentProcedimentodeanalise.getIndicadorid();
             Indicador indicadoridNew = procedimentodeanalise.getIndicadorid();
+            List<Datasprocedimentoanalise> datasprocedimentoanaliseListOld = persistentProcedimentodeanalise.getDatasprocedimentoanaliseList();
+            List<Datasprocedimentoanalise> datasprocedimentoanaliseListNew = procedimentodeanalise.getDatasprocedimentoanaliseList();
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListOld = persistentProcedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListNew = procedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<String> illegalOrphanMessages = null;
+            for (Datasprocedimentoanalise datasprocedimentoanaliseListOldDatasprocedimentoanalise : datasprocedimentoanaliseListOld) {
+                if (!datasprocedimentoanaliseListNew.contains(datasprocedimentoanaliseListOldDatasprocedimentoanalise)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Datasprocedimentoanalise " + datasprocedimentoanaliseListOldDatasprocedimentoanalise + " since its procedimentoDeAnaliseid field is not nullable.");
+                }
+            }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListOldRegistroprocedimentoanalise : registroprocedimentoanaliseListOld) {
                 if (!registroprocedimentoanaliseListNew.contains(registroprocedimentoanaliseListOldRegistroprocedimentoanalise)) {
                     if (illegalOrphanMessages == null) {
@@ -102,6 +131,13 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 indicadoridNew = em.getReference(indicadoridNew.getClass(), indicadoridNew.getId());
                 procedimentodeanalise.setIndicadorid(indicadoridNew);
             }
+            List<Datasprocedimentoanalise> attachedDatasprocedimentoanaliseListNew = new ArrayList<Datasprocedimentoanalise>();
+            for (Datasprocedimentoanalise datasprocedimentoanaliseListNewDatasprocedimentoanaliseToAttach : datasprocedimentoanaliseListNew) {
+                datasprocedimentoanaliseListNewDatasprocedimentoanaliseToAttach = em.getReference(datasprocedimentoanaliseListNewDatasprocedimentoanaliseToAttach.getClass(), datasprocedimentoanaliseListNewDatasprocedimentoanaliseToAttach.getId());
+                attachedDatasprocedimentoanaliseListNew.add(datasprocedimentoanaliseListNewDatasprocedimentoanaliseToAttach);
+            }
+            datasprocedimentoanaliseListNew = attachedDatasprocedimentoanaliseListNew;
+            procedimentodeanalise.setDatasprocedimentoanaliseList(datasprocedimentoanaliseListNew);
             List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseListNew = new ArrayList<Registroprocedimentoanalise>();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach : registroprocedimentoanaliseListNew) {
                 registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getId());
@@ -117,6 +153,17 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             if (indicadoridNew != null && !indicadoridNew.equals(indicadoridOld)) {
                 indicadoridNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
                 indicadoridNew = em.merge(indicadoridNew);
+            }
+            for (Datasprocedimentoanalise datasprocedimentoanaliseListNewDatasprocedimentoanalise : datasprocedimentoanaliseListNew) {
+                if (!datasprocedimentoanaliseListOld.contains(datasprocedimentoanaliseListNewDatasprocedimentoanalise)) {
+                    Procedimentodeanalise oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListNewDatasprocedimentoanalise = datasprocedimentoanaliseListNewDatasprocedimentoanalise.getProcedimentoDeAnaliseid();
+                    datasprocedimentoanaliseListNewDatasprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
+                    datasprocedimentoanaliseListNewDatasprocedimentoanalise = em.merge(datasprocedimentoanaliseListNewDatasprocedimentoanalise);
+                    if (oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListNewDatasprocedimentoanalise != null && !oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListNewDatasprocedimentoanalise.equals(procedimentodeanalise)) {
+                        oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListNewDatasprocedimentoanalise.getDatasprocedimentoanaliseList().remove(datasprocedimentoanaliseListNewDatasprocedimentoanalise);
+                        oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListNewDatasprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfDatasprocedimentoanaliseListNewDatasprocedimentoanalise);
+                    }
+                }
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanalise : registroprocedimentoanaliseListNew) {
                 if (!registroprocedimentoanaliseListOld.contains(registroprocedimentoanaliseListNewRegistroprocedimentoanalise)) {
@@ -159,6 +206,13 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 throw new NonexistentEntityException("The procedimentodeanalise with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Datasprocedimentoanalise> datasprocedimentoanaliseListOrphanCheck = procedimentodeanalise.getDatasprocedimentoanaliseList();
+            for (Datasprocedimentoanalise datasprocedimentoanaliseListOrphanCheckDatasprocedimentoanalise : datasprocedimentoanaliseListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Datasprocedimentoanalise " + datasprocedimentoanaliseListOrphanCheckDatasprocedimentoanalise + " in its datasprocedimentoanaliseList field has a non-nullable procedimentoDeAnaliseid field.");
+            }
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListOrphanCheck = procedimentodeanalise.getRegistroprocedimentoanaliseList();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListOrphanCheckRegistroprocedimentoanalise : registroprocedimentoanaliseListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

@@ -116,6 +116,8 @@ public class Procedimentodeanalise implements Serializable {
     @ManyToOne(optional = false)
     private Indicador indicadorid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
+    private List<Datasprocedimentoanalise> datasprocedimentoanaliseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
     private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
 
     public Procedimentodeanalise() {
@@ -304,6 +306,15 @@ public class Procedimentodeanalise implements Serializable {
 
     public void setIndicadorid(Indicador indicadorid) {
         this.indicadorid = indicadorid;
+    }
+
+    @XmlTransient
+    public List<Datasprocedimentoanalise> getDatasprocedimentoanaliseList() {
+        return datasprocedimentoanaliseList;
+    }
+
+    public void setDatasprocedimentoanaliseList(List<Datasprocedimentoanalise> datasprocedimentoanaliseList) {
+        this.datasprocedimentoanaliseList = datasprocedimentoanaliseList;
     }
 
     @XmlTransient

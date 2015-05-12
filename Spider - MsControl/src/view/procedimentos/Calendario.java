@@ -37,7 +37,6 @@ public class Calendario extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
 
         tipo = "diario";
-        jTextFieldfrequencia.setText("0");
         setDiarioEnable(true);
         setSemanalEnable(false);
         datePanel.setEnabled(false);
@@ -59,7 +58,6 @@ public class Calendario extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
 
         tipo = "Semanal";
-        jTextFieldfrequencia.setText("1");
         setDiarioEnable(false);
         setSemanalEnable(true);
         datePanel.setEnabled(false);
@@ -81,7 +79,6 @@ public class Calendario extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
 
         this.tipo = tipo;
-        jTextFieldfrequencia.setText("1");
         switch (tipo) {
             case "Mensal":
                 jLabelObservacao.setText("*Coleta mensal dura 28 dias, começando pelo dia selecionado.");
@@ -105,43 +102,28 @@ public class Calendario extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
-    private boolean validacaoDiario() {
-        int cont = 0;
+    private void validacaoDiario() {
         listaDias = new ArrayList<>();
         if (jCheckBoxSegunda.isSelected()) {
             listaDias.add("Segunda-feira");
-            cont++;
         }
         if (jCheckBoxTerca.isSelected()) {
             listaDias.add("Terça-feira");
-            cont++;
         }
         if (jCheckBoxQuarta.isSelected()) {
             listaDias.add("Quarta-feira");
-            cont++;
         }
         if (jCheckBoxQuinta.isSelected()) {
             listaDias.add("Quinta-feira");
-            cont++;
         }
         if (jCheckBoxSexta.isSelected()) {
-            listaDias.add("Sexta-feira");
-            cont++;
+            listaDias.add("Sexta-feira");;
         }
         if (jCheckBoxSabado.isSelected()) {
             listaDias.add("Sabádo");
-            cont++;
         }
         if (jCheckBoxDomingo.isSelected()) {
             listaDias.add("Domingo");
-            cont++;
-        }
-
-        if (cont != frequencia) {
-            JOptionPane.showMessageDialog(null, "A quantidades de dias selecionados deve ser igual a frequencia.");
-            return false;
-        } else {
-            return true;
         }
     }
 
@@ -188,7 +170,7 @@ public class Calendario extends javax.swing.JDialog {
     }
 
     private boolean validaOutrosPeriodos() {
-        if (datePanel.getDate().getDay() < (new Date().getDay())) {
+        if (datePanel.getDate().getDate() < (new Date().getDate())) {
             JOptionPane.showMessageDialog(null, "Dia selecionado invalido.");
             return false;
         } else {
@@ -230,8 +212,6 @@ public class Calendario extends javax.swing.JDialog {
         datePanel = new net.sf.nachocalendar.components.DatePanel();
         jLabelObservacao = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabelDecricao = new javax.swing.JLabel();
-        jTextFieldfrequencia = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -355,8 +335,6 @@ public class Calendario extends javax.swing.JDialog {
             }
         });
 
-        jLabelDecricao.setText("Determine uma Frequêcia:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -365,33 +343,22 @@ public class Calendario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelDecricao)
+                        .addComponent(jLabelObservacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldfrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelObservacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanelDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanelSemanal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(datePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                        .addComponent(jPanelDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanelSemanal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(datePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelDecricao)
-                    .addComponent(jTextFieldfrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(datePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelDiario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -411,11 +378,8 @@ public class Calendario extends javax.swing.JDialog {
     }//GEN-LAST:event_jPanelDiarioMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        frequencia = Integer.parseInt(jTextFieldfrequencia.getText());
         if ("diario".equals(tipo)) {
-            if (!validacaoDiario()) {
-                return;
-            }
+            validacaoDiario();
             
             for (String listaDia : listaDias) {
                 System.out.println("----->Dia: " + listaDia);
@@ -455,7 +419,6 @@ public class Calendario extends javax.swing.JDialog {
     private javax.swing.JCheckBox jCheckBoxSegunda;
     private javax.swing.JCheckBox jCheckBoxSexta;
     private javax.swing.JCheckBox jCheckBoxTerca;
-    private javax.swing.JLabel jLabelDecricao;
     private javax.swing.JLabel jLabelObservacao;
     private javax.swing.JPanel jPanelDiario;
     private javax.swing.JPanel jPanelSemanal;
@@ -466,6 +429,5 @@ public class Calendario extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButtonSegunda;
     private javax.swing.JRadioButton jRadioButtonSexta;
     private javax.swing.JRadioButton jRadioButtonTerca;
-    private javax.swing.JTextField jTextFieldfrequencia;
     // End of variables declaration//GEN-END:variables
 }
