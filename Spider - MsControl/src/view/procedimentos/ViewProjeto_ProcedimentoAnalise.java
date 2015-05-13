@@ -52,6 +52,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     }
     
     public void preencherTabelaProcedimentoAnaliseDoProjeto() {
+        atualizaListaIndicadoresDoProjeto();
         preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
     }
     
@@ -66,7 +67,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldBuscar = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableProcedimentoAnalise = new javax.swing.JTable();
         jButtonProcedimento = new javax.swing.JButton();
@@ -75,6 +76,12 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         setTitle("Procedimentos de Análise");
 
         jLabel1.setText("Buscar Indicador:");
+
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
 
         jTableProcedimentoAnalise.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -120,7 +127,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -134,7 +141,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -167,8 +174,14 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     private void jButtonProcedimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedimentoActionPerformed
         ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
         viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise();
-        preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
+        preencherTabelaProcedimentoAnaliseDoProjeto();
     }//GEN-LAST:event_jButtonProcedimentoActionPerformed
+
+    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
+        lista_indicadores = new ArrayList<>();
+        lista_indicadores = ctrlIndicador.buscarParteDoNomeIndicador(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
+        preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
+    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -178,6 +191,6 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTableProcedimentoAnalise;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldBuscar;
     // End of variables declaration//GEN-END:variables
 }
