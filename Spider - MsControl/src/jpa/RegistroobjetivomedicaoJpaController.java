@@ -19,7 +19,7 @@ import model.Registroobjetivomedicao;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class RegistroobjetivomedicaoJpaController implements Serializable {
 

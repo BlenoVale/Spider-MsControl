@@ -2,29 +2,29 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="Spider_-_MsControlPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>model.Objetivodequestao</class>
-    <class>model.Analise</class>
-    <class>model.Registroanalise</class>
-    <class>model.Indicador</class>
-    <class>model.Registroindicador</class>
-    <class>model.Registroprocedimentocoleta</class>
-    <class>model.Funcionalidade</class>
-    <class>model.Procedimentodeanalise</class>
-    <class>model.Registrocoleta</class>
-    <class>model.Registroobjetivomedicao</class>
-    <class>model.Registromedida</class>
-    <class>model.Entidademedida</class>
-    <class>model.Coleta</class>
-    <class>model.Objetivodemedicao</class>
-    <class>model.Perfil</class>
-    <class>model.Projeto</class>
-    <class>model.Acessa</class>
-    <class>model.Procedimentodecoleta</class>
     <class>model.Registroprocedimentoanalise</class>
-    <class>model.Medida</class>
-    <class>model.Registroobjetivoquestao</class>
-    <class>model.Registroprojeto</class>
+    <class>model.Perfil</class>
     <class>model.Usuario</class>
+    <class>model.Acessa</class>
+    <class>model.Registroanalise</class>
+    <class>model.Funcionalidade</class>
+    <class>model.Registroobjetivomedicao</class>
+    <class>model.Procedimentodecoleta</class>
+    <class>model.Registroprocedimentocoleta</class>
+    <class>model.Registroobjetivoquestao</class>
+    <class>model.Registromedida</class>
+    <class>model.Projeto</class>
+    <class>model.Registroindicador</class>
+    <class>model.Entidademedida</class>
+    <class>model.Objetivodemedicao</class>
+    <class>model.Datasprocedimentoanalise</class>
+    <class>model.Indicador</class>
+    <class>model.Procedimentodeanalise</class>
+    <class>model.Coleta</class>
+    <class>model.Medida</class>
+    <class>model.Registroprojeto</class>
+    <class>model.Analise</class>
+    <class>model.Objetivodequestao</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/spidermscontrol"/>
       <property name="javax.persistence.jdbc.password" value="spider"/>

@@ -23,7 +23,7 @@ import model.Objetivodequestao;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class ObjetivodequestaoJpaController implements Serializable {
 

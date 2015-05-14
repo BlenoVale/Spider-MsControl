@@ -19,7 +19,7 @@ import model.Procedimentodeanalise;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class DatasprocedimentoanaliseJpaController implements Serializable {
 

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "acessa")
@@ -39,15 +39,15 @@ public class Acessa implements Serializable {
     @Column(name = "dataDeInicio")
     @Temporal(TemporalType.DATE)
     private Date dataDeInicio;
-    @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Perfil perfil;
-    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Projeto projeto;
     @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Projeto projeto;
+    @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Perfil perfil;
 
     public Acessa() {
     }
@@ -76,12 +76,12 @@ public class Acessa implements Serializable {
         this.dataDeInicio = dataDeInicio;
     }
 
-    public Perfil getPerfil() {
-        return perfil;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Projeto getProjeto() {
@@ -92,12 +92,12 @@ public class Acessa implements Serializable {
         this.projeto = projeto;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Perfil getPerfil() {
+        return perfil;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override
@@ -114,8 +114,9 @@ public class Acessa implements Serializable {
             return false;
         }
         Acessa other = (Acessa) object;
-        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK)))
+        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK))) {
             return false;
+        }
         return true;
     }
 

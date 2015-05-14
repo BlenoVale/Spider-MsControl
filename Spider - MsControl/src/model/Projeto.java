@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "projeto")
@@ -66,14 +66,14 @@ public class Projeto implements Serializable {
     @Lob
     @Column(name = "descricao")
     private String descricao;
+    @OneToMany(mappedBy = "projetoid")
+    private List<Entidademedida> entidademedidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
     private List<Registroprojeto> registroprojetoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
     private List<Objetivodemedicao> objetivodemedicaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
-    @OneToMany(mappedBy = "projetoid")
-    private List<Entidademedida> entidademedidaList;
 
     public Projeto() {
     }
@@ -146,6 +146,15 @@ public class Projeto implements Serializable {
     }
 
     @XmlTransient
+    public List<Entidademedida> getEntidademedidaList() {
+        return entidademedidaList;
+    }
+
+    public void setEntidademedidaList(List<Entidademedida> entidademedidaList) {
+        this.entidademedidaList = entidademedidaList;
+    }
+
+    @XmlTransient
     public List<Registroprojeto> getRegistroprojetoList() {
         return registroprojetoList;
     }
@@ -172,15 +181,6 @@ public class Projeto implements Serializable {
         this.acessaList = acessaList;
     }
 
-    @XmlTransient
-    public List<Entidademedida> getEntidademedidaList() {
-        return entidademedidaList;
-    }
-
-    public void setEntidademedidaList(List<Entidademedida> entidademedidaList) {
-        this.entidademedidaList = entidademedidaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -195,8 +195,9 @@ public class Projeto implements Serializable {
             return false;
         }
         Projeto other = (Projeto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

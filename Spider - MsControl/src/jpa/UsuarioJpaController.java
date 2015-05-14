@@ -21,7 +21,7 @@ import model.Usuario;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class UsuarioJpaController implements Serializable {
 

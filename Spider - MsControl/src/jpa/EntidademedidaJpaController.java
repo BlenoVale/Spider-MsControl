@@ -19,7 +19,7 @@ import model.Projeto;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class EntidademedidaJpaController implements Serializable {
 

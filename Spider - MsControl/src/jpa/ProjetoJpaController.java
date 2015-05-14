@@ -10,21 +10,21 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Registroprojeto;
+import model.Entidademedida;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
+import model.Registroprojeto;
 import model.Objetivodemedicao;
 import model.Acessa;
-import model.Entidademedida;
 import model.Projeto;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class ProjetoJpaController implements Serializable {
 
@@ -38,6 +38,9 @@ public class ProjetoJpaController implements Serializable {
     }
 
     public void create(Projeto projeto) {
+        if (projeto.getEntidademedidaList() == null) {
+            projeto.setEntidademedidaList(new ArrayList<Entidademedida>());
+        }
         if (projeto.getRegistroprojetoList() == null) {
             projeto.setRegistroprojetoList(new ArrayList<Registroprojeto>());
         }
@@ -47,13 +50,16 @@ public class ProjetoJpaController implements Serializable {
         if (projeto.getAcessaList() == null) {
             projeto.setAcessaList(new ArrayList<Acessa>());
         }
-        if (projeto.getEntidademedidaList() == null) {
-            projeto.setEntidademedidaList(new ArrayList<Entidademedida>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Entidademedida> attachedEntidademedidaList = new ArrayList<Entidademedida>();
+            for (Entidademedida entidademedidaListEntidademedidaToAttach : projeto.getEntidademedidaList()) {
+                entidademedidaListEntidademedidaToAttach = em.getReference(entidademedidaListEntidademedidaToAttach.getClass(), entidademedidaListEntidademedidaToAttach.getId());
+                attachedEntidademedidaList.add(entidademedidaListEntidademedidaToAttach);
+            }
+            projeto.setEntidademedidaList(attachedEntidademedidaList);
             List<Registroprojeto> attachedRegistroprojetoList = new ArrayList<Registroprojeto>();
             for (Registroprojeto registroprojetoListRegistroprojetoToAttach : projeto.getRegistroprojetoList()) {
                 registroprojetoListRegistroprojetoToAttach = em.getReference(registroprojetoListRegistroprojetoToAttach.getClass(), registroprojetoListRegistroprojetoToAttach.getId());
@@ -72,13 +78,16 @@ public class ProjetoJpaController implements Serializable {
                 attachedAcessaList.add(acessaListAcessaToAttach);
             }
             projeto.setAcessaList(attachedAcessaList);
-            List<Entidademedida> attachedEntidademedidaList = new ArrayList<Entidademedida>();
-            for (Entidademedida entidademedidaListEntidademedidaToAttach : projeto.getEntidademedidaList()) {
-                entidademedidaListEntidademedidaToAttach = em.getReference(entidademedidaListEntidademedidaToAttach.getClass(), entidademedidaListEntidademedidaToAttach.getId());
-                attachedEntidademedidaList.add(entidademedidaListEntidademedidaToAttach);
-            }
-            projeto.setEntidademedidaList(attachedEntidademedidaList);
             em.persist(projeto);
+            for (Entidademedida entidademedidaListEntidademedida : projeto.getEntidademedidaList()) {
+                Projeto oldProjetoidOfEntidademedidaListEntidademedida = entidademedidaListEntidademedida.getProjetoid();
+                entidademedidaListEntidademedida.setProjetoid(projeto);
+                entidademedidaListEntidademedida = em.merge(entidademedidaListEntidademedida);
+                if (oldProjetoidOfEntidademedidaListEntidademedida != null) {
+                    oldProjetoidOfEntidademedidaListEntidademedida.getEntidademedidaList().remove(entidademedidaListEntidademedida);
+                    oldProjetoidOfEntidademedidaListEntidademedida = em.merge(oldProjetoidOfEntidademedidaListEntidademedida);
+                }
+            }
             for (Registroprojeto registroprojetoListRegistroprojeto : projeto.getRegistroprojetoList()) {
                 Projeto oldProjetoidOfRegistroprojetoListRegistroprojeto = registroprojetoListRegistroprojeto.getProjetoid();
                 registroprojetoListRegistroprojeto.setProjetoid(projeto);
@@ -106,15 +115,6 @@ public class ProjetoJpaController implements Serializable {
                     oldProjetoOfAcessaListAcessa = em.merge(oldProjetoOfAcessaListAcessa);
                 }
             }
-            for (Entidademedida entidademedidaListEntidademedida : projeto.getEntidademedidaList()) {
-                Projeto oldProjetoidOfEntidademedidaListEntidademedida = entidademedidaListEntidademedida.getProjetoid();
-                entidademedidaListEntidademedida.setProjetoid(projeto);
-                entidademedidaListEntidademedida = em.merge(entidademedidaListEntidademedida);
-                if (oldProjetoidOfEntidademedidaListEntidademedida != null) {
-                    oldProjetoidOfEntidademedidaListEntidademedida.getEntidademedidaList().remove(entidademedidaListEntidademedida);
-                    oldProjetoidOfEntidademedidaListEntidademedida = em.merge(oldProjetoidOfEntidademedidaListEntidademedida);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -129,14 +129,14 @@ public class ProjetoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Projeto persistentProjeto = em.find(Projeto.class, projeto.getId());
+            List<Entidademedida> entidademedidaListOld = persistentProjeto.getEntidademedidaList();
+            List<Entidademedida> entidademedidaListNew = projeto.getEntidademedidaList();
             List<Registroprojeto> registroprojetoListOld = persistentProjeto.getRegistroprojetoList();
             List<Registroprojeto> registroprojetoListNew = projeto.getRegistroprojetoList();
             List<Objetivodemedicao> objetivodemedicaoListOld = persistentProjeto.getObjetivodemedicaoList();
             List<Objetivodemedicao> objetivodemedicaoListNew = projeto.getObjetivodemedicaoList();
             List<Acessa> acessaListOld = persistentProjeto.getAcessaList();
             List<Acessa> acessaListNew = projeto.getAcessaList();
-            List<Entidademedida> entidademedidaListOld = persistentProjeto.getEntidademedidaList();
-            List<Entidademedida> entidademedidaListNew = projeto.getEntidademedidaList();
             List<String> illegalOrphanMessages = null;
             for (Registroprojeto registroprojetoListOldRegistroprojeto : registroprojetoListOld) {
                 if (!registroprojetoListNew.contains(registroprojetoListOldRegistroprojeto)) {
@@ -165,6 +165,13 @@ public class ProjetoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            List<Entidademedida> attachedEntidademedidaListNew = new ArrayList<Entidademedida>();
+            for (Entidademedida entidademedidaListNewEntidademedidaToAttach : entidademedidaListNew) {
+                entidademedidaListNewEntidademedidaToAttach = em.getReference(entidademedidaListNewEntidademedidaToAttach.getClass(), entidademedidaListNewEntidademedidaToAttach.getId());
+                attachedEntidademedidaListNew.add(entidademedidaListNewEntidademedidaToAttach);
+            }
+            entidademedidaListNew = attachedEntidademedidaListNew;
+            projeto.setEntidademedidaList(entidademedidaListNew);
             List<Registroprojeto> attachedRegistroprojetoListNew = new ArrayList<Registroprojeto>();
             for (Registroprojeto registroprojetoListNewRegistroprojetoToAttach : registroprojetoListNew) {
                 registroprojetoListNewRegistroprojetoToAttach = em.getReference(registroprojetoListNewRegistroprojetoToAttach.getClass(), registroprojetoListNewRegistroprojetoToAttach.getId());
@@ -186,14 +193,24 @@ public class ProjetoJpaController implements Serializable {
             }
             acessaListNew = attachedAcessaListNew;
             projeto.setAcessaList(acessaListNew);
-            List<Entidademedida> attachedEntidademedidaListNew = new ArrayList<Entidademedida>();
-            for (Entidademedida entidademedidaListNewEntidademedidaToAttach : entidademedidaListNew) {
-                entidademedidaListNewEntidademedidaToAttach = em.getReference(entidademedidaListNewEntidademedidaToAttach.getClass(), entidademedidaListNewEntidademedidaToAttach.getId());
-                attachedEntidademedidaListNew.add(entidademedidaListNewEntidademedidaToAttach);
-            }
-            entidademedidaListNew = attachedEntidademedidaListNew;
-            projeto.setEntidademedidaList(entidademedidaListNew);
             projeto = em.merge(projeto);
+            for (Entidademedida entidademedidaListOldEntidademedida : entidademedidaListOld) {
+                if (!entidademedidaListNew.contains(entidademedidaListOldEntidademedida)) {
+                    entidademedidaListOldEntidademedida.setProjetoid(null);
+                    entidademedidaListOldEntidademedida = em.merge(entidademedidaListOldEntidademedida);
+                }
+            }
+            for (Entidademedida entidademedidaListNewEntidademedida : entidademedidaListNew) {
+                if (!entidademedidaListOld.contains(entidademedidaListNewEntidademedida)) {
+                    Projeto oldProjetoidOfEntidademedidaListNewEntidademedida = entidademedidaListNewEntidademedida.getProjetoid();
+                    entidademedidaListNewEntidademedida.setProjetoid(projeto);
+                    entidademedidaListNewEntidademedida = em.merge(entidademedidaListNewEntidademedida);
+                    if (oldProjetoidOfEntidademedidaListNewEntidademedida != null && !oldProjetoidOfEntidademedidaListNewEntidademedida.equals(projeto)) {
+                        oldProjetoidOfEntidademedidaListNewEntidademedida.getEntidademedidaList().remove(entidademedidaListNewEntidademedida);
+                        oldProjetoidOfEntidademedidaListNewEntidademedida = em.merge(oldProjetoidOfEntidademedidaListNewEntidademedida);
+                    }
+                }
+            }
             for (Registroprojeto registroprojetoListNewRegistroprojeto : registroprojetoListNew) {
                 if (!registroprojetoListOld.contains(registroprojetoListNewRegistroprojeto)) {
                     Projeto oldProjetoidOfRegistroprojetoListNewRegistroprojeto = registroprojetoListNewRegistroprojeto.getProjetoid();
@@ -224,23 +241,6 @@ public class ProjetoJpaController implements Serializable {
                     if (oldProjetoOfAcessaListNewAcessa != null && !oldProjetoOfAcessaListNewAcessa.equals(projeto)) {
                         oldProjetoOfAcessaListNewAcessa.getAcessaList().remove(acessaListNewAcessa);
                         oldProjetoOfAcessaListNewAcessa = em.merge(oldProjetoOfAcessaListNewAcessa);
-                    }
-                }
-            }
-            for (Entidademedida entidademedidaListOldEntidademedida : entidademedidaListOld) {
-                if (!entidademedidaListNew.contains(entidademedidaListOldEntidademedida)) {
-                    entidademedidaListOldEntidademedida.setProjetoid(null);
-                    entidademedidaListOldEntidademedida = em.merge(entidademedidaListOldEntidademedida);
-                }
-            }
-            for (Entidademedida entidademedidaListNewEntidademedida : entidademedidaListNew) {
-                if (!entidademedidaListOld.contains(entidademedidaListNewEntidademedida)) {
-                    Projeto oldProjetoidOfEntidademedidaListNewEntidademedida = entidademedidaListNewEntidademedida.getProjetoid();
-                    entidademedidaListNewEntidademedida.setProjetoid(projeto);
-                    entidademedidaListNewEntidademedida = em.merge(entidademedidaListNewEntidademedida);
-                    if (oldProjetoidOfEntidademedidaListNewEntidademedida != null && !oldProjetoidOfEntidademedidaListNewEntidademedida.equals(projeto)) {
-                        oldProjetoidOfEntidademedidaListNewEntidademedida.getEntidademedidaList().remove(entidademedidaListNewEntidademedida);
-                        oldProjetoidOfEntidademedidaListNewEntidademedida = em.merge(oldProjetoidOfEntidademedidaListNewEntidademedida);
                     }
                 }
             }

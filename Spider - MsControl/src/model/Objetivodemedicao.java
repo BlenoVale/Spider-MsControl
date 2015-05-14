@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "objetivodemedicao")
@@ -63,9 +63,9 @@ public class Objetivodemedicao implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
-    private List<Objetivodequestao> objetivodequestaoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
     private List<Registroobjetivomedicao> registroobjetivomedicaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
+    private List<Objetivodequestao> objetivodequestaoList;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Projeto projetoid;
@@ -142,21 +142,21 @@ public class Objetivodemedicao implements Serializable {
     }
 
     @XmlTransient
-    public List<Objetivodequestao> getObjetivodequestaoList() {
-        return objetivodequestaoList;
-    }
-
-    public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
-        this.objetivodequestaoList = objetivodequestaoList;
-    }
-
-    @XmlTransient
     public List<Registroobjetivomedicao> getRegistroobjetivomedicaoList() {
         return registroobjetivomedicaoList;
     }
 
     public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
         this.registroobjetivomedicaoList = registroobjetivomedicaoList;
+    }
+
+    @XmlTransient
+    public List<Objetivodequestao> getObjetivodequestaoList() {
+        return objetivodequestaoList;
+    }
+
+    public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
+        this.objetivodequestaoList = objetivodequestaoList;
     }
 
     public Projeto getProjetoid() {
@@ -181,8 +181,9 @@ public class Objetivodemedicao implements Serializable {
             return false;
         }
         Objetivodemedicao other = (Objetivodemedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

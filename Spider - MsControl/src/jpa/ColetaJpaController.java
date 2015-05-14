@@ -19,7 +19,7 @@ import model.Medida;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 public class ColetaJpaController implements Serializable {
 
