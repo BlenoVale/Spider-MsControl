@@ -78,13 +78,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         this.jLabelUltimaEdicao.setVisible(false);
         this.jTextFieldUltimaEdicao.setVisible(false);
+        popularComboBoxIndicador();
         popularComboboxTipoDeGrafico();
         popularComboboxPeriodicidade();
         popularComboboxComunicacaoPeriodicidade();
         popularListaMeio();
         popularListaPerfis();
         this.setVisible(true);
-        jTextFieldCadastradoPor.setText(this.nomeUsuario_logado + ". Em: " + Texto.formataData(new Date()));
+        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
     }
 
     public void showEditarProcedimentoAnaliseDialog(Procedimentodeanalise procedimentoAnalise_selecionado, String nomeUsuario_logado) {
@@ -95,6 +96,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         ehNovoProcedimentoAnalise = false;
 
+        popularComboBoxIndicador();
         popularComboboxTipoDeGrafico();
         popularComboboxPeriodicidade();
         popularComboboxComunicacaoPeriodicidade();
@@ -102,6 +104,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         popularListaPerfis();
         preencherCampos();
         this.setVisible(true);
+        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
     }
 
     private void escondeRadioButton() {
@@ -258,7 +261,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         comboboxModel.addElement("-Selecione um Indicador-");
         List<Indicador> indicador = jpa.getIndicadorJpa().findListaIndicadoresByProjeto(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < indicador.size(); i++) {
-            comboboxModel.addElement(indicador.get(i).getNome());
+            if(indicador.get(i).getProcedimentodeanaliseList().isEmpty()){
+                comboboxModel.addElement(indicador.get(i).getNome());
+            }
         }
         jComboBoxIndicador.setModel(comboboxModel);
     }
@@ -317,6 +322,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             model_listaMeio.addElement(listaMeio.get(i));
         }
         jListMeio.setModel(model_listaMeio);
+    }
+    
+    public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
+        String caracteres = "987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -494,6 +506,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabel19.setText("Frequência:");
 
+        jTextFieldFrequencia1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldFrequencia1KeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -504,12 +522,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldResponsavel))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,12 +537,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                     .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldFrequencia1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxTipoGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(9, 9, 9))
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jComboBoxTipoGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 271, Short.MAX_VALUE))
+                                    .addComponent(jTextFieldFrequencia1)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jComboBoxPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
@@ -550,8 +571,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados Gerais", jPanel2);
@@ -760,6 +781,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jComboBoxComunicacaoPeriodicidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jTextFieldFrequencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldFrequenciaKeyTyped(evt);
+            }
+        });
+
         jListPerfis.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -804,13 +831,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jTextFieldFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel16)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 38, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 33, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Comunicação", jPanel9);
@@ -982,7 +1009,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                            .addComponent(jButton23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE)
                             .addComponent(jButton20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1004,7 +1031,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -1276,6 +1303,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jTextFieldFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFormulaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldFormulaActionPerformed
+
+    private void jTextFieldFrequencia1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFrequencia1KeyTyped
+        jTextFieldSomenteNumeros(evt);
+    }//GEN-LAST:event_jTextFieldFrequencia1KeyTyped
+
+    private void jTextFieldFrequenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaKeyTyped
+        jTextFieldSomenteNumeros(evt);
+    }//GEN-LAST:event_jTextFieldFrequenciaKeyTyped
 
     public String excluirUltimaLetra(String texto) {
         if (!texto.isEmpty()) {
