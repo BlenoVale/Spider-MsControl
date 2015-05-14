@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
  */
 public class Calendario extends javax.swing.JDialog {
 
-    private int frequencia;
     private String tipo;
     List<String> listaDias;
     Date dataInicio;
@@ -23,14 +22,6 @@ public class Calendario extends javax.swing.JDialog {
         initComponents();
 
         agruparBotoesSemanal();
-    }
-
-    public void setFrequencia(int frequencia) {
-        this.frequencia = frequencia;
-    }
-
-    public int getFrequencia() {
-        return this.frequencia;
     }
 
     public void showCalendarioDiarioDialog() {
@@ -170,19 +161,23 @@ public class Calendario extends javax.swing.JDialog {
     }
 
     private boolean validaOutrosPeriodos() {
-        if (datePanel.getDate().getDate() < (new Date().getDate())) {
+        Date dataCalendario = datePanel.getDate();
+        if (dataCalendario.before(new Date()) && dataCalendario.getDay()!= new Date().getDay()) {
             JOptionPane.showMessageDialog(null, "Dia selecionado invalido.");
+            return false;
+        } else if(dataCalendario.getDate() > 28){
+            JOptionPane.showMessageDialog(null, "É permitido apenas selecionar dias entre o 1° e 28°.");
             return false;
         } else {
             return true;
         }
     }
 
-    private void somaDiasNaData(int qtdDias) {
+    private void somaDiasNaData(int qtdMeses) {
         dataInicio = datePanel.getDate();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dataInicio);
-        calendar.add(Calendar.DAY_OF_MONTH, qtdDias);
+        calendar.add(Calendar.MONTH, qtdMeses);
         dataFim = calendar.getTime();
         System.out.println("----->Data inicio: " + dataInicio);
         System.out.println("----->Data Fim: " + dataFim);
@@ -394,18 +389,17 @@ public class Calendario extends javax.swing.JDialog {
             }
             
             if ("Mensal".equals(tipo)) {
-                somaDiasNaData(28);
+                somaDiasNaData(1);
             } else if ("Bimestral".equals(tipo)) {
-                somaDiasNaData(56);
-            } else if ("Trimestal".equals(tipo)) {
-                somaDiasNaData(84);
+                somaDiasNaData(2);
+            } else if ("Trimestral".equals(tipo)) {
+                somaDiasNaData(3);
             } else if ("Semestral".equals(tipo)) {
-                somaDiasNaData(168);
+                somaDiasNaData(6);
             } else if ("Anual".equals(tipo)) {
-                somaDiasNaData(336);
+                somaDiasNaData(12);
             }
         }
-        System.out.println("----->Frequencia: " + frequencia);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
