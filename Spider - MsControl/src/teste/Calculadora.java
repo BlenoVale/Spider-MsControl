@@ -14,13 +14,20 @@ public class Calculadora extends javax.swing.JFrame {
     /**
      * Creates new form Calculadora
      */
-    TelaCalculadora telaCalculadora = new TelaCalculadora();
-    
-    
+    //TelaCalculadora telaCalculadora = new TelaCalculadora();
     public Calculadora() {
         initComponents();
-        telaCalculadora.setVisible(true);
-        
+        //telaCalculadora.setVisible(true);
+
+    }
+
+    public boolean verificaFormula(String formulas) {
+
+        String caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+")) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -307,96 +314,98 @@ public class Calculadora extends javax.swing.JFrame {
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
 
         jTextField1.setText(jTextField1.getText() + "7");
-        telaCalculadora.insereDigitoCalculadora("7");
+        //telaCalculadora.insereDigitoCalculadora("7");
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
         jTextField1.setText(jTextField1.getText() + "8");
-        telaCalculadora.insereDigitoCalculadora("8");
+        //telaCalculadora.insereDigitoCalculadora("8");
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         jTextField1.setText(jTextField1.getText() + "9");
-        telaCalculadora.insereDigitoCalculadora("9");
+        //telaCalculadora.insereDigitoCalculadora("9");
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jTextField1.setText(jTextField1.getText() + "/");
-        telaCalculadora.insereDigitoCalculadora("/");
+        //telaCalculadora.insereDigitoCalculadora("/");
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-       jTextField1.setText(jTextField1.getText() + "4");
-       telaCalculadora.insereDigitoCalculadora("4");
+        jTextField1.setText(jTextField1.getText() + "4");
+        //telaCalculadora.insereDigitoCalculadora("4");
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         jTextField1.setText(jTextField1.getText() + "5");
-        telaCalculadora.insereDigitoCalculadora("5");
+        //telaCalculadora.insereDigitoCalculadora("5");
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         jTextField1.setText(jTextField1.getText() + "6");
-        telaCalculadora.insereDigitoCalculadora("6");
+        //telaCalculadora.insereDigitoCalculadora("6");
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        jTextField1.setText(jTextField1.getText() + "*");
-        telaCalculadora.insereDigitoCalculadora("*");
+        if (!verificaFormula(jTextField1.getText())) {
+            jTextField1.setText(jTextField1.getText() + "*");
+        }
+        //telaCalculadora.insereDigitoCalculadora("*");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         jTextField1.setText(jTextField1.getText() + "1");
-        telaCalculadora.insereDigitoCalculadora("1");
+        //telaCalculadora.insereDigitoCalculadora("1");
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         jTextField1.setText(jTextField1.getText() + "2");
-        telaCalculadora.insereDigitoCalculadora("2");
+        //telaCalculadora.insereDigitoCalculadora("2");
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         jTextField1.setText(jTextField1.getText() + "3");
-        telaCalculadora.insereDigitoCalculadora("3");
+        //telaCalculadora.insereDigitoCalculadora("3");
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jTextField1.setText(jTextField1.getText() + "-");
-        telaCalculadora.insereDigitoCalculadora("-");
+        //telaCalculadora.insereDigitoCalculadora("-");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jTextField1.setText(jTextField1.getText() + "0");
-        telaCalculadora.insereDigitoCalculadora("0");
+        //telaCalculadora.insereDigitoCalculadora("0");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jTextField1.setText(jTextField1.getText() + ".");
-        telaCalculadora.insereDigitoCalculadora(".");
+        //telaCalculadora.insereDigitoCalculadora(".");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jTextField1.setText(jTextField1.getText() + "+");
-        telaCalculadora.insereDigitoCalculadora("+");
+        //telaCalculadora.insereDigitoCalculadora("+");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         jTextField1.setText("");
-        telaCalculadora.deletar();
+        //telaCalculadora.deletar();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         jTextField1.setText(jTextField1.getText() + "(");
-        telaCalculadora.insereDigitoCalculadora("(");
+        //telaCalculadora.insereDigitoCalculadora("(");
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jTextField1.setText(jTextField1.getText() + ")");
-        telaCalculadora.insereDigitoCalculadora(")");
+        //telaCalculadora.insereDigitoCalculadora(")");
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        jTextField1.setText(telaCalculadora.excluirUltimaLetra(jTextField1.getText()));
+        //jTextField1.setText(telaCalculadora.excluirUltimaLetra(jTextField1.getText()));
     }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
@@ -406,7 +415,7 @@ public class Calculadora extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

@@ -309,7 +309,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         comboboxModel.addElement("-Selecione um Indicador-");
         List<Indicador> indicador = jpa.getIndicadorJpa().findListaIndicadoresByProjeto(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < indicador.size(); i++) {
-            if(indicador.get(i).getProcedimentodeanaliseList().isEmpty()){
+            if (indicador.get(i).getProcedimentodeanaliseList().isEmpty()) {
                 comboboxModel.addElement(indicador.get(i).getNome());
             }
         }
@@ -371,7 +371,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
         jListMeio.setModel(model_listaMeio);
     }
-    
+
     public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
         String caracteres = "987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
@@ -901,6 +901,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 "Medida", "Mnemônico"
             }
         ));
+        jTableMedida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMedidaMouseClicked(evt);
+            }
+        });
         jScrollPane7.setViewportView(jTableMedida);
 
         jLabel21.setText("Fórmula:");
@@ -1057,7 +1062,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE)
+                            .addComponent(jButton23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                             .addComponent(jButton20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1366,6 +1371,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jTextFieldFrequenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaKeyTyped
         jTextFieldSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldFrequenciaKeyTyped
+
+    private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
+
+        if (evt.getClickCount() >= 2) {
+            String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico);
+        }
+
+    }//GEN-LAST:event_jTableMedidaMouseClicked
 
     public String excluirUltimaLetra(String texto) {
         if (!texto.isEmpty()) {
