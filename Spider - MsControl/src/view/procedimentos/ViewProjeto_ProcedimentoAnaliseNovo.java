@@ -117,6 +117,26 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
+    public boolean verificaInsercaoParenteseFechado(String formula) {
+
+        int contA = 0;
+        int contB = 0;
+        char caractereA = '(';
+        char caractereB = ')';
+        if (!formula.isEmpty())
+            for (int i = 0; i < formula.length(); i++) {
+                if (formula.charAt(i) == caractereA)
+                    contA++;
+                else if (formula.charAt(i) == caractereB)
+                    contB++;
+            }
+
+        if (contB >= contA)
+            return true;
+        return false;
+
+    }
+
     public void showNovoProcedimentodeanalise() {
 
         this.setTitle("Cadastro de Novo Procedimento de Análise");
@@ -1341,8 +1361,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty())
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()))
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
+        verificaInsercaoParenteseFechado(jTextFieldFormula.getText());
 
     }//GEN-LAST:event_jButton11ActionPerformed
 
@@ -1389,8 +1410,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             return texto;
         }
         return null;
-
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
     private javax.swing.JButton jButton1;
