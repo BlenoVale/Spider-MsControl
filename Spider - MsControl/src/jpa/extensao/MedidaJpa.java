@@ -148,7 +148,7 @@ public class MedidaJpa extends MedidaJpaController {
               Query query = entityManager.createQuery("SELECT m FROM Medida m WHERE m.nome LIKE :nome AND m.projetoId = :idProjeto");
               query.setParameter("nome", nome + "%");
               query.setParameter("idProjeto", idProjeto);
-              return  (Medida) query.getSingleResult();
+              return  (Medida) query.getResultList();
           } catch (Exception e) {
               e.printStackTrace();
               return null;
