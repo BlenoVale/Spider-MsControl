@@ -79,22 +79,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public void verificaParenteses(String formula) {
-        char x = '(';
-        char y = ')';
-        int contA = 0;
-        int contB = 0;
+    public boolean verificaSomenteOperandos(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty())
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+"))
+            return true;
 
-        for (int i = 0; i < formula.length(); i++) {
-            if (formula.charAt(i) == x)
-                contA++;
-            else if (formula.charAt(i) == y)
-                contB++;
-        }
-
-        if (contA != contB)
-            JOptionPane.showMessageDialog(null, "Por favor, revise sua fórmula existe um erro com o uso de parenteses", "", JOptionPane.ERROR_MESSAGE);
-
+        return false;
     }
 
     public boolean verificaPontoAntesParenteses(String formula) {
@@ -1356,12 +1348,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()))
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
-        verificaInsercaoParenteseFechado(jTextFieldFormula.getText());
 
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()))
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText()))
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
 
     }//GEN-LAST:event_jButton12ActionPerformed
@@ -1388,21 +1379,59 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
 
-        if (evt.getClickCount() >= 2) {
-            String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico);
-        }
+        if (jTextFieldFormula.getText().isEmpty())
+            inserirMnemonico(evt);
+        else if (verificaSomenteOperandos(jTextFieldFormula.getText()))
+            inserirMnemonico(evt);
 
     }//GEN-LAST:event_jTableMedidaMouseClicked
 
+    public void inserirMnemonico(java.awt.event.MouseEvent event) {
+        if (event.getClickCount() >= 2) {
+            String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico);
+        }
+    }
+
     public String excluirUltimaLetra(String texto) {
+
         if (!texto.isEmpty()) {
             int length = texto.length();
-            texto = texto.substring(0, length - 1);
+            if (verificaOperandos(texto))
+                texto = texto.substring(0, length - 1);
+            else
+                texto = texto.substring(0, length - 2);
+
             jTextFieldFormula.setText(texto);
             return texto;
         }
         return null;
+    }
+
+    public boolean verificaOperandos(String texto) {
+        int length = texto.length();
+
+        if (texto.charAt(length - 1) == '('
+                || texto.charAt(length - 1) == ')'
+                || texto.charAt(length - 1) == '.'
+                || texto.charAt(length - 1) == '+'
+                || texto.charAt(length - 1) == '-'
+                || texto.charAt(length - 1) == '*'
+                || texto.charAt(length - 1) == '/'
+                || texto.charAt(length - 1) == '/'
+                || texto.charAt(length - 1) == '0'
+                || texto.charAt(length - 1) == '1'
+                || texto.charAt(length - 1) == '2'
+                || texto.charAt(length - 1) == '3'
+                || texto.charAt(length - 1) == '4'
+                || texto.charAt(length - 1) == '5'
+                || texto.charAt(length - 1) == '6'
+                || texto.charAt(length - 1) == '7'
+                || texto.charAt(length - 1) == '8'
+                || texto.charAt(length - 1) == '9')
+            return true;
+        return false;
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

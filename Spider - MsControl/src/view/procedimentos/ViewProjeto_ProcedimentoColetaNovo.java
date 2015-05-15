@@ -19,13 +19,13 @@ import util.Texto;
  * @author Paulo, Géssica
  */
 public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
-    
+
     private DefaultComboBoxModel comboBoxModelMedida;
     private Procedimentodecoleta procedimentodecoleta = new Procedimentodecoleta();
     private List<Registroprocedimentocoleta> registroprocedimentocoletas;
     private FacadeJpa jpa = FacadeJpa.getInstance();
     private boolean novoProcedimento = false;
-    
+
     public ViewProjeto_ProcedimentoColetaNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -42,7 +42,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
             return false;
         } else if (jComboBoxCalculo.getSelectedItem() == "-Selecione um Cálculo-") {
             JOptionPane.showMessageDialog(null, "Você deve selecionar um \"Cálculo\"");
-            return false;    
+            return false;
         } else if (jTextFieldResponsavelColeta.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Responsável pela Coleta\" é obrigatório");
             return false;
@@ -83,8 +83,8 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         comboBoxModelMedida.addElement("-Selecione uma medida-");
         List<Medida> medida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < medida.size(); i++) {
-            if(medida.get(i).getProcedimentodecoletaList().isEmpty())
-            comboBoxModelMedida.addElement(medida.get(i).getNome());
+            if (medida.get(i).getProcedimentodecoletaList().isEmpty())
+                comboBoxModelMedida.addElement(medida.get(i).getNome());
         }
         jComboBoxMedida.setModel(comboBoxModelMedida);
     }
@@ -100,7 +100,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         }
         jComboBoxPeriodicidade.setModel(comboBoxModelMedida);
     }
-    
+
     private void popularComboboxCalculo() {
         comboBoxModelMedida = new DefaultComboBoxModel();
 
@@ -112,7 +112,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         }
         jComboBoxCalculo.setModel(comboBoxModelMedida);
     }
-    
+
     private void popularComboboxMomento() {
         comboBoxModelMedida = new DefaultComboBoxModel();
 
@@ -124,7 +124,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         }
         jComboBoxMomento.setModel(comboBoxModelMedida);
     }
-    
+
     public void showDialogCadastrar() {
 
         popularComboboxCalculo();
@@ -145,11 +145,10 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         popularComboboxPeriodicidade();
         popularComboBoxEditarMedida(medida);
         this.setTitle("Editar Procedimento de Coleta");
-                
+
         jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
         preencherCamposEditar(medida);
 
-        
         procedimentodecoleta = FacadeJpa.getInstance().getProcedimentoColetaJpa().findByProjeto(medida.getId(), Copia.getProjetoSelecionado().getId());
         popularRegistroEditar(procedimentodecoleta);
         novoProcedimento = false;
@@ -176,25 +175,26 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         jTextAreaObservacao.setText(procedimentodecoleta.getObservacao());
 
     }
-     public void popularRegistroEditar(Procedimentodecoleta procedimentodecoleta){
-               
+
+    public void popularRegistroEditar(Procedimentodecoleta procedimentodecoleta) {
+
         registroprocedimentocoletas = new ArrayList<>();
-        
-         System.out.println(procedimentodecoleta.getId());
+
+        System.out.println(procedimentodecoleta.getId());
         registroprocedimentocoletas = jpa.getRegistroProcedimentoColeta().findByIdProcedimento(procedimentodecoleta.getId(), Constantes.CADASTRO);
-         
+
         jTextFieldCadastradoPor.setText(registroprocedimentocoletas.get(0).getNomeUsuario() + " Em " + Texto.formataData(registroprocedimentocoletas.get(0).getData()));
-        
+
         registroprocedimentocoletas = new ArrayList<>();
         registroprocedimentocoletas = jpa.getRegistroProcedimentoColeta().findByIdProcedimento(procedimentodecoleta.getId(), Constantes.EDICAO);
-                
-         if (registroprocedimentocoletas.isEmpty()) {
-            
-             jTextFieldUltimaEdicao.setVisible(false);
-             jLabelUltimaEdicao.setVisible(false);             
-         }else {
-             jTextFieldUltimaEdicao.setText(registroprocedimentocoletas.get(registroprocedimentocoletas.size() - 1).getNomeUsuario() + " Em " + Texto.formataData(registroprocedimentocoletas.get(registroprocedimentocoletas.size() - 1).getData()));
-         }
+
+        if (registroprocedimentocoletas.isEmpty()) {
+
+            jTextFieldUltimaEdicao.setVisible(false);
+            jLabelUltimaEdicao.setVisible(false);
+        } else {
+            jTextFieldUltimaEdicao.setText(registroprocedimentocoletas.get(registroprocedimentocoletas.size() - 1).getNomeUsuario() + " Em " + Texto.formataData(registroprocedimentocoletas.get(registroprocedimentocoletas.size() - 1).getData()));
+        }
     }
 
     public void preencherRadioEditar(String valorName) {
@@ -219,7 +219,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
             return jRadioButtonPlanilha.getText();
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -340,6 +340,11 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
 
         jLabel12.setText("Cálculo:");
 
+        jTextFieldFrequencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFrequenciaActionPerformed(evt);
+            }
+        });
         jTextFieldFrequencia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFrequenciaKeyTyped(evt);
@@ -546,13 +551,13 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
-        
+
         if (!validaCampos()) {
             return;
         }
         boolean save = false;
         Medida medida = jpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedida.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
-        
+
         procedimentodecoleta.setData(new Date());
         procedimentodecoleta.setFerramentasUtilizada(jTextFieldFerramentaUtilizada.getText());
         procedimentodecoleta.setFrequencia(Integer.parseInt(jTextFieldFrequencia.getText()));
@@ -564,7 +569,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setResponsavelPelaColeta(jTextFieldResponsavelColeta.getText());
         procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado());
         procedimentodecoleta.setProjetoId(Copia.getProjetoSelecionado().getId());
-        
+
         if (novoProcedimento) {
 
             save = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta);
@@ -576,7 +581,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         if (save) {
             this.dispose();
         }
-        
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -607,6 +612,10 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
+    private void jTextFieldFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFrequenciaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -614,7 +623,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
