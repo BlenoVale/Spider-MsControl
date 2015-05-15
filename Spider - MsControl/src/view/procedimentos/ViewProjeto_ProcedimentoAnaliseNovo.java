@@ -69,6 +69,54 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
+    public boolean verificaSinais(String formulas) {
+        String caractere = "";
+        if (!formulas.isEmpty())
+            caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+"))
+            return true;
+
+        return false;
+    }
+
+    public void verificaParenteses(String formula) {
+        char x = '(';
+        char y = ')';
+        int contA = 0;
+        int contB = 0;
+
+        for (int i = 0; i < formula.length(); i++) {
+            if (formula.charAt(i) == x)
+                contA++;
+            else if (formula.charAt(i) == y)
+                contB++;
+        }
+
+        if (contA != contB)
+            JOptionPane.showMessageDialog(null, "Por favor, revise sua fórmula existe um erro com o uso de parenteses", "", JOptionPane.ERROR_MESSAGE);
+
+    }
+
+    public boolean verificaPontoAntesParenteses(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty())
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        if (caractere.equals(")") || caractere.equals("("))
+            return true;
+
+        return false;
+    }
+
+    public boolean verificaPontoDepoisParenteses(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty())
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        if (caractere.equals("."))
+            return true;
+
+        return false;
+    }
+
     public void showNovoProcedimentodeanalise() {
 
         this.setTitle("Cadastro de Novo Procedimento de Análise");
@@ -828,7 +876,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         ));
         jScrollPane7.setViewportView(jTableMedida);
 
-        jLabel21.setText("Fómula:");
+        jLabel21.setText("Fórmula:");
 
         jTextFieldFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1184,12 +1232,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
 
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + ".");
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + ".");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1212,12 +1262,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
 
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -1251,17 +1303,20 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty())
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
 
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()))
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
 
     }//GEN-LAST:event_jButton12ActionPerformed
 
