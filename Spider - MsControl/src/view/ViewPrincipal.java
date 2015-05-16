@@ -25,6 +25,8 @@ import model.Projeto;
 import model.Usuario;
 import util.Copia;
 import util.Observer;
+import view.artefatos.ViewProjeto_PlanoDeMedicao;
+import view.artefatos.ViewProjeto_Relatorio;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
 import view.medidas.ViewProjeto_Analise;
 import view.indicadores.ViewProjetoAprovacao;
@@ -51,7 +53,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // Objetivos
     private final ViewProjeto_ObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosDeMedicao();
     private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
-    //Indicadores
+    // Indicadores
     private final ViewProjeto_Indicadores viewProjeto_Indicadores = new ViewProjeto_Indicadores();
     // Procedimentos
     private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
@@ -61,7 +63,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewProjeto_MedicaoDefinicao viewProjeto_MedicaoDefinicao = new ViewProjeto_MedicaoDefinicao();
     private final ViewProjeto_Analise viewProjeto_Analise = new ViewProjeto_Analise();
     private final ViewProjeto_Coleta viewProjeto_Coletas = new ViewProjeto_Coleta();
-    //Resultados
+    // Artefatos
+    private final ViewProjeto_PlanoDeMedicao viewProjeto_PlanoDeMedicao = new ViewProjeto_PlanoDeMedicao();
+    private final ViewProjeto_Relatorio viewProjeto_Relatorio = new ViewProjeto_Relatorio();
+    // Resultados
     private final ViewProjeto_Resultados viewProjeto_Resultados = new ViewProjeto_Resultados();
 
     // Construtor usado para teste da ferramenta
@@ -520,6 +525,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_Analise);
         jDesktopPane.add(viewProjeto_Indicadores);
         jDesktopPane.add(viewProjeto_Coletas);
+        jDesktopPane.add(viewProjeto_PlanoDeMedicao);
+        jDesktopPane.add(viewProjeto_Relatorio);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -535,6 +542,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Analise.setMaximum(true);
             viewProjeto_Indicadores.setMaximum(true);
             viewProjeto_Coletas.setMaximum(true);
+            viewProjeto_PlanoDeMedicao.setMaximum(true);
+            viewProjeto_Relatorio.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -554,6 +563,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_Analise.setVisible(false);
         viewProjeto_Indicadores.setVisible(false);
         viewProjeto_Coletas.setVisible(false);
+        viewProjeto_PlanoDeMedicao.setVisible(false);
+        viewProjeto_Relatorio.setVisible(false);
 
         if (tela != null)
             tela.setVisible(true);
@@ -596,14 +607,15 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Coletas.preencherTabelaMedidaDoProjeto();
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
+            viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();
             trocaTelas(viewProjeto_ProcedimentoAnalise);
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Procedimentos")) {
             viewProjeto_ProcedimentoColeta.recarregarTabela();
             trocaTelas(viewProjeto_ProcedimentoColeta);
         } else if (no_filho.equals("Plano de Medição") && no_pai.endsWith("Artefatos")) {
-
+            trocaTelas(viewProjeto_PlanoDeMedicao);
         } else if (no_filho.equals("Relatório") && no_pai.endsWith("Artefatos")) {
-
+            trocaTelas(viewProjeto_Relatorio);
         } else if (no_filho.equals("Resultados")) {
             trocaTelas(viewProjeto_Resultados);
         }
