@@ -83,8 +83,12 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         jLabel1.setText("Autor:");
 
         jTextFieldAutor.setEditable(false);
+        jTextFieldAutor.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setText("Data:");
+
+        jTextFieldData.setEditable(false);
+        jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel3.setText("Observação:");
 

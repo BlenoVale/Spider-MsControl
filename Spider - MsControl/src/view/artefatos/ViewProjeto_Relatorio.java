@@ -50,6 +50,8 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
+        setTitle("Relatório");
+
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTableRelatoriosGerados.setModel(new javax.swing.table.DefaultTableModel(
@@ -75,6 +77,12 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         jLabel1.setText("Autor:");
 
         jLabel2.setText("Data:");
+
+        jTextFieldAutor.setEditable(false);
+        jTextFieldAutor.setBackground(new java.awt.Color(204, 204, 204));
+
+        jTextFieldData.setEditable(false);
+        jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
