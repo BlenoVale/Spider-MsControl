@@ -613,8 +613,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_ProcedimentoColeta.recarregarTabela();
             trocaTelas(viewProjeto_ProcedimentoColeta);
         } else if (no_filho.equals("Plano de Medição") && no_pai.endsWith("Artefatos")) {
+            viewProjeto_PlanoDeMedicao.showInformaçõesPlanoMedicao();
             trocaTelas(viewProjeto_PlanoDeMedicao);
         } else if (no_filho.equals("Relatório") && no_pai.endsWith("Artefatos")) {
+            viewProjeto_Relatorio.showInformaçõesPlanoMedicao();
             trocaTelas(viewProjeto_Relatorio);
         } else if (no_filho.equals("Resultados")) {
             trocaTelas(viewProjeto_Resultados);

@@ -66,6 +66,11 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         });
 
         jButtonNovo.setText("Novo");
+        jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,6 +134,11 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         //ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true);
     }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
+        ViewProjeto_ResultadosNovo viewProjeto_ResultadosNovo = new ViewProjeto_ResultadosNovo(null, true);
+        viewProjeto_ResultadosNovo.setVisible(true);
+    }//GEN-LAST:event_jButtonNovoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
