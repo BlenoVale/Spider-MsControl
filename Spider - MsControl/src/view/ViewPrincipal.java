@@ -255,7 +255,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jSplitPane1.setDividerLocation(200);
         jSplitPane1.setDividerSize(10);
 
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Projeto");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Objetivos");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Objetivo da Medição");
         treeNode2.add(treeNode3);

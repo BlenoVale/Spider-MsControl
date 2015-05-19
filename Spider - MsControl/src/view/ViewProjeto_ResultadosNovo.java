@@ -63,7 +63,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Medida", "Data"
+                "Indicador", "Data"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -126,7 +126,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Dados Gerais", jPanel2);
+        jTabbedPane1.addTab("Análise Referenciadas no Resultado", jPanel2);
 
         jLabel5.setText("Participantes da Interpretação:");
 
