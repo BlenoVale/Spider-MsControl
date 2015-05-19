@@ -1,5 +1,8 @@
 package view.medidas;
 
+import java.awt.BorderLayout;
+import org.jfree.chart.ChartPanel;
+import util.Grafico;
 import util.Internal;
 
 /**
@@ -16,9 +19,36 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }
 
     private void gerarGrafico() {
+        inicializaGraficoPizza();
         jPanelGrafico.setVisible(true);
     }
 
+    private void inicializaGraficoPizza() {
+        ChartPanel chartPanel = new Grafico().geraGraficoPizza("Pontos que agregam valor");
+
+        jPanelPlot.removeAll();
+        jPanelPlot.setLayout(new java.awt.BorderLayout());
+        jPanelPlot.add(chartPanel, BorderLayout.CENTER);
+        jPanelPlot.validate();
+
+    }
+    private void inicializaGraficoBarra() {
+        ChartPanel chartPanel = new Grafico().geraGraficoBarra("Pontos que agregam valor", "Sprints","PAV (%)");
+
+        jPanelPlot.removeAll();
+        jPanelPlot.setLayout(new java.awt.BorderLayout());
+        jPanelPlot.add(chartPanel, BorderLayout.CENTER);
+        jPanelPlot.validate();
+    }
+    
+    private void inicializaGraficoLinha() {
+        ChartPanel chartPanel = new Grafico().geraGraficoLinha("Pontos que agregam valor", "Sprints","PAV (%)");
+
+        jPanelPlot.removeAll();
+        jPanelPlot.setLayout(new java.awt.BorderLayout());
+        jPanelPlot.add(chartPanel, BorderLayout.CENTER);
+        jPanelPlot.validate();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -48,10 +78,13 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
+        jPanelPlot = new javax.swing.JPanel();
+        jComboBoxGrafico = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
 
         setTitle("Análise da Medida: Produtividade");
 
-        jPanel2.setBackground(new java.awt.Color(43, 87, 131));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -95,7 +128,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,12 +158,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Data", "Autor", "Valor da coleta"
+                "Data", "Autor", "Valor do indicador"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel4.setBackground(new java.awt.Color(43, 87, 131));
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -181,7 +214,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanelGrafico.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Gráfico"));
+        jPanelGrafico.setBackground(new java.awt.Color(204, 204, 204));
+        jPanelGrafico.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel7.setText("Observação:");
 
@@ -196,6 +230,26 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanelPlotLayout = new javax.swing.GroupLayout(jPanelPlot);
+        jPanelPlot.setLayout(jPanelPlotLayout);
+        jPanelPlotLayout.setHorizontalGroup(
+            jPanelPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanelPlotLayout.setVerticalGroup(
+            jPanelPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 333, Short.MAX_VALUE)
+        );
+
+        jComboBoxGrafico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pizza", "Barra", "Linha" }));
+        jComboBoxGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGraficoActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Tipo:");
+
         javax.swing.GroupLayout jPanelGraficoLayout = new javax.swing.GroupLayout(jPanelGrafico);
         jPanelGrafico.setLayout(jPanelGraficoLayout);
         jPanelGraficoLayout.setHorizontalGroup(
@@ -203,24 +257,35 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             .addGroup(jPanelGraficoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelGraficoLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3))
+                    .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGraficoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+                    .addGroup(jPanelGraficoLayout.createSequentialGroup()
+                        .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanelGraficoLayout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelGraficoLayout.setVerticalGroup(
             jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGraficoLayout.createSequentialGroup()
-                .addContainerGap(336, Short.MAX_VALUE)
-                .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGraficoLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(46, 46, 46)))
+                .addContainerGap()
+                .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -281,7 +346,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,6 +368,16 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelGrafico.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jComboBoxGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGraficoActionPerformed
+        if (jComboBoxGrafico.getSelectedItem() == "Barra"){
+            inicializaGraficoBarra();
+        } else if (jComboBoxGrafico.getSelectedItem() == "Pizza"){
+            inicializaGraficoPizza();
+        } else {
+            inicializaGraficoLinha();
+        }
+    }//GEN-LAST:event_jComboBoxGraficoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private net.sf.nachocalendar.components.DateField dateField1;
@@ -311,6 +386,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxGrafico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -318,11 +394,13 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelGrafico;
+    private javax.swing.JPanel jPanelPlot;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

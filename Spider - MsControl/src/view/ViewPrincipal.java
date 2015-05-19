@@ -607,7 +607,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Coletas.preencherTabelaMedidaDoProjeto();
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
-            viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();
+            //viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();
             trocaTelas(viewProjeto_ProcedimentoAnalise);
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Procedimentos")) {
             viewProjeto_ProcedimentoColeta.recarregarTabela();

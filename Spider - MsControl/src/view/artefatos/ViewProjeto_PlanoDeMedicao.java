@@ -1,8 +1,13 @@
 package view.artefatos;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import util.Copia;
 import util.MyDefaultTableModel;
@@ -33,7 +38,7 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     private void gerarLinhaNaTabela() {
         String linha[] = {
             jTextFieldData.getText(),
-            jTextFieldAutor.getText()     
+            jTextFieldAutor.getText()
         };
         defaultTableModel.addRow(linha);
         jTablePlanosGerados.setModel(defaultTableModel);
@@ -173,6 +178,12 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         gerarLinhaNaTabela();
+        try {
+            Desktop desktop = java.awt.Desktop.getDesktop();
+            desktop.open(new File("C:\\Users\\BlenoVale\\Documents\\NetBeansProjects\\github\\Spider-MsControl\\Spider - MsControl\\src\\image\\Exemplo de Mediçao.pdf"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
 

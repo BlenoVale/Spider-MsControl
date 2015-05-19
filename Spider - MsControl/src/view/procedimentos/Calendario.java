@@ -72,19 +72,19 @@ public class Calendario extends javax.swing.JDialog {
         this.tipo = tipo;
         switch (tipo) {
             case "Mensal":
-                jLabelObservacao.setText("*Coleta mensal dura 28 dias, começando pelo dia selecionado.");
+                jLabelObservacao.setText("*Coleta mensal começa aparti do dia selecionado.");
                 break;
             case "Bimestral":
-                jLabelObservacao.setText("*Coleta Bimestral dura 56 dias, começando pelo dia selecionado.");
+                jLabelObservacao.setText("*Coleta Bimestral começa aparti do dia selecionado.");
                 break;
             case "Trimestral":
-                jLabelObservacao.setText("*Coleta Trimestal dura 84 dias, começando pelo dia selecionado.");
+                jLabelObservacao.setText("*Coleta Trimestal começa aparti do dia selecionado.");
                 break;
             case "Semestral":
-                jLabelObservacao.setText("*Coleta Semestral dura 168 dias, começando pelo dia selecionado.");
+                jLabelObservacao.setText("*Coleta Semestral começa aparti do dia selecionado.");
                 break;
             case "Anual":
-                jLabelObservacao.setText("*Coleta Anual dura 336 dias, começando pelo dia selecionado.");
+                jLabelObservacao.setText("*Coleta Anual começa aparti do dia selecionado.");
                 break;
         }
         setDiarioEnable(false);

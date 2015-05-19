@@ -1,6 +1,8 @@
-
 package view.artefatos;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,21 +20,25 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
     public String[] colunas = {"Data", "Autor"};
     public DefaultTableModel defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
     public List<String> lista = new ArrayList<>();
+
     public ViewProjeto_Relatorio() {
         initComponents();
     }
+
     public void showInformaçõesPlanoMedicao() {
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
         jTextFieldData.setText(Texto.formataData(new Date()));
     }
+
     private void gerarLinhaNaTabela() {
         String linha[] = {
             jTextFieldData.getText(),
-            jTextFieldAutor.getText()     
+            jTextFieldAutor.getText()
         };
         defaultTableModel.addRow(linha);
         jTableRelatoriosGerados.setModel(defaultTableModel);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -166,6 +172,12 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         gerarLinhaNaTabela();
+        try {
+            Desktop desktop = java.awt.Desktop.getDesktop();
+            desktop.open(new File("C:\\Users\\BlenoVale\\Documents\\NetBeansProjects\\github\\Spider-MsControl\\Spider - MsControl\\src\\image\\Exemplo de Mediçao.pdf"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
 
