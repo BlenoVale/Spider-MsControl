@@ -134,20 +134,19 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Indicador:&lt;/b&gt;&lt;/html&gt; "/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="jComboBox1">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
+                      <StringArray count="6">
+                        <StringItem index="0" value="-Selecione um Indicador-"/>
+                        <StringItem index="1" value="Pontos que Agregam Valor"/>
+                        <StringItem index="2" value="&#xcd;ndice de Retrabalho"/>
+                        <StringItem index="3" value="&#xcd;ndice de Tarefas Rejeitadas"/>
+                        <StringItem index="4" value="&lt;html&gt;Varia&#xe7;&#xe3;o da Velocidade &lt;br&gt;do Time na sprint&lt;/html&gt;"/>
+                        <StringItem index="5" value=" "/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -157,9 +156,6 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel5">
                   <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Crit&#xe9;rio  de an&#xe1;lise:&lt;/b&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
@@ -167,14 +163,11 @@
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="text" type="java.lang.String" value="OK"/>
-                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;font color=&quot;Green&quot;&gt;&lt;b&gt;OK: &lt;/b&gt;&lt;/font&gt;A efetividade do aluno est&#xe1; de acordo com as metas estabelecidas/esperadas.&lt;br&gt; A&#xe7;&#xe3;o: N&#xe3;o &#xe9; necess&#xe1;ria tomar nenhuma.&lt;br&gt;&lt;br&gt;&#xa;&#xa;&lt;font color=&quot;orange&quot;&gt;&lt;b&gt;Alerta: &lt;/b&gt;&lt;/font&gt;A efetividade do aluno est&#xe1; abaixo da faixa esperada (Bom ou Excelente),&lt;br&gt; por&#xe9;m dentro da faixa de aprova&#xe7;&#xe3;o (Regular). A&#xe7;&#xe3;o: Analisar a(s) causa(s), registrar&lt;br&gt; resultado da an&#xe1;lise e criar uma tarefa de a&#xe7;&#xe3;o corretiva. O aluno que n&#xe3;o &#xe9; bolsista&lt;br&gt; pode n&#xe3;o tomar a a&#xe7;&#xe3;o corretiva, mas n&#xe3;o alcan&#xe7;ar&#xe1; o seu objetivo de se formar &lt;br&gt;com excel&#xea;ncia.&lt;br&gt;&lt;br&gt;&#xa;&#xa;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Cr&#xed;tico: &lt;/b&gt;&lt;/font&gt; A efetividade do aluno n&#xe3;o est&#xe1; sendo satisfat&#xf3;ria. A&#xe7;&#xe3;o:&lt;br&gt; Analisar a(s) causa(s), registrar tarefa de a&#xe7;&#xe3;o corretiva e acompanhar &lt;br&gt;at&#xe9; sua conclus&#xe3;o.&lt;br&gt;&#xa;&lt;/html&gt;"/>
+                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;font color=&quot;Green&quot;&gt;&lt;b&gt;OK: &lt;/b&gt;&lt;/font&gt;O PAV est&#xe1; de acordo com as metas estabelecidas/esperadas.&lt;br&gt; A&#xe7;&#xe3;o: N&#xe3;o &#xe9; necess&#xe1;ria tomar nenhuma.&lt;br&gt;&lt;br&gt;&#xa;&#xa;&lt;font color=&quot;orange&quot;&gt;&lt;b&gt;Alerta: &lt;/b&gt;&lt;/font&gt;O PAV est&#xe1; abaixo da faixa esperada (Bom ou Excelente),&lt;br&gt; por&#xe9;m dentro da faixa de aten&#xe7;&#xe3;o (Regular). A&#xe7;&#xe3;o: Analisar a(s) causa(s), registrar  reultado da an&#xe1;lise&lt;br&gt;&lt;br&gt;&#xa;&#xa;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Cr&#xed;tico: &lt;/b&gt;&lt;/font&gt;O PAV n&#xe3;o est&#xe1; sendo satisfat&#xf3;rio. A&#xe7;&#xe3;o:&lt;br&gt; Analisar a(s) causa(s), registrar tarefa de a&#xe7;&#xe3;o corretiva e acompanhar &lt;br&gt;at&#xe9; sua conclus&#xe3;o.&lt;br&gt;&#xa;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
                   <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Meta do indicador:&lt;/b&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
@@ -182,7 +175,7 @@
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="text" type="java.lang.String" value="OK"/>
-                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt; &lt;font color=&quot;green&quot;&gt;&lt;b&gt; OK &lt;/b&gt;&lt;/font&gt;=  At&#xe9; 40%&lt;br&gt;&lt;br&gt;&#xa;&lt;font color=&quot;orange&quot;&gt;&lt;b&gt; ALERTA &lt;/b&gt;&lt;/font&gt;=  entre 40% e 60%&lt;br&gt;&lt;br&gt;&#xa;&lt;font color=&quot;red&quot;&gt;&lt;b&gt; CR&#xcd;TICO &lt;/b&gt;&lt;/font&gt;=  acima de 60%&lt;br&gt;&lt;br&gt;&#xa;&lt;/html&gt;"/>
+                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt; &lt;font color=&quot;green&quot;&gt;&lt;b&gt; OK &lt;/b&gt;&lt;/font&gt;=  Maior que 70%&lt;br&gt;&lt;br&gt;&#xa;&lt;font color=&quot;orange&quot;&gt;&lt;b&gt; ALERTA &lt;/b&gt;&lt;/font&gt;=  entre 40% e 70%&lt;br&gt;&lt;br&gt;&#xa;&lt;font color=&quot;red&quot;&gt;&lt;b&gt; CR&#xcd;TICO &lt;/b&gt;&lt;/font&gt;= abaixo de 40%&lt;br&gt;&lt;br&gt;&#xa;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -274,7 +267,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel1" min="-2" pref="133" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="dateField1" min="-2" pref="124" max="-2" attributes="0"/>
+                              <Component id="dateFieldDe" min="-2" pref="124" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -297,7 +290,7 @@
                                   <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="dateField2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="dateField1" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dateFieldDe" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           </Group>
@@ -307,22 +300,19 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabel1">
                       <Properties>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="text" type="java.lang.String" value="De:"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
                       <Properties>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
                         <Property name="text" type="java.lang.String" value="At&#xe9;:"/>
                       </Properties>
                     </Component>
-                    <Component class="net.sf.nachocalendar.components.DateField" name="dateField1">
+                    <Component class="net.sf.nachocalendar.components.DateField" name="dateFieldDe">
+                      <Events>
+                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="dateFieldDeStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="net.sf.nachocalendar.components.DateField" name="dateField2">
                     </Component>

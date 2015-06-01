@@ -569,6 +569,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setResponsavelPelaColeta(jTextFieldResponsavelColeta.getText());
         procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado());
         procedimentodecoleta.setProjetoId(Copia.getProjetoSelecionado().getId());
+        procedimentodecoleta.setCalculo(jComboBoxCalculo.getSelectedItem().toString());
 
         if (novoProcedimento) {
 

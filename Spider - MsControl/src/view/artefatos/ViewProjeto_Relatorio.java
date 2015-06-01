@@ -174,7 +174,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         gerarLinhaNaTabela();
         try {
             Desktop desktop = java.awt.Desktop.getDesktop();
-            desktop.open(new File("C:\\Users\\Spider\\Documents\\NetBeansProjects\\Github\\Spider-MsControl\\Spider - MsControl\\src\\image\\Exemplo de Mediçao.pdf"));
+            desktop.open(new File("C:\\Users\\Spider\\Downloads\\Relatorio.pdf"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -186,8 +186,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 jTextFieldValorColeta.setVisible(true);
                 jButtonImporta.setVisible(false);
                 break;
-            case "Planilha eletrônica":
-                jLabelTipo.setText("Planilha eletrônica");
+            case "Planilha Eletrônica":
+                jLabelTipo.setText("Planilha Eletrônica");
                 jTextFieldValorColeta.setVisible(false);
                 jButtonImporta.setVisible(true);
                 break;

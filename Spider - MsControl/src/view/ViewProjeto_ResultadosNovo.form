@@ -97,9 +97,19 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="2" rowCount="0">
-                    <Column editable="true" title="Indicador" type="java.lang.Object"/>
-                    <Column editable="true" title="Data" type="java.lang.Object"/>
+                  <Table columnCount="2" rowCount="4">
+                    <Column editable="true" title="Indicador" type="java.lang.Object">
+                      <Data value="Pontos que Agregam Valor"/>
+                      <Data value="Varia&#xe7;&#xe3;o da velodicade na Sprint"/>
+                      <Data value="&#xcd;indice de Retrabalho"/>
+                      <Data value="&#xcd;ndices de Tarefas Rejeitadas"/>
+                    </Column>
+                    <Column editable="true" title="Data" type="java.lang.Object">
+                      <Data value="20/05/2015"/>
+                      <Data value="20/05/2015"/>
+                      <Data value="20/05/2015"/>
+                      <Data value="20/05/2015"/>
+                    </Column>
                   </Table>
                 </Property>
               </Properties>
@@ -134,7 +144,7 @@
                                       <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jTextField1" alignment="0" pref="406" max="32767" attributes="0"/>
                                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTextField2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldData" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -153,7 +163,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldData" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -200,7 +210,9 @@
                     <Component class="javax.swing.JTextArea" name="jTextArea1">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="2"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -215,12 +227,20 @@
                     <Component class="javax.swing.JTextArea" name="jTextArea2">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="2"/>
+                        <Property name="wrapStyleWord" type="boolean" value="true"/>
                       </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JTextField" name="jTextField2">
+                <Component class="javax.swing.JTextField" name="jTextFieldData">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                    </Property>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -285,7 +305,13 @@
                     <Component class="javax.swing.JList" name="jList1">
                       <Properties>
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                          <StringArray count="0"/>
+                          <StringArray count="5">
+                            <StringItem index="0" value="Alta Administra&#xe7;&#xe3;o"/>
+                            <StringItem index="1" value="Gerente de Projeto"/>
+                            <StringItem index="2" value="Analista de Medi&#xe7;&#xe3;o"/>
+                            <StringItem index="3" value="Bibliotec&#xe1;rio de Medi&#xe7;&#xe3;o"/>
+                            <StringItem index="4" value="Usu&#xe1;rio de Medi&#xe7;&#xe3;o"/>
+                          </StringArray>
                         </Property>
                       </Properties>
                     </Component>
@@ -306,7 +332,13 @@
                     <Component class="javax.swing.JList" name="jList2">
                       <Properties>
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                          <StringArray count="0"/>
+                          <StringArray count="5">
+                            <StringItem index="0" value="Alta Administra&#xe7;&#xe3;o"/>
+                            <StringItem index="1" value="Gerente de Projeto"/>
+                            <StringItem index="2" value="Analista de Medi&#xe7;&#xe3;o"/>
+                            <StringItem index="3" value="Bibliotec&#xe1;rio de Medi&#xe7;&#xe3;o"/>
+                            <StringItem index="4" value="Usu&#xe1;rio de Medi&#xe7;&#xe3;o"/>
+                          </StringArray>
                         </Property>
                       </Properties>
                     </Component>
@@ -325,6 +357,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

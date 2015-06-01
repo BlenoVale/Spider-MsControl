@@ -138,14 +138,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         this.jLabelUltimaEdicao.setVisible(false);
         this.jTextFieldUltimaEdicao.setVisible(false);
+        
         popularComboBoxIndicador();
         popularComboboxTipoDeGrafico();
         popularComboboxPeriodicidade();
         popularComboboxComunicacaoPeriodicidade();
         popularListaMeio();
         popularListaPerfis();
-        this.setVisible(true);
         jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
+        this.setVisible(true);
     }
 
     public void showEditarProcedimentoAnaliseDialog(Procedimentodeanalise procedimentoAnalise_selecionado, String nomeUsuario_logado) {
@@ -1245,6 +1246,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!validarCampos()) {
             return;
         }
+        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+        this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jComboBoxPeriodicidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPeriodicidadeActionPerformed

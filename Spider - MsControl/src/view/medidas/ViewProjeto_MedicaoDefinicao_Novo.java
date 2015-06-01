@@ -172,7 +172,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jLabelFaixa.setText("Faixa:");
 
-        jTextFieldMnemonico.setToolTipText("Sigla que representa a medida (ex: THT - Total de Horas Trabalhadas, NG - Número de Bugs, ...).");
+        jTextFieldMnemonico.setToolTipText("");
 
         jLabelObservacoes.setText("Observações:");
 
@@ -214,16 +214,16 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         jTextAreaObservacoes.setRows(2);
         jScrollPane3.setViewportView(jTextAreaObservacoes);
 
-        jTextFieldResponsavel.setToolTipText("Pessoa que definiu a medida que está sendo cadastrada.");
+        jTextFieldResponsavel.setToolTipText("");
 
         jTextAreaDefinicao.setColumns(20);
         jTextAreaDefinicao.setRows(2);
-        jTextAreaDefinicao.setToolTipText("Uma breve definição e/ou descrição sobre a medida que está sendo cadastrada.");
+        jTextAreaDefinicao.setToolTipText("");
         jScrollPane4.setViewportView(jTextAreaDefinicao);
 
         jLabelDe.setText("De:");
 
-        jTextFieldFaixaInicio.setToolTipText("Limites de valores da escala definida de acordo com dados históricos ou com metas estabelecidas (ex: [0, 10], ...).");
+        jTextFieldFaixaInicio.setToolTipText("");
         jTextFieldFaixaInicio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFaixaInicioKeyTyped(evt);
@@ -232,7 +232,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jLabelAte.setText("Até:");
 
-        jTextFieldNomeMedida.setToolTipText("Nome da Medida a ser cadastrada (ex: Tarefas Planejadas, Horas Trabalhadas, Nº de bugs, ...).");
+        jTextFieldNomeMedida.setToolTipText("");
 
         jTextFieldFaixaFim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -242,7 +242,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jLabelDefinicao.setText("Definição:");
 
-        jTextFieldEscala.setToolTipText("Valores que podem ser atribuídos à medida (ex: número inteiros, números reais positivos, ...).");
+        jTextFieldEscala.setToolTipText("");
 
         jLabelResponsavel.setText("Responsável pela definição:");
 

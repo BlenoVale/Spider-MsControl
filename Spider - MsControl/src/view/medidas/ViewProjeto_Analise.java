@@ -1,9 +1,13 @@
 package view.medidas;
 
 import java.awt.BorderLayout;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartPanel;
 import util.Grafico;
 import util.Internal;
+import util.MyDefaultTableModel;
 
 /**
  *
@@ -11,6 +15,8 @@ import util.Internal;
  */
 public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
+    private DefaultTableModel defaultTableModel;
+    
     public ViewProjeto_Analise() {
         initComponents();
 
@@ -32,23 +38,70 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelPlot.validate();
 
     }
+
     private void inicializaGraficoBarra() {
-        ChartPanel chartPanel = new Grafico().geraGraficoBarra("Pontos que agregam valor", "Sprints","PAV (%)");
+        ChartPanel chartPanel = new Grafico().geraGraficoBarra("Pontos que agregam valor", "Sprints", "PAV (%)");
 
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
     }
-    
+
     private void inicializaGraficoLinha() {
-        ChartPanel chartPanel = new Grafico().geraGraficoLinha("Pontos que agregam valor", "Sprints","PAV (%)");
+        ChartPanel chartPanel = new Grafico().geraGraficoLinha("Pontos que agregam valor", "Sprints", "PAV (%)");
 
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
     }
+
+    private void fake() {
+        String[] colunas = {"Data", "Responsável", "Valor do indicador"};
+        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
+
+            String linha1[] = {
+            "06/05/2015",
+            "Gessica Pinheiro",
+            "73"
+        };
+        defaultTableModel.addRow(linha1);
+        jTable1.setModel(defaultTableModel);
+        
+        String linha2[] = {
+            "10/05/2015",
+            "Gessica Pinheiro",
+            "90"
+        };
+        defaultTableModel.addRow(linha2);
+        jTable1.setModel(defaultTableModel);
+        
+        String linha3[] = {
+            "12/05/2015",
+            "Gessica Pinheiro",
+            "50"
+        };
+        defaultTableModel.addRow(linha3);
+        jTable1.setModel(defaultTableModel);
+        
+        String linha4[] = {
+            "19/05/2015",
+            "Gessica Pinheiro",
+            "38"
+        };
+        defaultTableModel.addRow(linha4);
+        jTable1.setModel(defaultTableModel);
+        
+        String linha5[] = {
+            "20/05/2015",
+            "Gessica Pinheiro",
+            "80"
+        };
+        defaultTableModel.addRow(linha5);
+        jTable1.setModel(defaultTableModel);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -69,7 +122,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        dateField1 = new net.sf.nachocalendar.components.DateField();
+        dateFieldDe = new net.sf.nachocalendar.components.DateField();
         dateField2 = new net.sf.nachocalendar.components.DateField();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -87,29 +140,26 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("<html><b>Indicador:</b></html> ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-Selecione um Indicador-", "Pontos que Agregam Valor", "Índice de Retrabalho", "Índice de Tarefas Rejeitadas", "<html>Variação da Velocidade <br>do Time na sprint</html>", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("<html><b>Critério  de análise:</b></html>");
 
         jTextField3.setEditable(false);
         jTextField3.setText("OK");
-        jTextField3.setToolTipText("<html>\n<font color=\"Green\"><b>OK: </b></font>A efetividade do aluno está de acordo com as metas estabelecidas/esperadas.<br> Ação: Não é necessária tomar nenhuma.<br><br>\n\n<font color=\"orange\"><b>Alerta: </b></font>A efetividade do aluno está abaixo da faixa esperada (Bom ou Excelente),<br> porém dentro da faixa de aprovação (Regular). Ação: Analisar a(s) causa(s), registrar<br> resultado da análise e criar uma tarefa de ação corretiva. O aluno que não é bolsista<br> pode não tomar a ação corretiva, mas não alcançará o seu objetivo de se formar <br>com excelência.<br><br>\n\n<font color=\"red\"><b>Crítico: </b></font> A efetividade do aluno não está sendo satisfatória. Ação:<br> Analisar a(s) causa(s), registrar tarefa de ação corretiva e acompanhar <br>até sua conclusão.<br>\n</html>");
+        jTextField3.setToolTipText("<html>\n<font color=\"Green\"><b>OK: </b></font>O PAV está de acordo com as metas estabelecidas/esperadas.<br> Ação: Não é necessária tomar nenhuma.<br><br>\n\n<font color=\"orange\"><b>Alerta: </b></font>O PAV está abaixo da faixa esperada (Bom ou Excelente),<br> porém dentro da faixa de atenção (Regular). Ação: Analisar a(s) causa(s), registrar  reultado da análise<br><br>\n\n<font color=\"red\"><b>Crítico: </b></font>O PAV não está sendo satisfatório. Ação:<br> Analisar a(s) causa(s), registrar tarefa de ação corretiva e acompanhar <br>até sua conclusão.<br>\n</html>");
 
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("<html><b>Meta do indicador:</b></html>");
 
         jTextField2.setEditable(false);
         jTextField2.setText("OK");
-        jTextField2.setToolTipText("<html> <font color=\"green\"><b> OK </b></font>=  Até 40%<br><br>\n<font color=\"orange\"><b> ALERTA </b></font>=  entre 40% e 60%<br><br>\n<font color=\"red\"><b> CRÍTICO </b></font>=  acima de 60%<br><br>\n</html>");
+        jTextField2.setToolTipText("<html> <font color=\"green\"><b> OK </b></font>=  Maior que 70%<br><br>\n<font color=\"orange\"><b> ALERTA </b></font>=  entre 40% e 70%<br><br>\n<font color=\"red\"><b> CRÍTICO </b></font>= abaixo de 40%<br><br>\n</html>");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -166,12 +216,16 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("De:");
 
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Até:");
+
+        dateFieldDe.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                dateFieldDeStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("     ");
 
@@ -183,7 +237,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateField1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateFieldDe, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -203,7 +257,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(dateField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateFieldDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6))
         );
 
@@ -366,22 +420,27 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jPanelGrafico.setVisible(false);
+        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBoxGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGraficoActionPerformed
-        if (jComboBoxGrafico.getSelectedItem() == "Barra"){
+        if (jComboBoxGrafico.getSelectedItem() == "Barra") {
             inicializaGraficoBarra();
-        } else if (jComboBoxGrafico.getSelectedItem() == "Pizza"){
+        } else if (jComboBoxGrafico.getSelectedItem() == "Pizza") {
             inicializaGraficoPizza();
         } else {
             inicializaGraficoLinha();
         }
     }//GEN-LAST:event_jComboBoxGraficoActionPerformed
 
+    private void dateFieldDeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldDeStateChanged
+        fake();
+    }//GEN-LAST:event_dateFieldDeStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private net.sf.nachocalendar.components.DateField dateField1;
     private net.sf.nachocalendar.components.DateField dateField2;
+    private net.sf.nachocalendar.components.DateField dateFieldDe;
     private net.sf.nachocalendar.model.DefaultDateSelectionModel defaultDateSelectionModel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.util.Date;
+import javax.swing.JOptionPane;
+import util.Texto;
+
 /**
  *
  * @author Spider
@@ -18,6 +22,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        jTextFieldData.setText(Texto.formataData(new Date()));
     }
 
     /**
@@ -43,7 +48,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldData = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -60,7 +65,10 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {"Pontos que Agregam Valor", "20/05/2015"},
+                {"Variação da velodicade na Sprint", "20/05/2015"},
+                {"Íindice de Retrabalho", "20/05/2015"},
+                {"Índices de Tarefas Rejeitadas", "20/05/2015"}
             },
             new String [] {
                 "Indicador", "Data"
@@ -77,12 +85,19 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jLabel4.setText("Data:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(2);
+        jTextArea1.setWrapStyleWord(true);
         jScrollPane2.setViewportView(jTextArea1);
 
         jTextArea2.setColumns(20);
+        jTextArea2.setLineWrap(true);
         jTextArea2.setRows(2);
+        jTextArea2.setWrapStyleWord(true);
         jScrollPane3.setViewportView(jTextArea2);
+
+        jTextFieldData.setEditable(false);
+        jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -100,7 +115,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
                             .addComponent(jLabel4)
                             .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2))
+                            .addComponent(jTextFieldData))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -114,7 +129,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(1, 1, 1)
@@ -130,10 +145,20 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
 
         jLabel5.setText("Participantes da Interpretação:");
 
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Alta Administração", "Gerente de Projeto", "Analista de Medição", "Bibliotecário de Medição", "Usuário de Medição" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
         jScrollPane4.setViewportView(jList1);
 
         jLabel6.setText("Usuários Interessados no Resultado:");
 
+        jList2.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Alta Administração", "Gerente de Projeto", "Analista de Medição", "Bibliotecário de Medição", "Usuário de Medição" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
         jScrollPane5.setViewportView(jList2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -171,6 +196,11 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jButton1.setText("Cancelar");
 
         jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -221,6 +251,12 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,6 +324,6 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldData;
     // End of variables declaration//GEN-END:variables
 }

@@ -400,6 +400,7 @@ public class Calendario extends javax.swing.JDialog {
                 somaDiasNaData(12);
             }
         }
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

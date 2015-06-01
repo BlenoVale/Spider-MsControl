@@ -152,7 +152,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldMnemonico">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Sigla que representa a medida (ex: THT - Total de Horas Trabalhadas, NG - N&#xfa;mero de Bugs, ...)."/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelObservacoes">
@@ -226,7 +226,7 @@
     </Container>
     <Component class="javax.swing.JTextField" name="jTextFieldResponsavel">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Pessoa que definiu a medida que est&#xe1; sendo cadastrada."/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane4">
@@ -240,7 +240,7 @@
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="2"/>
-            <Property name="toolTipText" type="java.lang.String" value="Uma breve defini&#xe7;&#xe3;o e/ou descri&#xe7;&#xe3;o sobre a medida que est&#xe1; sendo cadastrada."/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
       </SubComponents>
@@ -252,7 +252,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldFaixaInicio">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Limites de valores da escala definida de acordo com dados hist&#xf3;ricos ou com metas estabelecidas (ex: [0, 10], ...)."/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldFaixaInicioKeyTyped"/>
@@ -265,7 +265,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNomeMedida">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Nome da Medida a ser cadastrada (ex: Tarefas Planejadas, Horas Trabalhadas, N&#xba; de bugs, ...)."/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldFaixaFim">
@@ -280,7 +280,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldEscala">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Valores que podem ser atribu&#xed;dos &#xe0; medida (ex: n&#xfa;mero inteiros, n&#xfa;meros reais positivos, ...)."/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelResponsavel">

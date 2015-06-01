@@ -156,8 +156,21 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
     private void jButtonProcedimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedimentoActionPerformed
         ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
-        viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise();
-        preencherTabelaProcedimentoAnaliseDoProjeto();
+        viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise ();             
+        //preencherTabelaProcedimentoAnaliseDoProjeto();
+        
+        String[] colunas = {"Indicador", "Composição", "Periodicidade", "Responsável"};
+        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
+
+            String linha[] = {
+                "Pontos que agregam valor",
+                "Derivada",
+                "Mensal",
+                "Dan Jhonatan"
+            };
+            defaultTableModel.addRow(linha);
+        jTableProcedimentoAnalise.setModel(defaultTableModel);
+
     }//GEN-LAST:event_jButtonProcedimentoActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
