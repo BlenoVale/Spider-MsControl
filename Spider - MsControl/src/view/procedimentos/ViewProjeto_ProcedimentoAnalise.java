@@ -40,7 +40,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         String[] colunas = {"Indicador", "Composição", "Periodicidade", "Responsável"};
         defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
         for (int i = 0; i < lista.size(); i++) {
-            String linha[] = {
+            Object linha[] = {
                 String.valueOf(lista.get(i).getIndicadorid().getNome()),
                 lista.get(i).getComposicao(),
                 lista.get(i).getPeriodicidade(),

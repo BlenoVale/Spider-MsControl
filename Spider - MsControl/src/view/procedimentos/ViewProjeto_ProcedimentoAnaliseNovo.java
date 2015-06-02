@@ -7,11 +7,13 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import model.Indicador;
 import model.Medida;
 import model.Procedimentodeanalise;
 import model.Projeto;
 import model.Registroprocedimentoanalise;
+import util.CheckDefaultTableModel;
 import util.Constantes;
 import util.Copia;
 import util.MyDefaultTableModel;
@@ -32,6 +34,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private List<Registroprocedimentoanalise> registro;
     private FacadeJpa jpa = FacadeJpa.getInstance();
     private MyDefaultTableModel tableModel;
+    private CheckDefaultTableModel checkModel;
     private List<Medida> listMedida;
 
     private boolean ehNovoProcedimentoAnalise;
@@ -71,40 +74,48 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     public boolean verificaSinais(String formulas) {
         String caractere = "";
-        if (!formulas.isEmpty())
+        if (!formulas.isEmpty()) {
             caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+"))
+        }
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+")) {
             return true;
+        }
 
         return false;
     }
 
     public boolean verificaSomenteOperandos(String formula) {
         String caractere = "";
-        if (!formula.isEmpty())
+        if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+"))
+        }
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+")) {
             return true;
+        }
 
         return false;
     }
 
     public boolean verificaPontoAntesParenteses(String formula) {
         String caractere = "";
-        if (!formula.isEmpty())
+        if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        if (caractere.equals(")") || caractere.equals("("))
+        }
+        if (caractere.equals(")") || caractere.equals("(")) {
             return true;
+        }
 
         return false;
     }
 
     public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
-        if (!formula.isEmpty())
+        if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        if (caractere.equals("."))
+        }
+        if (caractere.equals(".")) {
             return true;
+        }
 
         return false;
     }
@@ -115,16 +126,19 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         int contB = 0;
         char caractereA = '(';
         char caractereB = ')';
-        if (!formula.isEmpty())
+        if (!formula.isEmpty()) {
             for (int i = 0; i < formula.length(); i++) {
-                if (formula.charAt(i) == caractereA)
+                if (formula.charAt(i) == caractereA) {
                     contA++;
-                else if (formula.charAt(i) == caractereB)
+                } else if (formula.charAt(i) == caractereB) {
                     contB++;
+                }
             }
+        }
 
-        if (contB >= contA)
+        if (contB >= contA) {
             return true;
+        }
         return false;
 
     }
@@ -138,7 +152,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         this.jLabelUltimaEdicao.setVisible(false);
         this.jTextFieldUltimaEdicao.setVisible(false);
-        
+
         popularComboBoxIndicador();
         popularComboboxTipoDeGrafico();
         popularComboboxPeriodicidade();
@@ -369,20 +383,36 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         model_listaDePerfis = new DefaultListModel();
         List<String> listaPerfis = Constantes.preencherListaPerfis();
 
+        checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Perfis interessados"}, 0, false);
+
         for (int i = 0; i < listaPerfis.size(); i++) {
-            model_listaDePerfis.addElement(listaPerfis.get(i));
+            Object[] linha = {
+                false,
+                listaPerfis.get(i)
+            };
+            checkModel.addRow(linha);
         }
-        jListPerfis.setModel(model_listaDePerfis);
+        jTablePerfisInteressados.setModel(checkModel);
+        jTablePerfisInteressados.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTablePerfisInteressados.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
 
     private void popularListaMeio() {
         model_listaMeio = new DefaultListModel();
         List<String> listaMeio = Constantes.preencherListaMeio();
 
+        checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Meios"}, 0, false);
+
         for (int i = 0; i < listaMeio.size(); i++) {
-            model_listaMeio.addElement(listaMeio.get(i));
+            Object[] linha = {
+                false,
+                listaMeio.get(i)
+            };
+            checkModel.addRow(linha);
         }
-        jListMeio.setModel(model_listaMeio);
+        jTableMeios.setModel(checkModel);
+        jTableMeios.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableMeios.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
 
     public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
@@ -479,12 +509,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel18 = new javax.swing.JLabel();
         jComboBoxComunicacaoPeriodicidade = new javax.swing.JComboBox();
         jTextFieldFrequencia = new javax.swing.JTextField();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jListMeio = new javax.swing.JList();
-        jLabel20 = new javax.swing.JLabel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        jListPerfis = new javax.swing.JList();
-        jLabel22 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTablePerfisInteressados = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTableMeios = new javax.swing.JTable();
         jComboBoxIndicador = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1092,6 +1120,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel18.setText("Periodicidade:");
 
         jComboBoxComunicacaoPeriodicidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxComunicacaoPeriodicidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxComunicacaoPeriodicidadeActionPerformed(evt);
+            }
+        });
 
         jTextFieldFrequencia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -1099,23 +1132,25 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
-        jListMeio.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane9.setViewportView(jListMeio);
+        jTablePerfisInteressados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabel20.setText(" Meios:");
+            },
+            new String [] {
+                "Selecionar", "Perfis interessados"
+            }
+        ));
+        jScrollPane6.setViewportView(jTablePerfisInteressados);
 
-        jListPerfis.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane13.setViewportView(jListPerfis);
+        jTableMeios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabel22.setText(" Perfis interessados:");
+            },
+            new String [] {
+                "Selecionar", "Meios"
+            }
+        ));
+        jScrollPane8.setViewportView(jTableMeios);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -1124,21 +1159,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane9)
-                    .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel18)
-                                    .addComponent(jLabel15))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBoxComunicacaoPeriodicidade, 0, 219, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldFrequencia)))
-                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 310, Short.MAX_VALUE)))
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel15))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBoxComunicacaoPeriodicidade, 0, 219, Short.MAX_VALUE)
+                            .addComponent(jTextFieldFrequencia))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -1152,15 +1183,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(jTextFieldFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Comunicação", jPanel9);
@@ -1210,7 +1237,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jLabelUltimaEdicao)
                     .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
@@ -1275,14 +1302,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
+        }
 
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ".");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1305,14 +1334,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
+        }
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
+        }
 
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -1346,20 +1377,23 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
+        }
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
+        }
 
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText()))
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
+        }
 
     }//GEN-LAST:event_jButton12ActionPerformed
 
@@ -1385,12 +1419,36 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
 
-        if (jTextFieldFormula.getText().isEmpty())
+        if (jTextFieldFormula.getText().isEmpty()) {
             inserirMnemonico(evt);
-        else if (verificaSomenteOperandos(jTextFieldFormula.getText()))
+        } else if (verificaSomenteOperandos(jTextFieldFormula.getText())) {
             inserirMnemonico(evt);
+        }
 
     }//GEN-LAST:event_jTableMedidaMouseClicked
+
+    private void jComboBoxComunicacaoPeriodicidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxComunicacaoPeriodicidadeActionPerformed
+        if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 0) {
+            return;
+        }
+
+        Calendario calendario = new Calendario(null, true);
+        if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 1) {
+            calendario.showCalendarioDiarioDialog();
+        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 2) {
+            calendario.showCalendarioSemanalDialog();
+        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 3) {
+            calendario.showCalendarioOutrosPeriodosDialog("Mensal");
+        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 4) {
+            calendario.showCalendarioOutrosPeriodosDialog("Bimestral");
+        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 5) {
+            calendario.showCalendarioOutrosPeriodosDialog("Trimestral");
+        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 6) {
+            calendario.showCalendarioOutrosPeriodosDialog("Semestral");
+        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 7) {
+            calendario.showCalendarioOutrosPeriodosDialog("Anual");
+        }
+    }//GEN-LAST:event_jComboBoxComunicacaoPeriodicidadeActionPerformed
 
     public void inserirMnemonico(java.awt.event.MouseEvent event) {
         if (event.getClickCount() >= 2) {
@@ -1403,10 +1461,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         if (!texto.isEmpty()) {
             int length = texto.length();
-            if (verificaOperandos(texto))
+            if (verificaOperandos(texto)) {
                 texto = texto.substring(0, length - 1);
-            else
+            } else {
                 texto = texto.substring(0, length - 2);
+            }
 
             jTextFieldFormula.setText(texto);
             return texto;
@@ -1434,8 +1493,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 || texto.charAt(length - 1) == '6'
                 || texto.charAt(length - 1) == '7'
                 || texto.charAt(length - 1) == '8'
-                || texto.charAt(length - 1) == '9')
+                || texto.charAt(length - 1) == '9') {
             return true;
+        }
         return false;
 
     }
@@ -1477,9 +1537,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1489,8 +1547,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelCadastradoPor1;
     private javax.swing.JLabel jLabelUltimaEdicao;
-    private javax.swing.JList jListMeio;
-    private javax.swing.JList jListPerfis;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1506,15 +1562,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableMedida;
+    private javax.swing.JTable jTableMeios;
+    private javax.swing.JTable jTablePerfisInteressados;
     private javax.swing.JTextArea jTextAreaAcoesAlerta;
     private javax.swing.JTextArea jTextAreaAcoesCritico;
     private javax.swing.JTextArea jTextAreaAcoesOk;

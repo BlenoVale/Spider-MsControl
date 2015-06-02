@@ -33,5 +33,4 @@ public class MyDefaultTableModel extends DefaultTableModel {
     public boolean isCellEditable(int row, int column) {
         return isEditable;
     }
-
 }
