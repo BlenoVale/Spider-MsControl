@@ -89,19 +89,50 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
         }
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+")) {
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("") || caractere.equals("(")) {
+            return true;
+        }
+
+        return false;
+    }
+     public boolean verificaSomenteOperandosParenteseFechado(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("")) {
             return true;
         }
 
         return false;
     }
 
+    public boolean bloquearNumeroAposParenteseFechado(String formula){
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if(caractere.equals(")"))
+            return true;
+        return false;
+    }
+    
+    public boolean permitirSinaisAposParenteseFechado(String formula){
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals(")"))
+            return true;
+        return false;
+              
+        }
     public boolean verificaPontoAntesParenteses(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
         }
-        if (caractere.equals(")") || caractere.equals("(")) {
+        if (caractere.equals(")")|| caractere.equals("(")) {
             return true;
         }
 
@@ -1302,7 +1333,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
         }
 
@@ -1315,76 +1346,86 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "0");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "1");
 
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "2");
 
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "3");
 
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
         }
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
         }
 
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "6");
 
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "5");
 
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "4");
 
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "7");
 
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "8");
 
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        if(!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
         jTextFieldFormula.setText(jTextFieldFormula.getText() + "9");
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
         }
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText())) {
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()) && !verificaSomenteOperandosParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
         }
 
