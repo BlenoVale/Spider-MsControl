@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Datasprocedimentoanalise;
 import model.Datasprocedimentocoleta;
 
 /**
@@ -15,8 +16,10 @@ public class Calendario extends javax.swing.JDialog {
 
     private String tipo;
     private String procedimento;
-    private Datasprocedimentocoleta data = null;
-    List<Datasprocedimentocoleta> listaDatasColetas;
+    private Datasprocedimentocoleta dataProcedimentoColeta = null;
+    private List<Datasprocedimentocoleta> listaDatasColetas;
+    private Datasprocedimentoanalise dataProcedimentoAnalise = null;
+    private List<Datasprocedimentoanalise> listaDatasAnalise;
     Date dataInicio;
     Date dataFim;
 
@@ -33,7 +36,7 @@ public class Calendario extends javax.swing.JDialog {
         tipo = "diario";
         this.procedimento = procedimento;
         setDiarioEnable(true);
-        setSemanalEnable(false); 
+        setSemanalEnable(false);
         datePanel.setEnabled(false);
         jLabelObservacao.setText("");
         this.setVisible(true);
@@ -57,7 +60,7 @@ public class Calendario extends javax.swing.JDialog {
         setDiarioEnable(false);
         setSemanalEnable(true);
         datePanel.setEnabled(false);
-        jLabelObservacao.setText("*"+ this.procedimento +" semanal dura 7 dias, começando pelo dia selecionado.");
+        jLabelObservacao.setText("*" + this.procedimento + " semanal dura 7 dias, começando pelo dia selecionado.");
         this.setVisible(true);
     }
 
@@ -78,19 +81,19 @@ public class Calendario extends javax.swing.JDialog {
         this.procedimento = procedimento;
         switch (tipo) {
             case "Mensal":
-                jLabelObservacao.setText("*"+ this.procedimento +" mensal começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*" + this.procedimento + " mensal começa aparti do dia selecionado.");
                 break;
             case "Bimestral":
-                jLabelObservacao.setText("*"+ this.procedimento +" Bimestral começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*" + this.procedimento + " Bimestral começa aparti do dia selecionado.");
                 break;
             case "Trimestral":
-                jLabelObservacao.setText("*"+ this.procedimento +" Trimestal começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*" + this.procedimento + " Trimestal começa aparti do dia selecionado.");
                 break;
             case "Semestral":
-                jLabelObservacao.setText("*"+ this.procedimento +" Semestral começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*" + this.procedimento + " Semestral começa aparti do dia selecionado.");
                 break;
             case "Anual":
-                jLabelObservacao.setText("*"+ this.procedimento +" Anual começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*" + this.procedimento + " Anual começa aparti do dia selecionado.");
                 break;
         }
         setDiarioEnable(false);
@@ -130,6 +133,7 @@ public class Calendario extends javax.swing.JDialog {
         dataFim = calendar.getTime();
     }
 
+    //--------DataProcedimentoColeta--------------------------------------------------------------------------------------------------------
     public List<Datasprocedimentocoleta> getListaDataProcedimentoColeta() {
         return listaDatasColetas;
     }
@@ -137,122 +141,122 @@ public class Calendario extends javax.swing.JDialog {
     private void pegaListaDataProcedimentoColeta_Diario() {
         listaDatasColetas = new ArrayList<>();
         if (jCheckBoxSegunda.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Segunda-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Segunda-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jCheckBoxTerca.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Terça-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Terça-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jCheckBoxQuarta.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Quarta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Quarta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jCheckBoxQuinta.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Quinta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Quinta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jCheckBoxSexta.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Sexta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Sexta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jCheckBoxSabado.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Sabádo");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Sabádo");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jCheckBoxDomingo.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Domingo");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Domingo");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
     }
 
     private void pegaListaDataProcedimentoColeta_Semanal() {
         listaDatasColetas = new ArrayList<>();
         if (jRadioButtonSegunda.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Segunda-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Segunda-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Domingo");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Domingo");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jRadioButtonTerca.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Terça-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Terça-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Segunda-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Segunda-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jRadioButtonQuarta.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Quarta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Quarta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Terça-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Terça-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jRadioButtonQuinta.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Quinta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Quinta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Quarta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Quarta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jRadioButtonSexta.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Sexta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Sexta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Quinta-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Quinta-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jRadioButtonSabado.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Sabádo");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Sabádo");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Sexata-feira");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Sexata-feira");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
         if (jRadioButtonDomingo.isSelected()) {
-            data = new Datasprocedimentocoleta();
-            data.setDia("Domingo");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Domingo");
+            listaDatasColetas.add(dataProcedimentoColeta);
 
-            data = new Datasprocedimentocoleta();
-            data.setDia("Sabádo");
-            listaDatasColetas.add(data);
+            dataProcedimentoColeta = new Datasprocedimentocoleta();
+            dataProcedimentoColeta.setDia("Sabádo");
+            listaDatasColetas.add(dataProcedimentoColeta);
         }
     }
 
     private void pegaListaDataProcedimentoColeta_outrosPeriodos() {
         listaDatasColetas = new ArrayList<>();
-        data = new Datasprocedimentocoleta();
-        data.setDataInicio(dataInicio);
-        data.setDataFim(dataFim);
-        listaDatasColetas.add(data);
+        dataProcedimentoColeta = new Datasprocedimentocoleta();
+        dataProcedimentoColeta.setDataInicio(dataInicio);
+        dataProcedimentoColeta.setDataFim(dataFim);
+        listaDatasColetas.add(dataProcedimentoColeta);
     }
 
     private void tipoProcedimentoColeta() {
         if ("diario".equals(tipo)) {
             pegaListaDataProcedimentoColeta_Diario();
         } else if ("Semanal".equals(tipo)) {
-            pegaListaDataProcedimentoColeta_Semanal();;
+            pegaListaDataProcedimentoColeta_Semanal();
         } else {
             if (!validaOutrosPeriodos()) {
                 return;
@@ -273,6 +277,172 @@ public class Calendario extends javax.swing.JDialog {
         }
     }
 
+    //--------DataProcedimentoAnálise--------------------------------------------------------------------------------------------------------
+    public List<Datasprocedimentoanalise> getListaDataProcedimentoAnalise() {
+        return listaDatasAnalise;
+    }
+
+    private void pegaListaDataProcedimentoAnalise_Diario() {
+        listaDatasAnalise = new ArrayList<>();
+        if (jCheckBoxSegunda.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Segunda-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jCheckBoxTerca.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Terça-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jCheckBoxQuarta.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Quarta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jCheckBoxQuinta.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Quinta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jCheckBoxSexta.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Sexta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jCheckBoxSabado.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Sabádo");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jCheckBoxDomingo.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Domingo");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+    }
+
+    private void pegaListaDataProcedimentoAnalise_Semanal() {
+        listaDatasAnalise = new ArrayList<>();
+        if (jRadioButtonSegunda.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Segunda-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Domingo");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jRadioButtonTerca.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Terça-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Segunda-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jRadioButtonQuarta.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Quarta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Terça-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jRadioButtonQuinta.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Quinta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Quarta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jRadioButtonSexta.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Sexta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Quinta-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jRadioButtonSabado.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Sabádo");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Sexata-feira");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+        if (jRadioButtonDomingo.isSelected()) {
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Domingo");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+
+            dataProcedimentoAnalise = new Datasprocedimentoanalise();
+            dataProcedimentoAnalise.setDia("Sabádo");
+            dataProcedimentoAnalise.setTipo(procedimento);
+            listaDatasAnalise.add(dataProcedimentoAnalise);
+        }
+    }
+
+    private void pegaListaDataProcedimentoAnalise_outrosPeriodos() {
+        listaDatasAnalise = new ArrayList<>();
+        dataProcedimentoAnalise = new Datasprocedimentoanalise();
+        dataProcedimentoAnalise.setDataInicio(dataInicio);
+        dataProcedimentoAnalise.setDataFim(dataFim);
+        dataProcedimentoAnalise.setTipo(procedimento);
+        listaDatasAnalise.add(dataProcedimentoAnalise);
+    }
+    
+    private void tipoProcedimentoAnalise() {
+        if ("diario".equals(tipo)) {
+            pegaListaDataProcedimentoAnalise_Diario();
+        } else if ("Semanal".equals(tipo)) {
+            pegaListaDataProcedimentoAnalise_Semanal();
+        } else {
+            if (!validaOutrosPeriodos()) {
+                return;
+            }
+
+            if ("Mensal".equals(tipo)) {
+                somaDiasNaData(1);
+            } else if ("Bimestral".equals(tipo)) {
+                somaDiasNaData(2);
+            } else if ("Trimestral".equals(tipo)) {
+                somaDiasNaData(3);
+            } else if ("Semestral".equals(tipo)) {
+                somaDiasNaData(6);
+            } else if ("Anual".equals(tipo)) {
+                somaDiasNaData(12);
+            }
+            pegaListaDataProcedimentoAnalise_outrosPeriodos();
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -465,6 +635,15 @@ public class Calendario extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (procedimento.equals("Coleta")) {
             tipoProcedimentoColeta();
+        } else {
+            tipoProcedimentoAnalise();
+            
+            for (int i=0; i < listaDatasAnalise.size(); i++){
+                System.out.println("---->Dias : " + listaDatasAnalise.get(i).getDia());
+                System.out.println("---->Data Inicio : " + listaDatasAnalise.get(i).getDataInicio());
+                System.out.println("---->Data Fim : " + listaDatasAnalise.get(i).getDataFim());
+                System.out.println("---->Data Tipo : " + listaDatasAnalise.get(i).getTipo() + "\n# #");
+            }
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
