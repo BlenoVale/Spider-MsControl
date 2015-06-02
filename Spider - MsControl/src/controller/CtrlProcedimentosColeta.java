@@ -4,6 +4,7 @@ import facade.FacadeJpa;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Datasprocedimentocoleta;
 import model.Medida;
 import model.Procedimentodecoleta;
 import model.Registroprocedimentocoleta;
@@ -18,9 +19,13 @@ public class CtrlProcedimentosColeta {
     
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     
-    public boolean criarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta){
+    public boolean criarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta, List<Datasprocedimentocoleta> lista){
         try {
             facadeJpa.getProcedimentodecoletaJpaController().create(procedimentodecoleta);
+            for (int i=0; i < lista.size(); i++){
+                lista.get(i).setProcedimentoDeColetaid(procedimentodecoleta);
+                facadeJpa.getdDatasprocedimentocoletaJpaController().create(lista.get(i));
+            }
             registrarProcedimentoColeta(procedimentodecoleta, Constantes.CADASTRO);
             System.out.println("Procedimento coleta criado");
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");

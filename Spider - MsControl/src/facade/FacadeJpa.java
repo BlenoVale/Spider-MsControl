@@ -2,11 +2,10 @@ package facade;
 
 import jpa.AcessaJpaController;
 import jpa.AnaliseJpaController;
-import jpa.ColetaJpaController;
+import jpa.DatasprocedimentocoletaJpaController;
 import jpa.MedidaJpaController;
 import jpa.ObjetivodemedicaoJpaController;
 import jpa.ObjetivodequestaoJpaController;
-import jpa.ProcedimentodeanaliseJpaController;
 import jpa.ProcedimentodecoletaJpaController;
 import jpa.RegistroindicadorJpaController;
 import jpa.extensao.ColetaJpa;
@@ -64,6 +63,7 @@ public class FacadeJpa {
     private final ProcedimentoColetaJpa procedimentoColetaJpa;
     private final EntidadeMedidaJpa entidadeMedidaJpa;
     private final ColetaJpa coletaJpa;
+    private final DatasprocedimentocoletaJpaController datasprocedimentocoletaJpaController;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -90,6 +90,7 @@ public class FacadeJpa {
         registroprocedimentocoletaJpaController = new RegistroprocedimentocoletaJpaController(Conexao.conectar());
         registroProcedimentoColeta = new RegistroProcedimentoColetaJpa();
         entidadeMedidaJpa = new EntidadeMedidaJpa();
+        datasprocedimentocoletaJpaController = new DatasprocedimentocoletaJpaController(Conexao.conectar());
     }
 
     public static FacadeJpa getInstance() {
@@ -192,5 +193,9 @@ public class FacadeJpa {
 
     public EntidadeMedidaJpa getEntidadeMedidaJpa() {
         return entidadeMedidaJpa;
+    }
+    
+    public DatasprocedimentocoletaJpaController getdDatasprocedimentocoletaJpaController(){
+        return datasprocedimentocoletaJpaController;
     }
 }

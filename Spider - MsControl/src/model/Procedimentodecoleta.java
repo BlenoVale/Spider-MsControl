@@ -47,8 +47,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada"),
     @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data")})
 public class Procedimentodecoleta implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
-    private List<Datasprocedimentocoleta> datasprocedimentocoletaList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,6 +88,8 @@ public class Procedimentodecoleta implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
+    private List<Datasprocedimentocoleta> datasprocedimentocoletaList;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Medida medidaid;
@@ -213,6 +213,15 @@ public class Procedimentodecoleta implements Serializable {
         this.data = data;
     }
 
+    @XmlTransient
+    public List<Datasprocedimentocoleta> getDatasprocedimentocoletaList() {
+        return datasprocedimentocoletaList;
+    }
+
+    public void setDatasprocedimentocoletaList(List<Datasprocedimentocoleta> datasprocedimentocoletaList) {
+        this.datasprocedimentocoletaList = datasprocedimentocoletaList;
+    }
+
     public Medida getMedidaid() {
         return medidaid;
     }
@@ -253,15 +262,6 @@ public class Procedimentodecoleta implements Serializable {
     @Override
     public String toString() {
         return "model.Procedimentodecoleta[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Datasprocedimentocoleta> getDatasprocedimentocoletaList() {
-        return datasprocedimentocoletaList;
-    }
-
-    public void setDatasprocedimentocoletaList(List<Datasprocedimentocoleta> datasprocedimentocoletaList) {
-        this.datasprocedimentocoletaList = datasprocedimentocoletaList;
     }
     
 }

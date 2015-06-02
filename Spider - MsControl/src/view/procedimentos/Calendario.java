@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Datasprocedimentocoleta;
 
 /**
  *
@@ -13,7 +14,9 @@ import javax.swing.JOptionPane;
 public class Calendario extends javax.swing.JDialog {
 
     private String tipo;
-    List<String> listaDias;
+    private String procedimento;
+    private Datasprocedimentocoleta data = null;
+    List<Datasprocedimentocoleta> listaDatasColetas;
     Date dataInicio;
     Date dataFim;
 
@@ -24,12 +27,13 @@ public class Calendario extends javax.swing.JDialog {
         agruparBotoesSemanal();
     }
 
-    public void showCalendarioDiarioDialog() {
+    public void showCalendarioDiarioDialog(String procedimento) {
         this.setLocationRelativeTo(null);
 
         tipo = "diario";
+        this.procedimento = procedimento;
         setDiarioEnable(true);
-        setSemanalEnable(false);
+        setSemanalEnable(false); 
         datePanel.setEnabled(false);
         jLabelObservacao.setText("");
         this.setVisible(true);
@@ -45,14 +49,15 @@ public class Calendario extends javax.swing.JDialog {
         jCheckBoxDomingo.setEnabled(aux);
     }
 
-    public void showCalendarioSemanalDialog() {
+    public void showCalendarioSemanalDialog(String procedimento) {
         this.setLocationRelativeTo(null);
 
         tipo = "Semanal";
+        this.procedimento = procedimento;
         setDiarioEnable(false);
         setSemanalEnable(true);
         datePanel.setEnabled(false);
-        jLabelObservacao.setText("*Coleta semanal dura 7 dias, começando pelo dia selecionado.");
+        jLabelObservacao.setText("*"+ this.procedimento +" semanal dura 7 dias, começando pelo dia selecionado.");
         this.setVisible(true);
     }
 
@@ -66,56 +71,32 @@ public class Calendario extends javax.swing.JDialog {
         jRadioButtonDomingo.setEnabled(aux);
     }
 
-    public void showCalendarioOutrosPeriodosDialog(String tipo) {
+    public void showCalendarioOutrosPeriodosDialog(String tipo, String procedimento) {
         this.setLocationRelativeTo(null);
 
         this.tipo = tipo;
+        this.procedimento = procedimento;
         switch (tipo) {
             case "Mensal":
-                jLabelObservacao.setText("*Coleta mensal começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*"+ this.procedimento +" mensal começa aparti do dia selecionado.");
                 break;
             case "Bimestral":
-                jLabelObservacao.setText("*Coleta Bimestral começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*"+ this.procedimento +" Bimestral começa aparti do dia selecionado.");
                 break;
             case "Trimestral":
-                jLabelObservacao.setText("*Coleta Trimestal começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*"+ this.procedimento +" Trimestal começa aparti do dia selecionado.");
                 break;
             case "Semestral":
-                jLabelObservacao.setText("*Coleta Semestral começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*"+ this.procedimento +" Semestral começa aparti do dia selecionado.");
                 break;
             case "Anual":
-                jLabelObservacao.setText("*Coleta Anual começa aparti do dia selecionado.");
+                jLabelObservacao.setText("*"+ this.procedimento +" Anual começa aparti do dia selecionado.");
                 break;
         }
         setDiarioEnable(false);
         setSemanalEnable(false);
         datePanel.setEnabled(true);
         this.setVisible(true);
-    }
-
-    private void validacaoDiario() {
-        listaDias = new ArrayList<>();
-        if (jCheckBoxSegunda.isSelected()) {
-            listaDias.add("Segunda-feira");
-        }
-        if (jCheckBoxTerca.isSelected()) {
-            listaDias.add("Terça-feira");
-        }
-        if (jCheckBoxQuarta.isSelected()) {
-            listaDias.add("Quarta-feira");
-        }
-        if (jCheckBoxQuinta.isSelected()) {
-            listaDias.add("Quinta-feira");
-        }
-        if (jCheckBoxSexta.isSelected()) {
-            listaDias.add("Sexta-feira");;
-        }
-        if (jCheckBoxSabado.isSelected()) {
-            listaDias.add("Sabádo");
-        }
-        if (jCheckBoxDomingo.isSelected()) {
-            listaDias.add("Domingo");
-        }
     }
 
     private void agruparBotoesSemanal() {
@@ -128,44 +109,12 @@ public class Calendario extends javax.swing.JDialog {
         buttonGroup1.add(jRadioButtonDomingo);
     }
 
-    private void validaSemanal() {
-        listaDias = new ArrayList<>();
-        if (jRadioButtonSegunda.isSelected()) {
-            listaDias.add("Segunda-feira");
-            listaDias.add("Domingo");
-        }
-        if (jRadioButtonTerca.isSelected()) {
-            listaDias.add("Terça-feira");
-            listaDias.add("Segunda-feira");
-        }
-        if (jRadioButtonQuarta.isSelected()) {
-            listaDias.add("Quarta-feira");
-            listaDias.add("Terça-feira");
-        }
-        if (jRadioButtonQuinta.isSelected()) {
-            listaDias.add("Quinta-feira");
-            listaDias.add("Quarta-feira");
-        }
-        if (jRadioButtonSexta.isSelected()) {
-            listaDias.add("Sexta-feira");
-            listaDias.add("Quinta-feira");
-        }
-        if (jRadioButtonSabado.isSelected()) {
-            listaDias.add("Sabádo");
-            listaDias.add("Sexata-feira");
-        }
-        if (jRadioButtonDomingo.isSelected()) {
-            listaDias.add("Domingo");
-            listaDias.add("Sabádo");
-        }
-    }
-
     private boolean validaOutrosPeriodos() {
         Date dataCalendario = datePanel.getDate();
-        if (dataCalendario.before(new Date()) && dataCalendario.getDay()!= new Date().getDay()) {
+        if (dataCalendario.before(new Date()) && dataCalendario.getDay() != new Date().getDay()) {
             JOptionPane.showMessageDialog(null, "Dia selecionado invalido.");
             return false;
-        } else if(dataCalendario.getDate() > 28){
+        } else if (dataCalendario.getDate() > 28) {
             JOptionPane.showMessageDialog(null, "É permitido apenas selecionar dias entre o 1° e 28°.");
             return false;
         } else {
@@ -179,8 +128,149 @@ public class Calendario extends javax.swing.JDialog {
         calendar.setTime(dataInicio);
         calendar.add(Calendar.MONTH, qtdMeses);
         dataFim = calendar.getTime();
-        System.out.println("----->Data inicio: " + dataInicio);
-        System.out.println("----->Data Fim: " + dataFim);
+    }
+
+    public List<Datasprocedimentocoleta> getListaDataProcedimentoColeta() {
+        return listaDatasColetas;
+    }
+
+    private void pegaListaDataProcedimentoColeta_Diario() {
+        listaDatasColetas = new ArrayList<>();
+        if (jCheckBoxSegunda.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Segunda-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jCheckBoxTerca.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Terça-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jCheckBoxQuarta.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Quarta-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jCheckBoxQuinta.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Quinta-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jCheckBoxSexta.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Sexta-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jCheckBoxSabado.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Sabádo");
+            listaDatasColetas.add(data);
+        }
+        if (jCheckBoxDomingo.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Domingo");
+            listaDatasColetas.add(data);
+        }
+    }
+
+    private void pegaListaDataProcedimentoColeta_Semanal() {
+        listaDatasColetas = new ArrayList<>();
+        if (jRadioButtonSegunda.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Segunda-feira");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Domingo");
+            listaDatasColetas.add(data);
+        }
+        if (jRadioButtonTerca.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Terça-feira");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Segunda-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jRadioButtonQuarta.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Quarta-feira");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Terça-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jRadioButtonQuinta.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Quinta-feira");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Quarta-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jRadioButtonSexta.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Sexta-feira");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Quinta-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jRadioButtonSabado.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Sabádo");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Sexata-feira");
+            listaDatasColetas.add(data);
+        }
+        if (jRadioButtonDomingo.isSelected()) {
+            data = new Datasprocedimentocoleta();
+            data.setDia("Domingo");
+            listaDatasColetas.add(data);
+
+            data = new Datasprocedimentocoleta();
+            data.setDia("Sabádo");
+            listaDatasColetas.add(data);
+        }
+    }
+
+    private void pegaListaDataProcedimentoColeta_outrosPeriodos() {
+        listaDatasColetas = new ArrayList<>();
+        data = new Datasprocedimentocoleta();
+        data.setDataInicio(dataInicio);
+        data.setDataFim(dataFim);
+        listaDatasColetas.add(data);
+    }
+
+    private void tipoProcedimentoColeta() {
+        if ("diario".equals(tipo)) {
+            pegaListaDataProcedimentoColeta_Diario();
+        } else if ("Semanal".equals(tipo)) {
+            pegaListaDataProcedimentoColeta_Semanal();;
+        } else {
+            if (!validaOutrosPeriodos()) {
+                return;
+            }
+
+            if ("Mensal".equals(tipo)) {
+                somaDiasNaData(1);
+            } else if ("Bimestral".equals(tipo)) {
+                somaDiasNaData(2);
+            } else if ("Trimestral".equals(tipo)) {
+                somaDiasNaData(3);
+            } else if ("Semestral".equals(tipo)) {
+                somaDiasNaData(6);
+            } else if ("Anual".equals(tipo)) {
+                somaDiasNaData(12);
+            }
+            pegaListaDataProcedimentoColeta_outrosPeriodos();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -373,32 +463,8 @@ public class Calendario extends javax.swing.JDialog {
     }//GEN-LAST:event_jPanelDiarioMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if ("diario".equals(tipo)) {
-            validacaoDiario();
-            
-            for (String listaDia : listaDias) {
-                System.out.println("----->Dia: " + listaDia);
-            }
-        } else if ("Semanal".equals(tipo)) {
-            validaSemanal();
-            System.out.println("----->Dia inicial: " + listaDias.get(0));
-            System.out.println("----->Dia final: " + listaDias.get(1));
-        } else {
-            if(!validaOutrosPeriodos()){
-                return;
-            }
-            
-            if ("Mensal".equals(tipo)) {
-                somaDiasNaData(1);
-            } else if ("Bimestral".equals(tipo)) {
-                somaDiasNaData(2);
-            } else if ("Trimestral".equals(tipo)) {
-                somaDiasNaData(3);
-            } else if ("Semestral".equals(tipo)) {
-                somaDiasNaData(6);
-            } else if ("Anual".equals(tipo)) {
-                somaDiasNaData(12);
-            }
+        if (procedimento.equals("Coleta")) {
+            tipoProcedimentoColeta();
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

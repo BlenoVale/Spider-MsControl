@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import model.Datasprocedimentocoleta;
 import model.Medida;
 import model.Procedimentodecoleta;
 import model.Registroprocedimentocoleta;
@@ -23,6 +24,8 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     private DefaultComboBoxModel comboBoxModelMedida;
     private Procedimentodecoleta procedimentodecoleta = new Procedimentodecoleta();
     private List<Registroprocedimentocoleta> registroprocedimentocoletas;
+    private Datasprocedimentocoleta datasprocedimentocoletas;
+    List<Datasprocedimentocoleta> listaDatas;
     private FacadeJpa jpa = FacadeJpa.getInstance();
     private boolean novoProcedimento = false;
 
@@ -83,8 +86,9 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         comboBoxModelMedida.addElement("-Selecione uma medida-");
         List<Medida> medida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < medida.size(); i++) {
-            if (medida.get(i).getProcedimentodecoletaList().isEmpty())
+            if (medida.get(i).getProcedimentodecoletaList().isEmpty()) {
                 comboBoxModelMedida.addElement(medida.get(i).getNome());
+            }
         }
         jComboBoxMedida.setModel(comboBoxModelMedida);
     }
@@ -573,7 +577,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
 
         if (novoProcedimento) {
 
-            save = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta);
+            save = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta, listaDatas);
         } else {
 
             save = ctrlProcedimentosColeta.editarProcedimentoColeta(procedimentodecoleta);
@@ -582,7 +586,6 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         if (save) {
             this.dispose();
         }
-
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -610,7 +613,29 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldFerramentaUtilizadaActionPerformed
 
     private void jComboBoxPeriodicidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPeriodicidadeActionPerformed
-        // TODO add your handling code here:
+        if (jComboBoxPeriodicidade.getSelectedIndex() == 0) {
+            return;
+        }
+
+        Calendario calendario = new Calendario(null, true);
+        if (jComboBoxPeriodicidade.getSelectedIndex() == 1) {
+            calendario.showCalendarioDiarioDialog("Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
+            calendario.showCalendarioSemanalDialog("Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
+            calendario.showCalendarioOutrosPeriodosDialog("Mensal", "Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
+            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", "Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
+            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", "Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
+            calendario.showCalendarioOutrosPeriodosDialog("Semestral", "Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
+            calendario.showCalendarioOutrosPeriodosDialog("Anual", "Coleta");
+        }
+
+        listaDatas = new ArrayList<>();
+        listaDatas = calendario.getListaDataProcedimentoColeta();
     }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
     private void jTextFieldFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaActionPerformed
