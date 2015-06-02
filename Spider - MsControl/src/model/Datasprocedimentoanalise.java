@@ -34,11 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Datasprocedimentoanalise.findById", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.id = :id"),
     @NamedQuery(name = "Datasprocedimentoanalise.findByDia", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dia = :dia"),
     @NamedQuery(name = "Datasprocedimentoanalise.findByDataInicio", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dataInicio = :dataInicio"),
-    @NamedQuery(name = "Datasprocedimentoanalise.findByDataFim", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dataFim = :dataFim")})
+    @NamedQuery(name = "Datasprocedimentoanalise.findByDataFim", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dataFim = :dataFim"),
+    @NamedQuery(name = "Datasprocedimentoanalise.findByTipo", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.tipo = :tipo")})
 public class Datasprocedimentoanalise implements Serializable {
-    @Basic(optional = false)
-    @Column(name = "tipo")
-    private String tipo;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +51,9 @@ public class Datasprocedimentoanalise implements Serializable {
     @Column(name = "dataFim")
     @Temporal(TemporalType.DATE)
     private Date dataFim;
+    @Basic(optional = false)
+    @Column(name = "tipo")
+    private String tipo;
     @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Procedimentodeanalise procedimentoDeAnaliseid;
@@ -62,6 +63,11 @@ public class Datasprocedimentoanalise implements Serializable {
 
     public Datasprocedimentoanalise(Integer id) {
         this.id = id;
+    }
+
+    public Datasprocedimentoanalise(Integer id, String tipo) {
+        this.id = id;
+        this.tipo = tipo;
     }
 
     public Integer getId() {
@@ -96,6 +102,14 @@ public class Datasprocedimentoanalise implements Serializable {
         this.dataFim = dataFim;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public Procedimentodeanalise getProcedimentoDeAnaliseid() {
         return procedimentoDeAnaliseid;
     }
@@ -127,14 +141,6 @@ public class Datasprocedimentoanalise implements Serializable {
     @Override
     public String toString() {
         return "model.Datasprocedimentoanalise[ id=" + id + " ]";
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
     
 }

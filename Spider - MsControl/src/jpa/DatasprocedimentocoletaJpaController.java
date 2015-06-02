@@ -14,7 +14,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
-import jpa.exceptions.PreexistingEntityException;
 import model.Datasprocedimentocoleta;
 import model.Procedimentodecoleta;
 
@@ -33,7 +32,7 @@ public class DatasprocedimentocoletaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Datasprocedimentocoleta datasprocedimentocoleta) throws PreexistingEntityException, Exception {
+    public void create(Datasprocedimentocoleta datasprocedimentocoleta) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -49,11 +48,6 @@ public class DatasprocedimentocoletaJpaController implements Serializable {
                 procedimentoDeColetaid = em.merge(procedimentoDeColetaid);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findDatasprocedimentocoleta(datasprocedimentocoleta.getId()) != null) {
-                throw new PreexistingEntityException("Datasprocedimentocoleta " + datasprocedimentocoleta + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -86,7 +80,7 @@ public class DatasprocedimentocoletaJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = datasprocedimentocoleta.getId();
+                Integer id = datasprocedimentocoleta.getId();
                 if (findDatasprocedimentocoleta(id) == null) {
                     throw new NonexistentEntityException("The datasprocedimentocoleta with id " + id + " no longer exists.");
                 }
@@ -99,7 +93,7 @@ public class DatasprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -149,7 +143,7 @@ public class DatasprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public Datasprocedimentocoleta findDatasprocedimentocoleta(String id) {
+    public Datasprocedimentocoleta findDatasprocedimentocoleta(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Datasprocedimentocoleta.class, id);

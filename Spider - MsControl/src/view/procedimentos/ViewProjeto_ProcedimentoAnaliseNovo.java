@@ -422,6 +422,25 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
+    private void acessaCalendario(){
+        Calendario calendario = new Calendario(null, true);
+        if (jComboBoxPeriodicidade.getSelectedIndex() == 1) {
+            calendario.showCalendarioDiarioDialog("Análise");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
+            calendario.showCalendarioSemanalDialog("Análise");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
+            calendario.showCalendarioOutrosPeriodosDialog("Mensal", "Análise");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
+            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", "Análise");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
+            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", "Análise");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
+            calendario.showCalendarioOutrosPeriodosDialog("Semestral", "Análise");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
+            calendario.showCalendarioOutrosPeriodosDialog("Anual", "Análise");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1281,23 +1300,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (jComboBoxPeriodicidade.getSelectedIndex() == 0) {
             return;
         }
-
-        Calendario calendario = new Calendario(null, true);
-        if (jComboBoxPeriodicidade.getSelectedIndex() == 1) {
-            calendario.showCalendarioDiarioDialog();
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
-            calendario.showCalendarioSemanalDialog();
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
-            calendario.showCalendarioOutrosPeriodosDialog("Mensal");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
-            calendario.showCalendarioOutrosPeriodosDialog("Bimestral");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
-            calendario.showCalendarioOutrosPeriodosDialog("Trimestral");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
-            calendario.showCalendarioOutrosPeriodosDialog("Semestral");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
-            calendario.showCalendarioOutrosPeriodosDialog("Anual");
-        }
+        
+        acessaCalendario();
     }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
     //Botões da calculadora abaixo
@@ -1432,22 +1436,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             return;
         }
 
-        Calendario calendario = new Calendario(null, true);
-        if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 1) {
-            calendario.showCalendarioDiarioDialog();
-        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 2) {
-            calendario.showCalendarioSemanalDialog();
-        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 3) {
-            calendario.showCalendarioOutrosPeriodosDialog("Mensal");
-        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 4) {
-            calendario.showCalendarioOutrosPeriodosDialog("Bimestral");
-        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 5) {
-            calendario.showCalendarioOutrosPeriodosDialog("Trimestral");
-        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 6) {
-            calendario.showCalendarioOutrosPeriodosDialog("Semestral");
-        } else if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 7) {
-            calendario.showCalendarioOutrosPeriodosDialog("Anual");
-        }
+        acessaCalendario();
     }//GEN-LAST:event_jComboBoxComunicacaoPeriodicidadeActionPerformed
 
     public void inserirMnemonico(java.awt.event.MouseEvent event) {
