@@ -10,8 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,48 +25,44 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author BlenoVale
  */
 @Entity
-@Table(name = "datasprocedimentoanalise")
+@Table(name = "datasprocedimentocoleta")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Datasprocedimentoanalise.findAll", query = "SELECT d FROM Datasprocedimentoanalise d"),
-    @NamedQuery(name = "Datasprocedimentoanalise.findById", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.id = :id"),
-    @NamedQuery(name = "Datasprocedimentoanalise.findByDia", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dia = :dia"),
-    @NamedQuery(name = "Datasprocedimentoanalise.findByDataInicio", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dataInicio = :dataInicio"),
-    @NamedQuery(name = "Datasprocedimentoanalise.findByDataFim", query = "SELECT d FROM Datasprocedimentoanalise d WHERE d.dataFim = :dataFim")})
-public class Datasprocedimentoanalise implements Serializable {
-    @Basic(optional = false)
-    @Column(name = "tipo")
-    private String tipo;
+    @NamedQuery(name = "Datasprocedimentocoleta.findAll", query = "SELECT d FROM Datasprocedimentocoleta d"),
+    @NamedQuery(name = "Datasprocedimentocoleta.findById", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.id = :id"),
+    @NamedQuery(name = "Datasprocedimentocoleta.findByDia", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dia = :dia"),
+    @NamedQuery(name = "Datasprocedimentocoleta.findByDataInicio", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dataInicio = :dataInicio"),
+    @NamedQuery(name = "Datasprocedimentocoleta.findByDataFim", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dataFim = :dataFim")})
+public class Datasprocedimentocoleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    @Column(name = "Dia")
+    private String id;
+    @Column(name = "dia")
     private String dia;
     @Column(name = "dataInicio")
     @Temporal(TemporalType.DATE)
     private Date dataInicio;
     @Column(name = "dataFim")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataFim;
-    @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id")
+    @JoinColumn(name = "ProcedimentoDeColeta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Procedimentodeanalise procedimentoDeAnaliseid;
+    private Procedimentodecoleta procedimentoDeColetaid;
 
-    public Datasprocedimentoanalise() {
+    public Datasprocedimentocoleta() {
     }
 
-    public Datasprocedimentoanalise(Integer id) {
+    public Datasprocedimentocoleta(String id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -96,12 +90,12 @@ public class Datasprocedimentoanalise implements Serializable {
         this.dataFim = dataFim;
     }
 
-    public Procedimentodeanalise getProcedimentoDeAnaliseid() {
-        return procedimentoDeAnaliseid;
+    public Procedimentodecoleta getProcedimentoDeColetaid() {
+        return procedimentoDeColetaid;
     }
 
-    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid) {
-        this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
+    public void setProcedimentoDeColetaid(Procedimentodecoleta procedimentoDeColetaid) {
+        this.procedimentoDeColetaid = procedimentoDeColetaid;
     }
 
     @Override
@@ -114,10 +108,10 @@ public class Datasprocedimentoanalise implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Datasprocedimentoanalise)) {
+        if (!(object instanceof Datasprocedimentocoleta)) {
             return false;
         }
-        Datasprocedimentoanalise other = (Datasprocedimentoanalise) object;
+        Datasprocedimentocoleta other = (Datasprocedimentocoleta) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -126,15 +120,7 @@ public class Datasprocedimentoanalise implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Datasprocedimentoanalise[ id=" + id + " ]";
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+        return "model.Datasprocedimentocoleta[ id=" + id + " ]";
     }
     
 }

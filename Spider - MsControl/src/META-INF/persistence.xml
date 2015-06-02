@@ -25,6 +25,7 @@
     <class>model.Registroprojeto</class>
     <class>model.Analise</class>
     <class>model.Objetivodequestao</class>
+    <class>model.Datasprocedimentocoleta</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/spidermscontrol"/>
       <property name="javax.persistence.jdbc.password" value="spider"/>

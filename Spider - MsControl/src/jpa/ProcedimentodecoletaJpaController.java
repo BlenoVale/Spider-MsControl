@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
+import model.Datasprocedimentocoleta;
 import model.Procedimentodecoleta;
 
 /**
@@ -39,6 +40,9 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         if (procedimentodecoleta.getRegistroprocedimentocoletaList() == null) {
             procedimentodecoleta.setRegistroprocedimentocoletaList(new ArrayList<Registroprocedimentocoleta>());
         }
+        if (procedimentodecoleta.getDatasprocedimentocoletaList() == null) {
+            procedimentodecoleta.setDatasprocedimentocoletaList(new ArrayList<Datasprocedimentocoleta>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -54,6 +58,12 @@ public class ProcedimentodecoletaJpaController implements Serializable {
                 attachedRegistroprocedimentocoletaList.add(registroprocedimentocoletaListRegistroprocedimentocoletaToAttach);
             }
             procedimentodecoleta.setRegistroprocedimentocoletaList(attachedRegistroprocedimentocoletaList);
+            List<Datasprocedimentocoleta> attachedDatasprocedimentocoletaList = new ArrayList<Datasprocedimentocoleta>();
+            for (Datasprocedimentocoleta datasprocedimentocoletaListDatasprocedimentocoletaToAttach : procedimentodecoleta.getDatasprocedimentocoletaList()) {
+                datasprocedimentocoletaListDatasprocedimentocoletaToAttach = em.getReference(datasprocedimentocoletaListDatasprocedimentocoletaToAttach.getClass(), datasprocedimentocoletaListDatasprocedimentocoletaToAttach.getId());
+                attachedDatasprocedimentocoletaList.add(datasprocedimentocoletaListDatasprocedimentocoletaToAttach);
+            }
+            procedimentodecoleta.setDatasprocedimentocoletaList(attachedDatasprocedimentocoletaList);
             em.persist(procedimentodecoleta);
             if (medidaid != null) {
                 medidaid.getProcedimentodecoletaList().add(procedimentodecoleta);
@@ -66,6 +76,15 @@ public class ProcedimentodecoletaJpaController implements Serializable {
                 if (oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListRegistroprocedimentocoleta != null) {
                     oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListRegistroprocedimentocoleta.getRegistroprocedimentocoletaList().remove(registroprocedimentocoletaListRegistroprocedimentocoleta);
                     oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListRegistroprocedimentocoleta = em.merge(oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListRegistroprocedimentocoleta);
+                }
+            }
+            for (Datasprocedimentocoleta datasprocedimentocoletaListDatasprocedimentocoleta : procedimentodecoleta.getDatasprocedimentocoletaList()) {
+                Procedimentodecoleta oldProcedimentoDeColetaidOfDatasprocedimentocoletaListDatasprocedimentocoleta = datasprocedimentocoletaListDatasprocedimentocoleta.getProcedimentoDeColetaid();
+                datasprocedimentocoletaListDatasprocedimentocoleta.setProcedimentoDeColetaid(procedimentodecoleta);
+                datasprocedimentocoletaListDatasprocedimentocoleta = em.merge(datasprocedimentocoletaListDatasprocedimentocoleta);
+                if (oldProcedimentoDeColetaidOfDatasprocedimentocoletaListDatasprocedimentocoleta != null) {
+                    oldProcedimentoDeColetaidOfDatasprocedimentocoletaListDatasprocedimentocoleta.getDatasprocedimentocoletaList().remove(datasprocedimentocoletaListDatasprocedimentocoleta);
+                    oldProcedimentoDeColetaidOfDatasprocedimentocoletaListDatasprocedimentocoleta = em.merge(oldProcedimentoDeColetaidOfDatasprocedimentocoletaListDatasprocedimentocoleta);
                 }
             }
             em.getTransaction().commit();
@@ -86,6 +105,8 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             Medida medidaidNew = procedimentodecoleta.getMedidaid();
             List<Registroprocedimentocoleta> registroprocedimentocoletaListOld = persistentProcedimentodecoleta.getRegistroprocedimentocoletaList();
             List<Registroprocedimentocoleta> registroprocedimentocoletaListNew = procedimentodecoleta.getRegistroprocedimentocoletaList();
+            List<Datasprocedimentocoleta> datasprocedimentocoletaListOld = persistentProcedimentodecoleta.getDatasprocedimentocoletaList();
+            List<Datasprocedimentocoleta> datasprocedimentocoletaListNew = procedimentodecoleta.getDatasprocedimentocoletaList();
             List<String> illegalOrphanMessages = null;
             for (Registroprocedimentocoleta registroprocedimentocoletaListOldRegistroprocedimentocoleta : registroprocedimentocoletaListOld) {
                 if (!registroprocedimentocoletaListNew.contains(registroprocedimentocoletaListOldRegistroprocedimentocoleta)) {
@@ -93,6 +114,14 @@ public class ProcedimentodecoletaJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Registroprocedimentocoleta " + registroprocedimentocoletaListOldRegistroprocedimentocoleta + " since its procedimentoDeColetaid field is not nullable.");
+                }
+            }
+            for (Datasprocedimentocoleta datasprocedimentocoletaListOldDatasprocedimentocoleta : datasprocedimentocoletaListOld) {
+                if (!datasprocedimentocoletaListNew.contains(datasprocedimentocoletaListOldDatasprocedimentocoleta)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Datasprocedimentocoleta " + datasprocedimentocoletaListOldDatasprocedimentocoleta + " since its procedimentoDeColetaid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -109,6 +138,13 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             }
             registroprocedimentocoletaListNew = attachedRegistroprocedimentocoletaListNew;
             procedimentodecoleta.setRegistroprocedimentocoletaList(registroprocedimentocoletaListNew);
+            List<Datasprocedimentocoleta> attachedDatasprocedimentocoletaListNew = new ArrayList<Datasprocedimentocoleta>();
+            for (Datasprocedimentocoleta datasprocedimentocoletaListNewDatasprocedimentocoletaToAttach : datasprocedimentocoletaListNew) {
+                datasprocedimentocoletaListNewDatasprocedimentocoletaToAttach = em.getReference(datasprocedimentocoletaListNewDatasprocedimentocoletaToAttach.getClass(), datasprocedimentocoletaListNewDatasprocedimentocoletaToAttach.getId());
+                attachedDatasprocedimentocoletaListNew.add(datasprocedimentocoletaListNewDatasprocedimentocoletaToAttach);
+            }
+            datasprocedimentocoletaListNew = attachedDatasprocedimentocoletaListNew;
+            procedimentodecoleta.setDatasprocedimentocoletaList(datasprocedimentocoletaListNew);
             procedimentodecoleta = em.merge(procedimentodecoleta);
             if (medidaidOld != null && !medidaidOld.equals(medidaidNew)) {
                 medidaidOld.getProcedimentodecoletaList().remove(procedimentodecoleta);
@@ -126,6 +162,17 @@ public class ProcedimentodecoletaJpaController implements Serializable {
                     if (oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListNewRegistroprocedimentocoleta != null && !oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListNewRegistroprocedimentocoleta.equals(procedimentodecoleta)) {
                         oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListNewRegistroprocedimentocoleta.getRegistroprocedimentocoletaList().remove(registroprocedimentocoletaListNewRegistroprocedimentocoleta);
                         oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListNewRegistroprocedimentocoleta = em.merge(oldProcedimentoDeColetaidOfRegistroprocedimentocoletaListNewRegistroprocedimentocoleta);
+                    }
+                }
+            }
+            for (Datasprocedimentocoleta datasprocedimentocoletaListNewDatasprocedimentocoleta : datasprocedimentocoletaListNew) {
+                if (!datasprocedimentocoletaListOld.contains(datasprocedimentocoletaListNewDatasprocedimentocoleta)) {
+                    Procedimentodecoleta oldProcedimentoDeColetaidOfDatasprocedimentocoletaListNewDatasprocedimentocoleta = datasprocedimentocoletaListNewDatasprocedimentocoleta.getProcedimentoDeColetaid();
+                    datasprocedimentocoletaListNewDatasprocedimentocoleta.setProcedimentoDeColetaid(procedimentodecoleta);
+                    datasprocedimentocoletaListNewDatasprocedimentocoleta = em.merge(datasprocedimentocoletaListNewDatasprocedimentocoleta);
+                    if (oldProcedimentoDeColetaidOfDatasprocedimentocoletaListNewDatasprocedimentocoleta != null && !oldProcedimentoDeColetaidOfDatasprocedimentocoletaListNewDatasprocedimentocoleta.equals(procedimentodecoleta)) {
+                        oldProcedimentoDeColetaidOfDatasprocedimentocoletaListNewDatasprocedimentocoleta.getDatasprocedimentocoletaList().remove(datasprocedimentocoletaListNewDatasprocedimentocoleta);
+                        oldProcedimentoDeColetaidOfDatasprocedimentocoletaListNewDatasprocedimentocoleta = em.merge(oldProcedimentoDeColetaidOfDatasprocedimentocoletaListNewDatasprocedimentocoleta);
                     }
                 }
             }
@@ -165,6 +212,13 @@ public class ProcedimentodecoletaJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Procedimentodecoleta (" + procedimentodecoleta + ") cannot be destroyed since the Registroprocedimentocoleta " + registroprocedimentocoletaListOrphanCheckRegistroprocedimentocoleta + " in its registroprocedimentocoletaList field has a non-nullable procedimentoDeColetaid field.");
+            }
+            List<Datasprocedimentocoleta> datasprocedimentocoletaListOrphanCheck = procedimentodecoleta.getDatasprocedimentocoletaList();
+            for (Datasprocedimentocoleta datasprocedimentocoletaListOrphanCheckDatasprocedimentocoleta : datasprocedimentocoletaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Procedimentodecoleta (" + procedimentodecoleta + ") cannot be destroyed since the Datasprocedimentocoleta " + datasprocedimentocoletaListOrphanCheckDatasprocedimentocoleta + " in its datasprocedimentocoletaList field has a non-nullable procedimentoDeColetaid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
