@@ -14,10 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.Coleta;
+import model.Datasprocedimentocoleta;
 import model.Medida;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
+import util.Texto;
 
 /**
  *
@@ -102,16 +104,19 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     public String checaTextoDigitadoEmFormatoDouble(String numero) {
 
-        if (numero.length() == 0)
+        if (numero.length() == 0) {
             return numero;
+        }
 
         String numeroQuebrado[] = numero.split(",");
 
-        if (numero.substring(numero.length() - 1, numero.length()).equals(","))
+        if (numero.substring(numero.length() - 1, numero.length()).equals(",")) {
             return numero;
+        }
 
-        if (numeroQuebrado.length == 2)
+        if (numeroQuebrado.length == 2) {
             numero = numeroQuebrado[0] + "." + numeroQuebrado[1];
+        }
 
         String ultimaStringValida = "";
         for (int i = 0; i < numero.length(); i++) {
@@ -180,6 +185,34 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             jButtonSalvar.setEnabled(false);
             return;
         }
+        List<Datasprocedimentocoleta> datas = new ArrayList<>();
+        datas = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList();
+        defaultTableModel = new MyDefaultTableModel(new String[]{"Período da coleta"}, 0, false);
+        switch (medida.getProcedimentodecoletaList().get(0).getPeriodicidade()) {
+            case "Diário":
+                jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>Diário</b></center></html>");
+                for (Datasprocedimentocoleta data : datas) {
+                    defaultTableModel.addRow(new String[]{"<html><center><b>"+data.getDia()+"</b></center></html>"});
+                }
+                jTablePeriodicidade.setModel(defaultTableModel);
+                break;
+            case "Semanal":
+                jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>Semanal</b></center></html>");
+                defaultTableModel.addRow(new String[]{"<html><center>Dia Inicial: <b>" + datas.get(0).getDia()+ "</b></center></html>"});
+                defaultTableModel.addRow(new String[]{"<html><center>Dia Final: <b>" + datas.get(1).getDia()+ "</b></center></html>"});
+                jTablePeriodicidade.setModel(defaultTableModel);
+                break;
+            default:
+                String periodicidade = medida.getProcedimentodecoletaList().get(0).getPeriodicidade();
+                jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>"+periodicidade+"</b></center></html>");
+                defaultTableModel.addRow(new String[]{"<html><center>Data Inicial: <b>" + Texto.formataDataPraTabela(datas.get(0).getDataInicio()) + "</b></center></html>"});
+                defaultTableModel.addRow(new String[]{"<html><center>Data Final: <b>" + Texto.formataDataPraTabela(datas.get(0).getDataFim()) + "</b></center></html>"});
+                jTablePeriodicidade.setModel(defaultTableModel);
+                break;
+        }
+        jLabelFrequencia.setText("<html>Frequência: <b>" + medida.getProcedimentodecoletaList().get(0).getFrequencia() + "</b></html>");
+        jLabelJaColetados.setText("<html>Já coletados: <b>0</b></html>");
+
         switch (medida.getProcedimentodecoletaList().get(0).getTipoDeColeta()) {
             case "Manual":
                 jLabelTipo.setText("Manual");
@@ -192,6 +225,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 jButtonImporta.setVisible(true);
                 break;
         }
+
         jLabelTipo.setForeground(Color.BLACK);
         jLabelTipo.setHorizontalAlignment(JLabel.LEADING);
         jLabelValor.setVisible(true);
@@ -208,6 +242,14 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jTableMedidas = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableColetas = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jLabelPeriodicidade = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTablePeriodicidade = new javax.swing.JTable();
+        jLabelFrequencia = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabelJaColetados = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabelTipoDescri = new javax.swing.JLabel();
         jLabelValor = new javax.swing.JLabel();
@@ -252,24 +294,81 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jTableColetas);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabelPeriodicidade.setText("Periodicidade:");
+
+        jTablePeriodicidade.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jTablePeriodicidade.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane4.setViewportView(jTablePeriodicidade);
+
+        jLabelFrequencia.setText("Frequência:");
+
+        jLabelJaColetados.setText("Já coletados:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelJaColetados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator3)
+                    .addComponent(jLabelPeriodicidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabelFrequencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelPeriodicidade)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(jLabelFrequencia)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelJaColetados)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -374,7 +473,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
@@ -503,18 +602,26 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonRemover;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelFrequencia;
+    private javax.swing.JLabel jLabelJaColetados;
+    private javax.swing.JLabel jLabelPeriodicidade;
     private javax.swing.JLabel jLabelTipo;
     private javax.swing.JLabel jLabelTipoDescri;
     private javax.swing.JLabel jLabelValor;
     private javax.swing.JList jListColetasASalvar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTableColetas;
     private javax.swing.JTable jTableMedidas;
+    private javax.swing.JTable jTablePeriodicidade;
     private javax.swing.JTextField jTextFieldValorColeta;
     // End of variables declaration//GEN-END:variables
 }

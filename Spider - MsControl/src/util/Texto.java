@@ -17,4 +17,13 @@ public class Texto {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE   dd / MMMM / yyyy");
         return sdf.format(data);
     }
+    
+    public static String formataDataPraTabela(Date data) {
+
+        if (data == null)
+            return "";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd / MMMM / yyyy");
+        return sdf.format(data);
+    }
 }
