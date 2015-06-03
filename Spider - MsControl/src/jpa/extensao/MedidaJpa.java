@@ -159,7 +159,7 @@ public class MedidaJpa extends MedidaJpaController {
         try {
             List<Procedimentodecoleta> lista = null;
             EntityManager emf = super.getEntityManager();
-            Query q = emf.createQuery("SELECT m FROM Medida m WHERE m.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto AND m.nome LIKE :nome")
+            Query q = emf.createQuery("SELECT p FROM Procedimentodecoleta p WHERE p.medidaid.projetoId = :idDoProjeto AND p.medidaid.nome LIKE :nome ORDER BY p.medidaid.nome ASC")
                     .setParameter("idDoProjeto", id_projeto).setParameter("nome", nome + "%");
 
             lista = q.getResultList();

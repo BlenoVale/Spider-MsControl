@@ -67,6 +67,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     }
 
     public void recarregarTabelaBusca() {
+        iniciarTabela();
         listProcedimentoColeta = new ArrayList<>();
         listProcedimentoColeta = ctrlProcedimentosColeta.buscarParteDoNomeMedida(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
         preencherTabela(listProcedimentoColeta);
