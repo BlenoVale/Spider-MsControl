@@ -139,10 +139,6 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
             mensagem = "Campo \"Propiedade\" não pode ser vazio.";
             cont++;
         }
-        if (jTextAreaObservacao.getText().isEmpty()) {
-            mensagem = "Campo \"Observação\" não pode ser vazio.";
-            cont++;
-        }
         if (jComboBoxEntidade.getSelectedItem() == "-Selecione uma entidade medida-") {
             mensagem = "É necessário selecionar uma \"Entidade\" no Combobox.";
             cont++;
