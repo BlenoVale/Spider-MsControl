@@ -31,6 +31,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     private List<Procedimentodecoleta> listProcedimentoColeta;
     private Medida medidaSelecionada = new Medida();
+    private CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
 
     public ViewProjeto_ProcedimentoColeta() {
         initComponents();
@@ -66,10 +67,15 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     }
 
     public void recarregarTabelaBusca() {
-        iniciarTabela();
-        CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
-        listProcedimentoColeta = ctrlProcedimentosColeta.findByProjetoBuscar(Copia.getProjetoSelecionado().getId(), jTextFieldBuscar.getText());
+        listProcedimentoColeta = new ArrayList<>();
+        listProcedimentoColeta = ctrlProcedimentosColeta.buscarParteDoNomeMedida(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
         preencherTabela(listProcedimentoColeta);
+        
+//        iniciarTabela();
+//        
+//        CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
+//        listProcedimentoColeta = ctrlProcedimentosColeta.findByProjetoBuscar(Copia.getProjetoSelecionado().getId(), jTextFieldBuscar.getText());
+//        preencherTabela(listProcedimentoColeta);
     }
 
     @SuppressWarnings("unchecked")

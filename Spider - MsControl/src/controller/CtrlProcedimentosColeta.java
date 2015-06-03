@@ -30,8 +30,9 @@ public class CtrlProcedimentosColeta {
             System.out.println("Procedimento coleta criado");
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Não foi possível criar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            error.printStackTrace();
             return false;
         }
     }
@@ -71,6 +72,14 @@ public class CtrlProcedimentosColeta {
         } catch (Exception e) {
             e.printStackTrace();
             return  null;
+        }
+    }
+    
+    public List<Procedimentodecoleta> buscarParteDoNomeMedida(String nome, int id_projeto) {
+        try {
+            return facadeJpa.getMedidaJpa().findMedidaByParteNome(nome, id_projeto);
+        } catch (Exception error) {
+            throw error;
         }
     }
 

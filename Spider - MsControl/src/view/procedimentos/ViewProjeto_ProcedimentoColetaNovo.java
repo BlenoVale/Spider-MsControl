@@ -45,7 +45,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
             return false;
         } else if (jComboBoxCalculo.getSelectedItem() == "-Selecione um Cálculo-") {
             JOptionPane.showMessageDialog(null, "Você deve selecionar um \"Cálculo\"");
-            return false;
+            return false;   
         } else if (jTextFieldResponsavelColeta.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Responsável pela Coleta\" é obrigatório");
             return false;
@@ -60,6 +60,9 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
             return false;
         } else if (jTextFieldFrequencia.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Frequência\" é obrigatório");
+            return false;
+        } else if ((jComboBoxCalculo.getSelectedItem() == "Sem Cálculo") && (!"1".equals(jTextFieldFrequencia.getText()))) {
+            JOptionPane.showMessageDialog(null, "O campo \"Sem Cálculo\" só pode ser selecionado se o campo \"Frequência\" for 1");
             return false;
         } else if (!validaRadio()) {
             JOptionPane.showMessageDialog(null, "Você deve escolher um \"Tipo de Coleta\"");
@@ -569,7 +572,6 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         if (!validaCampos()) {
             return;
         }
-        boolean save = false;
         Medida medida = jpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedida.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
 
         procedimentodecoleta.setData(new Date());
@@ -585,17 +587,16 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setProjetoId(Copia.getProjetoSelecionado().getId());
         procedimentodecoleta.setCalculo(jComboBoxCalculo.getSelectedItem().toString());
 
+        boolean feito = false;
         if (novoProcedimento) {
-
-            save = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta, listaDatas);
+            feito = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta, listaDatas);
         } else {
-
-            save = ctrlProcedimentosColeta.editarProcedimentoColeta(procedimentodecoleta);
+            feito = ctrlProcedimentosColeta.editarProcedimentoColeta(procedimentodecoleta);
         }
-
-        if (save) {
+        if (feito) {
             this.dispose();
         }
+      
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed

@@ -155,6 +155,18 @@ public class MedidaJpa extends MedidaJpaController {
           }
       }
     
-    
+    public List<Procedimentodecoleta> findMedidaByParteNome(String nome, int id_projeto) {
+        try {
+            List<Procedimentodecoleta> lista = null;
+            EntityManager emf = super.getEntityManager();
+            Query q = emf.createQuery("SELECT m FROM Medida m WHERE m.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto AND m.nome LIKE :nome")
+                    .setParameter("idDoProjeto", id_projeto).setParameter("nome", nome + "%");
+
+            lista = q.getResultList();
+            return lista;
+        } catch (Exception error) {
+            throw error;
+        }
+    }
 
 }
