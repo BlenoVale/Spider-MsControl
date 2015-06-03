@@ -596,13 +596,29 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
+
         jLabel2.setText("Responsável pela Análise:");
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Composição:"));
 
         jRadioButtonBase.setText("Base");
+        jRadioButtonBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonBaseActionPerformed(evt);
+            }
+        });
 
         jRadioButtonDerivada.setText("Derivada");
+        jRadioButtonDerivada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonDerivadaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -701,11 +717,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jComboBoxPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19)
                     .addComponent(jTextFieldFrequencia1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1485,6 +1501,28 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         acessaCalendario(jComboBoxComunicacaoPeriodicidade,"Comunicação");
     }//GEN-LAST:event_jComboBoxComunicacaoPeriodicidadeActionPerformed
 
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        //if(jTabbedPane1.getSelectedIndex() == 3 && jRadioButtonBase.isSelected() == true );
+        //jTabbedPane1.setEnabledAt(3, false);
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jRadioButtonBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonBaseActionPerformed
+        bloquearAba();
+    }//GEN-LAST:event_jRadioButtonBaseActionPerformed
+
+    private void jRadioButtonDerivadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonDerivadaActionPerformed
+        bloquearAba();
+    }//GEN-LAST:event_jRadioButtonDerivadaActionPerformed
+
+    public  void bloquearAba(){
+        if(jRadioButtonBase.isSelected() == true ){
+            jTabbedPane1.setEnabledAt(3, false);
+            jTextFieldFormula.setText("");
+       }  else  {
+            jTabbedPane1.setEnabledAt(3, true);
+        }
+        
+    }
     public void inserirMnemonico(java.awt.event.MouseEvent event) {
         if (event.getClickCount() >= 2) {
             String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
