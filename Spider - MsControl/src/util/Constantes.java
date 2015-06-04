@@ -86,6 +86,8 @@ public class Constantes {
         listaCalculo.add("Média");
         listaCalculo.add("Mediana");
         listaCalculo.add("Moda");
+        listaCalculo.add("Soma");
+        listaCalculo.add("Sem Cálculo");
         
         return listaCalculo;
     } 
