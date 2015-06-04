@@ -9,6 +9,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import model.Datasprocedimentoanalise;
 import model.Indicador;
 import model.Medida;
 import model.Procedimentodeanalise;
@@ -37,6 +38,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private MyDefaultTableModel tableModel;
     private CheckDefaultTableModel checkModel;
     private List<Medida> listMedida;
+    private List<Datasprocedimentoanalise> listaDatas;
 
     private boolean ehNovoProcedimentoAnalise;
 
@@ -470,6 +472,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             calendario.showCalendarioOutrosPeriodosDialog("Semestral", tipo);
         } else if (combobox.getSelectedIndex() == 7) {
             calendario.showCalendarioOutrosPeriodosDialog("Anual", tipo);
+        }
+        
+        listaDatas = new ArrayList<>();
+        listaDatas = calendario.getListaDataProcedimentoAnalise();
+        if (listaDatas.isEmpty()) {
+            combobox.setSelectedIndex(0);
         }
     }
     

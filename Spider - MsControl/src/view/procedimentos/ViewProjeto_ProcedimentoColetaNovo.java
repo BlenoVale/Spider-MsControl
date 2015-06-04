@@ -569,6 +569,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         if (!validaCampos()) {
             return;
         }
+
         boolean save = false;
         Medida medida = jpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedida.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
 
@@ -646,6 +647,9 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
 
         listaDatas = new ArrayList<>();
         listaDatas = calendario.getListaDataProcedimentoColeta();
+        if (listaDatas.isEmpty()) {
+            jComboBoxPeriodicidade.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
     private void jTextFieldFrequenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaActionPerformed
