@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import model.Registroresultados;
+import model.Resultados;
 import util.CheckDefaultTableModel;
 import util.Constantes;
+import util.Copia;
 import util.Texto;
 
 /**
@@ -17,6 +20,10 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private CheckDefaultTableModel checkModel;
     private DefaultListModel model_listaDeParticipantes;
     private DefaultListModel model_listaDeUsuariosInteressados;
+    private Registroresultados registro;
+    
+    private Resultados resultados;
+    private boolean ehNovoResultado;
     
     public ViewProjeto_ResultadosNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -27,9 +34,38 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     
     public void showNovoIndicadorDialog() {
         this.setTitle("Resultados");
+        resultados = new Resultados();
+
+        ehNovoResultado = true;
+
+        this.jLabelUltimaEdicao.setVisible(false);
+        this.jTextFieldUltimaEdicao.setVisible(false);
+        popularListaParticipantes();
+        popularListaUsuariosInteressados();
+        jTextFieldData.setText(Copia.getUsuarioLogado().getNome() + ". Em: " + Texto.formataData(new Date()));
+        this.setVisible(true);
     }
 
-    private void popularListaPartcipantes() {
+     private void preencherCampos(){
+        jTextFieldTitulo.setText(resultados.getTitulo());
+        jTextAreaInterpretacao.setText(resultados.getInterpretacao());
+        jTextAreaTomadaDecisao.setText(resultados.getTomadaDeDecisao());
+        
+        registro = new Registroresultados();
+        //registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.CADASTRO);
+        jTextFieldData.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
+        
+        registro = new Registroresultados();
+        //registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.EDICAO);
+        if(registro != null){
+            jTextFieldUltimaEdicao.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
+        } else {
+            jLabelUltimaEdicao.setVisible(false);
+            jTextFieldUltimaEdicao.setVisible(false);
+        }
+    }
+    
+    private void popularListaParticipantes() {
         model_listaDeParticipantes = new DefaultListModel();
         List<String> listaPerfis = Constantes.preencherListaPerfis();
 
@@ -84,6 +120,8 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextAreaInterpretacao = new javax.swing.JTextArea();
         jTextFieldData = new javax.swing.JTextField();
+        jLabelUltimaEdicao = new javax.swing.JLabel();
+        jTextFieldUltimaEdicao = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTableParticipantes = new javax.swing.JTable();
@@ -132,6 +170,11 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTextFieldData.setEditable(false);
         jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
+        jLabelUltimaEdicao.setText("Última Edição:");
+
+        jTextFieldUltimaEdicao.setEditable(false);
+        jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -148,7 +191,9 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
                             .addComponent(jLabel4)
                             .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextFieldData))
+                            .addComponent(jTextFieldData)
+                            .addComponent(jLabelUltimaEdicao)
+                            .addComponent(jTextFieldUltimaEdicao))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -157,21 +202,25 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
                 .addGap(1, 1, 1)
+                .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addGap(1, 1, 1)
+                .addComponent(jTextFieldData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelUltimaEdicao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Análise Referenciadas no Resultado", jPanel2);
@@ -211,9 +260,9 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -276,8 +325,8 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -342,6 +391,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelUltimaEdicao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -358,5 +408,6 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaTomadaDecisao;
     private javax.swing.JTextField jTextFieldData;
     private javax.swing.JTextField jTextFieldTitulo;
+    private javax.swing.JTextField jTextFieldUltimaEdicao;
     // End of variables declaration//GEN-END:variables
 }
