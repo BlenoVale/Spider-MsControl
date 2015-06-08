@@ -5,11 +5,13 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.Registroresultados;
 import model.Resultados;
 import util.CheckDefaultTableModel;
 import util.Constantes;
 import util.Copia;
+import util.MyDefaultTableModel;
 import util.Texto;
 
 /**
@@ -22,6 +24,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private DefaultListModel model_listaDeParticipantes;
     private DefaultListModel model_listaDeUsuariosInteressados;
     private Registroresultados registro;
+    private DefaultTableModel defaultTableModel;
     private final CtrlResultados ctrlResultados = new CtrlResultados();
     
     private Resultados resultados;
@@ -43,7 +46,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         this.jTextFieldUltimaEdicao.setVisible(false);
         popularListaParticipantes();
         popularListaUsuariosInteressados();
-        jTextFieldData.setText(Copia.getUsuarioLogado().getNome() + ". Em: " + Texto.formataData(new Date()));
+        jTextFieldData.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
         this.setVisible(true);
     }
     
@@ -59,7 +62,43 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         preencherCampos();
         this.setVisible(true);
     }
+    
+     private void popularListaParticipantes() {
+        model_listaDeParticipantes = new DefaultListModel();
+        List<String> listaParticipantes = Constantes.preencherListaPerfis();
 
+        checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Participantes da Interpretação"}, 0, false);
+
+        for (int i = 0; i < listaParticipantes.size(); i++) {
+            Object[] linha = {
+                false,
+                listaParticipantes.get(i)
+            };
+            checkModel.addRow(linha);
+        }
+        jTableParticipantes.setModel(checkModel);
+        jTableParticipantes.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableParticipantes.getColumnModel().getColumn(1).setPreferredWidth(500);
+    }
+    
+    private void popularListaUsuariosInteressados() {
+        model_listaDeUsuariosInteressados = new DefaultListModel();
+        List<String> listaUsuarios = Constantes.preencherListaPerfis();
+
+        checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Usuários Interessados no Resultado"}, 0, false);
+
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            Object[] linha = {
+                false,
+                listaUsuarios.get(i)
+            };
+            checkModel.addRow(linha);
+        }
+        jTableUsuariosInteressados.setModel(checkModel);
+        jTableUsuariosInteressados.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableUsuariosInteressados.getColumnModel().getColumn(1).setPreferredWidth(500);
+    }
+    
     private void preencherCampos(){
         jTextFieldTitulo.setText(resultados.getTitulo());
         jTextAreaInterpretacao.setText(resultados.getInterpretacao());
@@ -77,42 +116,6 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
             jLabelUltimaEdicao.setVisible(false);
             jTextFieldUltimaEdicao.setVisible(false);
         }
-    }
-    
-    private void popularListaParticipantes() {
-        model_listaDeParticipantes = new DefaultListModel();
-        List<String> listaPerfis = Constantes.preencherListaPerfis();
-
-        checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Participantes da Interpretação"}, 0, false);
-
-        for (int i = 0; i < listaPerfis.size(); i++) {
-            Object[] linha = {
-                false,
-                listaPerfis.get(i)
-            };
-            checkModel.addRow(linha);
-        }
-        jTableParticipantes.setModel(checkModel);
-        jTableParticipantes.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTableParticipantes.getColumnModel().getColumn(1).setPreferredWidth(500);
-    }
-    
-    private void popularListaUsuariosInteressados() {
-        model_listaDeUsuariosInteressados = new DefaultListModel();
-        List<String> listaMeio = Constantes.preencherListaMeio();
-
-        checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Usuários Interessados no Resultado"}, 0, false);
-
-        for (int i = 0; i < listaMeio.size(); i++) {
-            Object[] linha = {
-                false,
-                listaMeio.get(i)
-            };
-            checkModel.addRow(linha);
-        }
-        jTableUsuariosInteressados.setModel(checkModel);
-        jTableUsuariosInteressados.getColumnModel().getColumn(0).setPreferredWidth(50);
-        jTableUsuariosInteressados.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
     
     public boolean validaCampos() {
@@ -164,10 +167,10 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
 
         jTableIndicadorAnalisado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Pontos que Agregam Valor", "20/05/2015"},
-                {"Variação da velodicade na Sprint", "20/05/2015"},
-                {"Íindice de Retrabalho", "20/05/2015"},
-                {"Índices de Tarefas Rejeitadas", "20/05/2015"}
+                {"", ""},
+                {"", ""},
+                {"", ""},
+                {"", ""}
             },
             new String [] {
                 "Indicador", "Data"
@@ -251,7 +254,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Análise Referenciadas no Resultado", jPanel2);
+        jTabbedPane1.addTab("Análise Referenciada no Resultado", jPanel2);
 
         jTableParticipantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

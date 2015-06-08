@@ -64,6 +64,20 @@ public class ResultadosJpa extends ResultadosJpaController {
         return resultados;
     }
     
+    public List<Resultados> findResultadoByParteTitulo(String titulo, int id_projeto) {
+        try {
+            List<Resultados> lista = null;
+            EntityManager emf = super.getEntityManager();
+            Query q = emf.createQuery("SELECT r FROM Resultados r WHERE r.projetoid.id = :idDoProjeto AND r.titulo LIKE :titulo ORDER BY r.titulo ASC")
+                    .setParameter("idDoProjeto", id_projeto).setParameter("titulo", titulo + "%");
+
+            lista = q.getResultList();
+            return lista;
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
     public long countResultadosByProjeto(int idProjeto){
         try {
             EntityManager entityManager = super.getEntityManager();

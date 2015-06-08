@@ -1,32 +1,64 @@
 package view;
 
+import controller.CtrlResultados;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Resultados;
+import util.Copia;
 import util.MyDefaultTableModel;
 
 /**
  *
- * @author BlenoVale
+ * @author BlenoVale, Géssica
  */
 public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
     private DefaultTableModel defaultTableModel;
+    private List<Resultados> lista_resultados;
+    private CtrlResultados ctrlResultados = new CtrlResultados();
+    private Resultados resultadoSelecionado = new Resultados();
 
     public ViewProjeto_Resultados() {
         initComponents();
     }
 
-    private void fake() {
+    private void atualizaListaResultadosDoProjeto() {
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+
+        lista_resultados = new ArrayList<>();
+        lista_resultados = ctrlResultados.getResultadosDoProjeto(idDoProjeto);
+    }
+    
+    private void preencherTabelaResultados(List<Resultados> lista) {
         String[] colunas = {"Título"};
         defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-
-        String linha[] = {
-            "Resultado - Teste Spider-MSControl"
-        };
-        defaultTableModel.addRow(linha);
-        jTable.setModel(defaultTableModel);
-
+        for (int i = 0; i < lista.size(); i++) {
+            String linha[] = {
+                String.valueOf(lista.get(i).getTitulo())
+            };
+            defaultTableModel.addRow(linha);
+        }
+        jTableResultados.setModel(defaultTableModel);
+    }
+    
+    public void preencherTabelaResultadosDoProjeto() {
+        atualizaListaResultadosDoProjeto();
+        preencherTabelaResultados(lista_resultados);
     }
 
+    private void editarResultado() {
+        ViewProjeto_ResultadosNovo viewProjeto_ResultadosNovo = new ViewProjeto_ResultadosNovo(null, true);
+        pegarResultadoSelecionado();
+        viewProjeto_ResultadosNovo.showEditarResultadoDialog(resultadoSelecionado);
+    }
+    
+    private void pegarResultadoSelecionado(){
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+        resultadoSelecionado = ctrlResultados.buscarResultadoPeloTitulo(jTableResultados.getValueAt(jTableResultados.getSelectedRow(), 1).toString(), idDoProjeto);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,7 +67,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable = new javax.swing.JTable();
+        jTableResultados = new javax.swing.JTable();
         jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
@@ -46,7 +78,13 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Buscar resultado:");
 
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBuscarActionPerformed(evt);
+            }
+        });
+
+        jTableResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -57,7 +95,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                 "Título"
             }
         ));
-        jScrollPane1.setViewportView(jTable);
+        jScrollPane1.setViewportView(jTableResultados);
 
         jButtonExcluir.setText("Excluir ?");
 
@@ -105,7 +143,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonExcluir)
@@ -125,8 +163,8 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -135,14 +173,25 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        //ViewEspecificacoesDeUsuario viewEspecificacoesDeUsuario = new ViewEspecificacoesDeUsuario(null, true);
+        if (jTableResultados.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um Título na Tabela.");
+        } else {
+            editarResultado();
+            preencherTabelaResultadosDoProjeto();
+        }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         ViewProjeto_ResultadosNovo viewProjeto_ResultadosNovo = new ViewProjeto_ResultadosNovo(null, true);
         viewProjeto_ResultadosNovo.setVisible(true);
-        fake();
+        preencherTabelaResultadosDoProjeto();
     }//GEN-LAST:event_jButtonNovoActionPerformed
+
+    private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
+        lista_resultados = new ArrayList<>();
+        lista_resultados = ctrlResultados.buscarParteDoTituloResultado(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
+        preencherTabelaResultados(lista_resultados);
+    }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -152,7 +201,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable;
+    private javax.swing.JTable jTableResultados;
     private javax.swing.JTextField jTextFieldBuscar;
     // End of variables declaration//GEN-END:variables
 }

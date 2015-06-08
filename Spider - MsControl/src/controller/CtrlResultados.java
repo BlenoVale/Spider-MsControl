@@ -26,6 +26,22 @@ public class CtrlResultados {
         }
     }
 
+    public Resultados buscarResultadoPeloTitulo(String titulo, int idProjeto) {
+        try {
+            return facadeJpa.getResultadosJpa().findBYTituloAndProjeto(titulo, idProjeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
+     public List<Resultados> buscarParteDoTituloResultado(String titulo, int id_projeto) {
+        try {
+            return facadeJpa.getResultadosJpa().findResultadoByParteTitulo(titulo, id_projeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
     public boolean editarResultadoCompleto(Resultados resultados) {
         Resultados resultadosAux = facadeJpa.getResultadosJpa().findBYTituloAndProjeto(resultados.getTitulo(), Copia.getProjetoSelecionado().getId());
         if (resultadosAux != null) {
