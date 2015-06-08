@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -113,12 +113,12 @@ public class Procedimentodeanalise implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
+    private List<Datasprocedimentoanalise> datasprocedimentoanaliseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
     private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Indicador indicadorid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
-    private List<Datasprocedimentoanalise> datasprocedimentoanaliseList;
 
     public Procedimentodeanalise() {
     }
@@ -301,6 +301,15 @@ public class Procedimentodeanalise implements Serializable {
     }
 
     @XmlTransient
+    public List<Datasprocedimentoanalise> getDatasprocedimentoanaliseList() {
+        return datasprocedimentoanaliseList;
+    }
+
+    public void setDatasprocedimentoanaliseList(List<Datasprocedimentoanalise> datasprocedimentoanaliseList) {
+        this.datasprocedimentoanaliseList = datasprocedimentoanaliseList;
+    }
+
+    @XmlTransient
     public List<Registroprocedimentoanalise> getRegistroprocedimentoanaliseList() {
         return registroprocedimentoanaliseList;
     }
@@ -317,15 +326,6 @@ public class Procedimentodeanalise implements Serializable {
         this.indicadorid = indicadorid;
     }
 
-    @XmlTransient
-    public List<Datasprocedimentoanalise> getDatasprocedimentoanaliseList() {
-        return datasprocedimentoanaliseList;
-    }
-
-    public void setDatasprocedimentoanaliseList(List<Datasprocedimentoanalise> datasprocedimentoanaliseList) {
-        this.datasprocedimentoanaliseList = datasprocedimentoanaliseList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -340,8 +340,9 @@ public class Procedimentodeanalise implements Serializable {
             return false;
         }
         Procedimentodeanalise other = (Procedimentodeanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

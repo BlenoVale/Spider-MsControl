@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "projeto")
@@ -67,15 +67,15 @@ public class Projeto implements Serializable {
     @Column(name = "descricao")
     private String descricao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
-    private List<Objetivodemedicao> objetivodemedicaoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
     private List<Resultados> resultadosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
-    private List<Registroprojeto> registroprojetoList;
+    private List<Objetivodemedicao> objetivodemedicaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
     @OneToMany(mappedBy = "projetoid")
     private List<Entidademedida> entidademedidaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
+    private List<Registroprojeto> registroprojetoList;
 
     public Projeto() {
     }
@@ -148,15 +148,6 @@ public class Projeto implements Serializable {
     }
 
     @XmlTransient
-    public List<Objetivodemedicao> getObjetivodemedicaoList() {
-        return objetivodemedicaoList;
-    }
-
-    public void setObjetivodemedicaoList(List<Objetivodemedicao> objetivodemedicaoList) {
-        this.objetivodemedicaoList = objetivodemedicaoList;
-    }
-
-    @XmlTransient
     public List<Resultados> getResultadosList() {
         return resultadosList;
     }
@@ -166,12 +157,12 @@ public class Projeto implements Serializable {
     }
 
     @XmlTransient
-    public List<Registroprojeto> getRegistroprojetoList() {
-        return registroprojetoList;
+    public List<Objetivodemedicao> getObjetivodemedicaoList() {
+        return objetivodemedicaoList;
     }
 
-    public void setRegistroprojetoList(List<Registroprojeto> registroprojetoList) {
-        this.registroprojetoList = registroprojetoList;
+    public void setObjetivodemedicaoList(List<Objetivodemedicao> objetivodemedicaoList) {
+        this.objetivodemedicaoList = objetivodemedicaoList;
     }
 
     @XmlTransient
@@ -192,6 +183,15 @@ public class Projeto implements Serializable {
         this.entidademedidaList = entidademedidaList;
     }
 
+    @XmlTransient
+    public List<Registroprojeto> getRegistroprojetoList() {
+        return registroprojetoList;
+    }
+
+    public void setRegistroprojetoList(List<Registroprojeto> registroprojetoList) {
+        this.registroprojetoList = registroprojetoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -206,8 +206,9 @@ public class Projeto implements Serializable {
             return false;
         }
         Projeto other = (Projeto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

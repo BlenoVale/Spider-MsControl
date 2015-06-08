@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "resultados")
@@ -73,11 +73,11 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "usuariosInteressados")
     private String usuariosInteressados;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
-    private List<Registroresultados> registroresultadosList;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Projeto projetoid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
+    private List<Registroresultados> registroresultadosList;
 
     public Resultados() {
     }
@@ -161,6 +161,14 @@ public class Resultados implements Serializable {
         this.usuariosInteressados = usuariosInteressados;
     }
 
+    public Projeto getProjetoid() {
+        return projetoid;
+    }
+
+    public void setProjetoid(Projeto projetoid) {
+        this.projetoid = projetoid;
+    }
+
     @XmlTransient
     public List<Registroresultados> getRegistroresultadosList() {
         return registroresultadosList;
@@ -168,14 +176,6 @@ public class Resultados implements Serializable {
 
     public void setRegistroresultadosList(List<Registroresultados> registroresultadosList) {
         this.registroresultadosList = registroresultadosList;
-    }
-
-    public Projeto getProjetoid() {
-        return projetoid;
-    }
-
-    public void setProjetoid(Projeto projetoid) {
-        this.projetoid = projetoid;
     }
 
     @Override
@@ -192,8 +192,9 @@ public class Resultados implements Serializable {
             return false;
         }
         Resultados other = (Resultados) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 

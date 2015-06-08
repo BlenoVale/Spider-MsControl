@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Spider
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -45,10 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findByTipoDeColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.tipoDeColeta = :tipoDeColeta"),
     @NamedQuery(name = "Procedimentodecoleta.findByCalculo", query = "SELECT p FROM Procedimentodecoleta p WHERE p.calculo = :calculo"),
     @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada"),
-    @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data")})
+    @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data"),
+    @NamedQuery(name = "Procedimentodecoleta.findByContadorColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.contadorColeta = :contadorColeta")})
 public class Procedimentodecoleta implements Serializable {
-    @Column(name = "contadorColeta")
-    private Integer contadorColeta;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,13 +89,16 @@ public class Procedimentodecoleta implements Serializable {
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
+    @Basic(optional = false)
+    @Column(name = "contadorColeta")
+    private int contadorColeta;
+    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Medida medidaid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
     private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
     private List<Datasprocedimentocoleta> datasprocedimentocoletaList;
-    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Medida medidaid;
 
     public Procedimentodecoleta() {
     }
@@ -105,7 +107,7 @@ public class Procedimentodecoleta implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodecoleta(Integer id, int projetoId, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String calculo, String ferramentasUtilizada, Date data) {
+    public Procedimentodecoleta(Integer id, int projetoId, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String calculo, String ferramentasUtilizada, Date data, int contadorColeta) {
         this.id = id;
         this.projetoId = projetoId;
         this.responsavelPelaColeta = responsavelPelaColeta;
@@ -117,6 +119,7 @@ public class Procedimentodecoleta implements Serializable {
         this.calculo = calculo;
         this.ferramentasUtilizada = ferramentasUtilizada;
         this.data = data;
+        this.contadorColeta = contadorColeta;
     }
 
     public Integer getId() {
@@ -215,6 +218,22 @@ public class Procedimentodecoleta implements Serializable {
         this.data = data;
     }
 
+    public int getContadorColeta() {
+        return contadorColeta;
+    }
+
+    public void setContadorColeta(int contadorColeta) {
+        this.contadorColeta = contadorColeta;
+    }
+
+    public Medida getMedidaid() {
+        return medidaid;
+    }
+
+    public void setMedidaid(Medida medidaid) {
+        this.medidaid = medidaid;
+    }
+
     @XmlTransient
     public List<Registroprocedimentocoleta> getRegistroprocedimentocoletaList() {
         return registroprocedimentocoletaList;
@@ -233,14 +252,6 @@ public class Procedimentodecoleta implements Serializable {
         this.datasprocedimentocoletaList = datasprocedimentocoletaList;
     }
 
-    public Medida getMedidaid() {
-        return medidaid;
-    }
-
-    public void setMedidaid(Medida medidaid) {
-        this.medidaid = medidaid;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -255,22 +266,15 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
         return "model.Procedimentodecoleta[ id=" + id + " ]";
-    }
-
-    public Integer getContadorColeta() {
-        return contadorColeta;
-    }
-
-    public void setContadorColeta(Integer contadorColeta) {
-        this.contadorColeta = contadorColeta;
     }
     
 }
