@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author Spider
  */
 @Entity
 @Table(name = "datasprocedimentoanalise")
@@ -132,9 +132,8 @@ public class Datasprocedimentoanalise implements Serializable {
             return false;
         }
         Datasprocedimentoanalise other = (Datasprocedimentoanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Spider
  */
 @Entity
 @Table(name = "indicador")
@@ -83,14 +83,14 @@ public class Indicador implements Serializable {
     @ManyToMany
     private List<Medida> medidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Registroindicador> registroindicadorList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
     private List<Analise> analiseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
+    private List<Procedimentodeanalise> procedimentodeanaliseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
+    private List<Registroindicador> registroindicadorList;
     @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Objetivodequestao objetivoDeQuestaoid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Procedimentodeanalise> procedimentodeanaliseList;
 
     public Indicador() {
     }
@@ -200,29 +200,12 @@ public class Indicador implements Serializable {
     }
 
     @XmlTransient
-    public List<Registroindicador> getRegistroindicadorList() {
-        return registroindicadorList;
-    }
-
-    public void setRegistroindicadorList(List<Registroindicador> registroindicadorList) {
-        this.registroindicadorList = registroindicadorList;
-    }
-
-    @XmlTransient
     public List<Analise> getAnaliseList() {
         return analiseList;
     }
 
     public void setAnaliseList(List<Analise> analiseList) {
         this.analiseList = analiseList;
-    }
-
-    public Objetivodequestao getObjetivoDeQuestaoid() {
-        return objetivoDeQuestaoid;
-    }
-
-    public void setObjetivoDeQuestaoid(Objetivodequestao objetivoDeQuestaoid) {
-        this.objetivoDeQuestaoid = objetivoDeQuestaoid;
     }
 
     @XmlTransient
@@ -232,6 +215,23 @@ public class Indicador implements Serializable {
 
     public void setProcedimentodeanaliseList(List<Procedimentodeanalise> procedimentodeanaliseList) {
         this.procedimentodeanaliseList = procedimentodeanaliseList;
+    }
+
+    @XmlTransient
+    public List<Registroindicador> getRegistroindicadorList() {
+        return registroindicadorList;
+    }
+
+    public void setRegistroindicadorList(List<Registroindicador> registroindicadorList) {
+        this.registroindicadorList = registroindicadorList;
+    }
+
+    public Objetivodequestao getObjetivoDeQuestaoid() {
+        return objetivoDeQuestaoid;
+    }
+
+    public void setObjetivoDeQuestaoid(Objetivodequestao objetivoDeQuestaoid) {
+        this.objetivoDeQuestaoid = objetivoDeQuestaoid;
     }
 
     @Override
@@ -248,9 +248,8 @@ public class Indicador implements Serializable {
             return false;
         }
         Indicador other = (Indicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

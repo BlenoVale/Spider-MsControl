@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Spider
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -91,12 +91,12 @@ public class Procedimentodecoleta implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date data;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
+    private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
     private List<Datasprocedimentocoleta> datasprocedimentocoletaList;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Medida medidaid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
-    private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
 
     public Procedimentodecoleta() {
     }
@@ -216,6 +216,15 @@ public class Procedimentodecoleta implements Serializable {
     }
 
     @XmlTransient
+    public List<Registroprocedimentocoleta> getRegistroprocedimentocoletaList() {
+        return registroprocedimentocoletaList;
+    }
+
+    public void setRegistroprocedimentocoletaList(List<Registroprocedimentocoleta> registroprocedimentocoletaList) {
+        this.registroprocedimentocoletaList = registroprocedimentocoletaList;
+    }
+
+    @XmlTransient
     public List<Datasprocedimentocoleta> getDatasprocedimentocoletaList() {
         return datasprocedimentocoletaList;
     }
@@ -232,15 +241,6 @@ public class Procedimentodecoleta implements Serializable {
         this.medidaid = medidaid;
     }
 
-    @XmlTransient
-    public List<Registroprocedimentocoleta> getRegistroprocedimentocoletaList() {
-        return registroprocedimentocoletaList;
-    }
-
-    public void setRegistroprocedimentocoletaList(List<Registroprocedimentocoleta> registroprocedimentocoletaList) {
-        this.registroprocedimentocoletaList = registroprocedimentocoletaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -255,9 +255,8 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 

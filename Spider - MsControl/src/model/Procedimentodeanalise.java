@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Spider
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -340,9 +340,8 @@ public class Procedimentodeanalise implements Serializable {
             return false;
         }
         Procedimentodeanalise other = (Procedimentodeanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
