@@ -88,7 +88,7 @@ public class CtrlProcedimentosColeta {
             facadeJpa.getProcedimentoColetaJpa().edit(procedimentodecoleta);
             registrarProcedimentoColeta(procedimentodecoleta, Constantes.EDICAO);
             System.out.println("Procedimento coleta Editado");
-            JOptionPane.showMessageDialog(null, "Editado com sucesso.");
+            //JOptionPane.showMessageDialog(null, "Editado com sucesso.");
             return  true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -47,6 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada"),
     @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data")})
 public class Procedimentodecoleta implements Serializable {
+    @Column(name = "contadorColeta")
+    private Integer contadorColeta;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -262,6 +264,14 @@ public class Procedimentodecoleta implements Serializable {
     @Override
     public String toString() {
         return "model.Procedimentodecoleta[ id=" + id + " ]";
+    }
+
+    public Integer getContadorColeta() {
+        return contadorColeta;
+    }
+
+    public void setContadorColeta(Integer contadorColeta) {
+        this.contadorColeta = contadorColeta;
     }
     
 }

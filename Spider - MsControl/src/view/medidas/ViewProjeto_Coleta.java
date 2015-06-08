@@ -2,6 +2,7 @@ package view.medidas;
 
 import controller.CtrlColeta;
 import controller.CtrlMedida;
+import controller.CtrlProcedimentosColeta;
 import facade.FacadeJpa;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -30,12 +31,14 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private DefaultTableModel defaultTableModel;
     private final CtrlColeta ctrlColeta = new CtrlColeta();
     private final CtrlMedida ctrlMedida = new CtrlMedida();
+    private final CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
     private DefaultListModel modelJlist = new DefaultListModel();
     private MyDefaultTableModel tableModel;
     private List<Medida> listMedida;
     private List<Coleta> listaColeta;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
     private Medida medidaSelecionada = new Medida();
+    private int contador;
 
     private Coleta coleta;
     private boolean ehNovaColeta;
@@ -75,6 +78,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private void pegarMedidaSelecionada() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
         medidaSelecionada = ctrlMedida.buscarMedidaPeloNome(jTableMedidas.getValueAt(jTableMedidas.getSelectedRow(), 0).toString(), idDoProjeto);
+
+        modelJlist = new DefaultListModel();
+        jListColetasASalvar.setModel(modelJlist);
     }
 
     //Tabela de Coletas:
@@ -134,7 +140,11 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     }
 
     private void cadastraColeta() {
+
         pegarMedidaSelecionada();
+
+        medidaSelecionada.getProcedimentodecoletaList().get(0).setContadorColeta(contador);
+
         Coleta coletaAux = new Coleta();
         boolean passou = true;
         for (int i = 0; i < jListColetasASalvar.getModel().getSize(); i++) {
@@ -142,8 +152,10 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             coletaAux.setMedidaid(medidaSelecionada);
             coletaAux.setValorDaColeta(Double.parseDouble(jListColetasASalvar.getModel().getElementAt(i).toString()));
             System.out.println("Coleta: " + coletaAux.getValorDaColeta());
+
             passou = ctrlColeta.cadastrarColeta(coletaAux);
         }
+        passou = ctrlProcedimentosColeta.editarProcedimentoColeta(medidaSelecionada.getProcedimentodecoletaList().get(0));
         if (passou) {
             JOptionPane.showMessageDialog(null, "Cadastrado como sucesso.");
         } else {
@@ -163,6 +175,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     }
 
     private void temProcedimento(Medida medida) {
+        contador = 0;
         if (medida == null) {
             jLabelTipo.setHorizontalAlignment(JLabel.CENTER);
             jLabelTipo.setText("<html>Selecione uma medida na tabela.<br>&nbsp;</html>");
@@ -192,45 +205,63 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             case "Diário":
                 jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>Diário</b></center></html>");
                 for (Datasprocedimentocoleta data : datas) {
-                    defaultTableModel.addRow(new String[]{"<html><center><b>"+data.getDia()+"</b></center></html>"});
+                    defaultTableModel.addRow(new String[]{"<html><center><b>" + data.getDia() + "</b></center></html>"});
                 }
                 jTablePeriodicidade.setModel(defaultTableModel);
                 break;
             case "Semanal":
                 jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>Semanal</b></center></html>");
-                defaultTableModel.addRow(new String[]{"<html><center>Dia Inicial: <b>" + datas.get(0).getDia()+ "</b></center></html>"});
-                defaultTableModel.addRow(new String[]{"<html><center>Dia Final: <b>" + datas.get(1).getDia()+ "</b></center></html>"});
+                defaultTableModel.addRow(new String[]{"<html><center>Dia Inicial: <b>" + datas.get(0).getDia() + "</b></center></html>"});
+                defaultTableModel.addRow(new String[]{"<html><center>Dia Final: <b>" + datas.get(1).getDia() + "</b></center></html>"});
                 jTablePeriodicidade.setModel(defaultTableModel);
                 break;
             default:
                 String periodicidade = medida.getProcedimentodecoletaList().get(0).getPeriodicidade();
-                jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>"+periodicidade+"</b></center></html>");
+                jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>" + periodicidade + "</b></center></html>");
                 defaultTableModel.addRow(new String[]{"<html><center>Data Inicial: <b>" + Texto.formataDataPraTabela(datas.get(0).getDataInicio()) + "</b></center></html>"});
                 defaultTableModel.addRow(new String[]{"<html><center>Data Final: <b>" + Texto.formataDataPraTabela(datas.get(0).getDataFim()) + "</b></center></html>"});
                 jTablePeriodicidade.setModel(defaultTableModel);
                 break;
         }
         jLabelFrequencia.setText("<html>Frequência: <b>" + medida.getProcedimentodecoletaList().get(0).getFrequencia() + "</b></html>");
-        jLabelJaColetados.setText("<html>Já coletados: <b>0</b></html>");
+        contador = medidaSelecionada.getProcedimentodecoletaList().get(0).getContadorColeta();
+        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
 
-        switch (medida.getProcedimentodecoletaList().get(0).getTipoDeColeta()) {
-            case "Manual":
-                jLabelTipo.setText("Manual");
-                jTextFieldValorColeta.setVisible(true);
-                jButtonImporta.setVisible(false);
-                break;
-            case "Planilha Eletrônica":
-                jLabelTipo.setText("Planilha Eletrônica");
-                jTextFieldValorColeta.setVisible(false);
-                jButtonImporta.setVisible(true);
-                break;
+        checaLimiteFrequencia(medida);
+    }
+
+    private void checaLimiteFrequencia(Medida medida) {
+        int frequencia = medidaSelecionada.getProcedimentodecoletaList().get(0).getFrequencia();
+        if (frequencia > contador) {
+            switch (medida.getProcedimentodecoletaList().get(0).getTipoDeColeta()) {
+                case "Manual":
+                    jLabelTipo.setText("Manual");
+                    jTextFieldValorColeta.setVisible(true);
+                    jButtonImporta.setVisible(false);
+                    break;
+                case "Planilha Eletrônica":
+                    jLabelTipo.setText("Planilha Eletrônica");
+                    jTextFieldValorColeta.setVisible(false);
+                    jButtonImporta.setVisible(true);
+                    break;
+            }
+            jLabelTipo.setForeground(Color.BLACK);
+            jLabelTipo.setHorizontalAlignment(JLabel.LEADING);
+            jLabelValor.setVisible(true);
+            jButtonSalvar.setEnabled(true);
+            jLabelTipoDescri.setVisible(true);
+        } else {
+            jLabelTipo.setHorizontalAlignment(JLabel.CENTER);
+            jLabelTipo.setText("<html>Limite de coletas já atingido.<br>&nbsp;</html>");
+            jLabelTipo.setForeground(Color.BLACK);
+            jLabelTipoDescri.setVisible(false);
+            jLabelValor.setVisible(false);
+            jTextFieldValorColeta.setVisible(false);
+            jButtonImporta.setVisible(false);
+            jButtonSalvar.setEnabled(false);
+            jLabelTipoDescri.setVisible(false);
+
         }
-
-        jLabelTipo.setForeground(Color.BLACK);
-        jLabelTipo.setHorizontalAlignment(JLabel.LEADING);
-        jLabelValor.setVisible(true);
-        jButtonSalvar.setEnabled(true);
-        jLabelTipoDescri.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -526,6 +557,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jTextFieldValorColeta.setText("");
         jListColetasASalvar.setModel(modelJlist);
 
+        contador += 1;
+        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
     }//GEN-LAST:event_jTextFieldValorColetaActionPerformed
 
     private void jTableMedidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidasMouseClicked
@@ -560,6 +593,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         modelJlist = new DefaultListModel();
         jListColetasASalvar.setModel(modelJlist);
 
+        checaLimiteFrequencia(medidaSelecionada);
         jButtonRemover.setEnabled(false);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -567,6 +601,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         modelJlist.removeElementAt(jListColetasASalvar.getSelectedIndex());
         jListColetasASalvar.setModel(modelJlist);
 
+        contador -= 1;
+        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
         jButtonRemover.setEnabled(false);
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
@@ -593,6 +629,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             modelJlist.addElement(coleta.getValorDaColeta());
         }
         jListColetasASalvar.setModel(modelJlist);
+
+        contador += modelJlist.size();
+        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
     }//GEN-LAST:event_jButtonImportaActionPerformed
 
 
