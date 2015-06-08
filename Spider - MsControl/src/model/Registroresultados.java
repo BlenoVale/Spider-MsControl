@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,15 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Spider
  */
 @Entity
-@Table(name = "registroprocedimentoanalise")
+@Table(name = "registroresultados")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Registroprocedimentoanalise.findAll", query = "SELECT r FROM Registroprocedimentoanalise r"),
-    @NamedQuery(name = "Registroprocedimentoanalise.findById", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.id = :id"),
-    @NamedQuery(name = "Registroprocedimentoanalise.findByTipo", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.tipo = :tipo"),
-    @NamedQuery(name = "Registroprocedimentoanalise.findByNomeUsuario", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.nomeUsuario = :nomeUsuario"),
-    @NamedQuery(name = "Registroprocedimentoanalise.findByData", query = "SELECT r FROM Registroprocedimentoanalise r WHERE r.data = :data")})
-public class Registroprocedimentoanalise implements Serializable {
+    @NamedQuery(name = "Registroresultados.findAll", query = "SELECT r FROM Registroresultados r"),
+    @NamedQuery(name = "Registroresultados.findById", query = "SELECT r FROM Registroresultados r WHERE r.id = :id"),
+    @NamedQuery(name = "Registroresultados.findByTipo", query = "SELECT r FROM Registroresultados r WHERE r.tipo = :tipo"),
+    @NamedQuery(name = "Registroresultados.findByNomeUsuario", query = "SELECT r FROM Registroresultados r WHERE r.nomeUsuario = :nomeUsuario"),
+    @NamedQuery(name = "Registroresultados.findByData", query = "SELECT r FROM Registroresultados r WHERE r.data = :data")})
+public class Registroresultados implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,25 +48,22 @@ public class Registroprocedimentoanalise implements Serializable {
     @Basic(optional = false)
     @Column(name = "nomeUsuario")
     private String nomeUsuario;
-    @Lob
-    @Column(name = "descricao")
-    private String descricao;
     @Basic(optional = false)
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id")
+    @JoinColumn(name = "Resultados_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Procedimentodeanalise procedimentoDeAnaliseid;
+    private Resultados resultadosid;
 
-    public Registroprocedimentoanalise() {
+    public Registroresultados() {
     }
 
-    public Registroprocedimentoanalise(Integer id) {
+    public Registroresultados(Integer id) {
         this.id = id;
     }
 
-    public Registroprocedimentoanalise(Integer id, int tipo, String nomeUsuario, Date data) {
+    public Registroresultados(Integer id, int tipo, String nomeUsuario, Date data) {
         this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
@@ -98,14 +94,6 @@ public class Registroprocedimentoanalise implements Serializable {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
     public Date getData() {
         return data;
     }
@@ -114,12 +102,12 @@ public class Registroprocedimentoanalise implements Serializable {
         this.data = data;
     }
 
-    public Procedimentodeanalise getProcedimentoDeAnaliseid() {
-        return procedimentoDeAnaliseid;
+    public Resultados getResultadosid() {
+        return resultadosid;
     }
 
-    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid) {
-        this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
+    public void setResultadosid(Resultados resultadosid) {
+        this.resultadosid = resultadosid;
     }
 
     @Override
@@ -132,10 +120,10 @@ public class Registroprocedimentoanalise implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Registroprocedimentoanalise)) {
+        if (!(object instanceof Registroresultados)) {
             return false;
         }
-        Registroprocedimentoanalise other = (Registroprocedimentoanalise) object;
+        Registroresultados other = (Registroresultados) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
@@ -143,7 +131,7 @@ public class Registroprocedimentoanalise implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Registroprocedimentoanalise[ id=" + id + " ]";
+        return "model.Registroresultados[ id=" + id + " ]";
     }
     
 }
