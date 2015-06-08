@@ -20,11 +20,13 @@ import jpa.extensao.ProjetoJpa;
 import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
+import jpa.RegistroresultadosJpaController;
 import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.ProcedimentoDeAnaliseJpa;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
+import jpa.extensao.ResultadosJpa;
 import util.Conexao;
 
 
@@ -64,6 +66,8 @@ public class FacadeJpa {
     private final EntidadeMedidaJpa entidadeMedidaJpa;
     private final ColetaJpa coletaJpa;
     private final DatasprocedimentocoletaJpaController datasprocedimentocoletaJpaController;
+    private final ResultadosJpa resultadosJpa;
+    private final RegistroresultadosJpaController registroResultadosJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -91,6 +95,8 @@ public class FacadeJpa {
         registroProcedimentoColeta = new RegistroProcedimentoColetaJpa();
         entidadeMedidaJpa = new EntidadeMedidaJpa();
         datasprocedimentocoletaJpaController = new DatasprocedimentocoletaJpaController(Conexao.conectar());
+        resultadosJpa = new ResultadosJpa();
+        registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
     }
 
     public static FacadeJpa getInstance() {
@@ -197,5 +203,13 @@ public class FacadeJpa {
     
     public DatasprocedimentocoletaJpaController getdDatasprocedimentocoletaJpaController(){
         return datasprocedimentocoletaJpaController;
+    }
+    
+    public ResultadosJpa getResultadosJpa() {
+        return resultadosJpa;
+    }
+    
+    public RegistroresultadosJpaController getRegistroresultados() {
+        return registroResultadosJpa;
     }
 }

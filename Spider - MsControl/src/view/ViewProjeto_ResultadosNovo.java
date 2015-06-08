@@ -1,5 +1,6 @@
 package view;
 
+import controller.CtrlResultados;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -21,6 +22,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private DefaultListModel model_listaDeParticipantes;
     private DefaultListModel model_listaDeUsuariosInteressados;
     private Registroresultados registro;
+    private final CtrlResultados ctrlResultados = new CtrlResultados();
     
     private Resultados resultados;
     private boolean ehNovoResultado;
@@ -29,10 +31,9 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        jTextFieldData.setText(Texto.formataData(new Date()));
     }
     
-    public void showNovoIndicadorDialog() {
+    public void showNovoResultadoDialog() {
         this.setTitle("Resultados");
         resultados = new Resultados();
 
@@ -45,18 +46,31 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTextFieldData.setText(Copia.getUsuarioLogado().getNome() + ". Em: " + Texto.formataData(new Date()));
         this.setVisible(true);
     }
+    
+    public void showEditarResultadoDialog(Resultados resultados){
+        this.setTitle("Editar Resultado");
+        this.resultados= new Resultados();
+        this.resultados = resultados;
+        
+        ehNovoResultado = false;
+        
+        popularListaParticipantes();
+        popularListaUsuariosInteressados();
+        preencherCampos();
+        this.setVisible(true);
+    }
 
-     private void preencherCampos(){
+    private void preencherCampos(){
         jTextFieldTitulo.setText(resultados.getTitulo());
         jTextAreaInterpretacao.setText(resultados.getInterpretacao());
         jTextAreaTomadaDecisao.setText(resultados.getTomadaDeDecisao());
         
         registro = new Registroresultados();
-        //registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.CADASTRO);
+        registro = ctrlResultados.buscarUltimoRegistroDoResultado(resultados, Constantes.CADASTRO);
         jTextFieldData.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
         
         registro = new Registroresultados();
-        //registro = ctrlIndicador.buscarUltimoRegistroDoIndicador(indicador, Constantes.EDICAO);
+        registro = ctrlResultados.buscarUltimoRegistroDoResultado(resultados, Constantes.EDICAO);
         if(registro != null){
             jTextFieldUltimaEdicao.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
         } else {
@@ -99,6 +113,20 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTableUsuariosInteressados.setModel(checkModel);
         jTableUsuariosInteressados.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTableUsuariosInteressados.getColumnModel().getColumn(1).setPreferredWidth(500);
+    }
+    
+    public boolean validaCampos() {
+        if (jTextFieldTitulo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo \"Título\" não pode ser vazio.");
+            return false;
+        } else if (jTextAreaInterpretacao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo \"Interpretação\" não pode ser vazio.");
+            return false;
+        } else if (jTextAreaTomadaDecisao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo \"Tomada de Decisão\" não pode ser vazio.");
+            return false;
+        }    
+        return true;
     }
     
     @SuppressWarnings("unchecked")
@@ -333,13 +361,27 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        this.dispose();
-        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+        if (!validaCampos()) {
+            return;
+        }
         
+        resultados.setTitulo(jTextFieldTitulo.getText());
+        resultados.setInterpretacao(jTextAreaInterpretacao.getText());
+        resultados.setTomadaDeDecisao(jTextAreaTomadaDecisao.getText());
+
+        boolean feito = false;
+        if (ehNovoResultado) {
+            feito = ctrlResultados.criarNovoResultado(resultados);
+        } else {
+            feito = ctrlResultados.editarResultadoCompleto(resultados);
+        }
+        if (feito) {
+            this.dispose();
+        }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     /**
