@@ -26,16 +26,17 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
     private Registroresultados registro;
     private DefaultTableModel defaultTableModel;
     private final CtrlResultados ctrlResultados = new CtrlResultados();
-    
+
     private Resultados resultados;
     private boolean ehNovoResultado;
-    
+
     public ViewProjeto_ResultadosNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        this.pack();
     }
-    
+
     public void showNovoResultadoDialog() {
         this.setTitle("Resultados");
         resultados = new Resultados();
@@ -49,21 +50,21 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTextFieldData.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
         this.setVisible(true);
     }
-    
-    public void showEditarResultadoDialog(Resultados resultados){
+
+    public void showEditarResultadoDialog(Resultados resultados) {
         this.setTitle("Editar Resultado");
-        this.resultados= new Resultados();
+        this.resultados = new Resultados();
         this.resultados = resultados;
-        
+
         ehNovoResultado = false;
-        
+
         popularListaParticipantes();
         popularListaUsuariosInteressados();
         preencherCampos();
         this.setVisible(true);
     }
-    
-     private void popularListaParticipantes() {
+
+    private void popularListaParticipantes() {
         model_listaDeParticipantes = new DefaultListModel();
         List<String> listaParticipantes = Constantes.preencherListaPerfis();
 
@@ -80,7 +81,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTableParticipantes.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTableParticipantes.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
-    
+
     private void popularListaUsuariosInteressados() {
         model_listaDeUsuariosInteressados = new DefaultListModel();
         List<String> listaUsuarios = Constantes.preencherListaPerfis();
@@ -98,26 +99,26 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTableUsuariosInteressados.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTableUsuariosInteressados.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
-    
-    private void preencherCampos(){
+
+    private void preencherCampos() {
         jTextFieldTitulo.setText(resultados.getTitulo());
         jTextAreaInterpretacao.setText(resultados.getInterpretacao());
         jTextAreaTomadaDecisao.setText(resultados.getTomadaDeDecisao());
-        
+
         registro = new Registroresultados();
         registro = ctrlResultados.buscarUltimoRegistroDoResultado(resultados, Constantes.CADASTRO);
         jTextFieldData.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
-        
+
         registro = new Registroresultados();
         registro = ctrlResultados.buscarUltimoRegistroDoResultado(resultados, Constantes.EDICAO);
-        if(registro != null){
+        if (registro != null) {
             jTextFieldUltimaEdicao.setText(registro.getNomeUsuario() + " Em: " + Texto.formataData(registro.getData()));
         } else {
             jLabelUltimaEdicao.setVisible(false);
             jTextFieldUltimaEdicao.setVisible(false);
         }
     }
-    
+
     public boolean validaCampos() {
         if (jTextFieldTitulo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Título\" não pode ser vazio.");
@@ -128,10 +129,10 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         } else if (jTextAreaTomadaDecisao.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Tomada de Decisão\" não pode ser vazio.");
             return false;
-        }    
+        }
         return true;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -367,7 +368,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         if (!validaCampos()) {
             return;
         }
-        
+
         resultados.setTitulo(jTextFieldTitulo.getText());
         resultados.setInterpretacao(jTextAreaInterpretacao.getText());
         resultados.setTomadaDeDecisao(jTextAreaTomadaDecisao.getText());

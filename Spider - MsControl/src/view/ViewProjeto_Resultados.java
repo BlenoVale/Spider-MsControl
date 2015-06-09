@@ -183,7 +183,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         ViewProjeto_ResultadosNovo viewProjeto_ResultadosNovo = new ViewProjeto_ResultadosNovo(null, true);
-        viewProjeto_ResultadosNovo.setVisible(true);
+        viewProjeto_ResultadosNovo.showNovoResultadoDialog();
         preencherTabelaResultadosDoProjeto();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
