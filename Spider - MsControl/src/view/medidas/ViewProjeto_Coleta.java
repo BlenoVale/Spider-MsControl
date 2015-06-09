@@ -273,46 +273,45 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         switch (medida.getProcedimentodecoletaList().get(0).getPeriodicidade()) {
             case "Diário":
                 List<Datasprocedimentocoleta> datasProcedimento = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList();
-                Date dataHoje2 = new Date();
-                boolean aux = false;
+                Date dataHojeDiario = new Date(); 
+                boolean ehOdia = false;  
                 for (int i = 0; i < datasProcedimento.size(); i++) {
                     switch (datasProcedimento.get(i).getDia()) {
                         case "Domingo":
-                            aux = dataHoje2.getDay() == 0;
+                            ehOdia = dataHojeDiario.getDay() == 0;
                             break;
                         case "Segunda-feira":
-                            aux = dataHoje2.getDay() == 1;
+                            ehOdia = dataHojeDiario.getDay() == 1;
                             break;
                         case "Terça-feira":
-                            aux = dataHoje2.getDay() == 2;
+                            ehOdia = dataHojeDiario.getDay() == 2;
                             break;
                         case "Quarta-feira":
-                            aux = dataHoje2.getDay() == 3;
+                            ehOdia = dataHojeDiario.getDay() == 3;
                             break;
                         case "Quinta-feira":
-                            aux = dataHoje2.getDay() == 4;
+                            ehOdia = dataHojeDiario.getDay() == 4;
                             break;
                         case "Sexta-feira":
-                            aux = dataHoje2.getDay() == 5;
+                            ehOdia = dataHojeDiario.getDay() == 5;
                             break;
                         case "Sabádo":
-                            aux = dataHoje2.getDay() == 6;
-
+                            ehOdia = dataHojeDiario.getDay() == 6;
                             break;
                     }
-                    tipoDeColeta(aux, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
-                    if (aux) {
+                    tipoDeColeta(ehOdia, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
+                    if (ehOdia) {
                         break;
                     }
                 }
                 break;
             case "Semanal":
-                break;
+                break; 
             default:
                 Date dataInicio = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataInicio();
                 Date dataFim = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataFim();
-                Date dataHoje1 = new Date();
-                boolean passou = (dataHoje1.compareTo(dataInicio) >= 0 && dataHoje1.compareTo(dataFim) < 1);
+                Date dataHojeOutros = new Date();
+                boolean passou = (dataHojeOutros.compareTo(dataInicio) >= 0 && dataHojeOutros.compareTo(dataFim) < 1);
                 tipoDeColeta(passou, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
                 break;
         }
