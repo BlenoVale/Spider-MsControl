@@ -23,7 +23,7 @@ public class ResultadosJpa extends ResultadosJpaController {
         try {
             List<Resultados> lista = null;
             EntityManager emf = super.getEntityManager();
-            Query q = emf.createQuery("SELECT r FROM Resultados r WHERE r.projetoid.id = :idDoProjeto ORDER By r.titulo ASC")
+            Query q = emf.createQuery("SELECT r FROM Resultados r WHERE r.analiseId.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto ORDER By r.titulo ASC")
                     .setParameter("idDoProjeto", idDoProjeto);
 
             lista = q.getResultList();
@@ -36,7 +36,7 @@ public class ResultadosJpa extends ResultadosJpaController {
     public Resultados findBYTituloAndProjeto (String titulo, int idProjeto){
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (Resultados) entityManager.createQuery("SELECT r FROM Resultados r WHERE r.titulo = :titulo AND r.projetoid.id = :idProjeto")
+            return (Resultados) entityManager.createQuery("SELECT r FROM Resultados r WHERE r.titulo = :titulo AND r.analiseid.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto")
                     .setParameter("titulo", titulo)
                     .setParameter("idProjeto", idProjeto)
                     .getSingleResult();
@@ -53,7 +53,7 @@ public class ResultadosJpa extends ResultadosJpaController {
 
         Query q = emf.createQuery("SELECT r "
                 + "FROM Resultados r "
-                + "WHERE r.projetoid.id = :idProjeto "
+                + "WHERE r.analiseId.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto "
                 + "AND r.titulo = :titulo "
                 + "ORDER By r.titulo ASC");
 
@@ -68,7 +68,7 @@ public class ResultadosJpa extends ResultadosJpaController {
         try {
             List<Resultados> lista = null;
             EntityManager emf = super.getEntityManager();
-            Query q = emf.createQuery("SELECT r FROM Resultados r WHERE r.projetoid.id = :idDoProjeto AND r.titulo LIKE :titulo ORDER BY r.titulo ASC")
+            Query q = emf.createQuery("SELECT r FROM Resultados r WHERE r.analiseId.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto AND r.titulo LIKE :titulo ORDER BY r.titulo ASC")
                     .setParameter("idDoProjeto", id_projeto).setParameter("titulo", titulo + "%");
 
             lista = q.getResultList();
@@ -81,7 +81,7 @@ public class ResultadosJpa extends ResultadosJpaController {
     public long countResultadosByProjeto(int idProjeto){
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (long) entityManager.createQuery("SELECT COUNT(r.id) FROM Resultados r WHERE r.projetoid.id = :idProjeto")
+            return (long) entityManager.createQuery("SELECT COUNT(r.id) FROM Resultados r WHERE r.analiseId.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto")
                     .setParameter("idProjeto", idProjeto)
                     .getSingleResult();
         } catch (Exception error) {
