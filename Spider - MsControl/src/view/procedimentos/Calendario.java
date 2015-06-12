@@ -80,6 +80,9 @@ public class Calendario extends javax.swing.JDialog {
         this.tipo = tipo;
         this.procedimento = procedimento;
         switch (tipo) {
+            case "Quinzenal":
+                jLabelObservacao.setText("*" + this.procedimento + " Quinzenal começa aparti do dia selecionado.");
+                break;
             case "Mensal":
                 jLabelObservacao.setText("*" + this.procedimento + " mensal começa aparti do dia selecionado.");
                 break;
@@ -123,6 +126,16 @@ public class Calendario extends javax.swing.JDialog {
         } else {
             return true;
         }
+    }
+
+    private void somaQuinzenal() {
+        dataInicio = datePanel.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dataInicio);
+        calendar.add(Calendar.DAY_OF_MONTH, 15);
+        dataFim = calendar.getTime();
+        System.out.println(">>>>>>>Data inicio:" + dataInicio);
+        System.out.println(">>>>>>>Data fim:" + dataFim);
     }
 
     private void somaDiasNaData(int qtdMeses) {
@@ -261,8 +274,9 @@ public class Calendario extends javax.swing.JDialog {
             if (!validaOutrosPeriodos()) {
                 return;
             }
-
-            if ("Mensal".equals(tipo)) {
+            if ("Quinzenal".equals(tipo)) {
+                somaQuinzenal();
+            } else if ("Mensal".equals(tipo)) {
                 somaDiasNaData(1);
             } else if ("Bimestral".equals(tipo)) {
                 somaDiasNaData(2);
@@ -417,7 +431,7 @@ public class Calendario extends javax.swing.JDialog {
         dataProcedimentoAnalise.setTipo(procedimento);
         listaDatasAnalise.add(dataProcedimentoAnalise);
     }
-    
+
     private void tipoProcedimentoAnalise() {
         if ("diario".equals(tipo)) {
             pegaListaDataProcedimentoAnalise_Diario();
@@ -428,7 +442,9 @@ public class Calendario extends javax.swing.JDialog {
                 return;
             }
 
-            if ("Mensal".equals(tipo)) {
+            if ("Quinzenal".equals(tipo)) {
+                somaQuinzenal();
+            } else if ("Mensal".equals(tipo)) {
                 somaDiasNaData(1);
             } else if ("Bimestral".equals(tipo)) {
                 somaDiasNaData(2);
@@ -442,7 +458,7 @@ public class Calendario extends javax.swing.JDialog {
             pegaListaDataProcedimentoAnalise_outrosPeriodos();
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -637,12 +653,13 @@ public class Calendario extends javax.swing.JDialog {
             tipoProcedimentoColeta();
         } else {
             tipoProcedimentoAnalise();
-            
-            for (int i=0; i < listaDatasAnalise.size(); i++){
-                System.out.println("---->Dias : " + listaDatasAnalise.get(i).getDia());
-                System.out.println("---->Data Inicio : " + listaDatasAnalise.get(i).getDataInicio());
-                System.out.println("---->Data Fim : " + listaDatasAnalise.get(i).getDataFim());
-                System.out.println("---->Data Tipo : " + listaDatasAnalise.get(i).getTipo() + "\n# #");
+            if (!listaDatasAnalise.isEmpty()) {
+                for (int i = 0; i < listaDatasAnalise.size(); i++) {
+                    System.out.println("---->Dias : " + listaDatasAnalise.get(i).getDia());
+                    System.out.println("---->Data Inicio : " + listaDatasAnalise.get(i).getDataInicio());
+                    System.out.println("---->Data Fim : " + listaDatasAnalise.get(i).getDataFim());
+                    System.out.println("---->Data Tipo : " + listaDatasAnalise.get(i).getTipo() + "\n# #");
+                }
             }
         }
         this.dispose();

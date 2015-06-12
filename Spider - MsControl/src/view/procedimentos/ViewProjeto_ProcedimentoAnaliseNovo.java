@@ -462,15 +462,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             calendario.showCalendarioDiarioDialog(tipo);
         } else if (combobox.getSelectedIndex() == 2) {
             calendario.showCalendarioSemanalDialog(tipo);
-        } else if (combobox.getSelectedIndex() == 3) {
-            calendario.showCalendarioOutrosPeriodosDialog("Mensal", tipo);
+        }else if(combobox.getSelectedIndex() == 3){
+            calendario.showCalendarioOutrosPeriodosDialog("Quinzenal", tipo);
         } else if (combobox.getSelectedIndex() == 4) {
-            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", tipo);
+            calendario.showCalendarioOutrosPeriodosDialog("Mensal", tipo);
         } else if (combobox.getSelectedIndex() == 5) {
-            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", tipo);
+            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", tipo);
         } else if (combobox.getSelectedIndex() == 6) {
-            calendario.showCalendarioOutrosPeriodosDialog("Semestral", tipo);
+            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", tipo);
         } else if (combobox.getSelectedIndex() == 7) {
+            calendario.showCalendarioOutrosPeriodosDialog("Semestral", tipo);
+        } else if (combobox.getSelectedIndex() == 8) {
             calendario.showCalendarioOutrosPeriodosDialog("Anual", tipo);
         }
         

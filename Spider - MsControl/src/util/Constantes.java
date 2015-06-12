@@ -41,6 +41,7 @@ public class Constantes {
         
         listaPeriodicidade.add("Diário");
         listaPeriodicidade.add("Semanal");
+        listaPeriodicidade.add("Quinzenal");
         listaPeriodicidade.add("Mensal");
         listaPeriodicidade.add("Bimestral");
         listaPeriodicidade.add("Trimestral");
