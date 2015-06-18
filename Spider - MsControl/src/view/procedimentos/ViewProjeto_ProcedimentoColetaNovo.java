@@ -45,7 +45,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
             return false;
         } else if (jComboBoxCalculo.getSelectedItem() == "-Selecione um Cálculo-") {
             JOptionPane.showMessageDialog(null, "Você deve selecionar um \"Cálculo\"");
-            return false;   
+            return false;
         } else if (jTextFieldResponsavelColeta.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Responsável pela Coleta\" é obrigatório");
             return false;
@@ -213,7 +213,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     }
 
     public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
-        String caracteres = "987654321";
+        String caracteres = "9876543210";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
@@ -587,6 +587,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado());
         procedimentodecoleta.setProjetoId(Copia.getProjetoSelecionado().getId());
         procedimentodecoleta.setCalculo(jComboBoxCalculo.getSelectedItem().toString());
+        procedimentodecoleta.setContadorColeta(0);
 
         boolean feito = false;
         if (novoProcedimento) {
@@ -597,7 +598,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         if (feito) {
             this.dispose();
         }
-      
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -635,14 +636,16 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
             calendario.showCalendarioSemanalDialog("Coleta");
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
-            calendario.showCalendarioOutrosPeriodosDialog("Mensal", "Coleta");
+            calendario.showCalendarioOutrosPeriodosDialog("Quinzenal", "Coleta");
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
-            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", "Coleta");
+            calendario.showCalendarioOutrosPeriodosDialog("Mensal", "Coleta");
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
-            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", "Coleta");
+            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", "Coleta");
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
-            calendario.showCalendarioOutrosPeriodosDialog("Semestral", "Coleta");
+            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", "Coleta");
         } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
+            calendario.showCalendarioOutrosPeriodosDialog("Semestral", "Coleta");
+        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 8) {
             calendario.showCalendarioOutrosPeriodosDialog("Anual", "Coleta");
         }
 

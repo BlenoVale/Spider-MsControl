@@ -26,13 +26,13 @@ public class Calendario extends javax.swing.JDialog {
     public Calendario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
+        listaDatasColetas = new ArrayList<>();
         agruparBotoesSemanal();
     }
 
     public void showCalendarioDiarioDialog(String procedimento) {
         this.setLocationRelativeTo(null);
-
+        
         tipo = "diario";
         this.procedimento = procedimento;
         setDiarioEnable(true);
@@ -54,7 +54,7 @@ public class Calendario extends javax.swing.JDialog {
 
     public void showCalendarioSemanalDialog(String procedimento) {
         this.setLocationRelativeTo(null);
-
+        
         tipo = "Semanal";
         this.procedimento = procedimento;
         setDiarioEnable(false);
@@ -76,7 +76,7 @@ public class Calendario extends javax.swing.JDialog {
 
     public void showCalendarioOutrosPeriodosDialog(String tipo, String procedimento) {
         this.setLocationRelativeTo(null);
-
+        
         this.tipo = tipo;
         this.procedimento = procedimento;
         switch (tipo) {

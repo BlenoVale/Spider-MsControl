@@ -273,8 +273,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         switch (medida.getProcedimentodecoletaList().get(0).getPeriodicidade()) {
             case "Diário":
                 List<Datasprocedimentocoleta> datasProcedimento = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList();
-                Date dataHojeDiario = new Date(); 
-                boolean ehOdia = false;  
+                Date dataHojeDiario = new Date();
+                boolean ehOdia = false;
                 for (int i = 0; i < datasProcedimento.size(); i++) {
                     switch (datasProcedimento.get(i).getDia()) {
                         case "Domingo":
@@ -306,7 +306,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 }
                 break;
             case "Semanal":
-                break; 
+                break;
             default:
                 Date dataInicio = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataInicio();
                 Date dataFim = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataFim();
@@ -602,16 +602,17 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldValorColetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldValorColetaActionPerformed
+        checaLimiteFrequencia(medidaSelecionada);
         if (jTextFieldValorColeta.getText().equals("")) {
             return;
         }
-
         modelJlist.addElement(jTextFieldValorColeta.getText());
         jTextFieldValorColeta.setText("");
         jListColetasASalvar.setModel(modelJlist);
 
         contador += 1;
         jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
+        checaLimiteFrequencia(medidaSelecionada);
     }//GEN-LAST:event_jTextFieldValorColetaActionPerformed
 
     private void jTableMedidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidasMouseClicked
@@ -657,6 +658,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         contador -= 1;
         jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
         jButtonRemover.setEnabled(false);
+        checaLimiteFrequencia(medidaSelecionada);
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
