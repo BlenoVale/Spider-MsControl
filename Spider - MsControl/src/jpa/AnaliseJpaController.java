@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Indicador;
-import model.Registroanalise;
+import model.Resultados;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Analise;
+import model.Registroanalise;
 
 /**
  *
@@ -36,6 +37,9 @@ public class AnaliseJpaController implements Serializable {
     }
 
     public void create(Analise analise) {
+        if (analise.getResultadosList() == null) {
+            analise.setResultadosList(new ArrayList<Resultados>());
+        }
         if (analise.getRegistroanaliseList() == null) {
             analise.setRegistroanaliseList(new ArrayList<Registroanalise>());
         }
@@ -48,6 +52,12 @@ public class AnaliseJpaController implements Serializable {
                 indicadorid = em.getReference(indicadorid.getClass(), indicadorid.getId());
                 analise.setIndicadorid(indicadorid);
             }
+            List<Resultados> attachedResultadosList = new ArrayList<Resultados>();
+            for (Resultados resultadosListResultadosToAttach : analise.getResultadosList()) {
+                resultadosListResultadosToAttach = em.getReference(resultadosListResultadosToAttach.getClass(), resultadosListResultadosToAttach.getId());
+                attachedResultadosList.add(resultadosListResultadosToAttach);
+            }
+            analise.setResultadosList(attachedResultadosList);
             List<Registroanalise> attachedRegistroanaliseList = new ArrayList<Registroanalise>();
             for (Registroanalise registroanaliseListRegistroanaliseToAttach : analise.getRegistroanaliseList()) {
                 registroanaliseListRegistroanaliseToAttach = em.getReference(registroanaliseListRegistroanaliseToAttach.getClass(), registroanaliseListRegistroanaliseToAttach.getId());
@@ -58,6 +68,15 @@ public class AnaliseJpaController implements Serializable {
             if (indicadorid != null) {
                 indicadorid.getAnaliseList().add(analise);
                 indicadorid = em.merge(indicadorid);
+            }
+            for (Resultados resultadosListResultados : analise.getResultadosList()) {
+                Analise oldAnaliseidOfResultadosListResultados = resultadosListResultados.getAnaliseid();
+                resultadosListResultados.setAnaliseid(analise);
+                resultadosListResultados = em.merge(resultadosListResultados);
+                if (oldAnaliseidOfResultadosListResultados != null) {
+                    oldAnaliseidOfResultadosListResultados.getResultadosList().remove(resultadosListResultados);
+                    oldAnaliseidOfResultadosListResultados = em.merge(oldAnaliseidOfResultadosListResultados);
+                }
             }
             for (Registroanalise registroanaliseListRegistroanalise : analise.getRegistroanaliseList()) {
                 Analise oldAnaliseidOfRegistroanaliseListRegistroanalise = registroanaliseListRegistroanalise.getAnaliseid();
@@ -84,9 +103,19 @@ public class AnaliseJpaController implements Serializable {
             Analise persistentAnalise = em.find(Analise.class, analise.getId());
             Indicador indicadoridOld = persistentAnalise.getIndicadorid();
             Indicador indicadoridNew = analise.getIndicadorid();
+            List<Resultados> resultadosListOld = persistentAnalise.getResultadosList();
+            List<Resultados> resultadosListNew = analise.getResultadosList();
             List<Registroanalise> registroanaliseListOld = persistentAnalise.getRegistroanaliseList();
             List<Registroanalise> registroanaliseListNew = analise.getRegistroanaliseList();
             List<String> illegalOrphanMessages = null;
+            for (Resultados resultadosListOldResultados : resultadosListOld) {
+                if (!resultadosListNew.contains(resultadosListOldResultados)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Resultados " + resultadosListOldResultados + " since its analiseid field is not nullable.");
+                }
+            }
             for (Registroanalise registroanaliseListOldRegistroanalise : registroanaliseListOld) {
                 if (!registroanaliseListNew.contains(registroanaliseListOldRegistroanalise)) {
                     if (illegalOrphanMessages == null) {
@@ -102,6 +131,13 @@ public class AnaliseJpaController implements Serializable {
                 indicadoridNew = em.getReference(indicadoridNew.getClass(), indicadoridNew.getId());
                 analise.setIndicadorid(indicadoridNew);
             }
+            List<Resultados> attachedResultadosListNew = new ArrayList<Resultados>();
+            for (Resultados resultadosListNewResultadosToAttach : resultadosListNew) {
+                resultadosListNewResultadosToAttach = em.getReference(resultadosListNewResultadosToAttach.getClass(), resultadosListNewResultadosToAttach.getId());
+                attachedResultadosListNew.add(resultadosListNewResultadosToAttach);
+            }
+            resultadosListNew = attachedResultadosListNew;
+            analise.setResultadosList(resultadosListNew);
             List<Registroanalise> attachedRegistroanaliseListNew = new ArrayList<Registroanalise>();
             for (Registroanalise registroanaliseListNewRegistroanaliseToAttach : registroanaliseListNew) {
                 registroanaliseListNewRegistroanaliseToAttach = em.getReference(registroanaliseListNewRegistroanaliseToAttach.getClass(), registroanaliseListNewRegistroanaliseToAttach.getId());
@@ -117,6 +153,17 @@ public class AnaliseJpaController implements Serializable {
             if (indicadoridNew != null && !indicadoridNew.equals(indicadoridOld)) {
                 indicadoridNew.getAnaliseList().add(analise);
                 indicadoridNew = em.merge(indicadoridNew);
+            }
+            for (Resultados resultadosListNewResultados : resultadosListNew) {
+                if (!resultadosListOld.contains(resultadosListNewResultados)) {
+                    Analise oldAnaliseidOfResultadosListNewResultados = resultadosListNewResultados.getAnaliseid();
+                    resultadosListNewResultados.setAnaliseid(analise);
+                    resultadosListNewResultados = em.merge(resultadosListNewResultados);
+                    if (oldAnaliseidOfResultadosListNewResultados != null && !oldAnaliseidOfResultadosListNewResultados.equals(analise)) {
+                        oldAnaliseidOfResultadosListNewResultados.getResultadosList().remove(resultadosListNewResultados);
+                        oldAnaliseidOfResultadosListNewResultados = em.merge(oldAnaliseidOfResultadosListNewResultados);
+                    }
+                }
             }
             for (Registroanalise registroanaliseListNewRegistroanalise : registroanaliseListNew) {
                 if (!registroanaliseListOld.contains(registroanaliseListNewRegistroanalise)) {
@@ -159,6 +206,13 @@ public class AnaliseJpaController implements Serializable {
                 throw new NonexistentEntityException("The analise with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Resultados> resultadosListOrphanCheck = analise.getResultadosList();
+            for (Resultados resultadosListOrphanCheckResultados : resultadosListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Analise (" + analise + ") cannot be destroyed since the Resultados " + resultadosListOrphanCheckResultados + " in its resultadosList field has a non-nullable analiseid field.");
+            }
             List<Registroanalise> registroanaliseListOrphanCheck = analise.getRegistroanaliseList();
             for (Registroanalise registroanaliseListOrphanCheckRegistroanalise : registroanaliseListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findByTipoDeColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.tipoDeColeta = :tipoDeColeta"),
     @NamedQuery(name = "Procedimentodecoleta.findByCalculo", query = "SELECT p FROM Procedimentodecoleta p WHERE p.calculo = :calculo"),
     @NamedQuery(name = "Procedimentodecoleta.findByFerramentasUtilizada", query = "SELECT p FROM Procedimentodecoleta p WHERE p.ferramentasUtilizada = :ferramentasUtilizada"),
+    @NamedQuery(name = "Procedimentodecoleta.findByPorcentagem", query = "SELECT p FROM Procedimentodecoleta p WHERE p.porcentagem = :porcentagem"),
     @NamedQuery(name = "Procedimentodecoleta.findByData", query = "SELECT p FROM Procedimentodecoleta p WHERE p.data = :data"),
     @NamedQuery(name = "Procedimentodecoleta.findByContadorColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.contadorColeta = :contadorColeta")})
 public class Procedimentodecoleta implements Serializable {
@@ -86,12 +87,14 @@ public class Procedimentodecoleta implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @Basic(optional = false)
+    @Column(name = "porcentagem")
+    private double porcentagem;
+    @Basic(optional = false)
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    @Basic(optional = false)
     @Column(name = "contadorColeta")
-    private int contadorColeta;
+    private Integer contadorColeta;
     @JoinColumn(name = "Medida_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Medida medidaid;
@@ -107,7 +110,7 @@ public class Procedimentodecoleta implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodecoleta(Integer id, int projetoId, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String calculo, String ferramentasUtilizada, Date data, int contadorColeta) {
+    public Procedimentodecoleta(Integer id, int projetoId, String responsavelPelaColeta, String momento, String periodicidade, int frequencia, String passosColeta, String tipoDeColeta, String calculo, String ferramentasUtilizada, double porcentagem, Date data) {
         this.id = id;
         this.projetoId = projetoId;
         this.responsavelPelaColeta = responsavelPelaColeta;
@@ -118,8 +121,8 @@ public class Procedimentodecoleta implements Serializable {
         this.tipoDeColeta = tipoDeColeta;
         this.calculo = calculo;
         this.ferramentasUtilizada = ferramentasUtilizada;
+        this.porcentagem = porcentagem;
         this.data = data;
-        this.contadorColeta = contadorColeta;
     }
 
     public Integer getId() {
@@ -210,6 +213,14 @@ public class Procedimentodecoleta implements Serializable {
         this.observacao = observacao;
     }
 
+    public double getPorcentagem() {
+        return porcentagem;
+    }
+
+    public void setPorcentagem(double porcentagem) {
+        this.porcentagem = porcentagem;
+    }
+
     public Date getData() {
         return data;
     }
@@ -218,11 +229,11 @@ public class Procedimentodecoleta implements Serializable {
         this.data = data;
     }
 
-    public int getContadorColeta() {
+    public Integer getContadorColeta() {
         return contadorColeta;
     }
 
-    public void setContadorColeta(int contadorColeta) {
+    public void setContadorColeta(Integer contadorColeta) {
         this.contadorColeta = contadorColeta;
     }
 

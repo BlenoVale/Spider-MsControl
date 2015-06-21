@@ -44,6 +44,8 @@ public class Analise implements Serializable {
     @Column(name = "criterioDeAnalise")
     private String criterioDeAnalise;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
+    private List<Resultados> resultadosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
     private List<Registroanalise> registroanaliseList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -70,6 +72,15 @@ public class Analise implements Serializable {
 
     public void setCriterioDeAnalise(String criterioDeAnalise) {
         this.criterioDeAnalise = criterioDeAnalise;
+    }
+
+    @XmlTransient
+    public List<Resultados> getResultadosList() {
+        return resultadosList;
+    }
+
+    public void setResultadosList(List<Resultados> resultadosList) {
+        this.resultadosList = resultadosList;
     }
 
     @XmlTransient

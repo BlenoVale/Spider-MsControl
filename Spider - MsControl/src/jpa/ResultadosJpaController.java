@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.Projeto;
+import model.Analise;
 import model.Registroresultados;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +43,10 @@ public class ResultadosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Projeto projetoid = resultados.getProjetoid();
-            if (projetoid != null) {
-                projetoid = em.getReference(projetoid.getClass(), projetoid.getId());
-                resultados.setProjetoid(projetoid);
+            Analise analiseid = resultados.getAnaliseid();
+            if (analiseid != null) {
+                analiseid = em.getReference(analiseid.getClass(), analiseid.getId());
+                resultados.setAnaliseid(analiseid);
             }
             List<Registroresultados> attachedRegistroresultadosList = new ArrayList<Registroresultados>();
             for (Registroresultados registroresultadosListRegistroresultadosToAttach : resultados.getRegistroresultadosList()) {
@@ -55,9 +55,9 @@ public class ResultadosJpaController implements Serializable {
             }
             resultados.setRegistroresultadosList(attachedRegistroresultadosList);
             em.persist(resultados);
-            if (projetoid != null) {
-                projetoid.getResultadosList().add(resultados);
-                projetoid = em.merge(projetoid);
+            if (analiseid != null) {
+                analiseid.getResultadosList().add(resultados);
+                analiseid = em.merge(analiseid);
             }
             for (Registroresultados registroresultadosListRegistroresultados : resultados.getRegistroresultadosList()) {
                 Resultados oldResultadosidOfRegistroresultadosListRegistroresultados = registroresultadosListRegistroresultados.getResultadosid();
@@ -82,8 +82,8 @@ public class ResultadosJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Resultados persistentResultados = em.find(Resultados.class, resultados.getId());
-            Projeto projetoidOld = persistentResultados.getProjetoid();
-            Projeto projetoidNew = resultados.getProjetoid();
+            Analise analiseidOld = persistentResultados.getAnaliseid();
+            Analise analiseidNew = resultados.getAnaliseid();
             List<Registroresultados> registroresultadosListOld = persistentResultados.getRegistroresultadosList();
             List<Registroresultados> registroresultadosListNew = resultados.getRegistroresultadosList();
             List<String> illegalOrphanMessages = null;
@@ -98,9 +98,9 @@ public class ResultadosJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (projetoidNew != null) {
-                projetoidNew = em.getReference(projetoidNew.getClass(), projetoidNew.getId());
-                resultados.setProjetoid(projetoidNew);
+            if (analiseidNew != null) {
+                analiseidNew = em.getReference(analiseidNew.getClass(), analiseidNew.getId());
+                resultados.setAnaliseid(analiseidNew);
             }
             List<Registroresultados> attachedRegistroresultadosListNew = new ArrayList<Registroresultados>();
             for (Registroresultados registroresultadosListNewRegistroresultadosToAttach : registroresultadosListNew) {
@@ -110,13 +110,13 @@ public class ResultadosJpaController implements Serializable {
             registroresultadosListNew = attachedRegistroresultadosListNew;
             resultados.setRegistroresultadosList(registroresultadosListNew);
             resultados = em.merge(resultados);
-            if (projetoidOld != null && !projetoidOld.equals(projetoidNew)) {
-                projetoidOld.getResultadosList().remove(resultados);
-                projetoidOld = em.merge(projetoidOld);
+            if (analiseidOld != null && !analiseidOld.equals(analiseidNew)) {
+                analiseidOld.getResultadosList().remove(resultados);
+                analiseidOld = em.merge(analiseidOld);
             }
-            if (projetoidNew != null && !projetoidNew.equals(projetoidOld)) {
-                projetoidNew.getResultadosList().add(resultados);
-                projetoidNew = em.merge(projetoidNew);
+            if (analiseidNew != null && !analiseidNew.equals(analiseidOld)) {
+                analiseidNew.getResultadosList().add(resultados);
+                analiseidNew = em.merge(analiseidNew);
             }
             for (Registroresultados registroresultadosListNewRegistroresultados : registroresultadosListNew) {
                 if (!registroresultadosListOld.contains(registroresultadosListNewRegistroresultados)) {
@@ -169,10 +169,10 @@ public class ResultadosJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Projeto projetoid = resultados.getProjetoid();
-            if (projetoid != null) {
-                projetoid.getResultadosList().remove(resultados);
-                projetoid = em.merge(projetoid);
+            Analise analiseid = resultados.getAnaliseid();
+            if (analiseid != null) {
+                analiseid.getResultadosList().remove(resultados);
+                analiseid = em.merge(analiseid);
             }
             em.remove(resultados);
             em.getTransaction().commit();

@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Resultados.findAll", query = "SELECT r FROM Resultados r"),
     @NamedQuery(name = "Resultados.findById", query = "SELECT r FROM Resultados r WHERE r.id = :id"),
-    @NamedQuery(name = "Resultados.findByAnaliseId", query = "SELECT r FROM Resultados r WHERE r.analiseId = :analiseId"),
     @NamedQuery(name = "Resultados.findByTitulo", query = "SELECT r FROM Resultados r WHERE r.titulo = :titulo"),
     @NamedQuery(name = "Resultados.findByData", query = "SELECT r FROM Resultados r WHERE r.data = :data"),
     @NamedQuery(name = "Resultados.findByParticipantes", query = "SELECT r FROM Resultados r WHERE r.participantes = :participantes"),
@@ -49,9 +48,6 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "analise_id")
-    private int analiseId;
     @Basic(optional = false)
     @Column(name = "titulo")
     private String titulo;
@@ -73,9 +69,9 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "usuariosInteressados")
     private String usuariosInteressados;
-    @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
+    @JoinColumn(name = "Analise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Projeto projetoid;
+    private Analise analiseid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
     private List<Registroresultados> registroresultadosList;
 
@@ -86,9 +82,8 @@ public class Resultados implements Serializable {
         this.id = id;
     }
 
-    public Resultados(Integer id, int analiseId, String titulo, Date data, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados) {
+    public Resultados(Integer id, String titulo, Date data, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados) {
         this.id = id;
-        this.analiseId = analiseId;
         this.titulo = titulo;
         this.data = data;
         this.interpretacao = interpretacao;
@@ -103,14 +98,6 @@ public class Resultados implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getAnaliseId() {
-        return analiseId;
-    }
-
-    public void setAnaliseId(int analiseId) {
-        this.analiseId = analiseId;
     }
 
     public String getTitulo() {
@@ -161,12 +148,12 @@ public class Resultados implements Serializable {
         this.usuariosInteressados = usuariosInteressados;
     }
 
-    public Projeto getProjetoid() {
-        return projetoid;
+    public Analise getAnaliseid() {
+        return analiseid;
     }
 
-    public void setProjetoid(Projeto projetoid) {
-        this.projetoid = projetoid;
+    public void setAnaliseid(Analise analiseid) {
+        this.analiseid = analiseid;
     }
 
     @XmlTransient

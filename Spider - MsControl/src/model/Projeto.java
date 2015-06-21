@@ -67,8 +67,6 @@ public class Projeto implements Serializable {
     @Column(name = "descricao")
     private String descricao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
-    private List<Resultados> resultadosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
     private List<Objetivodemedicao> objetivodemedicaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
@@ -145,15 +143,6 @@ public class Projeto implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    @XmlTransient
-    public List<Resultados> getResultadosList() {
-        return resultadosList;
-    }
-
-    public void setResultadosList(List<Resultados> resultadosList) {
-        this.resultadosList = resultadosList;
     }
 
     @XmlTransient
