@@ -255,7 +255,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextAreaAcoesAlerta.setText(procedimentodeanalise.getAcoesAlerta());
         jTextAreaAcoesCritico.setText(procedimentodeanalise.getAcoesCritico());
         jComboBoxComunicacaoPeriodicidade.setSelectedItem(procedimentodeanalise.getPeriodicidadeComunicacao());
-        jTextFieldFrequencia.setText(procedimentodeanalise.getFrequencia());
     }
 
     private boolean validarCampos() {
@@ -320,10 +319,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
         if (jComboBoxComunicacaoPeriodicidade.getSelectedItem() == "-Selecione uma Periodicidade-") {
             mensagem = "É necessário selecionar uma \"Periodicidade\" no Combobox.";
-            cont++;
-        }
-        if (jTextFieldFrequencia.getText().isEmpty()) {
-            mensagem = "Campo \"Frequência\" não pode ser vazio.";
             cont++;
         }
 
@@ -566,10 +561,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jButton14 = new javax.swing.JButton();
         jButton23 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jComboBoxComunicacaoPeriodicidade = new javax.swing.JComboBox();
-        jTextFieldFrequencia = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTablePerfisInteressados = new javax.swing.JTable();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -654,11 +647,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel5.setText("Periodicidade:");
 
         jComboBoxPeriodicidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-Selecione a periodicidade-", "Diaria", "Semanal", "Mensal ", "Anual" }));
-        jComboBoxPeriodicidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxPeriodicidadeActionPerformed(evt);
-            }
-        });
 
         jComboBoxTipoGrafico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -799,7 +787,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1196,22 +1184,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Fórmula", jPanel10);
 
-        jLabel15.setText("Frequência:");
-
         jLabel18.setText("Periodicidade:");
 
         jComboBoxComunicacaoPeriodicidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxComunicacaoPeriodicidade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxComunicacaoPeriodicidadeActionPerformed(evt);
-            }
-        });
-
-        jTextFieldFrequencia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldFrequenciaKeyTyped(evt);
-            }
-        });
 
         jTablePerfisInteressados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1241,13 +1216,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel15))
+                        .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBoxComunicacaoPeriodicidade, 0, 219, Short.MAX_VALUE)
-                            .addComponent(jTextFieldFrequencia))
+                        .addComponent(jComboBoxComunicacaoPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane6)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
@@ -1261,13 +1232,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jLabel18)
                     .addComponent(jComboBoxComunicacaoPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jTextFieldFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1357,14 +1324,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
-
-    private void jComboBoxPeriodicidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPeriodicidadeActionPerformed
-        if (jComboBoxPeriodicidade.getSelectedIndex() == 0) {
-            return;
-        }
-        
-        acessaCalendario(jComboBoxPeriodicidade, "Análise");
-    }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -1489,10 +1448,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldFrequencia1KeyTyped
 
-    private void jTextFieldFrequenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFrequenciaKeyTyped
-        jTextFieldSomenteNumeros(evt);
-    }//GEN-LAST:event_jTextFieldFrequenciaKeyTyped
-
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
 
         if (jTextFieldFormula.getText().isEmpty()) {
@@ -1502,14 +1457,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jTableMedidaMouseClicked
-
-    private void jComboBoxComunicacaoPeriodicidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxComunicacaoPeriodicidadeActionPerformed
-        if (jComboBoxComunicacaoPeriodicidade.getSelectedIndex() == 0) {
-            return;
-        }
-
-        acessaCalendario(jComboBoxComunicacaoPeriodicidade,"Comunicação");
-    }//GEN-LAST:event_jComboBoxComunicacaoPeriodicidadeActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         //if(jTabbedPane1.getSelectedIndex() == 3 && jRadioButtonBase.isSelected() == true );
@@ -1616,7 +1563,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1665,7 +1611,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextFieldCadastradoPor;
     private javax.swing.JTextField jTextFieldFormula;
-    private javax.swing.JTextField jTextFieldFrequencia;
     private javax.swing.JTextField jTextFieldFrequencia1;
     private javax.swing.JTextField jTextFieldMetaAlerta;
     private javax.swing.JTextField jTextFieldMetaCritico;
