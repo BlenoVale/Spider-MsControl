@@ -476,6 +476,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
+    public void verificarOutroMeio()
+    {
+        //if (jTableMeios.getColumnModel().getColumnSelectionAllowed());
+
+//        /System.out.println(jTableMeios.getColumn(0).get);
+    }
+
     private void acessaCalendario(JComboBox combobox, String tipo)
     {
         Calendario calendario = new Calendario(null, true);
