@@ -360,6 +360,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
+    public void habilitarMedidaRelacionada()
+    {
+        if (jRadioButtonBase.isSelected()) {
+            jLabelMedidaRelacionada.setVisible(true);
+            jComboBoxMedidaRelacionada.setVisible(true);
+        } else {
+            jLabelMedidaRelacionada.setVisible(false);
+            jComboBoxMedidaRelacionada.setVisible(false);
+        }
+
+    }
+
     private void agruparBotoesRadio()
     {
         buttonGroupComposicao.add(jRadioButtonBase);
@@ -532,6 +544,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jPanel5 = new javax.swing.JPanel();
         jRadioButtonBase = new javax.swing.JRadioButton();
         jRadioButtonDerivada = new javax.swing.JRadioButton();
+        jLabelMedidaRelacionada = new javax.swing.JLabel();
+        jComboBoxMedidaRelacionada = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         jComboBoxPeriodicidade = new javax.swing.JComboBox();
         jComboBoxTipoGrafico = new javax.swing.JComboBox();
@@ -569,9 +583,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextAreaAcoesAlerta = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextAreaAcoesCritico = new javax.swing.JTextArea();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTableMedida = new javax.swing.JTable();
@@ -670,25 +681,40 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
+        jLabelMedidaRelacionada.setText("Medida Relacionada:");
+
+        jComboBoxMedidaRelacionada.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButtonBase)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonDerivada)
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jRadioButtonBase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioButtonDerivada)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabelMedidaRelacionada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBoxMedidaRelacionada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButtonBase)
-                    .addComponent(jRadioButtonDerivada))
-                .addContainerGap())
+                    .addComponent(jRadioButtonDerivada)
+                    .addComponent(jRadioButtonBase))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelMedidaRelacionada)
+                    .addComponent(jComboBoxMedidaRelacionada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jLabel5.setText("Periodicidade:");
@@ -738,10 +764,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jTextFieldFrequencia1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jComboBoxTipoGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 310, Short.MAX_VALUE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
@@ -762,8 +786,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jComboBoxPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -779,7 +803,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
         );
 
         jTabbedPane1.addTab("Dados Gerais", jPanel2);
@@ -836,7 +860,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -871,7 +895,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -936,7 +960,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -966,33 +990,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         );
 
         jTabbedPane1.addTab("Ações", jPanel8);
-
-        jLabel16.setText("Medida:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jLabel16)
-                .addGap(44, 44, 44)
-                .addComponent(jComboBox1, 0, 386, Short.MAX_VALUE)
-                .addGap(107, 107, 107))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(355, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Medida Relacionada", jPanel6);
 
         jTableMedida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -1279,7 +1276,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
@@ -1338,7 +1335,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(56, 56, 56)
@@ -1447,163 +1444,182 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    //Botões da calculadora abaixo
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
-        }
-
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + ".");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "0");
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "1");
-
-    }//GEN-LAST:event_jButton13ActionPerformed
-
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "2");
-
-    }//GEN-LAST:event_jButton15ActionPerformed
-
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "3");
-
-    }//GEN-LAST:event_jButton16ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
-        }
-
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
-        }
-
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "6");
-
-    }//GEN-LAST:event_jButton19ActionPerformed
-
-    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "5");
-
-    }//GEN-LAST:event_jButton18ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "4");
-
-    }//GEN-LAST:event_jButton17ActionPerformed
-
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "7");
-
-    }//GEN-LAST:event_jButton20ActionPerformed
-
-    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "8");
-
-    }//GEN-LAST:event_jButton21ActionPerformed
-
-    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "9");
-    }//GEN-LAST:event_jButton22ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
-        }
-
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()) && !verificaSomenteOperandosParenteseFechado(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
-        }
-
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText())) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
-        }
-
-    }//GEN-LAST:event_jButton12ActionPerformed
-
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        jTextFieldFormula.setText("");
-    }//GEN-LAST:event_jButton14ActionPerformed
-
-    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        excluirUltimaLetra(jTextFieldFormula.getText());
-    }//GEN-LAST:event_jButton23ActionPerformed
-
-    private void jTextFieldFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFormulaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldFormulaActionPerformed
-
-    private void jTextFieldFrequencia1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFrequencia1KeyTyped
-        jTextFieldSomenteNumeros(evt);
-    }//GEN-LAST:event_jTextFieldFrequencia1KeyTyped
-
-    private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
-
-        if (jTextFieldFormula.getText().isEmpty()) {
-            inserirMnemonico(evt);
-        } else if (verificaSomenteOperandos(jTextFieldFormula.getText())) {
-            inserirMnemonico(evt);
-        }
-
-    }//GEN-LAST:event_jTableMedidaMouseClicked
-
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTabbedPane1MouseClicked
+    {//GEN-HEADEREND:event_jTabbedPane1MouseClicked
         //if(jTabbedPane1.getSelectedIndex() == 3 && jRadioButtonBase.isSelected() == true );
         //jTabbedPane1.setEnabledAt(3, false);
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
-    private void jRadioButtonBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonBaseActionPerformed
-        bloquearAba();
-    }//GEN-LAST:event_jRadioButtonBaseActionPerformed
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton23ActionPerformed
+    {//GEN-HEADEREND:event_jButton23ActionPerformed
+        excluirUltimaLetra(jTextFieldFormula.getText());
+    }//GEN-LAST:event_jButton23ActionPerformed
 
-    private void jRadioButtonDerivadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonDerivadaActionPerformed
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton14ActionPerformed
+    {//GEN-HEADEREND:event_jButton14ActionPerformed
+        jTextFieldFormula.setText("");
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton12ActionPerformed
+    {//GEN-HEADEREND:event_jButton12ActionPerformed
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton11ActionPerformed
+    {//GEN-HEADEREND:event_jButton11ActionPerformed
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()) && !verificaSomenteOperandosParenteseFechado(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton10ActionPerformed
+    {//GEN-HEADEREND:event_jButton10ActionPerformed
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton22ActionPerformed
+    {//GEN-HEADEREND:event_jButton22ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "9");
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton21ActionPerformed
+    {//GEN-HEADEREND:event_jButton21ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "8");
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton20ActionPerformed
+    {//GEN-HEADEREND:event_jButton20ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "7");
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton17ActionPerformed
+    {//GEN-HEADEREND:event_jButton17ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "4");
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton18ActionPerformed
+    {//GEN-HEADEREND:event_jButton18ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "5");
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton19ActionPerformed
+    {//GEN-HEADEREND:event_jButton19ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "6");
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
+    {//GEN-HEADEREND:event_jButton9ActionPerformed
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton8ActionPerformed
+    {//GEN-HEADEREND:event_jButton8ActionPerformed
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton16ActionPerformed
+    {//GEN-HEADEREND:event_jButton16ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "3");
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton15ActionPerformed
+    {//GEN-HEADEREND:event_jButton15ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "2");
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton13ActionPerformed
+    {//GEN-HEADEREND:event_jButton13ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "1");
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+        if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "0");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
+    {//GEN-HEADEREND:event_jButton2ActionPerformed
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + ".");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    //Botões da calculadora abaixo
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton7ActionPerformed
+    {//GEN-HEADEREND:event_jButton7ActionPerformed
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextFieldFormulaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jTextFieldFormulaActionPerformed
+    {//GEN-HEADEREND:event_jTextFieldFormulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFormulaActionPerformed
+
+    private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableMedidaMouseClicked
+    {//GEN-HEADEREND:event_jTableMedidaMouseClicked
+
+        if (jTextFieldFormula.getText().isEmpty())
+        {
+            inserirMnemonico(evt);
+        } else if (verificaSomenteOperandos(jTextFieldFormula.getText()))
+        {
+            inserirMnemonico(evt);
+        }
+    }//GEN-LAST:event_jTableMedidaMouseClicked
+
+    private void jTextFieldFrequencia1KeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldFrequencia1KeyTyped
+    {//GEN-HEADEREND:event_jTextFieldFrequencia1KeyTyped
+        jTextFieldSomenteNumeros(evt);
+    }//GEN-LAST:event_jTextFieldFrequencia1KeyTyped
+
+    private void jRadioButtonDerivadaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRadioButtonDerivadaActionPerformed
+    {//GEN-HEADEREND:event_jRadioButtonDerivadaActionPerformed
         bloquearAba();
     }//GEN-LAST:event_jRadioButtonDerivadaActionPerformed
+
+    private void jRadioButtonBaseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRadioButtonBaseActionPerformed
+    {//GEN-HEADEREND:event_jRadioButtonBaseActionPerformed
+        bloquearAba();
+    }//GEN-LAST:event_jRadioButtonBaseActionPerformed
 
     public void bloquearAba()
     {
         if (jRadioButtonBase.isSelected() == true) {
-            jTabbedPane1.setEnabledAt(4, false);
-            jTabbedPane1.setEnabledAt(3, true);
+            jTabbedPane1.setEnabledAt(3, false);
             jTextFieldFormula.setText("");
         } else {
-            jTabbedPane1.setEnabledAt(4, true);
-            jTabbedPane1.setEnabledAt(3, false);
+            jTabbedPane1.setEnabledAt(3, true);
         }
 
+        habilitarMedidaRelacionada();
+        this.pack();
     }
 
     public void inserirMnemonico(java.awt.event.MouseEvent event)
@@ -1683,8 +1699,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBoxIndicador;
+    private javax.swing.JComboBox jComboBoxMedidaRelacionada;
     private javax.swing.JComboBox jComboBoxPeriodicidade;
     private javax.swing.JComboBox jComboBoxTipoGrafico;
     private javax.swing.JLabel jLabel1;
@@ -1694,7 +1710,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
@@ -1706,6 +1721,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelCadastradoPor1;
+    private javax.swing.JLabel jLabelMedidaRelacionada;
     private javax.swing.JLabel jLabelUltimaEdicao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1714,7 +1730,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
