@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "registroindicador")
@@ -60,91 +60,108 @@ public class Registroindicador implements Serializable {
     @ManyToOne(optional = false)
     private Indicador indicadorid;
 
-    public Registroindicador() {
+    public Registroindicador()
+    {
     }
 
-    public Registroindicador(Integer id) {
+    public Registroindicador(Integer id)
+    {
         this.id = id;
     }
 
-    public Registroindicador(Integer id, int tipo, String nomeUsuario, Date data) {
+    public Registroindicador(Integer id, int tipo, String nomeUsuario, Date data)
+    {
         this.id = id;
         this.tipo = tipo;
         this.nomeUsuario = nomeUsuario;
         this.data = data;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public int getTipo() {
+    public int getTipo()
+    {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(int tipo)
+    {
         this.tipo = tipo;
     }
 
-    public String getNomeUsuario() {
+    public String getNomeUsuario()
+    {
         return nomeUsuario;
     }
 
-    public void setNomeUsuario(String nomeUsuario) {
+    public void setNomeUsuario(String nomeUsuario)
+    {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public String getDescricao() {
+    public String getDescricao()
+    {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
+    public void setDescricao(String descricao)
+    {
         this.descricao = descricao;
     }
 
-    public Date getData() {
+    public Date getData()
+    {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(Date data)
+    {
         this.data = data;
     }
 
-    public Indicador getIndicadorid() {
+    public Indicador getIndicadorid()
+    {
         return indicadorid;
     }
 
-    public void setIndicadorid(Indicador indicadorid) {
+    public void setIndicadorid(Indicador indicadorid)
+    {
         this.indicadorid = indicadorid;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Registroindicador)) {
             return false;
         }
         Registroindicador other = (Registroindicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Registroindicador[ id=" + id + " ]";
     }
-    
+
 }

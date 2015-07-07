@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Paulo
  */
 @Entity
-@Table(name = "entidademedida")
+@Table(name = "meiosprocedimentoanalise")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Entidademedida.findAll", query = "SELECT e FROM Entidademedida e"),
-    @NamedQuery(name = "Entidademedida.findById", query = "SELECT e FROM Entidademedida e WHERE e.id = :id"),
-    @NamedQuery(name = "Entidademedida.findByNome", query = "SELECT e FROM Entidademedida e WHERE e.nome = :nome")})
-public class Entidademedida implements Serializable {
+    @NamedQuery(name = "Meiosprocedimentoanalise.findAll", query = "SELECT m FROM Meiosprocedimentoanalise m"),
+    @NamedQuery(name = "Meiosprocedimentoanalise.findById", query = "SELECT m FROM Meiosprocedimentoanalise m WHERE m.id = :id"),
+    @NamedQuery(name = "Meiosprocedimentoanalise.findByIdmeioComunicacao", query = "SELECT m FROM Meiosprocedimentoanalise m WHERE m.idmeioComunicacao = :idmeioComunicacao")})
+public class Meiosprocedimentoanalise implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,25 +38,25 @@ public class Entidademedida implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "nome")
-    private String nome;
-    @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
-    @ManyToOne
-    private Projeto projetoid;
+    @Column(name = "id_meioComunicacao")
+    private int idmeioComunicacao;
+    @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Procedimentodeanalise procedimentoDeAnaliseid;
 
-    public Entidademedida()
+    public Meiosprocedimentoanalise()
     {
     }
 
-    public Entidademedida(Integer id)
+    public Meiosprocedimentoanalise(Integer id)
     {
         this.id = id;
     }
 
-    public Entidademedida(Integer id, String nome)
+    public Meiosprocedimentoanalise(Integer id, int idmeioComunicacao)
     {
         this.id = id;
-        this.nome = nome;
+        this.idmeioComunicacao = idmeioComunicacao;
     }
 
     public Integer getId()
@@ -69,24 +69,24 @@ public class Entidademedida implements Serializable {
         this.id = id;
     }
 
-    public String getNome()
+    public int getIdmeioComunicacao()
     {
-        return nome;
+        return idmeioComunicacao;
     }
 
-    public void setNome(String nome)
+    public void setIdmeioComunicacao(int idmeioComunicacao)
     {
-        this.nome = nome;
+        this.idmeioComunicacao = idmeioComunicacao;
     }
 
-    public Projeto getProjetoid()
+    public Procedimentodeanalise getProcedimentoDeAnaliseid()
     {
-        return projetoid;
+        return procedimentoDeAnaliseid;
     }
 
-    public void setProjetoid(Projeto projetoid)
+    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid)
     {
-        this.projetoid = projetoid;
+        this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
     }
 
     @Override
@@ -101,10 +101,10 @@ public class Entidademedida implements Serializable {
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Entidademedida)) {
+        if (!(object instanceof Meiosprocedimentoanalise)) {
             return false;
         }
-        Entidademedida other = (Entidademedida) object;
+        Meiosprocedimentoanalise other = (Meiosprocedimentoanalise) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
@@ -113,7 +113,7 @@ public class Entidademedida implements Serializable {
     @Override
     public String toString()
     {
-        return "model.Entidademedida[ id=" + id + " ]";
+        return "model.Meiosprocedimentoanalise[ id=" + id + " ]";
     }
 
 }

@@ -23,20 +23,23 @@ import model.Procedimentodecoleta;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class ProcedimentodecoletaJpaController implements Serializable {
 
-    public ProcedimentodecoletaJpaController(EntityManagerFactory emf) {
+    public ProcedimentodecoletaJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Procedimentodecoleta procedimentodecoleta) {
+    public void create(Procedimentodecoleta procedimentodecoleta)
+    {
         if (procedimentodecoleta.getRegistroprocedimentocoletaList() == null) {
             procedimentodecoleta.setRegistroprocedimentocoletaList(new ArrayList<Registroprocedimentocoleta>());
         }
@@ -95,7 +98,8 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         }
     }
 
-    public void edit(Procedimentodecoleta procedimentodecoleta) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Procedimentodecoleta procedimentodecoleta) throws IllegalOrphanException, NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -193,7 +197,8 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -237,15 +242,18 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         }
     }
 
-    public List<Procedimentodecoleta> findProcedimentodecoletaEntities() {
+    public List<Procedimentodecoleta> findProcedimentodecoletaEntities()
+    {
         return findProcedimentodecoletaEntities(true, -1, -1);
     }
 
-    public List<Procedimentodecoleta> findProcedimentodecoletaEntities(int maxResults, int firstResult) {
+    public List<Procedimentodecoleta> findProcedimentodecoletaEntities(int maxResults, int firstResult)
+    {
         return findProcedimentodecoletaEntities(false, maxResults, firstResult);
     }
 
-    private List<Procedimentodecoleta> findProcedimentodecoletaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Procedimentodecoleta> findProcedimentodecoletaEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -261,7 +269,8 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         }
     }
 
-    public Procedimentodecoleta findProcedimentodecoleta(Integer id) {
+    public Procedimentodecoleta findProcedimentodecoleta(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Procedimentodecoleta.class, id);
@@ -270,7 +279,8 @@ public class ProcedimentodecoletaJpaController implements Serializable {
         }
     }
 
-    public int getProcedimentodecoletaCount() {
+    public int getProcedimentodecoletaCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -282,5 +292,5 @@ public class ProcedimentodecoletaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -22,20 +22,23 @@ import model.Perfil;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class PerfilJpaController implements Serializable {
 
-    public PerfilJpaController(EntityManagerFactory emf) {
+    public PerfilJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Perfil perfil) {
+    public void create(Perfil perfil)
+    {
         if (perfil.getFuncionalidadeList() == null) {
             perfil.setFuncionalidadeList(new ArrayList<Funcionalidade>());
         }
@@ -80,7 +83,8 @@ public class PerfilJpaController implements Serializable {
         }
     }
 
-    public void edit(Perfil perfil) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Perfil perfil) throws IllegalOrphanException, NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -157,7 +161,8 @@ public class PerfilJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -194,15 +199,18 @@ public class PerfilJpaController implements Serializable {
         }
     }
 
-    public List<Perfil> findPerfilEntities() {
+    public List<Perfil> findPerfilEntities()
+    {
         return findPerfilEntities(true, -1, -1);
     }
 
-    public List<Perfil> findPerfilEntities(int maxResults, int firstResult) {
+    public List<Perfil> findPerfilEntities(int maxResults, int firstResult)
+    {
         return findPerfilEntities(false, maxResults, firstResult);
     }
 
-    private List<Perfil> findPerfilEntities(boolean all, int maxResults, int firstResult) {
+    private List<Perfil> findPerfilEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -218,7 +226,8 @@ public class PerfilJpaController implements Serializable {
         }
     }
 
-    public Perfil findPerfil(Integer id) {
+    public Perfil findPerfil(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Perfil.class, id);
@@ -227,7 +236,8 @@ public class PerfilJpaController implements Serializable {
         }
     }
 
-    public int getPerfilCount() {
+    public int getPerfilCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -239,5 +249,5 @@ public class PerfilJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -19,20 +19,23 @@ import model.Resultados;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class RegistroresultadosJpaController implements Serializable {
 
-    public RegistroresultadosJpaController(EntityManagerFactory emf) {
+    public RegistroresultadosJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Registroresultados registroresultados) {
+    public void create(Registroresultados registroresultados)
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,7 +58,8 @@ public class RegistroresultadosJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroresultados registroresultados) throws NonexistentEntityException, Exception {
+    public void edit(Registroresultados registroresultados) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -93,7 +97,8 @@ public class RegistroresultadosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -119,15 +124,18 @@ public class RegistroresultadosJpaController implements Serializable {
         }
     }
 
-    public List<Registroresultados> findRegistroresultadosEntities() {
+    public List<Registroresultados> findRegistroresultadosEntities()
+    {
         return findRegistroresultadosEntities(true, -1, -1);
     }
 
-    public List<Registroresultados> findRegistroresultadosEntities(int maxResults, int firstResult) {
+    public List<Registroresultados> findRegistroresultadosEntities(int maxResults, int firstResult)
+    {
         return findRegistroresultadosEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroresultados> findRegistroresultadosEntities(boolean all, int maxResults, int firstResult) {
+    private List<Registroresultados> findRegistroresultadosEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -143,7 +151,8 @@ public class RegistroresultadosJpaController implements Serializable {
         }
     }
 
-    public Registroresultados findRegistroresultados(Integer id) {
+    public Registroresultados findRegistroresultados(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroresultados.class, id);
@@ -152,7 +161,8 @@ public class RegistroresultadosJpaController implements Serializable {
         }
     }
 
-    public int getRegistroresultadosCount() {
+    public int getRegistroresultadosCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -164,5 +174,5 @@ public class RegistroresultadosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

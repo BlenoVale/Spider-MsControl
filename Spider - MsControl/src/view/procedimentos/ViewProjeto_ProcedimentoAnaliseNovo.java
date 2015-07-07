@@ -9,7 +9,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import model.Datasprocedimentoanalise;
 import model.Indicador;
 import model.Medida;
 import model.Procedimentodeanalise;
@@ -38,7 +37,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private MyDefaultTableModel tableModel;
     private CheckDefaultTableModel checkModel;
     private List<Medida> listMedida;
-    private List<Datasprocedimentoanalise> listaDatas;
+
 
     private boolean ehNovoProcedimentoAnalise;
 
@@ -48,6 +47,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         initComponents();
         agruparBotoesRadio();
         this.setLocationRelativeTo(null);
+        ocultarMedidaRelacionada();
         iniciarTabela();
         recarregarTabela();
     }
@@ -360,14 +360,20 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
+    public void ocultarMedidaRelacionada()
+    {
+        jLabelMedidaRelacionada.setVisible(false);
+        jComboBoxMedidaRelacionada.setVisible(false);
+    }
+
     public void habilitarMedidaRelacionada()
     {
+
         if (jRadioButtonBase.isSelected()) {
             jLabelMedidaRelacionada.setVisible(true);
             jComboBoxMedidaRelacionada.setVisible(true);
         } else {
-            jLabelMedidaRelacionada.setVisible(false);
-            jComboBoxMedidaRelacionada.setVisible(false);
+            ocultarMedidaRelacionada();
         }
 
     }
@@ -495,6 +501,72 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 //        /System.out.println(jTableMeios.getColumn(0).get);
     }
 
+    public void bloquearAba()
+    {
+        if (jRadioButtonBase.isSelected() == true) {
+            jTabbedPane1.setEnabledAt(3, false);
+            jTextFieldFormula.setText("");
+        } else {
+            jTabbedPane1.setEnabledAt(3, true);
+        }
+
+        habilitarMedidaRelacionada();
+        this.pack();
+    }
+
+    public void inserirMnemonico(java.awt.event.MouseEvent event)
+    {
+        if (event.getClickCount() >= 2) {
+            String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico);
+        }
+    }
+
+    public String excluirUltimaLetra(String texto)
+    {
+
+        if (!texto.isEmpty()) {
+            int length = texto.length();
+            if (verificaOperandos(texto)) {
+                texto = texto.substring(0, length - 1);
+            } else {
+                texto = texto.substring(0, length - 2);
+            }
+
+            jTextFieldFormula.setText(texto);
+            return texto;
+        }
+        return null;
+    }
+
+    public boolean verificaOperandos(String texto)
+    {
+        int length = texto.length();
+
+        if (texto.charAt(length - 1) == '('
+                || texto.charAt(length - 1) == ')'
+                || texto.charAt(length - 1) == '.'
+                || texto.charAt(length - 1) == '+'
+                || texto.charAt(length - 1) == '-'
+                || texto.charAt(length - 1) == '*'
+                || texto.charAt(length - 1) == '/'
+                || texto.charAt(length - 1) == '/'
+                || texto.charAt(length - 1) == '0'
+                || texto.charAt(length - 1) == '1'
+                || texto.charAt(length - 1) == '2'
+                || texto.charAt(length - 1) == '3'
+                || texto.charAt(length - 1) == '4'
+                || texto.charAt(length - 1) == '5'
+                || texto.charAt(length - 1) == '6'
+                || texto.charAt(length - 1) == '7'
+                || texto.charAt(length - 1) == '8'
+                || texto.charAt(length - 1) == '9') {
+            return true;
+        }
+        return false;
+
+    }
+
     private void acessaCalendario(JComboBox combobox, String tipo)
     {
         Calendario calendario = new Calendario(null, true);
@@ -516,11 +588,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             calendario.showCalendarioOutrosPeriodosDialog("Anual", tipo);
         }
 
-        listaDatas = new ArrayList<>();
-        listaDatas = calendario.getListaDataProcedimentoAnalise();
-        if (listaDatas.isEmpty()) {
-            combobox.setSelectedIndex(0);
-        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -616,6 +684,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         dateField2 = new net.sf.nachocalendar.components.DateField();
         jComboBoxIndicador = new javax.swing.JComboBox();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1361,6 +1430,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jComboBoxIndicador.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton3.setText("Cadastrar Meio de Comunicação");
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1383,6 +1461,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCancelar)))
@@ -1408,7 +1488,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
-                    .addComponent(jButtonSalvar))
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -1609,71 +1690,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         bloquearAba();
     }//GEN-LAST:event_jRadioButtonBaseActionPerformed
 
-    public void bloquearAba()
-    {
-        if (jRadioButtonBase.isSelected() == true) {
-            jTabbedPane1.setEnabledAt(3, false);
-            jTextFieldFormula.setText("");
-        } else {
-            jTabbedPane1.setEnabledAt(3, true);
-        }
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
+    {//GEN-HEADEREND:event_jButton3ActionPerformed
+        ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
+        viewProjeto_MeioComunicacao.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-        habilitarMedidaRelacionada();
-        this.pack();
-    }
-
-    public void inserirMnemonico(java.awt.event.MouseEvent event)
-    {
-        if (event.getClickCount() >= 2) {
-            String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico);
-        }
-    }
-
-    public String excluirUltimaLetra(String texto)
-    {
-
-        if (!texto.isEmpty()) {
-            int length = texto.length();
-            if (verificaOperandos(texto)) {
-                texto = texto.substring(0, length - 1);
-            } else {
-                texto = texto.substring(0, length - 2);
-            }
-
-            jTextFieldFormula.setText(texto);
-            return texto;
-        }
-        return null;
-    }
-
-    public boolean verificaOperandos(String texto)
-    {
-        int length = texto.length();
-
-        if (texto.charAt(length - 1) == '('
-                || texto.charAt(length - 1) == ')'
-                || texto.charAt(length - 1) == '.'
-                || texto.charAt(length - 1) == '+'
-                || texto.charAt(length - 1) == '-'
-                || texto.charAt(length - 1) == '*'
-                || texto.charAt(length - 1) == '/'
-                || texto.charAt(length - 1) == '/'
-                || texto.charAt(length - 1) == '0'
-                || texto.charAt(length - 1) == '1'
-                || texto.charAt(length - 1) == '2'
-                || texto.charAt(length - 1) == '3'
-                || texto.charAt(length - 1) == '4'
-                || texto.charAt(length - 1) == '5'
-                || texto.charAt(length - 1) == '6'
-                || texto.charAt(length - 1) == '7'
-                || texto.charAt(length - 1) == '8'
-                || texto.charAt(length - 1) == '9') {
-            return true;
-        }
-        return false;
-
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
@@ -1694,6 +1716,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

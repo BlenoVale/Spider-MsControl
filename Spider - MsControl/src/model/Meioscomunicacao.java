@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Paulo
  */
 @Entity
-@Table(name = "entidademedida")
+@Table(name = "meioscomunicacao")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Entidademedida.findAll", query = "SELECT e FROM Entidademedida e"),
-    @NamedQuery(name = "Entidademedida.findById", query = "SELECT e FROM Entidademedida e WHERE e.id = :id"),
-    @NamedQuery(name = "Entidademedida.findByNome", query = "SELECT e FROM Entidademedida e WHERE e.nome = :nome")})
-public class Entidademedida implements Serializable {
+    @NamedQuery(name = "Meioscomunicacao.findAll", query = "SELECT m FROM Meioscomunicacao m"),
+    @NamedQuery(name = "Meioscomunicacao.findById", query = "SELECT m FROM Meioscomunicacao m WHERE m.id = :id"),
+    @NamedQuery(name = "Meioscomunicacao.findByNome", query = "SELECT m FROM Meioscomunicacao m WHERE m.nome = :nome")})
+public class Meioscomunicacao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,16 +44,16 @@ public class Entidademedida implements Serializable {
     @ManyToOne
     private Projeto projetoid;
 
-    public Entidademedida()
+    public Meioscomunicacao()
     {
     }
 
-    public Entidademedida(Integer id)
+    public Meioscomunicacao(Integer id)
     {
         this.id = id;
     }
 
-    public Entidademedida(Integer id, String nome)
+    public Meioscomunicacao(Integer id, String nome)
     {
         this.id = id;
         this.nome = nome;
@@ -101,10 +101,10 @@ public class Entidademedida implements Serializable {
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Entidademedida)) {
+        if (!(object instanceof Meioscomunicacao)) {
             return false;
         }
-        Entidademedida other = (Entidademedida) object;
+        Meioscomunicacao other = (Meioscomunicacao) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
@@ -113,7 +113,7 @@ public class Entidademedida implements Serializable {
     @Override
     public String toString()
     {
-        return "model.Entidademedida[ id=" + id + " ]";
+        return "model.Meioscomunicacao[ id=" + id + " ]";
     }
 
 }

@@ -14,16 +14,16 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
+import model.Perfisinteressadosprocedimentoanalise;
 import model.Procedimentodeanalise;
-import model.Registroprocedimentoanalise;
 
 /**
  *
  * @author Paulo
  */
-public class RegistroprocedimentoanaliseJpaController implements Serializable {
+public class PerfisinteressadosprocedimentoanaliseJpaController implements Serializable {
 
-    public RegistroprocedimentoanaliseJpaController(EntityManagerFactory emf)
+    public PerfisinteressadosprocedimentoanaliseJpaController(EntityManagerFactory emf)
     {
         this.emf = emf;
     }
@@ -34,20 +34,20 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprocedimentoanalise registroprocedimentoanalise)
+    public void create(Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise)
     {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Procedimentodeanalise procedimentoDeAnaliseid = registroprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Procedimentodeanalise procedimentoDeAnaliseid = perfisinteressadosprocedimentoanalise.getProcedimentoDeAnaliseid();
             if (procedimentoDeAnaliseid != null) {
                 procedimentoDeAnaliseid = em.getReference(procedimentoDeAnaliseid.getClass(), procedimentoDeAnaliseid.getId());
-                registroprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseid);
+                perfisinteressadosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseid);
             }
-            em.persist(registroprocedimentoanalise);
+            em.persist(perfisinteressadosprocedimentoanalise);
             if (procedimentoDeAnaliseid != null) {
-                procedimentoDeAnaliseid.getRegistroprocedimentoanaliseList().add(registroprocedimentoanalise);
+                procedimentoDeAnaliseid.getPerfisinteressadosprocedimentoanaliseList().add(perfisinteressadosprocedimentoanalise);
                 procedimentoDeAnaliseid = em.merge(procedimentoDeAnaliseid);
             }
             em.getTransaction().commit();
@@ -58,35 +58,35 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroprocedimentoanalise registroprocedimentoanalise) throws NonexistentEntityException, Exception
+    public void edit(Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprocedimentoanalise persistentRegistroprocedimentoanalise = em.find(Registroprocedimentoanalise.class, registroprocedimentoanalise.getId());
-            Procedimentodeanalise procedimentoDeAnaliseidOld = persistentRegistroprocedimentoanalise.getProcedimentoDeAnaliseid();
-            Procedimentodeanalise procedimentoDeAnaliseidNew = registroprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Perfisinteressadosprocedimentoanalise persistentPerfisinteressadosprocedimentoanalise = em.find(Perfisinteressadosprocedimentoanalise.class, perfisinteressadosprocedimentoanalise.getId());
+            Procedimentodeanalise procedimentoDeAnaliseidOld = persistentPerfisinteressadosprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Procedimentodeanalise procedimentoDeAnaliseidNew = perfisinteressadosprocedimentoanalise.getProcedimentoDeAnaliseid();
             if (procedimentoDeAnaliseidNew != null) {
                 procedimentoDeAnaliseidNew = em.getReference(procedimentoDeAnaliseidNew.getClass(), procedimentoDeAnaliseidNew.getId());
-                registroprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseidNew);
+                perfisinteressadosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseidNew);
             }
-            registroprocedimentoanalise = em.merge(registroprocedimentoanalise);
+            perfisinteressadosprocedimentoanalise = em.merge(perfisinteressadosprocedimentoanalise);
             if (procedimentoDeAnaliseidOld != null && !procedimentoDeAnaliseidOld.equals(procedimentoDeAnaliseidNew)) {
-                procedimentoDeAnaliseidOld.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanalise);
+                procedimentoDeAnaliseidOld.getPerfisinteressadosprocedimentoanaliseList().remove(perfisinteressadosprocedimentoanalise);
                 procedimentoDeAnaliseidOld = em.merge(procedimentoDeAnaliseidOld);
             }
             if (procedimentoDeAnaliseidNew != null && !procedimentoDeAnaliseidNew.equals(procedimentoDeAnaliseidOld)) {
-                procedimentoDeAnaliseidNew.getRegistroprocedimentoanaliseList().add(registroprocedimentoanalise);
+                procedimentoDeAnaliseidNew.getPerfisinteressadosprocedimentoanaliseList().add(perfisinteressadosprocedimentoanalise);
                 procedimentoDeAnaliseidNew = em.merge(procedimentoDeAnaliseidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = registroprocedimentoanalise.getId();
-                if (findRegistroprocedimentoanalise(id) == null) {
-                    throw new NonexistentEntityException("The registroprocedimentoanalise with id " + id + " no longer exists.");
+                Integer id = perfisinteressadosprocedimentoanalise.getId();
+                if (findPerfisinteressadosprocedimentoanalise(id) == null) {
+                    throw new NonexistentEntityException("The perfisinteressadosprocedimentoanalise with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -103,19 +103,19 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprocedimentoanalise registroprocedimentoanalise;
+            Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise;
             try {
-                registroprocedimentoanalise = em.getReference(Registroprocedimentoanalise.class, id);
-                registroprocedimentoanalise.getId();
+                perfisinteressadosprocedimentoanalise = em.getReference(Perfisinteressadosprocedimentoanalise.class, id);
+                perfisinteressadosprocedimentoanalise.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The registroprocedimentoanalise with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The perfisinteressadosprocedimentoanalise with id " + id + " no longer exists.", enfe);
             }
-            Procedimentodeanalise procedimentoDeAnaliseid = registroprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Procedimentodeanalise procedimentoDeAnaliseid = perfisinteressadosprocedimentoanalise.getProcedimentoDeAnaliseid();
             if (procedimentoDeAnaliseid != null) {
-                procedimentoDeAnaliseid.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanalise);
+                procedimentoDeAnaliseid.getPerfisinteressadosprocedimentoanaliseList().remove(perfisinteressadosprocedimentoanalise);
                 procedimentoDeAnaliseid = em.merge(procedimentoDeAnaliseid);
             }
-            em.remove(registroprocedimentoanalise);
+            em.remove(perfisinteressadosprocedimentoanalise);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -124,22 +124,22 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities()
+    public List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities()
     {
-        return findRegistroprocedimentoanaliseEntities(true, -1, -1);
+        return findPerfisinteressadosprocedimentoanaliseEntities(true, -1, -1);
     }
 
-    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(int maxResults, int firstResult)
+    public List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities(int maxResults, int firstResult)
     {
-        return findRegistroprocedimentoanaliseEntities(false, maxResults, firstResult);
+        return findPerfisinteressadosprocedimentoanaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
+    private List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Registroprocedimentoanalise.class));
+            cq.select(cq.from(Perfisinteressadosprocedimentoanalise.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -151,22 +151,22 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public Registroprocedimentoanalise findRegistroprocedimentoanalise(Integer id)
+    public Perfisinteressadosprocedimentoanalise findPerfisinteressadosprocedimentoanalise(Integer id)
     {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Registroprocedimentoanalise.class, id);
+            return em.find(Perfisinteressadosprocedimentoanalise.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getRegistroprocedimentoanaliseCount()
+    public int getPerfisinteressadosprocedimentoanaliseCount()
     {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Registroprocedimentoanalise> rt = cq.from(Registroprocedimentoanalise.class);
+            Root<Perfisinteressadosprocedimentoanalise> rt = cq.from(Perfisinteressadosprocedimentoanalise.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

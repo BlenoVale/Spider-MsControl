@@ -14,16 +14,16 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
+import model.Perfilinteressado;
 import model.Projeto;
-import model.Registroprojeto;
 
 /**
  *
  * @author Paulo
  */
-public class RegistroprojetoJpaController implements Serializable {
+public class PerfilinteressadoJpaController implements Serializable {
 
-    public RegistroprojetoJpaController(EntityManagerFactory emf)
+    public PerfilinteressadoJpaController(EntityManagerFactory emf)
     {
         this.emf = emf;
     }
@@ -34,20 +34,20 @@ public class RegistroprojetoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprojeto registroprojeto)
+    public void create(Perfilinteressado perfilinteressado)
     {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Projeto projetoid = registroprojeto.getProjetoid();
+            Projeto projetoid = perfilinteressado.getProjetoid();
             if (projetoid != null) {
                 projetoid = em.getReference(projetoid.getClass(), projetoid.getId());
-                registroprojeto.setProjetoid(projetoid);
+                perfilinteressado.setProjetoid(projetoid);
             }
-            em.persist(registroprojeto);
+            em.persist(perfilinteressado);
             if (projetoid != null) {
-                projetoid.getRegistroprojetoList().add(registroprojeto);
+                projetoid.getPerfilinteressadoList().add(perfilinteressado);
                 projetoid = em.merge(projetoid);
             }
             em.getTransaction().commit();
@@ -58,35 +58,35 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroprojeto registroprojeto) throws NonexistentEntityException, Exception
+    public void edit(Perfilinteressado perfilinteressado) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprojeto persistentRegistroprojeto = em.find(Registroprojeto.class, registroprojeto.getId());
-            Projeto projetoidOld = persistentRegistroprojeto.getProjetoid();
-            Projeto projetoidNew = registroprojeto.getProjetoid();
+            Perfilinteressado persistentPerfilinteressado = em.find(Perfilinteressado.class, perfilinteressado.getId());
+            Projeto projetoidOld = persistentPerfilinteressado.getProjetoid();
+            Projeto projetoidNew = perfilinteressado.getProjetoid();
             if (projetoidNew != null) {
                 projetoidNew = em.getReference(projetoidNew.getClass(), projetoidNew.getId());
-                registroprojeto.setProjetoid(projetoidNew);
+                perfilinteressado.setProjetoid(projetoidNew);
             }
-            registroprojeto = em.merge(registroprojeto);
+            perfilinteressado = em.merge(perfilinteressado);
             if (projetoidOld != null && !projetoidOld.equals(projetoidNew)) {
-                projetoidOld.getRegistroprojetoList().remove(registroprojeto);
+                projetoidOld.getPerfilinteressadoList().remove(perfilinteressado);
                 projetoidOld = em.merge(projetoidOld);
             }
             if (projetoidNew != null && !projetoidNew.equals(projetoidOld)) {
-                projetoidNew.getRegistroprojetoList().add(registroprojeto);
+                projetoidNew.getPerfilinteressadoList().add(perfilinteressado);
                 projetoidNew = em.merge(projetoidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = registroprojeto.getId();
-                if (findRegistroprojeto(id) == null) {
-                    throw new NonexistentEntityException("The registroprojeto with id " + id + " no longer exists.");
+                Integer id = perfilinteressado.getId();
+                if (findPerfilinteressado(id) == null) {
+                    throw new NonexistentEntityException("The perfilinteressado with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -103,19 +103,19 @@ public class RegistroprojetoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprojeto registroprojeto;
+            Perfilinteressado perfilinteressado;
             try {
-                registroprojeto = em.getReference(Registroprojeto.class, id);
-                registroprojeto.getId();
+                perfilinteressado = em.getReference(Perfilinteressado.class, id);
+                perfilinteressado.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The registroprojeto with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The perfilinteressado with id " + id + " no longer exists.", enfe);
             }
-            Projeto projetoid = registroprojeto.getProjetoid();
+            Projeto projetoid = perfilinteressado.getProjetoid();
             if (projetoid != null) {
-                projetoid.getRegistroprojetoList().remove(registroprojeto);
+                projetoid.getPerfilinteressadoList().remove(perfilinteressado);
                 projetoid = em.merge(projetoid);
             }
-            em.remove(registroprojeto);
+            em.remove(perfilinteressado);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -124,22 +124,22 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public List<Registroprojeto> findRegistroprojetoEntities()
+    public List<Perfilinteressado> findPerfilinteressadoEntities()
     {
-        return findRegistroprojetoEntities(true, -1, -1);
+        return findPerfilinteressadoEntities(true, -1, -1);
     }
 
-    public List<Registroprojeto> findRegistroprojetoEntities(int maxResults, int firstResult)
+    public List<Perfilinteressado> findPerfilinteressadoEntities(int maxResults, int firstResult)
     {
-        return findRegistroprojetoEntities(false, maxResults, firstResult);
+        return findPerfilinteressadoEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroprojeto> findRegistroprojetoEntities(boolean all, int maxResults, int firstResult)
+    private List<Perfilinteressado> findPerfilinteressadoEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Registroprojeto.class));
+            cq.select(cq.from(Perfilinteressado.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -151,22 +151,22 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public Registroprojeto findRegistroprojeto(Integer id)
+    public Perfilinteressado findPerfilinteressado(Integer id)
     {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Registroprojeto.class, id);
+            return em.find(Perfilinteressado.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getRegistroprojetoCount()
+    public int getPerfilinteressadoCount()
     {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Registroprojeto> rt = cq.from(Registroprojeto.class);
+            Root<Perfilinteressado> rt = cq.from(Perfilinteressado.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

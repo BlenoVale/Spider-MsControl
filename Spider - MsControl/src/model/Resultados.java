@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "resultados")
@@ -69,20 +69,23 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "usuariosInteressados")
     private String usuariosInteressados;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
+    private List<Registroresultados> registroresultadosList;
     @JoinColumn(name = "Analise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Analise analiseid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
-    private List<Registroresultados> registroresultadosList;
 
-    public Resultados() {
+    public Resultados()
+    {
     }
 
-    public Resultados(Integer id) {
+    public Resultados(Integer id)
+    {
         this.id = id;
     }
 
-    public Resultados(Integer id, String titulo, Date data, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados) {
+    public Resultados(Integer id, String titulo, Date data, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados)
+    {
         this.id = id;
         this.titulo = titulo;
         this.data = data;
@@ -92,102 +95,122 @@ public class Resultados implements Serializable {
         this.usuariosInteressados = usuariosInteressados;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getTitulo() {
+    public String getTitulo()
+    {
         return titulo;
     }
 
-    public void setTitulo(String titulo) {
+    public void setTitulo(String titulo)
+    {
         this.titulo = titulo;
     }
 
-    public Date getData() {
+    public Date getData()
+    {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(Date data)
+    {
         this.data = data;
     }
 
-    public String getInterpretacao() {
+    public String getInterpretacao()
+    {
         return interpretacao;
     }
 
-    public void setInterpretacao(String interpretacao) {
+    public void setInterpretacao(String interpretacao)
+    {
         this.interpretacao = interpretacao;
     }
 
-    public String getTomadaDeDecisao() {
+    public String getTomadaDeDecisao()
+    {
         return tomadaDeDecisao;
     }
 
-    public void setTomadaDeDecisao(String tomadaDeDecisao) {
+    public void setTomadaDeDecisao(String tomadaDeDecisao)
+    {
         this.tomadaDeDecisao = tomadaDeDecisao;
     }
 
-    public String getParticipantes() {
+    public String getParticipantes()
+    {
         return participantes;
     }
 
-    public void setParticipantes(String participantes) {
+    public void setParticipantes(String participantes)
+    {
         this.participantes = participantes;
     }
 
-    public String getUsuariosInteressados() {
+    public String getUsuariosInteressados()
+    {
         return usuariosInteressados;
     }
 
-    public void setUsuariosInteressados(String usuariosInteressados) {
+    public void setUsuariosInteressados(String usuariosInteressados)
+    {
         this.usuariosInteressados = usuariosInteressados;
     }
 
-    public Analise getAnaliseid() {
-        return analiseid;
-    }
-
-    public void setAnaliseid(Analise analiseid) {
-        this.analiseid = analiseid;
-    }
-
     @XmlTransient
-    public List<Registroresultados> getRegistroresultadosList() {
+    public List<Registroresultados> getRegistroresultadosList()
+    {
         return registroresultadosList;
     }
 
-    public void setRegistroresultadosList(List<Registroresultados> registroresultadosList) {
+    public void setRegistroresultadosList(List<Registroresultados> registroresultadosList)
+    {
         this.registroresultadosList = registroresultadosList;
     }
 
+    public Analise getAnaliseid()
+    {
+        return analiseid;
+    }
+
+    public void setAnaliseid(Analise analiseid)
+    {
+        this.analiseid = analiseid;
+    }
+
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Resultados)) {
             return false;
         }
         Resultados other = (Resultados) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Resultados[ id=" + id + " ]";
     }
-    
+
 }

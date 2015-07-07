@@ -19,20 +19,23 @@ import model.Projeto;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class EntidademedidaJpaController implements Serializable {
 
-    public EntidademedidaJpaController(EntityManagerFactory emf) {
+    public EntidademedidaJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Entidademedida entidademedida) {
+    public void create(Entidademedida entidademedida)
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,7 +58,8 @@ public class EntidademedidaJpaController implements Serializable {
         }
     }
 
-    public void edit(Entidademedida entidademedida) throws NonexistentEntityException, Exception {
+    public void edit(Entidademedida entidademedida) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -93,7 +97,8 @@ public class EntidademedidaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -119,15 +124,18 @@ public class EntidademedidaJpaController implements Serializable {
         }
     }
 
-    public List<Entidademedida> findEntidademedidaEntities() {
+    public List<Entidademedida> findEntidademedidaEntities()
+    {
         return findEntidademedidaEntities(true, -1, -1);
     }
 
-    public List<Entidademedida> findEntidademedidaEntities(int maxResults, int firstResult) {
+    public List<Entidademedida> findEntidademedidaEntities(int maxResults, int firstResult)
+    {
         return findEntidademedidaEntities(false, maxResults, firstResult);
     }
 
-    private List<Entidademedida> findEntidademedidaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Entidademedida> findEntidademedidaEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -143,7 +151,8 @@ public class EntidademedidaJpaController implements Serializable {
         }
     }
 
-    public Entidademedida findEntidademedida(Integer id) {
+    public Entidademedida findEntidademedida(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Entidademedida.class, id);
@@ -152,7 +161,8 @@ public class EntidademedidaJpaController implements Serializable {
         }
     }
 
-    public int getEntidademedidaCount() {
+    public int getEntidademedidaCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -164,5 +174,5 @@ public class EntidademedidaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

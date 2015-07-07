@@ -70,7 +70,7 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gerencia Entidade Medida");
+        setTitle("Gerenciar Meios de Comunicação");
         setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -185,7 +185,7 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        
+
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**

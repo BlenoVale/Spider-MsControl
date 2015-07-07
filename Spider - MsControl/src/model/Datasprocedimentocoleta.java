@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "datasprocedimentocoleta")
@@ -54,76 +54,90 @@ public class Datasprocedimentocoleta implements Serializable {
     @ManyToOne(optional = false)
     private Procedimentodecoleta procedimentoDeColetaid;
 
-    public Datasprocedimentocoleta() {
+    public Datasprocedimentocoleta()
+    {
     }
 
-    public Datasprocedimentocoleta(Integer id) {
+    public Datasprocedimentocoleta(Integer id)
+    {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getDia() {
+    public String getDia()
+    {
         return dia;
     }
 
-    public void setDia(String dia) {
+    public void setDia(String dia)
+    {
         this.dia = dia;
     }
 
-    public Date getDataInicio() {
+    public Date getDataInicio()
+    {
         return dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(Date dataInicio)
+    {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
+    public Date getDataFim()
+    {
         return dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(Date dataFim)
+    {
         this.dataFim = dataFim;
     }
 
-    public Procedimentodecoleta getProcedimentoDeColetaid() {
+    public Procedimentodecoleta getProcedimentoDeColetaid()
+    {
         return procedimentoDeColetaid;
     }
 
-    public void setProcedimentoDeColetaid(Procedimentodecoleta procedimentoDeColetaid) {
+    public void setProcedimentoDeColetaid(Procedimentodecoleta procedimentoDeColetaid)
+    {
         this.procedimentoDeColetaid = procedimentoDeColetaid;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Datasprocedimentocoleta)) {
             return false;
         }
         Datasprocedimentocoleta other = (Datasprocedimentocoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Datasprocedimentocoleta[ id=" + id + " ]";
     }
-    
+
 }

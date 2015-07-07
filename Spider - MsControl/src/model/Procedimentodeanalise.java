@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodeanalise.findByResponsavel", query = "SELECT p FROM Procedimentodeanalise p WHERE p.responsavel = :responsavel"),
     @NamedQuery(name = "Procedimentodeanalise.findByComposicao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.composicao = :composicao"),
     @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidade", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidade = :periodicidade"),
-    @NamedQuery(name = "Procedimentodeanalise.findByPeriodicidadeComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.periodicidadeComunicacao = :periodicidadeComunicacao"),
     @NamedQuery(name = "Procedimentodeanalise.findByGraficoNome", query = "SELECT p FROM Procedimentodeanalise p WHERE p.graficoNome = :graficoNome"),
     @NamedQuery(name = "Procedimentodeanalise.findByMetaOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaOk = :metaOk"),
     @NamedQuery(name = "Procedimentodeanalise.findByMetaAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaAlerta = :metaAlerta"),
@@ -69,9 +68,6 @@ public class Procedimentodeanalise implements Serializable {
     @Basic(optional = false)
     @Column(name = "periodicidade")
     private String periodicidade;
-    @Basic(optional = false)
-    @Column(name = "periodicidadeComunicacao")
-    private String periodicidadeComunicacao;
     @Basic(optional = false)
     @Lob
     @Column(name = "frequencia")
@@ -113,27 +109,33 @@ public class Procedimentodeanalise implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
-    private List<Datasprocedimentoanalise> datasprocedimentoanaliseList;
+    private List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
+    private List<Registrodatacomunicacao> registrodatacomunicacaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
     private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
+    private List<Meiosprocedimentoanalise> meiosprocedimentoanaliseList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Indicador indicadorid;
 
-    public Procedimentodeanalise() {
+    public Procedimentodeanalise()
+    {
     }
 
-    public Procedimentodeanalise(Integer id) {
+    public Procedimentodeanalise(Integer id)
+    {
         this.id = id;
     }
 
-    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String periodicidadeComunicacao, String frequencia, String graficoNome, String metaOk, String metaAlerta, String metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, String comunicacao) {
+    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String frequencia, String graficoNome, String metaOk, String metaAlerta, String metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, String comunicacao)
+    {
         this.id = id;
         this.responsavel = responsavel;
         this.composicao = composicao;
         this.formula = formula;
         this.periodicidade = periodicidade;
-        this.periodicidadeComunicacao = periodicidadeComunicacao;
         this.frequencia = frequencia;
         this.graficoNome = graficoNome;
         this.metaOk = metaOk;
@@ -148,207 +150,265 @@ public class Procedimentodeanalise implements Serializable {
         this.comunicacao = comunicacao;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getResponsavel() {
+    public String getResponsavel()
+    {
         return responsavel;
     }
 
-    public void setResponsavel(String responsavel) {
+    public void setResponsavel(String responsavel)
+    {
         this.responsavel = responsavel;
     }
 
-    public String getComposicao() {
+    public String getComposicao()
+    {
         return composicao;
     }
 
-    public void setComposicao(String composicao) {
+    public void setComposicao(String composicao)
+    {
         this.composicao = composicao;
     }
 
-    public String getFormula() {
+    public String getFormula()
+    {
         return formula;
     }
 
-    public void setFormula(String formula) {
+    public void setFormula(String formula)
+    {
         this.formula = formula;
     }
 
-    public String getPeriodicidade() {
+    public String getPeriodicidade()
+    {
         return periodicidade;
     }
 
-    public void setPeriodicidade(String periodicidade) {
+    public void setPeriodicidade(String periodicidade)
+    {
         this.periodicidade = periodicidade;
     }
 
-    public String getPeriodicidadeComunicacao() {
-        return periodicidadeComunicacao;
-    }
-
-    public void setPeriodicidadeComunicacao(String periodicidadeComunicacao) {
-        this.periodicidadeComunicacao = periodicidadeComunicacao;
-    }
-
-    public String getFrequencia() {
+    public String getFrequencia()
+    {
         return frequencia;
     }
 
-    public void setFrequencia(String frequencia) {
+    public void setFrequencia(String frequencia)
+    {
         this.frequencia = frequencia;
     }
 
-    public String getGraficoNome() {
+    public String getGraficoNome()
+    {
         return graficoNome;
     }
 
-    public void setGraficoNome(String graficoNome) {
+    public void setGraficoNome(String graficoNome)
+    {
         this.graficoNome = graficoNome;
     }
 
-    public String getMetaOk() {
+    public String getMetaOk()
+    {
         return metaOk;
     }
 
-    public void setMetaOk(String metaOk) {
+    public void setMetaOk(String metaOk)
+    {
         this.metaOk = metaOk;
     }
 
-    public String getMetaAlerta() {
+    public String getMetaAlerta()
+    {
         return metaAlerta;
     }
 
-    public void setMetaAlerta(String metaAlerta) {
+    public void setMetaAlerta(String metaAlerta)
+    {
         this.metaAlerta = metaAlerta;
     }
 
-    public String getMetaCritico() {
+    public String getMetaCritico()
+    {
         return metaCritico;
     }
 
-    public void setMetaCritico(String metaCritico) {
+    public void setMetaCritico(String metaCritico)
+    {
         this.metaCritico = metaCritico;
     }
 
-    public String getCriterioOk() {
+    public String getCriterioOk()
+    {
         return criterioOk;
     }
 
-    public void setCriterioOk(String criterioOk) {
+    public void setCriterioOk(String criterioOk)
+    {
         this.criterioOk = criterioOk;
     }
 
-    public String getCriterioAlerta() {
+    public String getCriterioAlerta()
+    {
         return criterioAlerta;
     }
 
-    public void setCriterioAlerta(String criterioAlerta) {
+    public void setCriterioAlerta(String criterioAlerta)
+    {
         this.criterioAlerta = criterioAlerta;
     }
 
-    public String getCriterioCritico() {
+    public String getCriterioCritico()
+    {
         return criterioCritico;
     }
 
-    public void setCriterioCritico(String criterioCritico) {
+    public void setCriterioCritico(String criterioCritico)
+    {
         this.criterioCritico = criterioCritico;
     }
 
-    public String getAcoesOk() {
+    public String getAcoesOk()
+    {
         return acoesOk;
     }
 
-    public void setAcoesOk(String acoesOk) {
+    public void setAcoesOk(String acoesOk)
+    {
         this.acoesOk = acoesOk;
     }
 
-    public String getAcoesAlerta() {
+    public String getAcoesAlerta()
+    {
         return acoesAlerta;
     }
 
-    public void setAcoesAlerta(String acoesAlerta) {
+    public void setAcoesAlerta(String acoesAlerta)
+    {
         this.acoesAlerta = acoesAlerta;
     }
 
-    public String getAcoesCritico() {
+    public String getAcoesCritico()
+    {
         return acoesCritico;
     }
 
-    public void setAcoesCritico(String acoesCritico) {
+    public void setAcoesCritico(String acoesCritico)
+    {
         this.acoesCritico = acoesCritico;
     }
 
-    public String getComunicacao() {
+    public String getComunicacao()
+    {
         return comunicacao;
     }
 
-    public void setComunicacao(String comunicacao) {
+    public void setComunicacao(String comunicacao)
+    {
         this.comunicacao = comunicacao;
     }
 
-    public String getObservacao() {
+    public String getObservacao()
+    {
         return observacao;
     }
 
-    public void setObservacao(String observacao) {
+    public void setObservacao(String observacao)
+    {
         this.observacao = observacao;
     }
 
     @XmlTransient
-    public List<Datasprocedimentoanalise> getDatasprocedimentoanaliseList() {
-        return datasprocedimentoanaliseList;
+    public List<Perfisinteressadosprocedimentoanalise> getPerfisinteressadosprocedimentoanaliseList()
+    {
+        return perfisinteressadosprocedimentoanaliseList;
     }
 
-    public void setDatasprocedimentoanaliseList(List<Datasprocedimentoanalise> datasprocedimentoanaliseList) {
-        this.datasprocedimentoanaliseList = datasprocedimentoanaliseList;
+    public void setPerfisinteressadosprocedimentoanaliseList(List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseList)
+    {
+        this.perfisinteressadosprocedimentoanaliseList = perfisinteressadosprocedimentoanaliseList;
     }
 
     @XmlTransient
-    public List<Registroprocedimentoanalise> getRegistroprocedimentoanaliseList() {
+    public List<Registrodatacomunicacao> getRegistrodatacomunicacaoList()
+    {
+        return registrodatacomunicacaoList;
+    }
+
+    public void setRegistrodatacomunicacaoList(List<Registrodatacomunicacao> registrodatacomunicacaoList)
+    {
+        this.registrodatacomunicacaoList = registrodatacomunicacaoList;
+    }
+
+    @XmlTransient
+    public List<Registroprocedimentoanalise> getRegistroprocedimentoanaliseList()
+    {
         return registroprocedimentoanaliseList;
     }
 
-    public void setRegistroprocedimentoanaliseList(List<Registroprocedimentoanalise> registroprocedimentoanaliseList) {
+    public void setRegistroprocedimentoanaliseList(List<Registroprocedimentoanalise> registroprocedimentoanaliseList)
+    {
         this.registroprocedimentoanaliseList = registroprocedimentoanaliseList;
     }
 
-    public Indicador getIndicadorid() {
+    @XmlTransient
+    public List<Meiosprocedimentoanalise> getMeiosprocedimentoanaliseList()
+    {
+        return meiosprocedimentoanaliseList;
+    }
+
+    public void setMeiosprocedimentoanaliseList(List<Meiosprocedimentoanalise> meiosprocedimentoanaliseList)
+    {
+        this.meiosprocedimentoanaliseList = meiosprocedimentoanaliseList;
+    }
+
+    public Indicador getIndicadorid()
+    {
         return indicadorid;
     }
 
-    public void setIndicadorid(Indicador indicadorid) {
+    public void setIndicadorid(Indicador indicadorid)
+    {
         this.indicadorid = indicadorid;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Procedimentodeanalise)) {
             return false;
         }
         Procedimentodeanalise other = (Procedimentodeanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Procedimentodeanalise[ id=" + id + " ]";
     }
-    
+
 }

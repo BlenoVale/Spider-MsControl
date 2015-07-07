@@ -6,7 +6,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,14 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Paulo
  */
 @Entity
-@Table(name = "coleta")
+@Table(name = "perfisinteressadosprocedimentoanalise")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
-    @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
-    @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
-    @NamedQuery(name = "Coleta.findByValorDaColeta", query = "SELECT c FROM Coleta c WHERE c.valorDaColeta = :valorDaColeta")})
-public class Coleta implements Serializable {
+    @NamedQuery(name = "Perfisinteressadosprocedimentoanalise.findAll", query = "SELECT p FROM Perfisinteressadosprocedimentoanalise p"),
+    @NamedQuery(name = "Perfisinteressadosprocedimentoanalise.findById", query = "SELECT p FROM Perfisinteressadosprocedimentoanalise p WHERE p.id = :id"),
+    @NamedQuery(name = "Perfisinteressadosprocedimentoanalise.findByIdperfilInteressado", query = "SELECT p FROM Perfisinteressadosprocedimentoanalise p WHERE p.idperfilInteressado = :idperfilInteressado")})
+public class Perfisinteressadosprocedimentoanalise implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,29 +38,25 @@ public class Coleta implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "data")
-    @Temporal(TemporalType.DATE)
-    private Date data;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "valorDaColeta")
-    private Double valorDaColeta;
-    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
+    @Column(name = "id_perfilInteressado")
+    private int idperfilInteressado;
+    @JoinColumn(name = "ProcedimentoDeAnalise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Medida medidaid;
+    private Procedimentodeanalise procedimentoDeAnaliseid;
 
-    public Coleta()
+    public Perfisinteressadosprocedimentoanalise()
     {
     }
 
-    public Coleta(Integer id)
+    public Perfisinteressadosprocedimentoanalise(Integer id)
     {
         this.id = id;
     }
 
-    public Coleta(Integer id, Date data)
+    public Perfisinteressadosprocedimentoanalise(Integer id, int idperfilInteressado)
     {
         this.id = id;
-        this.data = data;
+        this.idperfilInteressado = idperfilInteressado;
     }
 
     public Integer getId()
@@ -77,34 +69,24 @@ public class Coleta implements Serializable {
         this.id = id;
     }
 
-    public Date getData()
+    public int getIdperfilInteressado()
     {
-        return data;
+        return idperfilInteressado;
     }
 
-    public void setData(Date data)
+    public void setIdperfilInteressado(int idperfilInteressado)
     {
-        this.data = data;
+        this.idperfilInteressado = idperfilInteressado;
     }
 
-    public Double getValorDaColeta()
+    public Procedimentodeanalise getProcedimentoDeAnaliseid()
     {
-        return valorDaColeta;
+        return procedimentoDeAnaliseid;
     }
 
-    public void setValorDaColeta(Double valorDaColeta)
+    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid)
     {
-        this.valorDaColeta = valorDaColeta;
-    }
-
-    public Medida getMedidaid()
-    {
-        return medidaid;
-    }
-
-    public void setMedidaid(Medida medidaid)
-    {
-        this.medidaid = medidaid;
+        this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
     }
 
     @Override
@@ -119,10 +101,10 @@ public class Coleta implements Serializable {
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Coleta)) {
+        if (!(object instanceof Perfisinteressadosprocedimentoanalise)) {
             return false;
         }
-        Coleta other = (Coleta) object;
+        Perfisinteressadosprocedimentoanalise other = (Perfisinteressadosprocedimentoanalise) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
         return true;
@@ -131,7 +113,7 @@ public class Coleta implements Serializable {
     @Override
     public String toString()
     {
-        return "model.Coleta[ id=" + id + " ]";
+        return "model.Perfisinteressadosprocedimentoanalise[ id=" + id + " ]";
     }
 
 }

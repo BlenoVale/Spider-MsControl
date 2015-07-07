@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "objetivodemedicao")
@@ -63,133 +63,159 @@ public class Objetivodemedicao implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
-    private List<Registroobjetivomedicao> registroobjetivomedicaoList;
+    private List<Objetivodequestao> objetivodequestaoList;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Projeto projetoid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
-    private List<Objetivodequestao> objetivodequestaoList;
+    private List<Registroobjetivomedicao> registroobjetivomedicaoList;
 
-    public Objetivodemedicao() {
+    public Objetivodemedicao()
+    {
     }
 
-    public Objetivodemedicao(Integer id) {
+    public Objetivodemedicao(Integer id)
+    {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getNome()
+    {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome)
+    {
         this.nome = nome;
     }
 
-    public String getNivelObjetivo() {
+    public String getNivelObjetivo()
+    {
         return nivelObjetivo;
     }
 
-    public void setNivelObjetivo(String nivelObjetivo) {
+    public void setNivelObjetivo(String nivelObjetivo)
+    {
         this.nivelObjetivo = nivelObjetivo;
     }
 
-    public String getProposito() {
+    public String getProposito()
+    {
         return proposito;
     }
 
-    public void setProposito(String proposito) {
+    public void setProposito(String proposito)
+    {
         this.proposito = proposito;
     }
 
-    public String getFoco() {
+    public String getFoco()
+    {
         return foco;
     }
 
-    public void setFoco(String foco) {
+    public void setFoco(String foco)
+    {
         this.foco = foco;
     }
 
-    public String getAmbiente() {
+    public String getAmbiente()
+    {
         return ambiente;
     }
 
-    public void setAmbiente(String ambiente) {
+    public void setAmbiente(String ambiente)
+    {
         this.ambiente = ambiente;
     }
 
-    public String getPontoDeVista() {
+    public String getPontoDeVista()
+    {
         return pontoDeVista;
     }
 
-    public void setPontoDeVista(String pontoDeVista) {
+    public void setPontoDeVista(String pontoDeVista)
+    {
         this.pontoDeVista = pontoDeVista;
     }
 
-    public String getObservacao() {
+    public String getObservacao()
+    {
         return observacao;
     }
 
-    public void setObservacao(String observacao) {
+    public void setObservacao(String observacao)
+    {
         this.observacao = observacao;
     }
 
     @XmlTransient
-    public List<Registroobjetivomedicao> getRegistroobjetivomedicaoList() {
-        return registroobjetivomedicaoList;
+    public List<Objetivodequestao> getObjetivodequestaoList()
+    {
+        return objetivodequestaoList;
     }
 
-    public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
-        this.registroobjetivomedicaoList = registroobjetivomedicaoList;
+    public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList)
+    {
+        this.objetivodequestaoList = objetivodequestaoList;
     }
 
-    public Projeto getProjetoid() {
+    public Projeto getProjetoid()
+    {
         return projetoid;
     }
 
-    public void setProjetoid(Projeto projetoid) {
+    public void setProjetoid(Projeto projetoid)
+    {
         this.projetoid = projetoid;
     }
 
     @XmlTransient
-    public List<Objetivodequestao> getObjetivodequestaoList() {
-        return objetivodequestaoList;
+    public List<Registroobjetivomedicao> getRegistroobjetivomedicaoList()
+    {
+        return registroobjetivomedicaoList;
     }
 
-    public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
-        this.objetivodequestaoList = objetivodequestaoList;
+    public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList)
+    {
+        this.registroobjetivomedicaoList = registroobjetivomedicaoList;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Objetivodemedicao)) {
             return false;
         }
         Objetivodemedicao other = (Objetivodemedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Objetivodemedicao[ id=" + id + " ]";
     }
-    
+
 }

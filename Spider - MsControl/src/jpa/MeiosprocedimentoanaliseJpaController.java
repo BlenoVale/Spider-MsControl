@@ -14,16 +14,16 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.exceptions.NonexistentEntityException;
+import model.Meiosprocedimentoanalise;
 import model.Procedimentodeanalise;
-import model.Registroprocedimentoanalise;
 
 /**
  *
  * @author Paulo
  */
-public class RegistroprocedimentoanaliseJpaController implements Serializable {
+public class MeiosprocedimentoanaliseJpaController implements Serializable {
 
-    public RegistroprocedimentoanaliseJpaController(EntityManagerFactory emf)
+    public MeiosprocedimentoanaliseJpaController(EntityManagerFactory emf)
     {
         this.emf = emf;
     }
@@ -34,20 +34,20 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprocedimentoanalise registroprocedimentoanalise)
+    public void create(Meiosprocedimentoanalise meiosprocedimentoanalise)
     {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Procedimentodeanalise procedimentoDeAnaliseid = registroprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Procedimentodeanalise procedimentoDeAnaliseid = meiosprocedimentoanalise.getProcedimentoDeAnaliseid();
             if (procedimentoDeAnaliseid != null) {
                 procedimentoDeAnaliseid = em.getReference(procedimentoDeAnaliseid.getClass(), procedimentoDeAnaliseid.getId());
-                registroprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseid);
+                meiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseid);
             }
-            em.persist(registroprocedimentoanalise);
+            em.persist(meiosprocedimentoanalise);
             if (procedimentoDeAnaliseid != null) {
-                procedimentoDeAnaliseid.getRegistroprocedimentoanaliseList().add(registroprocedimentoanalise);
+                procedimentoDeAnaliseid.getMeiosprocedimentoanaliseList().add(meiosprocedimentoanalise);
                 procedimentoDeAnaliseid = em.merge(procedimentoDeAnaliseid);
             }
             em.getTransaction().commit();
@@ -58,35 +58,35 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroprocedimentoanalise registroprocedimentoanalise) throws NonexistentEntityException, Exception
+    public void edit(Meiosprocedimentoanalise meiosprocedimentoanalise) throws NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprocedimentoanalise persistentRegistroprocedimentoanalise = em.find(Registroprocedimentoanalise.class, registroprocedimentoanalise.getId());
-            Procedimentodeanalise procedimentoDeAnaliseidOld = persistentRegistroprocedimentoanalise.getProcedimentoDeAnaliseid();
-            Procedimentodeanalise procedimentoDeAnaliseidNew = registroprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Meiosprocedimentoanalise persistentMeiosprocedimentoanalise = em.find(Meiosprocedimentoanalise.class, meiosprocedimentoanalise.getId());
+            Procedimentodeanalise procedimentoDeAnaliseidOld = persistentMeiosprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Procedimentodeanalise procedimentoDeAnaliseidNew = meiosprocedimentoanalise.getProcedimentoDeAnaliseid();
             if (procedimentoDeAnaliseidNew != null) {
                 procedimentoDeAnaliseidNew = em.getReference(procedimentoDeAnaliseidNew.getClass(), procedimentoDeAnaliseidNew.getId());
-                registroprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseidNew);
+                meiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentoDeAnaliseidNew);
             }
-            registroprocedimentoanalise = em.merge(registroprocedimentoanalise);
+            meiosprocedimentoanalise = em.merge(meiosprocedimentoanalise);
             if (procedimentoDeAnaliseidOld != null && !procedimentoDeAnaliseidOld.equals(procedimentoDeAnaliseidNew)) {
-                procedimentoDeAnaliseidOld.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanalise);
+                procedimentoDeAnaliseidOld.getMeiosprocedimentoanaliseList().remove(meiosprocedimentoanalise);
                 procedimentoDeAnaliseidOld = em.merge(procedimentoDeAnaliseidOld);
             }
             if (procedimentoDeAnaliseidNew != null && !procedimentoDeAnaliseidNew.equals(procedimentoDeAnaliseidOld)) {
-                procedimentoDeAnaliseidNew.getRegistroprocedimentoanaliseList().add(registroprocedimentoanalise);
+                procedimentoDeAnaliseidNew.getMeiosprocedimentoanaliseList().add(meiosprocedimentoanalise);
                 procedimentoDeAnaliseidNew = em.merge(procedimentoDeAnaliseidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = registroprocedimentoanalise.getId();
-                if (findRegistroprocedimentoanalise(id) == null) {
-                    throw new NonexistentEntityException("The registroprocedimentoanalise with id " + id + " no longer exists.");
+                Integer id = meiosprocedimentoanalise.getId();
+                if (findMeiosprocedimentoanalise(id) == null) {
+                    throw new NonexistentEntityException("The meiosprocedimentoanalise with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -103,19 +103,19 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Registroprocedimentoanalise registroprocedimentoanalise;
+            Meiosprocedimentoanalise meiosprocedimentoanalise;
             try {
-                registroprocedimentoanalise = em.getReference(Registroprocedimentoanalise.class, id);
-                registroprocedimentoanalise.getId();
+                meiosprocedimentoanalise = em.getReference(Meiosprocedimentoanalise.class, id);
+                meiosprocedimentoanalise.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The registroprocedimentoanalise with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The meiosprocedimentoanalise with id " + id + " no longer exists.", enfe);
             }
-            Procedimentodeanalise procedimentoDeAnaliseid = registroprocedimentoanalise.getProcedimentoDeAnaliseid();
+            Procedimentodeanalise procedimentoDeAnaliseid = meiosprocedimentoanalise.getProcedimentoDeAnaliseid();
             if (procedimentoDeAnaliseid != null) {
-                procedimentoDeAnaliseid.getRegistroprocedimentoanaliseList().remove(registroprocedimentoanalise);
+                procedimentoDeAnaliseid.getMeiosprocedimentoanaliseList().remove(meiosprocedimentoanalise);
                 procedimentoDeAnaliseid = em.merge(procedimentoDeAnaliseid);
             }
-            em.remove(registroprocedimentoanalise);
+            em.remove(meiosprocedimentoanalise);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -124,22 +124,22 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities()
+    public List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities()
     {
-        return findRegistroprocedimentoanaliseEntities(true, -1, -1);
+        return findMeiosprocedimentoanaliseEntities(true, -1, -1);
     }
 
-    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(int maxResults, int firstResult)
+    public List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities(int maxResults, int firstResult)
     {
-        return findRegistroprocedimentoanaliseEntities(false, maxResults, firstResult);
+        return findMeiosprocedimentoanaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
+    private List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
     {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Registroprocedimentoanalise.class));
+            cq.select(cq.from(Meiosprocedimentoanalise.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -151,22 +151,22 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public Registroprocedimentoanalise findRegistroprocedimentoanalise(Integer id)
+    public Meiosprocedimentoanalise findMeiosprocedimentoanalise(Integer id)
     {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Registroprocedimentoanalise.class, id);
+            return em.find(Meiosprocedimentoanalise.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getRegistroprocedimentoanaliseCount()
+    public int getMeiosprocedimentoanaliseCount()
     {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Registroprocedimentoanalise> rt = cq.from(Registroprocedimentoanalise.class);
+            Root<Meiosprocedimentoanalise> rt = cq.from(Meiosprocedimentoanalise.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

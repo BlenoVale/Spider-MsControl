@@ -23,20 +23,23 @@ import model.Registroanalise;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class AnaliseJpaController implements Serializable {
 
-    public AnaliseJpaController(EntityManagerFactory emf) {
+    public AnaliseJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Analise analise) {
+    public void create(Analise analise)
+    {
         if (analise.getResultadosList() == null) {
             analise.setResultadosList(new ArrayList<Resultados>());
         }
@@ -95,7 +98,8 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Analise analise) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Analise analise) throws IllegalOrphanException, NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -193,7 +197,8 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -237,15 +242,18 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public List<Analise> findAnaliseEntities() {
+    public List<Analise> findAnaliseEntities()
+    {
         return findAnaliseEntities(true, -1, -1);
     }
 
-    public List<Analise> findAnaliseEntities(int maxResults, int firstResult) {
+    public List<Analise> findAnaliseEntities(int maxResults, int firstResult)
+    {
         return findAnaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Analise> findAnaliseEntities(boolean all, int maxResults, int firstResult) {
+    private List<Analise> findAnaliseEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -261,7 +269,8 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public Analise findAnalise(Integer id) {
+    public Analise findAnalise(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Analise.class, id);
@@ -270,7 +279,8 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public int getAnaliseCount() {
+    public int getAnaliseCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -282,5 +292,5 @@ public class AnaliseJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

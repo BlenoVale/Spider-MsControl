@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "medida")
@@ -86,20 +86,23 @@ public class Medida implements Serializable {
     @ManyToMany(mappedBy = "medidaList")
     private List<Indicador> indicadorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
+    private List<Registromedida> registromedidaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
     private List<Procedimentodecoleta> procedimentodecoletaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
     private List<Coleta> coletaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
-    private List<Registromedida> registromedidaList;
 
-    public Medida() {
+    public Medida()
+    {
     }
 
-    public Medida(Integer id) {
+    public Medida(Integer id)
+    {
         this.id = id;
     }
 
-    public Medida(Integer id, int projetoId, String nome, String definicao, String pontoDeVista, String mnemonico, String escala, double faixaInicio, double faixaFim, Date data) {
+    public Medida(Integer id, int projetoId, String nome, String definicao, String pontoDeVista, String mnemonico, String escala, double faixaInicio, double faixaFim, Date data)
+    {
         this.id = id;
         this.projetoId = projetoId;
         this.nome = nome;
@@ -112,153 +115,185 @@ public class Medida implements Serializable {
         this.data = data;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public int getProjetoId() {
+    public int getProjetoId()
+    {
         return projetoId;
     }
 
-    public void setProjetoId(int projetoId) {
+    public void setProjetoId(int projetoId)
+    {
         this.projetoId = projetoId;
     }
 
-    public String getNome() {
+    public String getNome()
+    {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome)
+    {
         this.nome = nome;
     }
 
-    public String getDefinicao() {
+    public String getDefinicao()
+    {
         return definicao;
     }
 
-    public void setDefinicao(String definicao) {
+    public void setDefinicao(String definicao)
+    {
         this.definicao = definicao;
     }
 
-    public String getPontoDeVista() {
+    public String getPontoDeVista()
+    {
         return pontoDeVista;
     }
 
-    public void setPontoDeVista(String pontoDeVista) {
+    public void setPontoDeVista(String pontoDeVista)
+    {
         this.pontoDeVista = pontoDeVista;
     }
 
-    public String getMnemonico() {
+    public String getMnemonico()
+    {
         return mnemonico;
     }
 
-    public void setMnemonico(String mnemonico) {
+    public void setMnemonico(String mnemonico)
+    {
         this.mnemonico = mnemonico;
     }
 
-    public String getEscala() {
+    public String getEscala()
+    {
         return escala;
     }
 
-    public void setEscala(String escala) {
+    public void setEscala(String escala)
+    {
         this.escala = escala;
     }
 
-    public double getFaixaInicio() {
+    public double getFaixaInicio()
+    {
         return faixaInicio;
     }
 
-    public void setFaixaInicio(double faixaInicio) {
+    public void setFaixaInicio(double faixaInicio)
+    {
         this.faixaInicio = faixaInicio;
     }
 
-    public double getFaixaFim() {
+    public double getFaixaFim()
+    {
         return faixaFim;
     }
 
-    public void setFaixaFim(double faixaFim) {
+    public void setFaixaFim(double faixaFim)
+    {
         this.faixaFim = faixaFim;
     }
 
-    public String getObservacao() {
+    public String getObservacao()
+    {
         return observacao;
     }
 
-    public void setObservacao(String observacao) {
+    public void setObservacao(String observacao)
+    {
         this.observacao = observacao;
     }
 
-    public Date getData() {
+    public Date getData()
+    {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(Date data)
+    {
         this.data = data;
     }
 
     @XmlTransient
-    public List<Indicador> getIndicadorList() {
+    public List<Indicador> getIndicadorList()
+    {
         return indicadorList;
     }
 
-    public void setIndicadorList(List<Indicador> indicadorList) {
+    public void setIndicadorList(List<Indicador> indicadorList)
+    {
         this.indicadorList = indicadorList;
     }
 
     @XmlTransient
-    public List<Procedimentodecoleta> getProcedimentodecoletaList() {
+    public List<Registromedida> getRegistromedidaList()
+    {
+        return registromedidaList;
+    }
+
+    public void setRegistromedidaList(List<Registromedida> registromedidaList)
+    {
+        this.registromedidaList = registromedidaList;
+    }
+
+    @XmlTransient
+    public List<Procedimentodecoleta> getProcedimentodecoletaList()
+    {
         return procedimentodecoletaList;
     }
 
-    public void setProcedimentodecoletaList(List<Procedimentodecoleta> procedimentodecoletaList) {
+    public void setProcedimentodecoletaList(List<Procedimentodecoleta> procedimentodecoletaList)
+    {
         this.procedimentodecoletaList = procedimentodecoletaList;
     }
 
     @XmlTransient
-    public List<Coleta> getColetaList() {
+    public List<Coleta> getColetaList()
+    {
         return coletaList;
     }
 
-    public void setColetaList(List<Coleta> coletaList) {
+    public void setColetaList(List<Coleta> coletaList)
+    {
         this.coletaList = coletaList;
     }
 
-    @XmlTransient
-    public List<Registromedida> getRegistromedidaList() {
-        return registromedidaList;
-    }
-
-    public void setRegistromedidaList(List<Registromedida> registromedidaList) {
-        this.registromedidaList = registromedidaList;
-    }
-
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Medida)) {
             return false;
         }
         Medida other = (Medida) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Medida[ id=" + id + " ]";
     }
-    
+
 }

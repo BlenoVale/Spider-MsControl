@@ -19,20 +19,23 @@ import model.Registroobjetivomedicao;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class RegistroobjetivomedicaoJpaController implements Serializable {
 
-    public RegistroobjetivomedicaoJpaController(EntityManagerFactory emf) {
+    public RegistroobjetivomedicaoJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Registroobjetivomedicao registroobjetivomedicao) {
+    public void create(Registroobjetivomedicao registroobjetivomedicao)
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,7 +58,8 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroobjetivomedicao registroobjetivomedicao) throws NonexistentEntityException, Exception {
+    public void edit(Registroobjetivomedicao registroobjetivomedicao) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -93,7 +97,8 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -119,15 +124,18 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public List<Registroobjetivomedicao> findRegistroobjetivomedicaoEntities() {
+    public List<Registroobjetivomedicao> findRegistroobjetivomedicaoEntities()
+    {
         return findRegistroobjetivomedicaoEntities(true, -1, -1);
     }
 
-    public List<Registroobjetivomedicao> findRegistroobjetivomedicaoEntities(int maxResults, int firstResult) {
+    public List<Registroobjetivomedicao> findRegistroobjetivomedicaoEntities(int maxResults, int firstResult)
+    {
         return findRegistroobjetivomedicaoEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroobjetivomedicao> findRegistroobjetivomedicaoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Registroobjetivomedicao> findRegistroobjetivomedicaoEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -143,7 +151,8 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public Registroobjetivomedicao findRegistroobjetivomedicao(Integer id) {
+    public Registroobjetivomedicao findRegistroobjetivomedicao(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroobjetivomedicao.class, id);
@@ -152,7 +161,8 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
         }
     }
 
-    public int getRegistroobjetivomedicaoCount() {
+    public int getRegistroobjetivomedicaoCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -164,5 +174,5 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

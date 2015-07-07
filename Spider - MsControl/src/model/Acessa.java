@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 @Entity
 @Table(name = "acessa")
@@ -39,90 +39,105 @@ public class Acessa implements Serializable {
     @Column(name = "dataDeInicio")
     @Temporal(TemporalType.DATE)
     private Date dataDeInicio;
-    @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Usuario usuario;
-    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Projeto projeto;
     @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Perfil perfil;
+    @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Projeto projeto;
+    @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Usuario usuario;
 
-    public Acessa() {
+    public Acessa()
+    {
     }
 
-    public Acessa(AcessaPK acessaPK) {
+    public Acessa(AcessaPK acessaPK)
+    {
         this.acessaPK = acessaPK;
     }
 
-    public Acessa(int projetoid, int usuarioid, int perfilid) {
+    public Acessa(int projetoid, int usuarioid, int perfilid)
+    {
         this.acessaPK = new AcessaPK(projetoid, usuarioid, perfilid);
     }
 
-    public AcessaPK getAcessaPK() {
+    public AcessaPK getAcessaPK()
+    {
         return acessaPK;
     }
 
-    public void setAcessaPK(AcessaPK acessaPK) {
+    public void setAcessaPK(AcessaPK acessaPK)
+    {
         this.acessaPK = acessaPK;
     }
 
-    public Date getDataDeInicio() {
+    public Date getDataDeInicio()
+    {
         return dataDeInicio;
     }
 
-    public void setDataDeInicio(Date dataDeInicio) {
+    public void setDataDeInicio(Date dataDeInicio)
+    {
         this.dataDeInicio = dataDeInicio;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Projeto getProjeto() {
-        return projeto;
-    }
-
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
-    }
-
-    public Perfil getPerfil() {
+    public Perfil getPerfil()
+    {
         return perfil;
     }
 
-    public void setPerfil(Perfil perfil) {
+    public void setPerfil(Perfil perfil)
+    {
         this.perfil = perfil;
     }
 
+    public Projeto getProjeto()
+    {
+        return projeto;
+    }
+
+    public void setProjeto(Projeto projeto)
+    {
+        this.projeto = projeto;
+    }
+
+    public Usuario getUsuario()
+    {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario)
+    {
+        this.usuario = usuario;
+    }
+
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (acessaPK != null ? acessaPK.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Acessa)) {
             return false;
         }
         Acessa other = (Acessa) object;
-        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK))) {
+        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK)))
             return false;
-        }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.Acessa[ acessaPK=" + acessaPK + " ]";
     }
-    
+
 }

@@ -19,20 +19,23 @@ import model.Registroobjetivoquestao;
 
 /**
  *
- * @author BlenoVale
+ * @author Paulo
  */
 public class RegistroobjetivoquestaoJpaController implements Serializable {
 
-    public RegistroobjetivoquestaoJpaController(EntityManagerFactory emf) {
+    public RegistroobjetivoquestaoJpaController(EntityManagerFactory emf)
+    {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    public EntityManager getEntityManager()
+    {
         return emf.createEntityManager();
     }
 
-    public void create(Registroobjetivoquestao registroobjetivoquestao) {
+    public void create(Registroobjetivoquestao registroobjetivoquestao)
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,7 +58,8 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroobjetivoquestao registroobjetivoquestao) throws NonexistentEntityException, Exception {
+    public void edit(Registroobjetivoquestao registroobjetivoquestao) throws NonexistentEntityException, Exception
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -93,7 +97,8 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException
+    {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -119,15 +124,18 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public List<Registroobjetivoquestao> findRegistroobjetivoquestaoEntities() {
+    public List<Registroobjetivoquestao> findRegistroobjetivoquestaoEntities()
+    {
         return findRegistroobjetivoquestaoEntities(true, -1, -1);
     }
 
-    public List<Registroobjetivoquestao> findRegistroobjetivoquestaoEntities(int maxResults, int firstResult) {
+    public List<Registroobjetivoquestao> findRegistroobjetivoquestaoEntities(int maxResults, int firstResult)
+    {
         return findRegistroobjetivoquestaoEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroobjetivoquestao> findRegistroobjetivoquestaoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Registroobjetivoquestao> findRegistroobjetivoquestaoEntities(boolean all, int maxResults, int firstResult)
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -143,7 +151,8 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public Registroobjetivoquestao findRegistroobjetivoquestao(Integer id) {
+    public Registroobjetivoquestao findRegistroobjetivoquestao(Integer id)
+    {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroobjetivoquestao.class, id);
@@ -152,7 +161,8 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
         }
     }
 
-    public int getRegistroobjetivoquestaoCount() {
+    public int getRegistroobjetivoquestaoCount()
+    {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -164,5 +174,5 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
