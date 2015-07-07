@@ -229,8 +229,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         contador = medidaSelecionada.getProcedimentodecoletaList().get(0).getContadorColeta();
         jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
 
-        checaLimiteFrequencia(medida);
         checaLimitePeriodicidade(medida);
+        checaLimiteFrequencia(medida);
     }
 
     private void tipoDeColeta(boolean passou, Medida medida, String mensagem) {
@@ -268,6 +268,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private void checaLimiteFrequencia(Medida medida) {
         int frequencia = medida.getProcedimentodecoletaList().get(0).getFrequencia();
+        contador = medida.getProcedimentodecoletaList().get(0).getContadorColeta();
         tipoDeColeta(frequencia > contador, medida, "<html>Limite de coletas já atingido.<br>&nbsp;</html>");
     }
 
