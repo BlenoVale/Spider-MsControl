@@ -268,7 +268,6 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private void checaLimiteFrequencia(Medida medida) {
         int frequencia = medida.getProcedimentodecoletaList().get(0).getFrequencia();
-        contador = medida.getProcedimentodecoletaList().get(0).getContadorColeta();
         tipoDeColeta(frequencia > contador, medida, "<html>Limite de coletas já atingido.<br>&nbsp;</html>");
     }
 
