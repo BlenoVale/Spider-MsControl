@@ -4,6 +4,7 @@ import facade.FacadeJpa;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
@@ -11,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Indicador;
 import model.Medida;
+import model.Meioscomunicacao;
+import model.Perfilinteressado;
 import model.Procedimentodeanalise;
 import model.Projeto;
 import model.Registroprocedimentoanalise;
@@ -37,6 +40,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private MyDefaultTableModel tableModel;
     private CheckDefaultTableModel checkModel;
     private List<Medida> listMedida;
+    private List<Medida> listMedidaRelacionada;
+    private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
 
     private boolean ehNovoProcedimentoAnalise;
@@ -47,9 +52,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         initComponents();
         agruparBotoesRadio();
         this.setLocationRelativeTo(null);
+        popularComboBoxMedidaRelacionada();
         ocultarMedidaRelacionada();
         iniciarTabela();
         recarregarTabela();
+
     }
 
     public void iniciarTabela()
@@ -362,6 +369,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     public void ocultarMedidaRelacionada()
     {
+        jTextFieldFormula.setEnabled(false);
         jLabelMedidaRelacionada.setVisible(false);
         jComboBoxMedidaRelacionada.setVisible(false);
     }
@@ -451,14 +459,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void popularListaPerfis()
     {
         model_listaDePerfis = new DefaultListModel();
-        List<String> listaPerfis = Constantes.preencherListaPerfis();
+        List<Perfilinteressado> perfilinteressados = jpa.getPerfilInteressadoJpa().findAll();
 
         checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Perfis interessados"}, 0, false);
 
-        for (int i = 0; i < listaPerfis.size(); i++) {
+        for (int i = 0; i < perfilinteressados.size(); i++) {
             Object[] linha = {
                 false,
-                listaPerfis.get(i)
+                perfilinteressados.get(i).getNome()
             };
             checkModel.addRow(linha);
         }
@@ -470,20 +478,31 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void popularListaMeio()
     {
         model_listaMeio = new DefaultListModel();
-        List<String> listaMeio = Constantes.preencherListaMeio();
-
+        List<Meioscomunicacao> meioscomunicacaos = jpa.getMeioComunicacaoJpa().findAll();
         checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Meios"}, 0, false);
 
-        for (int i = 0; i < listaMeio.size(); i++) {
+        for (int i = 0; i < meioscomunicacaos.size(); i++) {
             Object[] linha = {
                 false,
-                listaMeio.get(i)
+                meioscomunicacaos.get(i).getNome()
             };
             checkModel.addRow(linha);
         }
         jTableMeios.setModel(checkModel);
         jTableMeios.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTableMeios.getColumnModel().getColumn(1).setPreferredWidth(500);
+    }
+
+    public void popularComboBoxMedidaRelacionada()
+    {
+        comboBoxModelMedidaRelacionada = new DefaultComboBoxModel();
+        comboBoxModelMedidaRelacionada.addElement("--Selecione uma medida--");
+        listMedidaRelacionada = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
+        for (int i = 0; i < listMedidaRelacionada.size(); i++) {
+            comboBoxModelMedidaRelacionada.addElement(listMedidaRelacionada.get(i).getNome());
+        }
+        jComboBoxMedidaRelacionada.setModel(comboBoxModelMedidaRelacionada);
+
     }
 
     public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt)

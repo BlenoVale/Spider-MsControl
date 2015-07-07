@@ -21,6 +21,8 @@ import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
+import jpa.extensao.MeioComunicacaoJpa;
+import jpa.extensao.PerfilInteressadoJpa;
 import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.ProcedimentoDeAnaliseJpa;
 import jpa.extensao.UsuarioJpa;
@@ -68,6 +70,8 @@ public class FacadeJpa {
     private final DatasprocedimentocoletaJpaController datasprocedimentocoletaJpaController;
     private final ResultadosJpa resultadosJpa;
     private final RegistroresultadosJpaController registroResultadosJpa;
+    private final MeioComunicacaoJpa meioComunicacaoJpa;
+    private final PerfilInteressadoJpa perfilInteressadoJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -75,7 +79,7 @@ public class FacadeJpa {
         coletaJpa = new ColetaJpa();
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpaController = new MedidaJpaController(Conexao.conectar());
-        medidaJpa = new MedidaJpa(); 
+        medidaJpa = new MedidaJpa();
         objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
@@ -97,6 +101,8 @@ public class FacadeJpa {
         datasprocedimentocoletaJpaController = new DatasprocedimentocoletaJpaController(Conexao.conectar());
         resultadosJpa = new ResultadosJpa();
         registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
+        meioComunicacaoJpa = new MeioComunicacaoJpa();
+        perfilInteressadoJpa = new PerfilInteressadoJpa();
     }
 
     public static FacadeJpa getInstance() {
@@ -123,11 +129,11 @@ public class FacadeJpa {
     public ColetaJpa getColetaJpa() {
         return coletaJpa;
     }
-    
+
 //    public RegistrocoletaJpaController getRegistroColeta() {
 //        return registroColetaJpa;
-//    }    
-        
+//    }
+
     public FuncionalidadeJpa getFuncionalidadeJpa() {
         return funcionalidadeJpa;
     }
@@ -192,7 +198,7 @@ public class FacadeJpa {
     public RegistroindicadorJpaController getRegistroIndicador() {
         return registroindicadorJpa;
     }
-    
+
     public RegistroProcedimentoColetaJpa getRegistroProcedimentoColeta(){
         return registroProcedimentoColeta;
     }
@@ -200,16 +206,26 @@ public class FacadeJpa {
     public EntidadeMedidaJpa getEntidadeMedidaJpa() {
         return entidadeMedidaJpa;
     }
-    
+
     public DatasprocedimentocoletaJpaController getdDatasprocedimentocoletaJpaController(){
         return datasprocedimentocoletaJpaController;
     }
-    
+
     public ResultadosJpa getResultadosJpa() {
         return resultadosJpa;
     }
-    
+
     public RegistroresultadosJpaController getRegistroresultados() {
         return registroResultadosJpa;
+    }
+
+    public MeioComunicacaoJpa getMeioComunicacaoJpa()
+    {
+        return meioComunicacaoJpa;
+    }
+
+    public PerfilInteressadoJpa getPerfilInteressadoJpa()
+    {
+        return perfilInteressadoJpa;
     }
 }
