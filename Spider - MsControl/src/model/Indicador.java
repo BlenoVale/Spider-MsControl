@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "indicador")
@@ -83,26 +83,23 @@ public class Indicador implements Serializable {
     @ManyToMany
     private List<Medida> medidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Analise> analiseList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
-    private List<Procedimentodeanalise> procedimentodeanaliseList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
     private List<Registroindicador> registroindicadorList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
+    private List<Analise> analiseList;
     @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Objetivodequestao objetivoDeQuestaoid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
+    private List<Procedimentodeanalise> procedimentodeanaliseList;
 
-    public Indicador()
-    {
+    public Indicador() {
     }
 
-    public Indicador(Integer id)
-    {
+    public Indicador(Integer id) {
         this.id = id;
     }
 
-    public Indicador(Integer id, String nome, String descricao, String pontoDeVista, String mnemonico, String entidadeDeMedida, int aprovacao, int prioridade)
-    {
+    public Indicador(Integer id, String nome, String descricao, String pontoDeVista, String mnemonico, String entidadeDeMedida, int aprovacao, int prioridade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -113,185 +110,153 @@ public class Indicador implements Serializable {
         this.prioridade = prioridade;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNome()
-    {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome)
-    {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public String getDescricao()
-    {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao)
-    {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    public String getPontoDeVista()
-    {
+    public String getPontoDeVista() {
         return pontoDeVista;
     }
 
-    public void setPontoDeVista(String pontoDeVista)
-    {
+    public void setPontoDeVista(String pontoDeVista) {
         this.pontoDeVista = pontoDeVista;
     }
 
-    public String getMnemonico()
-    {
+    public String getMnemonico() {
         return mnemonico;
     }
 
-    public void setMnemonico(String mnemonico)
-    {
+    public void setMnemonico(String mnemonico) {
         this.mnemonico = mnemonico;
     }
 
-    public String getEntidadeDeMedida()
-    {
+    public String getEntidadeDeMedida() {
         return entidadeDeMedida;
     }
 
-    public void setEntidadeDeMedida(String entidadeDeMedida)
-    {
+    public void setEntidadeDeMedida(String entidadeDeMedida) {
         this.entidadeDeMedida = entidadeDeMedida;
     }
 
-    public String getPropriedadeDeMedidade()
-    {
+    public String getPropriedadeDeMedidade() {
         return propriedadeDeMedidade;
     }
 
-    public void setPropriedadeDeMedidade(String propriedadeDeMedidade)
-    {
+    public void setPropriedadeDeMedidade(String propriedadeDeMedidade) {
         this.propriedadeDeMedidade = propriedadeDeMedidade;
     }
 
-    public int getAprovacao()
-    {
+    public int getAprovacao() {
         return aprovacao;
     }
 
-    public void setAprovacao(int aprovacao)
-    {
+    public void setAprovacao(int aprovacao) {
         this.aprovacao = aprovacao;
     }
 
-    public String getObservacao()
-    {
+    public String getObservacao() {
         return observacao;
     }
 
-    public void setObservacao(String observacao)
-    {
+    public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
 
-    public int getPrioridade()
-    {
+    public int getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(int prioridade)
-    {
+    public void setPrioridade(int prioridade) {
         this.prioridade = prioridade;
     }
 
     @XmlTransient
-    public List<Medida> getMedidaList()
-    {
+    public List<Medida> getMedidaList() {
         return medidaList;
     }
 
-    public void setMedidaList(List<Medida> medidaList)
-    {
+    public void setMedidaList(List<Medida> medidaList) {
         this.medidaList = medidaList;
     }
 
     @XmlTransient
-    public List<Analise> getAnaliseList()
-    {
-        return analiseList;
-    }
-
-    public void setAnaliseList(List<Analise> analiseList)
-    {
-        this.analiseList = analiseList;
-    }
-
-    @XmlTransient
-    public List<Procedimentodeanalise> getProcedimentodeanaliseList()
-    {
-        return procedimentodeanaliseList;
-    }
-
-    public void setProcedimentodeanaliseList(List<Procedimentodeanalise> procedimentodeanaliseList)
-    {
-        this.procedimentodeanaliseList = procedimentodeanaliseList;
-    }
-
-    @XmlTransient
-    public List<Registroindicador> getRegistroindicadorList()
-    {
+    public List<Registroindicador> getRegistroindicadorList() {
         return registroindicadorList;
     }
 
-    public void setRegistroindicadorList(List<Registroindicador> registroindicadorList)
-    {
+    public void setRegistroindicadorList(List<Registroindicador> registroindicadorList) {
         this.registroindicadorList = registroindicadorList;
     }
 
-    public Objetivodequestao getObjetivoDeQuestaoid()
-    {
+    @XmlTransient
+    public List<Analise> getAnaliseList() {
+        return analiseList;
+    }
+
+    public void setAnaliseList(List<Analise> analiseList) {
+        this.analiseList = analiseList;
+    }
+
+    public Objetivodequestao getObjetivoDeQuestaoid() {
         return objetivoDeQuestaoid;
     }
 
-    public void setObjetivoDeQuestaoid(Objetivodequestao objetivoDeQuestaoid)
-    {
+    public void setObjetivoDeQuestaoid(Objetivodequestao objetivoDeQuestaoid) {
         this.objetivoDeQuestaoid = objetivoDeQuestaoid;
     }
 
+    @XmlTransient
+    public List<Procedimentodeanalise> getProcedimentodeanaliseList() {
+        return procedimentodeanaliseList;
+    }
+
+    public void setProcedimentodeanaliseList(List<Procedimentodeanalise> procedimentodeanaliseList) {
+        this.procedimentodeanaliseList = procedimentodeanaliseList;
+    }
+
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Indicador)) {
             return false;
         }
         Indicador other = (Indicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Indicador[ id=" + id + " ]";
     }
-
+    
 }

@@ -19,23 +19,20 @@ import model.Projeto;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class MeioscomunicacaoJpaController implements Serializable {
 
-    public MeioscomunicacaoJpaController(EntityManagerFactory emf)
-    {
+    public MeioscomunicacaoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Meioscomunicacao meioscomunicacao)
-    {
+    public void create(Meioscomunicacao meioscomunicacao) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class MeioscomunicacaoJpaController implements Serializable {
         }
     }
 
-    public void edit(Meioscomunicacao meioscomunicacao) throws NonexistentEntityException, Exception
-    {
+    public void edit(Meioscomunicacao meioscomunicacao) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class MeioscomunicacaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class MeioscomunicacaoJpaController implements Serializable {
         }
     }
 
-    public List<Meioscomunicacao> findMeioscomunicacaoEntities()
-    {
+    public List<Meioscomunicacao> findMeioscomunicacaoEntities() {
         return findMeioscomunicacaoEntities(true, -1, -1);
     }
 
-    public List<Meioscomunicacao> findMeioscomunicacaoEntities(int maxResults, int firstResult)
-    {
+    public List<Meioscomunicacao> findMeioscomunicacaoEntities(int maxResults, int firstResult) {
         return findMeioscomunicacaoEntities(false, maxResults, firstResult);
     }
 
-    private List<Meioscomunicacao> findMeioscomunicacaoEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Meioscomunicacao> findMeioscomunicacaoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class MeioscomunicacaoJpaController implements Serializable {
         }
     }
 
-    public Meioscomunicacao findMeioscomunicacao(Integer id)
-    {
+    public Meioscomunicacao findMeioscomunicacao(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Meioscomunicacao.class, id);
@@ -161,8 +152,7 @@ public class MeioscomunicacaoJpaController implements Serializable {
         }
     }
 
-    public int getMeioscomunicacaoCount()
-    {
+    public int getMeioscomunicacaoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class MeioscomunicacaoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "analise")
@@ -45,98 +45,84 @@ public class Analise implements Serializable {
     private String criterioDeAnalise;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
     private List<Resultados> resultadosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
+    private List<Registroanalise> registroanaliseList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Indicador indicadorid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
-    private List<Registroanalise> registroanaliseList;
 
-    public Analise()
-    {
+    public Analise() {
     }
 
-    public Analise(Integer id)
-    {
+    public Analise(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getCriterioDeAnalise()
-    {
+    public String getCriterioDeAnalise() {
         return criterioDeAnalise;
     }
 
-    public void setCriterioDeAnalise(String criterioDeAnalise)
-    {
+    public void setCriterioDeAnalise(String criterioDeAnalise) {
         this.criterioDeAnalise = criterioDeAnalise;
     }
 
     @XmlTransient
-    public List<Resultados> getResultadosList()
-    {
+    public List<Resultados> getResultadosList() {
         return resultadosList;
     }
 
-    public void setResultadosList(List<Resultados> resultadosList)
-    {
+    public void setResultadosList(List<Resultados> resultadosList) {
         this.resultadosList = resultadosList;
     }
 
-    public Indicador getIndicadorid()
-    {
-        return indicadorid;
-    }
-
-    public void setIndicadorid(Indicador indicadorid)
-    {
-        this.indicadorid = indicadorid;
-    }
-
     @XmlTransient
-    public List<Registroanalise> getRegistroanaliseList()
-    {
+    public List<Registroanalise> getRegistroanaliseList() {
         return registroanaliseList;
     }
 
-    public void setRegistroanaliseList(List<Registroanalise> registroanaliseList)
-    {
+    public void setRegistroanaliseList(List<Registroanalise> registroanaliseList) {
         this.registroanaliseList = registroanaliseList;
     }
 
+    public Indicador getIndicadorid() {
+        return indicadorid;
+    }
+
+    public void setIndicadorid(Indicador indicadorid) {
+        this.indicadorid = indicadorid;
+    }
+
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Analise)) {
             return false;
         }
         Analise other = (Analise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Analise[ id=" + id + " ]";
     }
-
+    
 }

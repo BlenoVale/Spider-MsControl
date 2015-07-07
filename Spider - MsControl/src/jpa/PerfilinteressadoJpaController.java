@@ -19,23 +19,20 @@ import model.Projeto;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class PerfilinteressadoJpaController implements Serializable {
 
-    public PerfilinteressadoJpaController(EntityManagerFactory emf)
-    {
+    public PerfilinteressadoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Perfilinteressado perfilinteressado)
-    {
+    public void create(Perfilinteressado perfilinteressado) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class PerfilinteressadoJpaController implements Serializable {
         }
     }
 
-    public void edit(Perfilinteressado perfilinteressado) throws NonexistentEntityException, Exception
-    {
+    public void edit(Perfilinteressado perfilinteressado) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class PerfilinteressadoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class PerfilinteressadoJpaController implements Serializable {
         }
     }
 
-    public List<Perfilinteressado> findPerfilinteressadoEntities()
-    {
+    public List<Perfilinteressado> findPerfilinteressadoEntities() {
         return findPerfilinteressadoEntities(true, -1, -1);
     }
 
-    public List<Perfilinteressado> findPerfilinteressadoEntities(int maxResults, int firstResult)
-    {
+    public List<Perfilinteressado> findPerfilinteressadoEntities(int maxResults, int firstResult) {
         return findPerfilinteressadoEntities(false, maxResults, firstResult);
     }
 
-    private List<Perfilinteressado> findPerfilinteressadoEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Perfilinteressado> findPerfilinteressadoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class PerfilinteressadoJpaController implements Serializable {
         }
     }
 
-    public Perfilinteressado findPerfilinteressado(Integer id)
-    {
+    public Perfilinteressado findPerfilinteressado(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Perfilinteressado.class, id);
@@ -161,8 +152,7 @@ public class PerfilinteressadoJpaController implements Serializable {
         }
     }
 
-    public int getPerfilinteressadoCount()
-    {
+    public int getPerfilinteressadoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class PerfilinteressadoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

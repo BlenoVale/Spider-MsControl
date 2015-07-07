@@ -19,23 +19,20 @@ import model.Registroindicador;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class RegistroindicadorJpaController implements Serializable {
 
-    public RegistroindicadorJpaController(EntityManagerFactory emf)
-    {
+    public RegistroindicadorJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Registroindicador registroindicador)
-    {
+    public void create(Registroindicador registroindicador) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class RegistroindicadorJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroindicador registroindicador) throws NonexistentEntityException, Exception
-    {
+    public void edit(Registroindicador registroindicador) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class RegistroindicadorJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class RegistroindicadorJpaController implements Serializable {
         }
     }
 
-    public List<Registroindicador> findRegistroindicadorEntities()
-    {
+    public List<Registroindicador> findRegistroindicadorEntities() {
         return findRegistroindicadorEntities(true, -1, -1);
     }
 
-    public List<Registroindicador> findRegistroindicadorEntities(int maxResults, int firstResult)
-    {
+    public List<Registroindicador> findRegistroindicadorEntities(int maxResults, int firstResult) {
         return findRegistroindicadorEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroindicador> findRegistroindicadorEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Registroindicador> findRegistroindicadorEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class RegistroindicadorJpaController implements Serializable {
         }
     }
 
-    public Registroindicador findRegistroindicador(Integer id)
-    {
+    public Registroindicador findRegistroindicador(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroindicador.class, id);
@@ -161,8 +152,7 @@ public class RegistroindicadorJpaController implements Serializable {
         }
     }
 
-    public int getRegistroindicadorCount()
-    {
+    public int getRegistroindicadorCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class RegistroindicadorJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

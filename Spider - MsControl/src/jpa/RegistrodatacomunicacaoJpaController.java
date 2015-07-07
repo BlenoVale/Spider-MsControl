@@ -19,23 +19,20 @@ import model.Registrodatacomunicacao;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class RegistrodatacomunicacaoJpaController implements Serializable {
 
-    public RegistrodatacomunicacaoJpaController(EntityManagerFactory emf)
-    {
+    public RegistrodatacomunicacaoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Registrodatacomunicacao registrodatacomunicacao)
-    {
+    public void create(Registrodatacomunicacao registrodatacomunicacao) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
         }
     }
 
-    public void edit(Registrodatacomunicacao registrodatacomunicacao) throws NonexistentEntityException, Exception
-    {
+    public void edit(Registrodatacomunicacao registrodatacomunicacao) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
         }
     }
 
-    public List<Registrodatacomunicacao> findRegistrodatacomunicacaoEntities()
-    {
+    public List<Registrodatacomunicacao> findRegistrodatacomunicacaoEntities() {
         return findRegistrodatacomunicacaoEntities(true, -1, -1);
     }
 
-    public List<Registrodatacomunicacao> findRegistrodatacomunicacaoEntities(int maxResults, int firstResult)
-    {
+    public List<Registrodatacomunicacao> findRegistrodatacomunicacaoEntities(int maxResults, int firstResult) {
         return findRegistrodatacomunicacaoEntities(false, maxResults, firstResult);
     }
 
-    private List<Registrodatacomunicacao> findRegistrodatacomunicacaoEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Registrodatacomunicacao> findRegistrodatacomunicacaoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
         }
     }
 
-    public Registrodatacomunicacao findRegistrodatacomunicacao(Integer id)
-    {
+    public Registrodatacomunicacao findRegistrodatacomunicacao(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registrodatacomunicacao.class, id);
@@ -161,8 +152,7 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
         }
     }
 
-    public int getRegistrodatacomunicacaoCount()
-    {
+    public int getRegistrodatacomunicacaoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

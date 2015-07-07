@@ -19,23 +19,20 @@ import model.Registroprocedimentoanalise;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class RegistroprocedimentoanaliseJpaController implements Serializable {
 
-    public RegistroprocedimentoanaliseJpaController(EntityManagerFactory emf)
-    {
+    public RegistroprocedimentoanaliseJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprocedimentoanalise registroprocedimentoanalise)
-    {
+    public void create(Registroprocedimentoanalise registroprocedimentoanalise) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroprocedimentoanalise registroprocedimentoanalise) throws NonexistentEntityException, Exception
-    {
+    public void edit(Registroprocedimentoanalise registroprocedimentoanalise) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities()
-    {
+    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities() {
         return findRegistroprocedimentoanaliseEntities(true, -1, -1);
     }
 
-    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(int maxResults, int firstResult)
-    {
+    public List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(int maxResults, int firstResult) {
         return findRegistroprocedimentoanaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Registroprocedimentoanalise> findRegistroprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public Registroprocedimentoanalise findRegistroprocedimentoanalise(Integer id)
-    {
+    public Registroprocedimentoanalise findRegistroprocedimentoanalise(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroprocedimentoanalise.class, id);
@@ -161,8 +152,7 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public int getRegistroprocedimentoanaliseCount()
-    {
+    public int getRegistroprocedimentoanaliseCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class RegistroprocedimentoanaliseJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

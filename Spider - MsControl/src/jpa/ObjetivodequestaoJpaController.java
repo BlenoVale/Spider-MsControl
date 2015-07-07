@@ -23,23 +23,20 @@ import model.Objetivodequestao;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class ObjetivodequestaoJpaController implements Serializable {
 
-    public ObjetivodequestaoJpaController(EntityManagerFactory emf)
-    {
+    public ObjetivodequestaoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Objetivodequestao objetivodequestao)
-    {
+    public void create(Objetivodequestao objetivodequestao) {
         if (objetivodequestao.getRegistroobjetivoquestaoList() == null) {
             objetivodequestao.setRegistroobjetivoquestaoList(new ArrayList<Registroobjetivoquestao>());
         }
@@ -98,8 +95,7 @@ public class ObjetivodequestaoJpaController implements Serializable {
         }
     }
 
-    public void edit(Objetivodequestao objetivodequestao) throws IllegalOrphanException, NonexistentEntityException, Exception
-    {
+    public void edit(Objetivodequestao objetivodequestao) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -197,8 +193,7 @@ public class ObjetivodequestaoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
-    {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -242,18 +237,15 @@ public class ObjetivodequestaoJpaController implements Serializable {
         }
     }
 
-    public List<Objetivodequestao> findObjetivodequestaoEntities()
-    {
+    public List<Objetivodequestao> findObjetivodequestaoEntities() {
         return findObjetivodequestaoEntities(true, -1, -1);
     }
 
-    public List<Objetivodequestao> findObjetivodequestaoEntities(int maxResults, int firstResult)
-    {
+    public List<Objetivodequestao> findObjetivodequestaoEntities(int maxResults, int firstResult) {
         return findObjetivodequestaoEntities(false, maxResults, firstResult);
     }
 
-    private List<Objetivodequestao> findObjetivodequestaoEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Objetivodequestao> findObjetivodequestaoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -269,8 +261,7 @@ public class ObjetivodequestaoJpaController implements Serializable {
         }
     }
 
-    public Objetivodequestao findObjetivodequestao(Integer id)
-    {
+    public Objetivodequestao findObjetivodequestao(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Objetivodequestao.class, id);
@@ -279,8 +270,7 @@ public class ObjetivodequestaoJpaController implements Serializable {
         }
     }
 
-    public int getObjetivodequestaoCount()
-    {
+    public int getObjetivodequestaoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -292,5 +282,5 @@ public class ObjetivodequestaoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

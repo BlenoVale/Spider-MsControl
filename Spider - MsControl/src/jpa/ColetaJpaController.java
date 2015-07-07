@@ -19,23 +19,20 @@ import model.Medida;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class ColetaJpaController implements Serializable {
 
-    public ColetaJpaController(EntityManagerFactory emf)
-    {
+    public ColetaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Coleta coleta)
-    {
+    public void create(Coleta coleta) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public void edit(Coleta coleta) throws NonexistentEntityException, Exception
-    {
+    public void edit(Coleta coleta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public List<Coleta> findColetaEntities()
-    {
+    public List<Coleta> findColetaEntities() {
         return findColetaEntities(true, -1, -1);
     }
 
-    public List<Coleta> findColetaEntities(int maxResults, int firstResult)
-    {
+    public List<Coleta> findColetaEntities(int maxResults, int firstResult) {
         return findColetaEntities(false, maxResults, firstResult);
     }
 
-    private List<Coleta> findColetaEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Coleta> findColetaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public Coleta findColeta(Integer id)
-    {
+    public Coleta findColeta(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Coleta.class, id);
@@ -161,8 +152,7 @@ public class ColetaJpaController implements Serializable {
         }
     }
 
-    public int getColetaCount()
-    {
+    public int getColetaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class ColetaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

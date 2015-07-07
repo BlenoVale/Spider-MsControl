@@ -18,41 +18,38 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
+import model.Registroindicador;
 import model.Analise;
 import model.Indicador;
 import model.Procedimentodeanalise;
-import model.Registroindicador;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class IndicadorJpaController implements Serializable {
 
-    public IndicadorJpaController(EntityManagerFactory emf)
-    {
+    public IndicadorJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Indicador indicador)
-    {
+    public void create(Indicador indicador) {
         if (indicador.getMedidaList() == null) {
             indicador.setMedidaList(new ArrayList<Medida>());
+        }
+        if (indicador.getRegistroindicadorList() == null) {
+            indicador.setRegistroindicadorList(new ArrayList<Registroindicador>());
         }
         if (indicador.getAnaliseList() == null) {
             indicador.setAnaliseList(new ArrayList<Analise>());
         }
         if (indicador.getProcedimentodeanaliseList() == null) {
             indicador.setProcedimentodeanaliseList(new ArrayList<Procedimentodeanalise>());
-        }
-        if (indicador.getRegistroindicadorList() == null) {
-            indicador.setRegistroindicadorList(new ArrayList<Registroindicador>());
         }
         EntityManager em = null;
         try {
@@ -69,6 +66,12 @@ public class IndicadorJpaController implements Serializable {
                 attachedMedidaList.add(medidaListMedidaToAttach);
             }
             indicador.setMedidaList(attachedMedidaList);
+            List<Registroindicador> attachedRegistroindicadorList = new ArrayList<Registroindicador>();
+            for (Registroindicador registroindicadorListRegistroindicadorToAttach : indicador.getRegistroindicadorList()) {
+                registroindicadorListRegistroindicadorToAttach = em.getReference(registroindicadorListRegistroindicadorToAttach.getClass(), registroindicadorListRegistroindicadorToAttach.getId());
+                attachedRegistroindicadorList.add(registroindicadorListRegistroindicadorToAttach);
+            }
+            indicador.setRegistroindicadorList(attachedRegistroindicadorList);
             List<Analise> attachedAnaliseList = new ArrayList<Analise>();
             for (Analise analiseListAnaliseToAttach : indicador.getAnaliseList()) {
                 analiseListAnaliseToAttach = em.getReference(analiseListAnaliseToAttach.getClass(), analiseListAnaliseToAttach.getId());
@@ -81,12 +84,6 @@ public class IndicadorJpaController implements Serializable {
                 attachedProcedimentodeanaliseList.add(procedimentodeanaliseListProcedimentodeanaliseToAttach);
             }
             indicador.setProcedimentodeanaliseList(attachedProcedimentodeanaliseList);
-            List<Registroindicador> attachedRegistroindicadorList = new ArrayList<Registroindicador>();
-            for (Registroindicador registroindicadorListRegistroindicadorToAttach : indicador.getRegistroindicadorList()) {
-                registroindicadorListRegistroindicadorToAttach = em.getReference(registroindicadorListRegistroindicadorToAttach.getClass(), registroindicadorListRegistroindicadorToAttach.getId());
-                attachedRegistroindicadorList.add(registroindicadorListRegistroindicadorToAttach);
-            }
-            indicador.setRegistroindicadorList(attachedRegistroindicadorList);
             em.persist(indicador);
             if (objetivoDeQuestaoid != null) {
                 objetivoDeQuestaoid.getIndicadorList().add(indicador);
@@ -95,6 +92,15 @@ public class IndicadorJpaController implements Serializable {
             for (Medida medidaListMedida : indicador.getMedidaList()) {
                 medidaListMedida.getIndicadorList().add(indicador);
                 medidaListMedida = em.merge(medidaListMedida);
+            }
+            for (Registroindicador registroindicadorListRegistroindicador : indicador.getRegistroindicadorList()) {
+                Indicador oldIndicadoridOfRegistroindicadorListRegistroindicador = registroindicadorListRegistroindicador.getIndicadorid();
+                registroindicadorListRegistroindicador.setIndicadorid(indicador);
+                registroindicadorListRegistroindicador = em.merge(registroindicadorListRegistroindicador);
+                if (oldIndicadoridOfRegistroindicadorListRegistroindicador != null) {
+                    oldIndicadoridOfRegistroindicadorListRegistroindicador.getRegistroindicadorList().remove(registroindicadorListRegistroindicador);
+                    oldIndicadoridOfRegistroindicadorListRegistroindicador = em.merge(oldIndicadoridOfRegistroindicadorListRegistroindicador);
+                }
             }
             for (Analise analiseListAnalise : indicador.getAnaliseList()) {
                 Indicador oldIndicadoridOfAnaliseListAnalise = analiseListAnalise.getIndicadorid();
@@ -114,15 +120,6 @@ public class IndicadorJpaController implements Serializable {
                     oldIndicadoridOfProcedimentodeanaliseListProcedimentodeanalise = em.merge(oldIndicadoridOfProcedimentodeanaliseListProcedimentodeanalise);
                 }
             }
-            for (Registroindicador registroindicadorListRegistroindicador : indicador.getRegistroindicadorList()) {
-                Indicador oldIndicadoridOfRegistroindicadorListRegistroindicador = registroindicadorListRegistroindicador.getIndicadorid();
-                registroindicadorListRegistroindicador.setIndicadorid(indicador);
-                registroindicadorListRegistroindicador = em.merge(registroindicadorListRegistroindicador);
-                if (oldIndicadoridOfRegistroindicadorListRegistroindicador != null) {
-                    oldIndicadoridOfRegistroindicadorListRegistroindicador.getRegistroindicadorList().remove(registroindicadorListRegistroindicador);
-                    oldIndicadoridOfRegistroindicadorListRegistroindicador = em.merge(oldIndicadoridOfRegistroindicadorListRegistroindicador);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -131,8 +128,7 @@ public class IndicadorJpaController implements Serializable {
         }
     }
 
-    public void edit(Indicador indicador) throws IllegalOrphanException, NonexistentEntityException, Exception
-    {
+    public void edit(Indicador indicador) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -142,13 +138,21 @@ public class IndicadorJpaController implements Serializable {
             Objetivodequestao objetivoDeQuestaoidNew = indicador.getObjetivoDeQuestaoid();
             List<Medida> medidaListOld = persistentIndicador.getMedidaList();
             List<Medida> medidaListNew = indicador.getMedidaList();
+            List<Registroindicador> registroindicadorListOld = persistentIndicador.getRegistroindicadorList();
+            List<Registroindicador> registroindicadorListNew = indicador.getRegistroindicadorList();
             List<Analise> analiseListOld = persistentIndicador.getAnaliseList();
             List<Analise> analiseListNew = indicador.getAnaliseList();
             List<Procedimentodeanalise> procedimentodeanaliseListOld = persistentIndicador.getProcedimentodeanaliseList();
             List<Procedimentodeanalise> procedimentodeanaliseListNew = indicador.getProcedimentodeanaliseList();
-            List<Registroindicador> registroindicadorListOld = persistentIndicador.getRegistroindicadorList();
-            List<Registroindicador> registroindicadorListNew = indicador.getRegistroindicadorList();
             List<String> illegalOrphanMessages = null;
+            for (Registroindicador registroindicadorListOldRegistroindicador : registroindicadorListOld) {
+                if (!registroindicadorListNew.contains(registroindicadorListOldRegistroindicador)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Registroindicador " + registroindicadorListOldRegistroindicador + " since its indicadorid field is not nullable.");
+                }
+            }
             for (Analise analiseListOldAnalise : analiseListOld) {
                 if (!analiseListNew.contains(analiseListOldAnalise)) {
                     if (illegalOrphanMessages == null) {
@@ -165,14 +169,6 @@ public class IndicadorJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Procedimentodeanalise " + procedimentodeanaliseListOldProcedimentodeanalise + " since its indicadorid field is not nullable.");
                 }
             }
-            for (Registroindicador registroindicadorListOldRegistroindicador : registroindicadorListOld) {
-                if (!registroindicadorListNew.contains(registroindicadorListOldRegistroindicador)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Registroindicador " + registroindicadorListOldRegistroindicador + " since its indicadorid field is not nullable.");
-                }
-            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
@@ -187,6 +183,13 @@ public class IndicadorJpaController implements Serializable {
             }
             medidaListNew = attachedMedidaListNew;
             indicador.setMedidaList(medidaListNew);
+            List<Registroindicador> attachedRegistroindicadorListNew = new ArrayList<Registroindicador>();
+            for (Registroindicador registroindicadorListNewRegistroindicadorToAttach : registroindicadorListNew) {
+                registroindicadorListNewRegistroindicadorToAttach = em.getReference(registroindicadorListNewRegistroindicadorToAttach.getClass(), registroindicadorListNewRegistroindicadorToAttach.getId());
+                attachedRegistroindicadorListNew.add(registroindicadorListNewRegistroindicadorToAttach);
+            }
+            registroindicadorListNew = attachedRegistroindicadorListNew;
+            indicador.setRegistroindicadorList(registroindicadorListNew);
             List<Analise> attachedAnaliseListNew = new ArrayList<Analise>();
             for (Analise analiseListNewAnaliseToAttach : analiseListNew) {
                 analiseListNewAnaliseToAttach = em.getReference(analiseListNewAnaliseToAttach.getClass(), analiseListNewAnaliseToAttach.getId());
@@ -201,13 +204,6 @@ public class IndicadorJpaController implements Serializable {
             }
             procedimentodeanaliseListNew = attachedProcedimentodeanaliseListNew;
             indicador.setProcedimentodeanaliseList(procedimentodeanaliseListNew);
-            List<Registroindicador> attachedRegistroindicadorListNew = new ArrayList<Registroindicador>();
-            for (Registroindicador registroindicadorListNewRegistroindicadorToAttach : registroindicadorListNew) {
-                registroindicadorListNewRegistroindicadorToAttach = em.getReference(registroindicadorListNewRegistroindicadorToAttach.getClass(), registroindicadorListNewRegistroindicadorToAttach.getId());
-                attachedRegistroindicadorListNew.add(registroindicadorListNewRegistroindicadorToAttach);
-            }
-            registroindicadorListNew = attachedRegistroindicadorListNew;
-            indicador.setRegistroindicadorList(registroindicadorListNew);
             indicador = em.merge(indicador);
             if (objetivoDeQuestaoidOld != null && !objetivoDeQuestaoidOld.equals(objetivoDeQuestaoidNew)) {
                 objetivoDeQuestaoidOld.getIndicadorList().remove(indicador);
@@ -227,6 +223,17 @@ public class IndicadorJpaController implements Serializable {
                 if (!medidaListOld.contains(medidaListNewMedida)) {
                     medidaListNewMedida.getIndicadorList().add(indicador);
                     medidaListNewMedida = em.merge(medidaListNewMedida);
+                }
+            }
+            for (Registroindicador registroindicadorListNewRegistroindicador : registroindicadorListNew) {
+                if (!registroindicadorListOld.contains(registroindicadorListNewRegistroindicador)) {
+                    Indicador oldIndicadoridOfRegistroindicadorListNewRegistroindicador = registroindicadorListNewRegistroindicador.getIndicadorid();
+                    registroindicadorListNewRegistroindicador.setIndicadorid(indicador);
+                    registroindicadorListNewRegistroindicador = em.merge(registroindicadorListNewRegistroindicador);
+                    if (oldIndicadoridOfRegistroindicadorListNewRegistroindicador != null && !oldIndicadoridOfRegistroindicadorListNewRegistroindicador.equals(indicador)) {
+                        oldIndicadoridOfRegistroindicadorListNewRegistroindicador.getRegistroindicadorList().remove(registroindicadorListNewRegistroindicador);
+                        oldIndicadoridOfRegistroindicadorListNewRegistroindicador = em.merge(oldIndicadoridOfRegistroindicadorListNewRegistroindicador);
+                    }
                 }
             }
             for (Analise analiseListNewAnalise : analiseListNew) {
@@ -251,17 +258,6 @@ public class IndicadorJpaController implements Serializable {
                     }
                 }
             }
-            for (Registroindicador registroindicadorListNewRegistroindicador : registroindicadorListNew) {
-                if (!registroindicadorListOld.contains(registroindicadorListNewRegistroindicador)) {
-                    Indicador oldIndicadoridOfRegistroindicadorListNewRegistroindicador = registroindicadorListNewRegistroindicador.getIndicadorid();
-                    registroindicadorListNewRegistroindicador.setIndicadorid(indicador);
-                    registroindicadorListNewRegistroindicador = em.merge(registroindicadorListNewRegistroindicador);
-                    if (oldIndicadoridOfRegistroindicadorListNewRegistroindicador != null && !oldIndicadoridOfRegistroindicadorListNewRegistroindicador.equals(indicador)) {
-                        oldIndicadoridOfRegistroindicadorListNewRegistroindicador.getRegistroindicadorList().remove(registroindicadorListNewRegistroindicador);
-                        oldIndicadoridOfRegistroindicadorListNewRegistroindicador = em.merge(oldIndicadoridOfRegistroindicadorListNewRegistroindicador);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -279,8 +275,7 @@ public class IndicadorJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
-    {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -293,6 +288,13 @@ public class IndicadorJpaController implements Serializable {
                 throw new NonexistentEntityException("The indicador with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Registroindicador> registroindicadorListOrphanCheck = indicador.getRegistroindicadorList();
+            for (Registroindicador registroindicadorListOrphanCheckRegistroindicador : registroindicadorListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Indicador (" + indicador + ") cannot be destroyed since the Registroindicador " + registroindicadorListOrphanCheckRegistroindicador + " in its registroindicadorList field has a non-nullable indicadorid field.");
+            }
             List<Analise> analiseListOrphanCheck = indicador.getAnaliseList();
             for (Analise analiseListOrphanCheckAnalise : analiseListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -306,13 +308,6 @@ public class IndicadorJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Indicador (" + indicador + ") cannot be destroyed since the Procedimentodeanalise " + procedimentodeanaliseListOrphanCheckProcedimentodeanalise + " in its procedimentodeanaliseList field has a non-nullable indicadorid field.");
-            }
-            List<Registroindicador> registroindicadorListOrphanCheck = indicador.getRegistroindicadorList();
-            for (Registroindicador registroindicadorListOrphanCheckRegistroindicador : registroindicadorListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Indicador (" + indicador + ") cannot be destroyed since the Registroindicador " + registroindicadorListOrphanCheckRegistroindicador + " in its registroindicadorList field has a non-nullable indicadorid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -336,18 +331,15 @@ public class IndicadorJpaController implements Serializable {
         }
     }
 
-    public List<Indicador> findIndicadorEntities()
-    {
+    public List<Indicador> findIndicadorEntities() {
         return findIndicadorEntities(true, -1, -1);
     }
 
-    public List<Indicador> findIndicadorEntities(int maxResults, int firstResult)
-    {
+    public List<Indicador> findIndicadorEntities(int maxResults, int firstResult) {
         return findIndicadorEntities(false, maxResults, firstResult);
     }
 
-    private List<Indicador> findIndicadorEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Indicador> findIndicadorEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -363,8 +355,7 @@ public class IndicadorJpaController implements Serializable {
         }
     }
 
-    public Indicador findIndicador(Integer id)
-    {
+    public Indicador findIndicador(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Indicador.class, id);
@@ -373,8 +364,7 @@ public class IndicadorJpaController implements Serializable {
         }
     }
 
-    public int getIndicadorCount()
-    {
+    public int getIndicadorCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -386,5 +376,5 @@ public class IndicadorJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -19,23 +19,20 @@ import model.Registromedida;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class RegistromedidaJpaController implements Serializable {
 
-    public RegistromedidaJpaController(EntityManagerFactory emf)
-    {
+    public RegistromedidaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Registromedida registromedida)
-    {
+    public void create(Registromedida registromedida) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public void edit(Registromedida registromedida) throws NonexistentEntityException, Exception
-    {
+    public void edit(Registromedida registromedida) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public List<Registromedida> findRegistromedidaEntities()
-    {
+    public List<Registromedida> findRegistromedidaEntities() {
         return findRegistromedidaEntities(true, -1, -1);
     }
 
-    public List<Registromedida> findRegistromedidaEntities(int maxResults, int firstResult)
-    {
+    public List<Registromedida> findRegistromedidaEntities(int maxResults, int firstResult) {
         return findRegistromedidaEntities(false, maxResults, firstResult);
     }
 
-    private List<Registromedida> findRegistromedidaEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Registromedida> findRegistromedidaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public Registromedida findRegistromedida(Integer id)
-    {
+    public Registromedida findRegistromedida(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registromedida.class, id);
@@ -161,8 +152,7 @@ public class RegistromedidaJpaController implements Serializable {
         }
     }
 
-    public int getRegistromedidaCount()
-    {
+    public int getRegistromedidaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class RegistromedidaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

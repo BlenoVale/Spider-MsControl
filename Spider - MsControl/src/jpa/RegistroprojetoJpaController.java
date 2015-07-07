@@ -19,23 +19,20 @@ import model.Registroprojeto;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class RegistroprojetoJpaController implements Serializable {
 
-    public RegistroprojetoJpaController(EntityManagerFactory emf)
-    {
+    public RegistroprojetoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprojeto registroprojeto)
-    {
+    public void create(Registroprojeto registroprojeto) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroprojeto registroprojeto) throws NonexistentEntityException, Exception
-    {
+    public void edit(Registroprojeto registroprojeto) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public List<Registroprojeto> findRegistroprojetoEntities()
-    {
+    public List<Registroprojeto> findRegistroprojetoEntities() {
         return findRegistroprojetoEntities(true, -1, -1);
     }
 
-    public List<Registroprojeto> findRegistroprojetoEntities(int maxResults, int firstResult)
-    {
+    public List<Registroprojeto> findRegistroprojetoEntities(int maxResults, int firstResult) {
         return findRegistroprojetoEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroprojeto> findRegistroprojetoEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Registroprojeto> findRegistroprojetoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public Registroprojeto findRegistroprojeto(Integer id)
-    {
+    public Registroprojeto findRegistroprojeto(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroprojeto.class, id);
@@ -161,8 +152,7 @@ public class RegistroprojetoJpaController implements Serializable {
         }
     }
 
-    public int getRegistroprojetoCount()
-    {
+    public int getRegistroprojetoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class RegistroprojetoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

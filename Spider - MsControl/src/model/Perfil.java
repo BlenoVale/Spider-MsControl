@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "perfil")
@@ -47,82 +47,70 @@ public class Perfil implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfil")
     private List<Acessa> acessaList;
 
-    public Perfil()
-    {
+    public Perfil() {
     }
 
-    public Perfil(Integer id)
-    {
+    public Perfil(Integer id) {
         this.id = id;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNome()
-    {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome)
-    {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
     @XmlTransient
-    public List<Funcionalidade> getFuncionalidadeList()
-    {
+    public List<Funcionalidade> getFuncionalidadeList() {
         return funcionalidadeList;
     }
 
-    public void setFuncionalidadeList(List<Funcionalidade> funcionalidadeList)
-    {
+    public void setFuncionalidadeList(List<Funcionalidade> funcionalidadeList) {
         this.funcionalidadeList = funcionalidadeList;
     }
 
     @XmlTransient
-    public List<Acessa> getAcessaList()
-    {
+    public List<Acessa> getAcessaList() {
         return acessaList;
     }
 
-    public void setAcessaList(List<Acessa> acessaList)
-    {
+    public void setAcessaList(List<Acessa> acessaList) {
         this.acessaList = acessaList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Perfil)) {
             return false;
         }
         Perfil other = (Perfil) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Perfil[ id=" + id + " ]";
     }
-
+    
 }

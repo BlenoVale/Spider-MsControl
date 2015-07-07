@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "projeto")
@@ -66,197 +66,166 @@ public class Projeto implements Serializable {
     @Lob
     @Column(name = "descricao")
     private String descricao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
-    private List<Objetivodemedicao> objetivodemedicaoList;
     @OneToMany(mappedBy = "projetoid")
     private List<Perfilinteressado> perfilinteressadoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
-    private List<Registroprojeto> registroprojetoList;
+    private List<Objetivodemedicao> objetivodemedicaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projeto")
     private List<Acessa> acessaList;
     @OneToMany(mappedBy = "projetoid")
     private List<Entidademedida> entidademedidaList;
     @OneToMany(mappedBy = "projetoid")
     private List<Meioscomunicacao> meioscomunicacaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projetoid")
+    private List<Registroprojeto> registroprojetoList;
 
-    public Projeto()
-    {
+    public Projeto() {
     }
 
-    public Projeto(Integer id)
-    {
+    public Projeto(Integer id) {
         this.id = id;
     }
 
-    public Projeto(Integer id, String nome, int status, Date dataInicio)
-    {
+    public Projeto(Integer id, String nome, int status, Date dataInicio) {
         this.id = id;
         this.nome = nome;
         this.status = status;
         this.dataInicio = dataInicio;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNome()
-    {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome)
-    {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public int getStatus()
-    {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status)
-    {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public Date getDataInicio()
-    {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio)
-    {
+    public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataInatividade()
-    {
+    public Date getDataInatividade() {
         return dataInatividade;
     }
 
-    public void setDataInatividade(Date dataInatividade)
-    {
+    public void setDataInatividade(Date dataInatividade) {
         this.dataInatividade = dataInatividade;
     }
 
-    public Date getDataFim()
-    {
+    public Date getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(Date dataFim)
-    {
+    public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
 
-    public String getDescricao()
-    {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao)
-    {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
     @XmlTransient
-    public List<Objetivodemedicao> getObjetivodemedicaoList()
-    {
-        return objetivodemedicaoList;
-    }
-
-    public void setObjetivodemedicaoList(List<Objetivodemedicao> objetivodemedicaoList)
-    {
-        this.objetivodemedicaoList = objetivodemedicaoList;
-    }
-
-    @XmlTransient
-    public List<Perfilinteressado> getPerfilinteressadoList()
-    {
+    public List<Perfilinteressado> getPerfilinteressadoList() {
         return perfilinteressadoList;
     }
 
-    public void setPerfilinteressadoList(List<Perfilinteressado> perfilinteressadoList)
-    {
+    public void setPerfilinteressadoList(List<Perfilinteressado> perfilinteressadoList) {
         this.perfilinteressadoList = perfilinteressadoList;
     }
 
     @XmlTransient
-    public List<Registroprojeto> getRegistroprojetoList()
-    {
-        return registroprojetoList;
+    public List<Objetivodemedicao> getObjetivodemedicaoList() {
+        return objetivodemedicaoList;
     }
 
-    public void setRegistroprojetoList(List<Registroprojeto> registroprojetoList)
-    {
-        this.registroprojetoList = registroprojetoList;
+    public void setObjetivodemedicaoList(List<Objetivodemedicao> objetivodemedicaoList) {
+        this.objetivodemedicaoList = objetivodemedicaoList;
     }
 
     @XmlTransient
-    public List<Acessa> getAcessaList()
-    {
+    public List<Acessa> getAcessaList() {
         return acessaList;
     }
 
-    public void setAcessaList(List<Acessa> acessaList)
-    {
+    public void setAcessaList(List<Acessa> acessaList) {
         this.acessaList = acessaList;
     }
 
     @XmlTransient
-    public List<Entidademedida> getEntidademedidaList()
-    {
+    public List<Entidademedida> getEntidademedidaList() {
         return entidademedidaList;
     }
 
-    public void setEntidademedidaList(List<Entidademedida> entidademedidaList)
-    {
+    public void setEntidademedidaList(List<Entidademedida> entidademedidaList) {
         this.entidademedidaList = entidademedidaList;
     }
 
     @XmlTransient
-    public List<Meioscomunicacao> getMeioscomunicacaoList()
-    {
+    public List<Meioscomunicacao> getMeioscomunicacaoList() {
         return meioscomunicacaoList;
     }
 
-    public void setMeioscomunicacaoList(List<Meioscomunicacao> meioscomunicacaoList)
-    {
+    public void setMeioscomunicacaoList(List<Meioscomunicacao> meioscomunicacaoList) {
         this.meioscomunicacaoList = meioscomunicacaoList;
     }
 
+    @XmlTransient
+    public List<Registroprojeto> getRegistroprojetoList() {
+        return registroprojetoList;
+    }
+
+    public void setRegistroprojetoList(List<Registroprojeto> registroprojetoList) {
+        this.registroprojetoList = registroprojetoList;
+    }
+
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Projeto)) {
             return false;
         }
         Projeto other = (Projeto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Projeto[ id=" + id + " ]";
     }
-
+    
 }

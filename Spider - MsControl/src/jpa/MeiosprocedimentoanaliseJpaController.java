@@ -19,23 +19,20 @@ import model.Procedimentodeanalise;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class MeiosprocedimentoanaliseJpaController implements Serializable {
 
-    public MeiosprocedimentoanaliseJpaController(EntityManagerFactory emf)
-    {
+    public MeiosprocedimentoanaliseJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Meiosprocedimentoanalise meiosprocedimentoanalise)
-    {
+    public void create(Meiosprocedimentoanalise meiosprocedimentoanalise) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class MeiosprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Meiosprocedimentoanalise meiosprocedimentoanalise) throws NonexistentEntityException, Exception
-    {
+    public void edit(Meiosprocedimentoanalise meiosprocedimentoanalise) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class MeiosprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class MeiosprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities()
-    {
+    public List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities() {
         return findMeiosprocedimentoanaliseEntities(true, -1, -1);
     }
 
-    public List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities(int maxResults, int firstResult)
-    {
+    public List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities(int maxResults, int firstResult) {
         return findMeiosprocedimentoanaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Meiosprocedimentoanalise> findMeiosprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class MeiosprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public Meiosprocedimentoanalise findMeiosprocedimentoanalise(Integer id)
-    {
+    public Meiosprocedimentoanalise findMeiosprocedimentoanalise(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Meiosprocedimentoanalise.class, id);
@@ -161,8 +152,7 @@ public class MeiosprocedimentoanaliseJpaController implements Serializable {
         }
     }
 
-    public int getMeiosprocedimentoanaliseCount()
-    {
+    public int getMeiosprocedimentoanaliseCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class MeiosprocedimentoanaliseJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

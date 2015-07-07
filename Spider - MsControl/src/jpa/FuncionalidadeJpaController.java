@@ -20,23 +20,20 @@ import model.Funcionalidade;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class FuncionalidadeJpaController implements Serializable {
 
-    public FuncionalidadeJpaController(EntityManagerFactory emf)
-    {
+    public FuncionalidadeJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Funcionalidade funcionalidade)
-    {
+    public void create(Funcionalidade funcionalidade) {
         if (funcionalidade.getPerfilList() == null) {
             funcionalidade.setPerfilList(new ArrayList<Perfil>());
         }
@@ -63,8 +60,7 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public void edit(Funcionalidade funcionalidade) throws NonexistentEntityException, Exception
-    {
+    public void edit(Funcionalidade funcionalidade) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -109,8 +105,7 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -136,18 +131,15 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public List<Funcionalidade> findFuncionalidadeEntities()
-    {
+    public List<Funcionalidade> findFuncionalidadeEntities() {
         return findFuncionalidadeEntities(true, -1, -1);
     }
 
-    public List<Funcionalidade> findFuncionalidadeEntities(int maxResults, int firstResult)
-    {
+    public List<Funcionalidade> findFuncionalidadeEntities(int maxResults, int firstResult) {
         return findFuncionalidadeEntities(false, maxResults, firstResult);
     }
 
-    private List<Funcionalidade> findFuncionalidadeEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Funcionalidade> findFuncionalidadeEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -163,8 +155,7 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public Funcionalidade findFuncionalidade(Integer id)
-    {
+    public Funcionalidade findFuncionalidade(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Funcionalidade.class, id);
@@ -173,8 +164,7 @@ public class FuncionalidadeJpaController implements Serializable {
         }
     }
 
-    public int getFuncionalidadeCount()
-    {
+    public int getFuncionalidadeCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -186,5 +176,5 @@ public class FuncionalidadeJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

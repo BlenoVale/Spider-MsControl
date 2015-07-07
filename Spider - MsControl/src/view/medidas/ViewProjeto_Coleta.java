@@ -141,12 +141,10 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private void cadastraColeta() {
 
-        pegarMedidaSelecionada();
-
         medidaSelecionada.getProcedimentodecoletaList().get(0).setContadorColeta(contador);
 
         Coleta coletaAux = new Coleta();
-        boolean passou = true;
+        boolean passou = false;
         for (int i = 0; i < jListColetasASalvar.getModel().getSize(); i++) {
             coletaAux.setData(new Date());
             coletaAux.setMedidaid(medidaSelecionada);
@@ -155,7 +153,11 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
             passou = ctrlColeta.cadastrarColeta(coletaAux);
         }
-        passou = ctrlProcedimentosColeta.editarProcedimentoColeta(medidaSelecionada.getProcedimentodecoletaList().get(0));
+
+        if (passou) {
+            passou = ctrlProcedimentosColeta.editarProcedimentoColeta(medidaSelecionada.getProcedimentodecoletaList().get(0));
+        }
+
         if (passou) {
             JOptionPane.showMessageDialog(null, "Cadastrado como sucesso.");
         } else {
@@ -613,6 +615,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         contador += 1;
         jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
         checaLimiteFrequencia(medidaSelecionada);
+        jButtonSalvar.setEnabled(true);
     }//GEN-LAST:event_jTextFieldValorColetaActionPerformed
 
     private void jTableMedidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidasMouseClicked

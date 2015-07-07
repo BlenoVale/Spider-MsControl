@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "meiosprocedimentoanalise")
@@ -44,76 +44,65 @@ public class Meiosprocedimentoanalise implements Serializable {
     @ManyToOne(optional = false)
     private Procedimentodeanalise procedimentoDeAnaliseid;
 
-    public Meiosprocedimentoanalise()
-    {
+    public Meiosprocedimentoanalise() {
     }
 
-    public Meiosprocedimentoanalise(Integer id)
-    {
+    public Meiosprocedimentoanalise(Integer id) {
         this.id = id;
     }
 
-    public Meiosprocedimentoanalise(Integer id, int idmeioComunicacao)
-    {
+    public Meiosprocedimentoanalise(Integer id, int idmeioComunicacao) {
         this.id = id;
         this.idmeioComunicacao = idmeioComunicacao;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdmeioComunicacao()
-    {
+    public int getIdmeioComunicacao() {
         return idmeioComunicacao;
     }
 
-    public void setIdmeioComunicacao(int idmeioComunicacao)
-    {
+    public void setIdmeioComunicacao(int idmeioComunicacao) {
         this.idmeioComunicacao = idmeioComunicacao;
     }
 
-    public Procedimentodeanalise getProcedimentoDeAnaliseid()
-    {
+    public Procedimentodeanalise getProcedimentoDeAnaliseid() {
         return procedimentoDeAnaliseid;
     }
 
-    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid)
-    {
+    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid) {
         this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Meiosprocedimentoanalise)) {
             return false;
         }
         Meiosprocedimentoanalise other = (Meiosprocedimentoanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Meiosprocedimentoanalise[ id=" + id + " ]";
     }
-
+    
 }

@@ -11,48 +11,45 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Indicador;
-import model.Perfisinteressadosprocedimentoanalise;
+import model.Meiosprocedimentoanalise;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
-import model.Registrodatacomunicacao;
-import model.Registroprocedimentoanalise;
-import model.Meiosprocedimentoanalise;
+import model.Perfisinteressadosprocedimentoanalise;
 import model.Procedimentodeanalise;
+import model.Registroprocedimentoanalise;
+import model.Registrodatacomunicacao;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class ProcedimentodeanaliseJpaController implements Serializable {
 
-    public ProcedimentodeanaliseJpaController(EntityManagerFactory emf)
-    {
+    public ProcedimentodeanaliseJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Procedimentodeanalise procedimentodeanalise)
-    {
+    public void create(Procedimentodeanalise procedimentodeanalise) {
+        if (procedimentodeanalise.getMeiosprocedimentoanaliseList() == null) {
+            procedimentodeanalise.setMeiosprocedimentoanaliseList(new ArrayList<Meiosprocedimentoanalise>());
+        }
         if (procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList() == null) {
             procedimentodeanalise.setPerfisinteressadosprocedimentoanaliseList(new ArrayList<Perfisinteressadosprocedimentoanalise>());
-        }
-        if (procedimentodeanalise.getRegistrodatacomunicacaoList() == null) {
-            procedimentodeanalise.setRegistrodatacomunicacaoList(new ArrayList<Registrodatacomunicacao>());
         }
         if (procedimentodeanalise.getRegistroprocedimentoanaliseList() == null) {
             procedimentodeanalise.setRegistroprocedimentoanaliseList(new ArrayList<Registroprocedimentoanalise>());
         }
-        if (procedimentodeanalise.getMeiosprocedimentoanaliseList() == null) {
-            procedimentodeanalise.setMeiosprocedimentoanaliseList(new ArrayList<Meiosprocedimentoanalise>());
+        if (procedimentodeanalise.getRegistrodatacomunicacaoList() == null) {
+            procedimentodeanalise.setRegistrodatacomunicacaoList(new ArrayList<Registrodatacomunicacao>());
         }
         EntityManager em = null;
         try {
@@ -63,34 +60,43 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 indicadorid = em.getReference(indicadorid.getClass(), indicadorid.getId());
                 procedimentodeanalise.setIndicadorid(indicadorid);
             }
-            List<Perfisinteressadosprocedimentoanalise> attachedPerfisinteressadosprocedimentoanaliseList = new ArrayList<Perfisinteressadosprocedimentoanalise>();
-            for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach : procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList()) {
-                perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach = em.getReference(perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach.getClass(), perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach.getId());
-                attachedPerfisinteressadosprocedimentoanaliseList.add(perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach);
-            }
-            procedimentodeanalise.setPerfisinteressadosprocedimentoanaliseList(attachedPerfisinteressadosprocedimentoanaliseList);
-            List<Registrodatacomunicacao> attachedRegistrodatacomunicacaoList = new ArrayList<Registrodatacomunicacao>();
-            for (Registrodatacomunicacao registrodatacomunicacaoListRegistrodatacomunicacaoToAttach : procedimentodeanalise.getRegistrodatacomunicacaoList()) {
-                registrodatacomunicacaoListRegistrodatacomunicacaoToAttach = em.getReference(registrodatacomunicacaoListRegistrodatacomunicacaoToAttach.getClass(), registrodatacomunicacaoListRegistrodatacomunicacaoToAttach.getId());
-                attachedRegistrodatacomunicacaoList.add(registrodatacomunicacaoListRegistrodatacomunicacaoToAttach);
-            }
-            procedimentodeanalise.setRegistrodatacomunicacaoList(attachedRegistrodatacomunicacaoList);
-            List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseList = new ArrayList<Registroprocedimentoanalise>();
-            for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
-                registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getId());
-                attachedRegistroprocedimentoanaliseList.add(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach);
-            }
-            procedimentodeanalise.setRegistroprocedimentoanaliseList(attachedRegistroprocedimentoanaliseList);
             List<Meiosprocedimentoanalise> attachedMeiosprocedimentoanaliseList = new ArrayList<Meiosprocedimentoanalise>();
             for (Meiosprocedimentoanalise meiosprocedimentoanaliseListMeiosprocedimentoanaliseToAttach : procedimentodeanalise.getMeiosprocedimentoanaliseList()) {
                 meiosprocedimentoanaliseListMeiosprocedimentoanaliseToAttach = em.getReference(meiosprocedimentoanaliseListMeiosprocedimentoanaliseToAttach.getClass(), meiosprocedimentoanaliseListMeiosprocedimentoanaliseToAttach.getId());
                 attachedMeiosprocedimentoanaliseList.add(meiosprocedimentoanaliseListMeiosprocedimentoanaliseToAttach);
             }
             procedimentodeanalise.setMeiosprocedimentoanaliseList(attachedMeiosprocedimentoanaliseList);
+            List<Perfisinteressadosprocedimentoanalise> attachedPerfisinteressadosprocedimentoanaliseList = new ArrayList<Perfisinteressadosprocedimentoanalise>();
+            for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach : procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList()) {
+                perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach = em.getReference(perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach.getClass(), perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach.getId());
+                attachedPerfisinteressadosprocedimentoanaliseList.add(perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanaliseToAttach);
+            }
+            procedimentodeanalise.setPerfisinteressadosprocedimentoanaliseList(attachedPerfisinteressadosprocedimentoanaliseList);
+            List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseList = new ArrayList<Registroprocedimentoanalise>();
+            for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
+                registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach.getId());
+                attachedRegistroprocedimentoanaliseList.add(registroprocedimentoanaliseListRegistroprocedimentoanaliseToAttach);
+            }
+            procedimentodeanalise.setRegistroprocedimentoanaliseList(attachedRegistroprocedimentoanaliseList);
+            List<Registrodatacomunicacao> attachedRegistrodatacomunicacaoList = new ArrayList<Registrodatacomunicacao>();
+            for (Registrodatacomunicacao registrodatacomunicacaoListRegistrodatacomunicacaoToAttach : procedimentodeanalise.getRegistrodatacomunicacaoList()) {
+                registrodatacomunicacaoListRegistrodatacomunicacaoToAttach = em.getReference(registrodatacomunicacaoListRegistrodatacomunicacaoToAttach.getClass(), registrodatacomunicacaoListRegistrodatacomunicacaoToAttach.getId());
+                attachedRegistrodatacomunicacaoList.add(registrodatacomunicacaoListRegistrodatacomunicacaoToAttach);
+            }
+            procedimentodeanalise.setRegistrodatacomunicacaoList(attachedRegistrodatacomunicacaoList);
             em.persist(procedimentodeanalise);
             if (indicadorid != null) {
                 indicadorid.getProcedimentodeanaliseList().add(procedimentodeanalise);
                 indicadorid = em.merge(indicadorid);
+            }
+            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListMeiosprocedimentoanalise : procedimentodeanalise.getMeiosprocedimentoanaliseList()) {
+                Procedimentodeanalise oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise = meiosprocedimentoanaliseListMeiosprocedimentoanalise.getProcedimentoDeAnaliseid();
+                meiosprocedimentoanaliseListMeiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
+                meiosprocedimentoanaliseListMeiosprocedimentoanalise = em.merge(meiosprocedimentoanaliseListMeiosprocedimentoanalise);
+                if (oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise != null) {
+                    oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise.getMeiosprocedimentoanaliseList().remove(meiosprocedimentoanaliseListMeiosprocedimentoanalise);
+                    oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise);
+                }
             }
             for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise : procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList()) {
                 Procedimentodeanalise oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise = perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise.getProcedimentoDeAnaliseid();
@@ -99,15 +105,6 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 if (oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise != null) {
                     oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise.getPerfisinteressadosprocedimentoanaliseList().remove(perfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise);
                     oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListPerfisinteressadosprocedimentoanalise);
-                }
-            }
-            for (Registrodatacomunicacao registrodatacomunicacaoListRegistrodatacomunicacao : procedimentodeanalise.getRegistrodatacomunicacaoList()) {
-                Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao = registrodatacomunicacaoListRegistrodatacomunicacao.getProcedimentoDeAnaliseid();
-                registrodatacomunicacaoListRegistrodatacomunicacao.setProcedimentoDeAnaliseid(procedimentodeanalise);
-                registrodatacomunicacaoListRegistrodatacomunicacao = em.merge(registrodatacomunicacaoListRegistrodatacomunicacao);
-                if (oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao != null) {
-                    oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao.getRegistrodatacomunicacaoList().remove(registrodatacomunicacaoListRegistrodatacomunicacao);
-                    oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao = em.merge(oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao);
                 }
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListRegistroprocedimentoanalise : procedimentodeanalise.getRegistroprocedimentoanaliseList()) {
@@ -119,13 +116,13 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                     oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfRegistroprocedimentoanaliseListRegistroprocedimentoanalise);
                 }
             }
-            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListMeiosprocedimentoanalise : procedimentodeanalise.getMeiosprocedimentoanaliseList()) {
-                Procedimentodeanalise oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise = meiosprocedimentoanaliseListMeiosprocedimentoanalise.getProcedimentoDeAnaliseid();
-                meiosprocedimentoanaliseListMeiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
-                meiosprocedimentoanaliseListMeiosprocedimentoanalise = em.merge(meiosprocedimentoanaliseListMeiosprocedimentoanalise);
-                if (oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise != null) {
-                    oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise.getMeiosprocedimentoanaliseList().remove(meiosprocedimentoanaliseListMeiosprocedimentoanalise);
-                    oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListMeiosprocedimentoanalise);
+            for (Registrodatacomunicacao registrodatacomunicacaoListRegistrodatacomunicacao : procedimentodeanalise.getRegistrodatacomunicacaoList()) {
+                Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao = registrodatacomunicacaoListRegistrodatacomunicacao.getProcedimentoDeAnaliseid();
+                registrodatacomunicacaoListRegistrodatacomunicacao.setProcedimentoDeAnaliseid(procedimentodeanalise);
+                registrodatacomunicacaoListRegistrodatacomunicacao = em.merge(registrodatacomunicacaoListRegistrodatacomunicacao);
+                if (oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao != null) {
+                    oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao.getRegistrodatacomunicacaoList().remove(registrodatacomunicacaoListRegistrodatacomunicacao);
+                    oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao = em.merge(oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListRegistrodatacomunicacao);
                 }
             }
             em.getTransaction().commit();
@@ -136,8 +133,7 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Procedimentodeanalise procedimentodeanalise) throws IllegalOrphanException, NonexistentEntityException, Exception
-    {
+    public void edit(Procedimentodeanalise procedimentodeanalise) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -145,29 +141,29 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             Procedimentodeanalise persistentProcedimentodeanalise = em.find(Procedimentodeanalise.class, procedimentodeanalise.getId());
             Indicador indicadoridOld = persistentProcedimentodeanalise.getIndicadorid();
             Indicador indicadoridNew = procedimentodeanalise.getIndicadorid();
-            List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseListOld = persistentProcedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList();
-            List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseListNew = procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList();
-            List<Registrodatacomunicacao> registrodatacomunicacaoListOld = persistentProcedimentodeanalise.getRegistrodatacomunicacaoList();
-            List<Registrodatacomunicacao> registrodatacomunicacaoListNew = procedimentodeanalise.getRegistrodatacomunicacaoList();
-            List<Registroprocedimentoanalise> registroprocedimentoanaliseListOld = persistentProcedimentodeanalise.getRegistroprocedimentoanaliseList();
-            List<Registroprocedimentoanalise> registroprocedimentoanaliseListNew = procedimentodeanalise.getRegistroprocedimentoanaliseList();
             List<Meiosprocedimentoanalise> meiosprocedimentoanaliseListOld = persistentProcedimentodeanalise.getMeiosprocedimentoanaliseList();
             List<Meiosprocedimentoanalise> meiosprocedimentoanaliseListNew = procedimentodeanalise.getMeiosprocedimentoanaliseList();
+            List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseListOld = persistentProcedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList();
+            List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseListNew = procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList();
+            List<Registroprocedimentoanalise> registroprocedimentoanaliseListOld = persistentProcedimentodeanalise.getRegistroprocedimentoanaliseList();
+            List<Registroprocedimentoanalise> registroprocedimentoanaliseListNew = procedimentodeanalise.getRegistroprocedimentoanaliseList();
+            List<Registrodatacomunicacao> registrodatacomunicacaoListOld = persistentProcedimentodeanalise.getRegistrodatacomunicacaoList();
+            List<Registrodatacomunicacao> registrodatacomunicacaoListNew = procedimentodeanalise.getRegistrodatacomunicacaoList();
             List<String> illegalOrphanMessages = null;
+            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListOldMeiosprocedimentoanalise : meiosprocedimentoanaliseListOld) {
+                if (!meiosprocedimentoanaliseListNew.contains(meiosprocedimentoanaliseListOldMeiosprocedimentoanalise)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Meiosprocedimentoanalise " + meiosprocedimentoanaliseListOldMeiosprocedimentoanalise + " since its procedimentoDeAnaliseid field is not nullable.");
+                }
+            }
             for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListOldPerfisinteressadosprocedimentoanalise : perfisinteressadosprocedimentoanaliseListOld) {
                 if (!perfisinteressadosprocedimentoanaliseListNew.contains(perfisinteressadosprocedimentoanaliseListOldPerfisinteressadosprocedimentoanalise)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Perfisinteressadosprocedimentoanalise " + perfisinteressadosprocedimentoanaliseListOldPerfisinteressadosprocedimentoanalise + " since its procedimentoDeAnaliseid field is not nullable.");
-                }
-            }
-            for (Registrodatacomunicacao registrodatacomunicacaoListOldRegistrodatacomunicacao : registrodatacomunicacaoListOld) {
-                if (!registrodatacomunicacaoListNew.contains(registrodatacomunicacaoListOldRegistrodatacomunicacao)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Registrodatacomunicacao " + registrodatacomunicacaoListOldRegistrodatacomunicacao + " since its procedimentoDeAnaliseid field is not nullable.");
                 }
             }
             for (Registroprocedimentoanalise registroprocedimentoanaliseListOldRegistroprocedimentoanalise : registroprocedimentoanaliseListOld) {
@@ -178,12 +174,12 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Registroprocedimentoanalise " + registroprocedimentoanaliseListOldRegistroprocedimentoanalise + " since its procedimentoDeAnaliseid field is not nullable.");
                 }
             }
-            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListOldMeiosprocedimentoanalise : meiosprocedimentoanaliseListOld) {
-                if (!meiosprocedimentoanaliseListNew.contains(meiosprocedimentoanaliseListOldMeiosprocedimentoanalise)) {
+            for (Registrodatacomunicacao registrodatacomunicacaoListOldRegistrodatacomunicacao : registrodatacomunicacaoListOld) {
+                if (!registrodatacomunicacaoListNew.contains(registrodatacomunicacaoListOldRegistrodatacomunicacao)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Meiosprocedimentoanalise " + meiosprocedimentoanaliseListOldMeiosprocedimentoanalise + " since its procedimentoDeAnaliseid field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Registrodatacomunicacao " + registrodatacomunicacaoListOldRegistrodatacomunicacao + " since its procedimentoDeAnaliseid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -193,27 +189,6 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 indicadoridNew = em.getReference(indicadoridNew.getClass(), indicadoridNew.getId());
                 procedimentodeanalise.setIndicadorid(indicadoridNew);
             }
-            List<Perfisinteressadosprocedimentoanalise> attachedPerfisinteressadosprocedimentoanaliseListNew = new ArrayList<Perfisinteressadosprocedimentoanalise>();
-            for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach : perfisinteressadosprocedimentoanaliseListNew) {
-                perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach = em.getReference(perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach.getClass(), perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach.getId());
-                attachedPerfisinteressadosprocedimentoanaliseListNew.add(perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach);
-            }
-            perfisinteressadosprocedimentoanaliseListNew = attachedPerfisinteressadosprocedimentoanaliseListNew;
-            procedimentodeanalise.setPerfisinteressadosprocedimentoanaliseList(perfisinteressadosprocedimentoanaliseListNew);
-            List<Registrodatacomunicacao> attachedRegistrodatacomunicacaoListNew = new ArrayList<Registrodatacomunicacao>();
-            for (Registrodatacomunicacao registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach : registrodatacomunicacaoListNew) {
-                registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach = em.getReference(registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach.getClass(), registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach.getId());
-                attachedRegistrodatacomunicacaoListNew.add(registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach);
-            }
-            registrodatacomunicacaoListNew = attachedRegistrodatacomunicacaoListNew;
-            procedimentodeanalise.setRegistrodatacomunicacaoList(registrodatacomunicacaoListNew);
-            List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseListNew = new ArrayList<Registroprocedimentoanalise>();
-            for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach : registroprocedimentoanaliseListNew) {
-                registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getId());
-                attachedRegistroprocedimentoanaliseListNew.add(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach);
-            }
-            registroprocedimentoanaliseListNew = attachedRegistroprocedimentoanaliseListNew;
-            procedimentodeanalise.setRegistroprocedimentoanaliseList(registroprocedimentoanaliseListNew);
             List<Meiosprocedimentoanalise> attachedMeiosprocedimentoanaliseListNew = new ArrayList<Meiosprocedimentoanalise>();
             for (Meiosprocedimentoanalise meiosprocedimentoanaliseListNewMeiosprocedimentoanaliseToAttach : meiosprocedimentoanaliseListNew) {
                 meiosprocedimentoanaliseListNewMeiosprocedimentoanaliseToAttach = em.getReference(meiosprocedimentoanaliseListNewMeiosprocedimentoanaliseToAttach.getClass(), meiosprocedimentoanaliseListNewMeiosprocedimentoanaliseToAttach.getId());
@@ -221,6 +196,27 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             }
             meiosprocedimentoanaliseListNew = attachedMeiosprocedimentoanaliseListNew;
             procedimentodeanalise.setMeiosprocedimentoanaliseList(meiosprocedimentoanaliseListNew);
+            List<Perfisinteressadosprocedimentoanalise> attachedPerfisinteressadosprocedimentoanaliseListNew = new ArrayList<Perfisinteressadosprocedimentoanalise>();
+            for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach : perfisinteressadosprocedimentoanaliseListNew) {
+                perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach = em.getReference(perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach.getClass(), perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach.getId());
+                attachedPerfisinteressadosprocedimentoanaliseListNew.add(perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanaliseToAttach);
+            }
+            perfisinteressadosprocedimentoanaliseListNew = attachedPerfisinteressadosprocedimentoanaliseListNew;
+            procedimentodeanalise.setPerfisinteressadosprocedimentoanaliseList(perfisinteressadosprocedimentoanaliseListNew);
+            List<Registroprocedimentoanalise> attachedRegistroprocedimentoanaliseListNew = new ArrayList<Registroprocedimentoanalise>();
+            for (Registroprocedimentoanalise registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach : registroprocedimentoanaliseListNew) {
+                registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach = em.getReference(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getClass(), registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach.getId());
+                attachedRegistroprocedimentoanaliseListNew.add(registroprocedimentoanaliseListNewRegistroprocedimentoanaliseToAttach);
+            }
+            registroprocedimentoanaliseListNew = attachedRegistroprocedimentoanaliseListNew;
+            procedimentodeanalise.setRegistroprocedimentoanaliseList(registroprocedimentoanaliseListNew);
+            List<Registrodatacomunicacao> attachedRegistrodatacomunicacaoListNew = new ArrayList<Registrodatacomunicacao>();
+            for (Registrodatacomunicacao registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach : registrodatacomunicacaoListNew) {
+                registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach = em.getReference(registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach.getClass(), registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach.getId());
+                attachedRegistrodatacomunicacaoListNew.add(registrodatacomunicacaoListNewRegistrodatacomunicacaoToAttach);
+            }
+            registrodatacomunicacaoListNew = attachedRegistrodatacomunicacaoListNew;
+            procedimentodeanalise.setRegistrodatacomunicacaoList(registrodatacomunicacaoListNew);
             procedimentodeanalise = em.merge(procedimentodeanalise);
             if (indicadoridOld != null && !indicadoridOld.equals(indicadoridNew)) {
                 indicadoridOld.getProcedimentodeanaliseList().remove(procedimentodeanalise);
@@ -230,6 +226,17 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 indicadoridNew.getProcedimentodeanaliseList().add(procedimentodeanalise);
                 indicadoridNew = em.merge(indicadoridNew);
             }
+            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListNewMeiosprocedimentoanalise : meiosprocedimentoanaliseListNew) {
+                if (!meiosprocedimentoanaliseListOld.contains(meiosprocedimentoanaliseListNewMeiosprocedimentoanalise)) {
+                    Procedimentodeanalise oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise = meiosprocedimentoanaliseListNewMeiosprocedimentoanalise.getProcedimentoDeAnaliseid();
+                    meiosprocedimentoanaliseListNewMeiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
+                    meiosprocedimentoanaliseListNewMeiosprocedimentoanalise = em.merge(meiosprocedimentoanaliseListNewMeiosprocedimentoanalise);
+                    if (oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise != null && !oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise.equals(procedimentodeanalise)) {
+                        oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise.getMeiosprocedimentoanaliseList().remove(meiosprocedimentoanaliseListNewMeiosprocedimentoanalise);
+                        oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise);
+                    }
+                }
+            }
             for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise : perfisinteressadosprocedimentoanaliseListNew) {
                 if (!perfisinteressadosprocedimentoanaliseListOld.contains(perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise)) {
                     Procedimentodeanalise oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise = perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise.getProcedimentoDeAnaliseid();
@@ -238,17 +245,6 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                     if (oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise != null && !oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise.equals(procedimentodeanalise)) {
                         oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise.getPerfisinteressadosprocedimentoanaliseList().remove(perfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise);
                         oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfPerfisinteressadosprocedimentoanaliseListNewPerfisinteressadosprocedimentoanalise);
-                    }
-                }
-            }
-            for (Registrodatacomunicacao registrodatacomunicacaoListNewRegistrodatacomunicacao : registrodatacomunicacaoListNew) {
-                if (!registrodatacomunicacaoListOld.contains(registrodatacomunicacaoListNewRegistrodatacomunicacao)) {
-                    Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao = registrodatacomunicacaoListNewRegistrodatacomunicacao.getProcedimentoDeAnaliseid();
-                    registrodatacomunicacaoListNewRegistrodatacomunicacao.setProcedimentoDeAnaliseid(procedimentodeanalise);
-                    registrodatacomunicacaoListNewRegistrodatacomunicacao = em.merge(registrodatacomunicacaoListNewRegistrodatacomunicacao);
-                    if (oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao != null && !oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao.equals(procedimentodeanalise)) {
-                        oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao.getRegistrodatacomunicacaoList().remove(registrodatacomunicacaoListNewRegistrodatacomunicacao);
-                        oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao = em.merge(oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao);
                     }
                 }
             }
@@ -263,14 +259,14 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                     }
                 }
             }
-            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListNewMeiosprocedimentoanalise : meiosprocedimentoanaliseListNew) {
-                if (!meiosprocedimentoanaliseListOld.contains(meiosprocedimentoanaliseListNewMeiosprocedimentoanalise)) {
-                    Procedimentodeanalise oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise = meiosprocedimentoanaliseListNewMeiosprocedimentoanalise.getProcedimentoDeAnaliseid();
-                    meiosprocedimentoanaliseListNewMeiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
-                    meiosprocedimentoanaliseListNewMeiosprocedimentoanalise = em.merge(meiosprocedimentoanaliseListNewMeiosprocedimentoanalise);
-                    if (oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise != null && !oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise.equals(procedimentodeanalise)) {
-                        oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise.getMeiosprocedimentoanaliseList().remove(meiosprocedimentoanaliseListNewMeiosprocedimentoanalise);
-                        oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise = em.merge(oldProcedimentoDeAnaliseidOfMeiosprocedimentoanaliseListNewMeiosprocedimentoanalise);
+            for (Registrodatacomunicacao registrodatacomunicacaoListNewRegistrodatacomunicacao : registrodatacomunicacaoListNew) {
+                if (!registrodatacomunicacaoListOld.contains(registrodatacomunicacaoListNewRegistrodatacomunicacao)) {
+                    Procedimentodeanalise oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao = registrodatacomunicacaoListNewRegistrodatacomunicacao.getProcedimentoDeAnaliseid();
+                    registrodatacomunicacaoListNewRegistrodatacomunicacao.setProcedimentoDeAnaliseid(procedimentodeanalise);
+                    registrodatacomunicacaoListNewRegistrodatacomunicacao = em.merge(registrodatacomunicacaoListNewRegistrodatacomunicacao);
+                    if (oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao != null && !oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao.equals(procedimentodeanalise)) {
+                        oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao.getRegistrodatacomunicacaoList().remove(registrodatacomunicacaoListNewRegistrodatacomunicacao);
+                        oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao = em.merge(oldProcedimentoDeAnaliseidOfRegistrodatacomunicacaoListNewRegistrodatacomunicacao);
                     }
                 }
             }
@@ -291,8 +287,7 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
-    {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -305,19 +300,19 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 throw new NonexistentEntityException("The procedimentodeanalise with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Meiosprocedimentoanalise> meiosprocedimentoanaliseListOrphanCheck = procedimentodeanalise.getMeiosprocedimentoanaliseList();
+            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListOrphanCheckMeiosprocedimentoanalise : meiosprocedimentoanaliseListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Meiosprocedimentoanalise " + meiosprocedimentoanaliseListOrphanCheckMeiosprocedimentoanalise + " in its meiosprocedimentoanaliseList field has a non-nullable procedimentoDeAnaliseid field.");
+            }
             List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseListOrphanCheck = procedimentodeanalise.getPerfisinteressadosprocedimentoanaliseList();
             for (Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanaliseListOrphanCheckPerfisinteressadosprocedimentoanalise : perfisinteressadosprocedimentoanaliseListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Perfisinteressadosprocedimentoanalise " + perfisinteressadosprocedimentoanaliseListOrphanCheckPerfisinteressadosprocedimentoanalise + " in its perfisinteressadosprocedimentoanaliseList field has a non-nullable procedimentoDeAnaliseid field.");
-            }
-            List<Registrodatacomunicacao> registrodatacomunicacaoListOrphanCheck = procedimentodeanalise.getRegistrodatacomunicacaoList();
-            for (Registrodatacomunicacao registrodatacomunicacaoListOrphanCheckRegistrodatacomunicacao : registrodatacomunicacaoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Registrodatacomunicacao " + registrodatacomunicacaoListOrphanCheckRegistrodatacomunicacao + " in its registrodatacomunicacaoList field has a non-nullable procedimentoDeAnaliseid field.");
             }
             List<Registroprocedimentoanalise> registroprocedimentoanaliseListOrphanCheck = procedimentodeanalise.getRegistroprocedimentoanaliseList();
             for (Registroprocedimentoanalise registroprocedimentoanaliseListOrphanCheckRegistroprocedimentoanalise : registroprocedimentoanaliseListOrphanCheck) {
@@ -326,12 +321,12 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Registroprocedimentoanalise " + registroprocedimentoanaliseListOrphanCheckRegistroprocedimentoanalise + " in its registroprocedimentoanaliseList field has a non-nullable procedimentoDeAnaliseid field.");
             }
-            List<Meiosprocedimentoanalise> meiosprocedimentoanaliseListOrphanCheck = procedimentodeanalise.getMeiosprocedimentoanaliseList();
-            for (Meiosprocedimentoanalise meiosprocedimentoanaliseListOrphanCheckMeiosprocedimentoanalise : meiosprocedimentoanaliseListOrphanCheck) {
+            List<Registrodatacomunicacao> registrodatacomunicacaoListOrphanCheck = procedimentodeanalise.getRegistrodatacomunicacaoList();
+            for (Registrodatacomunicacao registrodatacomunicacaoListOrphanCheckRegistrodatacomunicacao : registrodatacomunicacaoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Meiosprocedimentoanalise " + meiosprocedimentoanaliseListOrphanCheckMeiosprocedimentoanalise + " in its meiosprocedimentoanaliseList field has a non-nullable procedimentoDeAnaliseid field.");
+                illegalOrphanMessages.add("This Procedimentodeanalise (" + procedimentodeanalise + ") cannot be destroyed since the Registrodatacomunicacao " + registrodatacomunicacaoListOrphanCheckRegistrodatacomunicacao + " in its registrodatacomunicacaoList field has a non-nullable procedimentoDeAnaliseid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -350,18 +345,15 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public List<Procedimentodeanalise> findProcedimentodeanaliseEntities()
-    {
+    public List<Procedimentodeanalise> findProcedimentodeanaliseEntities() {
         return findProcedimentodeanaliseEntities(true, -1, -1);
     }
 
-    public List<Procedimentodeanalise> findProcedimentodeanaliseEntities(int maxResults, int firstResult)
-    {
+    public List<Procedimentodeanalise> findProcedimentodeanaliseEntities(int maxResults, int firstResult) {
         return findProcedimentodeanaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Procedimentodeanalise> findProcedimentodeanaliseEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Procedimentodeanalise> findProcedimentodeanaliseEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -377,8 +369,7 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public Procedimentodeanalise findProcedimentodeanalise(Integer id)
-    {
+    public Procedimentodeanalise findProcedimentodeanalise(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Procedimentodeanalise.class, id);
@@ -387,8 +378,7 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
         }
     }
 
-    public int getProcedimentodeanaliseCount()
-    {
+    public int getProcedimentodeanaliseCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -400,5 +390,5 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "funcionalidade")
@@ -49,77 +49,66 @@ public class Funcionalidade implements Serializable {
     @ManyToMany
     private List<Perfil> perfilList;
 
-    public Funcionalidade()
-    {
+    public Funcionalidade() {
     }
 
-    public Funcionalidade(Integer id)
-    {
+    public Funcionalidade(Integer id) {
         this.id = id;
     }
 
-    public Funcionalidade(Integer id, String nome)
-    {
+    public Funcionalidade(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNome()
-    {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome)
-    {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
     @XmlTransient
-    public List<Perfil> getPerfilList()
-    {
+    public List<Perfil> getPerfilList() {
         return perfilList;
     }
 
-    public void setPerfilList(List<Perfil> perfilList)
-    {
+    public void setPerfilList(List<Perfil> perfilList) {
         this.perfilList = perfilList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Funcionalidade)) {
             return false;
         }
         Funcionalidade other = (Funcionalidade) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Funcionalidade[ id=" + id + " ]";
     }
-
+    
 }

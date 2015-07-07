@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "registrodatacomunicacao")
@@ -51,86 +51,73 @@ public class Registrodatacomunicacao implements Serializable {
     @ManyToOne(optional = false)
     private Procedimentodeanalise procedimentoDeAnaliseid;
 
-    public Registrodatacomunicacao()
-    {
+    public Registrodatacomunicacao() {
     }
 
-    public Registrodatacomunicacao(Integer id)
-    {
+    public Registrodatacomunicacao(Integer id) {
         this.id = id;
     }
 
-    public Registrodatacomunicacao(Integer id, Date dataComunicacao)
-    {
+    public Registrodatacomunicacao(Integer id, Date dataComunicacao) {
         this.id = id;
         this.dataComunicacao = dataComunicacao;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Date getDataComunicacao()
-    {
+    public Date getDataComunicacao() {
         return dataComunicacao;
     }
 
-    public void setDataComunicacao(Date dataComunicacao)
-    {
+    public void setDataComunicacao(Date dataComunicacao) {
         this.dataComunicacao = dataComunicacao;
     }
 
-    public Integer getTipo()
-    {
+    public Integer getTipo() {
         return tipo;
     }
 
-    public void setTipo(Integer tipo)
-    {
+    public void setTipo(Integer tipo) {
         this.tipo = tipo;
     }
 
-    public Procedimentodeanalise getProcedimentoDeAnaliseid()
-    {
+    public Procedimentodeanalise getProcedimentoDeAnaliseid() {
         return procedimentoDeAnaliseid;
     }
 
-    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid)
-    {
+    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid) {
         this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Registrodatacomunicacao)) {
             return false;
         }
         Registrodatacomunicacao other = (Registrodatacomunicacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Registrodatacomunicacao[ id=" + id + " ]";
     }
-
+    
 }

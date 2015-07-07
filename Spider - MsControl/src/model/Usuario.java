@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "usuario")
@@ -57,109 +57,92 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Acessa> acessaList;
 
-    public Usuario()
-    {
+    public Usuario() {
     }
 
-    public Usuario(Integer id)
-    {
+    public Usuario(Integer id) {
         this.id = id;
     }
 
-    public Usuario(Integer id, String nome, String login, String email)
-    {
+    public Usuario(Integer id, String nome, String login, String email) {
         this.id = id;
         this.nome = nome;
         this.login = login;
         this.email = email;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNome()
-    {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome)
-    {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public String getLogin()
-    {
+    public String getLogin() {
         return login;
     }
 
-    public void setLogin(String login)
-    {
+    public void setLogin(String login) {
         this.login = login;
     }
 
-    public String getSenha()
-    {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha)
-    {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
     @XmlTransient
-    public List<Acessa> getAcessaList()
-    {
+    public List<Acessa> getAcessaList() {
         return acessaList;
     }
 
-    public void setAcessaList(List<Acessa> acessaList)
-    {
+    public void setAcessaList(List<Acessa> acessaList) {
         this.acessaList = acessaList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Usuario)) {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Usuario[ id=" + id + " ]";
     }
-
+    
 }

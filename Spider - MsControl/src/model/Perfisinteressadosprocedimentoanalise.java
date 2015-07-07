@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "perfisinteressadosprocedimentoanalise")
@@ -44,76 +44,65 @@ public class Perfisinteressadosprocedimentoanalise implements Serializable {
     @ManyToOne(optional = false)
     private Procedimentodeanalise procedimentoDeAnaliseid;
 
-    public Perfisinteressadosprocedimentoanalise()
-    {
+    public Perfisinteressadosprocedimentoanalise() {
     }
 
-    public Perfisinteressadosprocedimentoanalise(Integer id)
-    {
+    public Perfisinteressadosprocedimentoanalise(Integer id) {
         this.id = id;
     }
 
-    public Perfisinteressadosprocedimentoanalise(Integer id, int idperfilInteressado)
-    {
+    public Perfisinteressadosprocedimentoanalise(Integer id, int idperfilInteressado) {
         this.id = id;
         this.idperfilInteressado = idperfilInteressado;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getIdperfilInteressado()
-    {
+    public int getIdperfilInteressado() {
         return idperfilInteressado;
     }
 
-    public void setIdperfilInteressado(int idperfilInteressado)
-    {
+    public void setIdperfilInteressado(int idperfilInteressado) {
         this.idperfilInteressado = idperfilInteressado;
     }
 
-    public Procedimentodeanalise getProcedimentoDeAnaliseid()
-    {
+    public Procedimentodeanalise getProcedimentoDeAnaliseid() {
         return procedimentoDeAnaliseid;
     }
 
-    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid)
-    {
+    public void setProcedimentoDeAnaliseid(Procedimentodeanalise procedimentoDeAnaliseid) {
         this.procedimentoDeAnaliseid = procedimentoDeAnaliseid;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Perfisinteressadosprocedimentoanalise)) {
             return false;
         }
         Perfisinteressadosprocedimentoanalise other = (Perfisinteressadosprocedimentoanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Perfisinteressadosprocedimentoanalise[ id=" + id + " ]";
     }
-
+    
 }

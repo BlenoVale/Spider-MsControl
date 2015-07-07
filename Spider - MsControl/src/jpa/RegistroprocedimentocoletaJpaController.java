@@ -19,23 +19,20 @@ import model.Registroprocedimentocoleta;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class RegistroprocedimentocoletaJpaController implements Serializable {
 
-    public RegistroprocedimentocoletaJpaController(EntityManagerFactory emf)
-    {
+    public RegistroprocedimentocoletaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Registroprocedimentocoleta registroprocedimentocoleta)
-    {
+    public void create(Registroprocedimentocoleta registroprocedimentocoleta) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public void edit(Registroprocedimentocoleta registroprocedimentocoleta) throws NonexistentEntityException, Exception
-    {
+    public void edit(Registroprocedimentocoleta registroprocedimentocoleta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public List<Registroprocedimentocoleta> findRegistroprocedimentocoletaEntities()
-    {
+    public List<Registroprocedimentocoleta> findRegistroprocedimentocoletaEntities() {
         return findRegistroprocedimentocoletaEntities(true, -1, -1);
     }
 
-    public List<Registroprocedimentocoleta> findRegistroprocedimentocoletaEntities(int maxResults, int firstResult)
-    {
+    public List<Registroprocedimentocoleta> findRegistroprocedimentocoletaEntities(int maxResults, int firstResult) {
         return findRegistroprocedimentocoletaEntities(false, maxResults, firstResult);
     }
 
-    private List<Registroprocedimentocoleta> findRegistroprocedimentocoletaEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Registroprocedimentocoleta> findRegistroprocedimentocoletaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public Registroprocedimentocoleta findRegistroprocedimentocoleta(Integer id)
-    {
+    public Registroprocedimentocoleta findRegistroprocedimentocoleta(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Registroprocedimentocoleta.class, id);
@@ -161,8 +152,7 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
         }
     }
 
-    public int getRegistroprocedimentocoletaCount()
-    {
+    public int getRegistroprocedimentocoletaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class RegistroprocedimentocoletaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

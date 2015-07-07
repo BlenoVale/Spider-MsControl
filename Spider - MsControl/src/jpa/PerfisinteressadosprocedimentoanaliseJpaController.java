@@ -19,23 +19,20 @@ import model.Procedimentodeanalise;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class PerfisinteressadosprocedimentoanaliseJpaController implements Serializable {
 
-    public PerfisinteressadosprocedimentoanaliseJpaController(EntityManagerFactory emf)
-    {
+    public PerfisinteressadosprocedimentoanaliseJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise)
-    {
+    public void create(Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,8 +55,7 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
         }
     }
 
-    public void edit(Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise) throws NonexistentEntityException, Exception
-    {
+    public void edit(Perfisinteressadosprocedimentoanalise perfisinteressadosprocedimentoanalise) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -97,8 +93,7 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
-    {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,18 +119,15 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
         }
     }
 
-    public List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities()
-    {
+    public List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities() {
         return findPerfisinteressadosprocedimentoanaliseEntities(true, -1, -1);
     }
 
-    public List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities(int maxResults, int firstResult)
-    {
+    public List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities(int maxResults, int firstResult) {
         return findPerfisinteressadosprocedimentoanaliseEntities(false, maxResults, firstResult);
     }
 
-    private List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Perfisinteressadosprocedimentoanalise> findPerfisinteressadosprocedimentoanaliseEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -151,8 +143,7 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
         }
     }
 
-    public Perfisinteressadosprocedimentoanalise findPerfisinteressadosprocedimentoanalise(Integer id)
-    {
+    public Perfisinteressadosprocedimentoanalise findPerfisinteressadosprocedimentoanalise(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Perfisinteressadosprocedimentoanalise.class, id);
@@ -161,8 +152,7 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
         }
     }
 
-    public int getPerfisinteressadosprocedimentoanaliseCount()
-    {
+    public int getPerfisinteressadosprocedimentoanaliseCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -174,5 +164,5 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
             em.close();
         }
     }
-
+    
 }

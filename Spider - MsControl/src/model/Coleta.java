@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 @Entity
 @Table(name = "coleta")
@@ -52,86 +52,73 @@ public class Coleta implements Serializable {
     @ManyToOne(optional = false)
     private Medida medidaid;
 
-    public Coleta()
-    {
+    public Coleta() {
     }
 
-    public Coleta(Integer id)
-    {
+    public Coleta(Integer id) {
         this.id = id;
     }
 
-    public Coleta(Integer id, Date data)
-    {
+    public Coleta(Integer id, Date data) {
         this.id = id;
         this.data = data;
     }
 
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Date getData()
-    {
+    public Date getData() {
         return data;
     }
 
-    public void setData(Date data)
-    {
+    public void setData(Date data) {
         this.data = data;
     }
 
-    public Double getValorDaColeta()
-    {
+    public Double getValorDaColeta() {
         return valorDaColeta;
     }
 
-    public void setValorDaColeta(Double valorDaColeta)
-    {
+    public void setValorDaColeta(Double valorDaColeta) {
         this.valorDaColeta = valorDaColeta;
     }
 
-    public Medida getMedidaid()
-    {
+    public Medida getMedidaid() {
         return medidaid;
     }
 
-    public void setMedidaid(Medida medidaid)
-    {
+    public void setMedidaid(Medida medidaid) {
         this.medidaid = medidaid;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Coleta)) {
             return false;
         }
         Coleta other = (Coleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.Coleta[ id=" + id + " ]";
     }
-
+    
 }

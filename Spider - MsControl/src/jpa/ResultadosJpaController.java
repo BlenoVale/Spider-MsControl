@@ -22,23 +22,20 @@ import model.Resultados;
 
 /**
  *
- * @author Paulo
+ * @author BlenoVale
  */
 public class ResultadosJpaController implements Serializable {
 
-    public ResultadosJpaController(EntityManagerFactory emf)
-    {
+    public ResultadosJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Resultados resultados)
-    {
+    public void create(Resultados resultados) {
         if (resultados.getRegistroresultadosList() == null) {
             resultados.setRegistroresultadosList(new ArrayList<Registroresultados>());
         }
@@ -79,8 +76,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public void edit(Resultados resultados) throws IllegalOrphanException, NonexistentEntityException, Exception
-    {
+    public void edit(Resultados resultados) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -150,8 +146,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
-    {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -188,18 +183,15 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public List<Resultados> findResultadosEntities()
-    {
+    public List<Resultados> findResultadosEntities() {
         return findResultadosEntities(true, -1, -1);
     }
 
-    public List<Resultados> findResultadosEntities(int maxResults, int firstResult)
-    {
+    public List<Resultados> findResultadosEntities(int maxResults, int firstResult) {
         return findResultadosEntities(false, maxResults, firstResult);
     }
 
-    private List<Resultados> findResultadosEntities(boolean all, int maxResults, int firstResult)
-    {
+    private List<Resultados> findResultadosEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -215,8 +207,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public Resultados findResultados(Integer id)
-    {
+    public Resultados findResultados(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Resultados.class, id);
@@ -225,8 +216,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public int getResultadosCount()
-    {
+    public int getResultadosCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -238,5 +228,5 @@ public class ResultadosJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }
