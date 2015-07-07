@@ -2,9 +2,11 @@ package view.procedimentos;
 
 import view.indicadores.*;
 import controller.CtrlIndicador;
+import controller.CtrlMeioComunicacao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Entidademedida;
+import model.Meioscomunicacao;
 import util.Copia;
 import util.MyDefaultTableModel;
 
@@ -15,45 +17,58 @@ import util.MyDefaultTableModel;
 public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
 
     private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private final CtrlMeioComunicacao ctrlMeioComunicacao = new CtrlMeioComunicacao();
 
     public ViewProjeto_MeioComunicacao(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
         initComponents();
+        preencherTabelaMeiosComunicacao();
 
 
         this.setLocationRelativeTo(null);
     }
 
-//    private void preencherTabelaEntidadeMedida() {
-//        String[] coluna = {"Entidade Medida"};
-//        MyDefaultTableModel tableModel = new MyDefaultTableModel(coluna, 0, false);
-//
-//        List<Entidademedida> lista = ctrlIndicador.buscaListaEntidadeMedidasCadastradas(Copia.getProjetoSelecionado().getId());
-//        for (int i = 0; i < lista.size(); i++) {
-//            String[] linha = {lista.get(i).getNome()};
-//            tableModel.addRow(linha);
-//        }
-//        jTable.setModel(tableModel);
-//    }
-//
-//    private void salvarEntidadeMedida() {
-//        boolean feito = false;
-//        if (jTextFieldEntidadeMedida.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Nome da Entidade medida não pode ser nulo.");
-//        } else {
-//            feito = ctrlIndicador.criarEntidadeMedida(jTextFieldEntidadeMedida.getText(), Copia.getProjetoSelecionado().getId());
-//            jTextFieldEntidadeMedida.setText("");
-//        }
-//    }
-//
-//    private void deletarEntidadeMedida() {
-//        if (jTable.getSelectedRow() == -1) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Entidade medida na Tabela.");
-//        } else {
-//            ctrlIndicador.excluirEntidadeMedida(jTable.getValueAt(jTable.getSelectedRow(), 0).toString(), Copia.getProjetoSelecionado().getId());
-//        }
-//    }
+    public void preencherTabelaMeiosComunicacao()
+    {
+        String[] coluna = {"Meios de Comunicação"};
+        MyDefaultTableModel tableModel = new MyDefaultTableModel(coluna, 0, false);
+
+        List<Meioscomunicacao> meioscomunicacaos = ctrlMeioComunicacao.buscarMeiosComunicacao();
+        for (int i = 0; i < meioscomunicacaos.size(); i++) {
+            String[] linha = {
+                meioscomunicacaos.get(i).getNome()};
+            tableModel.addRow(linha);
+        }
+        jTableMeioComunicacao.setModel(tableModel);
+    }
+
+    private void salvarEntidadeMedida() {
+        boolean feito = false;
+        if (jTextFieldMeioComunicacao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nome do Meio de comunicação não pode ser vazio.");
+        } else {
+            feito = ctrlIndicador.criarEntidadeMedida(jTextFieldMeioComunicacao.getText(), Copia.getProjetoSelecionado().getId());
+            jTextFieldMeioComunicacao.setText("");
+        }
+    }
+
+    private void deletarEntidadeMedida() {
+        if (jTableMeioComunicacao.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Entidade medida na Tabela.");
+        } else {
+            ctrlIndicador.excluirEntidadeMedida(jTableMeioComunicacao.getValueAt(jTableMeioComunicacao.getSelectedRow(), 0).toString(), Copia.getProjetoSelecionado().getId());
+        }
+    }
+
+    public void deletarMeioComunicacao()
+    {
+        if (jTableMeioComunicacao.getSelectedRow() == -1)
+            JOptionPane.showMessageDialog(null, "Por favor, selecione um meio de comunicação.");
+        else {
+
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -62,12 +77,12 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable = new javax.swing.JTable();
+        jTableMeioComunicacao = new javax.swing.JTable();
         jButtonExcluir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextFieldEntidadeMedida = new javax.swing.JTextField();
+        jTextFieldMeioComunicacao = new javax.swing.JTextField();
         jButtonSalvar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Meios de Comunicação");
@@ -75,7 +90,7 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTableMeioComunicacao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
 
@@ -85,7 +100,7 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
                 "Meio de Comunicação"
             }
         ));
-        jScrollPane1.setViewportView(jTable);
+        jScrollPane1.setViewportView(jTableMeioComunicacao);
 
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener()
@@ -107,12 +122,12 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setText("Sair");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
+        jButtonCancelar.setText("Sair");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton2ActionPerformed(evt);
+                jButtonCancelarActionPerformed(evt);
             }
         });
 
@@ -127,7 +142,7 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 155, Short.MAX_VALUE))
-                    .addComponent(jTextFieldEntidadeMedida)
+                    .addComponent(jTextFieldMeioComunicacao)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +150,7 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,11 +163,11 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldEntidadeMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldMeioComunicacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonCancelar))
                 .addContainerGap())
         );
 
@@ -178,14 +193,20 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
 
+
+        Meioscomunicacao meioscomunicacao = new Meioscomunicacao();
+        meioscomunicacao.setNome(jTextFieldMeioComunicacao.getText());
+        ctrlMeioComunicacao.criarNovoMeioComunicacao(meioscomunicacao);
+        preencherTabelaMeiosComunicacao();
+        jTextFieldMeioComunicacao.setText("");
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-
+        //@todo criar o excluir
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
@@ -234,13 +255,13 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable;
-    private javax.swing.JTextField jTextFieldEntidadeMedida;
+    private javax.swing.JTable jTableMeioComunicacao;
+    private javax.swing.JTextField jTextFieldMeioComunicacao;
     // End of variables declaration//GEN-END:variables
 }

@@ -56,6 +56,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         ocultarMedidaRelacionada();
         iniciarTabela();
         recarregarTabela();
+        this.pack();
 
     }
 
@@ -84,6 +85,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         listMedida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
 
+    }
+
+    public void verifyButtonCadastrarMeioComunicacao()
+    {
+
+        if (jTabbedPane1.getSelectedIndex() == 4) {
+            jButtonCadastrarMeioComunicacao.setVisible(true);
+        } else {
+            jButtonCadastrarMeioComunicacao.setVisible(false);
+        }
     }
 
     public boolean verificaSinais(String formulas)
@@ -369,6 +380,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     public void ocultarMedidaRelacionada()
     {
+        jButtonCadastrarMeioComunicacao.setVisible(false);
         jTextFieldFormula.setEnabled(false);
         jLabelMedidaRelacionada.setVisible(false);
         jComboBoxMedidaRelacionada.setVisible(false);
@@ -496,7 +508,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     public void popularComboBoxMedidaRelacionada()
     {
         comboBoxModelMedidaRelacionada = new DefaultComboBoxModel();
-        comboBoxModelMedidaRelacionada.addElement("--Selecione uma medida--");
+        comboBoxModelMedidaRelacionada.addElement("--Selecione uma Medida--");
         listMedidaRelacionada = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < listMedidaRelacionada.size(); i++) {
             comboBoxModelMedidaRelacionada.addElement(listMedidaRelacionada.get(i).getNome());
@@ -703,7 +715,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         dateField2 = new net.sf.nachocalendar.components.DateField();
         jComboBoxIndicador = new javax.swing.JComboBox();
-        jButton3 = new javax.swing.JButton();
+        jButtonCadastrarMeioComunicacao = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1449,12 +1461,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jComboBoxIndicador.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton3.setText("Cadastrar Meio de Comunicação");
-        jButton3.addActionListener(new java.awt.event.ActionListener()
+        jButtonCadastrarMeioComunicacao.setText("Cadastrar Meio de Comunicação");
+        jButtonCadastrarMeioComunicacao.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton3ActionPerformed(evt);
+                jButtonCadastrarMeioComunicacaoActionPerformed(evt);
             }
         });
 
@@ -1480,7 +1492,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(jButtonCadastrarMeioComunicacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1508,7 +1520,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonCadastrarMeioComunicacao))
                 .addContainerGap())
         );
 
@@ -1546,8 +1558,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTabbedPane1MouseClicked
     {//GEN-HEADEREND:event_jTabbedPane1MouseClicked
-        //if(jTabbedPane1.getSelectedIndex() == 3 && jRadioButtonBase.isSelected() == true );
-        //jTabbedPane1.setEnabledAt(3, false);
+        verifyButtonCadastrarMeioComunicacao();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton23ActionPerformed
@@ -1709,11 +1720,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         bloquearAba();
     }//GEN-LAST:event_jRadioButtonBaseActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
-    {//GEN-HEADEREND:event_jButton3ActionPerformed
-        ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
-        viewProjeto_MeioComunicacao.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButtonCadastrarMeioComunicacaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCadastrarMeioComunicacaoActionPerformed
+    {//GEN-HEADEREND:event_jButtonCadastrarMeioComunicacaoActionPerformed
+            ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
+            viewProjeto_MeioComunicacao.setVisible(true);
+
+            popularListaMeio();
+    }//GEN-LAST:event_jButtonCadastrarMeioComunicacaoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1735,10 +1748,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButtonCadastrarMeioComunicacao;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxIndicador;

@@ -34,4 +34,17 @@ public class MeioComunicacaoJpa extends MeioscomunicacaoJpaController {
         return null;
     }
 
+    public Meioscomunicacao findByName(String nome)
+    {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Meioscomunicacao m WHERE m.nome =:nome");
+            query.setParameter("nome", nome);
+            return (Meioscomunicacao) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
