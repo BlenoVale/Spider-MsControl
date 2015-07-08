@@ -16,7 +16,7 @@ import util.MyDefaultTableModel;
  */
 public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
 
-    private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    
     private final CtrlMeioComunicacao ctrlMeioComunicacao = new CtrlMeioComunicacao();
 
     public ViewProjeto_MeioComunicacao(java.awt.Frame parent, boolean modal)
@@ -42,25 +42,6 @@ public class ViewProjeto_MeioComunicacao extends javax.swing.JDialog {
         }
         jTableMeioComunicacao.setModel(tableModel);
     }
-
-    private void salvarEntidadeMedida() {
-        boolean feito = false;
-        if (jTextFieldMeioComunicacao.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nome do Meio de comunicação não pode ser vazio.");
-        } else {
-            feito = ctrlIndicador.criarEntidadeMedida(jTextFieldMeioComunicacao.getText(), Copia.getProjetoSelecionado().getId());
-            jTextFieldMeioComunicacao.setText("");
-        }
-    }
-
-    private void deletarEntidadeMedida() {
-        if (jTableMeioComunicacao.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Entidade medida na Tabela.");
-        } else {
-            ctrlIndicador.excluirEntidadeMedida(jTableMeioComunicacao.getValueAt(jTableMeioComunicacao.getSelectedRow(), 0).toString(), Copia.getProjetoSelecionado().getId());
-        }
-    }
-
     public void deletarMeioComunicacao()
     {
         if (jTableMeioComunicacao.getSelectedRow() == -1)

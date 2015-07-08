@@ -310,6 +310,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             mensagem = "É necessário selecionar uma \"Composição\".";
             cont++;
         }
+
+        if (jRadioButtonBase.isSelected()) {
+            if (jComboBoxMedidaRelacionada.getSelectedItem().equals("--Selecione uma Medida--")) {
+                mensagem = "É necessário selecionar uma \"Medida Relacionada\".";
+                cont++;
+            }
+        }
+        if (jTextFieldFrequencia1.getText().isEmpty()) {
+            mensagem = "Campo \"Frequência\" não pode ser vazio.";
+            cont++;
+        }
+
         if (jComboBoxPeriodicidade.getSelectedItem() == "-Selecione uma Periodicidade-") {
             mensagem = "É necessário selecionar uma \"Periodicidade\" no Combobox.";
             cont++;
@@ -353,6 +365,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (jTextAreaAcoesCritico.getText().isEmpty()) {
             mensagem = "Campo \"Ações\" não pode ser vazio.";
             cont++;
+        }
+        if (jRadioButtonDerivada.isSelected()) {
+            if (jTextFieldFormula.getText().isEmpty()) {
+                mensagem = "Campo \"Fórmula\" não pode ser vazio.";
+                cont++;
+            }
         }
         //@TODO colocar verificação de data escolhida ser menor que a atual.
         if (cont == 0) {
@@ -525,14 +543,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public void verificarOutroMeio()
-    {
-        //if (jTableMeios.getColumnModel().getColumnSelectionAllowed());
-
-//        /System.out.println(jTableMeios.getColumn(0).get);
-    }
-
-    public void bloquearAba()
+     public void bloquearAba()
     {
         if (jRadioButtonBase.isSelected() == true) {
             jTabbedPane1.setEnabledAt(3, false);
@@ -1589,7 +1600,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton10ActionPerformed
     {//GEN-HEADEREND:event_jButton10ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
         }
@@ -1633,7 +1644,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
     {//GEN-HEADEREND:event_jButton9ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
         }
@@ -1641,7 +1652,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton8ActionPerformed
     {//GEN-HEADEREND:event_jButton8ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
         }
@@ -1682,7 +1693,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton7ActionPerformed
     {//GEN-HEADEREND:event_jButton7ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
         }
