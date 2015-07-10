@@ -22,6 +22,8 @@ import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
 import jpa.ValormedidaJpaController;
+import jpa.extensao.MeioComunicacaoJpa;
+import jpa.extensao.PerfilInteressadoJpa;
 import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.ProcedimentoDeAnaliseJpa;
 import jpa.extensao.UsuarioJpa;
@@ -69,6 +71,8 @@ public class FacadeJpa {
     private final ResultadosJpa resultadosJpa;
     private final RegistroresultadosJpaController registroResultadosJpa;
     private final ValormedidaJpaController valormedidaJpaController;
+    private final MeioComunicacaoJpa meioComunicacaoJpa;
+    private final PerfilInteressadoJpa perfilInteressadoJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -99,6 +103,8 @@ public class FacadeJpa {
         resultadosJpa = new ResultadosJpa();
         registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
         valormedidaJpaController = new ValormedidaJpaController(Conexao.conectar());
+        meioComunicacaoJpa = new MeioComunicacaoJpa();
+        perfilInteressadoJpa = new PerfilInteressadoJpa();
     }
 
     public static FacadeJpa getInstance() {
@@ -131,6 +137,7 @@ public class FacadeJpa {
 //    public RegistrocoletaJpaController getRegistroColeta() {
 //        return registroColetaJpa;
 //    }    
+//    }
     public FuncionalidadeJpa getFuncionalidadeJpa() {
         return funcionalidadeJpa;
     }
@@ -200,6 +207,7 @@ public class FacadeJpa {
     }
 
     public RegistroProcedimentoColetaJpa getRegistroProcedimentoColeta() {
+
         return registroProcedimentoColeta;
     }
 
@@ -218,8 +226,16 @@ public class FacadeJpa {
     public RegistroresultadosJpaController getRegistroresultados() {
         return registroResultadosJpa;
     }
-    
-    public ValormedidaJpaController getValorMedidaJpa(){
+
+    public ValormedidaJpaController getValorMedidaJpa() {
         return valormedidaJpaController;
+    }
+
+    public MeioComunicacaoJpa getMeioComunicacaoJpa() {
+        return meioComunicacaoJpa;
+    }
+
+    public PerfilInteressadoJpa getPerfilInteressadoJpa() {
+        return perfilInteressadoJpa;
     }
 }

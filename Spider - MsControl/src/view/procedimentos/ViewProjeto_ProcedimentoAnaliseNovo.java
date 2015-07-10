@@ -4,6 +4,7 @@ import facade.FacadeJpa;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
@@ -11,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Indicador;
 import model.Medida;
+import model.Meioscomunicacao;
+import model.Perfilinteressado;
 import model.Procedimentodeanalise;
 import model.Projeto;
 import model.Registroprocedimentoanalise;
@@ -37,6 +40,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private MyDefaultTableModel tableModel;
     private CheckDefaultTableModel checkModel;
     private List<Medida> listMedida;
+    private List<Medida> listMedidaRelacionada;
+    private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
 
     private boolean ehNovoProcedimentoAnalise;
@@ -47,9 +52,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         initComponents();
         agruparBotoesRadio();
         this.setLocationRelativeTo(null);
+        popularComboBoxMedidaRelacionada();
         ocultarMedidaRelacionada();
         iniciarTabela();
         recarregarTabela();
+        this.pack();
+
     }
 
     public void iniciarTabela()
@@ -77,6 +85,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         listMedida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
 
+    }
+
+    public void verifyButtonCadastrarMeioComunicacao()
+    {
+
+        if (jTabbedPane1.getSelectedIndex() == 4) {
+            jButtonCadastrarMeioComunicacao.setVisible(true);
+        } else {
+            jButtonCadastrarMeioComunicacao.setVisible(false);
+        }
     }
 
     public boolean verificaSinais(String formulas)
@@ -292,6 +310,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             mensagem = "É necessário selecionar uma \"Composição\".";
             cont++;
         }
+
+        if (jRadioButtonBase.isSelected()) {
+            if (jComboBoxMedidaRelacionada.getSelectedItem().equals("--Selecione uma Medida--")) {
+                mensagem = "É necessário selecionar uma \"Medida Relacionada\".";
+                cont++;
+            }
+        }
+        if (jTextFieldFrequencia1.getText().isEmpty()) {
+            mensagem = "Campo \"Frequência\" não pode ser vazio.";
+            cont++;
+        }
+
         if (jComboBoxPeriodicidade.getSelectedItem() == "-Selecione uma Periodicidade-") {
             mensagem = "É necessário selecionar uma \"Periodicidade\" no Combobox.";
             cont++;
@@ -336,6 +366,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             mensagem = "Campo \"Ações\" não pode ser vazio.";
             cont++;
         }
+        if (jRadioButtonDerivada.isSelected()) {
+            if (jTextFieldFormula.getText().isEmpty()) {
+                mensagem = "Campo \"Fórmula\" não pode ser vazio.";
+                cont++;
+            }
+        }
         //@TODO colocar verificação de data escolhida ser menor que a atual.
         if (cont == 0) {
             return true;
@@ -362,6 +398,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     public void ocultarMedidaRelacionada()
     {
+        jButtonCadastrarMeioComunicacao.setVisible(false);
+        jTextFieldFormula.setEnabled(false);
         jLabelMedidaRelacionada.setVisible(false);
         jComboBoxMedidaRelacionada.setVisible(false);
     }
@@ -451,14 +489,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void popularListaPerfis()
     {
         model_listaDePerfis = new DefaultListModel();
-        List<String> listaPerfis = Constantes.preencherListaPerfis();
+        List<Perfilinteressado> perfilinteressados = jpa.getPerfilInteressadoJpa().findAll();
 
         checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Perfis interessados"}, 0, false);
 
-        for (int i = 0; i < listaPerfis.size(); i++) {
+        for (int i = 0; i < perfilinteressados.size(); i++) {
             Object[] linha = {
                 false,
-                listaPerfis.get(i)
+                perfilinteressados.get(i).getNome()
             };
             checkModel.addRow(linha);
         }
@@ -470,20 +508,31 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void popularListaMeio()
     {
         model_listaMeio = new DefaultListModel();
-        List<String> listaMeio = Constantes.preencherListaMeio();
-
+        List<Meioscomunicacao> meioscomunicacaos = jpa.getMeioComunicacaoJpa().findAll();
         checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Meios"}, 0, false);
 
-        for (int i = 0; i < listaMeio.size(); i++) {
+        for (int i = 0; i < meioscomunicacaos.size(); i++) {
             Object[] linha = {
                 false,
-                listaMeio.get(i)
+                meioscomunicacaos.get(i).getNome()
             };
             checkModel.addRow(linha);
         }
         jTableMeios.setModel(checkModel);
         jTableMeios.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTableMeios.getColumnModel().getColumn(1).setPreferredWidth(500);
+    }
+
+    public void popularComboBoxMedidaRelacionada()
+    {
+        comboBoxModelMedidaRelacionada = new DefaultComboBoxModel();
+        comboBoxModelMedidaRelacionada.addElement("--Selecione uma Medida--");
+        listMedidaRelacionada = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
+        for (int i = 0; i < listMedidaRelacionada.size(); i++) {
+            comboBoxModelMedidaRelacionada.addElement(listMedidaRelacionada.get(i).getNome());
+        }
+        jComboBoxMedidaRelacionada.setModel(comboBoxModelMedidaRelacionada);
+
     }
 
     public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt)
@@ -494,14 +543,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public void verificarOutroMeio()
-    {
-        //if (jTableMeios.getColumnModel().getColumnSelectionAllowed());
-
-//        /System.out.println(jTableMeios.getColumn(0).get);
-    }
-
-    public void bloquearAba()
+     public void bloquearAba()
     {
         if (jRadioButtonBase.isSelected() == true) {
             jTabbedPane1.setEnabledAt(3, false);
@@ -684,7 +726,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         dateField2 = new net.sf.nachocalendar.components.DateField();
         jComboBoxIndicador = new javax.swing.JComboBox();
-        jButton3 = new javax.swing.JButton();
+        jButtonCadastrarMeioComunicacao = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1430,12 +1472,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jComboBoxIndicador.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton3.setText("Cadastrar Meio de Comunicação");
-        jButton3.addActionListener(new java.awt.event.ActionListener()
+        jButtonCadastrarMeioComunicacao.setText("Cadastrar Meio de Comunicação");
+        jButtonCadastrarMeioComunicacao.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton3ActionPerformed(evt);
+                jButtonCadastrarMeioComunicacaoActionPerformed(evt);
             }
         });
 
@@ -1461,7 +1503,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(jButtonCadastrarMeioComunicacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1489,7 +1531,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonCadastrarMeioComunicacao))
                 .addContainerGap())
         );
 
@@ -1527,8 +1569,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTabbedPane1MouseClicked
     {//GEN-HEADEREND:event_jTabbedPane1MouseClicked
-        //if(jTabbedPane1.getSelectedIndex() == 3 && jRadioButtonBase.isSelected() == true );
-        //jTabbedPane1.setEnabledAt(3, false);
+        verifyButtonCadastrarMeioComunicacao();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton23ActionPerformed
@@ -1559,7 +1600,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton10ActionPerformed
     {//GEN-HEADEREND:event_jButton10ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
         }
@@ -1603,7 +1644,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
     {//GEN-HEADEREND:event_jButton9ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
         }
@@ -1611,7 +1652,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton8ActionPerformed
     {//GEN-HEADEREND:event_jButton8ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
         }
@@ -1652,7 +1693,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton7ActionPerformed
     {//GEN-HEADEREND:event_jButton7ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
         {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
         }
@@ -1690,11 +1731,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         bloquearAba();
     }//GEN-LAST:event_jRadioButtonBaseActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
-    {//GEN-HEADEREND:event_jButton3ActionPerformed
-        ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
-        viewProjeto_MeioComunicacao.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButtonCadastrarMeioComunicacaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCadastrarMeioComunicacaoActionPerformed
+    {//GEN-HEADEREND:event_jButtonCadastrarMeioComunicacaoActionPerformed
+            ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
+            viewProjeto_MeioComunicacao.setVisible(true);
+
+            popularListaMeio();
+    }//GEN-LAST:event_jButtonCadastrarMeioComunicacaoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1716,10 +1759,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButtonCadastrarMeioComunicacao;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxIndicador;
