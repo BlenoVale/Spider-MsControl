@@ -27,15 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author BlenoVale
  */
 @Entity
-@Table(name = "coleta")
+@Table(name = "valormedida")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
-    @NamedQuery(name = "Coleta.findById", query = "SELECT c FROM Coleta c WHERE c.id = :id"),
-    @NamedQuery(name = "Coleta.findByData", query = "SELECT c FROM Coleta c WHERE c.data = :data"),
-    @NamedQuery(name = "Coleta.findByValorDaColeta", query = "SELECT c FROM Coleta c WHERE c.valorDaColeta = :valorDaColeta"),
-    @NamedQuery(name = "Coleta.findByUsado", query = "SELECT c FROM Coleta c WHERE c.usado = :usado")})
-public class Coleta implements Serializable {
+    @NamedQuery(name = "Valormedida.findAll", query = "SELECT v FROM Valormedida v"),
+    @NamedQuery(name = "Valormedida.findById", query = "SELECT v FROM Valormedida v WHERE v.id = :id"),
+    @NamedQuery(name = "Valormedida.findByValor", query = "SELECT v FROM Valormedida v WHERE v.valor = :valor"),
+    @NamedQuery(name = "Valormedida.findByData", query = "SELECT v FROM Valormedida v WHERE v.data = :data"),
+    @NamedQuery(name = "Valormedida.findByUsado", query = "SELECT v FROM Valormedida v WHERE v.usado = :usado")})
+public class Valormedida implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,12 +43,12 @@ public class Coleta implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @Column(name = "valor")
+    private double valor;
+    @Basic(optional = false)
     @Column(name = "data")
     @Temporal(TemporalType.DATE)
     private Date data;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "valorDaColeta")
-    private Double valorDaColeta;
     @Basic(optional = false)
     @Column(name = "usado")
     private boolean usado;
@@ -56,15 +56,16 @@ public class Coleta implements Serializable {
     @ManyToOne(optional = false)
     private Medida medidaid;
 
-    public Coleta() {
+    public Valormedida() {
     }
 
-    public Coleta(Integer id) {
+    public Valormedida(Integer id) {
         this.id = id;
     }
 
-    public Coleta(Integer id, Date data, boolean usado) {
+    public Valormedida(Integer id, double valor, Date data, boolean usado) {
         this.id = id;
+        this.valor = valor;
         this.data = data;
         this.usado = usado;
     }
@@ -77,20 +78,20 @@ public class Coleta implements Serializable {
         this.id = id;
     }
 
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
     public Date getData() {
         return data;
     }
 
     public void setData(Date data) {
         this.data = data;
-    }
-
-    public Double getValorDaColeta() {
-        return valorDaColeta;
-    }
-
-    public void setValorDaColeta(Double valorDaColeta) {
-        this.valorDaColeta = valorDaColeta;
     }
 
     public boolean getUsado() {
@@ -119,10 +120,10 @@ public class Coleta implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Coleta)) {
+        if (!(object instanceof Valormedida)) {
             return false;
         }
-        Coleta other = (Coleta) object;
+        Valormedida other = (Valormedida) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -131,7 +132,7 @@ public class Coleta implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Coleta[ id=" + id + " ]";
+        return "model.Valormedida[ id=" + id + " ]";
     }
     
 }

@@ -2,35 +2,37 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="Spider_-_MsControlPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>model.Registrodatacomunicacao</class>
-    <class>model.Procedimentodecoleta</class>
-    <class>model.Entidademedida</class>
-    <class>model.Registroresultados</class>
-    <class>model.Analise</class>
-    <class>model.Meiosprocedimentoanalise</class>
-    <class>model.Registroanalise</class>
-    <class>model.Funcionalidade</class>
-    <class>model.Resultados</class>
-    <class>model.Perfisinteressadosprocedimentoanalise</class>
-    <class>model.Coleta</class>
-    <class>model.Perfilinteressado</class>
-    <class>model.Registroprocedimentoanalise</class>
-    <class>model.Acessa</class>
-    <class>model.Registroprocedimentocoleta</class>
-    <class>model.Registromedida</class>
-    <class>model.Indicador</class>
-    <class>model.Registroobjetivoquestao</class>
-    <class>model.Procedimentodeanalise</class>
-    <class>model.Registroindicador</class>
     <class>model.Medida</class>
+    <class>model.Resultados</class>
+    <class>model.Meioscomunicacao</class>
+    <class>model.Valormedida</class>
+    <class>model.Acessa</class>
+    <class>model.Procedimentodeanalise</class>
+    <class>model.Valorindicador</class>
+    <class>model.Registroobjetivomedicao</class>
+    <class>model.Registroresultados</class>
+    <class>model.Perfisinteressadosprocedimentoanalise</class>
+    <class>model.Registroobjetivoquestao</class>
+    <class>model.Objetivodemedicao</class>
+    <class>model.Perfilinteressado</class>
+    <class>model.Procedimentodecoleta</class>
+    <class>model.Registroanalise</class>
+    <class>model.Registroprocedimentoanalise</class>
     <class>model.Objetivodequestao</class>
     <class>model.Registroprojeto</class>
+    <class>model.Analise</class>
     <class>model.Perfil</class>
-    <class>model.Objetivodemedicao</class>
-    <class>model.Datasprocedimentocoleta</class>
-    <class>model.Registroobjetivomedicao</class>
-    <class>model.Meioscomunicacao</class>
     <class>model.Projeto</class>
+    <class>model.Entidademedida</class>
+    <class>model.Indicador</class>
+    <class>model.Datasprocedimentocoleta</class>
+    <class>model.Registrodatacomunicacao</class>
+    <class>model.Meiosprocedimentoanalise</class>
+    <class>model.Registroindicador</class>
+    <class>model.Coleta</class>
+    <class>model.Registromedida</class>
+    <class>model.Funcionalidade</class>
+    <class>model.Registroprocedimentocoleta</class>
     <class>model.Usuario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/spidermscontrol"/>

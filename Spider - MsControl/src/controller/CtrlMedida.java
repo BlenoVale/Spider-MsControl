@@ -7,9 +7,8 @@ import model.Medida;
 import model.Registromedida;
 import util.Copia;
 import util.Constantes;
-import controller.CtrlMedida;
-import java.util.Objects;
 import javax.swing.JOptionPane;
+import model.Valormedida;
 
 /**
  *
@@ -25,36 +24,37 @@ public class CtrlMedida {
             registrarMedida(medida, Constantes.CADASTRO);
             System.out.println("Medida Criada");
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-            return  true;
+            return true;
         } catch (Exception e) {
             System.out.println("Erro cadastro Medida");
             return false;
         }
 
     }
+
     public boolean editarMedida(Medida medida) {
-        
-        Medida  medida1 = facadeJpa.getMedidaJpa().findByNomeAndProjetoDiferente(medida.getNome(), Copia.getProjetoSelecionado().getId(), medida.getId());
+
+        Medida medida1 = facadeJpa.getMedidaJpa().findByNomeAndProjetoDiferente(medida.getNome(), Copia.getProjetoSelecionado().getId(), medida.getId());
         Medida medida2 = facadeJpa.getMedidaJpa().findByMnemonicoAndProjetoDiferente(medida.getMnemonico(), Copia.getProjetoSelecionado().getId(), medida.getId());
-       
+
         if (medida1 != null) {
             JOptionPane.showMessageDialog(null, "Já existe uma medida com esse nome no projeto, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
             return false;
-        }else if (medida2 != null){
+        } else if (medida2 != null) {
             JOptionPane.showMessageDialog(null, "Já existe um mnemônico com esse nome no projeto, escolha outro mnemônico.", "", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-           
+
         try {
             facadeJpa.getMedidaJpa().edit(medida);
             registrarMedida(medida, Constantes.EDICAO);
             System.out.println("Medida Editada");
             JOptionPane.showMessageDialog(null, "Editado com sucesso.");
-            return  true;
+            return true;
         } catch (Exception e) {
-            System.out.println("Erro ao editar Medida " +e);
+            System.out.println("Erro ao editar Medida " + e);
             e.printStackTrace();
-            return  false;
+            return false;
         }
 
     }
@@ -95,16 +95,16 @@ public class CtrlMedida {
             return false;
         }
     }
-    
-    public List<Medida> getMedidaDoProjeto(int idDoProjeto){
-        try{
+
+    public List<Medida> getMedidaDoProjeto(int idDoProjeto) {
+        try {
             return facadeJpa.getMedidaJpa().findByProjeto(idDoProjeto);
-        }catch(Exception error){
-            throw(error); 
+        } catch (Exception error) {
+            throw (error);
         }
     }
-    
-     public Medida buscarMedidaPeloNome(String nome, int idProjeto) {
+
+    public Medida buscarMedidaPeloNome(String nome, int idProjeto) {
         try {
             return facadeJpa.getMedidaJpa().findByNomeAndProjeto(nome, idProjeto);
         } catch (Exception error) {
@@ -112,21 +112,32 @@ public class CtrlMedida {
             throw error;
         }
     }
-     
-     public List<Registromedida> buscarRegistroMedidaPeloIdMedida(int tipo, int idMedida){
-         try {
-             return facadeJpa.getRegistroMedidaJpa().findRegistroByIdMedida(tipo, idMedida);
-         } catch (Exception error) {
-             throw (error);
-         }
-     }
-     public String buscarNome(int idMedida, int idProjeto){
-         try {
-             return facadeJpa.getMedidaJpa().findNomeByProjeto(idMedida, idProjeto);
-         } catch (Exception e) {
-             e.printStackTrace();
-             return null;
-         }
-     }
 
+    public List<Registromedida> buscarRegistroMedidaPeloIdMedida(int tipo, int idMedida) {
+        try {
+            return facadeJpa.getRegistroMedidaJpa().findRegistroByIdMedida(tipo, idMedida);
+        } catch (Exception error) {
+            throw (error);
+        }
+    }
+
+    public String buscarNome(int idMedida, int idProjeto) {
+        try {
+            return facadeJpa.getMedidaJpa().findNomeByProjeto(idMedida, idProjeto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean cadastraValorMedida(Valormedida valormedida) {
+        try {
+            facadeJpa.getValorMedidaJpa().create(valormedida);
+            System.out.println("----->> Valor medida cadastrado com sucesso");
+            return true;
+        } catch (Exception error) {
+            System.out.println("----->> Erro!!");
+            return false;
+        }
+    }
 }

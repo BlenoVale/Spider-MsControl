@@ -85,6 +85,8 @@ public class Indicador implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
     private List<Registroindicador> registroindicadorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
+    private List<Valorindicador> valorindicadorList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicadorid")
     private List<Analise> analiseList;
     @JoinColumn(name = "ObjetivoDeQuestao_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -206,6 +208,15 @@ public class Indicador implements Serializable {
 
     public void setRegistroindicadorList(List<Registroindicador> registroindicadorList) {
         this.registroindicadorList = registroindicadorList;
+    }
+
+    @XmlTransient
+    public List<Valorindicador> getValorindicadorList() {
+        return valorindicadorList;
+    }
+
+    public void setValorindicadorList(List<Valorindicador> valorindicadorList) {
+        this.valorindicadorList = valorindicadorList;
     }
 
     @XmlTransient

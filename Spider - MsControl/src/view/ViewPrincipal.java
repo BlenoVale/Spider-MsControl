@@ -156,6 +156,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     }
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -605,6 +606,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_MedicaoDefinicao.preencherTabelaRecarregar();
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")) {
             viewProjeto_Coletas.preencherTabelaMedidaDoProjeto();
+            viewProjeto_Coletas.calcularSePeriodoFoiAtingido();
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
             //viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();

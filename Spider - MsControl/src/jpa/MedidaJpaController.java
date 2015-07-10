@@ -20,6 +20,7 @@ import jpa.exceptions.NonexistentEntityException;
 import model.Procedimentodecoleta;
 import model.Coleta;
 import model.Medida;
+import model.Valormedida;
 import model.Registromedida;
 
 /**
@@ -47,6 +48,9 @@ public class MedidaJpaController implements Serializable {
         if (medida.getColetaList() == null) {
             medida.setColetaList(new ArrayList<Coleta>());
         }
+        if (medida.getValormedidaList() == null) {
+            medida.setValormedidaList(new ArrayList<Valormedida>());
+        }
         if (medida.getRegistromedidaList() == null) {
             medida.setRegistromedidaList(new ArrayList<Registromedida>());
         }
@@ -72,6 +76,12 @@ public class MedidaJpaController implements Serializable {
                 attachedColetaList.add(coletaListColetaToAttach);
             }
             medida.setColetaList(attachedColetaList);
+            List<Valormedida> attachedValormedidaList = new ArrayList<Valormedida>();
+            for (Valormedida valormedidaListValormedidaToAttach : medida.getValormedidaList()) {
+                valormedidaListValormedidaToAttach = em.getReference(valormedidaListValormedidaToAttach.getClass(), valormedidaListValormedidaToAttach.getId());
+                attachedValormedidaList.add(valormedidaListValormedidaToAttach);
+            }
+            medida.setValormedidaList(attachedValormedidaList);
             List<Registromedida> attachedRegistromedidaList = new ArrayList<Registromedida>();
             for (Registromedida registromedidaListRegistromedidaToAttach : medida.getRegistromedidaList()) {
                 registromedidaListRegistromedidaToAttach = em.getReference(registromedidaListRegistromedidaToAttach.getClass(), registromedidaListRegistromedidaToAttach.getId());
@@ -99,6 +109,15 @@ public class MedidaJpaController implements Serializable {
                 if (oldMedidaidOfColetaListColeta != null) {
                     oldMedidaidOfColetaListColeta.getColetaList().remove(coletaListColeta);
                     oldMedidaidOfColetaListColeta = em.merge(oldMedidaidOfColetaListColeta);
+                }
+            }
+            for (Valormedida valormedidaListValormedida : medida.getValormedidaList()) {
+                Medida oldMedidaidOfValormedidaListValormedida = valormedidaListValormedida.getMedidaid();
+                valormedidaListValormedida.setMedidaid(medida);
+                valormedidaListValormedida = em.merge(valormedidaListValormedida);
+                if (oldMedidaidOfValormedidaListValormedida != null) {
+                    oldMedidaidOfValormedidaListValormedida.getValormedidaList().remove(valormedidaListValormedida);
+                    oldMedidaidOfValormedidaListValormedida = em.merge(oldMedidaidOfValormedidaListValormedida);
                 }
             }
             for (Registromedida registromedidaListRegistromedida : medida.getRegistromedidaList()) {
@@ -130,6 +149,8 @@ public class MedidaJpaController implements Serializable {
             List<Procedimentodecoleta> procedimentodecoletaListNew = medida.getProcedimentodecoletaList();
             List<Coleta> coletaListOld = persistentMedida.getColetaList();
             List<Coleta> coletaListNew = medida.getColetaList();
+            List<Valormedida> valormedidaListOld = persistentMedida.getValormedidaList();
+            List<Valormedida> valormedidaListNew = medida.getValormedidaList();
             List<Registromedida> registromedidaListOld = persistentMedida.getRegistromedidaList();
             List<Registromedida> registromedidaListNew = medida.getRegistromedidaList();
             List<String> illegalOrphanMessages = null;
@@ -147,6 +168,14 @@ public class MedidaJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Coleta " + coletaListOldColeta + " since its medidaid field is not nullable.");
+                }
+            }
+            for (Valormedida valormedidaListOldValormedida : valormedidaListOld) {
+                if (!valormedidaListNew.contains(valormedidaListOldValormedida)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Valormedida " + valormedidaListOldValormedida + " since its medidaid field is not nullable.");
                 }
             }
             for (Registromedida registromedidaListOldRegistromedida : registromedidaListOld) {
@@ -181,6 +210,13 @@ public class MedidaJpaController implements Serializable {
             }
             coletaListNew = attachedColetaListNew;
             medida.setColetaList(coletaListNew);
+            List<Valormedida> attachedValormedidaListNew = new ArrayList<Valormedida>();
+            for (Valormedida valormedidaListNewValormedidaToAttach : valormedidaListNew) {
+                valormedidaListNewValormedidaToAttach = em.getReference(valormedidaListNewValormedidaToAttach.getClass(), valormedidaListNewValormedidaToAttach.getId());
+                attachedValormedidaListNew.add(valormedidaListNewValormedidaToAttach);
+            }
+            valormedidaListNew = attachedValormedidaListNew;
+            medida.setValormedidaList(valormedidaListNew);
             List<Registromedida> attachedRegistromedidaListNew = new ArrayList<Registromedida>();
             for (Registromedida registromedidaListNewRegistromedidaToAttach : registromedidaListNew) {
                 registromedidaListNewRegistromedidaToAttach = em.getReference(registromedidaListNewRegistromedidaToAttach.getClass(), registromedidaListNewRegistromedidaToAttach.getId());
@@ -220,6 +256,17 @@ public class MedidaJpaController implements Serializable {
                     if (oldMedidaidOfColetaListNewColeta != null && !oldMedidaidOfColetaListNewColeta.equals(medida)) {
                         oldMedidaidOfColetaListNewColeta.getColetaList().remove(coletaListNewColeta);
                         oldMedidaidOfColetaListNewColeta = em.merge(oldMedidaidOfColetaListNewColeta);
+                    }
+                }
+            }
+            for (Valormedida valormedidaListNewValormedida : valormedidaListNew) {
+                if (!valormedidaListOld.contains(valormedidaListNewValormedida)) {
+                    Medida oldMedidaidOfValormedidaListNewValormedida = valormedidaListNewValormedida.getMedidaid();
+                    valormedidaListNewValormedida.setMedidaid(medida);
+                    valormedidaListNewValormedida = em.merge(valormedidaListNewValormedida);
+                    if (oldMedidaidOfValormedidaListNewValormedida != null && !oldMedidaidOfValormedidaListNewValormedida.equals(medida)) {
+                        oldMedidaidOfValormedidaListNewValormedida.getValormedidaList().remove(valormedidaListNewValormedida);
+                        oldMedidaidOfValormedidaListNewValormedida = em.merge(oldMedidaidOfValormedidaListNewValormedida);
                     }
                 }
             }
@@ -277,6 +324,13 @@ public class MedidaJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Medida (" + medida + ") cannot be destroyed since the Coleta " + coletaListOrphanCheckColeta + " in its coletaList field has a non-nullable medidaid field.");
+            }
+            List<Valormedida> valormedidaListOrphanCheck = medida.getValormedidaList();
+            for (Valormedida valormedidaListOrphanCheckValormedida : valormedidaListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Medida (" + medida + ") cannot be destroyed since the Valormedida " + valormedidaListOrphanCheckValormedida + " in its valormedidaList field has a non-nullable medidaid field.");
             }
             List<Registromedida> registromedidaListOrphanCheck = medida.getRegistromedidaList();
             for (Registromedida registromedidaListOrphanCheckRegistromedida : registromedidaListOrphanCheck) {

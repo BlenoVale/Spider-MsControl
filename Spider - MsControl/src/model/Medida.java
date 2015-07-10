@@ -90,6 +90,8 @@ public class Medida implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
     private List<Coleta> coletaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
+    private List<Valormedida> valormedidaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
     private List<Registromedida> registromedidaList;
 
     public Medida() {
@@ -225,6 +227,15 @@ public class Medida implements Serializable {
 
     public void setColetaList(List<Coleta> coletaList) {
         this.coletaList = coletaList;
+    }
+
+    @XmlTransient
+    public List<Valormedida> getValormedidaList() {
+        return valormedidaList;
+    }
+
+    public void setValormedidaList(List<Valormedida> valormedidaList) {
+        this.valormedidaList = valormedidaList;
     }
 
     @XmlTransient

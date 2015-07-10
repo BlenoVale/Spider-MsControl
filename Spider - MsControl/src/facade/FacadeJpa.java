@@ -21,6 +21,7 @@ import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
+import jpa.ValormedidaJpaController;
 import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.ProcedimentoDeAnaliseJpa;
 import jpa.extensao.UsuarioJpa;
@@ -28,7 +29,6 @@ import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
 import jpa.extensao.ResultadosJpa;
 import util.Conexao;
-
 
 /**
  * Classe criada para servir de interface com os controladores JPA A classe eh
@@ -68,6 +68,7 @@ public class FacadeJpa {
     private final DatasprocedimentocoletaJpaController datasprocedimentocoletaJpaController;
     private final ResultadosJpa resultadosJpa;
     private final RegistroresultadosJpaController registroResultadosJpa;
+    private final ValormedidaJpaController valormedidaJpaController;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -75,7 +76,7 @@ public class FacadeJpa {
         coletaJpa = new ColetaJpa();
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpaController = new MedidaJpaController(Conexao.conectar());
-        medidaJpa = new MedidaJpa(); 
+        medidaJpa = new MedidaJpa();
         objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
         objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
         perfilJpa = new PerfilJpa();
@@ -97,6 +98,7 @@ public class FacadeJpa {
         datasprocedimentocoletaJpaController = new DatasprocedimentocoletaJpaController(Conexao.conectar());
         resultadosJpa = new ResultadosJpa();
         registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
+        valormedidaJpaController = new ValormedidaJpaController(Conexao.conectar());
     }
 
     public static FacadeJpa getInstance() {
@@ -109,10 +111,12 @@ public class FacadeJpa {
     public AcessaJpaController getAcessaJpa() {
         return acessaJpa;
     }
-    public MedidaJpa getMedidaJpa(){
+
+    public MedidaJpa getMedidaJpa() {
         return medidaJpa;
     }
-    public RegistroMedidaJpa getRegistroMedidaJpa(){
+
+    public RegistroMedidaJpa getRegistroMedidaJpa() {
         return registroMedidaJpa;
     }
 
@@ -123,11 +127,10 @@ public class FacadeJpa {
     public ColetaJpa getColetaJpa() {
         return coletaJpa;
     }
-    
+
 //    public RegistrocoletaJpaController getRegistroColeta() {
 //        return registroColetaJpa;
 //    }    
-        
     public FuncionalidadeJpa getFuncionalidadeJpa() {
         return funcionalidadeJpa;
     }
@@ -155,12 +158,15 @@ public class FacadeJpa {
     public ProcedimentodecoletaJpaController getProcedimentodecoletaJpaController() {
         return ProcedimentodecoletaJpaController;
     }
-    public ProcedimentoColetaJpa getProcedimentoColetaJpa(){
+
+    public ProcedimentoColetaJpa getProcedimentoColetaJpa() {
         return procedimentoColetaJpa;
     }
-    public RegistroprocedimentocoletaJpaController getRegistroprocedimentocoletaJpaController(){
+
+    public RegistroprocedimentocoletaJpaController getRegistroprocedimentocoletaJpaController() {
         return registroprocedimentocoletaJpaController;
     }
+
     public ProjetoJpa getProjetoJpa() {
         return projetoJpa;
     }
@@ -192,24 +198,28 @@ public class FacadeJpa {
     public RegistroindicadorJpaController getRegistroIndicador() {
         return registroindicadorJpa;
     }
-    
-    public RegistroProcedimentoColetaJpa getRegistroProcedimentoColeta(){
+
+    public RegistroProcedimentoColetaJpa getRegistroProcedimentoColeta() {
         return registroProcedimentoColeta;
     }
 
     public EntidadeMedidaJpa getEntidadeMedidaJpa() {
         return entidadeMedidaJpa;
     }
-    
-    public DatasprocedimentocoletaJpaController getdDatasprocedimentocoletaJpaController(){
+
+    public DatasprocedimentocoletaJpaController getdDatasprocedimentocoletaJpaController() {
         return datasprocedimentocoletaJpaController;
     }
-    
+
     public ResultadosJpa getResultadosJpa() {
         return resultadosJpa;
     }
-    
+
     public RegistroresultadosJpaController getRegistroresultados() {
         return registroResultadosJpa;
+    }
+    
+    public ValormedidaJpaController getValorMedidaJpa(){
+        return valormedidaJpaController;
     }
 }

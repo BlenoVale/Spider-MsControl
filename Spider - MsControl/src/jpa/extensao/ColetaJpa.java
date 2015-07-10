@@ -43,4 +43,29 @@ public class ColetaJpa extends ColetaJpaController {
             return null;
         }
     }
+    
+    public Coleta findColetaById (int id){
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return (Coleta) entityManager.createQuery("SELECT c FROM Coleta c WHERE c.id = :id")
+                    .setParameter("id", id).getSingleResult();
+        }catch (Exception error){
+            return null;
+        }
+    }
+    
+    public List<Coleta> findListaColetaByMedida(int idMedida) {
+        try {
+            List<Coleta> lista = null;
+            EntityManager entityManager = super.getEntityManager();
+            Query q = entityManager.createQuery("SELECT c FROM Coleta c WHERE c.medidaid.id = :idMedida AND c.usado = :false ORDER By c.data ASC")
+                    .setParameter("idMedida", idMedida)
+                    .setParameter("false", false);
+
+            lista = q.getResultList();
+            return lista;
+        } catch (Exception error) {
+            throw error;
+        }
+    }
 }

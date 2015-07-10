@@ -1,11 +1,13 @@
 package view.medidas;
 
+import controller.Calculo;
 import controller.CtrlColeta;
 import controller.CtrlMedida;
 import controller.CtrlProcedimentosColeta;
 import facade.FacadeJpa;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -17,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Coleta;
 import model.Datasprocedimentocoleta;
 import model.Medida;
+import model.Valormedida;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
@@ -34,7 +37,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private final CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
     private DefaultListModel modelJlist = new DefaultListModel();
     private MyDefaultTableModel tableModel;
-    private List<Medida> listMedida;
+    private List<Medida> listaMedida;
     private List<Coleta> listaColeta;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
     private Medida medidaSelecionada = new Medida();
@@ -66,13 +69,13 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     private void atualizaListaMedidaDoProjeto() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
 
-        listMedida = new ArrayList<Medida>();
-        listMedida = ctrlMedida.getMedidaDoProjeto(idDoProjeto);
+        listaMedida = new ArrayList<Medida>();
+        listaMedida = ctrlMedida.getMedidaDoProjeto(idDoProjeto);
     }
 
     public void preencherTabelaMedidaDoProjeto() {
         atualizaListaMedidaDoProjeto();
-        preencherTabela(listMedida);
+        preencherTabela(listaMedida);
     }
 
     private void pegarMedidaSelecionada() {
@@ -149,6 +152,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             coletaAux.setData(new Date());
             coletaAux.setMedidaid(medidaSelecionada);
             coletaAux.setValorDaColeta(Double.parseDouble(jListColetasASalvar.getModel().getElementAt(i).toString()));
+            coletaAux.setUsado(false);
             System.out.println("Coleta: " + coletaAux.getValorDaColeta());
 
             passou = ctrlColeta.cadastrarColeta(coletaAux);
@@ -317,6 +321,152 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 tipoDeColeta(passou, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
                 break;
         }
+    }
+
+    public void calcularSePeriodoFoiAtingido() {
+        boolean resposta = false;
+        atualizaListaMedidaDoProjeto();
+        Date dataHoje;
+        for (int j = 0; j < listaMedida.size(); j++) {
+            listaColeta = ctrlColeta.getColetaDaMedidaNaoUsadas(listaMedida.get(j).getId());
+            switch (listaMedida.get(j).getProcedimentodecoletaList().get(0).getPeriodicidade()) {
+                case "Diário":
+                    List<Datasprocedimentocoleta> datasProcedimento = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList();
+                    dataHoje = new Date();
+                    boolean diaApos = false;
+                    for (int i = 0; i < datasProcedimento.size(); i++) {
+                        switch (datasProcedimento.get(i).getDia()) {
+                            case "Domingo":
+                                diaApos = dataHoje.getDay() == 1;
+                                break;
+                            case "Segunda-feira":
+                                diaApos = dataHoje.getDay() == 2;
+                                break;
+                            case "Terça-feira":
+                                diaApos = dataHoje.getDay() == 3;
+                                break;
+                            case "Quarta-feira":
+                                diaApos = dataHoje.getDay() == 4;
+                                break;
+                            case "Quinta-feira":
+                                diaApos = dataHoje.getDay() == 5;
+                                break;
+                            case "Sexta-feira":
+                                diaApos = dataHoje.getDay() == 6;
+                                break;
+                            case "Sabádo":
+                                diaApos = dataHoje.getDay() == 0;
+                                break;
+                        }
+
+                        if (diaApos && !listaColeta.isEmpty()) {
+                            resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                            if (resposta) {
+                                calcularValorColeta(listaMedida.get(j));
+                            } else {
+
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                case "Semanal":
+                    String dataFimSemanal = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(1).getDia();
+                    dataHoje = new Date();
+                    boolean eHproxSemana = false;
+                    switch (dataFimSemanal) {
+                        case "Domingo":
+                            eHproxSemana = (dataHoje.getDay() == 1 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                        case "Segunda-feira":
+                            eHproxSemana = (dataHoje.getDay() == 2 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                        case "Terça-feira":
+                            eHproxSemana = (dataHoje.getDay() == 3 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                        case "Quarta-feira":
+                            eHproxSemana = (dataHoje.getDay() == 4 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                        case "Quinta-feira":
+                            eHproxSemana = (dataHoje.getDay() == 5 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                        case "Sexta-feira":
+                            eHproxSemana = (dataHoje.getDay() == 6 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                        case "Sabádo":
+                            eHproxSemana = (dataHoje.getDay() == 0 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
+                            break;
+                    }
+
+                    if (eHproxSemana && !listaColeta.isEmpty()) {
+                        resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                        if (resposta) {
+                            calcularValorColeta(listaMedida.get(j));
+                        } else {
+
+                        }
+                        break;
+                    }
+                    break;
+                default:
+                    Date dataFim = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataFim();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dataFim);
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    Date dataHojeOutros = new Date();
+                    boolean passou = (dataHojeOutros.equals(calendar.getTime()));
+                    if (passou && !listaColeta.isEmpty()) {
+                        resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                        if (resposta) {
+                            calcularValorColeta(listaMedida.get(j));
+                        } else {
+
+                        }
+                        break;
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void calcularValorColeta(Medida medida) {
+        Calculo calculo = new Calculo();
+        Valormedida valormedida = new Valormedida();
+        double valor = 0;
+        listaColeta = new CtrlColeta().getColetaDaMedidaNaoUsadas(medida.getId());
+        switch (medida.getProcedimentodecoletaList().get(0).getCalculo()) {
+            case "Média":
+                valor = calculo.media(listaColeta);
+                System.out.println("Média: " + valor);
+                break;
+            case "Mediana":
+                valor = calculo.mediana(listaColeta);
+                System.out.println("Mediana: " + valor);
+                break;
+            case "Moda":
+                valor = calculo.moda(listaColeta);
+                System.out.println("Moda: " + valor);
+                break;
+            case "Soma":
+                valor = calculo.soma(listaColeta);
+                System.out.println("Soma: " + valor);
+                break;
+            case "Sem Cálculo": 
+                valor = medida.getColetaList().get(0).getValorDaColeta();
+                break;
+
+        }
+        valormedida.setMedidaid(medida);
+        valormedida.setData(new Date());
+        valormedida.setUsado(false);
+        valormedida.setValor(valor);
+        boolean passou = ctrlMedida.cadastraValorMedida(valormedida);
+        if (passou) {
+            for (int i = 0; i < listaColeta.size(); i++) {
+                ctrlColeta.editarColeta(listaColeta.get(i));
+            }
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -559,7 +709,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
@@ -620,7 +770,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private void jTableMedidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidasMouseClicked
         pegarMedidaSelecionada();
-        listaColeta = medidaSelecionada.getColetaList();
+        listaColeta = ctrlColeta.getColetaDaMedidaNaoUsadas(medidaSelecionada.getId());
         preencherTabelaColeta(listaColeta);
 
         temProcedimento(medidaSelecionada);
@@ -645,10 +795,14 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         }
         cadastraColeta();
         pegarMedidaSelecionada();
-        listaColeta = medidaSelecionada.getColetaList();
+        listaColeta = ctrlColeta.getColetaDaMedidaNaoUsadas(medidaSelecionada.getId());
         preencherTabelaColeta(listaColeta);
         modelJlist = new DefaultListModel();
         jListColetasASalvar.setModel(modelJlist);
+
+        if (medidaSelecionada.getProcedimentodecoletaList().get(0).getFrequencia() == medidaSelecionada.getProcedimentodecoletaList().get(0).getContadorColeta()) {
+            calcularValorColeta(medidaSelecionada);
+        }
 
         checaLimiteFrequencia(medidaSelecionada);
         jButtonRemover.setEnabled(false);

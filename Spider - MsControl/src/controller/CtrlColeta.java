@@ -20,6 +20,14 @@ public class CtrlColeta {
         }
     }
 
+    public List<Coleta> getColetaDaMedidaNaoUsadas(int idMedida) {
+        try {
+            return facadeJpa.getColetaJpa().findListaColetaByMedida(idMedida);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
     public boolean cadastrarColeta(Coleta coleta) {
         try {
             facadeJpa.getColetaJpa().create(coleta);
@@ -29,4 +37,17 @@ public class CtrlColeta {
             return false;
         }
     }
+
+    public boolean editarColeta(Coleta coleta) {
+        try {
+            coleta.setUsado(true);
+            facadeJpa.getColetaJpa().edit(coleta);
+            System.out.println("Editado Com Sucesso.");
+            return true;
+        } catch (Exception error) {
+            error.printStackTrace();
+            return false;
+        }
+    }
+
 }
