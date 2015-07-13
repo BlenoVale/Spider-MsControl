@@ -16,13 +16,13 @@ import util.Constantes;
  * @author Paulo
  */
 public class CtrlProcedimentosColeta {
-    
+
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
-    
-    public boolean criarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta, List<Datasprocedimentocoleta> lista){
+
+    public boolean criarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta, List<Datasprocedimentocoleta> lista) {
         try {
             facadeJpa.getProcedimentodecoletaJpaController().create(procedimentodecoleta);
-            for (int i=0; i < lista.size(); i++){
+            for (int i = 0; i < lista.size(); i++) {
                 lista.get(i).setProcedimentoDeColetaid(procedimentodecoleta);
                 facadeJpa.getdDatasprocedimentocoletaJpaController().create(lista.get(i));
             }
@@ -36,45 +36,48 @@ public class CtrlProcedimentosColeta {
             return false;
         }
     }
-    public void registrarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta, int tipo){
-        
+
+    public void registrarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta, int tipo) {
+
         Registroprocedimentocoleta registroprocedimentocoleta = new Registroprocedimentocoleta();
         registroprocedimentocoleta.setData(new Date());
         registroprocedimentocoleta.setNomeUsuario(Copia.getUsuarioLogado().getNome());
         registroprocedimentocoleta.setProcedimentoDeColetaid(procedimentodecoleta);
         registroprocedimentocoleta.setTipo(tipo);
-        
+
         try {
             facadeJpa.getRegistroprocedimentocoletaJpaController().create(registroprocedimentocoleta);
             System.out.println("registro procedimento coleta criado");
         } catch (Exception e) {
             System.out.println("erro registro procedimento coleta ");
             e.printStackTrace();
-                    
+
         }
     }
-    public List<Procedimentodecoleta> findByProjeto(int idProjeto){
+
+    public List<Procedimentodecoleta> findByProjeto(int idProjeto) {
         try {
-            return  facadeJpa.getProcedimentoColetaJpa().getListByProjeto(idProjeto);
+            return facadeJpa.getProcedimentoColetaJpa().getListByProjeto(idProjeto);
         } catch (Exception e) {
             e.printStackTrace();
-            return  null;
+            return null;
         }
     }
-    public List<Procedimentodecoleta> findByProjetoBuscar(int idProjeto, String nomeMedida){
-    
+
+    public List<Procedimentodecoleta> findByProjetoBuscar(int idProjeto, String nomeMedida) {
+
         Medida medida = new Medida();
-        
+
         medida = facadeJpa.getMedidaJpa().findByNomeProjeto(nomeMedida, idProjeto);
-        
+
         try {
-            return  (List<Procedimentodecoleta>) facadeJpa.getProcedimentoColetaJpa().findByProjeto(medida.getId(), idProjeto);
+            return (List<Procedimentodecoleta>) facadeJpa.getProcedimentoColetaJpa().findByProjeto(medida.getId(), idProjeto);
         } catch (Exception e) {
             e.printStackTrace();
-            return  null;
+            return null;
         }
     }
-    
+
     public List<Procedimentodecoleta> buscarParteDoNomeMedida(String nome, int id_projeto) {
         try {
             return facadeJpa.getMedidaJpa().findMedidaByParteNome(nome, id_projeto);
@@ -86,13 +89,23 @@ public class CtrlProcedimentosColeta {
     public boolean editarProcedimentoColeta(Procedimentodecoleta procedimentodecoleta) {
         try {
             facadeJpa.getProcedimentoColetaJpa().edit(procedimentodecoleta);
+            facadeJpa.getdDatasprocedimentocoletaJpaController().edit(procedimentodecoleta.getDatasprocedimentocoletaList().get(0));
             registrarProcedimentoColeta(procedimentodecoleta, Constantes.EDICAO);
             System.out.println("Procedimento coleta Editado");
             //JOptionPane.showMessageDialog(null, "Editado com sucesso.");
-            return  true;
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void EditaDataProcedimentoColeta(Datasprocedimentocoleta datasprocedimentocoleta) {
+        try {
+            facadeJpa.getdDatasprocedimentocoletaJpaController().edit(datasprocedimentocoleta);
+            System.out.println("----------------->Foi<-----------------------");
+        } catch (Exception error) {
+            error.printStackTrace();
         }
     }
 }
