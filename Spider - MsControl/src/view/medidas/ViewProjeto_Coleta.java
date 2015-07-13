@@ -330,7 +330,6 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
     }
 
     public void calcularSePeriodoFoiAtingido() {
-        boolean resposta = false;
         atualizaListaMedidaDoProjeto();
         Date dataHoje;
         for (int j = 0; j < listaMedida.size(); j++) {
@@ -413,15 +412,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                             ctrlProcedimentosColeta.EditaDataProcedimentoColeta(datasprocedimentocoleta);
                             break;
                         }
-                        if (fimPeriodo) {
-                            resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
-                            if (resposta && !listaColeta.isEmpty()) {
-                                calcularValorColeta(listaMedida.get(j));
-                            }
-                            listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
-                            ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
-                            break;
-                        }
+                }
+                if (fimPeriodo && !listaColeta.isEmpty()) {
+                    boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                    if (resposta) {
+                        calcularValorColeta(listaMedida.get(j));
+                    }
+                    listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
+                    ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                    break;
                 }
             }
         }
