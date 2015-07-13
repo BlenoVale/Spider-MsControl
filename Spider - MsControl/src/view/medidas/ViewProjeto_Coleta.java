@@ -364,6 +364,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                                     fimPeriodo = dataHoje.getDay() == 0;
                                     break;
                             }
+                            if (fimPeriodo && !listaColeta.isEmpty()) {
+                                boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                                if (resposta) {
+                                    calcularValorColeta(listaMedida.get(j));
+                                }
+                                listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
+                                ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                                break;
+                            }
                         }
                         break;
                     case "Semanal":
@@ -392,6 +401,15 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                                 fimPeriodo = (dataHoje.getDay() == 0 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
                                 break;
                         }
+                        if (fimPeriodo && !listaColeta.isEmpty()) {
+                            boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                            if (resposta) {
+                                calcularValorColeta(listaMedida.get(j));
+                            }
+                            listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
+                            ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                            break;
+                        }
                         break;
                     default:
                         Date dataFim = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataFim();
@@ -399,7 +417,18 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                         calendar.setTime(dataFim);
                         calendar.add(Calendar.DAY_OF_MONTH, 1);
                         Date dataHojeOutros = new Date();
-                        fimPeriodo = (dataHojeOutros.getDay() == calendar.getTime().getDay());
+                        fimPeriodo = (dataHojeOutros.getDate() == calendar.getTime().getDate());
+
+                        if (fimPeriodo && !listaColeta.isEmpty()) {
+                            boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                            if (resposta) {
+                                calcularValorColeta(listaMedida.get(j));
+                            }
+                            listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
+                            ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                            break;
+                        }
+
                         if (fimPeriodo) {
                             if ("Quinzenal".equals(listaMedida.get(j).getProcedimentodecoletaList().get(0).getPeriodicidade())) {
                                 calendar.add(Calendar.DAY_OF_MONTH, 15);
@@ -412,15 +441,6 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                             ctrlProcedimentosColeta.EditaDataProcedimentoColeta(datasprocedimentocoleta);
                             break;
                         }
-                }
-                if (fimPeriodo && !listaColeta.isEmpty()) {
-                    boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
-                    if (resposta) {
-                        calcularValorColeta(listaMedida.get(j));
-                    }
-                    listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
-                    ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
-                    break;
                 }
             }
         }
