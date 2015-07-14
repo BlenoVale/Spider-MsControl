@@ -43,4 +43,16 @@ public class ProcedimentoDeAnaliseJpa extends ProcedimentodeanaliseJpaController
         return null;
     }
 
+    public Procedimentodeanalise findAllByIndicador(int indicador) {
+        try {
+            EntityManager entityManager = getEntityManager();
+            Query query = entityManager.createQuery("SELECT p FROM Procedimentodeanalise p WHERE p.indicadorid.id =:indicador ORDER BY p.dataComunicacao ASC");
+            query.setParameter("indicador", indicador);
+            return (Procedimentodeanalise) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

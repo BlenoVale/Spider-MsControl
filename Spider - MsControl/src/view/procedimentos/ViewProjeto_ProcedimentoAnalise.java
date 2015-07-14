@@ -61,9 +61,23 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
     }
 
-    public void buscarProcedimentoMedida() {
-        List<Indicador> list = new ArrayList<>();
-        list = facadeJpa.getIndicadorJpa().findByParteNome(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
+    public void buscarProcedimentoindicador() {
+        List<Indicador> listIndicador = new ArrayList<>();
+        listIndicador = facadeJpa.getIndicadorJpa().findByParteNome(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
+
+        String[] colunas = {"Indicador", "Composição", "Periodicidade", "Responsável"};
+        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
+        for (int i = 0; i < listIndicador.size(); i++) {
+            Procedimentodeanalise lista = facadeJpa.getProcedimentodeanaliseJpa().findAllByIndicador(listIndicador.get(i).getId());
+            Object linha[] = {
+                String.valueOf(lista.getIndicadorid().getNome()),
+                lista.getComposicao(),
+                lista.getPeriodicidade(),
+                lista.getResponsavel()
+            };
+            defaultTableModel.addRow(linha);
+        }
+        jTableProcedimentoAnalise.setModel(defaultTableModel);
 
     }
 
@@ -173,9 +187,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     }//GEN-LAST:event_jButtonProcedimentoActionPerformed
 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
-        lista_indicadores = new ArrayList<>();
-        lista_indicadores = ctrlIndicador.buscarParteDoNomeIndicador(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
-        preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
+        buscarProcedimentoindicador();
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
