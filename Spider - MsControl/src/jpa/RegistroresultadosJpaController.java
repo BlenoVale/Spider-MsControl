@@ -19,7 +19,7 @@ import model.Resultados;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class RegistroresultadosJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class RegistroresultadosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -95,13 +95,13 @@ public class Procedimentodecoleta implements Serializable {
     private double porcentagem;
     @Column(name = "contadorColeta")
     private Integer contadorColeta;
-    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Medida medidaid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
     private List<Registroprocedimentocoleta> registroprocedimentocoletaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeColetaid")
     private List<Datasprocedimentocoleta> datasprocedimentocoletaList;
+    @JoinColumn(name = "Medida_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Medida medidaid;
 
     public Procedimentodecoleta() {
     }
@@ -237,14 +237,6 @@ public class Procedimentodecoleta implements Serializable {
         this.contadorColeta = contadorColeta;
     }
 
-    public Medida getMedidaid() {
-        return medidaid;
-    }
-
-    public void setMedidaid(Medida medidaid) {
-        this.medidaid = medidaid;
-    }
-
     @XmlTransient
     public List<Registroprocedimentocoleta> getRegistroprocedimentocoletaList() {
         return registroprocedimentocoletaList;
@@ -263,6 +255,14 @@ public class Procedimentodecoleta implements Serializable {
         this.datasprocedimentocoletaList = datasprocedimentocoletaList;
     }
 
+    public Medida getMedidaid() {
+        return medidaid;
+    }
+
+    public void setMedidaid(Medida medidaid) {
+        this.medidaid = medidaid;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -277,9 +277,8 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -287,5 +286,5 @@ public class Procedimentodecoleta implements Serializable {
     public String toString() {
         return "model.Procedimentodecoleta[ id=" + id + " ]";
     }
-    
+
 }

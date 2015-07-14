@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "objetivodemedicao")
@@ -63,12 +63,12 @@ public class Objetivodemedicao implements Serializable {
     @Column(name = "observacao")
     private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
-    private List<Registroobjetivomedicao> registroobjetivomedicaoList;
+    private List<Objetivodequestao> objetivodequestaoList;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Projeto projetoid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivoDeMedicaoid")
-    private List<Objetivodequestao> objetivodequestaoList;
+    private List<Registroobjetivomedicao> registroobjetivomedicaoList;
 
     public Objetivodemedicao() {
     }
@@ -142,12 +142,12 @@ public class Objetivodemedicao implements Serializable {
     }
 
     @XmlTransient
-    public List<Registroobjetivomedicao> getRegistroobjetivomedicaoList() {
-        return registroobjetivomedicaoList;
+    public List<Objetivodequestao> getObjetivodequestaoList() {
+        return objetivodequestaoList;
     }
 
-    public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
-        this.registroobjetivomedicaoList = registroobjetivomedicaoList;
+    public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
+        this.objetivodequestaoList = objetivodequestaoList;
     }
 
     public Projeto getProjetoid() {
@@ -159,12 +159,12 @@ public class Objetivodemedicao implements Serializable {
     }
 
     @XmlTransient
-    public List<Objetivodequestao> getObjetivodequestaoList() {
-        return objetivodequestaoList;
+    public List<Registroobjetivomedicao> getRegistroobjetivomedicaoList() {
+        return registroobjetivomedicaoList;
     }
 
-    public void setObjetivodequestaoList(List<Objetivodequestao> objetivodequestaoList) {
-        this.objetivodequestaoList = objetivodequestaoList;
+    public void setRegistroobjetivomedicaoList(List<Registroobjetivomedicao> registroobjetivomedicaoList) {
+        this.registroobjetivomedicaoList = registroobjetivomedicaoList;
     }
 
     @Override
@@ -181,9 +181,8 @@ public class Objetivodemedicao implements Serializable {
             return false;
         }
         Objetivodemedicao other = (Objetivodemedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -191,5 +190,5 @@ public class Objetivodemedicao implements Serializable {
     public String toString() {
         return "model.Objetivodemedicao[ id=" + id + " ]";
     }
-    
+
 }

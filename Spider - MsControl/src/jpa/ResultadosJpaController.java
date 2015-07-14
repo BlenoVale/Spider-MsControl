@@ -22,7 +22,7 @@ import model.Resultados;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class ResultadosJpaController implements Serializable {
 
@@ -228,5 +228,5 @@ public class ResultadosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "resultados")
@@ -69,11 +69,11 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "usuariosInteressados")
     private String usuariosInteressados;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
+    private List<Registroresultados> registroresultadosList;
     @JoinColumn(name = "Analise_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Analise analiseid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
-    private List<Registroresultados> registroresultadosList;
 
     public Resultados() {
     }
@@ -148,14 +148,6 @@ public class Resultados implements Serializable {
         this.usuariosInteressados = usuariosInteressados;
     }
 
-    public Analise getAnaliseid() {
-        return analiseid;
-    }
-
-    public void setAnaliseid(Analise analiseid) {
-        this.analiseid = analiseid;
-    }
-
     @XmlTransient
     public List<Registroresultados> getRegistroresultadosList() {
         return registroresultadosList;
@@ -163,6 +155,14 @@ public class Resultados implements Serializable {
 
     public void setRegistroresultadosList(List<Registroresultados> registroresultadosList) {
         this.registroresultadosList = registroresultadosList;
+    }
+
+    public Analise getAnaliseid() {
+        return analiseid;
+    }
+
+    public void setAnaliseid(Analise analiseid) {
+        this.analiseid = analiseid;
     }
 
     @Override
@@ -179,9 +179,8 @@ public class Resultados implements Serializable {
             return false;
         }
         Resultados other = (Resultados) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -189,5 +188,5 @@ public class Resultados implements Serializable {
     public String toString() {
         return "model.Resultados[ id=" + id + " ]";
     }
-    
+
 }

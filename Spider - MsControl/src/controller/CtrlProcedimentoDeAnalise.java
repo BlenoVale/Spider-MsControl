@@ -6,9 +6,9 @@
 package controller;
 
 import facade.FacadeJpa;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import model.Procedimentodeanalise;
 import model.Registroprocedimentoanalise;
 import util.Constantes;
@@ -19,9 +19,9 @@ import util.Copia;
  * @author Géssica
  */
 public class CtrlProcedimentoDeAnalise {
-    
+
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
-    
+
     public List<Procedimentodeanalise> getIndicadoresDoProjeto(int idDoProjeto) {
         try {
             return facadeJpa.getProcedimentodeanaliseJpa().findListaIndicadoresByProjeto(idDoProjeto);
@@ -29,19 +29,21 @@ public class CtrlProcedimentoDeAnalise {
             throw error;
         }
     }
-    public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise){
+
+    public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
         try {
             facadeJpa.getProcedimentodeanaliseJpa().create(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.CADASTRO);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            
+
         }
         return false;
     }
-    public void criarNovoRegistro(Procedimentodeanalise procedimentodeanalise, int  tipo){
-        
+
+    public void criarNovoRegistro(Procedimentodeanalise procedimentodeanalise, int tipo) {
+
         Registroprocedimentoanalise registroprocedimentoanalise = new Registroprocedimentoanalise();
         registroprocedimentoanalise.setData(new Date());
         registroprocedimentoanalise.setTipo(tipo);
@@ -51,9 +53,17 @@ public class CtrlProcedimentoDeAnalise {
             facadeJpa.getRegistroprocedimentoanaliseJpaController().create(registroprocedimentoanalise);
             System.out.println("registro procedimento analise criado");
         } catch (Exception e) {
-          System.out.println("Erro no resgistro procedimento de analise criado");
+            System.out.println("Erro no registro procedimento de analise criado");
         }
-        
+
     }
-   
+
+    public void criarNovoMeioComunicacao(ArrayList<Integer> integers) {
+
+        for (int i = 0; i < integers.size(); i++) {
+
+            facadeJpa.getMeioComunicacaoJpa().create(null);
+        }
+    }
+
 }

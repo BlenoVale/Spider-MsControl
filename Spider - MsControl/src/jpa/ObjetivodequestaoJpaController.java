@@ -23,7 +23,7 @@ import model.Objetivodequestao;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class ObjetivodequestaoJpaController implements Serializable {
 
@@ -282,5 +282,5 @@ public class ObjetivodequestaoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

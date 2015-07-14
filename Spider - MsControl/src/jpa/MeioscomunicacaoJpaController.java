@@ -19,7 +19,7 @@ import model.Projeto;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class MeioscomunicacaoJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class MeioscomunicacaoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

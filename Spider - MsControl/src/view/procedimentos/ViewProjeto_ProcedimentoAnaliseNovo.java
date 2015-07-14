@@ -548,9 +548,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     public String nomeRadioSelecionado() {
         if (jRadioButtonBase.isSelected())
-            return jRadioButtonBase.getName();
+            return "Base";
         else
-            return jRadioButtonDerivada.getName();
+            return "Derivada";
+    }
+
+    public String selectFormula() {
+        if (jRadioButtonBase.isSelected())
+            return jComboBoxMedidaRelacionada.getSelectedItem().toString();
+        else
+            return jTextFieldFormula.getText();
     }
 
     public boolean verificaOperandos(String texto) {
@@ -1490,8 +1497,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         procedimentodeanalise.setGraficoNome(jComboBoxTipoGrafico.getSelectedItem().toString());
         procedimentodeanalise.setObservacao(jTextAreaObservacao.getText());
 
-        procedimentodeanalise.setFormula(jTextFieldFormula.getText());
-        //Inserir Data de Comunicação
+        procedimentodeanalise.setFormula(selectFormula());
+        procedimentodeanalise.setDataComunicacao((Date) dateField.getValue());
+        procedimentodeanalise.setProjetoId(Copia.getProjetoSelecionado().getId());
 
         procedimentodeanalise.setIndicadorid(ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicador.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId()));
 

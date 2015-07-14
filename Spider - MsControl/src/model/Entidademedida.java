@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "entidademedida")
@@ -94,9 +94,8 @@ public class Entidademedida implements Serializable {
             return false;
         }
         Entidademedida other = (Entidademedida) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -104,5 +103,5 @@ public class Entidademedida implements Serializable {
     public String toString() {
         return "model.Entidademedida[ id=" + id + " ]";
     }
-    
+
 }

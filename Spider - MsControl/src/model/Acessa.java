@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "acessa")
@@ -39,12 +39,12 @@ public class Acessa implements Serializable {
     @Column(name = "dataDeInicio")
     @Temporal(TemporalType.DATE)
     private Date dataDeInicio;
-    @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Usuario usuario;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
+    @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Usuario usuario;
     @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Perfil perfil;
@@ -76,20 +76,20 @@ public class Acessa implements Serializable {
         this.dataDeInicio = dataDeInicio;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public Projeto getProjeto() {
         return projeto;
     }
 
     public void setProjeto(Projeto projeto) {
         this.projeto = projeto;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Perfil getPerfil() {
@@ -114,9 +114,8 @@ public class Acessa implements Serializable {
             return false;
         }
         Acessa other = (Acessa) object;
-        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK))) {
+        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK)))
             return false;
-        }
         return true;
     }
 
@@ -124,5 +123,5 @@ public class Acessa implements Serializable {
     public String toString() {
         return "model.Acessa[ acessaPK=" + acessaPK + " ]";
     }
-    
+
 }

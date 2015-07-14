@@ -2,7 +2,6 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.ProcedimentodeanaliseJpaController;
 import model.Procedimentodeanalise;
@@ -17,7 +16,7 @@ public class ProcedimentoDeAnaliseJpa extends ProcedimentodeanaliseJpaController
     public ProcedimentoDeAnaliseJpa() {
         super(Conexao.conectar());
     }
-    
+
     public List<Procedimentodeanalise> findListaIndicadoresByProjeto(int idDoProjeto) {
         try {
             List<Procedimentodeanalise> lista = null;
@@ -31,5 +30,17 @@ public class ProcedimentoDeAnaliseJpa extends ProcedimentodeanaliseJpaController
             throw error;
         }
     }
-    
+
+    public List<Procedimentodeanalise> findAllByProjeto(int idProjeto) {
+        try {
+            EntityManager entityManager = getEntityManager();
+            Query query = entityManager.createQuery("SELECT p FROM Procedimentodeanalise p WHERE p.projetoId =:idProjeto ORDER BY p.dataComunicacao ASC");
+            query.setParameter("idProjeto", idProjeto);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

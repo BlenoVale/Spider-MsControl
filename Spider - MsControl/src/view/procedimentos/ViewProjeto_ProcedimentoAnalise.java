@@ -2,6 +2,7 @@ package view.procedimentos;
 
 import controller.CtrlIndicador;
 import controller.CtrlProcedimentoDeAnalise;
+import facade.FacadeJpa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,7 @@ import util.MyDefaultTableModel;
  * @author BlenoVale, Géssica
  */
 public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame {
-    
+
     private List<Procedimentodeanalise> lista_ProcedimentoAnalise;
     private List<Indicador> lista_indicadores;
     private DefaultTableModel defaultTableModel;
@@ -24,18 +25,21 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     private Indicador indicadorSelecionado = new Indicador();
     private CtrlIndicador ctrlIndicador = new CtrlIndicador();
 
+    FacadeJpa facadeJpa = FacadeJpa.getInstance();
+
     public ViewProjeto_ProcedimentoAnalise() {
         initComponents();
         Internal.retiraBotao(this);
+
     }
-    
+
     public void atualizaListaIndicadoresDoProjeto() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
 
         lista_indicadores = new ArrayList<>();
         lista_indicadores = ctrlIndicador.getIndicadoresDoProjeto(idDoProjeto);
     }
-    
+
     private void preencherTabelaProcedimentoAnalise(List<Procedimentodeanalise> lista) {
         String[] colunas = {"Indicador", "Composição", "Periodicidade", "Responsável"};
         defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
@@ -50,17 +54,24 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         }
         jTableProcedimentoAnalise.setModel(defaultTableModel);
     }
-        
+
     public void preencherTabelaProcedimentoAnaliseDoProjeto() {
         atualizaListaIndicadoresDoProjeto();
+        lista_ProcedimentoAnalise = facadeJpa.getProcedimentodeanaliseJpa().findAllByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
     }
-    
-    private void pegarIndicadorSelecionado(){
+
+    public void buscarProcedimentoMedida() {
+        List<Indicador> list = new ArrayList<>();
+        list = facadeJpa.getIndicadorJpa().findByParteNome(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
+
+    }
+
+    private void pegarIndicadorSelecionado() {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
         indicadorSelecionado = ctrlIndicador.buscarIndicadorPeloNome(jTableProcedimentoAnalise.getValueAt(jTableProcedimentoAnalise.getSelectedRow(), 0).toString(), idDoProjeto);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -156,20 +167,8 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
     private void jButtonProcedimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcedimentoActionPerformed
         ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
-        viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise ();             
-        //preencherTabelaProcedimentoAnaliseDoProjeto();
-        
-        String[] colunas = {"Indicador", "Composição", "Periodicidade", "Responsável"};
-        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-
-            String linha[] = {
-                "Pontos que agregam valor",
-                "Derivada",
-                "Mensal",
-                "Dan Jhonatan"
-            };
-            defaultTableModel.addRow(linha);
-        jTableProcedimentoAnalise.setModel(defaultTableModel);
+        viewProjeto_ProcedimentoAnaliseNovo.showNovoProcedimentodeanalise();
+        preencherTabelaProcedimentoAnaliseDoProjeto();
 
     }//GEN-LAST:event_jButtonProcedimentoActionPerformed
 
@@ -178,7 +177,6 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         lista_indicadores = ctrlIndicador.buscarParteDoNomeIndicador(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
         preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonProcedimento;

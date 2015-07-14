@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "coleta")
@@ -123,9 +123,8 @@ public class Coleta implements Serializable {
             return false;
         }
         Coleta other = (Coleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -133,5 +132,5 @@ public class Coleta implements Serializable {
     public String toString() {
         return "model.Coleta[ id=" + id + " ]";
     }
-    
+
 }

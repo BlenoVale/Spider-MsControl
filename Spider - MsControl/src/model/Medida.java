@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "medida")
@@ -86,13 +86,13 @@ public class Medida implements Serializable {
     @ManyToMany(mappedBy = "medidaList")
     private List<Indicador> indicadorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
-    private List<Procedimentodecoleta> procedimentodecoletaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
-    private List<Coleta> coletaList;
+    private List<Registromedida> registromedidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
     private List<Valormedida> valormedidaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
-    private List<Registromedida> registromedidaList;
+    private List<Procedimentodecoleta> procedimentodecoletaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medidaid")
+    private List<Coleta> coletaList;
 
     public Medida() {
     }
@@ -212,6 +212,24 @@ public class Medida implements Serializable {
     }
 
     @XmlTransient
+    public List<Registromedida> getRegistromedidaList() {
+        return registromedidaList;
+    }
+
+    public void setRegistromedidaList(List<Registromedida> registromedidaList) {
+        this.registromedidaList = registromedidaList;
+    }
+
+    @XmlTransient
+    public List<Valormedida> getValormedidaList() {
+        return valormedidaList;
+    }
+
+    public void setValormedidaList(List<Valormedida> valormedidaList) {
+        this.valormedidaList = valormedidaList;
+    }
+
+    @XmlTransient
     public List<Procedimentodecoleta> getProcedimentodecoletaList() {
         return procedimentodecoletaList;
     }
@@ -229,24 +247,6 @@ public class Medida implements Serializable {
         this.coletaList = coletaList;
     }
 
-    @XmlTransient
-    public List<Valormedida> getValormedidaList() {
-        return valormedidaList;
-    }
-
-    public void setValormedidaList(List<Valormedida> valormedidaList) {
-        this.valormedidaList = valormedidaList;
-    }
-
-    @XmlTransient
-    public List<Registromedida> getRegistromedidaList() {
-        return registromedidaList;
-    }
-
-    public void setRegistromedidaList(List<Registromedida> registromedidaList) {
-        this.registromedidaList = registromedidaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -261,9 +261,8 @@ public class Medida implements Serializable {
             return false;
         }
         Medida other = (Medida) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -271,5 +270,5 @@ public class Medida implements Serializable {
     public String toString() {
         return "model.Medida[ id=" + id + " ]";
     }
-    
+
 }

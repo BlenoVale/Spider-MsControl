@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "registroobjetivomedicao")
@@ -136,9 +136,8 @@ public class Registroobjetivomedicao implements Serializable {
             return false;
         }
         Registroobjetivomedicao other = (Registroobjetivomedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -146,5 +145,5 @@ public class Registroobjetivomedicao implements Serializable {
     public String toString() {
         return "model.Registroobjetivomedicao[ id=" + id + " ]";
     }
-    
+
 }

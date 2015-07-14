@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "perfisinteressadosprocedimentoanalise")
@@ -94,9 +94,8 @@ public class Perfisinteressadosprocedimentoanalise implements Serializable {
             return false;
         }
         Perfisinteressadosprocedimentoanalise other = (Perfisinteressadosprocedimentoanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -104,5 +103,5 @@ public class Perfisinteressadosprocedimentoanalise implements Serializable {
     public String toString() {
         return "model.Perfisinteressadosprocedimentoanalise[ id=" + id + " ]";
     }
-    
+
 }

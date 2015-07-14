@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,12 +22,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 @Entity
 @Table(name = "procedimentodeanalise")
@@ -47,7 +50,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodeanalise.findByAcoesOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesOk = :acoesOk"),
     @NamedQuery(name = "Procedimentodeanalise.findByAcoesAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesAlerta = :acoesAlerta"),
     @NamedQuery(name = "Procedimentodeanalise.findByAcoesCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesCritico = :acoesCritico"),
-    @NamedQuery(name = "Procedimentodeanalise.findByComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.comunicacao = :comunicacao")})
+    @NamedQuery(name = "Procedimentodeanalise.findByDataComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.dataComunicacao = :dataComunicacao"),
+    @NamedQuery(name = "Procedimentodeanalise.findByProjetoId", query = "SELECT p FROM Procedimentodeanalise p WHERE p.projetoId = :projetoId")})
 public class Procedimentodeanalise implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -103,19 +107,23 @@ public class Procedimentodeanalise implements Serializable {
     @Column(name = "acoesCritico")
     private String acoesCritico;
     @Basic(optional = false)
-    @Column(name = "comunicacao")
-    private String comunicacao;
+    @Column(name = "dataComunicacao")
+    @Temporal(TemporalType.DATE)
+    private Date dataComunicacao;
     @Lob
     @Column(name = "observacao")
     private String observacao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
-    private List<Meiosprocedimentoanalise> meiosprocedimentoanaliseList;
+    @Basic(optional = false)
+    @Column(name = "projeto_id")
+    private int projetoId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
     private List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanaliseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
+    private List<Registrodatacomunicacao> registrodatacomunicacaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
     private List<Registroprocedimentoanalise> registroprocedimentoanaliseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procedimentoDeAnaliseid")
-    private List<Registrodatacomunicacao> registrodatacomunicacaoList;
+    private List<Meiosprocedimentoanalise> meiosprocedimentoanaliseList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Indicador indicadorid;
@@ -127,7 +135,7 @@ public class Procedimentodeanalise implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String frequencia, String graficoNome, String metaOk, String metaAlerta, String metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, String comunicacao) {
+    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String frequencia, String graficoNome, String metaOk, String metaAlerta, String metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, Date dataComunicacao, int projetoId) {
         this.id = id;
         this.responsavel = responsavel;
         this.composicao = composicao;
@@ -144,7 +152,8 @@ public class Procedimentodeanalise implements Serializable {
         this.acoesOk = acoesOk;
         this.acoesAlerta = acoesAlerta;
         this.acoesCritico = acoesCritico;
-        this.comunicacao = comunicacao;
+        this.dataComunicacao = dataComunicacao;
+        this.projetoId = projetoId;
     }
 
     public Integer getId() {
@@ -275,12 +284,12 @@ public class Procedimentodeanalise implements Serializable {
         this.acoesCritico = acoesCritico;
     }
 
-    public String getComunicacao() {
-        return comunicacao;
+    public Date getDataComunicacao() {
+        return dataComunicacao;
     }
 
-    public void setComunicacao(String comunicacao) {
-        this.comunicacao = comunicacao;
+    public void setDataComunicacao(Date dataComunicacao) {
+        this.dataComunicacao = dataComunicacao;
     }
 
     public String getObservacao() {
@@ -291,13 +300,12 @@ public class Procedimentodeanalise implements Serializable {
         this.observacao = observacao;
     }
 
-    @XmlTransient
-    public List<Meiosprocedimentoanalise> getMeiosprocedimentoanaliseList() {
-        return meiosprocedimentoanaliseList;
+    public int getProjetoId() {
+        return projetoId;
     }
 
-    public void setMeiosprocedimentoanaliseList(List<Meiosprocedimentoanalise> meiosprocedimentoanaliseList) {
-        this.meiosprocedimentoanaliseList = meiosprocedimentoanaliseList;
+    public void setProjetoId(int projetoId) {
+        this.projetoId = projetoId;
     }
 
     @XmlTransient
@@ -310,6 +318,15 @@ public class Procedimentodeanalise implements Serializable {
     }
 
     @XmlTransient
+    public List<Registrodatacomunicacao> getRegistrodatacomunicacaoList() {
+        return registrodatacomunicacaoList;
+    }
+
+    public void setRegistrodatacomunicacaoList(List<Registrodatacomunicacao> registrodatacomunicacaoList) {
+        this.registrodatacomunicacaoList = registrodatacomunicacaoList;
+    }
+
+    @XmlTransient
     public List<Registroprocedimentoanalise> getRegistroprocedimentoanaliseList() {
         return registroprocedimentoanaliseList;
     }
@@ -319,12 +336,12 @@ public class Procedimentodeanalise implements Serializable {
     }
 
     @XmlTransient
-    public List<Registrodatacomunicacao> getRegistrodatacomunicacaoList() {
-        return registrodatacomunicacaoList;
+    public List<Meiosprocedimentoanalise> getMeiosprocedimentoanaliseList() {
+        return meiosprocedimentoanaliseList;
     }
 
-    public void setRegistrodatacomunicacaoList(List<Registrodatacomunicacao> registrodatacomunicacaoList) {
-        this.registrodatacomunicacaoList = registrodatacomunicacaoList;
+    public void setMeiosprocedimentoanaliseList(List<Meiosprocedimentoanalise> meiosprocedimentoanaliseList) {
+        this.meiosprocedimentoanaliseList = meiosprocedimentoanaliseList;
     }
 
     public Indicador getIndicadorid() {
@@ -349,9 +366,8 @@ public class Procedimentodeanalise implements Serializable {
             return false;
         }
         Procedimentodeanalise other = (Procedimentodeanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
             return false;
-        }
         return true;
     }
 
@@ -359,5 +375,5 @@ public class Procedimentodeanalise implements Serializable {
     public String toString() {
         return "model.Procedimentodeanalise[ id=" + id + " ]";
     }
-    
+
 }

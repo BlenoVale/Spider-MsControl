@@ -19,7 +19,7 @@ import model.Valorindicador;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class ValorindicadorJpaController implements Serializable {
 
@@ -60,7 +60,7 @@ public class ValorindicadorJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Valorindicador persistentValorindicador = em.find(Valorindicador.class, valorindicador.getValorIndicadorcol());
+            Valorindicador persistentValorindicador = em.find(Valorindicador.class, valorindicador.getId());
             Indicador indicadoridOld = persistentValorindicador.getIndicadorid();
             Indicador indicadoridNew = valorindicador.getIndicadorid();
             if (indicadoridNew != null) {
@@ -80,7 +80,7 @@ public class ValorindicadorJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = valorindicador.getValorIndicadorcol();
+                Integer id = valorindicador.getId();
                 if (findValorindicador(id) == null) {
                     throw new NonexistentEntityException("The valorindicador with id " + id + " no longer exists.");
                 }
@@ -101,7 +101,7 @@ public class ValorindicadorJpaController implements Serializable {
             Valorindicador valorindicador;
             try {
                 valorindicador = em.getReference(Valorindicador.class, id);
-                valorindicador.getValorIndicadorcol();
+                valorindicador.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The valorindicador with id " + id + " no longer exists.", enfe);
             }
@@ -164,5 +164,5 @@ public class ValorindicadorJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

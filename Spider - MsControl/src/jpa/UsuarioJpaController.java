@@ -21,7 +21,7 @@ import model.Usuario;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class UsuarioJpaController implements Serializable {
 
@@ -199,5 +199,5 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

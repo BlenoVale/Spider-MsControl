@@ -49,7 +49,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewGerenciarUsuarios viewGerenciarUsuarios = new ViewGerenciarUsuarios();
     private final ViewPermissoesDePerfis viewPermissoesDeUsuarios = new ViewPermissoesDePerfis();
 
-    // Árvore 
+    // Árvore
     // Objetivos
     private final ViewProjeto_ObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosDeMedicao();
     private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
@@ -156,7 +156,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -473,7 +472,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -609,7 +608,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 //            viewProjeto_Coletas.calcularSePeriodoFoiAtingido();
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
-            //viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();
+            viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();
             trocaTelas(viewProjeto_ProcedimentoAnalise);
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Procedimentos")) {
             viewProjeto_ProcedimentoColeta.recarregarTabela();

@@ -19,7 +19,7 @@ import model.Registroobjetivoquestao;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class RegistroobjetivoquestaoJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class RegistroobjetivoquestaoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

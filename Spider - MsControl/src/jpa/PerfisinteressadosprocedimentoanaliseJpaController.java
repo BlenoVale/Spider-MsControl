@@ -19,7 +19,7 @@ import model.Procedimentodeanalise;
 
 /**
  *
- * @author BlenoVale
+ * @author paulosouza
  */
 public class PerfisinteressadosprocedimentoanaliseJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class PerfisinteressadosprocedimentoanaliseJpaController implements Seria
             em.close();
         }
     }
-    
+
 }
