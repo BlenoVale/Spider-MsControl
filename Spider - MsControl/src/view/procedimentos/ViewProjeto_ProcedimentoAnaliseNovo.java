@@ -1562,6 +1562,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if (!validarCampos()) {
             return;
+            
+            
+            
         }
         JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         this.dispose();

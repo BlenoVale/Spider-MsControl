@@ -50,7 +50,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
         }
         jTableProcedimentoAnalise.setModel(defaultTableModel);
     }
-    
+        
     public void preencherTabelaProcedimentoAnaliseDoProjeto() {
         atualizaListaIndicadoresDoProjeto();
         preencherTabelaProcedimentoAnalise(lista_ProcedimentoAnalise);
