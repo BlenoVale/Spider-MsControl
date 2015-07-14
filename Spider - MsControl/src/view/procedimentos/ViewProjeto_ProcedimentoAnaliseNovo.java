@@ -1,15 +1,15 @@
 package view.procedimentos;
 
+import controller.CtrlIndicador;
+import controller.CtrlProcedimentoDeAnalise;
 import facade.FacadeJpa;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import model.Indicador;
 import model.Medida;
 import model.Meioscomunicacao;
@@ -43,11 +43,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private List<Medida> listMedidaRelacionada;
     private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
-
     private boolean ehNovoProcedimentoAnalise;
 
-    public ViewProjeto_ProcedimentoAnaliseNovo(java.awt.Frame parent, boolean modal)
-    {
+    public ViewProjeto_ProcedimentoAnaliseNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         agruparBotoesRadio();
@@ -60,14 +58,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public void iniciarTabela()
-    {
+    public void iniciarTabela() {
         tableModel = new MyDefaultTableModel(new String[]{"Medida", "Mnemônico"}, 0, false);
         jTableMedida.setModel(tableModel);
     }
 
-    public void preencherTabela(List<Medida> listMedida)
-    {
+    public void preencherTabela(List<Medida> listMedida) {
 
         for (int i = 0; i < listMedida.size(); i++) {
             String linhas[] = new String[]{
@@ -79,16 +75,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTableMedida.setModel(tableModel);
     }
 
-    public void recarregarTabela()
-    {
+    public void recarregarTabela() {
         iniciarTabela();
         listMedida = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listMedida);
 
     }
 
-    public void verifyButtonCadastrarMeioComunicacao()
-    {
+    public void verifyButtonCadastrarMeioComunicacao() {
 
         if (jTabbedPane1.getSelectedIndex() == 4) {
             jButtonCadastrarMeioComunicacao.setVisible(true);
@@ -97,8 +91,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public boolean verificaSinais(String formulas)
-    {
+    public boolean verificaSinais(String formulas) {
         String caractere = "";
         if (!formulas.isEmpty()) {
             caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
@@ -110,8 +103,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean verificaSomenteOperandos(String formula)
-    {
+    public boolean verificaSomenteOperandos(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
@@ -123,8 +115,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean verificaSomenteOperandosParenteseFechado(String formula)
-    {
+    public boolean verificaSomenteOperandosParenteseFechado(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
@@ -136,8 +127,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean bloquearNumeroAposParenteseFechado(String formula)
-    {
+    public boolean bloquearNumeroAposParenteseFechado(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
@@ -147,8 +137,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean permitirSinaisAposParenteseFechado(String formula)
-    {
+    public boolean permitirSinaisAposParenteseFechado(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
@@ -159,8 +148,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public boolean verificaPontoAntesParenteses(String formula)
-    {
+    public boolean verificaPontoAntesParenteses(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
@@ -172,8 +160,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean verificaPontoDepoisParenteses(String formula)
-    {
+    public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
@@ -185,8 +172,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean verificaInsercaoParenteseFechado(String formula)
-    {
+    public boolean verificaInsercaoParenteseFechado(String formula) {
 
         int contA = 0;
         int contB = 0;
@@ -209,8 +195,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public void showNovoProcedimentodeanalise()
-    {
+    public void showNovoProcedimentodeanalise() {
 
         this.setTitle("Cadastro de Novo Procedimento de Análise");
         procedimentodeanalise = new Procedimentodeanalise();
@@ -230,8 +215,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
-    public void showEditarProcedimentoAnaliseDialog(Procedimentodeanalise procedimentoAnalise_selecionado, String nomeUsuario_logado)
-    {
+    public void showEditarProcedimentoAnaliseDialog(Procedimentodeanalise procedimentoAnalise_selecionado, String nomeUsuario_logado) {
         this.setTitle("Editar Procedimento de Análise");
         this.projeto_selecionado = Copia.getProjetoSelecionado();
         this.nomeUsuario_logado = nomeUsuario_logado;
@@ -250,8 +234,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
     }
 
-    private void escondeRadioButton()
-    {
+    private void escondeRadioButton() {
         if (!jRadioButtonBase.isSelected()) {
             jRadioButtonBase.setVisible(false);
         }
@@ -261,8 +244,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    private void preencherCampos()
-    {
+    private void preencherCampos() {
         jComboBoxIndicador.setSelectedItem(procedimentodeanalise.getIndicadorid().toString());
 
         registro = new ArrayList<>();
@@ -293,8 +275,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    private boolean validarCampos()
-    {
+    private boolean validarCampos() {
         int cont = 0;
         String mensagem = null;
 
@@ -384,8 +365,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    private void selecionarRadio()
-    {
+    private void selecionarRadio() {
         switch (procedimentodeanalise.getGraficoNome()) {
             case "Base":
                 jRadioButtonBase.setSelected(true);
@@ -396,16 +376,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public void ocultarMedidaRelacionada()
-    {
+    public void ocultarMedidaRelacionada() {
         jButtonCadastrarMeioComunicacao.setVisible(false);
         jTextFieldFormula.setEnabled(false);
         jLabelMedidaRelacionada.setVisible(false);
         jComboBoxMedidaRelacionada.setVisible(false);
     }
 
-    public void habilitarMedidaRelacionada()
-    {
+    public void habilitarMedidaRelacionada() {
 
         if (jRadioButtonBase.isSelected()) {
             jLabelMedidaRelacionada.setVisible(true);
@@ -416,14 +394,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    private void agruparBotoesRadio()
-    {
+    private void agruparBotoesRadio() {
         buttonGroupComposicao.add(jRadioButtonBase);
         buttonGroupComposicao.add(jRadioButtonDerivada);
     }
 
-    private String getComposicao()
-    {
+    private String getComposicao() {
         String composicao = null;
         if (jRadioButtonBase.isSelected()) {
             composicao = "Base";
@@ -433,8 +409,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return composicao;
     }
 
-    public void popularComboBoxIndicador()
-    {
+    public void popularComboBoxIndicador() {
 
         comboboxModel = new DefaultComboBoxModel();
         comboboxModel.addElement("-Selecione um Indicador-");
@@ -447,8 +422,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxIndicador.setModel(comboboxModel);
     }
 
-    private void popularComboboxTipoDeGrafico()
-    {
+    private void popularComboboxTipoDeGrafico() {
         comboboxModel = new DefaultComboBoxModel();
 
         comboboxModel.addElement("-Selecione um Tipo de Gráfico-");
@@ -460,8 +434,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxTipoGrafico.setModel(comboboxModel);
     }
 
-    private void popularComboboxPeriodicidade()
-    {
+    private void popularComboboxPeriodicidade() {
         comboboxModel = new DefaultComboBoxModel();
 
         comboboxModel.addElement("-Selecione uma Periodicidade-");
@@ -473,8 +446,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxPeriodicidade.setModel(comboboxModel);
     }
 
-    private void popularComboboxComunicacaoPeriodicidade()
-    {
+    private void popularComboboxComunicacaoPeriodicidade() {
         comboboxModel = new DefaultComboBoxModel();
 
         comboboxModel.addElement("-Selecione uma Periodicidade-");
@@ -486,8 +458,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    private void popularListaPerfis()
-    {
+    private void popularListaPerfis() {
         model_listaDePerfis = new DefaultListModel();
         List<Perfilinteressado> perfilinteressados = jpa.getPerfilInteressadoJpa().findAll();
 
@@ -505,8 +476,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTablePerfisInteressados.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
 
-    private void popularListaMeio()
-    {
+    private void popularListaMeio() {
         model_listaMeio = new DefaultListModel();
         List<Meioscomunicacao> meioscomunicacaos = jpa.getMeioComunicacaoJpa().findAll();
         checkModel = new CheckDefaultTableModel(new String[]{"selecionar", "Meios"}, 0, false);
@@ -523,8 +493,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTableMeios.getColumnModel().getColumn(1).setPreferredWidth(500);
     }
 
-    public void popularComboBoxMedidaRelacionada()
-    {
+    public void popularComboBoxMedidaRelacionada() {
         comboBoxModelMedidaRelacionada = new DefaultComboBoxModel();
         comboBoxModelMedidaRelacionada.addElement("--Selecione uma Medida--");
         listMedidaRelacionada = jpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
@@ -535,16 +504,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt)
-    {
+    public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
         String caracteres = "987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
     }
 
-     public void bloquearAba()
-    {
+    public void bloquearAba() {
         if (jRadioButtonBase.isSelected() == true) {
             jTabbedPane1.setEnabledAt(3, false);
             jTextFieldFormula.setText("");
@@ -556,16 +523,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         this.pack();
     }
 
-    public void inserirMnemonico(java.awt.event.MouseEvent event)
-    {
+    public void inserirMnemonico(java.awt.event.MouseEvent event) {
         if (event.getClickCount() >= 2) {
             String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
             jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico);
         }
     }
 
-    public String excluirUltimaLetra(String texto)
-    {
+    public String excluirUltimaLetra(String texto) {
 
         if (!texto.isEmpty()) {
             int length = texto.length();
@@ -581,8 +546,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return null;
     }
 
-    public boolean verificaOperandos(String texto)
-    {
+    public String nomeRadioSelecionado() {
+        if (jRadioButtonBase.isSelected())
+            return jRadioButtonBase.getName();
+        else
+            return jRadioButtonDerivada.getName();
+    }
+
+    public boolean verificaOperandos(String texto) {
         int length = texto.length();
 
         if (texto.charAt(length - 1) == '('
@@ -609,8 +580,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    private void acessaCalendario(JComboBox combobox, String tipo)
-    {
+    private void acessaCalendario(JComboBox combobox, String tipo) {
         Calendario calendario = new Calendario(null, true);
         if (combobox.getSelectedIndex() == 1) {
             calendario.showCalendarioDiarioDialog(tipo);
@@ -630,13 +600,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             calendario.showCalendarioOutrosPeriodosDialog("Anual", tipo);
         }
 
-
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         buttonGroupComposicao = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
@@ -724,7 +692,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jScrollPane8 = new javax.swing.JScrollPane();
         jTableMeios = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
-        dateField2 = new net.sf.nachocalendar.components.DateField();
+        dateField = new net.sf.nachocalendar.components.DateField();
         jComboBoxIndicador = new javax.swing.JComboBox();
         jButtonCadastrarMeioComunicacao = new javax.swing.JButton();
 
@@ -745,27 +713,21 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabelUltimaEdicao.setText("Ultima Edição:");
 
         jButtonSalvar.setText("Salvar");
-        jButtonSalvar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
             }
         });
 
         jButtonCancelar.setText("Cancelar");
-        jButtonCancelar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
             }
         });
 
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabbedPane1MouseClicked(evt);
             }
         });
@@ -775,19 +737,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Composição:"));
 
         jRadioButtonBase.setText("Base");
-        jRadioButtonBase.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonBaseActionPerformed(evt);
             }
         });
 
         jRadioButtonDerivada.setText("Derivada");
-        jRadioButtonDerivada.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jRadioButtonDerivada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButtonDerivadaActionPerformed(evt);
             }
         });
@@ -844,10 +802,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabel19.setText("Frequência:");
 
-        jTextFieldFrequencia1.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyTyped(java.awt.event.KeyEvent evt)
-            {
+        jTextFieldFrequencia1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFrequencia1KeyTyped(evt);
             }
         });
@@ -954,7 +910,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane12)
@@ -1103,22 +1059,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTabbedPane1.addTab("Ações", jPanel8);
 
         jTableMedida.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
                 {null, null},
                 {null, null},
                 {null, null},
                 {null, null}
             },
-            new String []
-            {
+            new String [] {
                 "Medida", "Mnemônico"
             }
         ));
-        jTableMedida.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jTableMedida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableMedidaMouseClicked(evt);
             }
         });
@@ -1126,10 +1078,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabel21.setText("Fórmula:");
 
-        jTextFieldFormula.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jTextFieldFormula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFormulaActionPerformed(evt);
             }
         });
@@ -1138,172 +1088,134 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton7.setText("+");
-        jButton7.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
 
         jButton2.setText(".");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
         jButton1.setText("0");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
         jButton13.setText("1");
-        jButton13.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
             }
         });
 
         jButton15.setText("2");
-        jButton15.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
             }
         });
 
         jButton16.setText("3");
-        jButton16.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton16ActionPerformed(evt);
             }
         });
 
         jButton8.setText("-");
-        jButton8.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
         jButton9.setText("*");
-        jButton9.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
             }
         });
 
         jButton19.setText("6");
-        jButton19.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton19ActionPerformed(evt);
             }
         });
 
         jButton18.setText("5");
-        jButton18.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton18ActionPerformed(evt);
             }
         });
 
         jButton17.setText("4");
-        jButton17.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton17ActionPerformed(evt);
             }
         });
 
         jButton20.setText("7");
-        jButton20.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton20ActionPerformed(evt);
             }
         });
 
         jButton21.setText("8");
-        jButton21.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton21ActionPerformed(evt);
             }
         });
 
         jButton22.setText("9");
-        jButton22.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton22ActionPerformed(evt);
             }
         });
 
         jButton10.setText("/");
-        jButton10.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
             }
         });
 
         jButton11.setText(")");
-        jButton11.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
             }
         });
 
         jButton12.setText("(");
-        jButton12.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
             }
         });
 
         jButton14.setText("C");
-        jButton14.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton14ActionPerformed(evt);
             }
         });
 
         jButton23.setText("<-");
-        jButton23.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton23ActionPerformed(evt);
             }
         });
@@ -1331,7 +1243,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(jButton22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1413,24 +1325,20 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTabbedPane1.addTab("Fórmula", jPanel10);
 
         jTablePerfisInteressados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Selecionar", "Perfis interessados"
             }
         ));
         jScrollPane6.setViewportView(jTablePerfisInteressados);
 
         jTableMeios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Selecionar", "Meios"
             }
         ));
@@ -1450,7 +1358,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(56, 56, 56)
-                        .addComponent(dateField2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1460,7 +1368,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel15)
-                    .addComponent(dateField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1473,10 +1381,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxIndicador.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButtonCadastrarMeioComunicacao.setText("Cadastrar Meio de Comunicação");
-        jButtonCadastrarMeioComunicacao.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonCadastrarMeioComunicacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarMeioComunicacaoActionPerformed(evt);
             }
         });
@@ -1526,7 +1432,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jLabelUltimaEdicao)
                     .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
@@ -1560,14 +1466,44 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if (!validarCampos()) {
+        if (!validarCampos())
             return;
-            
-            
-            
+        CtrlIndicador ctrlIndicador = new CtrlIndicador();
+        boolean save = false;
+
+        procedimentodeanalise.setAcoesAlerta(jTextAreaAcoesAlerta.getText());
+        procedimentodeanalise.setAcoesCritico(jTextAreaAcoesCritico.getText());
+        procedimentodeanalise.setAcoesOk(jTextAreaAcoesOk.getText());
+
+        procedimentodeanalise.setCriterioAlerta(jTextAreaCriterioAlerta.getText());
+        procedimentodeanalise.setCriterioCritico(jTextAreaCriterioCritico.getText());
+        procedimentodeanalise.setCriterioOk(jTextAreaCriterioOk.getText());
+
+        procedimentodeanalise.setMetaAlerta(jTextFieldMetaAlerta.getText());
+        procedimentodeanalise.setMetaCritico(jTextFieldMetaCritico.getText());
+        procedimentodeanalise.setMetaOk(jTextFieldMetaOk.getText());
+
+        procedimentodeanalise.setResponsavel(jTextFieldResponsavel.getText());
+        procedimentodeanalise.setComposicao(nomeRadioSelecionado());
+        procedimentodeanalise.setPeriodicidade(jComboBoxPeriodicidade.getSelectedItem().toString());
+        procedimentodeanalise.setFrequencia(jTextFieldFrequencia1.getText());
+        procedimentodeanalise.setGraficoNome(jComboBoxTipoGrafico.getSelectedItem().toString());
+        procedimentodeanalise.setObservacao(jTextAreaObservacao.getText());
+
+        procedimentodeanalise.setFormula(jTextFieldFormula.getText());
+        //Inserir Data de Comunicação
+
+        procedimentodeanalise.setIndicadorid(ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicador.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId()));
+
+        CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
+        save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise);
+        if (save) {
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao Salvar.");
         }
-        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-        this.dispose();
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTabbedPane1MouseClicked
@@ -1587,24 +1523,21 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton12ActionPerformed
     {//GEN-HEADEREND:event_jButton12ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText()))
-        {
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && verificaSomenteOperandos(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "(");
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton11ActionPerformed
     {//GEN-HEADEREND:event_jButton11ActionPerformed
-        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()) && !verificaSomenteOperandosParenteseFechado(jTextFieldFormula.getText()))
-        {
+        if (!verificaPontoDepoisParenteses(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaInsercaoParenteseFechado(jTextFieldFormula.getText()) && !verificaSomenteOperandosParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ")");
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton10ActionPerformed
     {//GEN-HEADEREND:event_jButton10ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
-        {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "/");
         }
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -1612,51 +1545,49 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton22ActionPerformed
     {//GEN-HEADEREND:event_jButton22ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "9");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "9");
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton21ActionPerformed
     {//GEN-HEADEREND:event_jButton21ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "8");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "8");
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton20ActionPerformed
     {//GEN-HEADEREND:event_jButton20ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "7");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "7");
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton17ActionPerformed
     {//GEN-HEADEREND:event_jButton17ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "4");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "4");
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton18ActionPerformed
     {//GEN-HEADEREND:event_jButton18ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "5");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "5");
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton19ActionPerformed
     {//GEN-HEADEREND:event_jButton19ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "6");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "6");
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
     {//GEN-HEADEREND:event_jButton9ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
-        {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "*");
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton8ActionPerformed
     {//GEN-HEADEREND:event_jButton8ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
-        {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "-");
         }
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -1664,31 +1595,30 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton16ActionPerformed
     {//GEN-HEADEREND:event_jButton16ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "3");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "3");
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton15ActionPerformed
     {//GEN-HEADEREND:event_jButton15ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "2");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "2");
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton13ActionPerformed
     {//GEN-HEADEREND:event_jButton13ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "1");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "1");
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         if (!bloquearNumeroAposParenteseFechado(jTextFieldFormula.getText()))
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "0");
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + "0");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText()))
-        {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !verificaPontoAntesParenteses(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + ".");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1696,8 +1626,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     //Botões da calculadora abaixo
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton7ActionPerformed
     {//GEN-HEADEREND:event_jButton7ActionPerformed
-        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText()))
-        {
+        if (!verificaSinais(jTextFieldFormula.getText()) && !jTextFieldFormula.getText().isEmpty() && !permitirSinaisAposParenteseFechado(jTextFieldFormula.getText())) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "+");
         }
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1710,11 +1639,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableMedidaMouseClicked
     {//GEN-HEADEREND:event_jTableMedidaMouseClicked
 
-        if (jTextFieldFormula.getText().isEmpty())
-        {
+        if (jTextFieldFormula.getText().isEmpty()) {
             inserirMnemonico(evt);
-        } else if (verificaSomenteOperandos(jTextFieldFormula.getText()))
-        {
+        } else if (verificaSomenteOperandos(jTextFieldFormula.getText())) {
             inserirMnemonico(evt);
         }
     }//GEN-LAST:event_jTableMedidaMouseClicked
@@ -1736,16 +1663,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButtonCadastrarMeioComunicacaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCadastrarMeioComunicacaoActionPerformed
     {//GEN-HEADEREND:event_jButtonCadastrarMeioComunicacaoActionPerformed
-            ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
-            viewProjeto_MeioComunicacao.setVisible(true);
+        ViewProjeto_MeioComunicacao viewProjeto_MeioComunicacao = new ViewProjeto_MeioComunicacao(null, true);
+        viewProjeto_MeioComunicacao.setVisible(true);
 
-            popularListaMeio();
+        popularListaMeio();
     }//GEN-LAST:event_jButtonCadastrarMeioComunicacaoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
-    private net.sf.nachocalendar.components.DateField dateField2;
+    private net.sf.nachocalendar.components.DateField dateField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;

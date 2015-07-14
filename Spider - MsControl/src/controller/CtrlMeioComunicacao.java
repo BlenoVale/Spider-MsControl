@@ -17,9 +17,7 @@ public class CtrlMeioComunicacao {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
 
-
-    public List<Meioscomunicacao> buscarMeiosComunicacao()
-    {
+    public List<Meioscomunicacao> buscarMeiosComunicacao() {
         try {
             return facadeJpa.getMeioComunicacaoJpa().findAll();
         } catch (Exception e) {
@@ -28,8 +26,7 @@ public class CtrlMeioComunicacao {
         return null;
     }
 
-    public boolean criarNovoMeioComunicacao(Meioscomunicacao meioscomunicacao)
-    {
+    public boolean criarNovoMeioComunicacao(Meioscomunicacao meioscomunicacao) {
         try {
             facadeJpa.getMeioComunicacaoJpa().create(meioscomunicacao);
             return true;
@@ -39,11 +36,8 @@ public class CtrlMeioComunicacao {
         return false;
     }
 
-    public Meioscomunicacao buscarMeioComunicacao(String nome)
-    {
+    public Meioscomunicacao buscarMeioComunicacao(String nome) {
         return (Meioscomunicacao) facadeJpa.getMeioComunicacaoJpa().findByName(nome);
     }
-
-    
 
 }

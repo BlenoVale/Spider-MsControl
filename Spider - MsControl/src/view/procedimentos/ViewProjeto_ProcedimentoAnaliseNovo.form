@@ -109,7 +109,7 @@
                       <Component id="jTextFieldUltimaEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane1" pref="484" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButtonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -488,7 +488,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jLabel11" max="32767" attributes="0"/>
                                   <Component id="jLabel13" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel14" alignment="0" pref="45" max="32767" attributes="0"/>
+                                  <Component id="jLabel14" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -922,7 +922,7 @@
                               </Group>
                               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jButton22" alignment="0" pref="40" max="32767" attributes="0"/>
+                                  <Component id="jButton22" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButton19" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButton16" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
@@ -1158,7 +1158,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                                  <Component id="dateField2" min="-2" pref="130" max="-2" attributes="0"/>
+                                  <Component id="dateField" min="-2" pref="130" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -1172,7 +1172,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                              <Component id="dateField2" min="-2" max="-2" attributes="0"/>
+                              <Component id="dateField" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="jScrollPane8" min="-2" pref="168" max="-2" attributes="0"/>
@@ -1227,7 +1227,7 @@
                     <Property name="text" type="java.lang.String" value="Data de Comunica&#xe7;&#xe3;o:"/>
                   </Properties>
                 </Component>
-                <Component class="net.sf.nachocalendar.components.DateField" name="dateField2">
+                <Component class="net.sf.nachocalendar.components.DateField" name="dateField">
                 </Component>
               </SubComponents>
             </Container>
