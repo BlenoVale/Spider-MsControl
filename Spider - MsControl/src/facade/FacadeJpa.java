@@ -29,6 +29,7 @@ import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.ProcedimentoDeAnaliseJpa;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
+import jpa.extensao.RegistroProcedimentoAnalise;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
 import jpa.extensao.ResultadosJpa;
 import util.Conexao;
@@ -75,6 +76,7 @@ public class FacadeJpa {
     private final MeioComunicacaoJpa meioComunicacaoJpa;
     private final PerfilInteressadoJpa perfilInteressadoJpa;
     private final RegistroprocedimentoanaliseJpaController registroprocedimentoanaliseJpaController;
+    private final RegistroProcedimentoAnalise registroProcedimentoAnalise;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -108,6 +110,7 @@ public class FacadeJpa {
         meioComunicacaoJpa = new MeioComunicacaoJpa();
         perfilInteressadoJpa = new PerfilInteressadoJpa();
         registroprocedimentoanaliseJpaController = new RegistroprocedimentoanaliseJpaController(Conexao.conectar());
+        registroProcedimentoAnalise = new RegistroProcedimentoAnalise();
     }
 
     public static FacadeJpa getInstance() {
@@ -139,7 +142,7 @@ public class FacadeJpa {
 
 //    public RegistrocoletaJpaController getRegistroColeta() {
 //        return registroColetaJpa;
-//    }    
+//    }
 //    }
     public FuncionalidadeJpa getFuncionalidadeJpa() {
         return funcionalidadeJpa;
@@ -176,7 +179,8 @@ public class FacadeJpa {
     public RegistroprocedimentocoletaJpaController getRegistroprocedimentocoletaJpaController() {
         return registroprocedimentocoletaJpaController;
     }
-    public RegistroprocedimentoanaliseJpaController getRegistroprocedimentoanaliseJpaController(){
+
+    public RegistroprocedimentoanaliseJpaController getRegistroprocedimentoanaliseJpaController() {
         return registroprocedimentoanaliseJpaController;
     }
 
@@ -243,5 +247,9 @@ public class FacadeJpa {
 
     public PerfilInteressadoJpa getPerfilInteressadoJpa() {
         return perfilInteressadoJpa;
+    }
+
+    public RegistroProcedimentoAnalise getRegistroProcedimentoAnalise() {
+        return registroProcedimentoAnalise;
     }
 }

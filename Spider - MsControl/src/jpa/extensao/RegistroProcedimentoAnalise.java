@@ -5,22 +5,35 @@
  */
 package jpa.extensao;
 
-import facade.FacadeJpa;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import jpa.RegistroprocedimentoanaliseJpaController;
-import model.Procedimentodeanalise;
+import model.Registroprocedimentoanalise;
 import util.Conexao;
 
 /**
  *
  * @author Paulo
  */
-public class RegistroProcedimentoAnalise extends RegistroprocedimentoanaliseJpaController{
-    
-    FacadeJpa facadeJpa = FacadeJpa.getInstance();    
-    
-    public RegistroProcedimentoAnalise(){
+public class RegistroProcedimentoAnalise extends RegistroprocedimentoanaliseJpaController {
+
+    public RegistroProcedimentoAnalise() {
         super(Conexao.conectar());
     }
-    
-       
+
+    public List<Registroprocedimentoanalise> findAllRegistros(int idProcedimento, int tipo) {
+
+        try {
+            EntityManager entityManager = getEntityManager();
+            Query query = entityManager.createQuery("SELECT r FROM Registroprocedimentoanalise r WHERE r.procedimentoDeAnaliseid.id =:idProcedimento AND r.tipo =:tipo");
+            query.setParameter("idProcedimento", idProcedimento);
+            query.setParameter("tipo", tipo);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

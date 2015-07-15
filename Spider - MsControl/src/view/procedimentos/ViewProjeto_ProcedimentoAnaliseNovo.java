@@ -162,31 +162,35 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public void ShowEditarDialogProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+    public void ShowEditarDialogProcedimentoAnalise(Procedimentodeanalise procedimentodeanaliseUsuario) {
 
         ehNovoProcedimentoAnalise = false;
+        procedimentodeanalise = procedimentodeanaliseUsuario;
 
         setTitle("Editar Procedimento de Análise");
 
-        jTextAreaAcoesAlerta.setText(procedimentodeanalise.getAcoesAlerta());
-        jTextAreaAcoesCritico.setText(procedimentodeanalise.getAcoesCritico());
-        jTextAreaAcoesOk.setText(procedimentodeanalise.getAcoesOk());
-        jTextAreaCriterioAlerta.setText(procedimentodeanalise.getCriterioAlerta());
-        jTextAreaCriterioCritico.setText(procedimentodeanalise.getCriterioCritico());
-        jTextAreaCriterioOk.setText(procedimentodeanalise.getCriterioOk());
-        jTextFieldMetaAlerta.setText(procedimentodeanalise.getMetaAlerta());
-        jTextFieldMetaCritico.setText(procedimentodeanalise.getMetaCritico());
-        jTextFieldMetaOk.setText(procedimentodeanalise.getMetaOk());
-        jTextFieldResponsavel.setText(procedimentodeanalise.getResponsavel());
-        jTextFieldFrequencia1.setText(procedimentodeanalise.getFrequencia());
-        dateField.setValue(procedimentodeanalise.getDataComunicacao());
-        jTextAreaObservacao.setText(procedimentodeanalise.getObservacao());
+        jTextAreaAcoesAlerta.setText(procedimentodeanaliseUsuario.getAcoesAlerta());
+        jTextAreaAcoesCritico.setText(procedimentodeanaliseUsuario.getAcoesCritico());
+        jTextAreaAcoesOk.setText(procedimentodeanaliseUsuario.getAcoesOk());
+        jTextAreaCriterioAlerta.setText(procedimentodeanaliseUsuario.getCriterioAlerta());
+        jTextAreaCriterioCritico.setText(procedimentodeanaliseUsuario.getCriterioCritico());
+        jTextAreaCriterioOk.setText(procedimentodeanaliseUsuario.getCriterioOk());
+        jTextFieldMetaAlerta.setText(procedimentodeanaliseUsuario.getMetaAlerta());
+        jTextFieldMetaCritico.setText(procedimentodeanaliseUsuario.getMetaCritico());
+        jTextFieldMetaOk.setText(procedimentodeanaliseUsuario.getMetaOk());
+        jTextFieldResponsavel.setText(procedimentodeanaliseUsuario.getResponsavel());
+        jTextFieldFrequencia1.setText(procedimentodeanaliseUsuario.getFrequencia());
+        dateField.setValue(procedimentodeanaliseUsuario.getDataComunicacao());
+        jTextAreaObservacao.setText(procedimentodeanaliseUsuario.getObservacao());
 
-        editarRadioComposicao(procedimentodeanalise.getComposicao());
-        editarFormula(procedimentodeanalise);
-        editarGrafico(procedimentodeanalise);
-        editarPeriodicidade(procedimentodeanalise);
-        editarIndicador(procedimentodeanalise);
+        jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
+
+        editarRadioComposicao(procedimentodeanaliseUsuario.getComposicao());
+        editarFormula(procedimentodeanaliseUsuario);
+        editarGrafico(procedimentodeanaliseUsuario);
+        editarPeriodicidade(procedimentodeanaliseUsuario);
+        editarIndicador(procedimentodeanaliseUsuario);
+        popularUltimaEdicao(procedimentodeanaliseUsuario);
 
     }
 
@@ -252,6 +256,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 comboboxModel.addElement(indicadors.get(i).getNome());
         }
         jComboBoxIndicador.setModel(comboboxModel);
+    }
+
+    public void popularUltimaEdicao(Procedimentodeanalise procedimentodeanalise) {
+        List<Registroprocedimentoanalise> registroprocedimentoanalises = jpa.getRegistroProcedimentoAnalise().findAllRegistros(procedimentodeanalise.getId(), Constantes.EDICAO);
+        if (registroprocedimentoanalises.isEmpty()) {
+            jTextFieldUltimaEdicao.setVisible(false);
+            jLabelUltimaEdicao.setVisible(false);
+        } else {
+            jTextFieldUltimaEdicao.setText(registroprocedimentoanalises.get(registroprocedimentoanalises.size() - 1).getNomeUsuario() + " EM " + Texto.formataData(registroprocedimentoanalises.get(registroprocedimentoanalises.size() - 1).getData()));
+
+        }
     }
 
     public boolean verificaPontoDepoisParenteses(String formula) {
@@ -1583,6 +1598,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!validarCampos())
             return;
         CtrlIndicador ctrlIndicador = new CtrlIndicador();
+        CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
         boolean save = false;
 
         procedimentodeanalise.setAcoesAlerta(jTextAreaAcoesAlerta.getText());
@@ -1610,13 +1626,22 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         procedimentodeanalise.setIndicadorid(ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicador.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId()));
 
-        CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
-        save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise);
-        if (save) {
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-            this.dispose();
+        if (ehNovoProcedimentoAnalise) {
+            save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise);
+            if (save) {
+                JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao Salvar.");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Erro ao Salvar.");
+            save = ctrlProcedimentoDeAnalise.editarProcedimentoAnalise(procedimentodeanalise);
+            if (save) {
+                JOptionPane.showMessageDialog(null, "Editado com sucesso.");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao Editar.");
+            }
         }
 
     }//GEN-LAST:event_jButtonSalvarActionPerformed

@@ -66,4 +66,17 @@ public class CtrlProcedimentoDeAnalise {
         }
     }
 
+    public boolean editarProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+
+        try {
+            facadeJpa.getProcedimentodeanaliseJpa().edit(procedimentodeanalise);
+            criarNovoRegistro(procedimentodeanalise, Constantes.EDICAO);
+            System.out.println("Editado com sucesso.");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

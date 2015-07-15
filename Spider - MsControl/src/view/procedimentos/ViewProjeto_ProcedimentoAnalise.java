@@ -202,10 +202,11 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
             Procedimentodeanalise procedimentodeanalise = facadeJpa.getProcedimentodeanaliseJpa().findAllByIndicador(indicador.getId());
             ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
-            //viewProjeto_ProcedimentoAnaliseNovo.showEditarProcedimentoAnaliseDialog(procedimentodeanalise, Copia.getUsuarioLogado().getNome());
             viewProjeto_ProcedimentoAnaliseNovo.ShowEditarDialogProcedimentoAnalise(procedimentodeanalise);
             viewProjeto_ProcedimentoAnaliseNovo.setVisible(true);
         }
+
+        preencherTabelaProcedimentoAnaliseDoProjeto();
     }//GEN-LAST:event_jTableProcedimentoAnaliseMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
