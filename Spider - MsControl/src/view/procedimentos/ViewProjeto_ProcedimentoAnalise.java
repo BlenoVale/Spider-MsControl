@@ -118,6 +118,11 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
                 "Indicador", "Composição", "Periodicidade", "Responsável"
             }
         ));
+        jTableProcedimentoAnalise.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableProcedimentoAnaliseMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableProcedimentoAnalise);
 
         jButtonProcedimento.setText("Procedimento");
@@ -189,6 +194,19 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
     private void jTextFieldBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarActionPerformed
         buscarProcedimentoindicador();
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
+
+    private void jTableProcedimentoAnaliseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProcedimentoAnaliseMouseClicked
+        if (evt.getClickCount() >= 2) {
+            String nomeIndicador = jTableProcedimentoAnalise.getValueAt(jTableProcedimentoAnalise.getSelectedRow(), 0).toString();
+            Indicador indicador = facadeJpa.getIndicadorJpa().findBYNomeAndProjeto(nomeIndicador, Copia.getProjetoSelecionado().getId());
+
+            Procedimentodeanalise procedimentodeanalise = facadeJpa.getProcedimentodeanaliseJpa().findAllByIndicador(indicador.getId());
+            ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
+            //viewProjeto_ProcedimentoAnaliseNovo.showEditarProcedimentoAnaliseDialog(procedimentodeanalise, Copia.getUsuarioLogado().getNome());
+            viewProjeto_ProcedimentoAnaliseNovo.ShowEditarDialogProcedimentoAnalise(procedimentodeanalise);
+            viewProjeto_ProcedimentoAnaliseNovo.setVisible(true);
+        }
+    }//GEN-LAST:event_jTableProcedimentoAnaliseMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonProcedimento;

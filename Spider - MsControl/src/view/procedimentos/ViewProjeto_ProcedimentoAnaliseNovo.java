@@ -45,6 +45,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private boolean ehNovoProcedimentoAnalise;
 
+    FacadeJpa facadeJpa = FacadeJpa.getInstance();
+
     public ViewProjeto_ProcedimentoAnaliseNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -160,6 +162,98 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
+    public void ShowEditarDialogProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+
+        ehNovoProcedimentoAnalise = false;
+
+        setTitle("Editar Procedimento de Análise");
+
+        jTextAreaAcoesAlerta.setText(procedimentodeanalise.getAcoesAlerta());
+        jTextAreaAcoesCritico.setText(procedimentodeanalise.getAcoesCritico());
+        jTextAreaAcoesOk.setText(procedimentodeanalise.getAcoesOk());
+        jTextAreaCriterioAlerta.setText(procedimentodeanalise.getCriterioAlerta());
+        jTextAreaCriterioCritico.setText(procedimentodeanalise.getCriterioCritico());
+        jTextAreaCriterioOk.setText(procedimentodeanalise.getCriterioOk());
+        jTextFieldMetaAlerta.setText(procedimentodeanalise.getMetaAlerta());
+        jTextFieldMetaCritico.setText(procedimentodeanalise.getMetaCritico());
+        jTextFieldMetaOk.setText(procedimentodeanalise.getMetaOk());
+        jTextFieldResponsavel.setText(procedimentodeanalise.getResponsavel());
+        jTextFieldFrequencia1.setText(procedimentodeanalise.getFrequencia());
+        dateField.setValue(procedimentodeanalise.getDataComunicacao());
+        jTextAreaObservacao.setText(procedimentodeanalise.getObservacao());
+
+        editarRadioComposicao(procedimentodeanalise.getComposicao());
+        editarFormula(procedimentodeanalise);
+        editarGrafico(procedimentodeanalise);
+        editarPeriodicidade(procedimentodeanalise);
+        editarIndicador(procedimentodeanalise);
+
+    }
+
+    public void editarRadioComposicao(String composicao) {
+        if (composicao.equals("Base"))
+            jRadioButtonBase.setSelected(true);
+        else
+            jRadioButtonDerivada.setSelected(true);
+    }
+
+    public void editarFormula(Procedimentodeanalise procedimentodeanalise) {
+        if (jRadioButtonBase.isSelected()) {
+            Medida medida = facadeJpa.getMedidaJpa().findByMnemonicoAndProjeto(procedimentodeanalise.getFormula(), Copia.getProjetoSelecionado().getId());
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement(medida.getNome());
+            listMedidaRelacionada = facadeJpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
+            for (int i = 0; i < listMedidaRelacionada.size(); i++) {
+                if (!medida.getNome().equals(listMedidaRelacionada.get(i).getNome()))
+                    comboBoxModel.addElement(listMedidaRelacionada.get(i).getNome());
+            }
+            jComboBoxMedidaRelacionada.setModel(comboBoxModel);
+        } else
+            jTextFieldFormula.setText(procedimentodeanalise.getFormula());
+    }
+
+    public void editarGrafico(Procedimentodeanalise procedimentodeanalise) {
+
+        comboboxModel = new DefaultComboBoxModel();
+        comboboxModel.addElement(procedimentodeanalise.getGraficoNome());
+
+        List<String> list = Constantes.preencherListaGraficos();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (!procedimentodeanalise.getGraficoNome().equals(list.get(i)))
+                comboboxModel.addElement(list.get(i));
+        }
+        jComboBoxTipoGrafico.setModel(comboboxModel);
+
+    }
+
+    public void editarPeriodicidade(Procedimentodeanalise procedimentodeanalise) {
+        comboboxModel = new DefaultComboBoxModel();
+        comboboxModel.addElement(procedimentodeanalise.getPeriodicidade());
+
+        List<String> list = Constantes.preencherListaPeriodicidade();
+        for (int i = 0; i < list.size(); i++) {
+            if (!procedimentodeanalise.getPeriodicidade().equals(list.get(i)))
+                comboboxModel.addElement(list.get(i));
+
+        }
+        jComboBoxPeriodicidade.setModel(comboboxModel);
+
+    }
+
+    public void editarIndicador(Procedimentodeanalise procedimentodeanalise) {
+        comboboxModel = new DefaultComboBoxModel();
+        Indicador indicador = facadeJpa.getIndicadorJpa().findIndicador(procedimentodeanalise.getIndicadorid().getId());
+        comboboxModel.addElement(indicador.getNome());
+
+        List<Indicador> indicadors = jpa.getIndicadorJpa().findListaIndicadoresByProjeto(Copia.getProjetoSelecionado().getId());
+        for (int i = 0; i < indicadors.size(); i++) {
+            if (!indicador.getNome().equals(indicadors.get(i).getNome()) && indicadors.get(i).getProcedimentodeanaliseList().isEmpty())
+                comboboxModel.addElement(indicadors.get(i).getNome());
+        }
+        jComboBoxIndicador.setModel(comboboxModel);
+    }
+
     public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
@@ -241,6 +335,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         if (!jRadioButtonDerivada.isSelected()) {
             jRadioButtonDerivada.setVisible(false);
+        }
+    }
+
+    public void pegaSelecionadoTableMeios() {
+        for (int i = 0; i < jTableMeios.getRowCount(); i++) {
+            jTableMeios.getValueAt(i, 0);
+
         }
     }
 
@@ -554,9 +655,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }
 
     public String selectFormula() {
-        if (jRadioButtonBase.isSelected())
-            return jComboBoxMedidaRelacionada.getSelectedItem().toString();
-        else
+        if (jRadioButtonBase.isSelected()) {
+            Medida medida = facadeJpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedidaRelacionada.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
+            return medida.getMnemonico().toString();
+        } else
             return jTextFieldFormula.getText();
     }
 
@@ -1349,6 +1451,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 "Selecionar", "Meios"
             }
         ));
+        jTableMeios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMeiosMouseClicked(evt);
+            }
+        });
         jScrollPane8.setViewportView(jTableMeios);
 
         jLabel15.setText("Data de Comunicação:");
@@ -1676,6 +1783,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         popularListaMeio();
     }//GEN-LAST:event_jButtonCadastrarMeioComunicacaoActionPerformed
+
+    private void jTableMeiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMeiosMouseClicked
+
+    }//GEN-LAST:event_jTableMeiosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;

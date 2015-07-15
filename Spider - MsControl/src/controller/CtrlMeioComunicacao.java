@@ -7,6 +7,8 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.List;
+import javax.persistence.RollbackException;
+import javax.swing.JOptionPane;
 import model.Meioscomunicacao;
 
 /**
@@ -30,6 +32,9 @@ public class CtrlMeioComunicacao {
         try {
             facadeJpa.getMeioComunicacaoJpa().create(meioscomunicacao);
             return true;
+
+        } catch (RollbackException e) {
+            JOptionPane.showMessageDialog(null, "Já existe um meio de comunicação com esse nome, escolha outro.", "", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
         }
