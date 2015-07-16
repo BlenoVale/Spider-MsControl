@@ -21,6 +21,7 @@ import util.Copia;
 public class CtrlProcedimentoDeAnalise {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
+    CtrlRegistroDataComunicacao ctrlRegistroDataComunicacao = new CtrlRegistroDataComunicacao();
 
     public List<Procedimentodeanalise> getIndicadoresDoProjeto(int idDoProjeto) {
         try {
@@ -32,8 +33,10 @@ public class CtrlProcedimentoDeAnalise {
 
     public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
         try {
+
             facadeJpa.getProcedimentodeanaliseJpa().create(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.CADASTRO);
+            ctrlRegistroDataComunicacao.criarNovoRegistroDataComunicacao(procedimentodeanalise, Constantes.CADASTRO);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,6 +74,7 @@ public class CtrlProcedimentoDeAnalise {
         try {
             facadeJpa.getProcedimentodeanaliseJpa().edit(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.EDICAO);
+            ctrlRegistroDataComunicacao.criarNovoRegistroDataComunicacao(procedimentodeanalise, Constantes.EDICAO);
             System.out.println("Editado com sucesso.");
             return true;
         } catch (Exception e) {

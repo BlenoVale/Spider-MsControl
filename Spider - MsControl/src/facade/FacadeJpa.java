@@ -27,6 +27,7 @@ import jpa.extensao.MeioComunicacaoJpa;
 import jpa.extensao.PerfilInteressadoJpa;
 import jpa.extensao.ProcedimentoColetaJpa;
 import jpa.extensao.ProcedimentoDeAnaliseJpa;
+import jpa.extensao.RegistroDataComunicacaoJpa;
 import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoAnalise;
@@ -77,6 +78,7 @@ public class FacadeJpa {
     private final PerfilInteressadoJpa perfilInteressadoJpa;
     private final RegistroprocedimentoanaliseJpaController registroprocedimentoanaliseJpaController;
     private final RegistroProcedimentoAnalise registroProcedimentoAnalise;
+    private final RegistroDataComunicacaoJpa registroDataComunicacaoJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -111,6 +113,7 @@ public class FacadeJpa {
         perfilInteressadoJpa = new PerfilInteressadoJpa();
         registroprocedimentoanaliseJpaController = new RegistroprocedimentoanaliseJpaController(Conexao.conectar());
         registroProcedimentoAnalise = new RegistroProcedimentoAnalise();
+        registroDataComunicacaoJpa = new RegistroDataComunicacaoJpa();
     }
 
     public static FacadeJpa getInstance() {
@@ -251,5 +254,9 @@ public class FacadeJpa {
 
     public RegistroProcedimentoAnalise getRegistroProcedimentoAnalise() {
         return registroProcedimentoAnalise;
+    }
+
+    public RegistroDataComunicacaoJpa getRegistroDataComunicacaoJpa() {
+        return registroDataComunicacaoJpa;
     }
 }
