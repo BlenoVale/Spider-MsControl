@@ -86,13 +86,31 @@ public class CtrlMeioComunicacao {
     }
 
     public void editarVinculoMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> meioComunicacao) {
+        limparMeioComunicacaoProcedimentoAnalise(procedimentodeanalise);
+
         try {
             for (int i = 0; i < meioComunicacao.size(); i++) {
                 Meioscomunicacao meioscomunicacao = facadeJpa.getMeioComunicacaoJpa().findByName(meioComunicacao.get(i));
-                editarMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
+                vincularMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
+                System.out.println("Editado Meio Comunicacao Procedimento Analise");
             }
         } catch (Exception e) {
         }
+    }
+
+    public void limparMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+
+        List<Meiosprocedimentoanalise> meioscomunicacaos = facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().findByProcedimentoAnalise(procedimentodeanalise.getId());
+
+        int TAM = meioscomunicacaos.size();
+        for (int i = 0; i < TAM; i++) {
+            try {
+                facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().destroy(meioscomunicacaos.get(i).getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

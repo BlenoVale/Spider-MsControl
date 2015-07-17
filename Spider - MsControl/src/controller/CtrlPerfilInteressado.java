@@ -64,17 +64,34 @@ public class CtrlPerfilInteressado {
 
     public void editarVinculoPerfilInteressadoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listPerfilInteressado) {
 
+        limparPerfisInteressadosProcedimentoAnalise(procedimentodeanalise);
+
         try {
             for (int i = 0; i < listPerfilInteressado.size(); i++) {
 
                 Perfilinteressado perfilinteressado = facadeJpa.getPerfilInteressadoJpa().findByName(listPerfilInteressado.get(i));
-                editarPerfilInteressadoProcedimentoAnalise(procedimentodeanalise, perfilinteressado);
+                criarPerfilInteressadoProcedimentoAnalise(procedimentodeanalise, perfilinteressado);
                 System.out.println("Editado Perfil Interessado Procedimento Analise");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void limparPerfisInteressadosProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+        List<Perfisinteressadosprocedimentoanalise> perfisinteressadosprocedimentoanalises = facadeJpa.getPerfislInteressadoProcedimentoAnaliseJpa().findByIdProcedimentoAnalise(procedimentodeanalise.getId());
+        int TAM = perfisinteressadosprocedimentoanalises.size();
+
+        for (int i = 0; i < TAM; i++) {
+            try {
+                facadeJpa.getPerfislInteressadoProcedimentoAnaliseJpa().destroy(perfisinteressadosprocedimentoanalises.get(i).getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
 }
