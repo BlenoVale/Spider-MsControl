@@ -34,4 +34,16 @@ public class MeioComunicacaoProcedimentoAnaliseJpa extends Meiosprocedimentoanal
         return null;
     }
 
+    public Meiosprocedimentoanalise findByIdMeioProcedimentoAnalise(int idMeioComunicacao) {
+        try {
+            EntityManager entityManager = getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Meiosprocedimentoanalise m WHERE m.idmeioComunicacao =:idMeioComunicacao");
+            query.setParameter("idMeioComunicacao", idMeioComunicacao);
+            return (Meiosprocedimentoanalise) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

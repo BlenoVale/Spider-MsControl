@@ -6,7 +6,6 @@
 package controller;
 
 import facade.FacadeJpa;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Procedimentodeanalise;
@@ -23,6 +22,7 @@ public class CtrlProcedimentoDeAnalise {
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     CtrlRegistroDataComunicacao ctrlRegistroDataComunicacao = new CtrlRegistroDataComunicacao();
     CtrlMeioComunicacao ctrlMeioComunicacao = new CtrlMeioComunicacao();
+    CtrlPerfilInteressado ctrlPerfilInteressado = new CtrlPerfilInteressado();
 
     public List<Procedimentodeanalise> getIndicadoresDoProjeto(int idDoProjeto) {
         try {
@@ -32,13 +32,14 @@ public class CtrlProcedimentoDeAnalise {
         }
     }
 
-    public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listMeioComunicacao) {
+    public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listMeioComunicacao, List<String> listPerfilInteressado) {
         try {
 
             facadeJpa.getProcedimentodeanaliseJpa().create(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.CADASTRO);
             ctrlRegistroDataComunicacao.criarNovoRegistroDataComunicacao(procedimentodeanalise, Constantes.CADASTRO);
             ctrlMeioComunicacao.criarVinculoMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacao);
+            ctrlPerfilInteressado.criarVinculoPerfilInteressadoProcedimentoAnalise(procedimentodeanalise, listPerfilInteressado);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,21 +64,16 @@ public class CtrlProcedimentoDeAnalise {
 
     }
 
-    public void criarNovoMeioComunicacao(ArrayList<Integer> integers) {
-
-        for (int i = 0; i < integers.size(); i++) {
-
-            facadeJpa.getMeioComunicacaoJpa().create(null);
-        }
-    }
-
-    public boolean editarProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listMeioComunicacao) {
+    public boolean editarProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listMeioComunicacao, List<String> listPerfilInteressado) {
 
         try {
             facadeJpa.getProcedimentodeanaliseJpa().edit(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.EDICAO);
             ctrlRegistroDataComunicacao.criarNovoRegistroDataComunicacao(procedimentodeanalise, Constantes.EDICAO);
+
+            //@TODO verficar a utilizacao do editar
             ctrlMeioComunicacao.editarVinculoMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacao);
+            ctrlPerfilInteressado.editarVinculoPerfilInteressadoProcedimentoAnalise(procedimentodeanalise, listPerfilInteressado);
             System.out.println("Editado com sucesso.");
             return true;
         } catch (Exception e) {

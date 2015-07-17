@@ -15,6 +15,7 @@ import model.Medida;
 import model.Meioscomunicacao;
 import model.Meiosprocedimentoanalise;
 import model.Perfilinteressado;
+import model.Perfisinteressadosprocedimentoanalise;
 import model.Procedimentodeanalise;
 import model.Projeto;
 import model.Registroprocedimentoanalise;
@@ -126,7 +127,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         popularListaMeio();
         popularListaPerfis();
-        editarCheackJTableMeios(procedimentodeanalise);
+        editarCheckJTableMeios(procedimentodeanalise);
+        editarCheckJTablePerfilInteressados(procedimentodeanalise);
     }
 
     public void editarRadioComposicao(String composicao) {
@@ -220,7 +222,23 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public void editarCheackJTableMeios(Procedimentodeanalise procedimentodeanalise) {
+    public List<String> listPerfilInteressadoIsCheked() {
+        int TAM = jTablePerfisInteressados.getRowCount();
+        List<String> listMeiosComunicacao = new ArrayList<>();
+
+        for (int i = 0; i < TAM; i++) {
+
+            if ((boolean) jTablePerfisInteressados.getModel().getValueAt(i, 0) == true) {
+                System.out.println("True linha: " + i);
+                listMeiosComunicacao.add(jTablePerfisInteressados.getModel().getValueAt(i, 1).toString());
+            }
+        }
+
+        return listMeiosComunicacao;
+
+    }
+
+    public void editarCheckJTableMeios(Procedimentodeanalise procedimentodeanalise) {
 
         List<String> listMeiosComunicacao = new ArrayList<>();
         List<Meiosprocedimentoanalise> meiosprocedimentoanalises = facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().findByProcedimentoAnalise(procedimentodeanalise.getId());
@@ -232,6 +250,25 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             for (int j = 0; j < TAM; j++) {
                 if (jTableMeios.getModel().getValueAt(j, 1).equals(meioscomunicacao.getNome())) {
                     jTableMeios.getModel().setValueAt(true, j, 0);
+                }
+            }
+        }
+
+    }
+
+    public void editarCheckJTablePerfilInteressados(Procedimentodeanalise procedimentodeanalise) {
+
+        List<String> listMeiosComunicacao = new ArrayList<>();
+        List<Perfisinteressadosprocedimentoanalise> perfilinteressados = facadeJpa.getPerfislInteressadoProcedimentoAnaliseJpa().findByIdProcedimentoAnalise(procedimentodeanalise.getId());
+        int TAM = jTablePerfisInteressados.getRowCount();
+        int size = perfilinteressados.size();
+
+        for (int i = 0; i < size; i++) {
+
+            Perfilinteressado perfilinteressado = facadeJpa.getPerfilInteressadoJpa().findPerfilinteressado(perfilinteressados.get(i).getIdperfilInteressado());
+            for (int j = 0; j < TAM; j++) {
+                if (jTablePerfisInteressados.getModel().getValueAt(j, 1).equals(perfilinteressado.getNome())) {
+                    jTablePerfisInteressados.getModel().setValueAt(true, j, 0);
                 }
             }
         }
@@ -554,13 +591,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
-        String caracteres = "987654321";
-        if (!caracteres.contains(evt.getKeyChar() + "")) {
-            evt.consume();
-        }
-    }
-
     public void bloquearAba() {
         if (jRadioButtonBase.isSelected() == true) {
             jTabbedPane1.setEnabledAt(3, false);
@@ -571,6 +601,28 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         habilitarMedidaRelacionada();
         this.pack();
+    }
+
+    public String nomeRadioSelecionado() {
+        if (jRadioButtonBase.isSelected())
+            return "Base";
+        else
+            return "Derivada";
+    }
+
+    public String selectFormula() {
+        if (jRadioButtonBase.isSelected()) {
+            Medida medida = facadeJpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedidaRelacionada.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
+            return medida.getMnemonico().toString();
+        } else
+            return jTextFieldFormula.getText();
+    }
+
+    public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
+        String caracteres = "987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
     }
 
     public void inserirMnemonico(java.awt.event.MouseEvent event) {
@@ -698,21 +750,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
 
         return false;
-    }
-
-    public String nomeRadioSelecionado() {
-        if (jRadioButtonBase.isSelected())
-            return "Base";
-        else
-            return "Derivada";
-    }
-
-    public String selectFormula() {
-        if (jRadioButtonBase.isSelected()) {
-            Medida medida = facadeJpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedidaRelacionada.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
-            return medida.getMnemonico().toString();
-        } else
-            return jTextFieldFormula.getText();
     }
 
     public boolean verificaOperandos(String texto) {
@@ -857,7 +894,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         dateField = new net.sf.nachocalendar.components.DateField();
         jComboBoxIndicador = new javax.swing.JComboBox();
         jButtonCadastrarMeioComunicacao = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1555,13 +1591,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
-        jButton3.setText("teste");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1584,8 +1613,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCadastrarMeioComunicacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1614,8 +1641,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButtonCadastrarMeioComunicacao)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonCadastrarMeioComunicacao))
                 .addContainerGap())
         );
 
@@ -1676,7 +1702,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         procedimentodeanalise.setIndicadorid(ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicador.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId()));
 
         if (ehNovoProcedimentoAnalise) {
-            save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacaoIsCheked());
+            save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacaoIsCheked(), listPerfilInteressadoIsCheked());
             if (save) {
                 JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
                 this.dispose();
@@ -1684,7 +1710,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Erro ao Salvar.");
             }
         } else {
-            save = ctrlProcedimentoDeAnalise.editarProcedimentoAnalise(procedimentodeanalise, listMeioComunicacaoIsCheked());
+            save = ctrlProcedimentoDeAnalise.editarProcedimentoAnalise(procedimentodeanalise, listMeioComunicacaoIsCheked(), listPerfilInteressadoIsCheked());
             if (save) {
                 JOptionPane.showMessageDialog(null, "Editado com sucesso.");
                 this.dispose();
@@ -1862,11 +1888,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jTableMeiosMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        listMeioComunicacaoIsCheked();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
     private net.sf.nachocalendar.components.DateField dateField;
@@ -1886,7 +1907,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

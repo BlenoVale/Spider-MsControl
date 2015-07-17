@@ -53,7 +53,6 @@ public class CtrlMeioComunicacao {
             meiosprocedimentoanalise.setIdmeioComunicacao(meioscomunicacao.getId());
             meiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
             facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().create(meiosprocedimentoanalise);
-            System.out.println("criado vinculo meio comunicação com procedimento analise");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +64,7 @@ public class CtrlMeioComunicacao {
             for (int i = 0; i < meioComunicacao.size(); i++) {
                 Meioscomunicacao meioscomunicacao = facadeJpa.getMeioComunicacaoJpa().findByName(meioComunicacao.get(i));
                 vincularMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
+                System.out.println("criado vinculo meio comunicação com procedimento analise");
             }
         } catch (Exception e) {
         }
@@ -72,11 +72,13 @@ public class CtrlMeioComunicacao {
 
     public void editarMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, Meioscomunicacao meioscomunicacao) {
         try {
-            Meiosprocedimentoanalise meiosprocedimentoanalise = new Meiosprocedimentoanalise();
+            Meiosprocedimentoanalise meiosprocedimentoanalise = facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().findByIdMeioProcedimentoAnalise(meioscomunicacao.getId());
+
             meiosprocedimentoanalise.setIdmeioComunicacao(meioscomunicacao.getId());
             meiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
-            facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().edit(meiosprocedimentoanalise);
-            System.out.println("criado vinculo meio comunicação com procedimento analise");
+            facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().destroy(meiosprocedimentoanalise.getId());
+            facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().create(meiosprocedimentoanalise);
+            System.out.println("editado vinculo meio comunicação com procedimento analise");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +89,7 @@ public class CtrlMeioComunicacao {
         try {
             for (int i = 0; i < meioComunicacao.size(); i++) {
                 Meioscomunicacao meioscomunicacao = facadeJpa.getMeioComunicacaoJpa().findByName(meioComunicacao.get(i));
-                vincularMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
+                editarMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
             }
         } catch (Exception e) {
         }
