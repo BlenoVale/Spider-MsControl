@@ -22,6 +22,7 @@ public class CtrlProcedimentoDeAnalise {
 
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     CtrlRegistroDataComunicacao ctrlRegistroDataComunicacao = new CtrlRegistroDataComunicacao();
+    CtrlMeioComunicacao ctrlMeioComunicacao = new CtrlMeioComunicacao();
 
     public List<Procedimentodeanalise> getIndicadoresDoProjeto(int idDoProjeto) {
         try {
@@ -31,12 +32,13 @@ public class CtrlProcedimentoDeAnalise {
         }
     }
 
-    public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+    public boolean criarNovoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listMeioComunicacao) {
         try {
 
             facadeJpa.getProcedimentodeanaliseJpa().create(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.CADASTRO);
             ctrlRegistroDataComunicacao.criarNovoRegistroDataComunicacao(procedimentodeanalise, Constantes.CADASTRO);
+            ctrlMeioComunicacao.criarVinculoMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacao);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,12 +71,13 @@ public class CtrlProcedimentoDeAnalise {
         }
     }
 
-    public boolean editarProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise) {
+    public boolean editarProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> listMeioComunicacao) {
 
         try {
             facadeJpa.getProcedimentodeanaliseJpa().edit(procedimentodeanalise);
             criarNovoRegistro(procedimentodeanalise, Constantes.EDICAO);
             ctrlRegistroDataComunicacao.criarNovoRegistroDataComunicacao(procedimentodeanalise, Constantes.EDICAO);
+            ctrlMeioComunicacao.editarVinculoMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacao);
             System.out.println("Editado com sucesso.");
             return true;
         } catch (Exception e) {

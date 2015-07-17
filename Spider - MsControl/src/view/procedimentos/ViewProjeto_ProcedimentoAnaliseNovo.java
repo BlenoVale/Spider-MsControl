@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import model.Indicador;
 import model.Medida;
 import model.Meioscomunicacao;
+import model.Meiosprocedimentoanalise;
 import model.Perfilinteressado;
 import model.Procedimentodeanalise;
 import model.Projeto;
@@ -93,75 +94,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public boolean verificaSinais(String formulas) {
-        String caractere = "";
-        if (!formulas.isEmpty()) {
-            caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
-        }
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean verificaSomenteOperandos(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("") || caractere.equals("(")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean verificaSomenteOperandosParenteseFechado(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean bloquearNumeroAposParenteseFechado(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals(")"))
-            return true;
-        return false;
-    }
-
-    public boolean permitirSinaisAposParenteseFechado(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals(")"))
-            return true;
-        return false;
-
-    }
-
-    public boolean verificaPontoAntesParenteses(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals(")") || caractere.equals("(")) {
-            return true;
-        }
-
-        return false;
-    }
-
     public void ShowEditarDialogProcedimentoAnalise(Procedimentodeanalise procedimentodeanaliseUsuario) {
 
         ehNovoProcedimentoAnalise = false;
@@ -192,6 +124,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         editarIndicador(procedimentodeanaliseUsuario);
         popularUltimaEdicao(procedimentodeanaliseUsuario);
 
+        popularListaMeio();
+        popularListaPerfis();
+        editarCheackJTableMeios(procedimentodeanalise);
     }
 
     public void editarRadioComposicao(String composicao) {
@@ -269,38 +204,37 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public boolean verificaPontoDepoisParenteses(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals(".")) {
-            return true;
-        }
+    public List<String> listMeioComunicacaoIsCheked() {
+        int TAM = jTableMeios.getRowCount();
+        List<String> listMeiosComunicacao = new ArrayList<>();
 
-        return false;
-    }
+        for (int i = 0; i < TAM; i++) {
 
-    public boolean verificaInsercaoParenteseFechado(String formula) {
-
-        int contA = 0;
-        int contB = 0;
-        char caractereA = '(';
-        char caractereB = ')';
-        if (!formula.isEmpty()) {
-            for (int i = 0; i < formula.length(); i++) {
-                if (formula.charAt(i) == caractereA) {
-                    contA++;
-                } else if (formula.charAt(i) == caractereB) {
-                    contB++;
-                }
+            if ((boolean) jTableMeios.getModel().getValueAt(i, 0) == true) {
+                System.out.println("True linha: " + i);
+                listMeiosComunicacao.add(jTableMeios.getModel().getValueAt(i, 1).toString());
             }
         }
 
-        if (contB >= contA) {
-            return true;
+        return listMeiosComunicacao;
+
+    }
+
+    public void editarCheackJTableMeios(Procedimentodeanalise procedimentodeanalise) {
+
+        List<String> listMeiosComunicacao = new ArrayList<>();
+        List<Meiosprocedimentoanalise> meiosprocedimentoanalises = facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().findByProcedimentoAnalise(procedimentodeanalise.getId());
+        int TAM = jTableMeios.getRowCount();
+        int size = meiosprocedimentoanalises.size();
+
+        for (int i = 0; i < size; i++) {
+            Meioscomunicacao meioscomunicacao = facadeJpa.getMeioComunicacaoJpa().findById(meiosprocedimentoanalises.get(i).getIdmeioComunicacao());
+            for (int j = 0; j < TAM; j++) {
+                if (jTableMeios.getModel().getValueAt(j, 1).equals(meioscomunicacao.getNome())) {
+                    jTableMeios.getModel().setValueAt(true, j, 0);
+                }
+            }
         }
-        return false;
 
     }
 
@@ -662,6 +596,110 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return null;
     }
 
+    public boolean verificaSinais(String formulas) {
+        String caractere = "";
+        if (!formulas.isEmpty()) {
+            caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
+        }
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean verificaSomenteOperandos(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("") || caractere.equals("(")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean verificaPontoDepoisParenteses(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals(".")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean verificaInsercaoParenteseFechado(String formula) {
+
+        int contA = 0;
+        int contB = 0;
+        char caractereA = '(';
+        char caractereB = ')';
+        if (!formula.isEmpty()) {
+            for (int i = 0; i < formula.length(); i++) {
+                if (formula.charAt(i) == caractereA) {
+                    contA++;
+                } else if (formula.charAt(i) == caractereB) {
+                    contB++;
+                }
+            }
+        }
+
+        if (contB >= contA) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean verificaSomenteOperandosParenteseFechado(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean bloquearNumeroAposParenteseFechado(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals(")"))
+            return true;
+        return false;
+    }
+
+    public boolean permitirSinaisAposParenteseFechado(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals(")"))
+            return true;
+        return false;
+
+    }
+
+    public boolean verificaPontoAntesParenteses(String formula) {
+        String caractere = "";
+        if (!formula.isEmpty()) {
+            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+        }
+        if (caractere.equals(")") || caractere.equals("(")) {
+            return true;
+        }
+
+        return false;
+    }
+
     public String nomeRadioSelecionado() {
         if (jRadioButtonBase.isSelected())
             return "Base";
@@ -819,6 +857,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         dateField = new net.sf.nachocalendar.components.DateField();
         jComboBoxIndicador = new javax.swing.JComboBox();
         jButtonCadastrarMeioComunicacao = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -1516,6 +1555,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
+        jButton3.setText("teste");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1538,6 +1584,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCadastrarMeioComunicacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1566,7 +1614,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButtonCadastrarMeioComunicacao))
+                    .addComponent(jButtonCadastrarMeioComunicacao)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -1627,7 +1676,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         procedimentodeanalise.setIndicadorid(ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicador.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId()));
 
         if (ehNovoProcedimentoAnalise) {
-            save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise);
+            save = ctrlProcedimentoDeAnalise.criarNovoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacaoIsCheked());
             if (save) {
                 JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
                 this.dispose();
@@ -1635,7 +1684,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Erro ao Salvar.");
             }
         } else {
-            save = ctrlProcedimentoDeAnalise.editarProcedimentoAnalise(procedimentodeanalise);
+            save = ctrlProcedimentoDeAnalise.editarProcedimentoAnalise(procedimentodeanalise, listMeioComunicacaoIsCheked());
             if (save) {
                 JOptionPane.showMessageDialog(null, "Editado com sucesso.");
                 this.dispose();
@@ -1813,6 +1862,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jTableMeiosMouseClicked
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        listMeioComunicacaoIsCheked();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupComposicao;
     private net.sf.nachocalendar.components.DateField dateField;
@@ -1832,6 +1886,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

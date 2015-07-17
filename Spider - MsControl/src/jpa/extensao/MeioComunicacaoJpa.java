@@ -17,13 +17,11 @@ import util.Conexao;
  */
 public class MeioComunicacaoJpa extends MeioscomunicacaoJpaController {
 
-    public MeioComunicacaoJpa()
-    {
+    public MeioComunicacaoJpa() {
         super(Conexao.conectar());
     }
 
-    public List<Meioscomunicacao> findAll()
-    {
+    public List<Meioscomunicacao> findAll() {
         try {
             EntityManager entityManager = super.getEntityManager();
             Query query = entityManager.createQuery("SELECT m FROM Meioscomunicacao m ORDER BY m.nome ASC");
@@ -34,12 +32,23 @@ public class MeioComunicacaoJpa extends MeioscomunicacaoJpaController {
         return null;
     }
 
-    public Meioscomunicacao findByName(String nome)
-    {
+    public Meioscomunicacao findByName(String nome) {
         try {
             EntityManager entityManager = super.getEntityManager();
             Query query = entityManager.createQuery("SELECT m FROM Meioscomunicacao m WHERE m.nome =:nome");
             query.setParameter("nome", nome);
+            return (Meioscomunicacao) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Meioscomunicacao findById(int idMeio) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            Query query = entityManager.createQuery("SELECT m FROM Meioscomunicacao m WHERE m.id =:idMeio");
+            query.setParameter("idMeio", idMeio);
             return (Meioscomunicacao) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();

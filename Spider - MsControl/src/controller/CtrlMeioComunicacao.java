@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 import model.Meioscomunicacao;
+import model.Meiosprocedimentoanalise;
+import model.Procedimentodeanalise;
 
 /**
  *
@@ -43,6 +45,52 @@ public class CtrlMeioComunicacao {
 
     public Meioscomunicacao buscarMeioComunicacao(String nome) {
         return (Meioscomunicacao) facadeJpa.getMeioComunicacaoJpa().findByName(nome);
+    }
+
+    public void vincularMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, Meioscomunicacao meioscomunicacao) {
+        try {
+            Meiosprocedimentoanalise meiosprocedimentoanalise = new Meiosprocedimentoanalise();
+            meiosprocedimentoanalise.setIdmeioComunicacao(meioscomunicacao.getId());
+            meiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
+            facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().create(meiosprocedimentoanalise);
+            System.out.println("criado vinculo meio comunicação com procedimento analise");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void criarVinculoMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> meioComunicacao) {
+        try {
+            for (int i = 0; i < meioComunicacao.size(); i++) {
+                Meioscomunicacao meioscomunicacao = facadeJpa.getMeioComunicacaoJpa().findByName(meioComunicacao.get(i));
+                vincularMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void editarMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, Meioscomunicacao meioscomunicacao) {
+        try {
+            Meiosprocedimentoanalise meiosprocedimentoanalise = new Meiosprocedimentoanalise();
+            meiosprocedimentoanalise.setIdmeioComunicacao(meioscomunicacao.getId());
+            meiosprocedimentoanalise.setProcedimentoDeAnaliseid(procedimentodeanalise);
+            facadeJpa.getMeioComunicacaoProcedimentoAnaliseJpa().edit(meiosprocedimentoanalise);
+            System.out.println("criado vinculo meio comunicação com procedimento analise");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void editarVinculoMeioComunicacaoProcedimentoAnalise(Procedimentodeanalise procedimentodeanalise, List<String> meioComunicacao) {
+        try {
+            for (int i = 0; i < meioComunicacao.size(); i++) {
+                Meioscomunicacao meioscomunicacao = facadeJpa.getMeioComunicacaoJpa().findByName(meioComunicacao.get(i));
+                vincularMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, meioscomunicacao);
+            }
+        } catch (Exception e) {
+        }
     }
 
 }
