@@ -74,7 +74,6 @@ public class CtrlProcedimentoDeAnalise {
             //@TODO verficar a utilizacao do editar
             ctrlMeioComunicacao.editarVinculoMeioComunicacaoProcedimentoAnalise(procedimentodeanalise, listMeioComunicacao);
             ctrlPerfilInteressado.editarVinculoPerfilInteressadoProcedimentoAnalise(procedimentodeanalise, listPerfilInteressado);
-            System.out.println("Editado com sucesso.");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
