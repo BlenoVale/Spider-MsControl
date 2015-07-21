@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "datasprocedimentocoleta")
@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Datasprocedimentocoleta.findById", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.id = :id"),
     @NamedQuery(name = "Datasprocedimentocoleta.findByDia", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dia = :dia"),
     @NamedQuery(name = "Datasprocedimentocoleta.findByDataInicio", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dataInicio = :dataInicio"),
-    @NamedQuery(name = "Datasprocedimentocoleta.findByDataFim", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dataFim = :dataFim")})
+    @NamedQuery(name = "Datasprocedimentocoleta.findByDataFim", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.dataFim = :dataFim"),
+    @NamedQuery(name = "Datasprocedimentocoleta.findByEmUso", query = "SELECT d FROM Datasprocedimentocoleta d WHERE d.emUso = :emUso")})
 public class Datasprocedimentocoleta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,6 +51,9 @@ public class Datasprocedimentocoleta implements Serializable {
     @Column(name = "dataFim")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFim;
+    @Basic(optional = false)
+    @Column(name = "emUso")
+    private int emUso;
     @JoinColumn(name = "ProcedimentoDeColeta_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Procedimentodecoleta procedimentoDeColetaid;
@@ -59,6 +63,11 @@ public class Datasprocedimentocoleta implements Serializable {
 
     public Datasprocedimentocoleta(Integer id) {
         this.id = id;
+    }
+
+    public Datasprocedimentocoleta(Integer id, int emUso) {
+        this.id = id;
+        this.emUso = emUso;
     }
 
     public Integer getId() {
@@ -93,6 +102,14 @@ public class Datasprocedimentocoleta implements Serializable {
         this.dataFim = dataFim;
     }
 
+    public int getEmUso() {
+        return emUso;
+    }
+
+    public void setEmUso(int emUso) {
+        this.emUso = emUso;
+    }
+
     public Procedimentodecoleta getProcedimentoDeColetaid() {
         return procedimentoDeColetaid;
     }
@@ -115,8 +132,9 @@ public class Datasprocedimentocoleta implements Serializable {
             return false;
         }
         Datasprocedimentocoleta other = (Datasprocedimentocoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -124,5 +142,5 @@ public class Datasprocedimentocoleta implements Serializable {
     public String toString() {
         return "model.Datasprocedimentocoleta[ id=" + id + " ]";
     }
-
+    
 }

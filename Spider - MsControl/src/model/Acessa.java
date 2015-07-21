@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "acessa")
@@ -39,15 +39,15 @@ public class Acessa implements Serializable {
     @Column(name = "dataDeInicio")
     @Temporal(TemporalType.DATE)
     private Date dataDeInicio;
+    @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Perfil perfil;
     @JoinColumn(name = "Projeto_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Projeto projeto;
     @JoinColumn(name = "Usuario_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
-    @JoinColumn(name = "Perfil_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Perfil perfil;
 
     public Acessa() {
     }
@@ -76,6 +76,14 @@ public class Acessa implements Serializable {
         this.dataDeInicio = dataDeInicio;
     }
 
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
     public Projeto getProjeto() {
         return projeto;
     }
@@ -92,14 +100,6 @@ public class Acessa implements Serializable {
         this.usuario = usuario;
     }
 
-    public Perfil getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -114,8 +114,9 @@ public class Acessa implements Serializable {
             return false;
         }
         Acessa other = (Acessa) object;
-        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK)))
+        if ((this.acessaPK == null && other.acessaPK != null) || (this.acessaPK != null && !this.acessaPK.equals(other.acessaPK))) {
             return false;
+        }
         return true;
     }
 
@@ -123,5 +124,5 @@ public class Acessa implements Serializable {
     public String toString() {
         return "model.Acessa[ acessaPK=" + acessaPK + " ]";
     }
-
+    
 }

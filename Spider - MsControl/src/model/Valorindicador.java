@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "valorindicador")
@@ -109,8 +109,9 @@ public class Valorindicador implements Serializable {
             return false;
         }
         Valorindicador other = (Valorindicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -118,5 +119,5 @@ public class Valorindicador implements Serializable {
     public String toString() {
         return "model.Valorindicador[ id=" + id + " ]";
     }
-
+    
 }

@@ -23,6 +23,7 @@ import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
 import jpa.ValormedidaJpaController;
+import jpa.extensao.DatasProcedimentoColetaJpa;
 import jpa.extensao.MeioComunicacaoJpa;
 import jpa.extensao.MeioComunicacaoProcedimentoAnaliseJpa;
 import jpa.extensao.PerfilInteressadoJpa;
@@ -72,7 +73,7 @@ public class FacadeJpa {
     private final ProcedimentoColetaJpa procedimentoColetaJpa;
     private final EntidadeMedidaJpa entidadeMedidaJpa;
     private final ColetaJpa coletaJpa;
-    private final DatasprocedimentocoletaJpaController datasprocedimentocoletaJpaController;
+    private final DatasProcedimentoColetaJpa datasProcedimentoColetaJpa;
     private final ResultadosJpa resultadosJpa;
     private final RegistroresultadosJpaController registroResultadosJpa;
     private final ValormedidaJpaController valormedidaJpaController;
@@ -109,7 +110,7 @@ public class FacadeJpa {
         registroprocedimentocoletaJpaController = new RegistroprocedimentocoletaJpaController(Conexao.conectar());
         registroProcedimentoColeta = new RegistroProcedimentoColetaJpa();
         entidadeMedidaJpa = new EntidadeMedidaJpa();
-        datasprocedimentocoletaJpaController = new DatasprocedimentocoletaJpaController(Conexao.conectar());
+        datasProcedimentoColetaJpa = new DatasProcedimentoColetaJpa();
         resultadosJpa = new ResultadosJpa();
         registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
         valormedidaJpaController = new ValormedidaJpaController(Conexao.conectar());
@@ -234,8 +235,8 @@ public class FacadeJpa {
         return entidadeMedidaJpa;
     }
 
-    public DatasprocedimentocoletaJpaController getdDatasprocedimentocoletaJpaController() {
-        return datasprocedimentocoletaJpaController;
+    public DatasProcedimentoColetaJpa getDatasprocedimentoColetaJpa() {
+        return  datasProcedimentoColetaJpa;
     }
 
     public ResultadosJpa getResultadosJpa() {

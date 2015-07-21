@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "registroprocedimentoanalise")
@@ -136,8 +136,9 @@ public class Registroprocedimentoanalise implements Serializable {
             return false;
         }
         Registroprocedimentoanalise other = (Registroprocedimentoanalise) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -145,5 +146,5 @@ public class Registroprocedimentoanalise implements Serializable {
     public String toString() {
         return "model.Registroprocedimentoanalise[ id=" + id + " ]";
     }
-
+    
 }

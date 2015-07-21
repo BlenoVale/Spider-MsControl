@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "indicador")
@@ -259,8 +259,9 @@ public class Indicador implements Serializable {
             return false;
         }
         Indicador other = (Indicador) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -268,5 +269,5 @@ public class Indicador implements Serializable {
     public String toString() {
         return "model.Indicador[ id=" + id + " ]";
     }
-
+    
 }

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "procedimentodecoleta")
@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodecoleta.findByResponsavelPelaColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.responsavelPelaColeta = :responsavelPelaColeta"),
     @NamedQuery(name = "Procedimentodecoleta.findByMomento", query = "SELECT p FROM Procedimentodecoleta p WHERE p.momento = :momento"),
     @NamedQuery(name = "Procedimentodecoleta.findByPeriodicidade", query = "SELECT p FROM Procedimentodecoleta p WHERE p.periodicidade = :periodicidade"),
+    @NamedQuery(name = "Procedimentodecoleta.findByProximaPeriodicidade", query = "SELECT p FROM Procedimentodecoleta p WHERE p.proximaPeriodicidade = :proximaPeriodicidade"),
     @NamedQuery(name = "Procedimentodecoleta.findByFrequencia", query = "SELECT p FROM Procedimentodecoleta p WHERE p.frequencia = :frequencia"),
     @NamedQuery(name = "Procedimentodecoleta.findByTipoDeColeta", query = "SELECT p FROM Procedimentodecoleta p WHERE p.tipoDeColeta = :tipoDeColeta"),
     @NamedQuery(name = "Procedimentodecoleta.findByCalculo", query = "SELECT p FROM Procedimentodecoleta p WHERE p.calculo = :calculo"),
@@ -67,6 +68,8 @@ public class Procedimentodecoleta implements Serializable {
     @Basic(optional = false)
     @Column(name = "periodicidade")
     private String periodicidade;
+    @Column(name = "proximaPeriodicidade")
+    private String proximaPeriodicidade;
     @Basic(optional = false)
     @Column(name = "frequencia")
     private int frequencia;
@@ -163,6 +166,14 @@ public class Procedimentodecoleta implements Serializable {
 
     public void setPeriodicidade(String periodicidade) {
         this.periodicidade = periodicidade;
+    }
+
+    public String getProximaPeriodicidade() {
+        return proximaPeriodicidade;
+    }
+
+    public void setProximaPeriodicidade(String proximaPeriodicidade) {
+        this.proximaPeriodicidade = proximaPeriodicidade;
     }
 
     public int getFrequencia() {
@@ -277,8 +288,9 @@ public class Procedimentodecoleta implements Serializable {
             return false;
         }
         Procedimentodecoleta other = (Procedimentodecoleta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -286,5 +298,5 @@ public class Procedimentodecoleta implements Serializable {
     public String toString() {
         return "model.Procedimentodecoleta[ id=" + id + " ]";
     }
-
+    
 }

@@ -3,6 +3,8 @@ package controller;
 import facade.FacadeJpa;
 import java.util.List;
 import model.Coleta;
+import model.Datasprocedimentocoleta;
+import model.Procedimentodecoleta;
 
 /**
  *
@@ -47,6 +49,14 @@ public class CtrlColeta {
         } catch (Exception error) {
             error.printStackTrace();
             return false;
+        }
+    }
+    
+    public List<Datasprocedimentocoleta> buscaDataProcedimentoColetaEmUso (int idProcedimento){
+        try {
+            return facadeJpa.getDatasprocedimentoColetaJpa().findDatasEmUso(idProcedimento);
+        } catch (Exception error) {
+            throw error;
         }
     }
 

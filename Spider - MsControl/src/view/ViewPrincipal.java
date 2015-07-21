@@ -566,8 +566,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_PlanoDeMedicao.setVisible(false);
         viewProjeto_Relatorio.setVisible(false);
 
-        if (tela != null)
+        if (tela != null) {
             tela.setVisible(true);
+        }
     }
 
     private void trocaDeTelasPelaArvore() {
@@ -605,7 +606,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_MedicaoDefinicao.preencherTabelaRecarregar();
         } else if (no_filho.equals("Coleta") && no_pai.endsWith("Medidas")) {
             viewProjeto_Coletas.preencherTabelaMedidaDoProjeto();
-//            viewProjeto_Coletas.calcularSePeriodoFoiAtingido();
+            viewProjeto_Coletas.calcularSePeriodoFoiAtingido();
+            viewProjeto_Coletas.temProcedimento(null);
+            viewProjeto_Coletas.limparCampos();
             trocaTelas(viewProjeto_Coletas);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Procedimentos")) {
             viewProjeto_ProcedimentoAnalise.preencherTabelaProcedimentoAnaliseDoProjeto();

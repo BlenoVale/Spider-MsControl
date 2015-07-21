@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "meioscomunicacao")
@@ -94,8 +94,9 @@ public class Meioscomunicacao implements Serializable {
             return false;
         }
         Meioscomunicacao other = (Meioscomunicacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -103,5 +104,5 @@ public class Meioscomunicacao implements Serializable {
     public String toString() {
         return "model.Meioscomunicacao[ id=" + id + " ]";
     }
-
+    
 }

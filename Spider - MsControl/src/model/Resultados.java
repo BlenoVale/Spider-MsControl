@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "resultados")
@@ -179,8 +179,9 @@ public class Resultados implements Serializable {
             return false;
         }
         Resultados other = (Resultados) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -188,5 +189,5 @@ public class Resultados implements Serializable {
     public String toString() {
         return "model.Resultados[ id=" + id + " ]";
     }
-
+    
 }

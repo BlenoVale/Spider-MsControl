@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Entity
 @Table(name = "objetivodemedicao")
@@ -181,8 +181,9 @@ public class Objetivodemedicao implements Serializable {
             return false;
         }
         Objetivodemedicao other = (Objetivodemedicao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
+        }
         return true;
     }
 
@@ -190,5 +191,5 @@ public class Objetivodemedicao implements Serializable {
     public String toString() {
         return "model.Objetivodemedicao[ id=" + id + " ]";
     }
-
+    
 }

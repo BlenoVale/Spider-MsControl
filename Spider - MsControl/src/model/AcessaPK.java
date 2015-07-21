@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 @Embeddable
 public class AcessaPK implements Serializable {
@@ -75,12 +75,15 @@ public class AcessaPK implements Serializable {
             return false;
         }
         AcessaPK other = (AcessaPK) object;
-        if (this.projetoid != other.projetoid)
+        if (this.projetoid != other.projetoid) {
             return false;
-        if (this.usuarioid != other.usuarioid)
+        }
+        if (this.usuarioid != other.usuarioid) {
             return false;
-        if (this.perfilid != other.perfilid)
+        }
+        if (this.perfilid != other.perfilid) {
             return false;
+        }
         return true;
     }
 
@@ -88,5 +91,5 @@ public class AcessaPK implements Serializable {
     public String toString() {
         return "model.AcessaPK[ projetoid=" + projetoid + ", usuarioid=" + usuarioid + ", perfilid=" + perfilid + " ]";
     }
-
+    
 }

@@ -28,6 +28,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     List<Datasprocedimentocoleta> listaDatas;
     private FacadeJpa jpa = FacadeJpa.getInstance();
     private boolean novoProcedimento = false;
+    private boolean aux = false;
 
     public ViewProjeto_ProcedimentoColetaNovo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -73,7 +74,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "O campo \"Mínimo de coletas\" só permite números entre 1 e 100.");
                 return false;
             }
-        } else if (jTextFieldMinimoDeColeta.getText().isEmpty()){
+        } else if (jTextFieldMinimoDeColeta.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo \"Mínimo de coletas\" é obrigatório");
             return false;
         }
@@ -153,6 +154,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         jTextFieldUltimaEdicao.setVisible(false);
         jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
         novoProcedimento = true;
+        aux= true;
     }
 
     public void showDialogEditar(Medida medida) {
@@ -169,7 +171,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta = FacadeJpa.getInstance().getProcedimentoColetaJpa().findByProjeto(medida.getId(), Copia.getProjetoSelecionado().getId());
         popularRegistroEditar(procedimentodecoleta);
         novoProcedimento = false;
-
+        
     }
 
     public void popularComboBoxEditarMedida(Medida medida) {
@@ -184,8 +186,12 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta = jpa.getProcedimentoColetaJpa().findByProjeto(medida.getId(), Copia.getProjetoSelecionado().getId());
         jTextFieldResponsavelColeta.setText(procedimentodecoleta.getResponsavelPelaColeta());
         jComboBoxMomento.setSelectedItem(procedimentodecoleta.getMomento());
+
         jComboBoxPeriodicidade.setSelectedItem(procedimentodecoleta.getPeriodicidade());
+
+        jComboBoxCalculo.setSelectedItem(procedimentodecoleta.getCalculo());
         jTextFieldFrequencia.setText(String.valueOf(procedimentodecoleta.getFrequencia()));
+        jTextFieldMinimoDeColeta.setText(String.valueOf(procedimentodecoleta.getPorcentagem() * 100));
         jTextAreaPassosColeta.setText(procedimentodecoleta.getPassosColeta());
         preencherRadioEditar(procedimentodecoleta.getTipoDeColeta());
         jTextFieldFerramentaUtilizada.setText(procedimentodecoleta.getFerramentasUtilizada());
@@ -360,7 +366,11 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
 
         jLabel5.setText("Periodicidade:");
 
-        jComboBoxPeriodicidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPeriodicidade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jComboBoxPeriodicidadeMousePressed(evt);
+            }
+        });
         jComboBoxPeriodicidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxPeriodicidadeActionPerformed(evt);
@@ -540,7 +550,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonCancelar)))
                 .addContainerGap())
         );
@@ -561,10 +571,10 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
                     .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -604,20 +614,21 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         procedimentodecoleta.setMomento(jComboBoxMomento.getSelectedItem().toString());
         procedimentodecoleta.setObservacao(jTextAreaObservacao.getText());
         procedimentodecoleta.setPassosColeta(jTextAreaPassosColeta.getText());
-        procedimentodecoleta.setPeriodicidade(jComboBoxPeriodicidade.getSelectedItem().toString());
         procedimentodecoleta.setResponsavelPelaColeta(jTextFieldResponsavelColeta.getText());
         procedimentodecoleta.setTipoDeColeta(pegarRadioSelecionado());
         procedimentodecoleta.setProjetoId(Copia.getProjetoSelecionado().getId());
         procedimentodecoleta.setCalculo(jComboBoxCalculo.getSelectedItem().toString());
         double prctgm = Double.parseDouble(jTextFieldMinimoDeColeta.getText());
-        procedimentodecoleta.setPorcentagem(prctgm/100);
+        procedimentodecoleta.setPorcentagem(prctgm / 100);
         procedimentodecoleta.setContadorColeta(0);
 
         boolean feito = false;
         if (novoProcedimento) {
+            procedimentodecoleta.setPeriodicidade(jComboBoxPeriodicidade.getSelectedItem().toString());
             feito = ctrlProcedimentosColeta.criarProcedimentoColeta(procedimentodecoleta, listaDatas);
         } else {
-            feito = ctrlProcedimentosColeta.editarProcedimentoColeta(procedimentodecoleta);
+            procedimentodecoleta.setProximaPeriodicidade(jComboBoxPeriodicidade.getSelectedItem().toString());
+            feito = ctrlProcedimentosColeta.editarProcedimetoDeColetaEhData(procedimentodecoleta, listaDatas);
         }
         if (feito) {
             this.dispose();
@@ -646,33 +657,35 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jRadioButtonPlanilhaActionPerformed
 
     private void jComboBoxPeriodicidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPeriodicidadeActionPerformed
-        if (jComboBoxPeriodicidade.getSelectedIndex() == 0) {
-            return;
-        }
+        if (aux) {
+            if (jComboBoxPeriodicidade.getSelectedIndex() == 0) {
+                return;
+            }
 
-        Calendario calendario = new Calendario(null, true);
-        if (jComboBoxPeriodicidade.getSelectedIndex() == 1) {
-            calendario.showCalendarioDiarioDialog("Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
-            calendario.showCalendarioSemanalDialog("Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
-            calendario.showCalendarioOutrosPeriodosDialog("Quinzenal", "Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
-            calendario.showCalendarioOutrosPeriodosDialog("Mensal", "Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
-            calendario.showCalendarioOutrosPeriodosDialog("Bimestral", "Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
-            calendario.showCalendarioOutrosPeriodosDialog("Trimestral", "Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
-            calendario.showCalendarioOutrosPeriodosDialog("Semestral", "Coleta");
-        } else if (jComboBoxPeriodicidade.getSelectedIndex() == 8) {
-            calendario.showCalendarioOutrosPeriodosDialog("Anual", "Coleta");
-        }
+            Calendario calendario = new Calendario(null, true);
+            if (jComboBoxPeriodicidade.getSelectedIndex() == 1) {
+                calendario.showCalendarioDiarioDialog("Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 2) {
+                calendario.showCalendarioSemanalDialog("Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 3) {
+                calendario.showCalendarioOutrosPeriodosDialog("Quinzenal", "Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 4) {
+                calendario.showCalendarioOutrosPeriodosDialog("Mensal", "Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 5) {
+                calendario.showCalendarioOutrosPeriodosDialog("Bimestral", "Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 6) {
+                calendario.showCalendarioOutrosPeriodosDialog("Trimestral", "Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 7) {
+                calendario.showCalendarioOutrosPeriodosDialog("Semestral", "Coleta");
+            } else if (jComboBoxPeriodicidade.getSelectedIndex() == 8) {
+                calendario.showCalendarioOutrosPeriodosDialog("Anual", "Coleta");
+            }
 
-        listaDatas = new ArrayList<>();
-        listaDatas = calendario.getListaDataProcedimentoColeta();
-        if (listaDatas.isEmpty()) {
-            jComboBoxPeriodicidade.setSelectedIndex(0);
+            listaDatas = new ArrayList<>();
+            listaDatas = calendario.getListaDataProcedimentoColeta();
+            if (listaDatas.isEmpty()) {
+                jComboBoxPeriodicidade.setSelectedIndex(0);
+            }
         }
     }//GEN-LAST:event_jComboBoxPeriodicidadeActionPerformed
 
@@ -683,6 +696,10 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     private void jTextFieldMinimoDeColetaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMinimoDeColetaKeyTyped
         jTextFieldSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldMinimoDeColetaKeyTyped
+
+    private void jComboBoxPeriodicidadeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxPeriodicidadeMousePressed
+        aux = true;
+    }//GEN-LAST:event_jComboBoxPeriodicidadeMousePressed
 
     /**
      * @param args the command line arguments

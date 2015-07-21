@@ -20,6 +20,7 @@ import model.Coleta;
 import model.Datasprocedimentocoleta;
 import model.Medida;
 import model.Valormedida;
+import util.Constantes;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
@@ -50,7 +51,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         initComponents();
         Internal.retiraBotao(this);
 
-        temProcedimento(null);
+        //temProcedimento(null);
     }
 
     //Tabela de medidas:
@@ -73,11 +74,21 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         listaMedida = ctrlMedida.getMedidaDoProjeto(idDoProjeto);
     }
 
+    public void limparCampos(){
+        medidaSelecionada = new Medida();
+        
+        jLabelPeriodicidade.setText("Periodicidade:");
+        jLabelFrequencia.setText("Frequência:");
+        jLabelJaColetados.setText("Já coletados:");
+        
+        DefaultTableModel tableModelLimpa = new DefaultTableModel();
+        jTablePeriodicidade.setModel(tableModelLimpa );
+        
+    }
     public void preencherTabelaMedidaDoProjeto() {
         atualizaListaMedidaDoProjeto();
         preencherTabela(listaMedida);
-
-        calcularSePeriodoFoiAtingido();
+        
     }
 
     private void pegarMedidaSelecionada() {
@@ -182,7 +193,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         return true;
     }
 
-    private void temProcedimento(Medida medida) {
+    public void temProcedimento(Medida medida) {
         contador = 0;
         if (medida == null) {
             jLabelTipo.setHorizontalAlignment(JLabel.CENTER);
@@ -204,6 +215,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             jTextFieldValorColeta.setVisible(false);
             jButtonImporta.setVisible(false);
             jButtonSalvar.setEnabled(false);
+            limparCampos();
             return;
         }
         List<Datasprocedimentocoleta> datas = new ArrayList<>();
@@ -213,7 +225,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             case "Diário":
                 jLabelPeriodicidade.setText("<html><center>Periodicidade: <b>Diário</b></center></html>");
                 for (Datasprocedimentocoleta data : datas) {
-                    defaultTableModel.addRow(new String[]{"<html><center><b>" + data.getDia() + "</b></center></html>"});
+                    if (data.getEmUso() == Constantes.EM_USO) {
+                        defaultTableModel.addRow(new String[]{"<html><center><b>" + data.getDia() + "</b></center></html>"});
+                    }
                 }
                 jTablePeriodicidade.setModel(defaultTableModel);
                 break;
@@ -282,40 +296,45 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     private boolean checaLimitePeriodicidade(Medida medida) {
         boolean periodoDeColeta = false;
+
         switch (medida.getProcedimentodecoletaList().get(0).getPeriodicidade()) {
+
             case "Diário":
                 List<Datasprocedimentocoleta> datasProcedimento = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList();
                 Date dataHojeDiario = new Date();
                 for (int i = 0; i < datasProcedimento.size(); i++) {
-                    switch (datasProcedimento.get(i).getDia()) {
-                        case "Domingo":
-                            periodoDeColeta = dataHojeDiario.getDay() == 0;
+                    if (datasProcedimento.get(i).getEmUso() == Constantes.EM_USO) {
+                        switch (datasProcedimento.get(i).getDia()) {
+                            case "Domingo":
+                                periodoDeColeta = dataHojeDiario.getDay() == 0;
+                                break;
+                            case "Segunda-feira":
+                                periodoDeColeta = dataHojeDiario.getDay() == 1;
+                                break;
+                            case "Terça-feira":
+                                periodoDeColeta = dataHojeDiario.getDay() == 2;
+                                break;
+                            case "Quarta-feira":
+                                periodoDeColeta = dataHojeDiario.getDay() == 3;
+                                break;
+                            case "Quinta-feira":
+                                periodoDeColeta = dataHojeDiario.getDay() == 4;
+                                break;
+                            case "Sexta-feira":
+                                periodoDeColeta = dataHojeDiario.getDay() == 5;
+                                break;
+                            case "Sabádo":
+                                periodoDeColeta = dataHojeDiario.getDay() == 6;
+                                break;
+                        }
+                        tipoDeColeta(periodoDeColeta, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
+                        if (periodoDeColeta) {
                             break;
-                        case "Segunda-feira":
-                            periodoDeColeta = dataHojeDiario.getDay() == 1;
-                            break;
-                        case "Terça-feira":
-                            periodoDeColeta = dataHojeDiario.getDay() == 2;
-                            break;
-                        case "Quarta-feira":
-                            periodoDeColeta = dataHojeDiario.getDay() == 3;
-                            break;
-                        case "Quinta-feira":
-                            periodoDeColeta = dataHojeDiario.getDay() == 4;
-                            break;
-                        case "Sexta-feira":
-                            periodoDeColeta = dataHojeDiario.getDay() == 5;
-                            break;
-                        case "Sabádo":
-                            periodoDeColeta = dataHojeDiario.getDay() == 6;
-                            break;
-                    }
-                    tipoDeColeta(periodoDeColeta, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
-                    if (periodoDeColeta) {
-                        break;
+                        }
                     }
                 }
                 break;
+
             case "Semanal":
                 break;
             default:
@@ -338,7 +357,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 boolean fimPeriodo = false;
                 switch (listaMedida.get(j).getProcedimentodecoletaList().get(0).getPeriodicidade()) {
                     case "Diário":
-                        List<Datasprocedimentocoleta> datasProcedimento = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList();
+                        List<Datasprocedimentocoleta> datasProcedimento = ctrlColeta.buscaDataProcedimentoColetaEmUso(listaMedida.get(j).getProcedimentodecoletaList().get(0).getId());
                         dataHoje = new Date();
                         for (int i = 0; i < datasProcedimento.size(); i++) {
                             switch (datasProcedimento.get(i).getDia()) {
@@ -368,15 +387,21 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                                 boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                                 if (resposta) {
                                     calcularValorColeta(listaMedida.get(j));
+                                } else {
+                                    naoAtingiuPorcentagem(listaMedida.get(j));
                                 }
                                 listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
                                 ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                                 break;
                             }
+
+                            if (fimPeriodo && listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().size() > 1) {
+                                ctrlProcedimentosColeta.trocaPeriodicidade(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                            }
                         }
                         break;
                     case "Semanal":
-                        String dataFimSemanal = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(1).getDia();
+                        String dataFimSemanal = ctrlColeta.buscaDataProcedimentoColetaEmUso(listaMedida.get(j).getProcedimentodecoletaList().get(0).getId()).get(1).getDia();
                         dataHoje = new Date();
                         switch (dataFimSemanal) {
                             case "Domingo":
@@ -405,31 +430,40 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                             boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                             if (resposta) {
                                 calcularValorColeta(listaMedida.get(j));
+                            } else {
+                                naoAtingiuPorcentagem(listaMedida.get(j));
                             }
                             listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
                             ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                             break;
                         }
+
+                        if (fimPeriodo && listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().size() > 1) {
+                            ctrlProcedimentosColeta.trocaPeriodicidade(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                        }
                         break;
                     default:
-                        Date dataFim = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataFim();
+                        Date dataFim = ctrlColeta.buscaDataProcedimentoColetaEmUso(listaMedida.get(j).getProcedimentodecoletaList().get(0).getId()).get(0).getDataFim();
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(dataFim);
                         calendar.add(Calendar.DAY_OF_MONTH, 1);
                         Date dataHojeOutros = new Date();
-                        fimPeriodo = (dataHojeOutros.getDate() == calendar.getTime().getDate());
+                        fimPeriodo = (dataHojeOutros.getDate() >= calendar.getTime().getDate());
 
                         if (fimPeriodo && !listaColeta.isEmpty()) {
                             boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                             if (resposta) {
                                 calcularValorColeta(listaMedida.get(j));
+                            } else {
+                                naoAtingiuPorcentagem(listaMedida.get(j));
                             }
                             listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
                             ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                             break;
                         }
-
-                        if (fimPeriodo) {
+                        if (fimPeriodo && listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().size() > 1) {
+                            ctrlProcedimentosColeta.trocaPeriodicidade(listaMedida.get(j).getProcedimentodecoletaList().get(0));
+                        } else if (fimPeriodo) {
                             if ("Quinzenal".equals(listaMedida.get(j).getProcedimentodecoletaList().get(0).getPeriodicidade())) {
                                 calendar.add(Calendar.DAY_OF_MONTH, 15);
                             } else {
@@ -438,7 +472,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                             Datasprocedimentocoleta datasprocedimentocoleta = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0);
                             datasprocedimentocoleta.setDataInicio(dataHojeOutros);
                             datasprocedimentocoleta.setDataFim(calendar.getTime());
-                            ctrlProcedimentosColeta.EditaDataProcedimentoColeta(datasprocedimentocoleta);
+                            ctrlProcedimentosColeta.editaDataProcedimentoColeta(datasprocedimentocoleta);
                             break;
                         }
                 }
@@ -506,6 +540,21 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             }
         }
 
+    }
+
+    private void naoAtingiuPorcentagem(Medida medida) {
+        Valormedida valormedida = new Valormedida();
+        listaColeta = new CtrlColeta().getColetaDaMedidaNaoUsadas(medida.getId());
+        valormedida.setMedidaid(medida);
+        valormedida.setData(new Date());
+        valormedida.setUsado(false);
+        valormedida.setValor(-1);
+        boolean passou = ctrlMedida.cadastraValorMedida(valormedida);
+        if (passou) {
+            for (int i = 0; i < listaColeta.size(); i++) {
+                ctrlColeta.editarColeta(listaColeta.get(i));
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
