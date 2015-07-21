@@ -118,7 +118,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
 
-        editarRadioComposicao(procedimentodeanaliseUsuario.getComposicao());
+        editarRadioComposicao(procedimentodeanaliseUsuario);
         editarFormula(procedimentodeanaliseUsuario);
         editarGrafico(procedimentodeanaliseUsuario);
         editarPeriodicidade(procedimentodeanaliseUsuario);
@@ -131,10 +131,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         editarCheckJTablePerfilInteressados(procedimentodeanalise);
     }
 
-    public void editarRadioComposicao(String composicao) {
-        if (composicao.equals("Base"))
+    public void editarRadioComposicao(Procedimentodeanalise procedimentodeanalise) {
+        if (procedimentodeanalise.getComposicao().equals("Base")){
             jRadioButtonBase.setSelected(true);
-        else
+            jComboBoxMedidaRelacionada.setVisible(true);
+            jTextFieldFormula.setText(procedimentodeanalise.getFormula());
+            bloquearAbaFormula();
+        }else 
             jRadioButtonDerivada.setSelected(true);
     }
 
@@ -214,7 +217,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         for (int i = 0; i < TAM; i++) {
 
             if ((boolean) jTableMeios.getModel().getValueAt(i, 0) == true) {
-                System.out.println("True linha: " + i);
                 listMeiosComunicacao.add(jTableMeios.getModel().getValueAt(i, 1).toString());
             }
         }
@@ -230,7 +232,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         for (int i = 0; i < TAM; i++) {
 
             if ((boolean) jTablePerfisInteressados.getModel().getValueAt(i, 0) == true) {
-                System.out.println("True linha: " + i);
                 listMeiosComunicacao.add(jTablePerfisInteressados.getModel().getValueAt(i, 1).toString());
             }
         }
@@ -441,8 +442,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 cont++;
             }
         }
-        //@TODO verificação da DATA ser menor que data atual
-        
+        if (!validaDataComunicacao()){
+            mensagem = "A \"Data de Comunicação\" deve ser maior que a data atual.";
+            cont++;
+        }
+               
         if(listMeioComunicacaoIsCheked().isEmpty()){
             mensagem = "Campo \"Meios de Comunicação\" deve ser marcado pelo menos um";
             cont++;
@@ -461,6 +465,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Mais de um campo estão vazios ou inválidos.");
             return false;
         }
+    }
+    
+    public boolean validaDataComunicacao(){
+        Date dateCalendario = (Date) dateField.getValue();
+        
+        if (dateCalendario.before(new Date()) && dateCalendario.getDay() != new Date().getDate()) {
+            return false;
+        }
+        return true;
     }
 
     private void selecionarRadio() {
@@ -602,7 +615,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    public void bloquearAba() {
+    public void bloquearAbaFormula() {
         if (jRadioButtonBase.isSelected() == true) {
             jTabbedPane1.setEnabledAt(3, false);
             jTextFieldFormula.setText("");
@@ -1944,12 +1957,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jRadioButtonDerivadaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRadioButtonDerivadaActionPerformed
     {//GEN-HEADEREND:event_jRadioButtonDerivadaActionPerformed
-        bloquearAba();
+        bloquearAbaFormula();
     }//GEN-LAST:event_jRadioButtonDerivadaActionPerformed
 
     private void jRadioButtonBaseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jRadioButtonBaseActionPerformed
     {//GEN-HEADEREND:event_jRadioButtonBaseActionPerformed
-        bloquearAba();
+        bloquearAbaFormula();
     }//GEN-LAST:event_jRadioButtonBaseActionPerformed
 
     private void jButtonCadastrarMeioComunicacaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCadastrarMeioComunicacaoActionPerformed
