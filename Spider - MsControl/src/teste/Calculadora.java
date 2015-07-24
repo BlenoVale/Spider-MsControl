@@ -14,10 +14,12 @@ public class Calculadora extends javax.swing.JFrame {
     /**
      * Creates new form Calculadora
      */
-    //TelaCalculadora telaCalculadora = new TelaCalculadora();
+    static final int NUMERO = 0;
+    static final int SINAL = 1;
+    static int ULTIMAINSERCAO = 0;
+
     public Calculadora() {
         initComponents();
-        //telaCalculadora.setVisible(true);
 
     }
 
@@ -28,6 +30,20 @@ public class Calculadora extends javax.swing.JFrame {
             return true;
         }
         return false;
+    }
+
+    public int verificaUltimaInsercao() {
+        return Calculadora.ULTIMAINSERCAO;
+    }
+
+    private void InsereNumero() {
+
+        Calculadora.ULTIMAINSERCAO = Calculadora.NUMERO;
+    }
+
+    private void InsereSinal() {
+        Calculadora.ULTIMAINSERCAO = Calculadora.SINAL;
+
     }
 
     /**
@@ -314,32 +330,32 @@ public class Calculadora extends javax.swing.JFrame {
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
 
         jTextField1.setText(jTextField1.getText() + "7");
-        //telaCalculadora.insereDigitoCalculadora("7");
+
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
         jTextField1.setText(jTextField1.getText() + "8");
-        //telaCalculadora.insereDigitoCalculadora("8");
+
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         jTextField1.setText(jTextField1.getText() + "9");
-        //telaCalculadora.insereDigitoCalculadora("9");
+
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jTextField1.setText(jTextField1.getText() + "/");
-        //telaCalculadora.insereDigitoCalculadora("/");
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         jTextField1.setText(jTextField1.getText() + "4");
-        //telaCalculadora.insereDigitoCalculadora("4");
+
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         jTextField1.setText(jTextField1.getText() + "5");
-        //telaCalculadora.insereDigitoCalculadora("5");
+
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
