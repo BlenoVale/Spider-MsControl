@@ -45,13 +45,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private List<Medida> listMedidaRelacionada;
     private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
-    static final int NUMERO = 0;
-    static final int SINAL = 1;
-    static final int MNEMONICO = 2;
-    static int ULTIMAINSERCAO = 0;
-    static int VIRGULA = 0;
+    String [] numbers = new String[] {"0" , "1" , "2", "3" , "4", "5" ,"6" ,"7" , "8" , "9"};
+    String [] sinals = new String[] {"/" , "+", "*", "-", "."};
+    
+    ArrayList<String> mnemonico = new ArrayList<>();
+    ArrayList<String> insercaoFormula = new ArrayList<>();
 
     private boolean ehNovoProcedimentoAnalise;
+    
+    private int idProjeto = Copia.getProjetoSelecionado().getId();
+    private String nomeUsuario = Copia.getUsuarioLogado().getNome();
 
     FacadeJpa facadeJpa = FacadeJpa.getInstance();
 
@@ -64,6 +67,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         ocultarMedidaRelacionada();
         iniciarTabela();
         recarregarTabela();
+        preencherArrayMnemonico();
         this.pack();
 
     }
@@ -662,79 +666,76 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
     }
 
-    public String excluirUltimaLetra(String texto) {
-
-        if (!texto.isEmpty()) {
-            int length = texto.length();
-            if (verificaOperandos(texto)) {
-                texto = texto.substring(0, length - 1);
-            } else {
-                texto = texto.substring(0, length - 2);
-            }
-
-            jTextFieldFormula.setText(texto);
-            return texto;
-        }
-        return null;
-    }
-
-    public boolean verificaSinais(String formulas) {
-        String caractere = "";
-        if (!formulas.isEmpty()) {
-            caractere = String.valueOf(formulas.charAt(formulas.length() - 1));
-        }
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals(".") || caractere.equals("/") || caractere.equals("+")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean verificaSomenteOperandos(String formula) {
-        String caractere = "";
-        if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
-        }
-        if (caractere.equals("*") || caractere.equals("-") || caractere.equals("/") || caractere.equals("+") || caractere.equals("") || caractere.equals("(")) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public int verificaUltimaInsercao() {
-        return ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO;
-    }
-
-    private void InsereNumero() {
-
-        ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO = ViewProjeto_ProcedimentoAnaliseNovo.NUMERO;
-    }
-
-    private void InsereSinal() {
-        ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO = ViewProjeto_ProcedimentoAnaliseNovo.SINAL;
-
-    }
-
-    private void InsereMnemonico() {
-        ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO = ViewProjeto_ProcedimentoAnaliseNovo.MNEMONICO;
-
-    }
-
     private String removerEspacoEmBranco() {
 
         String formula = jTextFieldFormula.getText().toString();
+        boolean isNumber = false;
+        String charA = null;
+        String charB = null;
+        
+        if(formula.isEmpty() == false){
 
-        if (verificaUltimaInsercao() == ViewProjeto_ProcedimentoAnaliseNovo.NUMERO) {
-
-            if (ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO == ViewProjeto_ProcedimentoAnaliseNovo.NUMERO) {
-
-                return formula.trim();
+            charA = String.valueOf(formula.charAt(formula.length()-1));
+            charB = String.valueOf(formula.charAt(formula.length()-2));
+        
+            for (int i = 0; i < numbers.length; i++) {
+                if(charA.equals(numbers[i]) || charB.equals(numbers[i]))
+                    isNumber = true;
             }
         }
-
+        if (isNumber)
+            return formula.trim();
         return formula;
+    }
+    
+      private boolean isSinalUltimo() {
 
+        String formula = jTextFieldFormula.getText().toString();
+        boolean isSinal = false;
+        String charA = null;
+        String charB = null;
+        
+        if(formula.isEmpty() == false){
+
+            charA = String.valueOf(formula.charAt(formula.length()-1));
+            charB = String.valueOf(formula.charAt(formula.length()-2));
+        
+            for (int i = 0; i < sinals.length; i++) {
+                if(charA.equals(sinals[i]) || charB.equals(sinals[i]))
+                    isSinal = true;
+            }
+        }
+        if (isSinal)
+            return true;
+        return false;
+    }
+      
+      private void preencherArrayMnemonico(){
+          List<Medida> medidas = jpa.getMedidaJpa().findByProjeto(idProjeto);
+          for (int i = 0; i < medidas.size(); i++) {
+              mnemonico.add(medidas.get(i).getMnemonico());
+          }
+      }
+      private boolean isSinalUltimoParenteAberto() {
+
+        String formula = jTextFieldFormula.getText().toString();
+        boolean isSinal = false;
+        String charA = null;
+        String charB = null;
+        
+        if(formula.isEmpty() == false){
+
+            charA = String.valueOf(formula.charAt(formula.length()-1));
+            charB = String.valueOf(formula.charAt(formula.length()-2));
+        
+            for (int i = 0; i < sinals.length; i++) {
+                if(charA.equals(sinals[i]) || charB.equals(sinals[i]) || charA.equals("(") || charB.equals("(") )
+                    isSinal = true;
+            }
+        }
+        if (isSinal)
+            return true;
+        return false;
     }
 
     private boolean verificaInsercaoParenteseFechado() {
@@ -742,45 +743,46 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         String formula = jTextFieldFormula.getText().toString();
         int contA = 0;
         int contB = 0;
-        char caractereA = '(';
-        char caractereB = ')';
+        String parenteseAberto = "(";
+        String parenteseFechado = ")";
         if (!formula.isEmpty()) {
             for (int i = 0; i < formula.length(); i++) {
-                if (formula.charAt(i) == caractereA) {
+                String letra = String.valueOf(formula.charAt(i));
+                if ( letra.equals(parenteseAberto)) {
                     contA++;
-                } else if (formula.charAt(i) == caractereB) {
+                } else if (letra.equals(parenteseFechado)) {
                     contB++;
                 }
             }
         }
 
-        if (contA > contB) {
+        if (contA > contB) 
             return true;
-        }
         return false;
 
     }
-
-    private boolean verificaInsercaoVirgula() {
+     private boolean verificaInsercaoVirgula() {
 
         String formula = jTextFieldFormula.getText().toString();
         int contA = 0;
-
-        char caractereA = '.';
-
+        int contB = 0;
+        String virgula = ".";
+        
         if (!formula.isEmpty()) {
             for (int i = 0; i < formula.length(); i++) {
-                if (formula.charAt(i) == caractereA)
+                String letra = String.valueOf(formula.charAt(i));
+                if ( letra.equals(virgula)) {
                     contA++;
-
+                
             }
-
         }
-        if (contA == 0)
+        }
+        if (contA == contB) 
             return true;
-
         return false;
-    }
+
+    
+   }
 
     private void excluirUltimaLetra() {
 
@@ -794,19 +796,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
 
     }
-
-    private boolean verificaInsercaoSinal() {
-        return ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO == ViewProjeto_ProcedimentoAnaliseNovo.NUMERO && !jTextFieldFormula.getText().isEmpty();
-    }
-
-    private boolean verificaUsoVirgula() {
-        return ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO == ViewProjeto_ProcedimentoAnaliseNovo.NUMERO && verificaInsercaoVirgula();
-    }
-
-    private boolean verificaInsercaoParenteseAberto() {
-        return jTextFieldFormula.getText().isEmpty() || ViewProjeto_ProcedimentoAnaliseNovo.ULTIMAINSERCAO == ViewProjeto_ProcedimentoAnaliseNovo.SINAL;
-    }
-
     public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
@@ -867,16 +856,25 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
-    public boolean bloquearNumeroAposParenteseFechado(String formula) {
-        String caractere = "";
+    public boolean isParenteseFechadoUltimo() {
+        
+        String formula = jTextFieldFormula.getText().toString();
+        String caractereA = "";
+        String caractereB = "";
         if (!formula.isEmpty()) {
-            caractere = String.valueOf(formula.charAt(formula.length() - 1));
+            caractereA = String.valueOf(formula.charAt(formula.length() - 1));
+            //@TODO VERIFICAR ERRO DA VIRGULA
+            caractereB = String.valueOf(formula.charAt(formula.length() - 2));
         }
-        if (caractere.equals(")"))
+        if (caractereA.equals(")") || caractereB.equals(")"))
             return true;
         return false;
     }
-
+    private boolean validacaoUsoVirgula()
+    {
+        return !isParenteseFechadoUltimo() && !isSinalUltimo() && !jTextFieldFormula.getText().isEmpty() && verificaInsercaoVirgula();
+    }
+    
     public boolean permitirSinaisAposParenteseFechado(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
@@ -1015,25 +1013,25 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jLabel21 = new javax.swing.JLabel();
         jTextFieldFormula = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonAdicao = new javax.swing.JButton();
+        jButtonVirgula = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jButtonSubtracao = new javax.swing.JButton();
+        jButtonMultiplicar = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
         jButton21 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton23 = new javax.swing.JButton();
+        jButtonDividir = new javax.swing.JButton();
+        jButtonParenteseFechado = new javax.swing.JButton();
+        jButton1ParenteseAberto = new javax.swing.JButton();
+        jButtonApagarTudo = new javax.swing.JButton();
+        jButtonApagarUltimo = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTablePerfisInteressados = new javax.swing.JTable();
@@ -1453,21 +1451,21 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jPanel11.setBackground(new java.awt.Color(204, 204, 204));
         jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jButton7.setText("+");
-        jButton7.addActionListener(new java.awt.event.ActionListener()
+        jButtonAdicao.setText("+");
+        jButtonAdicao.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton7ActionPerformed(evt);
+                jButtonAdicaoActionPerformed(evt);
             }
         });
 
-        jButton2.setText(".");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
+        jButtonVirgula.setText(".");
+        jButtonVirgula.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton2ActionPerformed(evt);
+                jButtonVirgulaActionPerformed(evt);
             }
         });
 
@@ -1507,21 +1505,21 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
-        jButton8.setText("-");
-        jButton8.addActionListener(new java.awt.event.ActionListener()
+        jButtonSubtracao.setText("-");
+        jButtonSubtracao.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton8ActionPerformed(evt);
+                jButtonSubtracaoActionPerformed(evt);
             }
         });
 
-        jButton9.setText("*");
-        jButton9.addActionListener(new java.awt.event.ActionListener()
+        jButtonMultiplicar.setText("*");
+        jButtonMultiplicar.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton9ActionPerformed(evt);
+                jButtonMultiplicarActionPerformed(evt);
             }
         });
 
@@ -1579,48 +1577,48 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
-        jButton10.setText("/");
-        jButton10.addActionListener(new java.awt.event.ActionListener()
+        jButtonDividir.setText("/");
+        jButtonDividir.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton10ActionPerformed(evt);
+                jButtonDividirActionPerformed(evt);
             }
         });
 
-        jButton11.setText(")");
-        jButton11.addActionListener(new java.awt.event.ActionListener()
+        jButtonParenteseFechado.setText(")");
+        jButtonParenteseFechado.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton11ActionPerformed(evt);
+                jButtonParenteseFechadoActionPerformed(evt);
             }
         });
 
-        jButton12.setText("(");
-        jButton12.addActionListener(new java.awt.event.ActionListener()
+        jButton1ParenteseAberto.setText("(");
+        jButton1ParenteseAberto.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton12ActionPerformed(evt);
+                jButton1ParenteseAbertoActionPerformed(evt);
             }
         });
 
-        jButton14.setText("C");
-        jButton14.addActionListener(new java.awt.event.ActionListener()
+        jButtonApagarTudo.setText("C");
+        jButtonApagarTudo.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton14ActionPerformed(evt);
+                jButtonApagarTudoActionPerformed(evt);
             }
         });
 
-        jButton23.setText("<-");
-        jButton23.addActionListener(new java.awt.event.ActionListener()
+        jButtonApagarUltimo.setText("<-");
+        jButtonApagarUltimo.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton23ActionPerformed(evt);
+                jButtonApagarUltimoActionPerformed(evt);
             }
         });
 
@@ -1634,7 +1632,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE)
+                            .addComponent(jButtonApagarUltimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE)
                             .addComponent(jButton20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1642,7 +1640,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                             .addComponent(jButton21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonApagarTudo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 1, Short.MAX_VALUE))))
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1650,48 +1648,48 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jButton22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonVirgula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1ParenteseAberto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(14, 14, 14)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButtonDividir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSubtracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAdicao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonParenteseFechado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonMultiplicar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton11)
-                    .addComponent(jButton12)
-                    .addComponent(jButton14)
-                    .addComponent(jButton23))
+                    .addComponent(jButtonParenteseFechado)
+                    .addComponent(jButton1ParenteseAberto)
+                    .addComponent(jButtonApagarTudo)
+                    .addComponent(jButtonApagarUltimo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton10)
+                    .addComponent(jButtonDividir)
                     .addComponent(jButton20)
                     .addComponent(jButton21)
                     .addComponent(jButton22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
+                    .addComponent(jButtonMultiplicar)
                     .addComponent(jButton17)
                     .addComponent(jButton18)
                     .addComponent(jButton19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
+                    .addComponent(jButtonSubtracao)
                     .addComponent(jButton13)
                     .addComponent(jButton15)
                     .addComponent(jButton16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton7))
+                    .addComponent(jButtonVirgula)
+                    .addComponent(jButtonAdicao))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1939,140 +1937,128 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         verifyButtonCadastrarMeioComunicacao();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
-    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton23ActionPerformed
-    {//GEN-HEADEREND:event_jButton23ActionPerformed
+    private void jButtonApagarUltimoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonApagarUltimoActionPerformed
+    {//GEN-HEADEREND:event_jButtonApagarUltimoActionPerformed
         excluirUltimaLetra();
-    }//GEN-LAST:event_jButton23ActionPerformed
+    }//GEN-LAST:event_jButtonApagarUltimoActionPerformed
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton14ActionPerformed
-    {//GEN-HEADEREND:event_jButton14ActionPerformed
+    private void jButtonApagarTudoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonApagarTudoActionPerformed
+    {//GEN-HEADEREND:event_jButtonApagarTudoActionPerformed
         jTextFieldFormula.setText("");
-    }//GEN-LAST:event_jButton14ActionPerformed
+    }//GEN-LAST:event_jButtonApagarTudoActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton12ActionPerformed
-    {//GEN-HEADEREND:event_jButton12ActionPerformed
-        if (verificaInsercaoParenteseAberto()) {
+    private void jButton1ParenteseAbertoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ParenteseAbertoActionPerformed
+    {//GEN-HEADEREND:event_jButton1ParenteseAbertoActionPerformed
+
+            if(isSinalUltimoParenteAberto()|| jTextFieldFormula.getText().isEmpty())
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "( ");
-            InsereSinal();
-        }
-    }//GEN-LAST:event_jButton12ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ParenteseAbertoActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton11ActionPerformed
-    {//GEN-HEADEREND:event_jButton11ActionPerformed
-        if (verificaInsercaoParenteseFechado()) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + ") ");
-            InsereSinal();
-        }
-    }//GEN-LAST:event_jButton11ActionPerformed
+    private void jButtonParenteseFechadoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonParenteseFechadoActionPerformed
+    {//GEN-HEADEREND:event_jButtonParenteseFechadoActionPerformed
+        if( verificaInsercaoParenteseFechado() )    
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + ") ");
+            
+    }//GEN-LAST:event_jButtonParenteseFechadoActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton10ActionPerformed
-    {//GEN-HEADEREND:event_jButton10ActionPerformed
-        if (verificaInsercaoSinal()) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "/ ");
-            InsereSinal();
-        }
-    }//GEN-LAST:event_jButton10ActionPerformed
+    private void jButtonDividirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDividirActionPerformed
+    {//GEN-HEADEREND:event_jButtonDividirActionPerformed
+        if(!isSinalUltimo())    
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "/ ");
+    }//GEN-LAST:event_jButtonDividirActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton22ActionPerformed
     {//GEN-HEADEREND:event_jButton22ActionPerformed
-        if (!isParenteFechadoAnterior()) {
-            jTextFieldFormula.setText(removerEspacoEmBranco() + "9 ");
-            InsereNumero();
-        }
+        if(!isParenteseFechadoUltimo())    
+        jTextFieldFormula.setText(removerEspacoEmBranco() + "9 ");
 
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton21ActionPerformed
     {//GEN-HEADEREND:event_jButton21ActionPerformed
 
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "8 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton20ActionPerformed
     {//GEN-HEADEREND:event_jButton20ActionPerformed
 
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "7 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton17ActionPerformed
     {//GEN-HEADEREND:event_jButton17ActionPerformed
 
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "4 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton18ActionPerformed
     {//GEN-HEADEREND:event_jButton18ActionPerformed
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "5 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton19ActionPerformed
     {//GEN-HEADEREND:event_jButton19ActionPerformed
-
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "6 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton19ActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
-    {//GEN-HEADEREND:event_jButton9ActionPerformed
-        if (verificaInsercaoSinal()) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "* ");
-            InsereSinal();
-        }
-    }//GEN-LAST:event_jButton9ActionPerformed
+    private void jButtonMultiplicarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonMultiplicarActionPerformed
+    {//GEN-HEADEREND:event_jButtonMultiplicarActionPerformed
+        if(!isSinalUltimo())    
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "* ");
+    }//GEN-LAST:event_jButtonMultiplicarActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton8ActionPerformed
-    {//GEN-HEADEREND:event_jButton8ActionPerformed
-        if (verificaInsercaoSinal()) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "- ");
-            InsereSinal();
-        }
-    }//GEN-LAST:event_jButton8ActionPerformed
+    private void jButtonSubtracaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSubtracaoActionPerformed
+    {//GEN-HEADEREND:event_jButtonSubtracaoActionPerformed
+        if(!isSinalUltimo())    
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "- ");
+    }//GEN-LAST:event_jButtonSubtracaoActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton16ActionPerformed
     {//GEN-HEADEREND:event_jButton16ActionPerformed
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "3 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton15ActionPerformed
     {//GEN-HEADEREND:event_jButton15ActionPerformed
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "2 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton13ActionPerformed
     {//GEN-HEADEREND:event_jButton13ActionPerformed
 
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "1 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
+        if(!isParenteseFechadoUltimo())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "0 ");
-        InsereNumero();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
-    {//GEN-HEADEREND:event_jButton2ActionPerformed
-        if (verificaUsoVirgula()) {
-            jTextFieldFormula.setText(removerEspacoEmBranco() + ".");
-            InsereNumero();
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButtonVirgulaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVirgulaActionPerformed
+    {//GEN-HEADEREND:event_jButtonVirgulaActionPerformed
+        if(validacaoUsoVirgula())    
+        jTextFieldFormula.setText(removerEspacoEmBranco() + ".");
+    }//GEN-LAST:event_jButtonVirgulaActionPerformed
+
+    
 
     //Botões da calculadora abaixo
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton7ActionPerformed
-    {//GEN-HEADEREND:event_jButton7ActionPerformed
-        if (verificaInsercaoSinal()) {
-            jTextFieldFormula.setText(jTextFieldFormula.getText() + "+ ");
-            InsereSinal();
-        }
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void jButtonAdicaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAdicaoActionPerformed
+    {//GEN-HEADEREND:event_jButtonAdicaoActionPerformed
+        if(!isSinalUltimo())    
+        jTextFieldFormula.setText(jTextFieldFormula.getText() + "+ ");
+    }//GEN-LAST:event_jButtonAdicaoActionPerformed
 
     private void n(java.awt.event.ActionEvent evt)//GEN-FIRST:event_n
     {//GEN-HEADEREND:event_n
@@ -2082,22 +2068,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableMedidaMouseClicked
     {//GEN-HEADEREND:event_jTableMedidaMouseClicked
 
+        if(jTextFieldFormula.getText().isEmpty() || isSinalUltimo())
         if (evt.getClickCount() >= 2) {
-            System.out.println("teste 1");
-            System.out.println(ULTIMAINSERCAO);
-            System.out.println(MNEMONICO);
-            if (ULTIMAINSERCAO == MNEMONICO) {
-                System.out.println("teste 2");
-                System.out.println(ULTIMAINSERCAO);
-                System.out.println(MNEMONICO);
-            } else {
-                System.out.println("teste3");
-
                 String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
                 jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico + " ");
-            }
-
-            InsereMnemonico();
         }
 
     }//GEN-LAST:event_jTableMedidaMouseClicked
@@ -2133,27 +2107,27 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroupComposicao;
     private net.sf.nachocalendar.components.DateField dateField;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton1ParenteseAberto;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
-    private javax.swing.JButton jButton23;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton jButtonAdicao;
+    private javax.swing.JButton jButtonApagarTudo;
+    private javax.swing.JButton jButtonApagarUltimo;
     private javax.swing.JButton jButtonCadastrarMeioComunicacao;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonDividir;
+    private javax.swing.JButton jButtonMultiplicar;
+    private javax.swing.JButton jButtonParenteseFechado;
     private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JButton jButtonSubtracao;
+    private javax.swing.JButton jButtonVirgula;
     private javax.swing.JComboBox jComboBoxIndicador;
     private javax.swing.JComboBox jComboBoxMedidaRelacionada;
     private javax.swing.JComboBox jComboBoxPeriodicidade;
