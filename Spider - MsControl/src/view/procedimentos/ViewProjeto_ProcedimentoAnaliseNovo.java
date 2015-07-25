@@ -47,6 +47,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     String [] numbers = new String[] {"0" , "1" , "2", "3" , "4", "5" ,"6" ,"7" , "8" , "9"};
     String [] sinals = new String[] {"/" , "+", "*", "-", "."};
+    String [] sinalsMnemonico = new String[] {"/" , "+", "*", "-", ".", "("};
     
     ArrayList<String> mnemonico = new ArrayList<>();
     ArrayList<String> insercaoFormula = new ArrayList<>();
@@ -702,6 +703,28 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         
             for (int i = 0; i < sinals.length; i++) {
                 if(charA.equals(sinals[i]) || charB.equals(sinals[i]))
+                    isSinal = true;
+            }
+        }
+        if (isSinal)
+            return true;
+        return false;
+    }
+      
+      private boolean isSinalUltimoByMnemonico() {
+
+        String formula = jTextFieldFormula.getText().toString();
+        boolean isSinal = false;
+        String charA = null;
+        String charB = null;
+        
+        if(formula.isEmpty() == false){
+
+            charA = String.valueOf(formula.charAt(formula.length()-1));
+            charB = String.valueOf(formula.charAt(formula.length()-2));
+        
+            for (int i = 0; i < sinalsMnemonico.length; i++) {
+                if(charA.equals(sinalsMnemonico[i]) || charB.equals(sinalsMnemonico[i]))
                     isSinal = true;
             }
         }
@@ -2068,7 +2091,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableMedidaMouseClicked
     {//GEN-HEADEREND:event_jTableMedidaMouseClicked
 
-        if(jTextFieldFormula.getText().isEmpty() || isSinalUltimo())
+        if(jTextFieldFormula.getText().isEmpty() || isSinalUltimoByMnemonico())
         if (evt.getClickCount() >= 2) {
                 String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
                 jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico + " ");
