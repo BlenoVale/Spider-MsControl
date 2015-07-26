@@ -1,5 +1,6 @@
 package view;
 
+import static com.itextpdf.text.pdf.PdfName.V;
 import view.gerencia.ViewPermissoesDePerfis;
 import view.gerencia.ViewGerenciarProjetos;
 import view.gerencia.ViewGerenciarConta;
@@ -31,6 +32,7 @@ import view.medidas.ViewProjeto_MedicaoDefinicao;
 import view.medidas.ViewProjeto_Analise;
 import view.indicadores.ViewProjetoAprovacao;
 import view.indicadores.ViewProjeto_Indicadores;
+import view.indicadores.ViewProjeto_ValorIndicador;
 import view.medidas.ViewProjeto_Coleta;
 
 public class ViewPrincipal extends javax.swing.JFrame {
@@ -55,6 +57,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
     // Indicadores
     private final ViewProjeto_Indicadores viewProjeto_Indicadores = new ViewProjeto_Indicadores();
+    private final ViewProjeto_ValorIndicador viewProjeto_ValorIndicador = new ViewProjeto_ValorIndicador();
     // Procedimentos
     private final ViewProjeto_ProcedimentoAnalise viewProjeto_ProcedimentoAnalise = new ViewProjeto_ProcedimentoAnalise();
     private final ViewProjeto_ProcedimentoColeta viewProjeto_ProcedimentoColeta = new ViewProjeto_ProcedimentoColeta();
@@ -253,7 +256,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
         );
 
         jSplitPane1.setDividerLocation(200);
-        jSplitPane1.setDividerSize(10);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Projeto");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Objetivos");
@@ -266,6 +268,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Definição");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Aprovação");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Valor Indicador");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Análise");
         treeNode2.add(treeNode3);
@@ -527,6 +531,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_Coletas);
         jDesktopPane.add(viewProjeto_PlanoDeMedicao);
         jDesktopPane.add(viewProjeto_Relatorio);
+        jDesktopPane.add(viewProjeto_ValorIndicador); 
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -544,6 +549,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Coletas.setMaximum(true);
             viewProjeto_PlanoDeMedicao.setMaximum(true);
             viewProjeto_Relatorio.setMaximum(true);
+            viewProjeto_ValorIndicador.setMaximum(true); 
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -565,6 +571,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_Coletas.setVisible(false);
         viewProjeto_PlanoDeMedicao.setVisible(false);
         viewProjeto_Relatorio.setVisible(false);
+        viewProjeto_ValorIndicador.setVisible(false); 
 
         if (tela != null) {
             tela.setVisible(true);
@@ -599,8 +606,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
             trocaTelas(viewProjeto_Aprovacao);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_Analise);
-        } else if (no_filho.equals("Acompanhamento") && no_pai.endsWith("Indicadores")) {
-
+        } else if (no_filho.equals("Valor Indicador") && no_pai.endsWith("Indicadores")) {
+            trocaTelas(viewProjeto_ValorIndicador); 
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
             trocaTelas(viewProjeto_MedicaoDefinicao);
             viewProjeto_MedicaoDefinicao.preencherTabelaRecarregar();
