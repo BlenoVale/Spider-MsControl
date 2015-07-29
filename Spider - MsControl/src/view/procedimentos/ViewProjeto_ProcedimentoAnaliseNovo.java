@@ -46,7 +46,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
     String [] numbers = new String[] {"0" , "1" , "2", "3" , "4", "5" ,"6" ,"7" , "8" , "9"};
-    String [] sinals = new String[] {"/" , "+", "*", "-", "."};
+    String [] sinals = new String[] {"/" , "+", "*", "-", ".", "("};
     String [] sinalsMnemonico = new String[] {"/" , "+", "*", "-", ".", "("};
     
     ArrayList<String> mnemonico = new ArrayList<>();
@@ -68,7 +68,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         ocultarMedidaRelacionada();
         iniciarTabela();
         recarregarTabela();
-        preencherArrayMnemonico();
         this.pack();
 
     }
@@ -671,21 +670,55 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         String formula = jTextFieldFormula.getText().toString();
         boolean isNumber = false;
+        boolean espacoAntes = false;
         String charA = null;
         String charB = null;
         
         if(formula.isEmpty() == false){
 
             charA = String.valueOf(formula.charAt(formula.length()-1));
+            if(formula.length() >= 2)
             charB = String.valueOf(formula.charAt(formula.length()-2));
+            else charB = "";
         
             for (int i = 0; i < numbers.length; i++) {
                 if(charA.equals(numbers[i]) || charB.equals(numbers[i]))
                     isNumber = true;
+                
             }
         }
         if (isNumber)
             return formula.trim();
+        
+        return formula;
+    }
+    
+    private String adicionarEspacoEmBrancoAntesNumero() {
+
+        String formula = jTextFieldFormula.getText().toString();
+        boolean isNumber = false;
+        boolean espacoAntes = false;
+        String charA = null;
+        String charB = null;
+        
+        if(formula.isEmpty() == false){
+
+            charA = String.valueOf(formula.charAt(formula.length()-1));
+            if(formula.length() >= 2)
+            charB = String.valueOf(formula.charAt(formula.length()-2));
+            else charB = "";
+        
+            for (int i = 0; i < numbers.length; i++) {
+                if(charA.equals(numbers[i]) || charB.equals(numbers[i]))
+                    isNumber = true;
+                
+                if(!charA.equals(numbers[i]) && !charA.equals(" "))
+                    espacoAntes = true;
+            }
+        }
+        
+        if (espacoAntes = true)
+            return formula.trim() + " ";
         return formula;
     }
     
@@ -699,7 +732,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if(formula.isEmpty() == false){
 
             charA = String.valueOf(formula.charAt(formula.length()-1));
+             if(formula.length() >= 2)
             charB = String.valueOf(formula.charAt(formula.length()-2));
+            else charB = "";
         
             for (int i = 0; i < sinals.length; i++) {
                 if(charA.equals(sinals[i]) || charB.equals(sinals[i]))
@@ -809,12 +844,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void excluirUltimaLetra() {
 
-        String texto = jTextFieldFormula.getText().toString();
-        if (!texto.isEmpty()) {
+        String formula = jTextFieldFormula.getText().toString();
+        if (!formula.isEmpty()) {
 
-            int length = texto.length();
-            texto = texto.substring(0, length - 1);
-            jTextFieldFormula.setText(texto);
+            int length = formula.length();
+            if (String.valueOf(formula.charAt(length - 1)).equals(" "))
+            formula = formula.substring(0, length - 2);
+            else formula = formula.substring(0, length - 1);
+            jTextFieldFormula.setText(formula);
 
         }
 
@@ -854,19 +891,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     }
 
-    private boolean isParenteFechadoAnterior() {
-
-        char caractereB = ')';
-        String formula = jTextFieldFormula.getText().toString();
-
-        if (!formula.isEmpty()) {
-            if (formula.charAt(formula.length() - 2) == caractereB)
-                return true;
-        }
-
-        return false;
-    }
-
     public boolean verificaSomenteOperandosParenteseFechado(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
@@ -887,7 +911,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!formula.isEmpty()) {
             caractereA = String.valueOf(formula.charAt(formula.length() - 1));
             //@TODO VERIFICAR ERRO DA VIRGULA
+            if(formula.length() >= 2)
             caractereB = String.valueOf(formula.charAt(formula.length() - 2));
+            else caractereB = "";
         }
         if (caractereA.equals(")") || caractereB.equals(")"))
             return true;
@@ -1980,15 +2006,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButtonParenteseFechadoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonParenteseFechadoActionPerformed
     {//GEN-HEADEREND:event_jButtonParenteseFechadoActionPerformed
-        if( verificaInsercaoParenteseFechado() )    
+        if(verificaInsercaoParenteseFechado() && !isSinalUltimo())    
         jTextFieldFormula.setText(jTextFieldFormula.getText() + ") ");
             
     }//GEN-LAST:event_jButtonParenteseFechadoActionPerformed
 
     private void jButtonDividirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDividirActionPerformed
     {//GEN-HEADEREND:event_jButtonDividirActionPerformed
-        if(!isSinalUltimo())    
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "/ ");
+        if(!isSinalUltimo() && !jTextFieldFormula.getText().isEmpty())    
+        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "/ ");
     }//GEN-LAST:event_jButtonDividirActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton22ActionPerformed
@@ -2033,14 +2059,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButtonMultiplicarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonMultiplicarActionPerformed
     {//GEN-HEADEREND:event_jButtonMultiplicarActionPerformed
-        if(!isSinalUltimo())    
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "* ");
+        if(!isSinalUltimo() && !jTextFieldFormula.getText().isEmpty())    
+        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "* ");
     }//GEN-LAST:event_jButtonMultiplicarActionPerformed
 
     private void jButtonSubtracaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSubtracaoActionPerformed
     {//GEN-HEADEREND:event_jButtonSubtracaoActionPerformed
-        if(!isSinalUltimo())    
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "- ");
+        if(!isSinalUltimo() & !jTextFieldFormula.getText().isEmpty())    
+        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "- ");
     }//GEN-LAST:event_jButtonSubtracaoActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton16ActionPerformed
@@ -2079,8 +2105,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     //Botões da calculadora abaixo
     private void jButtonAdicaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAdicaoActionPerformed
     {//GEN-HEADEREND:event_jButtonAdicaoActionPerformed
-        if(!isSinalUltimo())    
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + "+ ");
+        if(!isSinalUltimo() && !jTextFieldFormula.getText().isEmpty())    
+        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "+ ");
     }//GEN-LAST:event_jButtonAdicaoActionPerformed
 
     private void n(java.awt.event.ActionEvent evt)//GEN-FIRST:event_n
