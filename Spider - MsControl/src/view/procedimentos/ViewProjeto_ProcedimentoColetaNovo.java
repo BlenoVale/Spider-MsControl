@@ -25,7 +25,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
     private Procedimentodecoleta procedimentodecoleta = new Procedimentodecoleta();
     private List<Registroprocedimentocoleta> registroprocedimentocoletas;
     private Datasprocedimentocoleta datasprocedimentocoletas;
-    List<Datasprocedimentocoleta> listaDatas;
+    List<Datasprocedimentocoleta> listaDatas = new ArrayList<>();
     private FacadeJpa jpa = FacadeJpa.getInstance();
     private boolean novoProcedimento = false;
     private boolean aux = false;
@@ -69,7 +69,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Você deve escolher um \"Tipo de Coleta\"");
             return false;
         } else if (!jTextFieldMinimoDeColeta.getText().isEmpty()) {
-            int teste = Integer.parseInt(jTextFieldMinimoDeColeta.getText());
+            double teste = Double.parseDouble(jTextFieldMinimoDeColeta.getText());
             if (teste == 0 || teste > 100) {
                 JOptionPane.showMessageDialog(null, "O campo \"Mínimo de coletas\" só permite números entre 1 e 100.");
                 return false;
