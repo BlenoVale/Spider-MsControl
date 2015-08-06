@@ -19,7 +19,7 @@ import model.Projeto;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class PerfilinteressadoJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class PerfilinteressadoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

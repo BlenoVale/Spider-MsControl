@@ -26,7 +26,7 @@ import model.Projeto;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class ProjetoJpaController implements Serializable {
 
@@ -457,5 +457,5 @@ public class ProjetoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

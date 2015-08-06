@@ -19,7 +19,7 @@ import model.Procedimentodecoleta;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class DatasprocedimentocoletaJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class DatasprocedimentocoletaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

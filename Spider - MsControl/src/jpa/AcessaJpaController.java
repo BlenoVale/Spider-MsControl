@@ -17,13 +17,13 @@ import jpa.exceptions.NonexistentEntityException;
 import jpa.exceptions.PreexistingEntityException;
 import model.Acessa;
 import model.AcessaPK;
+import model.Perfil;
 import model.Projeto;
 import model.Usuario;
-import model.Perfil;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class AcessaJpaController implements Serializable {
 
@@ -41,12 +41,17 @@ public class AcessaJpaController implements Serializable {
             acessa.setAcessaPK(new AcessaPK());
         }
         acessa.getAcessaPK().setProjetoid(acessa.getProjeto().getId());
-        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setUsuarioid(acessa.getUsuario().getId());
+        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Perfil perfil = acessa.getPerfil();
+            if (perfil != null) {
+                perfil = em.getReference(perfil.getClass(), perfil.getId());
+                acessa.setPerfil(perfil);
+            }
             Projeto projeto = acessa.getProjeto();
             if (projeto != null) {
                 projeto = em.getReference(projeto.getClass(), projeto.getId());
@@ -57,12 +62,11 @@ public class AcessaJpaController implements Serializable {
                 usuario = em.getReference(usuario.getClass(), usuario.getId());
                 acessa.setUsuario(usuario);
             }
-            Perfil perfil = acessa.getPerfil();
-            if (perfil != null) {
-                perfil = em.getReference(perfil.getClass(), perfil.getId());
-                acessa.setPerfil(perfil);
-            }
             em.persist(acessa);
+            if (perfil != null) {
+                perfil.getAcessaList().add(acessa);
+                perfil = em.merge(perfil);
+            }
             if (projeto != null) {
                 projeto.getAcessaList().add(acessa);
                 projeto = em.merge(projeto);
@@ -70,10 +74,6 @@ public class AcessaJpaController implements Serializable {
             if (usuario != null) {
                 usuario.getAcessaList().add(acessa);
                 usuario = em.merge(usuario);
-            }
-            if (perfil != null) {
-                perfil.getAcessaList().add(acessa);
-                perfil = em.merge(perfil);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -90,19 +90,23 @@ public class AcessaJpaController implements Serializable {
 
     public void edit(Acessa acessa) throws NonexistentEntityException, Exception {
         acessa.getAcessaPK().setProjetoid(acessa.getProjeto().getId());
-        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setUsuarioid(acessa.getUsuario().getId());
+        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Acessa persistentAcessa = em.find(Acessa.class, acessa.getAcessaPK());
+            Perfil perfilOld = persistentAcessa.getPerfil();
+            Perfil perfilNew = acessa.getPerfil();
             Projeto projetoOld = persistentAcessa.getProjeto();
             Projeto projetoNew = acessa.getProjeto();
             Usuario usuarioOld = persistentAcessa.getUsuario();
             Usuario usuarioNew = acessa.getUsuario();
-            Perfil perfilOld = persistentAcessa.getPerfil();
-            Perfil perfilNew = acessa.getPerfil();
+            if (perfilNew != null) {
+                perfilNew = em.getReference(perfilNew.getClass(), perfilNew.getId());
+                acessa.setPerfil(perfilNew);
+            }
             if (projetoNew != null) {
                 projetoNew = em.getReference(projetoNew.getClass(), projetoNew.getId());
                 acessa.setProjeto(projetoNew);
@@ -111,11 +115,15 @@ public class AcessaJpaController implements Serializable {
                 usuarioNew = em.getReference(usuarioNew.getClass(), usuarioNew.getId());
                 acessa.setUsuario(usuarioNew);
             }
-            if (perfilNew != null) {
-                perfilNew = em.getReference(perfilNew.getClass(), perfilNew.getId());
-                acessa.setPerfil(perfilNew);
-            }
             acessa = em.merge(acessa);
+            if (perfilOld != null && !perfilOld.equals(perfilNew)) {
+                perfilOld.getAcessaList().remove(acessa);
+                perfilOld = em.merge(perfilOld);
+            }
+            if (perfilNew != null && !perfilNew.equals(perfilOld)) {
+                perfilNew.getAcessaList().add(acessa);
+                perfilNew = em.merge(perfilNew);
+            }
             if (projetoOld != null && !projetoOld.equals(projetoNew)) {
                 projetoOld.getAcessaList().remove(acessa);
                 projetoOld = em.merge(projetoOld);
@@ -131,14 +139,6 @@ public class AcessaJpaController implements Serializable {
             if (usuarioNew != null && !usuarioNew.equals(usuarioOld)) {
                 usuarioNew.getAcessaList().add(acessa);
                 usuarioNew = em.merge(usuarioNew);
-            }
-            if (perfilOld != null && !perfilOld.equals(perfilNew)) {
-                perfilOld.getAcessaList().remove(acessa);
-                perfilOld = em.merge(perfilOld);
-            }
-            if (perfilNew != null && !perfilNew.equals(perfilOld)) {
-                perfilNew.getAcessaList().add(acessa);
-                perfilNew = em.merge(perfilNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -169,6 +169,11 @@ public class AcessaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The acessa with id " + id + " no longer exists.", enfe);
             }
+            Perfil perfil = acessa.getPerfil();
+            if (perfil != null) {
+                perfil.getAcessaList().remove(acessa);
+                perfil = em.merge(perfil);
+            }
             Projeto projeto = acessa.getProjeto();
             if (projeto != null) {
                 projeto.getAcessaList().remove(acessa);
@@ -178,11 +183,6 @@ public class AcessaJpaController implements Serializable {
             if (usuario != null) {
                 usuario.getAcessaList().remove(acessa);
                 usuario = em.merge(usuario);
-            }
-            Perfil perfil = acessa.getPerfil();
-            if (perfil != null) {
-                perfil.getAcessaList().remove(acessa);
-                perfil = em.merge(perfil);
             }
             em.remove(acessa);
             em.getTransaction().commit();
@@ -238,5 +238,5 @@ public class AcessaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

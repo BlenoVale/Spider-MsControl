@@ -19,7 +19,7 @@ import model.Projeto;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class EntidademedidaJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class EntidademedidaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

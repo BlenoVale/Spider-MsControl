@@ -19,7 +19,7 @@ import model.Valormedida;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class ValormedidaJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class ValormedidaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

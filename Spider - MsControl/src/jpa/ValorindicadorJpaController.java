@@ -19,7 +19,7 @@ import model.Valorindicador;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class ValorindicadorJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class ValorindicadorJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

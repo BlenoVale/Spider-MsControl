@@ -1,6 +1,12 @@
 package view.indicadores;
 
+import controller.CtrlIndicador;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import model.Indicador;
+import util.Copia;
 
 /**
  *
@@ -9,11 +15,58 @@ import javax.swing.DefaultListModel;
 public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
     private DefaultListModel modelJlist = new DefaultListModel();
-    
+    private CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private DefaultComboBoxModel comboBoxModel;
+    private List<Indicador> listaIndicadores;
+    private Indicador indicadorSelecionado;
+
     public ViewProjeto_ValorIndicador() {
         initComponents();
     }
 
+    public void showValorIndicador() {
+        populaComboboxIndicadores();
+    }
+
+    private void getListadeIndicadoresComProcAnalise() {
+        listaIndicadores = new ArrayList<>();
+        listaIndicadores = ctrlIndicador.getIndicadoresDoProjeto(Copia.getProjetoSelecionado().getId());
+    }
+
+    private void populaComboboxIndicadores() {
+        comboBoxModel = new DefaultComboBoxModel();
+        comboBoxModel.addElement("--Selecione um indicador--");
+
+        getListadeIndicadoresComProcAnalise();
+        for (int i = 0; i < listaIndicadores.size(); i++) {
+            if (!listaIndicadores.get(i).getProcedimentodeanaliseList().isEmpty()) {
+                comboBoxModel.addElement(listaIndicadores.get(i).getNome());
+            }
+        }
+        jComboBoxIndicadores.setModel(comboBoxModel);
+    }
+
+    private void pegaIndicadorSelecionado() {
+        indicadorSelecionado = new Indicador();
+        indicadorSelecionado = ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicadores.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
+    }
+
+    private void analisaFormula(String formula) {
+        String[] array = formula.split(" ");
+        for (int i = 0; i < array.length; i++) {
+            System.out.println("parte" + i +":" + array[i]);
+            
+            if (contemLetra(array[i])){
+                System.out.println(array[i] + " contem letra!!");
+            }
+        }
+    }
+    
+    private boolean contemLetra(String texto){
+        // Expressão regurlar pra saber se texto tem letra e número ou só letra.
+        return texto.matches("[a-zA-Z]+[0-9]+|[a-zA-Z]+");
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -22,9 +75,9 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBoxIndicadores = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldFormula = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -51,15 +104,19 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
         jLabel1.setText("<html><b>Indicador:<b></html>");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione um Indicador -- " }));
+        jComboBoxIndicadores.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Selecione um Indicador -- " }));
+        jComboBoxIndicadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxIndicadoresActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("<html><b>Formula:<b></html> ");
 
-        jTextField1.setEditable(false);
-        jTextField1.setText("2 * M1 + 4 * M2");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldFormula.setEditable(false);
+        jTextFieldFormula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldFormulaActionPerformed(evt);
             }
         });
 
@@ -73,11 +130,11 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jComboBoxIndicadores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1)))
+                        .addComponent(jTextFieldFormula)))
                 .addGap(340, 340, 340))
         );
         jPanel2Layout.setVerticalGroup(
@@ -86,11 +143,11 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxIndicadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -199,7 +256,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                         .addComponent(jButtonGerar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -270,9 +327,9 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_dateFieldDeStateChanged
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFormulaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldFormulaActionPerformed
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         modelJlist.addElement("2 * 1 + 4 * 3 = 14");
@@ -284,6 +341,14 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         jListFormulasCalculadas.setModel(modelJlist);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
+        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
+            pegaIndicadorSelecionado();
+            jTextFieldFormula.setText(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+            analisaFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+        }
+    }//GEN-LAST:event_jComboBoxIndicadoresActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private net.sf.nachocalendar.components.DateField dateField2;
@@ -291,7 +356,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonGerar;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxIndicadores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -308,6 +373,6 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldFormula;
     // End of variables declaration//GEN-END:variables
 }

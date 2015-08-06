@@ -19,7 +19,7 @@ import model.Registromedida;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class RegistromedidaJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class RegistromedidaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

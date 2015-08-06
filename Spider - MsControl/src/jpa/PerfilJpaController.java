@@ -22,7 +22,7 @@ import model.Perfil;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class PerfilJpaController implements Serializable {
 
@@ -239,5 +239,5 @@ public class PerfilJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

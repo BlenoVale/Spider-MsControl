@@ -25,7 +25,7 @@ import model.Medida;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class MedidaJpaController implements Serializable {
 
@@ -401,5 +401,5 @@ public class MedidaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

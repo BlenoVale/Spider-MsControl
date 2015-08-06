@@ -25,7 +25,7 @@ import model.Procedimentodeanalise;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class ProcedimentodeanaliseJpaController implements Serializable {
 
@@ -390,5 +390,5 @@ public class ProcedimentodeanaliseJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

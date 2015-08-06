@@ -19,7 +19,7 @@ import model.Medida;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class ColetaJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class ColetaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -19,7 +19,7 @@ import model.Registroobjetivomedicao;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class RegistroobjetivomedicaoJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class RegistroobjetivomedicaoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -19,7 +19,7 @@ import model.Registrodatacomunicacao;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class RegistrodatacomunicacaoJpaController implements Serializable {
 
@@ -164,5 +164,5 @@ public class RegistrodatacomunicacaoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

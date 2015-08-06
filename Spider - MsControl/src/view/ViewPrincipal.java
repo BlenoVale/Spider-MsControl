@@ -608,6 +608,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             trocaTelas(viewProjeto_Analise);
         } else if (no_filho.equals("Valor Indicador") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_ValorIndicador); 
+            viewProjeto_ValorIndicador.showValorIndicador();
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
             trocaTelas(viewProjeto_MedicaoDefinicao);
             viewProjeto_MedicaoDefinicao.preencherTabelaRecarregar();

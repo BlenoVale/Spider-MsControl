@@ -26,7 +26,7 @@ import model.Registroindicador;
 
 /**
  *
- * @author paulosouza
+ * @author Bleno Vale
  */
 public class IndicadorJpaController implements Serializable {
 
@@ -430,5 +430,5 @@ public class IndicadorJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }
