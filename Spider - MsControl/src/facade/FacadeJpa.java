@@ -36,6 +36,7 @@ import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoAnalise;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
 import jpa.extensao.ResultadosJpa;
+import jpa.extensao.ValorMedidaJpa;
 import util.Conexao;
 
 /**
@@ -76,7 +77,6 @@ public class FacadeJpa {
     private final DatasProcedimentoColetaJpa datasProcedimentoColetaJpa;
     private final ResultadosJpa resultadosJpa;
     private final RegistroresultadosJpaController registroResultadosJpa;
-    private final ValormedidaJpaController valormedidaJpaController;
     private final MeioComunicacaoJpa meioComunicacaoJpa;
     private final PerfilInteressadoJpa perfilInteressadoJpa;
     private final RegistroprocedimentoanaliseJpaController registroprocedimentoanaliseJpaController;
@@ -84,6 +84,7 @@ public class FacadeJpa {
     private final RegistroDataComunicacaoJpa registroDataComunicacaoJpa;
     private final MeioComunicacaoProcedimentoAnaliseJpa meioComunicacaoProcedimentoAnaliseJpa;
     private final PerfislInteressadoProcedimentoAnaliseJpa perfislInteressadoProcedimentoAnaliseJpa;
+    private final ValorMedidaJpa valorMedidaJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -113,7 +114,6 @@ public class FacadeJpa {
         datasProcedimentoColetaJpa = new DatasProcedimentoColetaJpa();
         resultadosJpa = new ResultadosJpa();
         registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
-        valormedidaJpaController = new ValormedidaJpaController(Conexao.conectar());
         meioComunicacaoJpa = new MeioComunicacaoJpa();
         perfilInteressadoJpa = new PerfilInteressadoJpa();
         registroprocedimentoanaliseJpaController = new RegistroprocedimentoanaliseJpaController(Conexao.conectar());
@@ -121,6 +121,7 @@ public class FacadeJpa {
         registroDataComunicacaoJpa = new RegistroDataComunicacaoJpa();
         meioComunicacaoProcedimentoAnaliseJpa = new MeioComunicacaoProcedimentoAnaliseJpa();
         perfislInteressadoProcedimentoAnaliseJpa = new PerfislInteressadoProcedimentoAnaliseJpa();
+        valorMedidaJpa = new ValorMedidaJpa();
     }
 
     public static FacadeJpa getInstance() {
@@ -247,10 +248,6 @@ public class FacadeJpa {
         return registroResultadosJpa;
     }
 
-    public ValormedidaJpaController getValorMedidaJpa() {
-        return valormedidaJpaController;
-    }
-
     public MeioComunicacaoJpa getMeioComunicacaoJpa() {
         return meioComunicacaoJpa;
     }
@@ -273,5 +270,9 @@ public class FacadeJpa {
 
     public PerfislInteressadoProcedimentoAnaliseJpa getPerfislInteressadoProcedimentoAnaliseJpa() {
         return perfislInteressadoProcedimentoAnaliseJpa;
+    }
+    
+    public ValorMedidaJpa getValorMedidaJpa(){
+        return valorMedidaJpa;
     }
 }
