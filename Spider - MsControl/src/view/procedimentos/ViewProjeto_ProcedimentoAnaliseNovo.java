@@ -478,6 +478,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             mensagem = "Campo \"Formula\" incorreto";
             cont++;
         }
+        if (!campoUnico()){
+            mensagem = "Campo \"Formula\" incorreto";
+            cont++;
+        }
+        
+        if (!validaCountParenteses()){
+            mensagem = "Campo \"Formula\" incorreto";
+            cont++;
+        }
         
         if (cont == 0) {
             return true;
@@ -834,13 +843,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     public boolean verificaUltimaLetraDupla(){
        String formula = jTextFieldFormula.getText().trim();
+       String letraA = null;
+       String letraB = null;
        
        String [] naopode = new String[] {"0.", "01", "02", "03", "04", "05", "06", "07","08", "09",};
        
        if(!formula.isEmpty()){
-           String letraA = String.valueOf(formula.charAt(formula.length() - 1));
-           String letraB = String.valueOf(formula.charAt(formula.length() - 2));
-           
+           letraA = String.valueOf(formula.charAt(formula.length() - 1));
+           if(formula.length() >= 2)
+           letraB = String.valueOf(formula.charAt(formula.length() - 2));
+           else letraB = "";
+            
            String letras = letraB + letraA;
            
            for (int i = 0; i < naopode.length; i++) {
@@ -859,9 +872,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
        
        if(!formula.isEmpty()){
            String letraA = String.valueOf(formula.charAt(formula.length() - 1));
-           
-           
-           
            
            for (int i = 0; i < naopode.length; i++) {
                if(letraA.equals(naopode[i]))
@@ -892,6 +902,30 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
 
         if (contA > contB) 
+            return true;
+        return false;
+
+    }
+    
+    private boolean validaCountParenteses() {
+
+        String formula = jTextFieldFormula.getText().trim();
+        int contA = 0;
+        int contB = 0;
+        String parenteseAberto = "(";
+        String parenteseFechado = ")";
+        if (!formula.isEmpty()) {
+            for (int i = 0; i < formula.length(); i++) {
+                String letra = String.valueOf(formula.charAt(i));
+                if ( letra.equals(parenteseAberto)) {
+                    contA++;
+                } else if (letra.equals(parenteseFechado)) {
+                    contB++;
+                }
+            }
+        }
+
+        if (contA == contB) 
             return true;
         return false;
 
@@ -958,6 +992,59 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return true;
     
    }
+     
+      private boolean isMnemonico() {
+
+        String formula = jTextFieldFormula.getText().trim();
+        int size = formula.length();
+        
+        String letra = null;
+        String substring = null;
+        int inicio = 0;
+        
+        if (!formula.isEmpty()) {
+            
+                for (int i = size - 1 ; i >= 0; i--) {
+                    letra = String.valueOf(formula.charAt(i));
+              
+                        if(letra.trim().equals("")){
+                            inicio = i;
+                            break;
+                        }
+                            
+                            
+            }
+                 
+               substring = formula.substring(inicio, formula.length());
+                
+                for (int i = 0; i < substring.length(); i++) {
+                    if (Character.isLetter(substring.charAt(i))) 
+                        return true;
+            }
+        
+        }
+        return false;
+    
+   }
+      
+    private boolean campoUnico(){
+        String formula = jTextFieldFormula.getText().trim();
+    
+        if(!formula.isEmpty()){
+        
+            for (int i = 0; i < formula.length(); i++) {
+            for (int j = 0; j < sinalsOperador.length; j++) {
+                if(String.valueOf(formula.charAt(i)).equals(sinalsOperador[j]))
+                    return true;
+            }
+            
+            }
+        }
+        
+        return false;
+    }
+    
+    
     private void excluirUltimaLetra() {
 
         String formula = jTextFieldFormula.getText().toString();
@@ -2135,7 +2222,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton22ActionPerformed
     {//GEN-HEADEREND:event_jButton22ActionPerformed
-        if(!isParenteseFechadoUltimo())    
+        if(!isParenteseFechadoUltimo() && !isMnemonico())    
         jTextFieldFormula.setText(removerEspacoEmBranco() + "9 ");
 
     }//GEN-LAST:event_jButton22ActionPerformed
@@ -2143,33 +2230,33 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton21ActionPerformed
     {//GEN-HEADEREND:event_jButton21ActionPerformed
 
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "8 ");
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton20ActionPerformed
     {//GEN-HEADEREND:event_jButton20ActionPerformed
 
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "7 ");
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton17ActionPerformed
     {//GEN-HEADEREND:event_jButton17ActionPerformed
 
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "4 ");
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton18ActionPerformed
     {//GEN-HEADEREND:event_jButton18ActionPerformed
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "5 ");
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton19ActionPerformed
     {//GEN-HEADEREND:event_jButton19ActionPerformed
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "6 ");
     }//GEN-LAST:event_jButton19ActionPerformed
 
@@ -2187,32 +2274,32 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton16ActionPerformed
     {//GEN-HEADEREND:event_jButton16ActionPerformed
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "3 ");
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton15ActionPerformed
     {//GEN-HEADEREND:event_jButton15ActionPerformed
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "2 ");
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton13ActionPerformed
     {//GEN-HEADEREND:event_jButton13ActionPerformed
 
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "1 ");
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
-        if(!isParenteseFechadoUltimo())
+        if(!isParenteseFechadoUltimo() && !isMnemonico())
         jTextFieldFormula.setText(removerEspacoEmBranco() + "0 ");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonVirgulaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVirgulaActionPerformed
     {//GEN-HEADEREND:event_jButtonVirgulaActionPerformed
-        if(validacaoUsoVirgula())    
+        if(validacaoUsoVirgula() && !isMnemonico())    
         jTextFieldFormula.setText(removerEspacoEmBranco() + ".");
     }//GEN-LAST:event_jButtonVirgulaActionPerformed
 
