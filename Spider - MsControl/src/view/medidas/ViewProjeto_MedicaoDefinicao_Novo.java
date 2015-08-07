@@ -65,7 +65,13 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         }
     }
     public void inicarSomenteComString(java.awt.event.KeyEvent evt) {
-        String caracteres = "0987654321.";
+        String caracteres = "0987654321. '/?;:,><|!@#$%*()_\"+-|=´{[}]°~^";
+        if (caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }
+    public void aposStringSomenteNumeros(java.awt.event.KeyEvent evt) {
+        String caracteres = ". '/?;:,><|!@#$%*()_+-=´{[}]\"°~^";
         if (caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
@@ -429,6 +435,8 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     private void jTextFieldMnemonicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMnemonicoKeyTyped
         if(jTextFieldMnemonico.getText().isEmpty())
             inicarSomenteComString(evt);
+        
+        aposStringSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldMnemonicoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
