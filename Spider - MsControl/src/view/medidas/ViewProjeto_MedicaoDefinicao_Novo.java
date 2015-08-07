@@ -64,6 +64,12 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             evt.consume();
         }
     }
+    public void inicarSomenteComString(java.awt.event.KeyEvent evt) {
+        String caracteres = "0987654321.";
+        if (caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }
 
     public boolean validaFaixa() {
         double numInicio = Double.parseDouble(jTextFieldFaixaInicio.getText());
@@ -75,7 +81,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             return true;
         }
     }
-
+    
     public void showCadastrarDialog() {
         this.setTitle("Cadastrar definição medida");
         this.jLabelUltimaEdicao.setVisible(false);
@@ -173,6 +179,11 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         jLabelFaixa.setText("Faixa:");
 
         jTextFieldMnemonico.setToolTipText("");
+        jTextFieldMnemonico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldMnemonicoKeyTyped(evt);
+            }
+        });
 
         jLabelObservacoes.setText("Observações:");
 
@@ -267,7 +278,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                             .addComponent(jLabelObservacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelNomeMedida, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                             .addComponent(jLabelDefinicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelResponsavel, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                            .addComponent(jLabelResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, Short.MAX_VALUE)
                             .addComponent(jLabel4CadastradoPor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelUltimaEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelMnemonico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -414,6 +425,11 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     private void jTextFieldUltimaEdicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUltimaEdicaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldUltimaEdicaoActionPerformed
+
+    private void jTextFieldMnemonicoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMnemonicoKeyTyped
+        if(jTextFieldMnemonico.getText().isEmpty())
+            inicarSomenteComString(evt);
+    }//GEN-LAST:event_jTextFieldMnemonicoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

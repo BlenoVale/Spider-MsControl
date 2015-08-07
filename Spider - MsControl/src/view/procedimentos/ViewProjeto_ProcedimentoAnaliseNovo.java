@@ -46,7 +46,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
     String [] numbers = new String[] {"0" , "1" , "2", "3" , "4", "5" ,"6" ,"7" , "8" , "9"};
-    String [] sinals = new String[] {"/" , "+", "*", "-", ".", "("};
+    String [] sinals = new String[] {"/" , "+", "*", "-", ".", "(" };
+    String [] sinalsOperador = new String[] {"/" , "+", "*", "-", ".", "(" , "0"};
+    String [] sinaisParenteseAberto = new String[] {"/" , "+", "*", "-","("};
     String [] sinalsMnemonico = new String[] {"/" , "+", "*", "-", ".", "("};
     
     ArrayList<String> mnemonico = new ArrayList<>();
@@ -466,6 +468,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             mensagem = "Campo \"Perfil Interessado\" deve ser marcado pelo menos um";
             cont++;
         }
+        
+        if (verificaUltimaLetraDupla() == false){
+            mensagem = "Campo \"Formula\" incorreto";
+            cont++;
+        }
+        
+        if (verificaUltimaLetraIndividual()== false){
+            mensagem = "Campo \"Formula\" incorreto";
+            cont++;
+        }
+        
         if (cont == 0) {
             return true;
         } else if (cont == 1) {
@@ -745,6 +758,29 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             return true;
         return false;
     }
+       private boolean isSinalUltimoOperador() {
+
+        String formula = jTextFieldFormula.getText().toString();
+        boolean isSinal = false;
+        String charA = null;
+        String charB = null;
+        
+        if(formula.isEmpty() == false){
+
+            charA = String.valueOf(formula.charAt(formula.length()-1));
+             if(formula.length() >= 2)
+            charB = String.valueOf(formula.charAt(formula.length()-2));
+            else charB = "";
+        
+            for (int i = 0; i < sinalsOperador.length; i++) {
+                if(charA.equals(sinalsOperador[i]) || charB.equals(sinalsOperador[i]))
+                    isSinal = true;
+            }
+        }
+        if (isSinal)
+            return true;
+        return false;
+    }
       
       private boolean isSinalUltimoByMnemonico() {
 
@@ -786,8 +822,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             charA = String.valueOf(formula.charAt(formula.length()-1));
             charB = String.valueOf(formula.charAt(formula.length()-2));
         
-            for (int i = 0; i < sinals.length; i++) {
-                if(charA.equals(sinals[i]) || charB.equals(sinals[i]) || charA.equals("(") || charB.equals("(") )
+            for (int i = 0; i < sinaisParenteseAberto.length; i++) {
+                if(charA.equals(sinaisParenteseAberto[i]) || charB.equals(sinaisParenteseAberto[i]) || charA.equals("(") || charB.equals("(") )
                     isSinal = true;
             }
         }
@@ -796,6 +832,47 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
     }
 
+    public boolean verificaUltimaLetraDupla(){
+       String formula = jTextFieldFormula.getText().trim();
+       
+       String [] naopode = new String[] {"0.", "01", "02", "03", "04", "05", "06", "07","08", "09",};
+       
+       if(!formula.isEmpty()){
+           String letraA = String.valueOf(formula.charAt(formula.length() - 1));
+           String letraB = String.valueOf(formula.charAt(formula.length() - 2));
+           
+           String letras = letraB + letraA;
+           
+           for (int i = 0; i < naopode.length; i++) {
+               if(letras.equals(naopode[i]))
+                   return false;
+           }
+       }
+       
+       return true;
+        
+    }
+    public boolean verificaUltimaLetraIndividual(){
+       String formula = jTextFieldFormula.getText().trim();
+       
+       String [] naopode = new String[] {"0", "/", "-", "*", "+", "(", "." };
+       
+       if(!formula.isEmpty()){
+           String letraA = String.valueOf(formula.charAt(formula.length() - 1));
+           
+           
+           
+           
+           for (int i = 0; i < naopode.length; i++) {
+               if(letraA.equals(naopode[i]))
+                   return false;
+           }
+       }
+       
+       return true;
+        
+    }
+    
     private boolean verificaInsercaoParenteseFechado() {
 
         String formula = jTextFieldFormula.getText().toString();
@@ -819,6 +896,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
 
     }
+    
      private boolean verificaInsercaoVirgula() {
 
         String formula = jTextFieldFormula.getText().toString();
@@ -829,10 +907,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!formula.isEmpty()) {
             for (int i = 0; i < formula.length(); i++) {
                 String letra = String.valueOf(formula.charAt(i));
-                if ( letra.equals(virgula)) {
+                if ( letra.equals(virgula)) 
                     contA++;
-                
-            }
+                 
         }
         }
         if (contA == contB) 
@@ -841,7 +918,46 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     
    }
+     
+   //@TODO teste para adicionar nova virgula
+     
+     private boolean verificaInsercaoVirgulaTeste() {
 
+        String formula = jTextFieldFormula.getText().trim();
+        int size = formula.length();
+        
+        String virgula = ".";
+        String letra = null;
+        String substring = null;
+        
+        
+        int fim = size;
+        int inicio = 0;
+        
+        if (!formula.isEmpty()) {
+            
+                for (int i = size - 1 ; i >= 0; i--) {
+                    letra = String.valueOf(formula.charAt(i));
+              
+                        if(letra.trim().equals("")){
+                            inicio = i;
+                            break;
+                        }
+                            
+                            
+            }
+                 
+               substring = formula.substring(inicio, formula.length());
+                
+                for (int i = 0; i < substring.length(); i++) {
+                    if (String.valueOf(substring.charAt(i)).equals(virgula)) 
+                        return false;
+            }
+        
+        }
+        return true;
+    
+   }
     private void excluirUltimaLetra() {
 
         String formula = jTextFieldFormula.getText().toString();
@@ -921,7 +1037,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }
     private boolean validacaoUsoVirgula()
     {
-        return !isParenteseFechadoUltimo() && !isSinalUltimo() && !jTextFieldFormula.getText().isEmpty() && verificaInsercaoVirgula();
+        return !isParenteseFechadoUltimo() && !isSinalUltimo() && !jTextFieldFormula.getText().isEmpty() && verificaInsercaoVirgulaTeste();
     }
     
     public boolean permitirSinaisAposParenteseFechado(String formula) {
@@ -2013,7 +2129,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButtonDividirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDividirActionPerformed
     {//GEN-HEADEREND:event_jButtonDividirActionPerformed
-        if(!isSinalUltimo() && !jTextFieldFormula.getText().isEmpty())    
+        if(!isSinalUltimoOperador() && !jTextFieldFormula.getText().isEmpty())    
         jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "/ ");
     }//GEN-LAST:event_jButtonDividirActionPerformed
 
@@ -2059,13 +2175,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButtonMultiplicarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonMultiplicarActionPerformed
     {//GEN-HEADEREND:event_jButtonMultiplicarActionPerformed
-        if(!isSinalUltimo() && !jTextFieldFormula.getText().isEmpty())    
+        if(!isSinalUltimoOperador()&& !jTextFieldFormula.getText().isEmpty())    
         jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "* ");
     }//GEN-LAST:event_jButtonMultiplicarActionPerformed
 
     private void jButtonSubtracaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSubtracaoActionPerformed
     {//GEN-HEADEREND:event_jButtonSubtracaoActionPerformed
-        if(!isSinalUltimo() & !jTextFieldFormula.getText().isEmpty())    
+        if(!isSinalUltimoOperador()& !jTextFieldFormula.getText().isEmpty())    
         jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "- ");
     }//GEN-LAST:event_jButtonSubtracaoActionPerformed
 
@@ -2100,12 +2216,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldFormula.setText(removerEspacoEmBranco() + ".");
     }//GEN-LAST:event_jButtonVirgulaActionPerformed
 
-    
-
-    //Botões da calculadora abaixo
     private void jButtonAdicaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAdicaoActionPerformed
     {//GEN-HEADEREND:event_jButtonAdicaoActionPerformed
-        if(!isSinalUltimo() && !jTextFieldFormula.getText().isEmpty())    
+        if(!isSinalUltimoOperador()&& !jTextFieldFormula.getText().isEmpty())    
         jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "+ ");
     }//GEN-LAST:event_jButtonAdicaoActionPerformed
 
