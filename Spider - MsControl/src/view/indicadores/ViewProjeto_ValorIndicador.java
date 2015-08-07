@@ -1,9 +1,12 @@
 package view.indicadores;
 
+import bsh.EvalError;
+import bsh.Interpreter;
 import controller.CtrlIndicador;
 import controller.CtrlValores;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -25,6 +28,8 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel comboBoxModel;
     private List<Indicador> listaIndicadores;
     private Indicador indicadorSelecionado;
+    private String[] arrayFormulaQuebrada;
+    private List<String> listaVariaveis;
 
     public ViewProjeto_ValorIndicador() {
         initComponents();
@@ -36,6 +41,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     }
 
     public void limparCampos() {
+        arrayFormulaQuebrada = null;
         jTextFieldFormula.setText("");
         jLabelMedidaSelecionada.setText("Medida selecionada:");
 
@@ -45,6 +51,8 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Data de geração"}, 0, false);
         jTableValormedida.setModel(checkModel);
         jTableValormedida.getColumnModel().getColumn(0).setPreferredWidth(20);
+
+        jButtonRemover.setEnabled(false);
     }
 
     private void getListadeIndicadoresComProcAnalise() {
@@ -70,16 +78,8 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         indicadorSelecionado = ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicadores.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
     }
 
-    private void analisaFormula(String formula) {
-        String[] array = formula.split(" ");
-        for (int i = 0; i < array.length; i++) {
-            System.out.println("parte" + i + ":" + array[i]);
-
-            if (contemLetra(array[i])) {
-                System.out.println(array[i] + " contem letra!!");
-                preencheTabelaMinimonicosDaFomula(array[i]);
-            }
-        }
+    private void quebraFormula(String formula) {
+        arrayFormulaQuebrada = formula.split(" ");
     }
 
     private void preencheTabelaMinimonicosDaFomula(String minimonico) {
@@ -100,6 +100,46 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         }
         jTableValormedida.setModel(checkModel);
         jTableValormedida.getColumnModel().getColumn(0).setPreferredWidth(20);
+    }
+
+    private void calcularValorIndicador() {
+        try {
+            quebraFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+            Interpreter interpreter = new Interpreter();
+            int numLinhas = jTableValormedida.getRowCount();
+            String result = new String();
+
+            for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
+                if (contemLetra(arrayFormulaQuebrada[i])) {
+                    for (int j = 0; j < numLinhas; j++) {
+                        if ((boolean) jTableValormedida.getModel().getValueAt(j, 0) == true) {
+                            if (jTableValormedida.getModel().getValueAt(j, 1).toString().equals(arrayFormulaQuebrada[i])) {
+                                arrayFormulaQuebrada[i] = jTableValormedida.getModel().getValueAt(j, 2).toString();
+                                result = result + arrayFormulaQuebrada[i];
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    result = result + arrayFormulaQuebrada[i];
+                }
+            }
+
+            modelJlist.addElement(result + " = " + interpreter.eval("Resultado = " + result));
+            jListFormulasCalculadas.setModel(modelJlist);
+        } catch (EvalError error) {
+            error.printStackTrace();
+        }
+    }
+
+    private void checaRepetidoLista() {
+        for (int i = 0; i < listaVariaveis.size(); i++) {
+            for (int j = i + 1; j < listaVariaveis.size(); j++) {
+                if (listaVariaveis.get(i).equals(listaVariaveis.get(j))) {
+                    listaVariaveis.remove(j);
+                }
+            }
+        }
     }
 
     private boolean contemLetra(String texto) {
@@ -127,7 +167,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jButtonGerar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonRemover = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListFormulasCalculadas = new javax.swing.JList();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -249,13 +289,18 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("Remover");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRemover.setText("Remover");
+        jButtonRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonRemoverActionPerformed(evt);
             }
         });
 
+        jListFormulasCalculadas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListFormulasCalculadasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListFormulasCalculadas);
 
         jTableValormedida.setModel(new javax.swing.table.DefaultTableModel(
@@ -307,7 +352,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButtonGerar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
+                                .addComponent(jButtonRemover)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
@@ -333,7 +378,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2)
-                            .addComponent(jButton1)
+                            .addComponent(jButtonRemover)
                             .addComponent(jButtonGerar)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -364,23 +409,39 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldFormulaActionPerformed
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
-        modelJlist.addElement("2 * 1 + 4 * 3 = 14");
-        jListFormulasCalculadas.setModel(modelJlist);
+        calcularValorIndicador();
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modelJlist = new DefaultListModel();
+    private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
         modelJlist.removeElementAt(jListFormulasCalculadas.getSelectedIndex());
         jListFormulasCalculadas.setModel(modelJlist);
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+        if (modelJlist.isEmpty()) {
+            jButtonRemover.setEnabled(false);
+        }
+    }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
             pegaIndicadorSelecionado();
             jTextFieldFormula.setText(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+            listaVariaveis = new ArrayList<>();
 
             checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Data de geração"}, 0, false);
-            analisaFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+            quebraFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+            
+            for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
+                System.out.println("parte" + i + ":" + arrayFormulaQuebrada[i]);
+                if (contemLetra(arrayFormulaQuebrada[i])) {
+                    System.out.println(arrayFormulaQuebrada[i] + " contem letra!!");
+                    listaVariaveis.add(arrayFormulaQuebrada[i]);
+                }
+            }
+
+            checaRepetidoLista();
+            for (int j = 0; j < listaVariaveis.size(); j++) {
+                preencheTabelaMinimonicosDaFomula(listaVariaveis.get(j));
+            }
         } else {
             limparCampos();
         }
@@ -389,6 +450,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     private void jTableValormedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableValormedidaMouseClicked
         if (evt.getClickCount() >= 1) {
             int linhaSelecioada = jTableValormedida.getSelectedRow();
+            //System.out.println("------->>linhaSelecioada = " + linhaSelecioada);
 
             Valormedida valormedida = ctrlValores.buscarValorMedidaSelecionado(jTableValormedida.getModel().getValueAt(linhaSelecioada, 1).toString(), Copia.getProjetoSelecionado().getId());
             jLabelMedidaSelecionada.setText("<html>Medida selecionada: <b>" + valormedida.getMedidaid().getNome() + "</b></html>");
@@ -407,13 +469,19 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jTableValormedidaMouseClicked
 
+    private void jListFormulasCalculadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListFormulasCalculadasMouseClicked
+        if (jListFormulasCalculadas.getModel().getSize() > 0) {
+            jButtonRemover.setEnabled(true);
+        }
+    }//GEN-LAST:event_jListFormulasCalculadasMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private net.sf.nachocalendar.components.DateField dateField2;
     private net.sf.nachocalendar.components.DateField dateFieldDe;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonGerar;
+    private javax.swing.JButton jButtonRemover;
     private javax.swing.JComboBox jComboBoxIndicadores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
