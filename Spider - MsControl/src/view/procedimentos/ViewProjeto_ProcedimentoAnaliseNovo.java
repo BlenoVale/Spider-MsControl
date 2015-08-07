@@ -47,7 +47,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     String [] numbers = new String[] {"0" , "1" , "2", "3" , "4", "5" ,"6" ,"7" , "8" , "9"};
     String [] sinals = new String[] {"/" , "+", "*", "-", ".", "(" };
-    String [] sinalsOperador = new String[] {"/" , "+", "*", "-", ".", "(" , "0"};
+    String [] sinalsOperador = new String[] {"/" , "+", "*", "-", ".", "("};
     String [] sinaisParenteseAberto = new String[] {"/" , "+", "*", "-","("};
     String [] sinalsMnemonico = new String[] {"/" , "+", "*", "-", ".", "("};
     
@@ -470,21 +470,26 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
         
         if (verificaUltimaLetraDupla() == false){
-            mensagem = "Campo \"Formula\" incorreto";
+            mensagem = "Campo \"Formula\" incorreto, sua fórmula não deve ser finalizada \ncom final \"0.\", \"01\", \"02\", \"03\", \"04\", \"05\", \"06\", \"07\",\"08\", \"09\" ";
             cont++;
         }
         
         if (verificaUltimaLetraIndividual()== false){
-            mensagem = "Campo \"Formula\" incorreto";
+            mensagem = "Campo \"Formula\" incorreto, sua fórmula não pode ser finalizada \ncom esses caracteres \"0\", \"/\", \"-\", \"*\", \"+\", \"(\", \".\" ";
             cont++;
         }
         if (!campoUnico()){
-            mensagem = "Campo \"Formula\" incorreto";
+            mensagem = "Campo \"Formula\" incorreto, verifique sua fórmula de campo único";
             cont++;
         }
         
         if (!validaCountParenteses()){
-            mensagem = "Campo \"Formula\" incorreto";
+            mensagem = "Campo \"Formula\" incorreto, verifique ausência de um parêntese de fechamento.";
+            cont++;
+        }
+        
+        if (isZeroEntreSinais()){
+            mensagem = "Campo \"Formula\" incorreto, verifique zero entre sinais.";
             cont++;
         }
         
@@ -846,7 +851,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
        String letraA = null;
        String letraB = null;
        
-       String [] naopode = new String[] {"0.", "01", "02", "03", "04", "05", "06", "07","08", "09",};
+       String [] naopode = new String[] {"0.", "01", "02", "03", "04", "05", "06", "07","08", "09"};
        
        if(!formula.isEmpty()){
            letraA = String.valueOf(formula.charAt(formula.length() - 1));
@@ -930,29 +935,6 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         return false;
 
     }
-    
-     private boolean verificaInsercaoVirgula() {
-
-        String formula = jTextFieldFormula.getText().toString();
-        int contA = 0;
-        int contB = 0;
-        String virgula = ".";
-        
-        if (!formula.isEmpty()) {
-            for (int i = 0; i < formula.length(); i++) {
-                String letra = String.valueOf(formula.charAt(i));
-                if ( letra.equals(virgula)) 
-                    contA++;
-                 
-        }
-        }
-        if (contA == contB) 
-            return true;
-        return false;
-
-    
-   }
-     
    //@TODO teste para adicionar nova virgula
      
      private boolean verificaInsercaoVirgulaTeste() {
@@ -1041,6 +1023,16 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         }
         
+        return false;
+    }
+    
+    private boolean isZeroEntreSinais(){
+        String formula = jTextFieldFormula.getText().trim();
+        
+        if(!formula.isEmpty()){
+            if(formula.contains(" 0 "))
+                return true;
+        }
         return false;
     }
     
