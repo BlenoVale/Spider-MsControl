@@ -51,7 +51,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         modelJlist = new DefaultListModel();
         jListValorIndicador.setModel(modelJlist);
 
-        checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Data de geração"}, 0, false);
+        checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Gerado"}, 0, false);
         jTableValormedida.setModel(checkModel);
         jTableValormedida.getColumnModel().getColumn(0).setPreferredWidth(20);
 
@@ -125,6 +125,32 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         }
         jTableValormedida.setModel(checkModel);
         jTableValormedida.getColumnModel().getColumn(0).setPreferredWidth(20);
+    }
+
+    private void preencheTabelaPelaData() {
+        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
+            pegaIndicadorSelecionado();
+            listaVariaveis = new ArrayList<>();
+
+            checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Gerado"}, 0, false);
+            quebraFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
+
+            for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
+                System.out.println("parte" + i + ":" + arrayFormulaQuebrada[i]);
+                if (contemLetra(arrayFormulaQuebrada[i])) {
+                    System.out.println(arrayFormulaQuebrada[i] + " contem letra!!");
+                    listaVariaveis.add(arrayFormulaQuebrada[i]);
+                }
+            }
+
+            checaRepetidoLista();
+            for (int j = 0; j < listaVariaveis.size(); j++) {
+                preemcherTabelaMnemonicoPorDatas(listaVariaveis.get(j), (Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue());
+            }
+            jLabelMedidaSelecionada.setText("Medida selecionada:");
+        } else {
+            limparCampos();
+        }
     }
 
     private void calcularValorIndicador() {
@@ -486,7 +512,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             jTextFieldFormula.setText(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
             listaVariaveis = new ArrayList<>();
 
-            checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Data de geração"}, 0, false);
+            checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Gerado"}, 0, false);
             quebraFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
 
             for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
@@ -538,55 +564,11 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jListValorIndicadorMouseClicked
 
     private void dateFieldAteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldAteStateChanged
-        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
-            pegaIndicadorSelecionado();
-            listaVariaveis = new ArrayList<>();
-
-            checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Data de geração"}, 0, false);
-            quebraFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
-
-            for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
-                System.out.println("parte" + i + ":" + arrayFormulaQuebrada[i]);
-                if (contemLetra(arrayFormulaQuebrada[i])) {
-                    System.out.println(arrayFormulaQuebrada[i] + " contem letra!!");
-                    listaVariaveis.add(arrayFormulaQuebrada[i]);
-                }
-            }
-
-            checaRepetidoLista();
-            for (int j = 0; j < listaVariaveis.size(); j++) {
-                preemcherTabelaMnemonicoPorDatas(listaVariaveis.get(j), (Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue());
-            }
-            jLabelMedidaSelecionada.setText("Medida selecionada:");
-        } else {
-            limparCampos();
-        }
+        preencheTabelaPelaData();
     }//GEN-LAST:event_dateFieldAteStateChanged
 
     private void dateFieldDeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldDeStateChanged
-        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
-            pegaIndicadorSelecionado();
-            listaVariaveis = new ArrayList<>();
-
-            checkModel = new CheckDefaultTableModel(new String[]{" ", "Mnemônico", "Valor Medida", "Periodicidade", "Data de geração"}, 0, false);
-            quebraFormula(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
-
-            for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
-                System.out.println("parte" + i + ":" + arrayFormulaQuebrada[i]);
-                if (contemLetra(arrayFormulaQuebrada[i])) {
-                    System.out.println(arrayFormulaQuebrada[i] + " contem letra!!");
-                    listaVariaveis.add(arrayFormulaQuebrada[i]);
-                }
-            }
-
-            checaRepetidoLista();
-            for (int j = 0; j < listaVariaveis.size(); j++) {
-                preemcherTabelaMnemonicoPorDatas(listaVariaveis.get(j), (Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue());
-            }
-            jLabelMedidaSelecionada.setText("Medida selecionada:");
-        } else {
-            limparCampos();
-        }
+        preencheTabelaPelaData();
     }//GEN-LAST:event_dateFieldDeStateChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
