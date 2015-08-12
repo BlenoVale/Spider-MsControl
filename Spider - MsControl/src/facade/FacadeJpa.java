@@ -2,7 +2,6 @@ package facade;
 
 import jpa.AcessaJpaController;
 import jpa.AnaliseJpaController;
-import jpa.DatasprocedimentocoletaJpaController;
 import jpa.MedidaJpaController;
 import jpa.ObjetivodemedicaoJpaController;
 import jpa.ObjetivodequestaoJpaController;
@@ -22,7 +21,6 @@ import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
-import jpa.ValormedidaJpaController;
 import jpa.extensao.DatasProcedimentoColetaJpa;
 import jpa.extensao.MeioComunicacaoJpa;
 import jpa.extensao.MeioComunicacaoProcedimentoAnaliseJpa;
@@ -36,6 +34,7 @@ import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoAnalise;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
 import jpa.extensao.ResultadosJpa;
+import jpa.extensao.ValorIndicadorJpa;
 import jpa.extensao.ValorMedidaJpa;
 import util.Conexao;
 
@@ -85,6 +84,7 @@ public class FacadeJpa {
     private final MeioComunicacaoProcedimentoAnaliseJpa meioComunicacaoProcedimentoAnaliseJpa;
     private final PerfislInteressadoProcedimentoAnaliseJpa perfislInteressadoProcedimentoAnaliseJpa;
     private final ValorMedidaJpa valorMedidaJpa;
+    private final ValorIndicadorJpa valorIndicadorJpa;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -122,6 +122,7 @@ public class FacadeJpa {
         meioComunicacaoProcedimentoAnaliseJpa = new MeioComunicacaoProcedimentoAnaliseJpa();
         perfislInteressadoProcedimentoAnaliseJpa = new PerfislInteressadoProcedimentoAnaliseJpa();
         valorMedidaJpa = new ValorMedidaJpa();
+        valorIndicadorJpa = new ValorIndicadorJpa();
     }
 
     public static FacadeJpa getInstance() {
@@ -274,5 +275,9 @@ public class FacadeJpa {
     
     public ValorMedidaJpa getValorMedidaJpa(){
         return valorMedidaJpa;
+    }
+    
+    public ValorIndicadorJpa getValorIndicadorJpa(){
+        return valorIndicadorJpa;
     }
 }

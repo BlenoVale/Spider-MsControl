@@ -269,7 +269,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Aprovação");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Valor Indicador");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Valor");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Análise");
         treeNode2.add(treeNode3);
@@ -606,7 +606,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             trocaTelas(viewProjeto_Aprovacao);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_Analise);
-        } else if (no_filho.equals("Valor Indicador") && no_pai.endsWith("Indicadores")) {
+        } else if (no_filho.equals("Valor") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_ValorIndicador); 
             viewProjeto_ValorIndicador.showValorIndicador();
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
