@@ -65,9 +65,22 @@ public class ConexaoPDF {
     public void gerarPDF_ProcColeta() {
          try {
             estabelecerConexao();
-            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Sandro Bezerra\\Documents\\NetBeansProjects\\Ireport_ProcColeta\\src\\Ireport_ProcColeta\\Ireport_ProcColeta.jasper", null, getConexao());
+            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Sandro Bezerra\\Documents\\NetBeansProjects\\Spider-MsControl\\Spider - MsControl\\src\\util\\PDF\\Ireport_ProcColeta.jasper", null, getConexao());
             JasperViewer jrViewer = new JasperViewer(jasperPrint, false);
-            jrViewer.setTitle("RelatorioSpider" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+            jrViewer.setTitle("Relatorio_ProcedimentoDeColeta" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+            jrViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
+            jrViewer.setVisible(Boolean.TRUE);
+        } catch (JRException ex) {
+            Logger.getLogger(ConexaoPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void gerarPDF_ProcAnalise() {
+        try {
+            estabelecerConexao();
+            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Sandro Bezerra\\Documents\\NetBeansProjects\\Spider-MsControl\\Spider - MsControl\\src\\util\\PDF\\Ireport_ProcAnalise.jasper", null, getConexao());
+            JasperViewer jrViewer = new JasperViewer(jasperPrint, false);
+            jrViewer.setTitle("Relatorio_ProcedimentoDeAnalise" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
             jrViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
             jrViewer.setVisible(Boolean.TRUE);
         } catch (JRException ex) {

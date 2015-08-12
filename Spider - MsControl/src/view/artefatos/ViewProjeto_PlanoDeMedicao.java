@@ -38,37 +38,18 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     public ViewProjeto_PlanoDeMedicao() {
         initComponents();
     }
-
-//    private void tipoDeRelatorio() {
-//
-//        if (jCheckBoxProcColeta.isSelected() || jCheckBoxProcAnalise.isSelected()) {
-//            if (!jCheckBoxProcColeta.isSelected()) {
-//                try {
-//                     Conexao.conectar();
-//                     JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Sandro Bezerra\\Documents\\NetBeansProjects\\Ireport_ProcColeta\\src\\Ireport_ProcColeta\\Ireport_ProcColeta.jasper", null, );
-//                     JasperViewer jrViewer = new JasperViewer(jasperPrint, false);
-//                     jrViewer.setTitle("RelatorioSpider" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-//                     jrViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
-//                     jrViewer.setVisible(Boolean.TRUE);
-//                } catch (JRException ex) {
-//                        Logger.getLogger(Ireport.class.getName()).log(Level.SEVERE, null, ex);
-//                  }
-//            }
-//                
-//            if (!jCheckBoxProcAnalise.isSelected())
-//                try {
-//                     Conexao.estabelecerConexao();
-//                     JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\Users\\Sandro Bezerra\\Documents\\NetBeansProjects\\Ireport_ProcAnalise\\src\\Ireport_ProcAnalise\\Ireport_ProcAnalise.jasper", null, Conexao.getConexao());
-//                     JasperViewer jrViewer = new JasperViewer(jasperPrint, false);
-//                     jrViewer.setTitle("RelatorioSpider" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-//                     jrViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
-//                     jrViewer.setVisible(Boolean.TRUE);
-//                } catch (JRException ex) {
-//                         Logger.getLogger(Ireport2.class.getName()).log(Level.SEVERE, null, ex);
-//                  }
-//            }
-//        }
-//    }
+    
+    private void tipoRelatorio() {
+        
+        if (jCheckBoxProcColeta.isSelected() || jCheckBoxProcAnalise.isSelected()) {
+            ConexaoPDF conexaoPDF = new ConexaoPDF();
+            
+            if (jCheckBoxProcColeta.isSelected())
+                conexaoPDF.gerarPDF_ProcColeta();
+            if (jCheckBoxProcAnalise.isSelected())
+                conexaoPDF.gerarPDF_ProcAnalise();
+        }
+    }
     
     public void showInformaçõesPlanoMedicao() {
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
@@ -250,8 +231,7 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
-        ConexaoPDF conexaoPDF = new ConexaoPDF();
-        conexaoPDF.gerarPDF_ProcColeta();
+          tipoRelatorio();
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
     private void jCheckBoxProcColetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProcColetaActionPerformed
