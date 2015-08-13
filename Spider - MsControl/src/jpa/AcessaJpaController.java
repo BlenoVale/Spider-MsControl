@@ -40,9 +40,9 @@ public class AcessaJpaController implements Serializable {
         if (acessa.getAcessaPK() == null) {
             acessa.setAcessaPK(new AcessaPK());
         }
+        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setProjetoid(acessa.getProjeto().getId());
         acessa.getAcessaPK().setUsuarioid(acessa.getUsuario().getId());
-        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -89,9 +89,9 @@ public class AcessaJpaController implements Serializable {
     }
 
     public void edit(Acessa acessa) throws NonexistentEntityException, Exception {
+        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setProjetoid(acessa.getProjeto().getId());
         acessa.getAcessaPK().setUsuarioid(acessa.getUsuario().getId());
-        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         EntityManager em = null;
         try {
             em = getEntityManager();

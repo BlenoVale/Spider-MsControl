@@ -117,12 +117,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextAreaAcoesAlerta.setText(procedimentodeanaliseUsuario.getAcoesAlerta());
         jTextAreaAcoesCritico.setText(procedimentodeanaliseUsuario.getAcoesCritico());
         jTextAreaAcoesOk.setText(procedimentodeanaliseUsuario.getAcoesOk());
+        
         jTextAreaCriterioAlerta.setText(procedimentodeanaliseUsuario.getCriterioAlerta());
         jTextAreaCriterioCritico.setText(procedimentodeanaliseUsuario.getCriterioCritico());
         jTextAreaCriterioOk.setText(procedimentodeanaliseUsuario.getCriterioOk());
-        jTextFieldMetaAlerta.setText(procedimentodeanaliseUsuario.getMetaAlerta());
-        jTextFieldMetaCritico.setText(procedimentodeanaliseUsuario.getMetaCritico());
-        jTextFieldMetaOk.setText(procedimentodeanaliseUsuario.getMetaOk());
+        
+        jTextFieldMetaAlerta.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaAlerta()));
+        jTextFieldMetaCritico.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaCritico()));
+        jTextFieldMetaOk.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaOk())); 
+        
         jTextFieldResponsavel.setText(procedimentodeanaliseUsuario.getResponsavel());
         jTextFieldFrequencia1.setText(procedimentodeanaliseUsuario.getFrequencia());
         dateField.setValue(procedimentodeanaliseUsuario.getDataComunicacao());
@@ -364,9 +367,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxPeriodicidade.setSelectedItem(procedimentodeanalise.getPeriodicidade());
         jComboBoxTipoGrafico.setSelectedItem(procedimentodeanalise.getGraficoNome());
         jTextAreaObservacao.setText(procedimentodeanalise.getObservacao());
-        jTextFieldMetaOk.setText(procedimentodeanalise.getMetaOk());
-        jTextFieldMetaAlerta.setText(procedimentodeanalise.getMetaAlerta());
-        jTextFieldMetaCritico.setText(procedimentodeanalise.getMetaCritico());
+        jTextFieldMetaOk.setText(String.valueOf(procedimentodeanalise.getMetaOk()));
+        jTextFieldMetaAlerta.setText(String.valueOf(procedimentodeanalise.getMetaAlerta())); 
+        jTextFieldMetaCritico.setText(String.valueOf(procedimentodeanalise.getMetaCritico())); 
         jTextAreaCriterioOk.setText(procedimentodeanalise.getCriterioOk());
         jTextAreaCriterioAlerta.setText(procedimentodeanalise.getCriterioAlerta());
         jTextAreaCriterioCritico.setText(procedimentodeanalise.getCriterioCritico());
@@ -2139,9 +2142,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         procedimentodeanalise.setCriterioCritico(jTextAreaCriterioCritico.getText());
         procedimentodeanalise.setCriterioOk(jTextAreaCriterioOk.getText());
 
-        procedimentodeanalise.setMetaAlerta(jTextFieldMetaAlerta.getText());
-        procedimentodeanalise.setMetaCritico(jTextFieldMetaCritico.getText());
-        procedimentodeanalise.setMetaOk(jTextFieldMetaOk.getText());
+        procedimentodeanalise.setMetaAlerta(Double.parseDouble(jTextFieldMetaAlerta.getText()));
+        procedimentodeanalise.setMetaCritico(Double.parseDouble(jTextFieldMetaCritico.getText())); 
+        procedimentodeanalise.setMetaOk(Double.parseDouble(jTextFieldMetaOk.getText())); 
 
         procedimentodeanalise.setResponsavel(jTextFieldResponsavel.getText());
         procedimentodeanalise.setComposicao(nomeRadioSelecionado());

@@ -89,9 +89,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         Procedimentodeanalise procedimentoAnalise = valorindicador.getIndicadorid().getProcedimentodeanaliseList().get(0);
         
         double ultimoValor = valorindicador.getValor();
-        double metaCritico = Double.parseDouble(procedimentoAnalise.getMetaCritico());
-        double metaAlerta = Double.parseDouble(procedimentoAnalise.getMetaAlerta());
-        double metaOK = Double.parseDouble(procedimentoAnalise.getMetaOk());
+        double metaCritico = procedimentoAnalise.getMetaCritico();
+        double metaAlerta = procedimentoAnalise.getMetaAlerta();
+        double metaOK = procedimentoAnalise.getMetaOk();
         
         if (ultimoValor <= metaCritico) {
             jTextFieldMeta.setText("CRÍTICO");
@@ -560,7 +560,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             pegaIndicadorSelecionado();
             preencherTabelaPelaData();
             statusDoIndicador();
-            jButtonInformacao.setEnabled(true); 
+            jButtonInformacao.setEnabled(true);            
         }
     }//GEN-LAST:event_jComboBoxIndicadoresActionPerformed
 
@@ -589,7 +589,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void jButtonInformacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformacaoActionPerformed
         View_InformacaoDialog view_InformacaoDialog = new View_InformacaoDialog(null, true);
-        view_InformacaoDialog.setVisible(true); 
+        view_InformacaoDialog.preencheCamposInfo(indicadorSelecionado.getProcedimentodeanaliseList().get(0)); 
+        view_InformacaoDialog.setVisible(true);        
     }//GEN-LAST:event_jButtonInformacaoActionPerformed
 
 

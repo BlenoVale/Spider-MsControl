@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,8 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Analise.findAll", query = "SELECT a FROM Analise a"),
-    @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.id = :id"),
-    @NamedQuery(name = "Analise.findByCriterioDeAnalise", query = "SELECT a FROM Analise a WHERE a.criterioDeAnalise = :criterioDeAnalise")})
+    @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.id = :id")})
 public class Analise implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,8 +41,13 @@ public class Analise implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @Lob
     @Column(name = "criterioDeAnalise")
     private String criterioDeAnalise;
+    @Lob
+    @Column(name = "observacao")
+    private String observacao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
     private List<Resultados> resultadosList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
@@ -56,6 +61,11 @@ public class Analise implements Serializable {
 
     public Analise(Integer id) {
         this.id = id;
+    }
+
+    public Analise(Integer id, String criterioDeAnalise) {
+        this.id = id;
+        this.criterioDeAnalise = criterioDeAnalise;
     }
 
     public Integer getId() {
@@ -72,6 +82,14 @@ public class Analise implements Serializable {
 
     public void setCriterioDeAnalise(String criterioDeAnalise) {
         this.criterioDeAnalise = criterioDeAnalise;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
     @XmlTransient

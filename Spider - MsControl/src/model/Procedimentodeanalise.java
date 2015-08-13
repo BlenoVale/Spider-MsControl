@@ -44,12 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Procedimentodeanalise.findByMetaOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaOk = :metaOk"),
     @NamedQuery(name = "Procedimentodeanalise.findByMetaAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaAlerta = :metaAlerta"),
     @NamedQuery(name = "Procedimentodeanalise.findByMetaCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.metaCritico = :metaCritico"),
-    @NamedQuery(name = "Procedimentodeanalise.findByCriterioOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioOk = :criterioOk"),
-    @NamedQuery(name = "Procedimentodeanalise.findByCriterioAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioAlerta = :criterioAlerta"),
-    @NamedQuery(name = "Procedimentodeanalise.findByCriterioCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.criterioCritico = :criterioCritico"),
-    @NamedQuery(name = "Procedimentodeanalise.findByAcoesOk", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesOk = :acoesOk"),
-    @NamedQuery(name = "Procedimentodeanalise.findByAcoesAlerta", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesAlerta = :acoesAlerta"),
-    @NamedQuery(name = "Procedimentodeanalise.findByAcoesCritico", query = "SELECT p FROM Procedimentodeanalise p WHERE p.acoesCritico = :acoesCritico"),
     @NamedQuery(name = "Procedimentodeanalise.findByDataComunicacao", query = "SELECT p FROM Procedimentodeanalise p WHERE p.dataComunicacao = :dataComunicacao"),
     @NamedQuery(name = "Procedimentodeanalise.findByProjetoId", query = "SELECT p FROM Procedimentodeanalise p WHERE p.projetoId = :projetoId")})
 public class Procedimentodeanalise implements Serializable {
@@ -81,29 +75,35 @@ public class Procedimentodeanalise implements Serializable {
     private String graficoNome;
     @Basic(optional = false)
     @Column(name = "metaOk")
-    private String metaOk;
+    private double metaOk;
     @Basic(optional = false)
     @Column(name = "metaAlerta")
-    private String metaAlerta;
+    private double metaAlerta;
     @Basic(optional = false)
     @Column(name = "metaCritico")
-    private String metaCritico;
+    private double metaCritico;
     @Basic(optional = false)
+    @Lob
     @Column(name = "criterioOk")
     private String criterioOk;
     @Basic(optional = false)
+    @Lob
     @Column(name = "criterioAlerta")
     private String criterioAlerta;
     @Basic(optional = false)
+    @Lob
     @Column(name = "criterioCritico")
     private String criterioCritico;
     @Basic(optional = false)
+    @Lob
     @Column(name = "acoesOk")
     private String acoesOk;
     @Basic(optional = false)
+    @Lob
     @Column(name = "acoesAlerta")
     private String acoesAlerta;
     @Basic(optional = false)
+    @Lob
     @Column(name = "acoesCritico")
     private String acoesCritico;
     @Basic(optional = false)
@@ -135,7 +135,7 @@ public class Procedimentodeanalise implements Serializable {
         this.id = id;
     }
 
-    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String frequencia, String graficoNome, String metaOk, String metaAlerta, String metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, Date dataComunicacao, int projetoId) {
+    public Procedimentodeanalise(Integer id, String responsavel, String composicao, String formula, String periodicidade, String frequencia, String graficoNome, double metaOk, double metaAlerta, double metaCritico, String criterioOk, String criterioAlerta, String criterioCritico, String acoesOk, String acoesAlerta, String acoesCritico, Date dataComunicacao, int projetoId) {
         this.id = id;
         this.responsavel = responsavel;
         this.composicao = composicao;
@@ -212,27 +212,27 @@ public class Procedimentodeanalise implements Serializable {
         this.graficoNome = graficoNome;
     }
 
-    public String getMetaOk() {
+    public double getMetaOk() {
         return metaOk;
     }
 
-    public void setMetaOk(String metaOk) {
+    public void setMetaOk(double metaOk) {
         this.metaOk = metaOk;
     }
 
-    public String getMetaAlerta() {
+    public double getMetaAlerta() {
         return metaAlerta;
     }
 
-    public void setMetaAlerta(String metaAlerta) {
+    public void setMetaAlerta(double metaAlerta) {
         this.metaAlerta = metaAlerta;
     }
 
-    public String getMetaCritico() {
+    public double getMetaCritico() {
         return metaCritico;
     }
 
-    public void setMetaCritico(String metaCritico) {
+    public void setMetaCritico(double metaCritico) {
         this.metaCritico = metaCritico;
     }
 
