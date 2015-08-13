@@ -29,7 +29,7 @@ import util.Observer;
 import view.artefatos.ViewProjeto_PlanoDeMedicao;
 import view.artefatos.ViewProjeto_Relatorio;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
-import view.medidas.ViewProjeto_Analise;
+import view.indicadores.ViewProjeto_Analise;
 import view.indicadores.ViewProjetoAprovacao;
 import view.indicadores.ViewProjeto_Indicadores;
 import view.indicadores.ViewProjeto_ValorIndicador;
@@ -606,6 +606,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             trocaTelas(viewProjeto_Aprovacao);
         } else if (no_filho.equals("Análise") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_Analise);
+            viewProjeto_Analise.showAnalise();
         } else if (no_filho.equals("Valor") && no_pai.endsWith("Indicadores")) {
             trocaTelas(viewProjeto_ValorIndicador); 
             viewProjeto_ValorIndicador.showValorIndicador();

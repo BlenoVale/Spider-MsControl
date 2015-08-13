@@ -179,7 +179,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             modelJlist.addElement(result + " = " + interpreter.eval("Resultado = " + result));
             jListValorIndicador.setModel(modelJlist);
         } catch (EvalError error) {
-            JOptionPane.showMessageDialog(null, "É necessário selecionar um valor Para cada\n variavel da formula na tabela.");
+            JOptionPane.showMessageDialog(null, "É necessário selecionar um valor Para cada\n variável da fórmula na tabela.");
         }
     }
 

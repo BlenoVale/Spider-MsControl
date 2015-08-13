@@ -37,14 +37,29 @@ public class CtrlValores {
             throw error;
         }
     }
-    
-    
-    public boolean cadastraValorIndicador(Valorindicador valorindicador){
+
+    public boolean cadastraValorIndicador(Valorindicador valorindicador) {
         try {
-            facadeJpa.getValorIndicadorJpa().create(valorindicador); 
+            facadeJpa.getValorIndicadorJpa().create(valorindicador);
             return true;
         } catch (Exception error) {
             return false;
+        }
+    }
+
+    public Valorindicador buscaUltimoValorIndicadorDoProjeto(String nomeIndicador, int idProjeto) {
+        try {
+            return facadeJpa.getValorIndicadorJpa().findLastValorIndicador(nomeIndicador, idProjeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
+    public List<Valorindicador> buscarValorIndicadorPorDatas(Date dataInicio, Date dataFim, int idIndicador, int idProjeto) {
+        try {
+            return facadeJpa.getValorIndicadorJpa().findValorIndicadorByDatasAndProjeto(dataInicio, dataFim, idIndicador, idProjeto);
+        } catch (Exception error) {
+            throw error;
         }
     }
 }
