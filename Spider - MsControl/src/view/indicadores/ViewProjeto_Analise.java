@@ -27,7 +27,7 @@ import util.MyDefaultTableModel;
  * @author BlenoVale
  */
 public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
-    
+
     private DefaultTableModel defaultTableModel;
     private List<Indicador> listaIndicadores;
     private Indicador indicadorSelecionado;
@@ -35,41 +35,46 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private final CtrlValores ctrlValores = new CtrlValores();
     private DefaultComboBoxModel comboBoxModel;
     private MyDefaultTableModel tableModel;
-    
+
+    private double metaCritico;
+    private double metaAlerta;
+    private double metaOK;
+
     public ViewProjeto_Analise() {
         initComponents();
-        
+
         jPanelGrafico.setVisible(false);
         Internal.retiraBotao(this);
     }
-    
+
     public void showAnalise() {
         populaComboboxIndicadores();
         limparAnalise();
     }
-    
+
     private void limparAnalise() {
         jTextFieldMeta.setText("");
         jTextFieldMeta.setBackground(Color.white);
         jTextFieldCriterio.setText("");
         jTextFieldCriterio.setBackground(Color.white);
-        
+        jLabelValorAtual.setText("<html><b>Valor atual<br> do indicador:</b></html>");
+
         tableModel = new MyDefaultTableModel(new String[]{"Valor", "Ponto de vista", "Data"}, 0, false);
         jTableValorIndicador.setModel(tableModel);
-        
+
         jButtonInformacao.setEnabled(false);
-        
+
     }
-    
+
     private void getListadeIndicadoresComProcAnalise() {
         listaIndicadores = new ArrayList<>();
         listaIndicadores = ctrlIndicador.getIndicadoresDoProjeto(Copia.getProjetoSelecionado().getId());
     }
-    
+
     private void populaComboboxIndicadores() {
         comboBoxModel = new DefaultComboBoxModel();
         comboBoxModel.addElement("--Selecione um indicador--");
-        
+
         getListadeIndicadoresComProcAnalise();
         for (int i = 0; i < listaIndicadores.size(); i++) {
             if (!listaIndicadores.get(i).getProcedimentodeanaliseList().isEmpty()) {
@@ -78,68 +83,81 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         }
         jComboBoxIndicadores.setModel(comboBoxModel);
     }
-    
+
     private void pegaIndicadorSelecionado() {
         indicadorSelecionado = new Indicador();
         indicadorSelecionado = ctrlIndicador.buscarIndicadorPeloNome(jComboBoxIndicadores.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
     }
-    
-    public void statusDoIndicador() {
+
+    private void statusDoIndicador() {
         Valorindicador valorindicador = ctrlValores.buscaUltimoValorIndicadorDoProjeto(indicadorSelecionado.getNome(), Copia.getProjetoSelecionado().getId());
         Procedimentodeanalise procedimentoAnalise = valorindicador.getIndicadorid().getProcedimentodeanaliseList().get(0);
-        
+
         double ultimoValor = valorindicador.getValor();
-        double metaCritico = procedimentoAnalise.getMetaCritico();
-        double metaAlerta = procedimentoAnalise.getMetaAlerta();
-        double metaOK = procedimentoAnalise.getMetaOk();
-        
+        metaCritico = procedimentoAnalise.getMetaCritico();
+        metaAlerta = procedimentoAnalise.getMetaAlerta();
+        metaOK = procedimentoAnalise.getMetaOk();
+
         if (ultimoValor <= metaCritico) {
             jTextFieldMeta.setText("CRÍTICO");
             jTextFieldMeta.setBackground(Color.red);
             jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             jTextFieldCriterio.setText("CRÍTICO");
             jTextFieldCriterio.setBackground(Color.red);
             jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
         } else if (ultimoValor >= metaAlerta && ultimoValor < metaOK) {
             jTextFieldMeta.setText("ALERTA");
             jTextFieldMeta.setBackground(Color.yellow);
             jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             jTextFieldCriterio.setText("ALERTA");
             jTextFieldCriterio.setBackground(Color.yellow);
             jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
         } else if (ultimoValor >= metaOK) {
             jTextFieldMeta.setText("OK");
             jTextFieldMeta.setBackground(Color.green);
             jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             jTextFieldCriterio.setText("OK");
             jTextFieldCriterio.setBackground(Color.green);
             jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
         }
-        
+
+        jLabelValorAtual.setText("<html><b>Valor atual<br> do indicador:</b>  " + ultimoValor + "</html>");
+
     }
-    
-    public void preencherTabelaPelaData() {
+
+    private String statusNaTabela(double valor) {
+        if (valor <= metaCritico) {
+            return "<html><b><font color=\"red\">CRÍTICO</font></b></html>";
+        } else if (valor >= metaAlerta && valor < metaOK) {
+            return "<html><b><font color=\"dadc2f\">ALERTA</font></b></html>";
+        } else {
+            return "<html><b><font color=\"green\">OK</font></b></html>";
+        }
+    }
+
+    private void preencherTabelaPelaData() {
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
             List<Valorindicador> listaValoresIndicador = new ArrayList<>();
             listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas((Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue(), indicadorSelecionado.getId(), Copia.getProjetoSelecionado().getId());
-            
-            tableModel = new MyDefaultTableModel(new String[]{"Valor", "Ponto de vista", "Data"}, 0, false);
+
+            tableModel = new MyDefaultTableModel(new String[]{"Valor", "Status", "Ponto de vista", "Data"}, 0, false);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             for (int i = 0; i < listaValoresIndicador.size(); i++) {
                 String data = simpleDateFormat.format(listaValoresIndicador.get(i).getData());
                 String[] linha = {
                     String.valueOf(listaValoresIndicador.get(i).getValor()),
+                    statusNaTabela(listaValoresIndicador.get(i).getValor()),
                     listaValoresIndicador.get(i).getIndicadorid().getPontoDeVista(),
                     data};
                 tableModel.addRow(linha);
@@ -147,44 +165,44 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             jTableValorIndicador.setModel(tableModel);
         }
     }
-    
+
     private void gerarGrafico() {
         inicializaGraficoPizza();
         jPanelGrafico.setVisible(true);
     }
-    
+
     private void inicializaGraficoPizza() {
         ChartPanel chartPanel = new Grafico().geraGraficoPizza("Pontos que agregam valor");
-        
+
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
-        
+
     }
-    
+
     private void inicializaGraficoBarra() {
         ChartPanel chartPanel = new Grafico().geraGraficoBarra("Pontos que agregam valor", "Sprints", "PAV (%)");
-        
+
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
     }
-    
+
     private void inicializaGraficoLinha() {
         ChartPanel chartPanel = new Grafico().geraGraficoLinha("Pontos que agregam valor", "Sprints", "PAV (%)");
-        
+
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
     }
-    
+
     private void fake() {
         String[] colunas = {"Data", "Responsável", "Valor do indicador"};
         defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-        
+
         String linha1[] = {
             "06/05/2015",
             "Gessica Pinheiro",
@@ -192,7 +210,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         };
         defaultTableModel.addRow(linha1);
         jTableValorIndicador.setModel(defaultTableModel);
-        
+
         String linha2[] = {
             "10/05/2015",
             "Gessica Pinheiro",
@@ -200,7 +218,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         };
         defaultTableModel.addRow(linha2);
         jTableValorIndicador.setModel(defaultTableModel);
-        
+
         String linha3[] = {
             "12/05/2015",
             "Gessica Pinheiro",
@@ -208,7 +226,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         };
         defaultTableModel.addRow(linha3);
         jTableValorIndicador.setModel(defaultTableModel);
-        
+
         String linha4[] = {
             "19/05/2015",
             "Gessica Pinheiro",
@@ -216,7 +234,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         };
         defaultTableModel.addRow(linha4);
         jTableValorIndicador.setModel(defaultTableModel);
-        
+
         String linha5[] = {
             "20/05/2015",
             "Gessica Pinheiro",
@@ -225,7 +243,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         defaultTableModel.addRow(linha5);
         jTableValorIndicador.setModel(defaultTableModel);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -241,6 +259,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextFieldMeta = new javax.swing.JTextField();
         jButtonInformacao = new javax.swing.JButton();
+        jLabelValorAtual = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableValorIndicador = new javax.swing.JTable();
@@ -259,6 +278,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelPlot = new javax.swing.JPanel();
         jComboBoxGrafico = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
 
         setTitle("Análise do Indicador");
 
@@ -291,19 +313,25 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabelValorAtual.setText("Valor Atual do Indicado:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBoxIndicadores, 0, 285, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelValorAtual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxIndicadores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,20 +348,18 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldMeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
+                            .addComponent(jTextFieldMeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxIndicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(1, 1, 1)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBoxIndicadores, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldCriterio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelValorAtual)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jButtonInformacao)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "<html><b>Dados Coletados</b></html>"));
@@ -412,7 +438,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelGrafico.setBackground(new java.awt.Color(204, 204, 204));
         jPanelGrafico.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel7.setText("Observação:");
+        jLabel7.setText("Análise:");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -433,7 +459,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         );
         jPanelPlotLayout.setVerticalGroup(
             jPanelPlotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGap(0, 312, Short.MAX_VALUE)
         );
 
         jComboBoxGrafico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pizza", "Barra", "Linha" }));
@@ -444,6 +470,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         });
 
         jLabel8.setText("Tipo:");
+
+        jLabel9.setText("Observação:");
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane4.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout jPanelGraficoLayout = new javax.swing.GroupLayout(jPanelGrafico);
         jPanelGrafico.setLayout(jPanelGraficoLayout);
@@ -456,14 +488,16 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGraficoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane4)
                     .addGroup(jPanelGraficoLayout.createSequentialGroup()
                         .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addGroup(jPanelGraficoLayout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jComboBoxGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel9))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -475,11 +509,15 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                     .addComponent(jComboBoxGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelPlot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addContainerGap())
@@ -541,7 +579,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -558,16 +596,13 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
             pegaIndicadorSelecionado();
-            preencherTabelaPelaData();
             statusDoIndicador();
-            jButtonInformacao.setEnabled(true);            
+            preencherTabelaPelaData();
+            jButtonInformacao.setEnabled(true);
+        } else {
+            limparAnalise();
         }
     }//GEN-LAST:event_jComboBoxIndicadoresActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jPanelGrafico.setVisible(false);
-        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBoxGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGraficoActionPerformed
         if (jComboBoxGrafico.getSelectedItem() == "Barra") {
@@ -589,9 +624,14 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void jButtonInformacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformacaoActionPerformed
         View_InformacaoDialog view_InformacaoDialog = new View_InformacaoDialog(null, true);
-        view_InformacaoDialog.preencheCamposInfo(indicadorSelecionado.getProcedimentodeanaliseList().get(0)); 
-        view_InformacaoDialog.setVisible(true);        
+        view_InformacaoDialog.preencheCamposInfo(indicadorSelecionado.getProcedimentodeanaliseList().get(0));
+        view_InformacaoDialog.setVisible(true);
     }//GEN-LAST:event_jButtonInformacaoActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jPanelGrafico.setVisible(false);
+        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -611,6 +651,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelValorAtual;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -620,8 +662,10 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTableValorIndicador;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextFieldCriterio;
     private javax.swing.JTextField jTextFieldMeta;
     // End of variables declaration//GEN-END:variables

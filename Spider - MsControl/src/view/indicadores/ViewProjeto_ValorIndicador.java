@@ -4,6 +4,9 @@ import bsh.EvalError;
 import bsh.Interpreter;
 import controller.CtrlIndicador;
 import controller.CtrlValores;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +90,11 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         arrayFormulaQuebrada = formula.split(" ");
     }
 
+    private double formataDecimal(double valor){
+        BigDecimal bigDecimal = new BigDecimal(valor).setScale(3, RoundingMode.HALF_EVEN);
+        return bigDecimal.doubleValue();
+    } 
+    
     private void preemcherTabelaMnemonicoPorDatas(String mnemonico, Date dataInicio, Date dataFim) {
         List<Valormedida> listaValorMedida = new ArrayList<>();
         listaValorMedida = ctrlValores.buscaValorMedidaPorDatas(mnemonico, dataInicio, dataFim, Copia.getProjetoSelecionado().getId());
@@ -98,7 +106,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             Object[] linha = {
                 false,
                 listaValorMedida.get(i).getMedidaid().getMnemonico(),
-                listaValorMedida.get(i).getValor(),
+                formataDecimal(listaValorMedida.get(i).getValor()),
                 listaValorMedida.get(i).getMedidaid().getProcedimentodecoletaList().get(0).getPeriodicidade(),
                 data};
             checkModel.addRow(linha);
@@ -118,7 +126,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             Object[] linha = {
                 false,
                 listaValorMedida.get(i).getMedidaid().getMnemonico(),
-                listaValorMedida.get(i).getValor(),
+                formataDecimal(listaValorMedida.get(i).getValor()),
                 listaValorMedida.get(i).getMedidaid().getProcedimentodecoletaList().get(0).getPeriodicidade(),
                 data};
             checkModel.addRow(linha);
