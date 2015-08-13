@@ -1,6 +1,5 @@
 package view;
 
-import static com.itextpdf.text.pdf.PdfName.V;
 import view.gerencia.ViewPermissoesDePerfis;
 import view.gerencia.ViewGerenciarProjetos;
 import view.gerencia.ViewGerenciarConta;
