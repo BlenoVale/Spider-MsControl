@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Procedimentodecoleta;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -55,7 +57,27 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
         jTextFieldData.setText(Texto.formataData(new Date()));
     }
+    
+    public boolean validaCampos() {
+        if ((! jCheckBoxProcAnalise.isSelected()) && (! jCheckBoxProcColeta.isSelected())) {
+            JOptionPane.showMessageDialog(null, "Você deve selecionar um Tipo de Relatório.");
+            return false;
+        }
+        return true;
+    }    
 
+    public boolean validaCheckBox() {
+        if (jCheckBoxProcAnalise.isSelected()) {
+            jCheckBoxProcColeta.setSelected(false);
+            return true;
+        } else if (jCheckBoxProcColeta.isSelected()) {
+            jCheckBoxProcAnalise.setSelected(false);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     private void gerarLinhaNaTabela() {
         String linha[] = {
             jTextFieldData.getText(),
@@ -231,7 +253,12 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
-          tipoRelatorio();
+        if (!validaCampos()) {
+            return;
+          }  
+        
+        tipoRelatorio();
+        gerarLinhaNaTabela();
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
     private void jCheckBoxProcColetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProcColetaActionPerformed
