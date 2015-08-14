@@ -6,7 +6,6 @@ import controller.CtrlIndicador;
 import controller.CtrlValores;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +59,9 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
         contadorMarcados = 0;
 
+        dateFieldDe.setValue(new Date());
+        dateFieldAte.setValue(new Date()); 
+        
         jButtonRemover.setEnabled(false);
     }
 

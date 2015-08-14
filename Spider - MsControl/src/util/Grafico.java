@@ -1,8 +1,10 @@
 package util;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import model.Valorindicador;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -24,52 +26,19 @@ public class Grafico {
     private List<Dados> listaDados = new ArrayList<>();
 
     public Grafico() {
-        listaDados = geraListaDados();
+
     }
 
-    public List<Dados> geraListaDados() {
-        List<Dados> listaDados = new ArrayList<>();
-        dados = new Dados();
-        dados.setNome("Sprint 1");
-        dados.setValor(74);
-        dados.setTipo("Sprints");
-        listaDados.add(dados);
-
-        dados = new Dados();
-        dados.setNome("Sprint 2");
-        dados.setValor(90);
-        dados.setTipo("Sprints");
-        listaDados.add(dados);
-
-        dados = new Dados();
-        dados.setNome("Sprint 3");
-        dados.setValor(51);
-        dados.setTipo("Sprints");
-        listaDados.add(dados);
-        
-        dados = new Dados();
-        dados.setNome("Sprint 4");
-        dados.setValor(38);
-        dados.setTipo("Sprints");
-        listaDados.add(dados);
-        
-        dados = new Dados();
-        dados.setNome("Sprint 5");
-        dados.setValor(80);
-        dados.setTipo("Sprints");
-        listaDados.add(dados);
-        
-        return listaDados;
-    }
-
-    public ChartPanel geraGraficoPizza(String titulo) {
+    public ChartPanel geraGraficoPizza(List<Valorindicador> listaValorindicador) {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        for (Dados listaDado : listaDados) {
-            dataset.setValue(listaDado.getNome(), listaDado.getValor());
+
+        for (int i = 0; i < listaValorindicador.size(); i++) {
+            dataset.setValue("Valor\n" + String.valueOf(i + 1),
+                    listaValorindicador.get(i).getValor());
         }
 
         JFreeChart jFreeChart = ChartFactory.createPieChart3D(
-                titulo,
+                listaValorindicador.get(0).getIndicadorid().getNome(),
                 dataset,
                 true, // inclue legenda
                 true,
@@ -85,17 +54,22 @@ public class Grafico {
 
         return chartPanel;
     }
-    
-    public ChartPanel geraGraficoBarra(String titulo, String x, String y) {
+
+    public ChartPanel geraGraficoBarra(List<Valorindicador> listaValorindicador) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0; i < listaDados.size(); i++) {
-            dataset.setValue(listaDados.get(i).getValor(), listaDados.get(i).getNome(), listaDados.get(i).getNome());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < listaValorindicador.size(); i++) {
+            String data = simpleDateFormat.format(listaValorindicador.get(i).getData());
+
+            dataset.setValue(listaValorindicador.get(i).getValor(),
+                    data, i + 1 + " ");
         }
 
         JFreeChart barChart = ChartFactory.createBarChart3D(
-                titulo,
-                x,
-                y,
+                listaValorindicador.get(0).getIndicadorid().getNome(),
+                "Valor indicador",
+                listaValorindicador.get(0).getIndicadorid().getMnemonico() + "(%)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
@@ -109,16 +83,20 @@ public class Grafico {
         return chartPanel;
     }
 
-    public ChartPanel geraGraficoLinha(String titulo, String x, String y) {
+    public ChartPanel geraGraficoLinha(List<Valorindicador> listaValorindicador) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0; i < listaDados.size(); i++) {
-            dataset.setValue(listaDados.get(i).getValor(), listaDados.get(i).getTipo(), listaDados.get(i).getNome());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 0; i < listaValorindicador.size(); i++) {
+            String data = simpleDateFormat.format(listaValorindicador.get(i).getData());
+            dataset.setValue(listaValorindicador.get(i).getValor(),
+                    data, i + 1 + " ");
         }
 
         JFreeChart lineChart = ChartFactory.createLineChart3D(
-                titulo,
-                x,
-                y,
+                listaValorindicador.get(0).getIndicadorid().getNome(),
+                "Valor indicador",
+                listaValorindicador.get(0).getIndicadorid().getMnemonico() + "(%)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);

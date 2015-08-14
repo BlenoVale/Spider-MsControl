@@ -30,6 +30,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private DefaultTableModel defaultTableModel;
     private List<Indicador> listaIndicadores;
+    List<Valorindicador> listaValoresIndicador = new ArrayList<>();
     private Indicador indicadorSelecionado;
     private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
     private final CtrlValores ctrlValores = new CtrlValores();
@@ -61,6 +62,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
         tableModel = new MyDefaultTableModel(new String[]{"Valor", "Ponto de vista", "Data"}, 0, false);
         jTableValorIndicador.setModel(tableModel);
+        
+        dateFieldDe.setValue(new Date());
+        dateFieldAte.setValue(new Date());
 
         jButtonInformacao.setEnabled(false);
 
@@ -109,7 +113,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
             jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
 
-        } else if (ultimoValor >= metaAlerta && ultimoValor < metaOK) {
+        } else if (ultimoValor > metaCritico && ultimoValor < metaOK) {
             jTextFieldMeta.setText("ALERTA");
             jTextFieldMeta.setBackground(Color.yellow);
             jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -139,7 +143,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private String statusNaTabela(double valor) {
         if (valor <= metaCritico) {
             return "<html><b><font color=\"red\">CRÍTICO</font></b></html>";
-        } else if (valor >= metaAlerta && valor < metaOK) {
+        } else if (valor > metaCritico && valor < metaOK) {
             return "<html><b><font color=\"dadc2f\">ALERTA</font></b></html>";
         } else {
             return "<html><b><font color=\"green\">OK</font></b></html>";
@@ -148,7 +152,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void preencherTabelaPelaData() {
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
-            List<Valorindicador> listaValoresIndicador = new ArrayList<>();
+            listaValoresIndicador = new ArrayList<>();
             listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas((Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue(), indicadorSelecionado.getId(), Copia.getProjetoSelecionado().getId());
 
             tableModel = new MyDefaultTableModel(new String[]{"Valor", "Status", "Ponto de vista", "Data"}, 0, false);
@@ -172,7 +176,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }
 
     private void inicializaGraficoPizza() {
-        ChartPanel chartPanel = new Grafico().geraGraficoPizza("Pontos que agregam valor");
+        ChartPanel chartPanel = new Grafico().geraGraficoPizza(listaValoresIndicador);
 
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
@@ -182,7 +186,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }
 
     private void inicializaGraficoBarra() {
-        ChartPanel chartPanel = new Grafico().geraGraficoBarra("Pontos que agregam valor", "Sprints", "PAV (%)");
+        ChartPanel chartPanel = new Grafico().geraGraficoBarra(listaValoresIndicador);
 
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
@@ -191,59 +195,14 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }
 
     private void inicializaGraficoLinha() {
-        ChartPanel chartPanel = new Grafico().geraGraficoLinha("Pontos que agregam valor", "Sprints", "PAV (%)");
+        ChartPanel chartPanel = new Grafico().geraGraficoLinha(listaValoresIndicador);
 
         jPanelPlot.removeAll();
         jPanelPlot.setLayout(new java.awt.BorderLayout());
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
     }
-
-    private void fake() {
-        String[] colunas = {"Data", "Responsável", "Valor do indicador"};
-        defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-
-        String linha1[] = {
-            "06/05/2015",
-            "Gessica Pinheiro",
-            "73"
-        };
-        defaultTableModel.addRow(linha1);
-        jTableValorIndicador.setModel(defaultTableModel);
-
-        String linha2[] = {
-            "10/05/2015",
-            "Gessica Pinheiro",
-            "90"
-        };
-        defaultTableModel.addRow(linha2);
-        jTableValorIndicador.setModel(defaultTableModel);
-
-        String linha3[] = {
-            "12/05/2015",
-            "Gessica Pinheiro",
-            "50"
-        };
-        defaultTableModel.addRow(linha3);
-        jTableValorIndicador.setModel(defaultTableModel);
-
-        String linha4[] = {
-            "19/05/2015",
-            "Gessica Pinheiro",
-            "38"
-        };
-        defaultTableModel.addRow(linha4);
-        jTableValorIndicador.setModel(defaultTableModel);
-
-        String linha5[] = {
-            "20/05/2015",
-            "Gessica Pinheiro",
-            "80"
-        };
-        defaultTableModel.addRow(linha5);
-        jTableValorIndicador.setModel(defaultTableModel);
-    }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -451,6 +410,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
+        jPanelPlot.setAutoscrolls(true);
+
         javax.swing.GroupLayout jPanelPlotLayout = new javax.swing.GroupLayout(jPanelPlot);
         jPanelPlot.setLayout(jPanelPlotLayout);
         jPanelPlotLayout.setHorizontalGroup(
@@ -590,7 +551,11 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        gerarGrafico();
+        if(!listaValoresIndicador.isEmpty()){
+            gerarGrafico();
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há valores de indicador para gerar o gráfico");
+        }    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
