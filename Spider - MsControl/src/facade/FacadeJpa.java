@@ -21,6 +21,7 @@ import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
+import jpa.RelatoriosJpaController;
 import jpa.extensao.DatasProcedimentoColetaJpa;
 import jpa.extensao.MeioComunicacaoJpa;
 import jpa.extensao.MeioComunicacaoProcedimentoAnaliseJpa;
@@ -33,6 +34,7 @@ import jpa.extensao.UsuarioJpa;
 import jpa.extensao.RegistroMedidaJpa;
 import jpa.extensao.RegistroProcedimentoAnalise;
 import jpa.extensao.RegistroProcedimentoColetaJpa;
+import jpa.extensao.RelatoriosJpa;
 import jpa.extensao.ResultadosJpa;
 import jpa.extensao.ValorIndicadorJpa;
 import jpa.extensao.ValorMedidaJpa;
@@ -85,6 +87,8 @@ public class FacadeJpa {
     private final PerfislInteressadoProcedimentoAnaliseJpa perfislInteressadoProcedimentoAnaliseJpa;
     private final ValorMedidaJpa valorMedidaJpa;
     private final ValorIndicadorJpa valorIndicadorJpa;
+    private final RelatoriosJpa relatoriosJpa;
+    private final RelatoriosJpaController relatoriosJpaController;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -123,6 +127,8 @@ public class FacadeJpa {
         perfislInteressadoProcedimentoAnaliseJpa = new PerfislInteressadoProcedimentoAnaliseJpa();
         valorMedidaJpa = new ValorMedidaJpa();
         valorIndicadorJpa = new ValorIndicadorJpa();
+        relatoriosJpa = new RelatoriosJpa();
+        relatoriosJpaController = new RelatoriosJpaController(Conexao.conectar());
     }
 
     public static FacadeJpa getInstance() {
@@ -279,5 +285,13 @@ public class FacadeJpa {
     
     public ValorIndicadorJpa getValorIndicadorJpa(){
         return valorIndicadorJpa;
+    }
+    
+    public RelatoriosJpa getRelatoriosJpa() {
+        return relatoriosJpa;
+    }
+    
+    public RelatoriosJpaController getRelatoriosJpaController() {
+        return relatoriosJpaController;
     }
 }

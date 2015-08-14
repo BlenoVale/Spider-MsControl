@@ -1,24 +1,15 @@
 package view.artefatos;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
+import controller.CtrlRelatorios;
+import facade.FacadeJpa;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Procedimentodecoleta;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
-import util.Conexao;
-import util.ConnectionFactory;
+import static jdk.nashorn.internal.objects.NativeDate.getDate;
+import model.Relatorios;
 import util.Copia;
 import util.MyDefaultTableModel;
 import util.PDF.ConexaoPDF;
@@ -30,15 +21,56 @@ import util.Texto;
  */
 public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 
-    public String[] colunas = {"Data", "Autor"};
-    public DefaultTableModel defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-    public List<String> lista = new ArrayList<>();
+    private List<Relatorios> listRelatorios;
+    private Relatorios relatorios = new Relatorios();
+    private MyDefaultTableModel tableModel;
+    private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
+    private CtrlRelatorios ctrlRelatorios = new CtrlRelatorios();
+    
 
     /**
      * Creates new form view_Projeto_PlanoDeMedicao
      */
     public ViewProjeto_PlanoDeMedicao() {
         initComponents();
+    }
+    
+    private void atualizaListaRelatoriosDoProjeto() {
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+
+        listRelatorios = new ArrayList<>();
+        listRelatorios = ctrlRelatorios.getRelatoriosDoProjeto(idDoProjeto);
+    }
+    
+    public void preencherTabela(List<Relatorios> relatoriosProjeto) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
+        String[] colunas = {"Relatório", "Data", "Autor"};
+        tableModel = new MyDefaultTableModel(colunas, 0, false);
+        
+        for (int i = 0; i < relatoriosProjeto.size(); i++) {
+            String data = simpleDateFormat.format(relatoriosProjeto.get(i).getData());
+            String linhas[] = new String[]{
+                relatorios.getTipoRelatorio(),
+                relatoriosProjeto.get(i).getAutor(),
+                data
+            };
+            tableModel.addRow(linhas);
+        }
+        jTablePlanosGerados.setModel(tableModel);
+    }
+    
+    public void recarregarTabela() {
+        listRelatorios = facadeJpa.getRelatoriosJpa().getListByProjeto(Copia.getProjetoSelecionado().getId());
+        preencherTabela(listRelatorios);
+    }
+    
+    public void showInformaçõesPlanoMedicao() {
+        jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
+        jTextFieldData.setText(Texto.formataData(new Date()));
+        atualizaListaRelatoriosDoProjeto();
+        recarregarTabela();
+        preencherCampos();
     }
     
     private void tipoRelatorio() {
@@ -53,14 +85,9 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         }
     }
     
-    public void showInformaçõesPlanoMedicao() {
-        jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
-        jTextFieldData.setText(Texto.formataData(new Date()));
-    }
-    
     public boolean validaCampos() {
-        if ((! jCheckBoxProcAnalise.isSelected()) && (! jCheckBoxProcColeta.isSelected())) {
-            JOptionPane.showMessageDialog(null, "Você deve selecionar um Tipo de Relatório.");
+        if (!validaCheckBox()) {
+            JOptionPane.showMessageDialog(null, "Você deve escolher um \"Tipo de Relatório\".");
             return false;
         }
         return true;
@@ -78,14 +105,18 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         }
     }
     
-    private void gerarLinhaNaTabela() {
-        String linha[] = {
-            jTextFieldData.getText(),
-            jTextFieldAutor.getText()
-        };
-        defaultTableModel.addRow(linha);
-        jTablePlanosGerados.setModel(defaultTableModel);
+    public String pegarCheckSelecionado() {
+        if (jCheckBoxProcAnalise.isSelected()) {
+            return jCheckBoxProcAnalise.getText();
+        } else {
+            return jCheckBoxProcColeta.getText();
+        }
     }
+    
+     private void preencherCampos(){
+        jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
+        jTextFieldData.setText(Texto.formataData(new Date()));
+     }    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -116,15 +147,23 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 
         jTablePlanosGerados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Data", "Autor"
+                "Relatório", "Data", "Autor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTablePlanosGerados);
 
         jButtonGerar.setText("Gerar");
@@ -255,18 +294,28 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         if (!validaCampos()) {
             return;
-          }  
+          }
         
-        tipoRelatorio();
-        gerarLinhaNaTabela();
+        tipoRelatorio(); 
+        
+        relatorios.setAutor(Copia.getUsuarioLogado().getNome());
+        relatorios.setData(new Date());
+        relatorios.setTipoRelatorio(pegarCheckSelecionado());
+        relatorios.setObservacao(jTextAreaObservacao.getText());    
+        
+        showInformaçõesPlanoMedicao();
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
     private void jCheckBoxProcColetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProcColetaActionPerformed
-      
+      if (jCheckBoxProcColeta.isSelected()) {
+            jCheckBoxProcAnalise.setSelected(false);
+        }
     }//GEN-LAST:event_jCheckBoxProcColetaActionPerformed
 
     private void jCheckBoxProcAnaliseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProcAnaliseActionPerformed
-     
+     if (jCheckBoxProcAnalise.isSelected()) {
+            jCheckBoxProcColeta.setSelected(false);
+        }
     }//GEN-LAST:event_jCheckBoxProcAnaliseActionPerformed
 
 
