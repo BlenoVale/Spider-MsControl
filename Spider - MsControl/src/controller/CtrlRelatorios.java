@@ -22,4 +22,15 @@ public class CtrlRelatorios {
             throw error;
         }
     }    
+    
+    public boolean cadastrarRelatorio(Relatorios relatorios) {
+        try {
+            facadeJpa.getRelatoriosJpa().create(relatorios);
+            return true;
+        } catch (Exception error) {
+            error.printStackTrace();
+            return false;
+        }
+    }
+    
 }

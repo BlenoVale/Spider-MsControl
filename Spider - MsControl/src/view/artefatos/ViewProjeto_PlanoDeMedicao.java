@@ -116,7 +116,26 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
      private void preencherCampos(){
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
         jTextFieldData.setText(Texto.formataData(new Date()));
-     }    
+     } 
+     
+      private void cadastraRelatorio() {
+
+        boolean passou = false;  
+        Relatorios relatorioAux = new Relatorios();
+        
+            relatorioAux.setAutor(Copia.getUsuarioLogado().getNome());
+            relatorioAux.setData(new Date());
+            relatorioAux.setTipoRelatorio(pegarCheckSelecionado());
+            relatorioAux.setObservacao(jTextAreaObservacao.getText());
+
+            passou = ctrlRelatorios.cadastrarRelatorio(relatorioAux);
+
+        if (passou == true) {
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -193,14 +212,14 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Tipo de Relatório:");
 
-        jCheckBoxProcColeta.setText("Procedimentos de Coleta");
+        jCheckBoxProcColeta.setText("Relatório de Coleta");
         jCheckBoxProcColeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxProcColetaActionPerformed(evt);
             }
         });
 
-        jCheckBoxProcAnalise.setText("Procedimentos de Análise");
+        jCheckBoxProcAnalise.setText("Relatório de Análise");
         jCheckBoxProcAnalise.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxProcAnaliseActionPerformed(evt);
@@ -295,14 +314,9 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         if (!validaCampos()) {
             return;
           }
-        
-        tipoRelatorio(); 
-        Relatorios relatoriosaux = new Relatorios();
-        relatoriosaux.setAutor(Copia.getUsuarioLogado().getNome());
-        relatoriosaux.setData(new Date());
-        relatoriosaux.setTipoRelatorio(pegarCheckSelecionado());
-        relatoriosaux.setObservacao(jTextAreaObservacao.getText());    
-        
+ 
+        tipoRelatorio();    
+        cadastraRelatorio();
         showInformaçõesPlanoMedicao();
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
