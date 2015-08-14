@@ -1,8 +1,11 @@
 package controller;
 
 import facade.FacadeJpa;
+import java.util.Date;
 import java.util.List;
 import model.Relatorios;
+import static model.Relatorios_.tipoRelatorio;
+import util.Copia;
 
 /**
  *
@@ -18,6 +21,5 @@ public class CtrlRelatorios {
         } catch (Exception error) {
             throw error;
         }
-    }
-    
+    }    
 }

@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import static jdk.nashorn.internal.objects.NativeDate.getDate;
 import model.Relatorios;
 import util.Copia;
+import util.Internal;
 import util.MyDefaultTableModel;
 import util.PDF.ConexaoPDF;
 import util.Texto;
@@ -33,6 +32,7 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
      */
     public ViewProjeto_PlanoDeMedicao() {
         initComponents();
+        Internal.retiraBotao(this);
     }
     
     private void atualizaListaRelatoriosDoProjeto() {
@@ -297,11 +297,11 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
           }
         
         tipoRelatorio(); 
-        
-        relatorios.setAutor(Copia.getUsuarioLogado().getNome());
-        relatorios.setData(new Date());
-        relatorios.setTipoRelatorio(pegarCheckSelecionado());
-        relatorios.setObservacao(jTextAreaObservacao.getText());    
+        Relatorios relatoriosaux = new Relatorios();
+        relatoriosaux.setAutor(Copia.getUsuarioLogado().getNome());
+        relatoriosaux.setData(new Date());
+        relatoriosaux.setTipoRelatorio(pegarCheckSelecionado());
+        relatoriosaux.setObservacao(jTextAreaObservacao.getText());    
         
         showInformaçõesPlanoMedicao();
     }//GEN-LAST:event_jButtonGerarActionPerformed
