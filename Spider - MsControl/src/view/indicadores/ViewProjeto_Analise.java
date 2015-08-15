@@ -62,11 +62,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
         tableModel = new MyDefaultTableModel(new String[]{"Valor", "Ponto de vista", "Data"}, 0, false);
         jTableValorIndicador.setModel(tableModel);
-        
+
         dateFieldDe.setValue(new Date());
         dateFieldAte.setValue(new Date());
 
         jButtonInformacao.setEnabled(false);
+        jPanelGrafico.setVisible(false);
 
     }
 
@@ -202,7 +203,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelPlot.add(chartPanel, BorderLayout.CENTER);
         jPanelPlot.validate();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -233,13 +234,14 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
+        jButtonSalvar = new javax.swing.JButton();
         jPanelPlot = new javax.swing.JPanel();
         jComboBoxGrafico = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jButtonCancelar = new javax.swing.JButton();
 
         setTitle("Análise do Indicador");
 
@@ -403,10 +405,10 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jTextArea1.setRows(5);
         jScrollPane3.setViewportView(jTextArea1);
 
-        jButton2.setText("Salvar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonSalvarActionPerformed(evt);
             }
         });
 
@@ -438,6 +440,13 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jTextArea2.setRows(5);
         jScrollPane4.setViewportView(jTextArea2);
 
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelGraficoLayout = new javax.swing.GroupLayout(jPanelGrafico);
         jPanelGrafico.setLayout(jPanelGraficoLayout);
         jPanelGraficoLayout.setHorizontalGroup(
@@ -446,10 +455,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGraficoLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                     .addComponent(jScrollPane4)
                     .addGroup(jPanelGraficoLayout.createSequentialGroup()
                         .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -459,7 +465,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel9))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGraficoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCancelar)))
                 .addContainerGap())
         );
         jPanelGraficoLayout.setVerticalGroup(
@@ -480,7 +491,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jButtonCancelar))
                 .addContainerGap())
         );
 
@@ -540,7 +553,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -551,11 +564,11 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(!listaValoresIndicador.isEmpty()){
-            gerarGrafico();
+        if (!listaValoresIndicador.isEmpty()) {
+            jComboBoxGrafico.setSelectedItem(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getGraficoNome());
         } else {
             JOptionPane.showMessageDialog(null, "Não há valores de indicador para gerar o gráfico");
-        }    
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
@@ -577,6 +590,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         } else {
             inicializaGraficoLinha();
         }
+        jPanelGrafico.setVisible(true);
     }//GEN-LAST:event_jComboBoxGraficoActionPerformed
 
     private void dateFieldDeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldDeStateChanged
@@ -593,10 +607,14 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         view_InformacaoDialog.setVisible(true);
     }//GEN-LAST:event_jButtonInformacaoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         jPanelGrafico.setVisible(false);
         JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        jPanelGrafico.setVisible(false);
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -604,8 +622,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private net.sf.nachocalendar.components.DateField dateFieldDe;
     private net.sf.nachocalendar.model.DefaultDateSelectionModel defaultDateSelectionModel1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonInformacao;
+    private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxGrafico;
     private javax.swing.JComboBox jComboBoxIndicadores;
     private javax.swing.JLabel jLabel1;

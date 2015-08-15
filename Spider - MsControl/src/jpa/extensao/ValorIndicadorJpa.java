@@ -35,7 +35,7 @@ public class ValorIndicadorJpa extends ValorindicadorJpaController {
             return entityManager.createQuery("SELECT v FROM Valorindicador v WHERE v.data >= :dataInicio AND "
                     + "v.data <= :dataFim AND v.indicadorid.id = :idIndicador AND "
                     + "v.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto "
-                    + "ORDER BY v.data DESC")
+                    + "ORDER BY v.id ASC")
                     .setParameter("dataInicio", dataInicio).setParameter("dataFim", dataFim)
                     .setParameter("idIndicador", idIndicador).setParameter("idProjeto", idProjeto)
                     .getResultList();

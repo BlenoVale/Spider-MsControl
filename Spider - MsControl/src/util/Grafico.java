@@ -63,7 +63,7 @@ public class Grafico {
             String data = simpleDateFormat.format(listaValorindicador.get(i).getData());
 
             dataset.setValue(listaValorindicador.get(i).getValor(),
-                    data, i + 1 + " ");
+                    data, "v" + String.valueOf(i + 1));
         }
 
         JFreeChart barChart = ChartFactory.createBarChart3D(
@@ -90,7 +90,7 @@ public class Grafico {
         for (int i = 0; i < listaValorindicador.size(); i++) {
             String data = simpleDateFormat.format(listaValorindicador.get(i).getData());
             dataset.setValue(listaValorindicador.get(i).getValor(),
-                    data, i + 1 + " ");
+                    data, "v" + String.valueOf(i + 1));
         }
 
         JFreeChart lineChart = ChartFactory.createLineChart3D(
