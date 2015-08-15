@@ -60,8 +60,8 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         contadorMarcados = 0;
 
         dateFieldDe.setValue(new Date());
-        dateFieldAte.setValue(new Date()); 
-        
+        dateFieldAte.setValue(new Date());
+
         jButtonRemover.setEnabled(false);
     }
 
@@ -92,11 +92,11 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         arrayFormulaQuebrada = formula.split(" ");
     }
 
-    private double formataDecimal(double valor){
+    private double formataDecimal(double valor) {
         BigDecimal bigDecimal = new BigDecimal(valor).setScale(3, RoundingMode.HALF_EVEN);
         return bigDecimal.doubleValue();
-    } 
-    
+    }
+
     private void preemcherTabelaMnemonicoPorDatas(String mnemonico, Date dataInicio, Date dataFim) {
         List<Valormedida> listaValorMedida = new ArrayList<>();
         listaValorMedida = ctrlValores.buscaValorMedidaPorDatas(mnemonico, dataInicio, dataFim, Copia.getProjetoSelecionado().getId());
@@ -229,6 +229,20 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         modelJlist = new DefaultListModel();
         jListValorIndicador.setModel(modelJlist);
         jButtonRemover.setEnabled(false);
+    }
+
+    private boolean verificaDatas() {
+        Date data1 = (Date) dateFieldDe.getValue();
+        Date data2 = (Date) dateFieldAte.getValue();
+        if (data1.after(new Date())) {
+            dateFieldDe.setValue(new Date());
+            return false;
+        } else if (data2.after(new Date())) {
+            dateFieldAte.setValue(new Date());
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -574,11 +588,19 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jListValorIndicadorMouseClicked
 
     private void dateFieldAteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldAteStateChanged
-        preencheTabelaPelaData();
+        if (verificaDatas()) {
+            preencheTabelaPelaData();
+        } else {
+            JOptionPane.showMessageDialog(null, "Data não pode ser maior que data atual.");
+        }
     }//GEN-LAST:event_dateFieldAteStateChanged
 
     private void dateFieldDeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldDeStateChanged
-        preencheTabelaPelaData();
+        if (verificaDatas()) {
+            preencheTabelaPelaData();
+        } else {
+            JOptionPane.showMessageDialog(null, "Data não pode ser maior que data atual.");
+        }
     }//GEN-LAST:event_dateFieldDeStateChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

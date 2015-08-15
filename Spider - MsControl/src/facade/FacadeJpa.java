@@ -22,6 +22,7 @@ import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
 import jpa.RegistroresultadosJpaController;
 import jpa.RelatoriosJpaController;
+import jpa.extensao.AnaliseJpa;
 import jpa.extensao.DatasProcedimentoColetaJpa;
 import jpa.extensao.MeioComunicacaoJpa;
 import jpa.extensao.MeioComunicacaoProcedimentoAnaliseJpa;
@@ -51,7 +52,7 @@ public class FacadeJpa {
     private static FacadeJpa instance = null;
 
     private final AcessaJpaController acessaJpa;
-    private final AnaliseJpaController analiseJpa;
+    private final AnaliseJpa analiseJpa;
     //private final ColetaJpaController coletaJpa;
     private final FuncionalidadeJpa funcionalidadeJpa;
     private final MedidaJpaController medidaJpaController;
@@ -92,7 +93,7 @@ public class FacadeJpa {
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
-        analiseJpa = new AnaliseJpaController(Conexao.conectar());
+        analiseJpa = new AnaliseJpa();
         coletaJpa = new ColetaJpa();
         funcionalidadeJpa = new FuncionalidadeJpa();
         medidaJpaController = new MedidaJpaController(Conexao.conectar());
@@ -150,7 +151,7 @@ public class FacadeJpa {
         return registroMedidaJpa;
     }
 
-    public AnaliseJpaController getAnaliseJpa() {
+    public AnaliseJpa getAnaliseJpa() {
         return analiseJpa;
     }
 
@@ -244,7 +245,7 @@ public class FacadeJpa {
     }
 
     public DatasProcedimentoColetaJpa getDatasprocedimentoColetaJpa() {
-        return  datasProcedimentoColetaJpa;
+        return datasProcedimentoColetaJpa;
     }
 
     public ResultadosJpa getResultadosJpa() {
@@ -278,19 +279,19 @@ public class FacadeJpa {
     public PerfislInteressadoProcedimentoAnaliseJpa getPerfislInteressadoProcedimentoAnaliseJpa() {
         return perfislInteressadoProcedimentoAnaliseJpa;
     }
-    
-    public ValorMedidaJpa getValorMedidaJpa(){
+
+    public ValorMedidaJpa getValorMedidaJpa() {
         return valorMedidaJpa;
     }
-    
-    public ValorIndicadorJpa getValorIndicadorJpa(){
+
+    public ValorIndicadorJpa getValorIndicadorJpa() {
         return valorIndicadorJpa;
     }
-    
+
     public RelatoriosJpa getRelatoriosJpa() {
         return relatoriosJpa;
     }
-    
+
     public RelatoriosJpaController getRelatoriosJpaController() {
         return relatoriosJpaController;
     }

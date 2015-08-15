@@ -1,5 +1,6 @@
 package view.indicadores;
 
+import controller.CtrlAnalise;
 import controller.CtrlIndicador;
 import controller.CtrlValores;
 import java.awt.BorderLayout;
@@ -7,12 +8,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import model.Analise;
 import model.Indicador;
 import model.Procedimentodeanalise;
 import model.Valorindicador;
@@ -151,9 +154,24 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         }
     }
 
+    private boolean verificaDatas() {
+        Date data1 = (Date) dateFieldDe.getValue();
+        Date data2 = (Date) dateFieldAte.getValue();
+        if (data1.after(new Date())) {
+            dateFieldDe.setValue(new Date());
+            return false;
+        } else if (data2.after(new Date())) {
+            dateFieldAte.setValue(new Date());
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void preencherTabelaPelaData() {
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
             listaValoresIndicador = new ArrayList<>();
+
             listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas((Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue(), indicadorSelecionado.getId(), Copia.getProjetoSelecionado().getId());
 
             tableModel = new MyDefaultTableModel(new String[]{"Valor", "Status", "Ponto de vista", "Data"}, 0, false);
@@ -168,6 +186,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 tableModel.addRow(linha);
             }
             jTableValorIndicador.setModel(tableModel);
+
         }
     }
 
@@ -204,6 +223,28 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelPlot.validate();
     }
 
+    private void salvarAnalise() {
+        if (jTextAreaAnalise.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo Anáise é obrigatorio.");
+        } else {
+            Analise analise = new Analise();
+            analise.setCriterioDeAnalise(jTextAreaAnalise.getText());
+            analise.setObservacao(jTextAreaObservacao.getText());
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime((Date) dateFieldDe.getValue());
+            analise.setAnaliseDE(calendar.getTime());
+            calendar.setTime((Date) dateFieldAte.getValue());
+            analise.setAnaliseATE(calendar.getTime());
+            analise.setIndicadorid(indicadorSelecionado);
+
+            CtrlAnalise ctrlAnalise = new CtrlAnalise();
+            ctrlAnalise.cadastrarAnalise(analise);
+
+            jPanelGrafico.setVisible(false);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -233,14 +274,14 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jPanelGrafico = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaAnalise = new javax.swing.JTextArea();
         jButtonSalvar = new javax.swing.JButton();
         jPanelPlot = new javax.swing.JPanel();
         jComboBoxGrafico = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextAreaObservacao = new javax.swing.JTextArea();
         jButtonCancelar = new javax.swing.JButton();
 
         setTitle("Análise do Indicador");
@@ -401,9 +442,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Análise:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        jTextAreaAnalise.setColumns(20);
+        jTextAreaAnalise.setRows(5);
+        jScrollPane3.setViewportView(jTextAreaAnalise);
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -436,9 +477,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Observação:");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane4.setViewportView(jTextArea2);
+        jTextAreaObservacao.setColumns(20);
+        jTextAreaObservacao.setRows(5);
+        jScrollPane4.setViewportView(jTextAreaObservacao);
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -594,11 +635,19 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBoxGraficoActionPerformed
 
     private void dateFieldDeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldDeStateChanged
-        preencherTabelaPelaData();
+        if (verificaDatas()) {
+            preencherTabelaPelaData();
+        } else {
+            JOptionPane.showMessageDialog(null, "Data não pode ser maior que data atual.");
+        }
     }//GEN-LAST:event_dateFieldDeStateChanged
 
     private void dateFieldAteStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dateFieldAteStateChanged
-        preencherTabelaPelaData();
+        if (verificaDatas()) {
+            preencherTabelaPelaData();
+        } else {
+            JOptionPane.showMessageDialog(null, "Data não pode ser maior que data atual.");
+        }
     }//GEN-LAST:event_dateFieldAteStateChanged
 
     private void jButtonInformacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformacaoActionPerformed
@@ -608,8 +657,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonInformacaoActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        jPanelGrafico.setVisible(false);
-        JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+        salvarAnalise();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -648,8 +696,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTableValorIndicador;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextAreaAnalise;
+    private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextFieldCriterio;
     private javax.swing.JTextField jTextFieldMeta;
     // End of variables declaration//GEN-END:variables

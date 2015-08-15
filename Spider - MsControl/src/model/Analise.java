@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,6 +22,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -33,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Analise.findAll", query = "SELECT a FROM Analise a"),
-    @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.id = :id")})
+    @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.id = :id"),
+    @NamedQuery(name = "Analise.findByAnaliseDE", query = "SELECT a FROM Analise a WHERE a.analiseDE = :analiseDE"),
+    @NamedQuery(name = "Analise.findByAnaliseATE", query = "SELECT a FROM Analise a WHERE a.analiseATE = :analiseATE")})
 public class Analise implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,6 +53,14 @@ public class Analise implements Serializable {
     @Lob
     @Column(name = "observacao")
     private String observacao;
+    @Basic(optional = false)
+    @Column(name = "analiseDE")
+    @Temporal(TemporalType.DATE)
+    private Date analiseDE;
+    @Basic(optional = false)
+    @Column(name = "analiseATE")
+    @Temporal(TemporalType.DATE)
+    private Date analiseATE;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "analiseid")
     private List<Resultados> resultadosList;
     @JoinColumn(name = "Indicador_id", referencedColumnName = "id")
@@ -63,9 +76,11 @@ public class Analise implements Serializable {
         this.id = id;
     }
 
-    public Analise(Integer id, String criterioDeAnalise) {
+    public Analise(Integer id, String criterioDeAnalise, Date analiseDE, Date analiseATE) {
         this.id = id;
         this.criterioDeAnalise = criterioDeAnalise;
+        this.analiseDE = analiseDE;
+        this.analiseATE = analiseATE;
     }
 
     public Integer getId() {
@@ -90,6 +105,22 @@ public class Analise implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public Date getAnaliseDE() {
+        return analiseDE;
+    }
+
+    public void setAnaliseDE(Date analiseDE) {
+        this.analiseDE = analiseDE;
+    }
+
+    public Date getAnaliseATE() {
+        return analiseATE;
+    }
+
+    public void setAnaliseATE(Date analiseATE) {
+        this.analiseATE = analiseATE;
     }
 
     @XmlTransient
