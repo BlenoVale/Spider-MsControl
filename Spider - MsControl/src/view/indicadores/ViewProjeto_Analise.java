@@ -190,11 +190,6 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         }
     }
 
-    private void gerarGrafico() {
-        inicializaGraficoPizza();
-        jPanelGrafico.setVisible(true);
-    }
-
     private void inicializaGraficoPizza() {
         ChartPanel chartPanel = new Grafico().geraGraficoPizza(listaValoresIndicador);
 
@@ -615,9 +610,15 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
             pegaIndicadorSelecionado();
-            statusDoIndicador();
-            preencherTabelaPelaData();
-            jButtonInformacao.setEnabled(true);
+            jPanelGrafico.setVisible(false);
+
+            if (!indicadorSelecionado.getValorindicadorList().isEmpty()) {
+                statusDoIndicador();
+                preencherTabelaPelaData();
+                jButtonInformacao.setEnabled(true);
+            } else {
+                limparAnalise();
+            }
         } else {
             limparAnalise();
         }

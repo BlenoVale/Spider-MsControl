@@ -2,6 +2,7 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Analise;
 import model.Registroanalise;
@@ -30,6 +31,14 @@ public class CtrlAnalise {
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Error inesperado.");
+            throw error;
+        }
+    }
+
+    public List<Analise> buscarAnalisesDoProjeto(int idProjeto) {
+        try {
+            return facadeJpa.getAnaliseJpa().findListAnaliseByIDProjeto(idProjeto);
+        } catch (Exception error) {
             throw error;
         }
     }

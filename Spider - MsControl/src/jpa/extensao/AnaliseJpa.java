@@ -1,5 +1,6 @@
 package jpa.extensao;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import jpa.AnaliseJpaController;
 import model.Analise;
@@ -18,8 +19,20 @@ public class AnaliseJpa extends AnaliseJpaController {
     public Analise findAnaliseByIDProjeto(int idProjeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (Analise) entityManager.createQuery("SELECT a FROM Analise a WHERE a.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
-                    .setParameter("idProjeto", idProjeto).getResultList().get(0);
+            List<Analise> lista = entityManager.createQuery("SELECT a FROM Analise a WHERE a.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
+                    .setParameter("idProjeto", idProjeto).getResultList();
+            return (Analise) lista.get(lista.size() - 1);
+        } catch (Exception error) {
+            throw error;
+        }
+
+    }
+
+    public List<Analise> findListAnaliseByIDProjeto(int idProjeto) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return entityManager.createQuery("SELECT a FROM Analise a WHERE a.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
+                    .setParameter("idProjeto", idProjeto).getResultList();
         } catch (Exception error) {
             throw error;
         }

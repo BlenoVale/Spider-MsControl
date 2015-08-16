@@ -45,17 +45,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private List<Medida> listMedidaRelacionada;
     private DefaultComboBoxModel comboBoxModelMedidaRelacionada;
 
-    String [] numbers = new String[] {"0" , "1" , "2", "3" , "4", "5" ,"6" ,"7" , "8" , "9"};
-    String [] sinals = new String[] {"/" , "+", "*", "-", ".", "(" };
-    String [] sinalsOperador = new String[] {"/" , "+", "*", "-", ".", "("};
-    String [] sinaisParenteseAberto = new String[] {"/" , "+", "*", "-","("};
-    String [] sinalsMnemonico = new String[] {"/" , "+", "*", "-", ".", "("};
-    
+    String[] numbers = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    String[] sinals = new String[]{"/", "+", "*", "-", ".", "("};
+    String[] sinalsOperador = new String[]{"/", "+", "*", "-", ".", "("};
+    String[] sinaisParenteseAberto = new String[]{"/", "+", "*", "-", "("};
+    String[] sinalsMnemonico = new String[]{"/", "+", "*", "-", ".", "("};
+
     ArrayList<String> mnemonico = new ArrayList<>();
     ArrayList<String> insercaoFormula = new ArrayList<>();
 
     private boolean ehNovoProcedimentoAnalise;
-    
+
     private int idProjeto = Copia.getProjetoSelecionado().getId();
     private String nomeUsuario = Copia.getUsuarioLogado().getNome();
 
@@ -117,15 +117,15 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextAreaAcoesAlerta.setText(procedimentodeanaliseUsuario.getAcoesAlerta());
         jTextAreaAcoesCritico.setText(procedimentodeanaliseUsuario.getAcoesCritico());
         jTextAreaAcoesOk.setText(procedimentodeanaliseUsuario.getAcoesOk());
-        
+
         jTextAreaCriterioAlerta.setText(procedimentodeanaliseUsuario.getCriterioAlerta());
         jTextAreaCriterioCritico.setText(procedimentodeanaliseUsuario.getCriterioCritico());
         jTextAreaCriterioOk.setText(procedimentodeanaliseUsuario.getCriterioOk());
-        
+
         jTextFieldMetaAlerta.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaAlerta()));
         jTextFieldMetaCritico.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaCritico()));
-        jTextFieldMetaOk.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaOk())); 
-        
+        jTextFieldMetaOk.setText(String.valueOf(procedimentodeanaliseUsuario.getMetaOk()));
+
         jTextFieldResponsavel.setText(procedimentodeanaliseUsuario.getResponsavel());
         jTextFieldFrequencia1.setText(procedimentodeanaliseUsuario.getFrequencia());
         dateField.setValue(procedimentodeanaliseUsuario.getDataComunicacao());
@@ -152,8 +152,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             jComboBoxMedidaRelacionada.setVisible(true);
             jTextFieldFormula.setText(procedimentodeanalise.getFormula());
             bloquearAbaFormula();
-        } else
+        } else {
             jRadioButtonDerivada.setSelected(true);
+        }
     }
 
     public void editarFormula(Procedimentodeanalise procedimentodeanalise) {
@@ -163,12 +164,14 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             comboBoxModel.addElement(medida.getNome());
             listMedidaRelacionada = facadeJpa.getMedidaJpa().findByProjeto(Copia.getProjetoSelecionado().getId());
             for (int i = 0; i < listMedidaRelacionada.size(); i++) {
-                if (!medida.getNome().equals(listMedidaRelacionada.get(i).getNome()))
+                if (!medida.getNome().equals(listMedidaRelacionada.get(i).getNome())) {
                     comboBoxModel.addElement(listMedidaRelacionada.get(i).getNome());
+                }
             }
             jComboBoxMedidaRelacionada.setModel(comboBoxModel);
-        } else
+        } else {
             jTextFieldFormula.setText(procedimentodeanalise.getFormula());
+        }
     }
 
     public void editarGrafico(Procedimentodeanalise procedimentodeanalise) {
@@ -179,8 +182,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         List<String> list = Constantes.preencherListaGraficos();
 
         for (int i = 0; i < list.size(); i++) {
-            if (!procedimentodeanalise.getGraficoNome().equals(list.get(i)))
+            if (!procedimentodeanalise.getGraficoNome().equals(list.get(i))) {
                 comboboxModel.addElement(list.get(i));
+            }
         }
         jComboBoxTipoGrafico.setModel(comboboxModel);
 
@@ -192,8 +196,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         List<String> list = Constantes.preencherListaPeriodicidade();
         for (int i = 0; i < list.size(); i++) {
-            if (!procedimentodeanalise.getPeriodicidade().equals(list.get(i)))
+            if (!procedimentodeanalise.getPeriodicidade().equals(list.get(i))) {
                 comboboxModel.addElement(list.get(i));
+            }
 
         }
         jComboBoxPeriodicidade.setModel(comboboxModel);
@@ -207,8 +212,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         List<Indicador> indicadors = jpa.getIndicadorJpa().findListaIndicadoresByProjeto(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < indicadors.size(); i++) {
-            if (!indicador.getNome().equals(indicadors.get(i).getNome()) && indicadors.get(i).getProcedimentodeanaliseList().isEmpty())
+            if (!indicador.getNome().equals(indicadors.get(i).getNome()) && indicadors.get(i).getProcedimentodeanaliseList().isEmpty()) {
                 comboboxModel.addElement(indicadors.get(i).getNome());
+            }
         }
         jComboBoxIndicador.setModel(comboboxModel);
         jComboBoxIndicador.setEnabled(false);
@@ -368,8 +374,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jComboBoxTipoGrafico.setSelectedItem(procedimentodeanalise.getGraficoNome());
         jTextAreaObservacao.setText(procedimentodeanalise.getObservacao());
         jTextFieldMetaOk.setText(String.valueOf(procedimentodeanalise.getMetaOk()));
-        jTextFieldMetaAlerta.setText(String.valueOf(procedimentodeanalise.getMetaAlerta())); 
-        jTextFieldMetaCritico.setText(String.valueOf(procedimentodeanalise.getMetaCritico())); 
+        jTextFieldMetaAlerta.setText(String.valueOf(procedimentodeanalise.getMetaAlerta()));
+        jTextFieldMetaCritico.setText(String.valueOf(procedimentodeanalise.getMetaCritico()));
         jTextAreaCriterioOk.setText(procedimentodeanalise.getCriterioOk());
         jTextAreaCriterioAlerta.setText(procedimentodeanalise.getCriterioAlerta());
         jTextAreaCriterioCritico.setText(procedimentodeanalise.getCriterioCritico());
@@ -456,6 +462,31 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 mensagem = "Campo \"Fórmula\" não pode ser vazio.";
                 cont++;
             }
+
+            if (verificaUltimaLetraDupla() == false) {
+                mensagem = "Campo \"Formula\" incorreto, sua fórmula não deve ser finalizada \ncom final \"0.\", \"01\", \"02\", \"03\", \"04\", \"05\", \"06\", \"07\",\"08\", \"09\" ";
+                cont++;
+            }
+
+            if (verificaUltimaLetraIndividual() == false) {
+                mensagem = "Campo \"Formula\" incorreto, sua fórmula não pode ser finalizada \ncom esses caracteres \"0\", \"/\", \"-\", \"*\", \"+\", \"(\", \".\" ";
+                cont++;
+            }
+            if (!campoUnico()) {
+                mensagem = "Campo \"Formula\" incorreto, verifique sua fórmula de campo único";
+                cont++;
+            }
+
+            if (!validaCountParenteses()) {
+                mensagem = "Campo \"Formula\" incorreto, verifique ausência de um parêntese de fechamento.";
+                cont++;
+            }
+
+            if (isZeroEntreSinais()) {
+                mensagem = "Campo \"Formula\" incorreto, verifique zero entre sinais.";
+                cont++;
+            }
+
         }
         if (!validaDataComunicacao()) {
             mensagem = "A \"Data de Comunicação\" deve ser maior que a data atual.";
@@ -471,31 +502,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             mensagem = "Campo \"Perfil Interessado\" deve ser marcado pelo menos um";
             cont++;
         }
-        
-        if (verificaUltimaLetraDupla() == false){
-            mensagem = "Campo \"Formula\" incorreto, sua fórmula não deve ser finalizada \ncom final \"0.\", \"01\", \"02\", \"03\", \"04\", \"05\", \"06\", \"07\",\"08\", \"09\" ";
-            cont++;
-        }
-        
-        if (verificaUltimaLetraIndividual()== false){
-            mensagem = "Campo \"Formula\" incorreto, sua fórmula não pode ser finalizada \ncom esses caracteres \"0\", \"/\", \"-\", \"*\", \"+\", \"(\", \".\" ";
-            cont++;
-        }
-        if (!campoUnico()){
-            mensagem = "Campo \"Formula\" incorreto, verifique sua fórmula de campo único";
-            cont++;
-        }
-        
-        if (!validaCountParenteses()){
-            mensagem = "Campo \"Formula\" incorreto, verifique ausência de um parêntese de fechamento.";
-            cont++;
-        }
-        
-        if (isZeroEntreSinais()){
-            mensagem = "Campo \"Formula\" incorreto, verifique zero entre sinais.";
-            cont++;
-        }
-        
+
         if (cont == 0) {
             return true;
         } else if (cont == 1) {
@@ -668,18 +675,20 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }
 
     public String nomeRadioSelecionado() {
-        if (jRadioButtonBase.isSelected())
+        if (jRadioButtonBase.isSelected()) {
             return "Base";
-        else
+        } else {
             return "Derivada";
+        }
     }
 
     public String selectFormula() {
         if (jRadioButtonBase.isSelected()) {
             Medida medida = facadeJpa.getMedidaJpa().findByNomeAndProjeto(jComboBoxMedidaRelacionada.getSelectedItem().toString(), Copia.getProjetoSelecionado().getId());
             return medida.getMnemonico().toString();
-        } else
+        } else {
             return jTextFieldFormula.getText();
+        }
     }
 
     public void jTextFieldSomenteNumeros(java.awt.event.KeyEvent evt) {
@@ -703,26 +712,30 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         boolean espacoAntes = false;
         String charA = null;
         String charB = null;
-        
-        if(formula.isEmpty() == false){
 
-            charA = String.valueOf(formula.charAt(formula.length()-1));
-            if(formula.length() >= 2)
-            charB = String.valueOf(formula.charAt(formula.length()-2));
-            else charB = "";
-        
+        if (formula.isEmpty() == false) {
+
+            charA = String.valueOf(formula.charAt(formula.length() - 1));
+            if (formula.length() >= 2) {
+                charB = String.valueOf(formula.charAt(formula.length() - 2));
+            } else {
+                charB = "";
+            }
+
             for (int i = 0; i < numbers.length; i++) {
-                if(charA.equals(numbers[i]) || charB.equals(numbers[i]))
+                if (charA.equals(numbers[i]) || charB.equals(numbers[i])) {
                     isNumber = true;
-                
+                }
+
             }
         }
-        if (isNumber)
+        if (isNumber) {
             return formula.trim();
-        
+        }
+
         return formula;
     }
-    
+
     private String adicionarEspacoEmBrancoAntesNumero() {
 
         String formula = jTextFieldFormula.getText().toString();
@@ -730,167 +743,191 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         boolean espacoAntes = false;
         String charA = null;
         String charB = null;
-        
-        if(formula.isEmpty() == false){
 
-            charA = String.valueOf(formula.charAt(formula.length()-1));
-            if(formula.length() >= 2)
-            charB = String.valueOf(formula.charAt(formula.length()-2));
-            else charB = "";
-        
+        if (formula.isEmpty() == false) {
+
+            charA = String.valueOf(formula.charAt(formula.length() - 1));
+            if (formula.length() >= 2) {
+                charB = String.valueOf(formula.charAt(formula.length() - 2));
+            } else {
+                charB = "";
+            }
+
             for (int i = 0; i < numbers.length; i++) {
-                if(charA.equals(numbers[i]) || charB.equals(numbers[i]))
+                if (charA.equals(numbers[i]) || charB.equals(numbers[i])) {
                     isNumber = true;
-                
-                if(!charA.equals(numbers[i]) && !charA.equals(" "))
+                }
+
+                if (!charA.equals(numbers[i]) && !charA.equals(" ")) {
                     espacoAntes = true;
+                }
             }
         }
-        
-        if (espacoAntes = true)
+
+        if (espacoAntes = true) {
             return formula.trim() + " ";
+        }
         return formula;
     }
-    
-      private boolean isSinalUltimo() {
+
+    private boolean isSinalUltimo() {
 
         String formula = jTextFieldFormula.getText().toString();
         boolean isSinal = false;
         String charA = null;
         String charB = null;
-        
-        if(formula.isEmpty() == false){
 
-            charA = String.valueOf(formula.charAt(formula.length()-1));
-             if(formula.length() >= 2)
-            charB = String.valueOf(formula.charAt(formula.length()-2));
-            else charB = "";
-        
+        if (formula.isEmpty() == false) {
+
+            charA = String.valueOf(formula.charAt(formula.length() - 1));
+            if (formula.length() >= 2) {
+                charB = String.valueOf(formula.charAt(formula.length() - 2));
+            } else {
+                charB = "";
+            }
+
             for (int i = 0; i < sinals.length; i++) {
-                if(charA.equals(sinals[i]) || charB.equals(sinals[i]))
+                if (charA.equals(sinals[i]) || charB.equals(sinals[i])) {
                     isSinal = true;
+                }
             }
         }
-        if (isSinal)
+        if (isSinal) {
             return true;
+        }
         return false;
     }
-       private boolean isSinalUltimoOperador() {
+
+    private boolean isSinalUltimoOperador() {
 
         String formula = jTextFieldFormula.getText().toString();
         boolean isSinal = false;
         String charA = null;
         String charB = null;
-        
-        if(formula.isEmpty() == false){
 
-            charA = String.valueOf(formula.charAt(formula.length()-1));
-             if(formula.length() >= 2)
-            charB = String.valueOf(formula.charAt(formula.length()-2));
-            else charB = "";
-        
+        if (formula.isEmpty() == false) {
+
+            charA = String.valueOf(formula.charAt(formula.length() - 1));
+            if (formula.length() >= 2) {
+                charB = String.valueOf(formula.charAt(formula.length() - 2));
+            } else {
+                charB = "";
+            }
+
             for (int i = 0; i < sinalsOperador.length; i++) {
-                if(charA.equals(sinalsOperador[i]) || charB.equals(sinalsOperador[i]))
+                if (charA.equals(sinalsOperador[i]) || charB.equals(sinalsOperador[i])) {
                     isSinal = true;
+                }
             }
         }
-        if (isSinal)
+        if (isSinal) {
             return true;
+        }
         return false;
     }
-      
-      private boolean isSinalUltimoByMnemonico() {
+
+    private boolean isSinalUltimoByMnemonico() {
 
         String formula = jTextFieldFormula.getText().toString();
         boolean isSinal = false;
         String charA = null;
         String charB = null;
-        
-        if(formula.isEmpty() == false){
 
-            charA = String.valueOf(formula.charAt(formula.length()-1));
-            charB = String.valueOf(formula.charAt(formula.length()-2));
-        
+        if (formula.isEmpty() == false) {
+
+            charA = String.valueOf(formula.charAt(formula.length() - 1));
+            charB = String.valueOf(formula.charAt(formula.length() - 2));
+
             for (int i = 0; i < sinalsMnemonico.length; i++) {
-                if(charA.equals(sinalsMnemonico[i]) || charB.equals(sinalsMnemonico[i]))
+                if (charA.equals(sinalsMnemonico[i]) || charB.equals(sinalsMnemonico[i])) {
                     isSinal = true;
+                }
             }
         }
-        if (isSinal)
+        if (isSinal) {
             return true;
+        }
         return false;
     }
-      
-      private void preencherArrayMnemonico(){
-          List<Medida> medidas = jpa.getMedidaJpa().findByProjeto(idProjeto);
-          for (int i = 0; i < medidas.size(); i++) {
-              mnemonico.add(medidas.get(i).getMnemonico());
-          }
-      }
-      private boolean isSinalUltimoParenteAberto() {
+
+    private void preencherArrayMnemonico() {
+        List<Medida> medidas = jpa.getMedidaJpa().findByProjeto(idProjeto);
+        for (int i = 0; i < medidas.size(); i++) {
+            mnemonico.add(medidas.get(i).getMnemonico());
+        }
+    }
+
+    private boolean isSinalUltimoParenteAberto() {
 
         String formula = jTextFieldFormula.getText().toString();
         boolean isSinal = false;
         String charA = null;
         String charB = null;
-        
-        if(formula.isEmpty() == false){
 
-            charA = String.valueOf(formula.charAt(formula.length()-1));
-            charB = String.valueOf(formula.charAt(formula.length()-2));
-        
+        if (formula.isEmpty() == false) {
+
+            charA = String.valueOf(formula.charAt(formula.length() - 1));
+            charB = String.valueOf(formula.charAt(formula.length() - 2));
+
             for (int i = 0; i < sinaisParenteseAberto.length; i++) {
-                if(charA.equals(sinaisParenteseAberto[i]) || charB.equals(sinaisParenteseAberto[i]) || charA.equals("(") || charB.equals("(") )
+                if (charA.equals(sinaisParenteseAberto[i]) || charB.equals(sinaisParenteseAberto[i]) || charA.equals("(") || charB.equals("(")) {
                     isSinal = true;
+                }
             }
         }
-        if (isSinal)
+        if (isSinal) {
             return true;
+        }
         return false;
     }
 
-    public boolean verificaUltimaLetraDupla(){
-       String formula = jTextFieldFormula.getText().trim();
-       String letraA = null;
-       String letraB = null;
-       
-       String [] naopode = new String[] {"0.", "01", "02", "03", "04", "05", "06", "07","08", "09"};
-       
-       if(!formula.isEmpty()){
-           letraA = String.valueOf(formula.charAt(formula.length() - 1));
-           if(formula.length() >= 2)
-           letraB = String.valueOf(formula.charAt(formula.length() - 2));
-           else letraB = "";
-            
-           String letras = letraB + letraA;
-           
-           for (int i = 0; i < naopode.length; i++) {
-               if(letras.equals(naopode[i]))
-                   return false;
-           }
-       }
-       
-       return true;
-        
+    public boolean verificaUltimaLetraDupla() {
+        String formula = jTextFieldFormula.getText().trim();
+        String letraA = null;
+        String letraB = null;
+
+        String[] naopode = new String[]{"0.", "01", "02", "03", "04", "05", "06", "07", "08", "09"};
+
+        if (!formula.isEmpty()) {
+            letraA = String.valueOf(formula.charAt(formula.length() - 1));
+            if (formula.length() >= 2) {
+                letraB = String.valueOf(formula.charAt(formula.length() - 2));
+            } else {
+                letraB = "";
+            }
+
+            String letras = letraB + letraA;
+
+            for (int i = 0; i < naopode.length; i++) {
+                if (letras.equals(naopode[i])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
     }
-    public boolean verificaUltimaLetraIndividual(){
-       String formula = jTextFieldFormula.getText().trim();
-       
-       String [] naopode = new String[] {"0", "/", "-", "*", "+", "(", "." };
-       
-       if(!formula.isEmpty()){
-           String letraA = String.valueOf(formula.charAt(formula.length() - 1));
-           
-           for (int i = 0; i < naopode.length; i++) {
-               if(letraA.equals(naopode[i]))
-                   return false;
-           }
-       }
-       
-       return true;
-        
+
+    public boolean verificaUltimaLetraIndividual() {
+        String formula = jTextFieldFormula.getText().trim();
+
+        String[] naopode = new String[]{"0", "/", "-", "*", "+", "(", "."};
+
+        if (!formula.isEmpty()) {
+            String letraA = String.valueOf(formula.charAt(formula.length() - 1));
+
+            for (int i = 0; i < naopode.length; i++) {
+                if (letraA.equals(naopode[i])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
     }
-    
+
     private boolean verificaInsercaoParenteseFechado() {
 
         String formula = jTextFieldFormula.getText().toString();
@@ -901,7 +938,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!formula.isEmpty()) {
             for (int i = 0; i < formula.length(); i++) {
                 String letra = String.valueOf(formula.charAt(i));
-                if ( letra.equals(parenteseAberto)) {
+                if (letra.equals(parenteseAberto)) {
                     contA++;
                 } else if (letra.equals(parenteseFechado)) {
                     contB++;
@@ -909,12 +946,13 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         }
 
-        if (contA > contB) 
+        if (contA > contB) {
             return true;
+        }
         return false;
 
     }
-    
+
     private boolean validaCountParenteses() {
 
         String formula = jTextFieldFormula.getText().trim();
@@ -925,7 +963,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!formula.isEmpty()) {
             for (int i = 0; i < formula.length(); i++) {
                 String letra = String.valueOf(formula.charAt(i));
-                if ( letra.equals(parenteseAberto)) {
+                if (letra.equals(parenteseAberto)) {
                     contA++;
                 } else if (letra.equals(parenteseFechado)) {
                     contB++;
@@ -933,127 +971,131 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         }
 
-        if (contA == contB) 
+        if (contA == contB) {
             return true;
+        }
         return false;
 
     }
-   //@TODO teste para adicionar nova virgula
-     
-     private boolean verificaInsercaoVirgulaTeste() {
+    //@TODO teste para adicionar nova virgula
+
+    private boolean verificaInsercaoVirgulaTeste() {
 
         String formula = jTextFieldFormula.getText().trim();
         int size = formula.length();
-        
+
         String virgula = ".";
         String letra = null;
         String substring = null;
-        
-        
+
         int fim = size;
         int inicio = 0;
-        
+
         if (!formula.isEmpty()) {
-            
-                for (int i = size - 1 ; i >= 0; i--) {
-                    letra = String.valueOf(formula.charAt(i));
-              
-                        if(letra.trim().equals("")){
-                            inicio = i;
-                            break;
-                        }
-                            
-                            
+
+            for (int i = size - 1; i >= 0; i--) {
+                letra = String.valueOf(formula.charAt(i));
+
+                if (letra.trim().equals("")) {
+                    inicio = i;
+                    break;
+                }
+
             }
-                 
-               substring = formula.substring(inicio, formula.length());
-                
-                for (int i = 0; i < substring.length(); i++) {
-                    if (String.valueOf(substring.charAt(i)).equals(virgula)) 
-                        return false;
+
+            substring = formula.substring(inicio, formula.length());
+
+            for (int i = 0; i < substring.length(); i++) {
+                if (String.valueOf(substring.charAt(i)).equals(virgula)) {
+                    return false;
+                }
             }
-        
+
         }
         return true;
-    
-   }
-     
-      private boolean isMnemonico() {
+
+    }
+
+    private boolean isMnemonico() {
 
         String formula = jTextFieldFormula.getText().trim();
         int size = formula.length();
-        
+
         String letra = null;
         String substring = null;
         int inicio = 0;
-        
+
         if (!formula.isEmpty()) {
-            
-                for (int i = size - 1 ; i >= 0; i--) {
-                    letra = String.valueOf(formula.charAt(i));
-              
-                        if(letra.trim().equals("")){
-                            inicio = i;
-                            break;
-                        }
-                            
-                            
+
+            for (int i = size - 1; i >= 0; i--) {
+                letra = String.valueOf(formula.charAt(i));
+
+                if (letra.trim().equals("")) {
+                    inicio = i;
+                    break;
+                }
+
             }
-                 
-               substring = formula.substring(inicio, formula.length());
-                
-                for (int i = 0; i < substring.length(); i++) {
-                    if (Character.isLetter(substring.charAt(i))) 
-                        return true;
-            }
-        
-        }
-        return false;
-    
-   }
-      
-    private boolean campoUnico(){
-        String formula = jTextFieldFormula.getText().trim();
-    
-        if(!formula.isEmpty()){
-        
-            for (int i = 0; i < formula.length(); i++) {
-            for (int j = 0; j < sinalsOperador.length; j++) {
-                if(String.valueOf(formula.charAt(i)).equals(sinalsOperador[j]))
+
+            substring = formula.substring(inicio, formula.length());
+
+            for (int i = 0; i < substring.length(); i++) {
+                if (Character.isLetter(substring.charAt(i))) {
                     return true;
+                }
             }
-            
-            }
+
         }
-        
         return false;
+
     }
-    
-    private boolean isZeroEntreSinais(){
+
+    private boolean campoUnico() {
         String formula = jTextFieldFormula.getText().trim();
-        
-        if(!formula.isEmpty()){
-            if(formula.contains(" 0 "))
+
+        if (!formula.isEmpty()) {
+
+            for (int i = 0; i < formula.length(); i++) {
+                for (int j = 0; j < sinalsOperador.length; j++) {
+                    if (String.valueOf(formula.charAt(i)).equals(sinalsOperador[j])) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isZeroEntreSinais() {
+        String formula = jTextFieldFormula.getText().trim();
+
+        if (!formula.isEmpty()) {
+            if (formula.contains(" 0 ")) {
                 return true;
+            }
         }
         return false;
     }
-    
-    
+
     private void excluirUltimaLetra() {
 
         String formula = jTextFieldFormula.getText().toString();
         if (!formula.isEmpty()) {
 
             int length = formula.length();
-            if (String.valueOf(formula.charAt(length - 1)).equals(" "))
-            formula = formula.substring(0, length - 2);
-            else formula = formula.substring(0, length - 1);
+            if (String.valueOf(formula.charAt(length - 1)).equals(" ")) {
+                formula = formula.substring(0, length - 2);
+            } else {
+                formula = formula.substring(0, length - 1);
+            }
             jTextFieldFormula.setText(formula);
 
         }
 
     }
+
     public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
@@ -1102,33 +1144,37 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }
 
     public boolean isParenteseFechadoUltimo() {
-        
+
         String formula = jTextFieldFormula.getText().toString();
         String caractereA = "";
         String caractereB = "";
         if (!formula.isEmpty()) {
             caractereA = String.valueOf(formula.charAt(formula.length() - 1));
             //@TODO VERIFICAR ERRO DA VIRGULA
-            if(formula.length() >= 2)
-            caractereB = String.valueOf(formula.charAt(formula.length() - 2));
-            else caractereB = "";
+            if (formula.length() >= 2) {
+                caractereB = String.valueOf(formula.charAt(formula.length() - 2));
+            } else {
+                caractereB = "";
+            }
         }
-        if (caractereA.equals(")") || caractereB.equals(")"))
+        if (caractereA.equals(")") || caractereB.equals(")")) {
             return true;
+        }
         return false;
     }
-    private boolean validacaoUsoVirgula()
-    {
+
+    private boolean validacaoUsoVirgula() {
         return !isParenteseFechadoUltimo() && !isSinalUltimo() && !jTextFieldFormula.getText().isEmpty() && verificaInsercaoVirgulaTeste();
     }
-    
+
     public boolean permitirSinaisAposParenteseFechado(String formula) {
         String caractere = "";
         if (!formula.isEmpty()) {
             caractere = String.valueOf(formula.charAt(formula.length() - 1));
         }
-        if (caractere.equals(")"))
+        if (caractere.equals(")")) {
             return true;
+        }
         return false;
 
     }
@@ -1404,9 +1450,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -1423,18 +1472,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jTextFieldFrequencia1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jComboBoxTipoGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 310, Short.MAX_VALUE))
+                                .addGap(0, 275, Short.MAX_VALUE))
                             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel12)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldResponsavel)))
+                        .addComponent(jTextFieldResponsavel))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel12)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1445,8 +1493,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jComboBoxPeriodicidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1458,11 +1506,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jComboBoxTipoGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dados Gerais", jPanel2);
@@ -1499,14 +1547,19 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane12)
                     .addComponent(jScrollPane11)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(337, 337, 337))
+                    .addComponent(jScrollPane12)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -1514,19 +1567,17 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel11)
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1561,19 +1612,18 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaOk, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaAlerta, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTextFieldMetaOk, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldMetaAlerta, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldMetaCritico, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1606,7 +1656,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1637,7 +1687,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1663,7 +1713,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ações", jPanel8);
@@ -1909,7 +1959,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
@@ -1969,7 +2019,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(56, 56, 56)
@@ -2047,7 +2097,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                     .addComponent(jLabelUltimaEdicao)
                     .addComponent(jTextFieldUltimaEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancelar)
@@ -2060,10 +2110,10 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2081,8 +2131,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if (!validarCampos())
+        if (!validarCampos()) {
             return;
+        }
         CtrlIndicador ctrlIndicador = new CtrlIndicador();
         CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
         boolean save = false;
@@ -2096,8 +2147,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         procedimentodeanalise.setCriterioOk(jTextAreaCriterioOk.getText());
 
         procedimentodeanalise.setMetaAlerta(Double.parseDouble(jTextFieldMetaAlerta.getText()));
-        procedimentodeanalise.setMetaCritico(Double.parseDouble(jTextFieldMetaCritico.getText())); 
-        procedimentodeanalise.setMetaOk(Double.parseDouble(jTextFieldMetaOk.getText())); 
+        procedimentodeanalise.setMetaCritico(Double.parseDouble(jTextFieldMetaCritico.getText()));
+        procedimentodeanalise.setMetaOk(Double.parseDouble(jTextFieldMetaOk.getText()));
 
         procedimentodeanalise.setResponsavel(jTextFieldResponsavel.getText());
         procedimentodeanalise.setComposicao(nomeRadioSelecionado());
@@ -2129,7 +2180,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Erro ao Editar.");
             }
         }
-        
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTabbedPane1MouseClicked
@@ -2150,111 +2201,128 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jButton1ParenteseAbertoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ParenteseAbertoActionPerformed
     {//GEN-HEADEREND:event_jButton1ParenteseAbertoActionPerformed
 
-            if(isSinalUltimoParenteAberto()|| jTextFieldFormula.getText().isEmpty())
+        if (isSinalUltimoParenteAberto() || jTextFieldFormula.getText().isEmpty()) {
             jTextFieldFormula.setText(jTextFieldFormula.getText() + "( ");
-        
+        }
+
     }//GEN-LAST:event_jButton1ParenteseAbertoActionPerformed
 
     private void jButtonParenteseFechadoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonParenteseFechadoActionPerformed
     {//GEN-HEADEREND:event_jButtonParenteseFechadoActionPerformed
-        if(verificaInsercaoParenteseFechado() && !isSinalUltimo())    
-        jTextFieldFormula.setText(jTextFieldFormula.getText() + ") ");
-            
+        if (verificaInsercaoParenteseFechado() && !isSinalUltimo()) {
+            jTextFieldFormula.setText(jTextFieldFormula.getText() + ") ");
+        }
+
     }//GEN-LAST:event_jButtonParenteseFechadoActionPerformed
 
     private void jButtonDividirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonDividirActionPerformed
     {//GEN-HEADEREND:event_jButtonDividirActionPerformed
-        if(!isSinalUltimoOperador() && !jTextFieldFormula.getText().isEmpty())    
-        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "/ ");
+        if (!isSinalUltimoOperador() && !jTextFieldFormula.getText().isEmpty()) {
+            jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "/ ");
+        }
     }//GEN-LAST:event_jButtonDividirActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton22ActionPerformed
     {//GEN-HEADEREND:event_jButton22ActionPerformed
-        if(!isParenteseFechadoUltimo() && !isMnemonico())    
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "9 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "9 ");
+        }
 
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton21ActionPerformed
     {//GEN-HEADEREND:event_jButton21ActionPerformed
 
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "8 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "8 ");
+        }
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton20ActionPerformed
     {//GEN-HEADEREND:event_jButton20ActionPerformed
 
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "7 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "7 ");
+        }
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton17ActionPerformed
     {//GEN-HEADEREND:event_jButton17ActionPerformed
 
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "4 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "4 ");
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton18ActionPerformed
     {//GEN-HEADEREND:event_jButton18ActionPerformed
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "5 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "5 ");
+        }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton19ActionPerformed
     {//GEN-HEADEREND:event_jButton19ActionPerformed
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "6 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "6 ");
+        }
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButtonMultiplicarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonMultiplicarActionPerformed
     {//GEN-HEADEREND:event_jButtonMultiplicarActionPerformed
-        if(!isSinalUltimoOperador()&& !jTextFieldFormula.getText().isEmpty())    
-        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "* ");
+        if (!isSinalUltimoOperador() && !jTextFieldFormula.getText().isEmpty()) {
+            jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "* ");
+        }
     }//GEN-LAST:event_jButtonMultiplicarActionPerformed
 
     private void jButtonSubtracaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSubtracaoActionPerformed
     {//GEN-HEADEREND:event_jButtonSubtracaoActionPerformed
-        if(!isSinalUltimoOperador()& !jTextFieldFormula.getText().isEmpty())    
-        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "- ");
+        if (!isSinalUltimoOperador() & !jTextFieldFormula.getText().isEmpty()) {
+            jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "- ");
+        }
     }//GEN-LAST:event_jButtonSubtracaoActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton16ActionPerformed
     {//GEN-HEADEREND:event_jButton16ActionPerformed
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "3 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "3 ");
+        }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton15ActionPerformed
     {//GEN-HEADEREND:event_jButton15ActionPerformed
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "2 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "2 ");
+        }
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton13ActionPerformed
     {//GEN-HEADEREND:event_jButton13ActionPerformed
 
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "1 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "1 ");
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
-        if(!isParenteseFechadoUltimo() && !isMnemonico())
-        jTextFieldFormula.setText(removerEspacoEmBranco() + "0 ");
+        if (!isParenteseFechadoUltimo() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + "0 ");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonVirgulaActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonVirgulaActionPerformed
     {//GEN-HEADEREND:event_jButtonVirgulaActionPerformed
-        if(validacaoUsoVirgula() && !isMnemonico())    
-        jTextFieldFormula.setText(removerEspacoEmBranco() + ".");
+        if (validacaoUsoVirgula() && !isMnemonico()) {
+            jTextFieldFormula.setText(removerEspacoEmBranco() + ".");
+        }
     }//GEN-LAST:event_jButtonVirgulaActionPerformed
 
     private void jButtonAdicaoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAdicaoActionPerformed
     {//GEN-HEADEREND:event_jButtonAdicaoActionPerformed
-        if(!isSinalUltimoOperador()&& !jTextFieldFormula.getText().isEmpty())    
-        jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "+ ");
+        if (!isSinalUltimoOperador() && !jTextFieldFormula.getText().isEmpty()) {
+            jTextFieldFormula.setText(adicionarEspacoEmBrancoAntesNumero() + "+ ");
+        }
     }//GEN-LAST:event_jButtonAdicaoActionPerformed
 
     private void n(java.awt.event.ActionEvent evt)//GEN-FIRST:event_n
@@ -2265,10 +2333,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableMedidaMouseClicked
     {//GEN-HEADEREND:event_jTableMedidaMouseClicked
 
-        if(jTextFieldFormula.getText().isEmpty() || isSinalUltimoByMnemonico())
-        if (evt.getClickCount() >= 2) {
+        if (jTextFieldFormula.getText().isEmpty() || isSinalUltimoByMnemonico()) {
+            if (evt.getClickCount() >= 2) {
                 String mnemonico = jTableMedida.getValueAt(jTableMedida.getSelectedRow(), 1).toString();
                 jTextFieldFormula.setText(jTextFieldFormula.getText() + mnemonico + " ");
+            }
         }
 
     }//GEN-LAST:event_jTableMedidaMouseClicked
@@ -2309,7 +2378,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldMetaAlertaKeyTyped
 
     private void jTextFieldMetaCriticoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMetaCriticoKeyTyped
-        jTextFieldSomenteNumeros(evt); 
+        jTextFieldSomenteNumeros(evt);
     }//GEN-LAST:event_jTextFieldMetaCriticoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
