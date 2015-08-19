@@ -222,7 +222,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBoxProcColeta">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Coleta"/>
+            <Property name="text" type="java.lang.String" value="Plano de Coleta"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxProcColetaActionPerformed"/>
@@ -230,7 +230,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBoxProcAnalise">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de An&#xe1;lise"/>
+            <Property name="text" type="java.lang.String" value="Plano de An&#xe1;lise"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxProcAnaliseActionPerformed"/>

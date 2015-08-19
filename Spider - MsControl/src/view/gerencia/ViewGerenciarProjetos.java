@@ -150,7 +150,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableAtivos = new javax.swing.JTable();
         jButtonEditarProjeto = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButtonInativar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -220,13 +219,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton2.setText("Gerar artefato");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton6.setText("Alocar usuário ao projeto");
 
         jButtonInativar.setText("Mudar status");
@@ -247,8 +239,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButtonEditarProjeto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonInativar)
@@ -259,11 +249,10 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEditarProjeto)
-                    .addComponent(jButton2)
                     .addComponent(jButton6)
                     .addComponent(jButtonInativar))
                 .addContainerGap())
@@ -442,11 +431,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         mudarStatusProjeto(jTableAtivos);
     }//GEN-LAST:event_jMenuItemMudarStatusActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ViewGerarArtefatoDialog gerarArtefatoDialog = new ViewGerarArtefatoDialog(null, true);
-        int resp = gerarArtefatoDialog.showSelecionarArtefatoDialog();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jTableInativosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableInativosMouseClicked
         if (evt.getClickCount() > 1)
             mostrarInformacoesDoProjeto(jTableInativos);
@@ -458,7 +442,6 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTableFinalizadosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;

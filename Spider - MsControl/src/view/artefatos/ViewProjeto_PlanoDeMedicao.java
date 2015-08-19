@@ -212,14 +212,14 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Tipo de Relatório:");
 
-        jCheckBoxProcColeta.setText("Relatório de Coleta");
+        jCheckBoxProcColeta.setText("Plano de Coleta");
         jCheckBoxProcColeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxProcColetaActionPerformed(evt);
             }
         });
 
-        jCheckBoxProcAnalise.setText("Relatório de Análise");
+        jCheckBoxProcAnalise.setText("Plano de Análise");
         jCheckBoxProcAnalise.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxProcAnaliseActionPerformed(evt);
