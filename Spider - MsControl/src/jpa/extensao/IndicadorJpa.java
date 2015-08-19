@@ -18,8 +18,8 @@ public class IndicadorJpa extends IndicadorJpaController {
     public IndicadorJpa() {
         super(Conexao.conectar());
     }
-    
-    public Indicador findBYNomeAndProjeto (String nome, int idProjeto){
+
+    public Indicador findBYNomeAndProjeto(String nome, int idProjeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
             return (Indicador) entityManager.createQuery("SELECT i FROM Indicador i WHERE i.nome = :nome AND i.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
@@ -77,6 +77,20 @@ public class IndicadorJpa extends IndicadorJpaController {
         }
     }
 
+    public List<Indicador> findListaIndicadoresByProjetoAndAprovacao(int idDoProjeto) {
+        try {
+            List<Indicador> lista = null;
+            EntityManager emf = super.getEntityManager();
+            Query q = emf.createQuery("SELECT i FROM Indicador i WHERE i.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto AND i.aprovacao = :APROVADO ORDER By i.prioridade ASC")
+                    .setParameter("idDoProjeto", idDoProjeto).setParameter("APROVADO", 0);
+
+            lista = q.getResultList();
+            return lista;
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+
     public Indicador findByNomeAndMnemonico(String nome, String mnemonico, int idProjeto) {
 
         Indicador indicador = null;
@@ -111,8 +125,8 @@ public class IndicadorJpa extends IndicadorJpaController {
         registroIndicador = q.getResultList();
         return registroIndicador;
     }
-    
-    public long countIndicadoresByProjeto(int idProjeto){
+
+    public long countIndicadoresByProjeto(int idProjeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
             return (long) entityManager.createQuery("SELECT COUNT(i.id) FROM Indicador i WHERE i.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto")
