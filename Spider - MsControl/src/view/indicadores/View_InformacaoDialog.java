@@ -15,10 +15,23 @@ public class View_InformacaoDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
 
-    public void preencheCamposInfo(Procedimentodeanalise procedimentodeanalise) {
+    public void preencheCamposInfoCrescente(Procedimentodeanalise procedimentodeanalise) {
         jLabelMetaOK.setText("<html>OK: igual ou maior que <b>" + procedimentodeanalise.getMetaOk() + "</b></html>");
-        jLabelMetaALERTA.setText("<html>ALERTA: igual ou maior que <b>" + procedimentodeanalise.getMetaAlerta() + "</b> e menor que <b>" + procedimentodeanalise.getMetaOk() + "</b></html>");
+        jLabelMetaALERTA.setText("<html>ALERTA: Entre <b>" + procedimentodeanalise.getMetaOk() + "</b> e <b>" + procedimentodeanalise.getMetaCritico()+ "</b></html>");
         jLabelMetaCRITICO.setText("<html>CRÍTICO: igual ou menor que <b>" + procedimentodeanalise.getMetaCritico() + "</b></html>");
+
+        jTextAreaCriterioOK.setText("OK:  \n" + procedimentodeanalise.getCriterioOk()
+                + "\n\nAÇÃO:  \n" + procedimentodeanalise.getAcoesOk());
+        jTextAreaCriterioALERTA.setText("ALERTA:  \n" + procedimentodeanalise.getCriterioAlerta()
+                + "\n\nAÇÃO:  \n" + procedimentodeanalise.getAcoesAlerta());
+        jTextAreaCriterioCRITICO.setText("CRÍTICO:  \n" + procedimentodeanalise.getCriterioCritico()
+                + "\n\nAÇÃO:  \n" + procedimentodeanalise.getAcoesCritico());
+    }
+    
+    public void preencheCamposInfoDecrescente(Procedimentodeanalise procedimentodeanalise) {
+        jLabelMetaOK.setText("<html>OK: igual ou menor que <b>" + procedimentodeanalise.getMetaOk() + "</b></html>");
+        jLabelMetaALERTA.setText("<html>ALERTA: Entre <b>" + procedimentodeanalise.getMetaOk() + "</b> e <b>" + procedimentodeanalise.getMetaCritico() + "</b></html>");
+        jLabelMetaCRITICO.setText("<html>CRÍTICO: igual ou maior que <b>" + procedimentodeanalise.getMetaCritico() + "</b></html>");
 
         jTextAreaCriterioOK.setText("OK:  \n" + procedimentodeanalise.getCriterioOk()
                 + "\n\nAÇÃO:  \n" + procedimentodeanalise.getAcoesOk());
@@ -128,6 +141,7 @@ public class View_InformacaoDialog extends javax.swing.JDialog {
         jTextAreaCriterioOK.setLineWrap(true);
         jTextAreaCriterioOK.setRows(2);
         jTextAreaCriterioOK.setText("OK:");
+        jTextAreaCriterioOK.setWrapStyleWord(true);
         jTextAreaCriterioOK.setBorder(null);
         jTextAreaCriterioOK.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jScrollPane2.setViewportView(jTextAreaCriterioOK);
@@ -195,9 +209,9 @@ public class View_InformacaoDialog extends javax.swing.JDialog {
                     .addComponent(jLabel5)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

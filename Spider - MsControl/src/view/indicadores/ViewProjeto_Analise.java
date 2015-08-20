@@ -63,8 +63,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jTextFieldCriterio.setBackground(Color.white);
         jLabelValorAtual.setText("<html><b>Valor atual<br> do indicador:</b></html>");
 
-        tableModel = new MyDefaultTableModel(new String[]{"Valor", "Ponto de vista", "Data"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"ID", "Valor", "Status", "Ponto de vista", "Data"}, 0, false);
         jTableValorIndicador.setModel(tableModel);
+        jTableValorIndicador.getColumnModel().getColumn(0).setPreferredWidth(3);
 
         dateFieldDe.setValue(new Date());
         dateFieldAte.setValue(new Date());
@@ -106,52 +107,76 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         metaAlerta = procedimentoAnalise.getMetaAlerta();
         metaOK = procedimentoAnalise.getMetaOk();
 
-        if (ultimoValor <= metaCritico) {
-            jTextFieldMeta.setText("CRÍTICO");
-            jTextFieldMeta.setBackground(Color.red);
-            jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
+        if (metaCritico < metaOK) {
+            if (ultimoValor <= metaCritico) {
+                jTextFieldMeta.setText("CRÍTICO");
+                jTextFieldMeta.setBackground(Color.red);
+                jTextFieldCriterio.setText("CRÍTICO");
+                jTextFieldCriterio.setBackground(Color.red);
 
-            jTextFieldCriterio.setText("CRÍTICO");
-            jTextFieldCriterio.setBackground(Color.red);
-            jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
+            } else if (ultimoValor > metaCritico && ultimoValor < metaOK) {
+                jTextFieldMeta.setText("ALERTA");
+                jTextFieldMeta.setBackground(Color.yellow);
+                jTextFieldCriterio.setText("ALERTA");
+                jTextFieldCriterio.setBackground(Color.yellow);
 
-        } else if (ultimoValor > metaCritico && ultimoValor < metaOK) {
-            jTextFieldMeta.setText("ALERTA");
-            jTextFieldMeta.setBackground(Color.yellow);
-            jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
+            } else if (ultimoValor >= metaOK) {
+                jTextFieldMeta.setText("OK");
+                jTextFieldMeta.setBackground(Color.green);
+                jTextFieldCriterio.setText("OK");
+                jTextFieldCriterio.setBackground(Color.green);
 
-            jTextFieldCriterio.setText("ALERTA");
-            jTextFieldCriterio.setBackground(Color.yellow);
-            jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
+            }
+        } else {
+            if (ultimoValor <= metaOK) {
+                jTextFieldMeta.setText("OK");
+                jTextFieldMeta.setBackground(Color.green);
+                jTextFieldCriterio.setText("OK");
+                jTextFieldCriterio.setBackground(Color.green);
 
-        } else if (ultimoValor >= metaOK) {
-            jTextFieldMeta.setText("OK");
-            jTextFieldMeta.setBackground(Color.green);
-            jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
+            } else if (ultimoValor > metaCritico && ultimoValor < metaOK) {
+                jTextFieldMeta.setText("ALERTA");
+                jTextFieldMeta.setBackground(Color.yellow);
+                jTextFieldCriterio.setText("ALERTA");
+                jTextFieldCriterio.setBackground(Color.yellow);
 
-            jTextFieldCriterio.setText("OK");
-            jTextFieldCriterio.setBackground(Color.green);
-            jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
-            jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
+            } else if (ultimoValor >= metaOK) {
+                jTextFieldMeta.setText("CRÍTICO");
+                jTextFieldMeta.setBackground(Color.red);
+                jTextFieldCriterio.setText("CRÍTICO");
+                jTextFieldCriterio.setBackground(Color.red);
+
+            }
         }
 
+        jTextFieldCriterio.setFont(new Font("Times New Roman", Font.BOLD, 14));
+        jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
+        jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
+        jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
         jLabelValorAtual.setText("<html><b>Valor atual<br> do indicador:</b>  " + ultimoValor + "</html>");
 
     }
 
     private String statusNaTabela(double valor) {
-        if (valor <= metaCritico) {
-            return "<html><b><font color=\"red\">CRÍTICO</font></b></html>";
-        } else if (valor > metaCritico && valor < metaOK) {
-            return "<html><b><font color=\"dadc2f\">ALERTA</font></b></html>";
+        String status = new String();
+        if (metaCritico < metaOK) {
+            if (valor <= metaCritico) {
+                status = "<html><b><font color=\"red\">CRÍTICO</font></b></html>";
+            } else if (valor > metaCritico && valor < metaOK) {
+                status = "<html><b><font color=\"dadc2f\">ALERTA</font></b></html>";
+            } else {
+                status = "<html><b><font color=\"green\">OK</font></b></html>";
+            }
         } else {
-            return "<html><b><font color=\"green\">OK</font></b></html>";
+            if (valor <= metaOK) {
+                status = "<html><b><font color=\"green\">OK</font></b></html>";
+            } else if (valor > metaOK && valor < metaCritico) {
+                status = "<html><b><font color=\"dadc2f\">ALERTA</font></b></html>";
+            } else {
+                status = "<html><b><font color=\"red\">CRÍTICO</font></b></html>";
+            }
         }
+        return status;
     }
 
     private boolean verificaDatas() {
@@ -174,11 +199,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
             listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas((Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue(), indicadorSelecionado.getId(), Copia.getProjetoSelecionado().getId());
 
-            tableModel = new MyDefaultTableModel(new String[]{"Valor", "Status", "Ponto de vista", "Data"}, 0, false);
+            tableModel = new MyDefaultTableModel(new String[]{"ID", "Valor", "Status", "Ponto de vista", "Data"}, 0, false);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             for (int i = 0; i < listaValoresIndicador.size(); i++) {
                 String data = simpleDateFormat.format(listaValoresIndicador.get(i).getData());
                 String[] linha = {
+                    "<html>id <b>" + String.valueOf(i+1) + "</b></html>",
                     String.valueOf(listaValoresIndicador.get(i).getValor()),
                     statusNaTabela(listaValoresIndicador.get(i).getValor()),
                     listaValoresIndicador.get(i).getIndicadorid().getPontoDeVista(),
@@ -186,6 +212,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 tableModel.addRow(linha);
             }
             jTableValorIndicador.setModel(tableModel);
+            jTableValorIndicador.getColumnModel().getColumn(0).setPreferredWidth(3);
 
         }
     }
@@ -265,7 +292,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         dateFieldDe = new net.sf.nachocalendar.components.DateField();
         dateFieldAte = new net.sf.nachocalendar.components.DateField();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonGeraGrafico = new javax.swing.JButton();
         jPanelGrafico = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -425,10 +452,10 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6))
         );
 
-        jButton1.setText("Gerar Gráfico");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGeraGrafico.setText("Gerar Gráfico");
+        jButtonGeraGrafico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonGeraGraficoActionPerformed(evt);
             }
         });
 
@@ -544,7 +571,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(jButtonGeraGrafico))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -556,7 +583,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(jButtonGeraGrafico)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -599,13 +626,13 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonGeraGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGeraGraficoActionPerformed
         if (!listaValoresIndicador.isEmpty()) {
             jComboBoxGrafico.setSelectedItem(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getGraficoNome());
         } else {
             JOptionPane.showMessageDialog(null, "Não há valores de indicador para gerar o gráfico");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonGeraGraficoActionPerformed
 
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
         if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
@@ -653,7 +680,11 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void jButtonInformacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformacaoActionPerformed
         View_InformacaoDialog view_InformacaoDialog = new View_InformacaoDialog(null, true);
-        view_InformacaoDialog.preencheCamposInfo(indicadorSelecionado.getProcedimentodeanaliseList().get(0));
+        if (metaCritico < metaOK) {
+            view_InformacaoDialog.preencheCamposInfoCrescente(indicadorSelecionado.getProcedimentodeanaliseList().get(0));
+        } else {
+            view_InformacaoDialog.preencheCamposInfoDecrescente(indicadorSelecionado.getProcedimentodeanaliseList().get(0));
+        }
         view_InformacaoDialog.setVisible(true);
     }//GEN-LAST:event_jButtonInformacaoActionPerformed
 
@@ -670,8 +701,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     private net.sf.nachocalendar.components.DateField dateFieldAte;
     private net.sf.nachocalendar.components.DateField dateFieldDe;
     private net.sf.nachocalendar.model.DefaultDateSelectionModel defaultDateSelectionModel1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonGeraGrafico;
     private javax.swing.JButton jButtonInformacao;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxGrafico;

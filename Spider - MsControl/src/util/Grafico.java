@@ -33,7 +33,7 @@ public class Grafico {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
         for (int i = 0; i < listaValorindicador.size(); i++) {
-            dataset.setValue("Valor\n" + String.valueOf(i + 1),
+            dataset.setValue("id-" + String.valueOf(i + 1),
                     listaValorindicador.get(i).getValor());
         }
 
@@ -63,13 +63,13 @@ public class Grafico {
             String data = simpleDateFormat.format(listaValorindicador.get(i).getData());
 
             dataset.setValue(listaValorindicador.get(i).getValor(),
-                    data, "v" + String.valueOf(i + 1));
+                    data, "id" + String.valueOf(i + 1));
         }
 
         JFreeChart barChart = ChartFactory.createBarChart3D(
                 listaValorindicador.get(0).getIndicadorid().getNome(),
+                listaValorindicador.get(0).getIndicadorid().getMnemonico(),
                 "Valor indicador",
-                listaValorindicador.get(0).getIndicadorid().getMnemonico() + "(%)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
@@ -90,13 +90,13 @@ public class Grafico {
         for (int i = 0; i < listaValorindicador.size(); i++) {
             String data = simpleDateFormat.format(listaValorindicador.get(i).getData());
             dataset.setValue(listaValorindicador.get(i).getValor(),
-                    data, "v" + String.valueOf(i + 1));
+                    data, "id" + String.valueOf(i + 1));
         }
 
         JFreeChart lineChart = ChartFactory.createLineChart3D(
                 listaValorindicador.get(0).getIndicadorid().getNome(),
+                listaValorindicador.get(0).getIndicadorid().getMnemonico(),
                 "Valor indicador",
-                listaValorindicador.get(0).getIndicadorid().getMnemonico() + "(%)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
