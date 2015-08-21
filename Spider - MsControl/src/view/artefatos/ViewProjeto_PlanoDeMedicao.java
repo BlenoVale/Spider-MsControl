@@ -45,13 +45,13 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     public void preencherTabela(List<Relatorios> relatoriosProjeto) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         
-        String[] colunas = {"Relatório", "Data", "Autor"};
+        String[] colunas = {"Relatório", "Autor", "Data"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
         
         for (int i = 0; i < relatoriosProjeto.size(); i++) {
             String data = simpleDateFormat.format(relatoriosProjeto.get(i).getData());
             String linhas[] = new String[]{
-                relatorios.getTipoRelatorio(),
+                relatoriosProjeto.get(i).getTipoRelatorio(),
                 relatoriosProjeto.get(i).getAutor(),
                 data
             };
@@ -123,10 +123,11 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         boolean passou = false;  
         Relatorios relatorioAux = new Relatorios();
         
+            relatorioAux.setProjetoid(Copia.getProjetoSelecionado());
             relatorioAux.setAutor(Copia.getUsuarioLogado().getNome());
             relatorioAux.setData(new Date());
             relatorioAux.setTipoRelatorio(pegarCheckSelecionado());
-            relatorioAux.setObservacao(jTextAreaObservacao.getText());
+            relatorioAux.setObservacao(jTextAreaObservacao.getText()); 
 
             passou = ctrlRelatorios.cadastrarRelatorio(relatorioAux);
 
@@ -318,6 +319,8 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         tipoRelatorio();    
         cadastraRelatorio();
         showInformaçõesPlanoMedicao();
+        
+        jTextAreaObservacao.setText("");
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
     private void jCheckBoxProcColetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProcColetaActionPerformed
