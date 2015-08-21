@@ -132,9 +132,9 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
             passou = ctrlRelatorios.cadastrarRelatorio(relatorioAux);
 
         if (passou == true) {
-            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.");
+            System.out.println("Cadastrado com sucesso.");
         } else {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Erro ao cadastrar");
         }
     }
 
