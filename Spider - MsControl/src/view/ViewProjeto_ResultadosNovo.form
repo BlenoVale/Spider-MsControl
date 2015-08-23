@@ -372,7 +372,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jScrollPane5" pref="509" max="32767" attributes="0"/>
@@ -382,7 +382,7 @@
                                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="447" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="jPanelPlot" alignment="0" max="32767" attributes="0"/>
                                   </Group>
@@ -415,6 +415,9 @@
                               <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                                 <EtchetBorder/>
                               </Border>
+                            </Property>
+                            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[509, 224]"/>
                             </Property>
                           </Properties>
 

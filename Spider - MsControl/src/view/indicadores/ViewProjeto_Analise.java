@@ -134,13 +134,13 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 jTextFieldCriterio.setText("OK");
                 jTextFieldCriterio.setBackground(Color.green);
 
-            } else if (ultimoValor > metaCritico && ultimoValor < metaOK) {
+            } else if (ultimoValor > metaOK && ultimoValor < metaCritico) {
                 jTextFieldMeta.setText("ALERTA");
                 jTextFieldMeta.setBackground(Color.yellow);
                 jTextFieldCriterio.setText("ALERTA");
                 jTextFieldCriterio.setBackground(Color.yellow);
 
-            } else if (ultimoValor >= metaOK) {
+            } else if (ultimoValor >= metaCritico) {
                 jTextFieldMeta.setText("CRÍTICO");
                 jTextFieldMeta.setBackground(Color.red);
                 jTextFieldCriterio.setText("CRÍTICO");

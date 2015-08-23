@@ -401,6 +401,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
         jTabbedPane1.addTab("Recursos Humanos", jPanel3);
 
         jPanelPlot.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanelPlot.setMaximumSize(new java.awt.Dimension(509, 224));
 
         javax.swing.GroupLayout jPanelPlotLayout = new javax.swing.GroupLayout(jPanelPlot);
         jPanelPlot.setLayout(jPanelPlotLayout);
@@ -438,7 +439,7 @@ public class ViewProjeto_ResultadosNovo extends javax.swing.JDialog {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 447, Short.MAX_VALUE))
                     .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );

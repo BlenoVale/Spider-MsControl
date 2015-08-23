@@ -185,8 +185,11 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                     result = result + arrayFormulaQuebrada[i];
                 }
             }
-
-            modelJlist.addElement(result + " = " + interpreter.eval("Resultado = " + result));
+            if(arrayFormulaQuebrada.length == 1){
+                modelJlist.addElement(interpreter.eval("Resultado = " + result));
+            } else {
+                modelJlist.addElement(result + " = " + interpreter.eval("Resultado = " + result));
+            } 
             jListValorIndicador.setModel(modelJlist);
         } catch (EvalError error) {
             JOptionPane.showMessageDialog(null, "É necessário selecionar um valor Para cada\n variável da fórmula na tabela.");
