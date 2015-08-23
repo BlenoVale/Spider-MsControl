@@ -154,7 +154,6 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaObservacao = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jCheckBoxProcColeta = new javax.swing.JCheckBox();
         jCheckBoxProcAnalise = new javax.swing.JCheckBox();
@@ -209,8 +208,6 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         jTextAreaObservacao.setRows(5);
         jScrollPane2.setViewportView(jTextAreaObservacao);
 
-        jButton1.setText("Cancelar");
-
         jLabel4.setText("Tipo de Relatório:");
 
         jCheckBoxProcColeta.setText("Plano de Coleta");
@@ -231,12 +228,6 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonGerar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(13, 13, 13))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +250,10 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
                                     .addComponent(jTextFieldAutor)
                                     .addComponent(jTextFieldData, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
                             .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonGerar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -283,11 +277,9 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGerar)
-                    .addComponent(jButton1))
+                .addComponent(jButtonGerar)
                 .addContainerGap())
         );
 
@@ -315,9 +307,9 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         if (!validaCampos()) {
             return;
           }
- 
-        tipoRelatorio();    
+     
         cadastraRelatorio();
+        tipoRelatorio();
         showInformaçõesPlanoMedicao();
         
         jTextAreaObservacao.setText("");
@@ -337,7 +329,6 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonGerar;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxProcAnalise;
