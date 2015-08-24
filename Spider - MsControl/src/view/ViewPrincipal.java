@@ -307,7 +307,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 798, Short.MAX_VALUE)
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,7 +530,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_Coletas);
         jDesktopPane.add(viewProjeto_PlanoDeMedicao);
         jDesktopPane.add(viewProjeto_Relatorio);
-        jDesktopPane.add(viewProjeto_ValorIndicador); 
+        jDesktopPane.add(viewProjeto_ValorIndicador);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -548,7 +548,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Coletas.setMaximum(true);
             viewProjeto_PlanoDeMedicao.setMaximum(true);
             viewProjeto_Relatorio.setMaximum(true);
-            viewProjeto_ValorIndicador.setMaximum(true); 
+            viewProjeto_ValorIndicador.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -570,7 +570,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_Coletas.setVisible(false);
         viewProjeto_PlanoDeMedicao.setVisible(false);
         viewProjeto_Relatorio.setVisible(false);
-        viewProjeto_ValorIndicador.setVisible(false); 
+        viewProjeto_ValorIndicador.setVisible(false);
 
         if (tela != null) {
             tela.setVisible(true);
@@ -607,7 +607,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             trocaTelas(viewProjeto_Analise);
             viewProjeto_Analise.showAnalise();
         } else if (no_filho.equals("Valor") && no_pai.endsWith("Indicadores")) {
-            trocaTelas(viewProjeto_ValorIndicador); 
+            trocaTelas(viewProjeto_ValorIndicador);
             viewProjeto_ValorIndicador.showValorIndicador();
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Medidas")) {
             trocaTelas(viewProjeto_MedicaoDefinicao);
@@ -631,6 +631,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_Relatorio.showInformaçõesPlanoMedicao();
             trocaTelas(viewProjeto_Relatorio);
         } else if (no_filho.equals("Resultados")) {
+            viewProjeto_Resultados.showResultados();
             trocaTelas(viewProjeto_Resultados);
         }
 
