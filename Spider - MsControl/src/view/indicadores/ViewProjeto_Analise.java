@@ -204,7 +204,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             for (int i = 0; i < listaValoresIndicador.size(); i++) {
                 String data = simpleDateFormat.format(listaValoresIndicador.get(i).getData());
                 String[] linha = {
-                    "<html>id <b>" + String.valueOf(i+1) + "</b></html>",
+                    "<html>id <b>" + String.valueOf(i + 1) + "</b></html>",
                     String.valueOf(listaValoresIndicador.get(i).getValor()),
                     statusNaTabela(listaValoresIndicador.get(i).getValor()),
                     listaValoresIndicador.get(i).getIndicadorid().getPontoDeVista(),
@@ -254,7 +254,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             analise.setObservacao(jTextAreaObservacao.getText());
             analise.setDataCriação(new Date());
             analise.setNomeUsuario(Copia.getUsuarioLogado().getNome());
-            
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTime((Date) dateFieldDe.getValue());
             analise.setAnaliseDE(calendar.getTime());
@@ -265,6 +265,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             CtrlAnalise ctrlAnalise = new CtrlAnalise();
             ctrlAnalise.cadastrarAnalise(analise);
 
+            jTextAreaAnalise.setText(" ");
+            jTextAreaObservacao.setText(" ");
             jPanelGrafico.setVisible(false);
         }
     }
@@ -695,6 +697,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        jTextAreaAnalise.setText(" ");
+        jTextAreaObservacao.setText(" ");
         jPanelGrafico.setVisible(false);
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 

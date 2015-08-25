@@ -6,6 +6,7 @@ import controller.CtrlMedida;
 import controller.CtrlProcedimentosColeta;
 import facade.FacadeJpa;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -337,6 +338,11 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 break;
 
             case "Semanal":
+                if (medida.getProcedimentodecoletaList().get(0).getContadorColeta() == medida.getProcedimentodecoletaList().get(0).getFrequencia()) {
+                    tipoDeColeta(false, medida, "<html>Limite de coletas já atingido.<br>&nbsp;</html>");
+                } else {
+                    tipoDeColeta(true, medida, "<html>Fora do periodo de coleta.<br>&nbsp;</html>");
+                }
                 break;
             default:
                 Date dataInicio = medida.getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(0).getDataInicio();
@@ -404,29 +410,8 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                     case "Semanal":
                         String dataFimSemanal = ctrlColeta.buscaDataProcedimentoColetaEmUso(listaMedida.get(j).getProcedimentodecoletaList().get(0).getId()).get(1).getDia();
                         dataHoje = new Date();
-                        switch (dataFimSemanal) {
-                            case "Domingo":
-                                fimPeriodo = (dataHoje.getDay() == 1 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                            case "Segunda-feira":
-                                fimPeriodo = (dataHoje.getDay() == 2 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                            case "Terça-feira":
-                                fimPeriodo = (dataHoje.getDay() == 3 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                            case "Quarta-feira":
-                                fimPeriodo = (dataHoje.getDay() == 4 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                            case "Quinta-feira":
-                                fimPeriodo = (dataHoje.getDay() == 5 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                            case "Sexta-feira":
-                                fimPeriodo = (dataHoje.getDay() == 6 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                            case "Sabádo":
-                                fimPeriodo = (dataHoje.getDay() == 0 && !(listaMedida.get(j).getProcedimentodecoletaList().get(0).getData().equals(dataHoje)));
-                                break;
-                        }
+                        fimPeriodo = checaPariodicidadeSemanal(dataFimSemanal, j);
+
                         if (fimPeriodo && !listaColeta.isEmpty()) {
                             boolean resposta = new Calculo().porcentagemMinimaAtingida(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                             if (resposta) {
@@ -434,9 +419,16 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                             } else {
                                 naoAtingiuPorcentagem(listaMedida.get(j));
                             }
+                            break;
+                        }
+
+                        if (fimPeriodo) {
                             listaMedida.get(j).getProcedimentodecoletaList().get(0).setContadorColeta(0);
                             ctrlProcedimentosColeta.editarProcedimentoColeta(listaMedida.get(j).getProcedimentodecoletaList().get(0));
-                            break;
+
+                            Datasprocedimentocoleta datasprocedimentocoleta = listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(1);
+                            datasprocedimentocoleta.setDataFim(dataHoje);
+                            ctrlProcedimentosColeta.editaDataProcedimentoColeta(datasprocedimentocoleta);
                         }
 
                         if (fimPeriodo && listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().size() > 1) {
@@ -458,7 +450,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                                 naoAtingiuPorcentagem(listaMedida.get(j));
                             }
                         }
-                        
+
                         if (fimPeriodo && listaMedida.get(j).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().size() > 1) {
                             ctrlProcedimentosColeta.trocaPeriodicidade(listaMedida.get(j).getProcedimentodecoletaList().get(0));
                         } else if (fimPeriodo) {
@@ -481,6 +473,69 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
                 }
             }
         }
+    }
+
+    private boolean checaPariodicidadeSemanal(String diaFim, int indice) {
+        boolean fimPeriodo = false;
+        Date dataHoje = new Date();
+        SimpleDateFormat simpleDate_1 = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat simpleDate_2 = new SimpleDateFormat("dd/MM/yyyy");
+
+        if (listaMedida.get(indice).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(1).getDataFim() == null) {
+            String hoje = simpleDate_1.format(dataHoje);
+            String compara = simpleDate_2.format(listaMedida.get(indice).getProcedimentodecoletaList().get(0).getData());
+            switch (diaFim) {
+                case "Domingo":
+                    fimPeriodo = (dataHoje.getDay() == 1 && !compara.equals(hoje));
+                    break;
+                case "Segunda-feira":
+                    fimPeriodo = (dataHoje.getDay() == 2 && !compara.equals(hoje));
+                    break;
+                case "Terça-feira":
+                    fimPeriodo = (dataHoje.getDay() == 3 && !compara.equals(hoje));
+                    break;
+                case "Quarta-feira":
+                    fimPeriodo = (dataHoje.getDay() == 4 && !compara.equals(hoje));
+                    break;
+                case "Quinta-feira":
+                    fimPeriodo = (dataHoje.getDay() == 5 && !compara.equals(hoje));
+                    break;
+                case "Sexta-feira":
+                    fimPeriodo = (dataHoje.getDay() == 6 && !compara.equals(hoje));
+                    break;
+                case "Sabádo":
+                    fimPeriodo = (dataHoje.getDay() == 0 && !compara.equals(hoje));
+                    break;
+            }
+        } else {
+            Date dataFim = listaMedida.get(indice).getProcedimentodecoletaList().get(0).getDatasprocedimentocoletaList().get(1).getDataFim();
+            String hoje = simpleDate_1.format(dataHoje);
+            String compara = simpleDate_2.format(dataFim);
+            switch (diaFim) {
+                case "Domingo":
+                    fimPeriodo = (dataHoje.getDay() == 1 && !compara.equals(hoje));
+                    break;
+                case "Segunda-feira":
+                    fimPeriodo = (dataHoje.getDay() == 2 && !compara.equals(hoje));
+                    break;
+                case "Terça-feira":
+                    fimPeriodo = (dataHoje.getDay() == 3 && !compara.equals(hoje));
+                    break;
+                case "Quarta-feira":
+                    fimPeriodo = (dataHoje.getDay() == 4 && !compara.equals(hoje));
+                    break;
+                case "Quinta-feira":
+                    fimPeriodo = (dataHoje.getDay() == 5 && !compara.equals(hoje));
+                    break;
+                case "Sexta-feira":
+                    fimPeriodo = (dataHoje.getDay() == 6 && !compara.equals(hoje));
+                    break;
+                case "Sabádo":
+                    fimPeriodo = (dataHoje.getDay() == 0 && !compara.equals(hoje));
+                    break;
+            }
+        }
+        return fimPeriodo;
     }
 
     private int quantidadeMeses(String periodicidade) {
