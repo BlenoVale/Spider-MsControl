@@ -1112,11 +1112,9 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
              
                 boolean equals = StringUtils.isNullOrBlank(String.valueOf(formula.charAt(i)));
                 
-                System.out.print(String.valueOf(" "+ formula.charAt(i)));
                 if (equals) {
                     
                     fim = i;
-                    partFormula = formula.substring(i, size);
                     break;
                 }
              }
