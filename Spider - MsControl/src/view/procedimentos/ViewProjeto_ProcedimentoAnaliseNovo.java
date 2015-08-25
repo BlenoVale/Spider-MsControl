@@ -23,6 +23,7 @@ import util.CheckDefaultTableModel;
 import util.Constantes;
 import util.Copia;
 import util.MyDefaultTableModel;
+import util.StringUtils;
 import util.Texto;
 
 /**
@@ -1095,6 +1096,58 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
 
     }
+    
+     private void excluirUltimaLetraTeste() {
+
+        String formula = jTextFieldFormula.getText().trim();
+        jTextFieldFormula.setText(" " + formula);
+        String partFormula = null;
+        int fim = 0;
+        boolean isLetter = false;
+        if (!formula.isEmpty()) {
+
+            int size = formula.length();
+            
+            for (int i = size - 1; i >= 0; i--) {
+             
+                boolean equals = StringUtils.isNullOrBlank(String.valueOf(formula.charAt(i)));
+                
+                System.out.print(String.valueOf(" "+ formula.charAt(i)));
+                if (equals) {
+                    
+                    fim = i;
+                    partFormula = formula.substring(i, size);
+                    break;
+                }
+             }
+                
+                
+                partFormula = formula.substring(fim, size);
+                size = formula.substring(fim, size).length();
+                
+                for (int i = 0; i < size; i++) {
+                
+                     isLetter = Character.isLetter(partFormula.charAt(i));
+                    
+                    if(isLetter){
+                       formula = formula.substring(0, fim);
+                       break;
+                    }
+            }
+                
+                if(!isLetter){
+                    formula = formula.substring(0, formula.length() - 1);
+                }
+                
+                
+        
+            jTextFieldFormula.setText(formula);
+
+        }
+    }
+
+
+ 
 
     public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
@@ -2195,7 +2248,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private void jButtonApagarUltimoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonApagarUltimoActionPerformed
     {//GEN-HEADEREND:event_jButtonApagarUltimoActionPerformed
-        excluirUltimaLetra();
+        excluirUltimaLetraTeste();
     }//GEN-LAST:event_jButtonApagarUltimoActionPerformed
 
     private void jButtonApagarTudoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonApagarTudoActionPerformed
