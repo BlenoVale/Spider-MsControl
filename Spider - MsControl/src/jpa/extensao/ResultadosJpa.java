@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import jpa.ResultadosJpaController;
-import model.Registroresultados;
 import model.Resultados;
 import util.Conexao;
 
@@ -87,19 +86,5 @@ public class ResultadosJpa extends ResultadosJpaController {
         } catch (Exception error) {
             throw error;
         }
-    }
-    
-    public List<Registroresultados> findRegistrosDoResultadoByTipo(int idResultados, int tipo) {
-
-        List<Registroresultados> registroresultados = new ArrayList<>();
-
-        EntityManager emf = super.getEntityManager();
-
-        Query q = emf.createQuery("SELECT r FROM Registroresultados r WHERE r.resultadosid.id = :idResultados and r.tipo = :tipo ORDER BY r.id DESC");
-
-        q.setParameter("idResultados", idResultados);
-        q.setParameter("tipo", tipo);
-        registroresultados = q.getResultList();
-        return registroresultados;
     }
 }

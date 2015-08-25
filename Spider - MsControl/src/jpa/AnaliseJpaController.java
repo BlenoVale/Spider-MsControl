@@ -16,10 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Analise;
-import model.Registroanalise;
 
 /**
  *
@@ -40,9 +38,6 @@ public class AnaliseJpaController implements Serializable {
         if (analise.getResultadosList() == null) {
             analise.setResultadosList(new ArrayList<Resultados>());
         }
-        if (analise.getRegistroanaliseList() == null) {
-            analise.setRegistroanaliseList(new ArrayList<Registroanalise>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,34 +53,14 @@ public class AnaliseJpaController implements Serializable {
                 attachedResultadosList.add(resultadosListResultadosToAttach);
             }
             analise.setResultadosList(attachedResultadosList);
-            List<Registroanalise> attachedRegistroanaliseList = new ArrayList<Registroanalise>();
-            for (Registroanalise registroanaliseListRegistroanaliseToAttach : analise.getRegistroanaliseList()) {
-                registroanaliseListRegistroanaliseToAttach = em.getReference(registroanaliseListRegistroanaliseToAttach.getClass(), registroanaliseListRegistroanaliseToAttach.getId());
-                attachedRegistroanaliseList.add(registroanaliseListRegistroanaliseToAttach);
-            }
-            analise.setRegistroanaliseList(attachedRegistroanaliseList);
             em.persist(analise);
             if (indicadorid != null) {
                 indicadorid.getAnaliseList().add(analise);
                 indicadorid = em.merge(indicadorid);
             }
             for (Resultados resultadosListResultados : analise.getResultadosList()) {
-                Analise oldAnaliseidOfResultadosListResultados = resultadosListResultados.getAnaliseid();
-                resultadosListResultados.setAnaliseid(analise);
+                resultadosListResultados.getAnaliseList().add(analise);
                 resultadosListResultados = em.merge(resultadosListResultados);
-                if (oldAnaliseidOfResultadosListResultados != null) {
-                    oldAnaliseidOfResultadosListResultados.getResultadosList().remove(resultadosListResultados);
-                    oldAnaliseidOfResultadosListResultados = em.merge(oldAnaliseidOfResultadosListResultados);
-                }
-            }
-            for (Registroanalise registroanaliseListRegistroanalise : analise.getRegistroanaliseList()) {
-                Analise oldAnaliseidOfRegistroanaliseListRegistroanalise = registroanaliseListRegistroanalise.getAnaliseid();
-                registroanaliseListRegistroanalise.setAnaliseid(analise);
-                registroanaliseListRegistroanalise = em.merge(registroanaliseListRegistroanalise);
-                if (oldAnaliseidOfRegistroanaliseListRegistroanalise != null) {
-                    oldAnaliseidOfRegistroanaliseListRegistroanalise.getRegistroanaliseList().remove(registroanaliseListRegistroanalise);
-                    oldAnaliseidOfRegistroanaliseListRegistroanalise = em.merge(oldAnaliseidOfRegistroanaliseListRegistroanalise);
-                }
             }
             em.getTransaction().commit();
         } finally {
@@ -95,7 +70,7 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public void edit(Analise analise) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Analise analise) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -105,28 +80,6 @@ public class AnaliseJpaController implements Serializable {
             Indicador indicadoridNew = analise.getIndicadorid();
             List<Resultados> resultadosListOld = persistentAnalise.getResultadosList();
             List<Resultados> resultadosListNew = analise.getResultadosList();
-            List<Registroanalise> registroanaliseListOld = persistentAnalise.getRegistroanaliseList();
-            List<Registroanalise> registroanaliseListNew = analise.getRegistroanaliseList();
-            List<String> illegalOrphanMessages = null;
-            for (Resultados resultadosListOldResultados : resultadosListOld) {
-                if (!resultadosListNew.contains(resultadosListOldResultados)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Resultados " + resultadosListOldResultados + " since its analiseid field is not nullable.");
-                }
-            }
-            for (Registroanalise registroanaliseListOldRegistroanalise : registroanaliseListOld) {
-                if (!registroanaliseListNew.contains(registroanaliseListOldRegistroanalise)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Registroanalise " + registroanaliseListOldRegistroanalise + " since its analiseid field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (indicadoridNew != null) {
                 indicadoridNew = em.getReference(indicadoridNew.getClass(), indicadoridNew.getId());
                 analise.setIndicadorid(indicadoridNew);
@@ -138,13 +91,6 @@ public class AnaliseJpaController implements Serializable {
             }
             resultadosListNew = attachedResultadosListNew;
             analise.setResultadosList(resultadosListNew);
-            List<Registroanalise> attachedRegistroanaliseListNew = new ArrayList<Registroanalise>();
-            for (Registroanalise registroanaliseListNewRegistroanaliseToAttach : registroanaliseListNew) {
-                registroanaliseListNewRegistroanaliseToAttach = em.getReference(registroanaliseListNewRegistroanaliseToAttach.getClass(), registroanaliseListNewRegistroanaliseToAttach.getId());
-                attachedRegistroanaliseListNew.add(registroanaliseListNewRegistroanaliseToAttach);
-            }
-            registroanaliseListNew = attachedRegistroanaliseListNew;
-            analise.setRegistroanaliseList(registroanaliseListNew);
             analise = em.merge(analise);
             if (indicadoridOld != null && !indicadoridOld.equals(indicadoridNew)) {
                 indicadoridOld.getAnaliseList().remove(analise);
@@ -154,26 +100,16 @@ public class AnaliseJpaController implements Serializable {
                 indicadoridNew.getAnaliseList().add(analise);
                 indicadoridNew = em.merge(indicadoridNew);
             }
-            for (Resultados resultadosListNewResultados : resultadosListNew) {
-                if (!resultadosListOld.contains(resultadosListNewResultados)) {
-                    Analise oldAnaliseidOfResultadosListNewResultados = resultadosListNewResultados.getAnaliseid();
-                    resultadosListNewResultados.setAnaliseid(analise);
-                    resultadosListNewResultados = em.merge(resultadosListNewResultados);
-                    if (oldAnaliseidOfResultadosListNewResultados != null && !oldAnaliseidOfResultadosListNewResultados.equals(analise)) {
-                        oldAnaliseidOfResultadosListNewResultados.getResultadosList().remove(resultadosListNewResultados);
-                        oldAnaliseidOfResultadosListNewResultados = em.merge(oldAnaliseidOfResultadosListNewResultados);
-                    }
+            for (Resultados resultadosListOldResultados : resultadosListOld) {
+                if (!resultadosListNew.contains(resultadosListOldResultados)) {
+                    resultadosListOldResultados.getAnaliseList().remove(analise);
+                    resultadosListOldResultados = em.merge(resultadosListOldResultados);
                 }
             }
-            for (Registroanalise registroanaliseListNewRegistroanalise : registroanaliseListNew) {
-                if (!registroanaliseListOld.contains(registroanaliseListNewRegistroanalise)) {
-                    Analise oldAnaliseidOfRegistroanaliseListNewRegistroanalise = registroanaliseListNewRegistroanalise.getAnaliseid();
-                    registroanaliseListNewRegistroanalise.setAnaliseid(analise);
-                    registroanaliseListNewRegistroanalise = em.merge(registroanaliseListNewRegistroanalise);
-                    if (oldAnaliseidOfRegistroanaliseListNewRegistroanalise != null && !oldAnaliseidOfRegistroanaliseListNewRegistroanalise.equals(analise)) {
-                        oldAnaliseidOfRegistroanaliseListNewRegistroanalise.getRegistroanaliseList().remove(registroanaliseListNewRegistroanalise);
-                        oldAnaliseidOfRegistroanaliseListNewRegistroanalise = em.merge(oldAnaliseidOfRegistroanaliseListNewRegistroanalise);
-                    }
+            for (Resultados resultadosListNewResultados : resultadosListNew) {
+                if (!resultadosListOld.contains(resultadosListNewResultados)) {
+                    resultadosListNewResultados.getAnaliseList().add(analise);
+                    resultadosListNewResultados = em.merge(resultadosListNewResultados);
                 }
             }
             em.getTransaction().commit();
@@ -193,7 +129,7 @@ public class AnaliseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -205,28 +141,15 @@ public class AnaliseJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The analise with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Resultados> resultadosListOrphanCheck = analise.getResultadosList();
-            for (Resultados resultadosListOrphanCheckResultados : resultadosListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Analise (" + analise + ") cannot be destroyed since the Resultados " + resultadosListOrphanCheckResultados + " in its resultadosList field has a non-nullable analiseid field.");
-            }
-            List<Registroanalise> registroanaliseListOrphanCheck = analise.getRegistroanaliseList();
-            for (Registroanalise registroanaliseListOrphanCheckRegistroanalise : registroanaliseListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Analise (" + analise + ") cannot be destroyed since the Registroanalise " + registroanaliseListOrphanCheckRegistroanalise + " in its registroanaliseList field has a non-nullable analiseid field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Indicador indicadorid = analise.getIndicadorid();
             if (indicadorid != null) {
                 indicadorid.getAnaliseList().remove(analise);
                 indicadorid = em.merge(indicadorid);
+            }
+            List<Resultados> resultadosList = analise.getResultadosList();
+            for (Resultados resultadosListResultados : resultadosList) {
+                resultadosListResultados.getAnaliseList().remove(analise);
+                resultadosListResultados = em.merge(resultadosListResultados);
             }
             em.remove(analise);
             em.getTransaction().commit();

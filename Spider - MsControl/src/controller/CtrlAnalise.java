@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Analise;
-import model.Registroanalise;
 import util.Constantes;
 import util.Copia;
 
@@ -21,12 +20,6 @@ public class CtrlAnalise {
         try {
             facadeJpa.getAnaliseJpa().create(analise);
             analise = facadeJpa.getAnaliseJpa().findAnaliseByIDProjeto(Copia.getProjetoSelecionado().getId());
-
-            Registroanalise registroanalise = new Registroanalise();
-            registroanalise.setData(new Date());
-            registroanalise.setNomeUsuario(Copia.getUsuarioLogado().getNome());
-            registroanalise.setTipo(Constantes.CADASTRO);
-            registroanalise.setAnaliseid(analise);
 
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         } catch (Exception error) {

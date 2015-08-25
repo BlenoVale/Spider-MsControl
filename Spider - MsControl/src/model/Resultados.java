@@ -9,18 +9,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Resultados.findById", query = "SELECT r FROM Resultados r WHERE r.id = :id"),
     @NamedQuery(name = "Resultados.findByTitulo", query = "SELECT r FROM Resultados r WHERE r.titulo = :titulo"),
     @NamedQuery(name = "Resultados.findByData", query = "SELECT r FROM Resultados r WHERE r.data = :data"),
+    @NamedQuery(name = "Resultados.findByNomeUsuario", query = "SELECT r FROM Resultados r WHERE r.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Resultados.findByParticipantes", query = "SELECT r FROM Resultados r WHERE r.participantes = :participantes"),
     @NamedQuery(name = "Resultados.findByUsuariosInteressados", query = "SELECT r FROM Resultados r WHERE r.usuariosInteressados = :usuariosInteressados")})
 public class Resultados implements Serializable {
@@ -56,6 +54,9 @@ public class Resultados implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date data;
     @Basic(optional = false)
+    @Column(name = "nomeUsuario")
+    private String nomeUsuario;
+    @Basic(optional = false)
     @Lob
     @Column(name = "interpretacao")
     private String interpretacao;
@@ -69,11 +70,8 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "usuariosInteressados")
     private String usuariosInteressados;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
-    private List<Registroresultados> registroresultadosList;
-    @JoinColumn(name = "Analise_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Analise analiseid;
+    @ManyToMany(mappedBy = "resultadosList")
+    private List<Analise> analiseList;
 
     public Resultados() {
     }
@@ -82,10 +80,11 @@ public class Resultados implements Serializable {
         this.id = id;
     }
 
-    public Resultados(Integer id, String titulo, Date data, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados) {
+    public Resultados(Integer id, String titulo, Date data, String nomeUsuario, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados) {
         this.id = id;
         this.titulo = titulo;
         this.data = data;
+        this.nomeUsuario = nomeUsuario;
         this.interpretacao = interpretacao;
         this.tomadaDeDecisao = tomadaDeDecisao;
         this.participantes = participantes;
@@ -114,6 +113,14 @@ public class Resultados implements Serializable {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 
     public String getInterpretacao() {
@@ -149,20 +156,12 @@ public class Resultados implements Serializable {
     }
 
     @XmlTransient
-    public List<Registroresultados> getRegistroresultadosList() {
-        return registroresultadosList;
+    public List<Analise> getAnaliseList() {
+        return analiseList;
     }
 
-    public void setRegistroresultadosList(List<Registroresultados> registroresultadosList) {
-        this.registroresultadosList = registroresultadosList;
-    }
-
-    public Analise getAnaliseid() {
-        return analiseid;
-    }
-
-    public void setAnaliseid(Analise analiseid) {
-        this.analiseid = analiseid;
+    public void setAnaliseList(List<Analise> analiseList) {
+        this.analiseList = analiseList;
     }
 
     @Override

@@ -20,7 +20,6 @@ import jpa.extensao.ProjetoJpa;
 import jpa.extensao.RegistroObjetivoQuestaoJpa;
 import jpa.extensao.RegistroobjetivomedicaoJpa;
 import jpa.RegistroprocedimentocoletaJpaController;
-import jpa.RegistroresultadosJpaController;
 import jpa.RelatoriosJpaController;
 import jpa.extensao.AnaliseJpa;
 import jpa.extensao.DatasProcedimentoColetaJpa;
@@ -78,7 +77,6 @@ public class FacadeJpa {
     private final ColetaJpa coletaJpa;
     private final DatasProcedimentoColetaJpa datasProcedimentoColetaJpa;
     private final ResultadosJpa resultadosJpa;
-    private final RegistroresultadosJpaController registroResultadosJpa;
     private final MeioComunicacaoJpa meioComunicacaoJpa;
     private final PerfilInteressadoJpa perfilInteressadoJpa;
     private final RegistroprocedimentoanaliseJpaController registroprocedimentoanaliseJpaController;
@@ -118,7 +116,6 @@ public class FacadeJpa {
         entidadeMedidaJpa = new EntidadeMedidaJpa();
         datasProcedimentoColetaJpa = new DatasProcedimentoColetaJpa();
         resultadosJpa = new ResultadosJpa();
-        registroResultadosJpa = new RegistroresultadosJpaController(Conexao.conectar());
         meioComunicacaoJpa = new MeioComunicacaoJpa();
         perfilInteressadoJpa = new PerfilInteressadoJpa();
         registroprocedimentoanaliseJpaController = new RegistroprocedimentoanaliseJpaController(Conexao.conectar());
@@ -250,10 +247,6 @@ public class FacadeJpa {
 
     public ResultadosJpa getResultadosJpa() {
         return resultadosJpa;
-    }
-
-    public RegistroresultadosJpaController getRegistroresultados() {
-        return registroResultadosJpa;
     }
 
     public MeioComunicacaoJpa getMeioComunicacaoJpa() {

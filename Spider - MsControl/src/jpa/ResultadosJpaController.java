@@ -11,12 +11,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.Analise;
-import model.Registroresultados;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
 import model.Resultados;
 
@@ -36,37 +34,23 @@ public class ResultadosJpaController implements Serializable {
     }
 
     public void create(Resultados resultados) {
-        if (resultados.getRegistroresultadosList() == null) {
-            resultados.setRegistroresultadosList(new ArrayList<Registroresultados>());
+        if (resultados.getAnaliseList() == null) {
+            resultados.setAnaliseList(new ArrayList<Analise>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Analise analiseid = resultados.getAnaliseid();
-            if (analiseid != null) {
-                analiseid = em.getReference(analiseid.getClass(), analiseid.getId());
-                resultados.setAnaliseid(analiseid);
+            List<Analise> attachedAnaliseList = new ArrayList<Analise>();
+            for (Analise analiseListAnaliseToAttach : resultados.getAnaliseList()) {
+                analiseListAnaliseToAttach = em.getReference(analiseListAnaliseToAttach.getClass(), analiseListAnaliseToAttach.getId());
+                attachedAnaliseList.add(analiseListAnaliseToAttach);
             }
-            List<Registroresultados> attachedRegistroresultadosList = new ArrayList<Registroresultados>();
-            for (Registroresultados registroresultadosListRegistroresultadosToAttach : resultados.getRegistroresultadosList()) {
-                registroresultadosListRegistroresultadosToAttach = em.getReference(registroresultadosListRegistroresultadosToAttach.getClass(), registroresultadosListRegistroresultadosToAttach.getId());
-                attachedRegistroresultadosList.add(registroresultadosListRegistroresultadosToAttach);
-            }
-            resultados.setRegistroresultadosList(attachedRegistroresultadosList);
+            resultados.setAnaliseList(attachedAnaliseList);
             em.persist(resultados);
-            if (analiseid != null) {
-                analiseid.getResultadosList().add(resultados);
-                analiseid = em.merge(analiseid);
-            }
-            for (Registroresultados registroresultadosListRegistroresultados : resultados.getRegistroresultadosList()) {
-                Resultados oldResultadosidOfRegistroresultadosListRegistroresultados = registroresultadosListRegistroresultados.getResultadosid();
-                registroresultadosListRegistroresultados.setResultadosid(resultados);
-                registroresultadosListRegistroresultados = em.merge(registroresultadosListRegistroresultados);
-                if (oldResultadosidOfRegistroresultadosListRegistroresultados != null) {
-                    oldResultadosidOfRegistroresultadosListRegistroresultados.getRegistroresultadosList().remove(registroresultadosListRegistroresultados);
-                    oldResultadosidOfRegistroresultadosListRegistroresultados = em.merge(oldResultadosidOfRegistroresultadosListRegistroresultados);
-                }
+            for (Analise analiseListAnalise : resultados.getAnaliseList()) {
+                analiseListAnalise.getResultadosList().add(resultados);
+                analiseListAnalise = em.merge(analiseListAnalise);
             }
             em.getTransaction().commit();
         } finally {
@@ -76,57 +60,32 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public void edit(Resultados resultados) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Resultados resultados) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Resultados persistentResultados = em.find(Resultados.class, resultados.getId());
-            Analise analiseidOld = persistentResultados.getAnaliseid();
-            Analise analiseidNew = resultados.getAnaliseid();
-            List<Registroresultados> registroresultadosListOld = persistentResultados.getRegistroresultadosList();
-            List<Registroresultados> registroresultadosListNew = resultados.getRegistroresultadosList();
-            List<String> illegalOrphanMessages = null;
-            for (Registroresultados registroresultadosListOldRegistroresultados : registroresultadosListOld) {
-                if (!registroresultadosListNew.contains(registroresultadosListOldRegistroresultados)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Registroresultados " + registroresultadosListOldRegistroresultados + " since its resultadosid field is not nullable.");
+            List<Analise> analiseListOld = persistentResultados.getAnaliseList();
+            List<Analise> analiseListNew = resultados.getAnaliseList();
+            List<Analise> attachedAnaliseListNew = new ArrayList<Analise>();
+            for (Analise analiseListNewAnaliseToAttach : analiseListNew) {
+                analiseListNewAnaliseToAttach = em.getReference(analiseListNewAnaliseToAttach.getClass(), analiseListNewAnaliseToAttach.getId());
+                attachedAnaliseListNew.add(analiseListNewAnaliseToAttach);
+            }
+            analiseListNew = attachedAnaliseListNew;
+            resultados.setAnaliseList(analiseListNew);
+            resultados = em.merge(resultados);
+            for (Analise analiseListOldAnalise : analiseListOld) {
+                if (!analiseListNew.contains(analiseListOldAnalise)) {
+                    analiseListOldAnalise.getResultadosList().remove(resultados);
+                    analiseListOldAnalise = em.merge(analiseListOldAnalise);
                 }
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (analiseidNew != null) {
-                analiseidNew = em.getReference(analiseidNew.getClass(), analiseidNew.getId());
-                resultados.setAnaliseid(analiseidNew);
-            }
-            List<Registroresultados> attachedRegistroresultadosListNew = new ArrayList<Registroresultados>();
-            for (Registroresultados registroresultadosListNewRegistroresultadosToAttach : registroresultadosListNew) {
-                registroresultadosListNewRegistroresultadosToAttach = em.getReference(registroresultadosListNewRegistroresultadosToAttach.getClass(), registroresultadosListNewRegistroresultadosToAttach.getId());
-                attachedRegistroresultadosListNew.add(registroresultadosListNewRegistroresultadosToAttach);
-            }
-            registroresultadosListNew = attachedRegistroresultadosListNew;
-            resultados.setRegistroresultadosList(registroresultadosListNew);
-            resultados = em.merge(resultados);
-            if (analiseidOld != null && !analiseidOld.equals(analiseidNew)) {
-                analiseidOld.getResultadosList().remove(resultados);
-                analiseidOld = em.merge(analiseidOld);
-            }
-            if (analiseidNew != null && !analiseidNew.equals(analiseidOld)) {
-                analiseidNew.getResultadosList().add(resultados);
-                analiseidNew = em.merge(analiseidNew);
-            }
-            for (Registroresultados registroresultadosListNewRegistroresultados : registroresultadosListNew) {
-                if (!registroresultadosListOld.contains(registroresultadosListNewRegistroresultados)) {
-                    Resultados oldResultadosidOfRegistroresultadosListNewRegistroresultados = registroresultadosListNewRegistroresultados.getResultadosid();
-                    registroresultadosListNewRegistroresultados.setResultadosid(resultados);
-                    registroresultadosListNewRegistroresultados = em.merge(registroresultadosListNewRegistroresultados);
-                    if (oldResultadosidOfRegistroresultadosListNewRegistroresultados != null && !oldResultadosidOfRegistroresultadosListNewRegistroresultados.equals(resultados)) {
-                        oldResultadosidOfRegistroresultadosListNewRegistroresultados.getRegistroresultadosList().remove(registroresultadosListNewRegistroresultados);
-                        oldResultadosidOfRegistroresultadosListNewRegistroresultados = em.merge(oldResultadosidOfRegistroresultadosListNewRegistroresultados);
-                    }
+            for (Analise analiseListNewAnalise : analiseListNew) {
+                if (!analiseListOld.contains(analiseListNewAnalise)) {
+                    analiseListNewAnalise.getResultadosList().add(resultados);
+                    analiseListNewAnalise = em.merge(analiseListNewAnalise);
                 }
             }
             em.getTransaction().commit();
@@ -146,7 +105,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -158,21 +117,10 @@ public class ResultadosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The resultados with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Registroresultados> registroresultadosListOrphanCheck = resultados.getRegistroresultadosList();
-            for (Registroresultados registroresultadosListOrphanCheckRegistroresultados : registroresultadosListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Resultados (" + resultados + ") cannot be destroyed since the Registroresultados " + registroresultadosListOrphanCheckRegistroresultados + " in its registroresultadosList field has a non-nullable resultadosid field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Analise analiseid = resultados.getAnaliseid();
-            if (analiseid != null) {
-                analiseid.getResultadosList().remove(resultados);
-                analiseid = em.merge(analiseid);
+            List<Analise> analiseList = resultados.getAnaliseList();
+            for (Analise analiseListAnalise : analiseList) {
+                analiseListAnalise.getResultadosList().remove(resultados);
+                analiseListAnalise = em.merge(analiseListAnalise);
             }
             em.remove(resultados);
             em.getTransaction().commit();

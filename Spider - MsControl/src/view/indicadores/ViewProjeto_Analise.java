@@ -252,7 +252,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             Analise analise = new Analise();
             analise.setCriterioDeAnalise(jTextAreaAnalise.getText());
             analise.setObservacao(jTextAreaObservacao.getText());
-
+            analise.setDataCriação(new Date());
+            analise.setNomeUsuario(Copia.getUsuarioLogado().getNome());
+            
             Calendar calendar = Calendar.getInstance();
             calendar.setTime((Date) dateFieldDe.getValue());
             analise.setAnaliseDE(calendar.getTime());

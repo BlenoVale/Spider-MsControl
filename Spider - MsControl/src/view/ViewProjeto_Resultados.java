@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import model.Analise;
-import model.Registroresultados;
 import model.Resultados;
 import model.Valorindicador;
 import org.jfree.chart.ChartPanel;
@@ -20,7 +17,6 @@ import util.CheckDefaultTableModel;
 import util.Constantes;
 import util.Copia;
 import util.Grafico;
-import util.MyDefaultTableModel;
 import util.Texto;
 
 /**
@@ -36,7 +32,6 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private CheckDefaultTableModel checkModel;
     private DefaultListModel model_listaDeParticipantes;
     private DefaultListModel model_listaDeUsuariosInteressados;
-    private Registroresultados registro;
     private final CtrlAnalise ctrlAnalise = new CtrlAnalise();
     private final CtrlValores ctrlValores = new CtrlValores();
     private Analise analiseSelecioanda;
