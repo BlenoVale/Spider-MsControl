@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import jpa.exceptions.IllegalOrphanException;
 import jpa.exceptions.NonexistentEntityException;
+import model.ParticipanteseInteressados;
 import model.Resultados;
 
 /**
@@ -37,6 +39,9 @@ public class ResultadosJpaController implements Serializable {
         if (resultados.getAnaliseList() == null) {
             resultados.setAnaliseList(new ArrayList<Analise>());
         }
+        if (resultados.getParticipanteseInteressadosList() == null) {
+            resultados.setParticipanteseInteressadosList(new ArrayList<ParticipanteseInteressados>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -47,10 +52,25 @@ public class ResultadosJpaController implements Serializable {
                 attachedAnaliseList.add(analiseListAnaliseToAttach);
             }
             resultados.setAnaliseList(attachedAnaliseList);
+            List<ParticipanteseInteressados> attachedParticipanteseInteressadosList = new ArrayList<ParticipanteseInteressados>();
+            for (ParticipanteseInteressados participanteseInteressadosListParticipanteseInteressadosToAttach : resultados.getParticipanteseInteressadosList()) {
+                participanteseInteressadosListParticipanteseInteressadosToAttach = em.getReference(participanteseInteressadosListParticipanteseInteressadosToAttach.getClass(), participanteseInteressadosListParticipanteseInteressadosToAttach.getId());
+                attachedParticipanteseInteressadosList.add(participanteseInteressadosListParticipanteseInteressadosToAttach);
+            }
+            resultados.setParticipanteseInteressadosList(attachedParticipanteseInteressadosList);
             em.persist(resultados);
             for (Analise analiseListAnalise : resultados.getAnaliseList()) {
                 analiseListAnalise.getResultadosList().add(resultados);
                 analiseListAnalise = em.merge(analiseListAnalise);
+            }
+            for (ParticipanteseInteressados participanteseInteressadosListParticipanteseInteressados : resultados.getParticipanteseInteressadosList()) {
+                Resultados oldResultadosidOfParticipanteseInteressadosListParticipanteseInteressados = participanteseInteressadosListParticipanteseInteressados.getResultadosid();
+                participanteseInteressadosListParticipanteseInteressados.setResultadosid(resultados);
+                participanteseInteressadosListParticipanteseInteressados = em.merge(participanteseInteressadosListParticipanteseInteressados);
+                if (oldResultadosidOfParticipanteseInteressadosListParticipanteseInteressados != null) {
+                    oldResultadosidOfParticipanteseInteressadosListParticipanteseInteressados.getParticipanteseInteressadosList().remove(participanteseInteressadosListParticipanteseInteressados);
+                    oldResultadosidOfParticipanteseInteressadosListParticipanteseInteressados = em.merge(oldResultadosidOfParticipanteseInteressadosListParticipanteseInteressados);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -60,7 +80,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public void edit(Resultados resultados) throws NonexistentEntityException, Exception {
+    public void edit(Resultados resultados) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -68,6 +88,20 @@ public class ResultadosJpaController implements Serializable {
             Resultados persistentResultados = em.find(Resultados.class, resultados.getId());
             List<Analise> analiseListOld = persistentResultados.getAnaliseList();
             List<Analise> analiseListNew = resultados.getAnaliseList();
+            List<ParticipanteseInteressados> participanteseInteressadosListOld = persistentResultados.getParticipanteseInteressadosList();
+            List<ParticipanteseInteressados> participanteseInteressadosListNew = resultados.getParticipanteseInteressadosList();
+            List<String> illegalOrphanMessages = null;
+            for (ParticipanteseInteressados participanteseInteressadosListOldParticipanteseInteressados : participanteseInteressadosListOld) {
+                if (!participanteseInteressadosListNew.contains(participanteseInteressadosListOldParticipanteseInteressados)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain ParticipanteseInteressados " + participanteseInteressadosListOldParticipanteseInteressados + " since its resultadosid field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             List<Analise> attachedAnaliseListNew = new ArrayList<Analise>();
             for (Analise analiseListNewAnaliseToAttach : analiseListNew) {
                 analiseListNewAnaliseToAttach = em.getReference(analiseListNewAnaliseToAttach.getClass(), analiseListNewAnaliseToAttach.getId());
@@ -75,6 +109,13 @@ public class ResultadosJpaController implements Serializable {
             }
             analiseListNew = attachedAnaliseListNew;
             resultados.setAnaliseList(analiseListNew);
+            List<ParticipanteseInteressados> attachedParticipanteseInteressadosListNew = new ArrayList<ParticipanteseInteressados>();
+            for (ParticipanteseInteressados participanteseInteressadosListNewParticipanteseInteressadosToAttach : participanteseInteressadosListNew) {
+                participanteseInteressadosListNewParticipanteseInteressadosToAttach = em.getReference(participanteseInteressadosListNewParticipanteseInteressadosToAttach.getClass(), participanteseInteressadosListNewParticipanteseInteressadosToAttach.getId());
+                attachedParticipanteseInteressadosListNew.add(participanteseInteressadosListNewParticipanteseInteressadosToAttach);
+            }
+            participanteseInteressadosListNew = attachedParticipanteseInteressadosListNew;
+            resultados.setParticipanteseInteressadosList(participanteseInteressadosListNew);
             resultados = em.merge(resultados);
             for (Analise analiseListOldAnalise : analiseListOld) {
                 if (!analiseListNew.contains(analiseListOldAnalise)) {
@@ -86,6 +127,17 @@ public class ResultadosJpaController implements Serializable {
                 if (!analiseListOld.contains(analiseListNewAnalise)) {
                     analiseListNewAnalise.getResultadosList().add(resultados);
                     analiseListNewAnalise = em.merge(analiseListNewAnalise);
+                }
+            }
+            for (ParticipanteseInteressados participanteseInteressadosListNewParticipanteseInteressados : participanteseInteressadosListNew) {
+                if (!participanteseInteressadosListOld.contains(participanteseInteressadosListNewParticipanteseInteressados)) {
+                    Resultados oldResultadosidOfParticipanteseInteressadosListNewParticipanteseInteressados = participanteseInteressadosListNewParticipanteseInteressados.getResultadosid();
+                    participanteseInteressadosListNewParticipanteseInteressados.setResultadosid(resultados);
+                    participanteseInteressadosListNewParticipanteseInteressados = em.merge(participanteseInteressadosListNewParticipanteseInteressados);
+                    if (oldResultadosidOfParticipanteseInteressadosListNewParticipanteseInteressados != null && !oldResultadosidOfParticipanteseInteressadosListNewParticipanteseInteressados.equals(resultados)) {
+                        oldResultadosidOfParticipanteseInteressadosListNewParticipanteseInteressados.getParticipanteseInteressadosList().remove(participanteseInteressadosListNewParticipanteseInteressados);
+                        oldResultadosidOfParticipanteseInteressadosListNewParticipanteseInteressados = em.merge(oldResultadosidOfParticipanteseInteressadosListNewParticipanteseInteressados);
+                    }
                 }
             }
             em.getTransaction().commit();
@@ -105,7 +157,7 @@ public class ResultadosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -116,6 +168,17 @@ public class ResultadosJpaController implements Serializable {
                 resultados.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The resultados with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            List<ParticipanteseInteressados> participanteseInteressadosListOrphanCheck = resultados.getParticipanteseInteressadosList();
+            for (ParticipanteseInteressados participanteseInteressadosListOrphanCheckParticipanteseInteressados : participanteseInteressadosListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Resultados (" + resultados + ") cannot be destroyed since the ParticipanteseInteressados " + participanteseInteressadosListOrphanCheckParticipanteseInteressados + " in its participanteseInteressadosList field has a non-nullable resultadosid field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             List<Analise> analiseList = resultados.getAnaliseList();
             for (Analise analiseListAnalise : analiseList) {

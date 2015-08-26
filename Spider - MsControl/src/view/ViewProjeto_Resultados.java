@@ -176,6 +176,13 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas(dataDe, dataAte, idIndicador, Copia.getProjetoSelecionado().getId());
     }
 
+    private void salvarResultado() {
+        Resultados resultados = new Resultados();
+        resultados.setTitulo(jTextFieldTitulo.getText());
+        resultados.setData(new Date()); 
+        resultados.setNomeUsuario(Copia.getUsuarioLogado().getNome()); 
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
