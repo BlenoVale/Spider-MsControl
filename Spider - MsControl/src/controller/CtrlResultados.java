@@ -43,6 +43,12 @@ public class CtrlResultados {
     }
 
     public void cadastraResultado(Resultados resultado, List<ParticipanteseInteressados> lista) {
+        Resultados resultadoAux = buscarResultadoPeloTitulo(resultado.getTitulo(), Copia.getProjetoSelecionado().getId());
+        if (resultadoAux != null) {
+            JOptionPane.showMessageDialog(null, "Nome de Resultado já existe.");
+            return;
+        }
+
         try {
             facadeJpa.getResultadosJpa().create(resultado);
             resultado = buscarResultadoPeloTitulo(resultado.getTitulo(), Copia.getProjetoSelecionado().getId());
