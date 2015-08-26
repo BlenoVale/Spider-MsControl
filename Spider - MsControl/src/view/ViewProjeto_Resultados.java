@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Analise;
+import model.ParticipanteseInteressados;
 import model.Resultados;
 import model.Valorindicador;
 import org.jfree.chart.ChartPanel;
@@ -181,6 +182,10 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         resultados.setTitulo(jTextFieldTitulo.getText());
         resultados.setData(new Date()); 
         resultados.setNomeUsuario(Copia.getUsuarioLogado().getNome()); 
+        resultados.setInterpretacao(jTextAreaInterpretacao.getText());
+        resultados.setTomadaDeDecisao(jTextAreaTomadaDeDecisao.getText()); 
+        
+        List<ParticipanteseInteressados> listaPI = new ArrayList<>();
     }
 
     @SuppressWarnings("unchecked")
@@ -204,7 +209,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jTextFieldTitulo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaTomadaDeDecisao = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextAreaInterpretacao = new javax.swing.JTextArea();
@@ -277,9 +282,9 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Interpretação:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaTomadaDeDecisao.setColumns(20);
+        jTextAreaTomadaDeDecisao.setRows(2);
+        jScrollPane1.setViewportView(jTextAreaTomadaDeDecisao);
 
         jLabel5.setText("Tomada de decisão:");
 
@@ -491,7 +496,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
 
@@ -516,12 +521,10 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -598,10 +601,10 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTableResultados;
     private javax.swing.JTable jTableResultadosAnaliseIndicador;
     private javax.swing.JTable jTableUsuariosInteressados;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextAreaInterpretacao;
+    private javax.swing.JTextArea jTextAreaTomadaDeDecisao;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldData;
     private javax.swing.JTextField jTextFieldTitulo;

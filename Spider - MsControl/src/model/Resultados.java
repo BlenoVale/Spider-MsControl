@@ -38,9 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Resultados.findById", query = "SELECT r FROM Resultados r WHERE r.id = :id"),
     @NamedQuery(name = "Resultados.findByTitulo", query = "SELECT r FROM Resultados r WHERE r.titulo = :titulo"),
     @NamedQuery(name = "Resultados.findByData", query = "SELECT r FROM Resultados r WHERE r.data = :data"),
-    @NamedQuery(name = "Resultados.findByNomeUsuario", query = "SELECT r FROM Resultados r WHERE r.nomeUsuario = :nomeUsuario"),
-    @NamedQuery(name = "Resultados.findByParticipantes", query = "SELECT r FROM Resultados r WHERE r.participantes = :participantes"),
-    @NamedQuery(name = "Resultados.findByUsuariosInteressados", query = "SELECT r FROM Resultados r WHERE r.usuariosInteressados = :usuariosInteressados")})
+    @NamedQuery(name = "Resultados.findByNomeUsuario", query = "SELECT r FROM Resultados r WHERE r.nomeUsuario = :nomeUsuario")})
 public class Resultados implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,12 +64,6 @@ public class Resultados implements Serializable {
     @Lob
     @Column(name = "tomadaDeDecisao")
     private String tomadaDeDecisao;
-    @Basic(optional = false)
-    @Column(name = "participantes")
-    private String participantes;
-    @Basic(optional = false)
-    @Column(name = "usuariosInteressados")
-    private String usuariosInteressados;
     @ManyToMany(mappedBy = "resultadosList")
     private List<Analise> analiseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultadosid")
@@ -84,15 +76,13 @@ public class Resultados implements Serializable {
         this.id = id;
     }
 
-    public Resultados(Integer id, String titulo, Date data, String nomeUsuario, String interpretacao, String tomadaDeDecisao, String participantes, String usuariosInteressados) {
+    public Resultados(Integer id, String titulo, Date data, String nomeUsuario, String interpretacao, String tomadaDeDecisao) {
         this.id = id;
         this.titulo = titulo;
         this.data = data;
         this.nomeUsuario = nomeUsuario;
         this.interpretacao = interpretacao;
         this.tomadaDeDecisao = tomadaDeDecisao;
-        this.participantes = participantes;
-        this.usuariosInteressados = usuariosInteressados;
     }
 
     public Integer getId() {
@@ -141,22 +131,6 @@ public class Resultados implements Serializable {
 
     public void setTomadaDeDecisao(String tomadaDeDecisao) {
         this.tomadaDeDecisao = tomadaDeDecisao;
-    }
-
-    public String getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(String participantes) {
-        this.participantes = participantes;
-    }
-
-    public String getUsuariosInteressados() {
-        return usuariosInteressados;
-    }
-
-    public void setUsuariosInteressados(String usuariosInteressados) {
-        this.usuariosInteressados = usuariosInteressados;
     }
 
     @XmlTransient
