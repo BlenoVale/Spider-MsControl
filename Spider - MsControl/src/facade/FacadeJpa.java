@@ -1,10 +1,10 @@
 package facade;
 
 import jpa.AcessaJpaController;
-import jpa.AnaliseJpaController;
 import jpa.MedidaJpaController;
 import jpa.ObjetivodemedicaoJpaController;
 import jpa.ObjetivodequestaoJpaController;
+import jpa.ParticipanteseInteressadosJpaController;
 import jpa.ProcedimentodecoletaJpaController;
 import jpa.RegistroindicadorJpaController;
 import jpa.RegistroprocedimentoanaliseJpaController;
@@ -38,6 +38,7 @@ import jpa.extensao.RelatoriosJpa;
 import jpa.extensao.ResultadosJpa;
 import jpa.extensao.ValorIndicadorJpa;
 import jpa.extensao.ValorMedidaJpa;
+import model.ParticipanteseInteressados;
 import util.Conexao;
 
 /**
@@ -88,6 +89,7 @@ public class FacadeJpa {
     private final ValorIndicadorJpa valorIndicadorJpa;
     private final RelatoriosJpa relatoriosJpa;
     private final RelatoriosJpaController relatoriosJpaController;
+    private final ParticipanteseInteressadosJpaController participanteseInteressadosJpaController;
 
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
@@ -127,6 +129,7 @@ public class FacadeJpa {
         valorIndicadorJpa = new ValorIndicadorJpa();
         relatoriosJpa = new RelatoriosJpa();
         relatoriosJpaController = new RelatoriosJpaController(Conexao.conectar());
+        participanteseInteressadosJpaController = new ParticipanteseInteressadosJpaController(Conexao.conectar()); 
     }
 
     public static FacadeJpa getInstance() {
@@ -287,5 +290,9 @@ public class FacadeJpa {
 
     public RelatoriosJpaController getRelatoriosJpaController() {
         return relatoriosJpaController;
+    }
+    
+    public ParticipanteseInteressadosJpaController getParticipanteseInteressadosJpa(){
+        return participanteseInteressadosJpaController;
     }
 }

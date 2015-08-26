@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Resultados.findAll", query = "SELECT r FROM Resultados r"),
     @NamedQuery(name = "Resultados.findById", query = "SELECT r FROM Resultados r WHERE r.id = :id"),
+    @NamedQuery(name = "Resultados.findByIdProjeto", query = "SELECT r FROM Resultados r WHERE r.idProjeto = :idProjeto"),
     @NamedQuery(name = "Resultados.findByTitulo", query = "SELECT r FROM Resultados r WHERE r.titulo = :titulo"),
     @NamedQuery(name = "Resultados.findByData", query = "SELECT r FROM Resultados r WHERE r.data = :data"),
     @NamedQuery(name = "Resultados.findByNomeUsuario", query = "SELECT r FROM Resultados r WHERE r.nomeUsuario = :nomeUsuario")})
@@ -46,6 +47,9 @@ public class Resultados implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "idProjeto")
+    private int idProjeto;
     @Basic(optional = false)
     @Column(name = "titulo")
     private String titulo;
@@ -76,8 +80,9 @@ public class Resultados implements Serializable {
         this.id = id;
     }
 
-    public Resultados(Integer id, String titulo, Date data, String nomeUsuario, String interpretacao, String tomadaDeDecisao) {
+    public Resultados(Integer id, int idProjeto, String titulo, Date data, String nomeUsuario, String interpretacao, String tomadaDeDecisao) {
         this.id = id;
+        this.idProjeto = idProjeto;
         this.titulo = titulo;
         this.data = data;
         this.nomeUsuario = nomeUsuario;
@@ -91,6 +96,14 @@ public class Resultados implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getIdProjeto() {
+        return idProjeto;
+    }
+
+    public void setIdProjeto(int idProjeto) {
+        this.idProjeto = idProjeto;
     }
 
     public String getTitulo() {

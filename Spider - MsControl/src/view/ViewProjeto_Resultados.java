@@ -180,12 +180,40 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private void salvarResultado() {
         Resultados resultados = new Resultados();
         resultados.setTitulo(jTextFieldTitulo.getText());
-        resultados.setData(new Date()); 
-        resultados.setNomeUsuario(Copia.getUsuarioLogado().getNome()); 
+        resultados.setData(new Date());
+        resultados.setNomeUsuario(Copia.getUsuarioLogado().getNome());
         resultados.setInterpretacao(jTextAreaInterpretacao.getText());
-        resultados.setTomadaDeDecisao(jTextAreaTomadaDeDecisao.getText()); 
-        
+        resultados.setTomadaDeDecisao(jTextAreaTomadaDeDecisao.getText());
+        resultados.setIdProjeto(Copia.getProjetoSelecionado().getId()); 
+
         List<ParticipanteseInteressados> listaPI = new ArrayList<>();
+        ParticipanteseInteressados participanteseInteressados;
+        for (int i = 0; i < jTableParticipantes.getModel().getRowCount(); i++) {
+            participanteseInteressados = new ParticipanteseInteressados();
+            if ((boolean) jTableParticipantes.getModel().getValueAt(i, 0) == true) {
+                participanteseInteressados.setParticipanteEInteressado(jTableParticipantes.getModel().getValueAt(i, 1).toString());
+                participanteseInteressados.setTipo("Participante");
+                listaPI.add(participanteseInteressados);
+            }
+        }
+        for (int i = 0; i < jTableUsuariosInteressados.getModel().getRowCount(); i++) {
+            participanteseInteressados = new ParticipanteseInteressados();
+            if ((boolean) jTableUsuariosInteressados.getModel().getValueAt(i, 0) == true) {
+                participanteseInteressados.setParticipanteEInteressado(jTableUsuariosInteressados.getModel().getValueAt(i, 1).toString());
+                participanteseInteressados.setTipo("Interessado");
+                listaPI.add(participanteseInteressados);
+            }
+        }
+        //resultados.setParticipanteseInteressadosList(listaPI);
+
+        List<Analise> listaAnaliseSelecionadas = new ArrayList<>();
+        for (int i = 0; i < jTableResultadosAnaliseIndicador.getModel().getRowCount(); i++) {
+            if ((boolean) jTableResultadosAnaliseIndicador.getModel().getValueAt(i, 0) == true) {
+                listaAnaliseSelecionadas.add(listaAnalises.get(i));
+            }
+        }
+        resultados.setAnaliseList(listaAnaliseSelecionadas);
+        ctrlResultados.cadastraResultado(resultados, listaPI); 
     }
 
     @SuppressWarnings("unchecked")
@@ -308,6 +336,11 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jButton3.setText("Cancelar");
 
         jButton4.setText("Salvar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jTableUsuariosInteressados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -567,6 +600,10 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
 
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        salvarResultado();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

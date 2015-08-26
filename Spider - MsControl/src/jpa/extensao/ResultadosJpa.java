@@ -13,11 +13,11 @@ import util.Conexao;
  * @author Géssica
  */
 public class ResultadosJpa extends ResultadosJpaController {
- 
+
     public ResultadosJpa() {
         super(Conexao.conectar());
-    } 
-    
+    }
+
     public List<Resultados> findListaResultadosByProjeto(int idDoProjeto) {
         try {
             List<Resultados> lista = null;
@@ -30,12 +30,12 @@ public class ResultadosJpa extends ResultadosJpaController {
         } catch (Exception error) {
             throw error;
         }
-    } 
-    
-    public Resultados findBYTituloAndProjeto (String titulo, int idProjeto){
+    }
+
+    public Resultados findBYTituloAndProjeto(String titulo, int idProjeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
-            return (Resultados) entityManager.createQuery("SELECT r FROM Resultados r WHERE r.titulo = :titulo AND r.analiseid.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto")
+            return (Resultados) entityManager.createQuery("SELECT r FROM Resultados r WHERE r.titulo = :titulo AND r.idProjeto = :idProjeto")
                     .setParameter("titulo", titulo)
                     .setParameter("idProjeto", idProjeto)
                     .getSingleResult();
@@ -43,7 +43,7 @@ public class ResultadosJpa extends ResultadosJpaController {
             return null;
         }
     }
-    
+
     public Resultados findByTitulo(String titulo, int idProjeto) {
 
         Resultados resultados = null;
@@ -62,7 +62,7 @@ public class ResultadosJpa extends ResultadosJpaController {
         resultados = (Resultados) q.getSingleResult();
         return resultados;
     }
-    
+
     public List<Resultados> findResultadoByParteTitulo(String titulo, int id_projeto) {
         try {
             List<Resultados> lista = null;
@@ -76,8 +76,8 @@ public class ResultadosJpa extends ResultadosJpaController {
             throw error;
         }
     }
-    
-    public long countResultadosByProjeto(int idProjeto){
+
+    public long countResultadosByProjeto(int idProjeto) {
         try {
             EntityManager entityManager = super.getEntityManager();
             return (long) entityManager.createQuery("SELECT COUNT(r.id) FROM Resultados r WHERE r.analiseId.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idDoProjeto")

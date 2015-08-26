@@ -30,8 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ParticipanteseInteressados.findAll", query = "SELECT p FROM ParticipanteseInteressados p"),
     @NamedQuery(name = "ParticipanteseInteressados.findById", query = "SELECT p FROM ParticipanteseInteressados p WHERE p.id = :id"),
     @NamedQuery(name = "ParticipanteseInteressados.findByTipo", query = "SELECT p FROM ParticipanteseInteressados p WHERE p.tipo = :tipo"),
-    @NamedQuery(name = "ParticipanteseInteressados.findByParticipante", query = "SELECT p FROM ParticipanteseInteressados p WHERE p.participante = :participante"),
-    @NamedQuery(name = "ParticipanteseInteressados.findByInteressados", query = "SELECT p FROM ParticipanteseInteressados p WHERE p.interessados = :interessados")})
+    @NamedQuery(name = "ParticipanteseInteressados.findByParticipanteEInteressado", query = "SELECT p FROM ParticipanteseInteressados p WHERE p.participanteEInteressado = :participanteEInteressado")})
 public class ParticipanteseInteressados implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,11 +42,8 @@ public class ParticipanteseInteressados implements Serializable {
     @Column(name = "tipo")
     private String tipo;
     @Basic(optional = false)
-    @Column(name = "Participante")
-    private String participante;
-    @Basic(optional = false)
-    @Column(name = "Interessados")
-    private String interessados;
+    @Column(name = "ParticipanteEInteressado")
+    private String participanteEInteressado;
     @JoinColumn(name = "Resultados_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Resultados resultadosid;
@@ -59,11 +55,10 @@ public class ParticipanteseInteressados implements Serializable {
         this.id = id;
     }
 
-    public ParticipanteseInteressados(Integer id, String tipo, String participante, String interessados) {
+    public ParticipanteseInteressados(Integer id, String tipo, String participanteEInteressado) {
         this.id = id;
         this.tipo = tipo;
-        this.participante = participante;
-        this.interessados = interessados;
+        this.participanteEInteressado = participanteEInteressado;
     }
 
     public Integer getId() {
@@ -82,20 +77,12 @@ public class ParticipanteseInteressados implements Serializable {
         this.tipo = tipo;
     }
 
-    public String getParticipante() {
-        return participante;
+    public String getParticipanteEInteressado() {
+        return participanteEInteressado;
     }
 
-    public void setParticipante(String participante) {
-        this.participante = participante;
-    }
-
-    public String getInteressados() {
-        return interessados;
-    }
-
-    public void setInteressados(String interessados) {
-        this.interessados = interessados;
+    public void setParticipanteEInteressado(String participanteEInteressado) {
+        this.participanteEInteressado = participanteEInteressado;
     }
 
     public Resultados getResultadosid() {
