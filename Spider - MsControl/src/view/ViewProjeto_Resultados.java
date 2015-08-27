@@ -1,6 +1,7 @@
 package view;
 
 import controller.CtrlAnalise;
+import controller.CtrlProjeto;
 import controller.CtrlResultados;
 import controller.CtrlValores;
 import java.awt.BorderLayout;
@@ -34,6 +35,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private MyDefaultTableModel tableModel;
     private List<Resultados> listaResultados;
     private final CtrlResultados ctrlResultados = new CtrlResultados();
+    private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
     private Resultados resultadoSelecionado = new Resultados();
     private CheckDefaultTableModel checkModel;
     private final CtrlAnalise ctrlAnalise = new CtrlAnalise();
@@ -265,7 +267,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 //##########INFORMAÇÕES GERAISR############################################################################################
 
     private void preencheCamposInfoGerais() {
-        Projeto projeto = Copia.getProjetoSelecionado();
+        Projeto projeto = ctrlProjeto.buscaProjetoPeloNome(Copia.getProjetoSelecionado().getNome());
         jLabelProjeto.setText("PROJETO: " + projeto.getNome());
         switch (projeto.getStatus()) {
             case 1:
@@ -279,23 +281,54 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                 break;
         }
         jTextAreaDescriçãoProjeto.setText(projeto.getDescricao());
-
-        inicializaTabelaInformacoesGerais(projeto);
+        preencherTabelaInfoGerais(projeto);
+        inicializaTabelaInformacoesGerais();
     }
 
-    private void inicializaTabelaInformacoesGerais(Projeto projeto) {
+    private void preencherTabelaInfoGerais(Projeto projeto) {
         tableModel = new MyDefaultTableModel(new String[]{"OBJETIVO ESTRATÉGICO", "NECESSIDADE DE INFORMAÇÃO", "INDICADOR", "PRIORIDADE"}, 0, false);
         for (int i = 0; i < projeto.getObjetivodemedicaoList().size(); i++) {
-            String[] linha = {
-                projeto.getObjetivodemedicaoList().get(i).getNome(),
-                projeto.getObjetivodemedicaoList().get(i).getNome(),
-                projeto.getObjetivodemedicaoList().get(i).getNome(),
-                projeto.getObjetivodemedicaoList().get(i).getNome()
-            };
-            tableModel.addRow(linha);
+
+            if (!projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().isEmpty()) {
+
+                for (int j = 0; j < projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().size(); j++) {
+
+                    if (!projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().get(j).getIndicadorList().isEmpty()) {
+                        String[] linha = {
+                            projeto.getObjetivodemedicaoList().get(i).getNome() + " ",
+                            projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().get(j).getNome() + " ",
+                            projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().get(j).getIndicadorList().get(0).getNome() + " ",
+                            String.valueOf(projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().get(j).getIndicadorList().get(0).getPrioridade() + " ")
+                        };
+
+                        tableModel.addRow(linha);
+
+                    } else {
+                        String[] linha = {
+                            projeto.getObjetivodemedicaoList().get(i).getNome() + " ",
+                            projeto.getObjetivodemedicaoList().get(i).getObjetivodequestaoList().get(j).getNome() + " ",
+                            String.valueOf(" "),
+                            String.valueOf(" ")
+                        };
+
+                        tableModel.addRow(linha);
+                    }
+                }
+            } else {
+                String[] linha = {
+                    projeto.getObjetivodemedicaoList().get(i).getNome() + " ",
+                    String.valueOf(" "),
+                    String.valueOf(" "),
+                    String.valueOf(" ")
+                };
+
+                tableModel.addRow(linha);
+            }
         }
         jTableInfoGerais.setModel(tableModel);
+    }
 
+    private void inicializaTabelaInformacoesGerais() {
         for (int i = 0; i < jTableInfoGerais.getColumnCount(); i++) {
             TableColumn col = jTableInfoGerais.getColumnModel().getColumn(i);
             col.setCellRenderer(new TableTextAreaRenderer());
@@ -304,7 +337,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         int tamnhoColuna = jTableInfoGerais.getColumnModel().getColumn(1).getPreferredWidth();
         jTableInfoGerais.getColumnModel().getColumn(0).setPreferredWidth(tamnhoColuna * 8);
         jTableInfoGerais.getColumnModel().getColumn(1).setPreferredWidth(tamnhoColuna * 7);
-        jTableInfoGerais.getColumnModel().getColumn(2).setPreferredWidth(tamnhoColuna * 3);
+        jTableInfoGerais.getColumnModel().getColumn(2).setPreferredWidth(tamnhoColuna * 4);
         jTableInfoGerais.getColumnModel().getColumn(3).setPreferredWidth(tamnhoColuna * 3);
 
         //jTableInfoGerais.setRowHeight(45);
