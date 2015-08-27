@@ -52,7 +52,7 @@ WHERE
 	<detail>
 		<band height="55" splitType="Stretch">
 			<staticText>
-				<reportElement x="263" y="10" width="71" height="20" uuid="897c487c-306e-4560-9f21-56132c8bab2f"/>
+				<reportElement positionType="Float" x="263" y="10" width="71" height="20" uuid="897c487c-306e-4560-9f21-56132c8bab2f"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -62,49 +62,49 @@ WHERE
 				<reportElement x="0" y="9" width="555" height="1" uuid="1c3ac356-cb52-4e7c-a70d-87a77da19eff"/>
 			</line>
 			<staticText>
-				<reportElement x="1" y="10" width="50" height="20" uuid="3a0401eb-f428-433c-8089-dd2b77942ec8"/>
+				<reportElement positionType="Float" x="1" y="10" width="50" height="20" uuid="3a0401eb-f428-433c-8089-dd2b77942ec8"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Medida:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="30" width="59" height="20" uuid="1b4c7c2e-7767-448d-9787-51683d12ae5c"/>
+				<reportElement positionType="Float" x="1" y="30" width="59" height="20" uuid="1b4c7c2e-7767-448d-9787-51683d12ae5c"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Definição:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="51" y="10" width="202" height="20" uuid="13af4720-0596-4091-a594-517f64ae7827"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="51" y="10" width="202" height="20" uuid="13af4720-0596-4091-a594-517f64ae7827"/>
 				<textFieldExpression><![CDATA[$F{medida_nome}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="423" y="10" width="33" height="20" uuid="28eb333d-f39e-463a-ad15-05c0772973cd"/>
+				<reportElement positionType="Float" x="423" y="10" width="33" height="20" uuid="28eb333d-f39e-463a-ad15-05c0772973cd"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="334" y="10" width="80" height="20" uuid="b6656d7b-1e2b-4c12-b5b3-1c5dd3b7be23"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="334" y="10" width="80" height="20" uuid="b6656d7b-1e2b-4c12-b5b3-1c5dd3b7be23"/>
 				<textFieldExpression><![CDATA[$F{medida_mnemonico}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="456" y="10" width="99" height="20" uuid="277b51a0-b6ce-4929-80b1-99a5c595d381"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="456" y="10" width="99" height="20" uuid="277b51a0-b6ce-4929-80b1-99a5c595d381"/>
 				<textFieldExpression><![CDATA[$F{medida_data}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="1" y="50" width="555" height="1" uuid="9c4aa278-3041-4f63-bcf3-229a571d3e1a"/>
 			</line>
-			<textField>
-				<reportElement x="60" y="30" width="485" height="20" uuid="94a574a2-e8ba-4000-bc7c-c4bacd7313a0"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="60" y="30" width="485" height="20" uuid="94a574a2-e8ba-4000-bc7c-c4bacd7313a0"/>
 				<textFieldExpression><![CDATA[$F{medida_definicao}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="139">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="132" isRemoveLineWhenBlank="true" uuid="bc7ea290-aebc-412b-ba28-8d8634b4965d"/>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="132" isRemoveLineWhenBlank="true" uuid="bc7ea290-aebc-412b-ba28-8d8634b4965d"/>
 				<subreportParameter name="medida_id">
 					<subreportParameterExpression><![CDATA[$F{medida_id}]]></subreportParameterExpression>
 				</subreportParameter>
