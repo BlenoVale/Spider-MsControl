@@ -34,18 +34,18 @@ WHERE
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="221" y="56" width="202" height="22" uuid="c1fe25a2-15c3-467c-9eaa-8075bd700fb3"/>
+				<reportElement x="185" y="46" width="202" height="22" uuid="c1fe25a2-15c3-467c-9eaa-8075bd700fb3"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Procedimentos de Coleta:]]></text>
+				<text><![CDATA[Relatório Plano de Coleta:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="10" width="211" height="36" uuid="4ca4d808-1859-482a-bc77-a833b1cecff7"/>
+				<reportElement x="168" y="10" width="233" height="36" uuid="4ca4d808-1859-482a-bc77-a833b1cecff7"/>
 				<textElement>
 					<font size="26" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relatório Spider]]></text>
+				<text><![CDATA[Spider Ms-Control]]></text>
 			</staticText>
 		</band>
 	</title>
