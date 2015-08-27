@@ -98,7 +98,7 @@ FROM
 		</band>
 		<band height="106">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="101" isRemoveLineWhenBlank="true" uuid="6b3bb42e-f71b-4420-9fc1-65819a59bc3a"/>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="101" isRemoveLineWhenBlank="true" uuid="6b3bb42e-f71b-4420-9fc1-65819a59bc3a"/>
 				<subreportParameter name="indicador_id">
 					<subreportParameterExpression><![CDATA[$F{indicador_id}]]></subreportParameterExpression>
 				</subreportParameter>

@@ -64,7 +64,7 @@ public class ConexaoPDF {
     public void gerarPDF_ProcColeta() {
          try {
             estabelecerConexao();
-            JasperPrint jasperPrint = JasperFillManager.fillReport(System.getProperty("user.dir") + "\\src\\util\\PDF\\Ireport_ProcColeta.jasper", null, getConexao());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream("\\Ireport_ProcColeta.jasper"), null, getConexao());
             JasperViewer jrViewer = new JasperViewer(jasperPrint, false);
             jrViewer.setTitle("Relatorio_ProcedimentoDeColeta" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
             jrViewer.setDefaultCloseOperation(JasperViewer.DISPOSE_ON_CLOSE);
