@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\Sandro Bezerra\\Documents\\NetBeansProjects\\Spider-MsControl\\Spider - MsControl\\src\\util\\PDF\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -109,7 +109,7 @@ WHERE
 					<subreportParameterExpression><![CDATA[$F{medida_id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Subreport_ProcColeta.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[getClass().getResourceAsStream($P{SUBREPORT_DIR} + "Subreport_ProcColeta.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
