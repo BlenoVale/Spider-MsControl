@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Subreport_ProcColeta" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e03a4b5b-68ad-4f12-b0c8-c7684a03b07d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="medida_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     medida.`id` AS medida_id,
+     medida.`projeto_id` AS medida_projeto_id,
+     procedimentodecoleta.`id` AS procedimentodecoleta_id,
+     procedimentodecoleta.`Medida_id` AS procedimentodecoleta_Medida_id,
+     procedimentodecoleta.`projeto_id` AS procedimentodecoleta_projeto_id,
+     procedimentodecoleta.`responsavelPelaColeta` AS procedimentodecoleta_responsavelPelaColeta,
+     procedimentodecoleta.`momento` AS procedimentodecoleta_momento,
+     procedimentodecoleta.`periodicidade` AS procedimentodecoleta_periodicidade,
+     procedimentodecoleta.`frequencia` AS procedimentodecoleta_frequencia,
+     procedimentodecoleta.`passosColeta` AS procedimentodecoleta_passosColeta,
+     procedimentodecoleta.`tipoDeColeta` AS procedimentodecoleta_tipoDeColeta,
+     procedimentodecoleta.`calculo` AS procedimentodecoleta_calculo,
+     procedimentodecoleta.`ferramentasUtilizada` AS procedimentodecoleta_ferramentasUtilizada,
+     procedimentodecoleta.`observacao` AS procedimentodecoleta_observacao,
+     procedimentodecoleta.`porcentagem` AS procedimentodecoleta_porcentagem,
+     projeto.`id` AS projeto_id
+FROM
+     `medida` medida INNER JOIN `procedimentodecoleta` procedimentodecoleta ON medida.`id` = procedimentodecoleta.`Medida_id`,
+     `projeto` projeto
+WHERE
+     medida.`projeto_id` = projeto.`id` AND
+     $P{medida_id} LIKE medida.`id`]]>
+	</queryString>
+	<field name="medida_id" class="java.lang.Integer"/>
+	<field name="medida_projeto_id" class="java.lang.Integer"/>
+	<field name="procedimentodecoleta_id" class="java.lang.Integer"/>
+	<field name="procedimentodecoleta_Medida_id" class="java.lang.Integer"/>
+	<field name="procedimentodecoleta_projeto_id" class="java.lang.Integer"/>
+	<field name="procedimentodecoleta_responsavelPelaColeta" class="java.lang.String"/>
+	<field name="procedimentodecoleta_momento" class="java.lang.String"/>
+	<field name="procedimentodecoleta_periodicidade" class="java.lang.String"/>
+	<field name="procedimentodecoleta_frequencia" class="java.lang.Integer"/>
+	<field name="procedimentodecoleta_passosColeta" class="java.lang.String"/>
+	<field name="procedimentodecoleta_tipoDeColeta" class="java.lang.String"/>
+	<field name="procedimentodecoleta_calculo" class="java.lang.String"/>
+	<field name="procedimentodecoleta_ferramentasUtilizada" class="java.lang.String"/>
+	<field name="procedimentodecoleta_observacao" class="java.lang.String"/>
+	<field name="procedimentodecoleta_porcentagem" class="java.lang.Double"/>
+	<field name="projeto_id" class="java.lang.Integer"/>
+	<group name="procedimentodecoleta_Medida_id">
+		<groupExpression><![CDATA[$F{procedimentodecoleta_Medida_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="163" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="74" y="142" width="482" height="20" uuid="63c7af4e-b20b-40db-9438-15e72b1564a0"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_observacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="136" y="82" width="418" height="20" uuid="47bf6d40-122e-436f-b05d-a355092166b8"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_ferramentasUtilizada}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="62" width="69" height="20" uuid="b0316f7d-5901-4c3e-b49e-a177795469b7"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frequência:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="82" width="136" height="20" uuid="01b754e2-6b79-4fbb-97f9-b045a20c2f03"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ferramentas Utilizadas:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="384" y="62" width="172" height="20" uuid="d377c78c-1f25-46a1-bf45-1df918345d4c"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_porcentagem}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="106" y="122" width="450" height="20" uuid="ce366792-0f7d-4e25-af8a-e059fe15c165"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_passosColeta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="42" width="87" height="20" uuid="c98d9cb1-58a7-4dda-9544-16e322682b2f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodicidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="102" width="58" height="20" uuid="d64064f2-fc4b-48f0-b0bf-2a837629611a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Momento:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="88" y="22" width="249" height="20" uuid="333e1a49-34af-4e95-99b1-75ad9395fc51"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_tipoDeColeta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="22" width="87" height="20" uuid="89921a4f-1080-4a12-912a-9cd626dcc35f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Coleta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="250" y="62" width="133" height="20" uuid="44accf49-cc43-4780-ab16-33c3abe466af"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mínimo de Coletas (%):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="122" width="106" height="20" uuid="5e140545-a088-4ab7-8740-9669e0a949fe"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Passos da Coleta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="2" width="146" height="20" uuid="344971ac-1770-4cfc-be1d-59b4c2c252c9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsável pela Coleta:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="88" y="42" width="249" height="20" uuid="9d563b67-3038-4c63-a18b-6a20b2d7ca28"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_periodicidade}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="59" y="102" width="402" height="20" uuid="bd5d1ae4-9565-4908-a250-4b45efb86b1e"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_momento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="142" width="74" height="20" uuid="33542c5c-4c9d-4cf3-b450-01ec06e3ad7c"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observação:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="70" y="62" width="168" height="20" uuid="ea94ee29-214e-453f-b0bb-2a0b877fa76a"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_frequencia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="147" y="2" width="409" height="20" uuid="8b7abc9b-5ade-4641-b010-9ca355e636af"/>
+				<textFieldExpression><![CDATA[$F{procedimentodecoleta_responsavelPelaColeta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
