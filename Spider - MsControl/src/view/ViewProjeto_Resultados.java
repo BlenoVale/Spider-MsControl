@@ -1,6 +1,8 @@
 package view;
 
 import controller.CtrlAnalise;
+import controller.CtrlIndicador;
+import controller.CtrlMedida;
 import controller.CtrlProjeto;
 import controller.CtrlResultados;
 import controller.CtrlValores;
@@ -12,6 +14,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumn;
 import model.Analise;
+import model.Indicador;
+import model.Medida;
 import model.ParticipanteseInteressados;
 import model.Projeto;
 import model.Resultados;
@@ -24,6 +28,7 @@ import util.Grafico;
 import util.MyDefaultTableModel;
 import util.TableTextAreaRenderer;
 import util.Texto;
+import view.indicadores.View_InformacaoDialog;
 
 /**
  *
@@ -36,6 +41,8 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private List<Resultados> listaResultados;
     private final CtrlResultados ctrlResultados = new CtrlResultados();
     private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
+    private final CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private final CtrlMedida ctrlMedida = new CtrlMedida();
     private Resultados resultadoSelecionado = new Resultados();
     private CheckDefaultTableModel checkModel;
     private final CtrlAnalise ctrlAnalise = new CtrlAnalise();
@@ -283,6 +290,8 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jTextAreaDescriçãoProjeto.setText(projeto.getDescricao());
         preencherTabelaInfoGerais(projeto);
         inicializaTabelaInformacoesGerais();
+        preencherTabelaMedida();
+        inicializarTabelaInfoMedida();
     }
 
     private void preencherTabelaInfoGerais(Projeto projeto) {
@@ -343,6 +352,42 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         //jTableInfoGerais.setRowHeight(45);
     }
 
+    private void preencherTabelaMedida() {
+        List<Medida> listaMedida = ctrlMedida.getMedidaDoProjeto(Copia.getProjetoSelecionado().getId());
+        tableModel = new MyDefaultTableModel(new String[]{"Medida", "Mnemônico", "Periodicidade de Coleta"}, 0, false);
+        for (int i = 0; i < listaMedida.size(); i++) {
+            if (!listaMedida.get(i).getProcedimentodecoletaList().isEmpty()) {
+                String[] linha = {
+                    listaMedida.get(i).getNome(),
+                    listaMedida.get(i).getMnemonico(),
+                    listaMedida.get(i).getProcedimentodecoletaList().get(0).getPeriodicidade()
+                };
+                tableModel.addRow(linha);
+            } else {
+                String[] linha = {
+                    listaMedida.get(i).getNome(),
+                    listaMedida.get(i).getMnemonico(),
+                    " "
+                };
+                tableModel.addRow(linha);
+            }
+        }
+        jTableMedida.setModel(tableModel);
+    }
+
+    private void inicializarTabelaInfoMedida() {
+        for (int i = 0; i < jTableMedida.getColumnCount(); i++) {
+            TableColumn col = jTableMedida.getColumnModel().getColumn(i);
+            col.setCellRenderer(new TableTextAreaRenderer());
+        }
+
+        int tamnhoColuna = jTableMedida.getColumnModel().getColumn(1).getPreferredWidth();
+        jTableMedida.getColumnModel().getColumn(0).setPreferredWidth(tamnhoColuna * 8);
+        jTableMedida.getColumnModel().getColumn(1).setPreferredWidth(tamnhoColuna * 7);
+        jTableMedida.getColumnModel().getColumn(2).setPreferredWidth(tamnhoColuna * 4);
+
+    }
+
 //##########INFORMAÇÕES DA ANÁLISE DO INDICADOR###########################################################################
     private void EscolheTipoDeGrafico(String tipoGrafico) {
         if ("Pizza".equals(tipoGrafico)) {
@@ -385,6 +430,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private void preencherCamposDaAnaliseDoIndicador() {
         jTextAreaAnalise.setText(analiseSelecioanda.getCriterioDeAnalise());
         jTextAreaObservacao.setText(analiseSelecioanda.getObservacao());
+        jTextFieldFormula.setText(analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0).getFormula());
     }
 
     private void buscarListaValoresIndicador(Date dataDe, Date dataAte, int idIndicador) {
@@ -434,14 +480,21 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jLabel12 = new javax.swing.JLabel();
         jScrollPane13 = new javax.swing.JScrollPane();
         jTableInfoGerais = new javax.swing.JTable();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        jTableMedida = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jPanelInformações = new javax.swing.JPanel();
         jPanelPlot = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextAreaAnalise = new javax.swing.JTextArea();
-        jLabel9 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTextAreaObservacao = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
+        jTextFieldFormula = new javax.swing.JTextField();
+        jButtonInfoDoIndicador = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableResultados = new javax.swing.JTable();
 
@@ -612,12 +665,12 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("<html>Novo<br>Resultado</html>", jPanelAnaliseRefer);
@@ -670,7 +723,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addContainerGap(221, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -690,6 +743,39 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         ));
         jScrollPane13.setViewportView(jTableInfoGerais);
 
+        jTableMedida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"", "", "", null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "OBJETIVO ESTRATÉGICO ", "NECESSIDADE DE INFORMAÇÃO", "INDICADOR", "PRIORIDADE"
+            }
+        ));
+        jScrollPane14.setViewportView(jTableMedida);
+
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("Medidas");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -704,7 +790,9 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane10))
+                            .addComponent(jScrollPane10)
+                            .addComponent(jScrollPane14)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -721,8 +809,12 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane9.setViewportView(jPanel2);
@@ -731,11 +823,11 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jPanelInfoGerais.setLayout(jPanelInfoGeraisLayout);
         jPanelInfoGeraisLayout.setHorizontalGroup(
             jPanelInfoGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+            .addComponent(jScrollPane9)
         );
         jPanelInfoGeraisLayout.setVerticalGroup(
             jPanelInfoGeraisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+            .addComponent(jScrollPane9)
         );
 
         jTabbedPane1.addTab("<html>Informações<br>Gerais</html>", jPanelInfoGerais);
@@ -753,19 +845,28 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
             .addGap(0, 341, Short.MAX_VALUE)
         );
 
-        jLabel8.setText("Análise:");
-
         jTextAreaAnalise.setEditable(false);
         jTextAreaAnalise.setColumns(20);
         jTextAreaAnalise.setRows(5);
         jScrollPane5.setViewportView(jTextAreaAnalise);
 
-        jLabel9.setText("Observação:");
-
         jTextAreaObservacao.setEditable(false);
         jTextAreaObservacao.setColumns(20);
         jTextAreaObservacao.setRows(5);
         jScrollPane8.setViewportView(jTextAreaObservacao);
+
+        jLabel10.setText("<html>Formula utilizada para calcular os valores dos Indicadores:</html>");
+
+        jButtonInfoDoIndicador.setText("Informações do Indicador");
+        jButtonInfoDoIndicador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInfoDoIndicadorActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Observação:");
+
+        jLabel9.setText("Critério de Análise:");
 
         javax.swing.GroupLayout jPanelInformaçõesLayout = new javax.swing.GroupLayout(jPanelInformações);
         jPanelInformações.setLayout(jPanelInformaçõesLayout);
@@ -776,28 +877,39 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                 .addGroup(jPanelInformaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8)
+                    .addComponent(jTextFieldFormula)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformaçõesLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonInfoDoIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelInformaçõesLayout.createSequentialGroup()
                         .addGroup(jPanelInformaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane8))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelInformaçõesLayout.setVerticalGroup(
             jPanelInformaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInformaçõesLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
+                .addComponent(jButtonInfoDoIndicador)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelPlot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addComponent(jTextFieldFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
+                .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addGap(41, 41, 41))
         );
 
         jTabbedPane1.addTab("<html>Informações<br>da Análise</html>", jPanelInformações);
@@ -899,13 +1011,27 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         preencherTabelaResultadosPorBusca(jTextFieldBusca.getText());
     }//GEN-LAST:event_jTextFieldBuscaActionPerformed
 
+    private void jButtonInfoDoIndicadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInfoDoIndicadorActionPerformed
+        View_InformacaoDialog view_InformacaoDialog = new View_InformacaoDialog(null, false);
+        double metaCritico = analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0).getMetaCritico();
+        double metaOK = analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0).getMetaOk();
+        if (metaCritico < metaOK) {
+            view_InformacaoDialog.preencheCamposInfoCrescente(analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0));
+        } else {
+            view_InformacaoDialog.preencheCamposInfoDecrescente(analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0));
+        }
+        view_InformacaoDialog.setVisible(true);
+    }//GEN-LAST:event_jButtonInfoDoIndicadorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonInfoDoIndicador;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -918,6 +1044,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanelAnaliseRefer;
     private javax.swing.JPanel jPanelInfoGerais;
@@ -927,6 +1054,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -938,6 +1066,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableInfoGerais;
+    private javax.swing.JTable jTableMedida;
     private javax.swing.JTable jTableParticipantes;
     private javax.swing.JTable jTableResultados;
     private javax.swing.JTable jTableResultadosAnaliseIndicador;
@@ -949,6 +1078,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea jTextAreaTomadaDeDecisao;
     private javax.swing.JTextField jTextFieldBusca;
     private javax.swing.JTextField jTextFieldData;
+    private javax.swing.JTextField jTextFieldFormula;
     private javax.swing.JTextField jTextFieldTitulo;
     // End of variables declaration//GEN-END:variables
 }

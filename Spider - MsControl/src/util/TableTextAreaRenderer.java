@@ -14,7 +14,7 @@ public class TableTextAreaRenderer extends JTextArea implements TableCellRendere
     public TableTextAreaRenderer() {
         this.setLineWrap(true);
         this.setWrapStyleWord(true);
-        this.setFont(new java.awt.Font("Tahoma", 0, 11));
+        this.setFont(new java.awt.Font("Tahoma", 0, 12));
         this.setMargin(new java.awt.Insets(5, 5, 5, 5));
     }
 
