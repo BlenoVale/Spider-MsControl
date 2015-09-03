@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import util.Copia;
 import util.MyDefaultTableModel;
+import util.PDF.ConexaoPDF;
 import util.Texto;
 
 /**
@@ -172,12 +173,8 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         gerarLinhaNaTabela();
-        try {
-            Desktop desktop = java.awt.Desktop.getDesktop();
-            desktop.open(new File("C:\\Users\\Spider\\Downloads\\Relatorio.pdf"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        ConexaoPDF conexaoPDF = new ConexaoPDF();
+        conexaoPDF.gerarPDF_Geral();
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
 
