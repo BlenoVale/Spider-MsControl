@@ -54,4 +54,24 @@ public class ConexaoPDF {
             exc.printStackTrace();
         }
     }
+    
+    public void gerarPDF_Geral() {
+        InputStream inputStream = getClass().getResourceAsStream( "/Relatorio_Geral.jasper" );
+
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put( "projeto_id", "F%" );
+        parametros.put( "idProjeto", "F%" );
+        parametros.put( "resultados_id", "F%" );
+
+        try {
+            
+            ReportUtils.openReport( "Plano de Medição_" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()), inputStream, parametros,
+                    ConnectionFactory1.getSpiderConnection() );
+
+        } catch ( SQLException exc ) {
+            exc.printStackTrace();
+        } catch ( JRException exc ) {
+            exc.printStackTrace();
+        }
+    }
 }

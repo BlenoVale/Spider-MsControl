@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Relatorio_Geral_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ab736dbc-42ed-4325-8289-8e7e7cebd8fc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProjeto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     projeto.`id` AS projeto_id,
+     resultados.`id` AS resultados_id,
+     resultados.`idProjeto` AS resultados_idProjeto,
+     resultados.`titulo` AS resultados_titulo,
+     resultados.`data` AS resultados_data,
+     resultados.`nomeUsuario` AS resultados_nomeUsuario,
+     resultados.`interpretacao` AS resultados_interpretacao,
+     resultados.`tomadaDeDecisao` AS resultados_tomadaDeDecisao
+FROM
+     `projeto` projeto,
+     `resultados` resultados
+WHERE
+      resultados.`idProjeto` = projeto.`id`]]>
+	</queryString>
+	<field name="projeto_id" class="java.lang.Integer"/>
+	<field name="resultados_id" class="java.lang.Integer"/>
+	<field name="resultados_idProjeto" class="java.lang.Integer"/>
+	<field name="resultados_titulo" class="java.lang.String"/>
+	<field name="resultados_data" class="java.sql.Date"/>
+	<field name="resultados_nomeUsuario" class="java.lang.String"/>
+	<field name="resultados_interpretacao" class="java.lang.String"/>
+	<field name="resultados_tomadaDeDecisao" class="java.lang.String"/>
+	<group name="resultados_id">
+		<groupExpression><![CDATA[$F{resultados_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="164" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="23" y="0" width="6" height="20" uuid="7e4ea2fb-31a4-4544-b26b-f364ec8717e8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="29" y="0" width="526" height="20" uuid="a7594483-22b5-42e2-b1a0-41b6f95c25a7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resultados_titulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="51" y="20" width="100" height="20" uuid="deaa132e-cf3c-4173-8e82-4748f7cfae34"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dados Gerais:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="51" y="52" width="31" height="20" uuid="07382db2-c2cc-481d-8c53-08b673dec397"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="82" y="52" width="236" height="20" uuid="75eb733b-a515-4132-a9c7-33edeca60675"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{resultados_data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="51" y="72" width="72" height="20" uuid="de0744bd-bbba-41b7-a255-90c7db6966f2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gerado por:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="123" y="72" width="432" height="20" uuid="e2bbd926-bf89-4923-aee5-cc7d2b30e325"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{resultados_nomeUsuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="51" y="92" width="84" height="20" uuid="d6e759bf-dbcd-44c0-b7d0-926d56388ae0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interpretação:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="135" y="92" width="420" height="20" uuid="fb824a92-a3cd-4391-aa1c-4d605804261d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{resultados_interpretacao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="51" y="112" width="118" height="20" uuid="e338117b-2719-4470-a401-a3a68ee13696"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tomada de Decisão:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="169" y="112" width="386" height="20" uuid="33040664-2e90-4e5a-aa0e-ef691ebbdfab"/>
+				<textFieldExpression><![CDATA[$F{resultados_tomadaDeDecisao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="51" y="144" width="352" height="20" uuid="72e19ad8-473a-4085-97fd-84fb562826dd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Análises dos Indicadores Referenciados no Resultado:]]></text>
+			</staticText>
+		</band>
+		<band height="102">
+			<subreport>
+				<reportElement positionType="Float" x="51" y="0" width="504" height="100" uuid="1b1e4264-78e4-446c-aa29-e6930dbe5fdf"/>
+				<subreportParameter name="resultados_id">
+					<subreportParameterExpression><![CDATA[$F{resultados_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[getClass().getResource( $P{SUBREPORT_DIR} + "Relatorio_Geral_subreport2.jasper")]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
