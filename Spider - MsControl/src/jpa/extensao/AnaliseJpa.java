@@ -1,5 +1,6 @@
 package jpa.extensao;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jpa.AnaliseJpaController;
@@ -37,6 +38,20 @@ public class AnaliseJpa extends AnaliseJpaController {
             throw error;
         }
 
+    }
+
+    public List<Analise> findAnaliseByDatasAndProjeto(Date dataInicio, Date dataFim, int idProjeto) {
+        try {
+            EntityManager entityManager = super.getEntityManager();
+            return entityManager.createQuery("SELECT a FROM Analise a WHERE  a.dataCriação >= :dataInicio "
+                    + "AND a.dataCriação <= :dataFim AND  "
+                    + "a.indicadorid.objetivoDeQuestaoid.objetivoDeMedicaoid.projetoid.id = :idProjeto "
+                    + "ORDER BY a.dataCriação")
+                    .setParameter("dataInicio", dataInicio).setParameter("dataFim", dataFim)
+                    .setParameter("idProjeto", idProjeto).getResultList();
+        } catch (Exception error) {
+            throw error;
+        }
     }
 
 }

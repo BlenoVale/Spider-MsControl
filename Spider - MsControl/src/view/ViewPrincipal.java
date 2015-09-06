@@ -307,7 +307,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.setLayout(jDesktopPaneLayout);
         jDesktopPaneLayout.setHorizontalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
+            .addGap(0, 883, Short.MAX_VALUE)
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

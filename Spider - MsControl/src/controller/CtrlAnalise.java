@@ -19,7 +19,7 @@ public class CtrlAnalise {
     public void cadastrarAnalise(Analise analise) {
         try {
             facadeJpa.getAnaliseJpa().create(analise);
-            analise = facadeJpa.getAnaliseJpa().findAnaliseByIDProjeto(Copia.getProjetoSelecionado().getId());
+            //analise = facadeJpa.getAnaliseJpa().findAnaliseByIDProjeto(Copia.getProjetoSelecionado().getId());
 
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
         } catch (Exception error) {
@@ -31,6 +31,14 @@ public class CtrlAnalise {
     public List<Analise> buscarAnalisesDoProjeto(int idProjeto) {
         try {
             return facadeJpa.getAnaliseJpa().findListAnaliseByIDProjeto(idProjeto);
+        } catch (Exception error) {
+            throw error;
+        }
+    }
+    
+    public List<Analise> buscarAnaliseDoProjetoPorDatas (Date dataInicio, Date dataFim, int IdProjeto){ 
+        try {
+            return facadeJpa.getAnaliseJpa().findAnaliseByDatasAndProjeto(dataInicio, dataFim, IdProjeto);
         } catch (Exception error) {
             throw error;
         }
