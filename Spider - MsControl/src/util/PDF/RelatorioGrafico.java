@@ -19,23 +19,21 @@ import net.sf.jasperreports.engine.JRException;
  */
 public class RelatorioGrafico {
 
-    public void GerarGraficoTeste(List<Valorindicador> listaValorindicador) {
+    public void GerarGraficoNoPDF(List<Valorindicador> listaValorindicador, String tipo) {
         try {
+            BufferedImage imagem = new BufferedImage(0, 0, 0);
             InputStream inputStream = getClass().getResourceAsStream("/GraficoTeste.jasper");
-            BufferedImage imagem = GraficoPDF.geraGraficoPizzaEmPNG(listaValorindicador);
+            
+            if ("Pizza".equals(tipo)) {
+                imagem = GraficoPDF.geraGraficoPizzaEmPNG(listaValorindicador);
+            } else if ("Barra".equals(tipo)) {
+                imagem = GraficoPDF.geraGraficoBarraEmPNG(listaValorindicador);
+            } else {
+                imagem = GraficoPDF.geraGraficoLinhaEmPNG(listaValorindicador);
+            }
 
             HashMap parametros = new HashMap();
             parametros.put("imagem", imagem);
-            try {
-
-                ReportUtils.openReport("Grafico_" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()), inputStream, parametros,
-                        ConnectionFactory1.getSpiderConnection());
-
-            } catch (SQLException exc) {
-                exc.printStackTrace();
-            } catch (JRException exc) {
-                exc.printStackTrace();
-            }
         } catch (IOException ex) {
             Logger.getLogger(ConexaoPDF.class.getName()).log(Level.SEVERE, null, ex);
         }

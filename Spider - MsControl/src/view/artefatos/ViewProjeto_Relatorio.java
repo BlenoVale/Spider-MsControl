@@ -1,14 +1,14 @@
 package view.artefatos;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
+import controller.CtrlAnalise;
+import controller.CtrlValores;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import model.Analise;
+import model.Valorindicador;
 import util.Copia;
-import util.Grafico;
 import util.MyDefaultTableModel;
 import util.PDF.ConexaoPDF;
 import util.Texto;
@@ -22,6 +22,11 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
     public String[] colunas = {"Data", "Autor"};
     public DefaultTableModel defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
     public List<String> lista = new ArrayList<>();
+    private final CtrlAnalise ctrlAnalise = new CtrlAnalise();
+    private final CtrlValores ctrlValores = new CtrlValores();
+    private List<Analise> listaAnalises;
+    private List<Valorindicador> listaValoresIndicador;
+
 
     public ViewProjeto_Relatorio() {
         initComponents();
@@ -41,6 +46,16 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         jTableRelatoriosGerados.setModel(defaultTableModel);
     }
 
+    public void buscaAnaliseDoProjeto(){
+        listaAnalises = new ArrayList<>();
+        listaAnalises = ctrlAnalise.buscarAnalisesDoProjeto(Copia.getProjetoSelecionado().getId());
+        
+    }
+    
+    public void buscarValoresDoindicador(Date dataDe, Date dataAte, int idIndicador){
+        listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas(dataDe, dataAte, idIndicador, Copia.getProjetoSelecionado().getId());
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -57,7 +72,6 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setTitle("Relatório");
 
@@ -101,13 +115,6 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
         jButton1.setText("Cancelar");
 
-        jButton2.setText("Teste");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -130,8 +137,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonGerar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
@@ -153,12 +159,11 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButtonGerar)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonGerar))
                 .addContainerGap())
         );
 
@@ -184,18 +189,15 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         gerarLinhaNaTabela();
+        buscaAnaliseDoProjeto();
+        buscarValoresDoindicador(listaAnalises.get(0).getAnaliseDE(), listaAnalises.get(0).getAnaliseATE(), listaAnalises.get(0).getIndicadorid().getId());
         ConexaoPDF conexaoPDF = new ConexaoPDF();
-        conexaoPDF.gerarPDF_Geral();
+        conexaoPDF.gerarPDF_Geral(listaValoresIndicador, listaAnalises.get(0).getIndicadorid().getProcedimentodeanaliseList().get(0).getGraficoNome());
     }//GEN-LAST:event_jButtonGerarActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonGerar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

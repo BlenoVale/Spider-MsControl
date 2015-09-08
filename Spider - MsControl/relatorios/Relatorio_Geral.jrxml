@@ -1,29 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="99391bb2-0e6e-48a0-99e9-2f1ea3e64805">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\FACOMP\\Documents\\NetBeansProjects\\gitHub\\Spider-MsControl\\Spider - MsControl\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="projeto_id" class="java.lang.Integer"/>
+	<field name="projeto_nome" class="java.lang.String"/>
+	<field name="projeto_status" class="java.lang.Integer"/>
+	<field name="projeto_descricao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="178">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="37" uuid="b0d79fe6-b6ce-413d-8fcc-5d723a9fce67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Spider Ms-Control]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="37" width="555" height="26" uuid="60f92a50-272a-453b-bf41-9a7639956625"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Medição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="83" width="64" height="20" uuid="4ccaf2ec-6ead-4034-a0e4-03ddaf7fb72a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.Projeto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="64" y="83" width="491" height="20" uuid="abbbe5d7-b8a3-4672-a61a-49ce90364892"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{projeto_nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="28" y="103" width="46" height="20" uuid="613f7831-7da5-45dd-beb2-52dd7f6ef7f1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="74" y="103" width="100" height="20" uuid="2ae09264-3761-409b-80b8-d13530751238"/>
+				<textFieldExpression><![CDATA[$F{projeto_status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="123" width="462" height="20" uuid="0bdbaa6b-0f05-472c-ab4e-4e973e727583"/>
+				<textFieldExpression><![CDATA[$F{projeto_descricao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="28" y="123" width="65" height="20" uuid="647e9504-59df-4526-96ed-6dc2c6d5551f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="156" width="100" height="20" uuid="45bc7fa9-6e51-4c5b-93c8-dcdc052d3ec6"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="106" splitType="Stretch">
+			<subreport>
+				<reportElement positionType="Float" x="5" y="4" width="550" height="100" uuid="7eac6a8c-d80b-4c67-be01-8581da05732b"/>
+				<subreportParameter name="idProjeto">
+					<subreportParameterExpression><![CDATA[$F{projeto_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[getClass().getResource($P{SUBREPORT_DIR} + "Relatorio_Geral_subreport1.jasper")]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
 </jasperReport>

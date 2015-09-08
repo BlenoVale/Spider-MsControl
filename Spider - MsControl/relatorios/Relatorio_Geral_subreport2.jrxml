@@ -33,7 +33,7 @@ FROM
      INNER JOIN `resultados` resultados ON analise_has_resultados.`Resultados_id` = resultados.`id`
      INNER JOIN `indicador` indicador ON analise.`Indicador_id` = indicador.`id`
 WHERE
-     analise.`Indicador_id` = indicador.`id` ]]>
+     analise.`Indicador_id` = indicador.`id`]]>
 	</queryString>
 	<field name="analise_id" class="java.lang.Integer"/>
 	<field name="analise_Indicador_id" class="java.lang.Integer"/>
@@ -59,7 +59,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="112" splitType="Stretch">
+		<band height="205" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="11" width="60" height="20" uuid="c4bc3e69-f727-44ac-8279-4eb7659533b2"/>
 				<textElement verticalAlignment="Middle">
@@ -109,28 +109,35 @@ WHERE
 				<textFieldExpression><![CDATA[$F{analise_analiseATE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="71" width="49" height="20" uuid="a6d5ba11-4cfc-4294-9dd8-7ae2974818d1"/>
+				<reportElement x="0" y="165" width="49" height="20" uuid="a6d5ba11-4cfc-4294-9dd8-7ae2974818d1"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Análise:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="49" y="71" width="506" height="20" uuid="188b0b3a-9454-4d66-b936-80502dbf4dc4"/>
+				<reportElement x="49" y="165" width="506" height="20" uuid="188b0b3a-9454-4d66-b936-80502dbf4dc4"/>
 				<textFieldExpression><![CDATA[$F{analise_criterioDeAnalise}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="91" width="75" height="20" uuid="870263b9-cf92-4a15-b281-86613452520e"/>
+				<reportElement x="0" y="185" width="75" height="20" uuid="870263b9-cf92-4a15-b281-86613452520e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observação:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="75" y="91" width="480" height="20" uuid="35734a8d-d44e-490e-b9b1-236bdafa00b7"/>
+				<reportElement x="75" y="185" width="480" height="20" uuid="35734a8d-d44e-490e-b9b1-236bdafa00b7"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{analise_observacao}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="71" width="111" height="20" uuid="6a2c27d9-c6b8-4036-a917-78244b578eab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gráfico Analisado:]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

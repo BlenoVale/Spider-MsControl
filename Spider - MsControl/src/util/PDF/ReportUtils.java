@@ -24,7 +24,7 @@ public class ReportUtils {
 
         JasperPrint print = JasperFillManager.fillReport(
                 inputStream, parametros, conexao );
-
+       
         viewReportFrame( titulo, print );
 
     }
