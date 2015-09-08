@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="28106b46-5a52-4590-b7ed-72d08e383705">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="imagem" class="java.lang.Object"/>
+	<queryString>
+		<![CDATA[SELECT
+     projeto.`id` AS projeto_id,
+     projeto.`nome` AS projeto_nome,
+     projeto.`status` AS projeto_status
+FROM
+     `projeto` projeto]]>
+	</queryString>
+	<field name="projeto_id" class="java.lang.Integer"/>
+	<field name="projeto_nome" class="java.lang.String"/>
+	<field name="projeto_status" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="de8fe648-4851-45cd-b103-1f0a79b15d7f"/>
+				<textFieldExpression><![CDATA[$F{projeto_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="184" y="0" width="100" height="20" uuid="05198989-4755-4d29-9938-30df93b94f7f"/>
+				<textFieldExpression><![CDATA[$F{projeto_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="30" width="100" height="20" uuid="2b68ba7a-fffa-4e7e-8a01-3fac82c6941f"/>
+				<textFieldExpression><![CDATA[$F{projeto_status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="561" splitType="Stretch">
+			<image>
+				<reportElement x="33" y="61" width="474" height="345" uuid="549e5c79-7ea5-44a4-9046-27b04ca2f89e"/>
+				<imageExpression><![CDATA[$P{imagem}]]></imageExpression>
+			</image>
+		</band>
+	</summary>
+</jasperReport>

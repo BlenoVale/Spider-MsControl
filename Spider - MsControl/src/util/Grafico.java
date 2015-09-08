@@ -1,12 +1,17 @@
 package util;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.Valorindicador;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
@@ -106,5 +111,11 @@ public class Grafico {
         ChartPanel chartPanel = new ChartPanel(lineChart);
 
         return chartPanel;
+    }
+
+// ################ Gerar em PNG ###################################################################
+
+    public void salva(OutputStream out, JFreeChart grafico) throws IOException {
+        ChartUtilities.writeChartAsPNG(out, grafico, 500, 350);
     }
 }

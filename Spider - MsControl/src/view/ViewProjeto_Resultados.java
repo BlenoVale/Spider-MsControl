@@ -8,6 +8,7 @@ import controller.CtrlResultados;
 import controller.CtrlValores;
 import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +30,7 @@ import util.Constantes;
 import util.Copia;
 import util.Grafico;
 import util.MyDefaultTableModel;
+import util.PDF.RelatorioGrafico;
 import util.TableTextAreaRenderer;
 import util.Texto;
 import view.indicadores.View_InformacaoDialog;
@@ -1116,6 +1118,10 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         buscarListaValoresIndicador(analiseSelecioanda.getAnaliseDE(), analiseSelecioanda.getAnaliseATE(), analiseSelecioanda.getIndicadorid().getId());
         String tipoGrafico = analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0).getGraficoNome();
         EscolheTipoDeGrafico(tipoGrafico);
+        
+        RelatorioGrafico relatorioGrafico =  new RelatorioGrafico();
+        relatorioGrafico.GerarGraficoTeste(listaValoresIndicador); 
+        
         preencherCamposDaAnaliseDoIndicador();
         jTabbedPane1.setEnabledAt(2, true);
     }//GEN-LAST:event_jTableResultadosAnaliseIndicadorMouseClicked
