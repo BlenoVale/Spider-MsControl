@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import jpa.PerfilinteressadoJpaController;
+import model.Funcionalidade;
 import model.Perfilinteressado;
 import util.Conexao;
 

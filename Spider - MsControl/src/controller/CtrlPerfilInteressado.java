@@ -7,6 +7,7 @@ package controller;
 
 import facade.FacadeJpa;
 import java.util.List;
+import model.Funcionalidade;
 import model.Perfilinteressado;
 import model.Perfisinteressadosprocedimentoanalise;
 import model.Procedimentodeanalise;
@@ -93,5 +94,4 @@ public class CtrlPerfilInteressado {
         }
 
     }
-
 }

@@ -484,6 +484,10 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     }
 
     private void preencherCamposDaAnaliseDoIndicador() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataDE = simpleDateFormat.format(analiseSelecioanda.getAnaliseDE());
+        String dataATE = simpleDateFormat.format(analiseSelecioanda.getAnaliseATE());
+        jTextFieldPeriodoDaColeta.setText("Período Analisado: " + dataDE + " - " + dataATE);
         jTextAreaAnalise.setText(analiseSelecioanda.getCriterioDeAnalise());
         jTextAreaObservacao.setText(analiseSelecioanda.getObservacao());
         jTextFieldAnalisadoPor.setText(analiseSelecioanda.getNomeUsuario() + ", Em: " + Texto.formataData(analiseSelecioanda.getDataCriação()));
@@ -552,6 +556,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jTextFieldAnalisadoPor = new javax.swing.JTextField();
+        jTextFieldPeriodoDaColeta = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         dateField_De = new net.sf.nachocalendar.components.DateField();
         jLabel17 = new javax.swing.JLabel();
@@ -931,7 +936,8 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane8)
                     .addComponent(jTextFieldFormula)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInformaçõesLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPeriodoDaColeta, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonInfoDoIndicador, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelInformaçõesLayout.createSequentialGroup()
                         .addGroup(jPanelInformaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -947,7 +953,9 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
             jPanelInformaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelInformaçõesLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jButtonInfoDoIndicador)
+                .addGroup(jPanelInformaçõesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonInfoDoIndicador)
+                    .addComponent(jTextFieldPeriodoDaColeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelPlot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1003,7 +1011,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dateField_Ate, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1025,7 +1033,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1037,7 +1045,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -1222,6 +1230,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldBusca;
     private javax.swing.JTextField jTextFieldData;
     private javax.swing.JTextField jTextFieldFormula;
+    private javax.swing.JTextField jTextFieldPeriodoDaColeta;
     private javax.swing.JTextField jTextFieldTitulo;
     // End of variables declaration//GEN-END:variables
 }

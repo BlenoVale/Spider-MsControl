@@ -1,5 +1,7 @@
 package view;
 
+import controller.CtrlPerfil;
+import controller.CtrlPerfilInteressado;
 import view.gerencia.ViewPermissoesDePerfis;
 import view.gerencia.ViewGerenciarProjetos;
 import view.gerencia.ViewGerenciarConta;
@@ -21,6 +23,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import jpa.extensao.AcessaJpa;
+import model.Perfil;
+import model.Perfilinteressado;
 import model.Projeto;
 import model.Usuario;
 import util.Copia;
@@ -41,8 +45,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final CtrlProjeto ctrlProjeto = new CtrlProjeto();
     private Projeto projeto_selecionado;
     private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
+    private final CtrlPerfil ctrlPerfilI = new CtrlPerfil();
     private Usuario usuario_logado = new Usuario();
-    private String perfil_selecionado;
+    private String nomePerfil;
+    private Perfil perfilSelecionado;
     private DefaultComboBoxModel comboboxModel;
 
     // Barra de Menu
@@ -82,7 +88,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         Copia.setViewPrincipal(this);
         jTree.setEnabled(false);
-
+        funcoesADM();
+        
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
 
@@ -93,6 +100,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         this.usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuario(usuario_logado.getId());
         observer = new Observer(usuario_logado);
+        funcoesADM();
 
         jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
@@ -141,14 +149,19 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
 
             if (perfis.size() == 1) {
-                this.perfil_selecionado = perfis.get(0);
-                System.out.println("--perfil selecionado: " + this.perfil_selecionado);
+                this.nomePerfil = perfis.get(0); 
+                System.out.println("--perfil selecionado: " + this.nomePerfil);
+                perfilSelecionado = new Perfil();
+                perfilSelecionado = ctrlPerfilI.buscarPerfilSelecionado(nomePerfil);
             } else {
                 ViewSelecaoDePerfilAoEscolherProjeto viewSelecaoDePerfilAoEscolherProjeto = new ViewSelecaoDePerfilAoEscolherProjeto(this, rootPaneCheckingEnabled);
                 viewSelecaoDePerfilAoEscolherProjeto.populaComboboxDePerfis(perfis);
                 viewSelecaoDePerfilAoEscolherProjeto.setVisible(true);
-                this.perfil_selecionado = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
-                System.out.println("--perfil selecionado: " + this.perfil_selecionado);
+                this.nomePerfil = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
+                perfilSelecionado = new Perfil();
+                perfilSelecionado = ctrlPerfilI.buscarPerfilSelecionado(nomePerfil);
+                
+                System.out.println("--perfil selecionado: " + this.nomePerfil);
             }
             jTree.setEnabled(true);
             Copia.setViewPrincipal(this);
@@ -156,6 +169,24 @@ public class ViewPrincipal extends javax.swing.JFrame {
             jTree.setEnabled(false);
         }
 
+    }
+
+    private void funcoesADM() {
+        if (usuario_logado.getId() == 1) {
+            jMenuItemArquivoNovoProjeto.setEnabled(true);
+            jMenuItemArquivoNovoUsuario.setEnabled(true);
+            jMenuItemGerenciarProjetos.setEnabled(true);
+            jMenuItemGerenciarUsuarios.setEnabled(true);
+            jMenuItemGerenciarPermissoesDePerfil.setEnabled(true);
+            jButtonNovoProjeto.setEnabled(true);
+        } else {
+            jMenuItemArquivoNovoProjeto.setEnabled(false);
+            jMenuItemArquivoNovoUsuario.setEnabled(false);
+            jMenuItemGerenciarProjetos.setEnabled(false);
+            jMenuItemGerenciarUsuarios.setEnabled(false);
+            jMenuItemGerenciarPermissoesDePerfil.setEnabled(false);
+            jButtonNovoProjeto.setEnabled(false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -173,17 +204,17 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jTree = new javax.swing.JTree();
         jDesktopPane = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
+        jMenuArquivo = new javax.swing.JMenu();
         jMenuItemArquivoNovoProjeto = new javax.swing.JMenuItem();
         jMenuItemArquivoNovoUsuario = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItemArquivoDesconectar = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuGerencia = new javax.swing.JMenu();
         jMenuItemGerenciarProjetos = new javax.swing.JMenuItem();
         jMenuItemGerenciarUsuarios = new javax.swing.JMenuItem();
         jMenuItemGerenciarPermissoesDePerfil = new javax.swing.JMenuItem();
         jMenuItemGerenciarConta = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuSobre = new javax.swing.JMenu();
         jMenuItemSobreSpider = new javax.swing.JMenuItem();
         jMenuItemSobreAjuda = new javax.swing.JMenuItem();
 
@@ -226,7 +257,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 .addComponent(jButtonNovoProjeto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonAtualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 619, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabeBemVindo)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -316,7 +347,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jDesktopPane);
 
-        jMenu3.setText("Arquivo");
+        jMenuArquivo.setText("Arquivo");
 
         jMenuItemArquivoNovoProjeto.setText("Novo projeto");
         jMenuItemArquivoNovoProjeto.addActionListener(new java.awt.event.ActionListener() {
@@ -324,7 +355,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemArquivoNovoProjetoActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemArquivoNovoProjeto);
+        jMenuArquivo.add(jMenuItemArquivoNovoProjeto);
 
         jMenuItemArquivoNovoUsuario.setText("Novo usuário");
         jMenuItemArquivoNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -332,8 +363,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemArquivoNovoUsuarioActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemArquivoNovoUsuario);
-        jMenu3.add(jSeparator1);
+        jMenuArquivo.add(jMenuItemArquivoNovoUsuario);
+        jMenuArquivo.add(jSeparator1);
 
         jMenuItemArquivoDesconectar.setText("Desconectar");
         jMenuItemArquivoDesconectar.addActionListener(new java.awt.event.ActionListener() {
@@ -341,11 +372,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemArquivoDesconectarActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItemArquivoDesconectar);
+        jMenuArquivo.add(jMenuItemArquivoDesconectar);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(jMenuArquivo);
 
-        jMenu1.setText("Gerenciar");
+        jMenuGerencia.setText("Gerenciar");
 
         jMenuItemGerenciarProjetos.setText("Projetos");
         jMenuItemGerenciarProjetos.addActionListener(new java.awt.event.ActionListener() {
@@ -353,7 +384,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemGerenciarProjetosActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItemGerenciarProjetos);
+        jMenuGerencia.add(jMenuItemGerenciarProjetos);
 
         jMenuItemGerenciarUsuarios.setText("Usuários");
         jMenuItemGerenciarUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -361,7 +392,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemGerenciarUsuariosActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItemGerenciarUsuarios);
+        jMenuGerencia.add(jMenuItemGerenciarUsuarios);
 
         jMenuItemGerenciarPermissoesDePerfil.setText("Permissões de perfil");
         jMenuItemGerenciarPermissoesDePerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -369,7 +400,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemGerenciarPermissoesDePerfilActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItemGerenciarPermissoesDePerfil);
+        jMenuGerencia.add(jMenuItemGerenciarPermissoesDePerfil);
 
         jMenuItemGerenciarConta.setText("Conta");
         jMenuItemGerenciarConta.addActionListener(new java.awt.event.ActionListener() {
@@ -377,19 +408,19 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 jMenuItemGerenciarContaActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItemGerenciarConta);
+        jMenuGerencia.add(jMenuItemGerenciarConta);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenuGerencia);
 
-        jMenu2.setText("Sobre");
+        jMenuSobre.setText("Sobre");
 
         jMenuItemSobreSpider.setText("Spider - MsControl");
-        jMenu2.add(jMenuItemSobreSpider);
+        jMenuSobre.add(jMenuItemSobreSpider);
 
         jMenuItemSobreAjuda.setText("Ajuda");
-        jMenu2.add(jMenuItemSobreAjuda);
+        jMenuSobre.add(jMenuItemSobreAjuda);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenuSobre);
 
         setJMenuBar(jMenuBar1);
 
@@ -643,10 +674,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JLabel jLabeBemVindo;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuGerencia;
     private javax.swing.JMenuItem jMenuItemArquivoDesconectar;
     private javax.swing.JMenuItem jMenuItemArquivoNovoProjeto;
     private javax.swing.JMenuItem jMenuItemArquivoNovoUsuario;
@@ -656,6 +686,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemGerenciarUsuarios;
     private javax.swing.JMenuItem jMenuItemSobreAjuda;
     private javax.swing.JMenuItem jMenuItemSobreSpider;
+    private javax.swing.JMenu jMenuSobre;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;

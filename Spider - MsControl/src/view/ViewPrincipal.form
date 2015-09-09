@@ -4,7 +4,7 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu3">
+        <Menu class="javax.swing.JMenu" name="jMenuArquivo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Arquivo"/>
           </Properties>
@@ -37,7 +37,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="jMenuGerencia">
           <Properties>
             <Property name="text" type="java.lang.String" value="Gerenciar"/>
           </Properties>
@@ -76,7 +76,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="jMenuSobre">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sobre"/>
           </Properties>
@@ -160,7 +160,7 @@
                   <Component id="jButtonNovoProjeto" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonAtualizar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="619" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabeBemVindo" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
