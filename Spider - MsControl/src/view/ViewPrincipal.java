@@ -1,7 +1,6 @@
 package view;
 
 import controller.CtrlPerfil;
-import controller.CtrlPerfilInteressado;
 import view.gerencia.ViewPermissoesDePerfis;
 import view.gerencia.ViewGerenciarProjetos;
 import view.gerencia.ViewGerenciarConta;
@@ -22,11 +21,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import jpa.extensao.AcessaJpa;
 import model.Perfil;
-import model.Perfilinteressado;
 import model.Projeto;
 import model.Usuario;
+import controller.ArvoreDinamica;
 import util.Copia;
 import util.Observer;
 import view.artefatos.ViewProjeto_PlanoDeMedicao;
@@ -291,7 +291,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Objetivos");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Objetivo da Medição");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Necessidade de informações");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Necessidade de Informações");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Indicadores");
@@ -472,6 +472,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     private void jComboBoxSelecaoDeProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSelecaoDeProjetoActionPerformed
         eventosComboboxProjeto();
+        criarArvoreDoprojeto();
     }//GEN-LAST:event_jComboBoxSelecaoDeProjetoActionPerformed
 
     private void jMenuItemGerenciarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGerenciarContaActionPerformed
@@ -607,6 +608,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
             tela.setVisible(true);
         }
     }
+    
+    private void criarArvoreDoprojeto(){
+        ArvoreDinamica arvoreDinamica =  new ArvoreDinamica();
+        DefaultMutableTreeNode modelTree = new DefaultMutableTreeNode();
+        modelTree = arvoreDinamica.criaArvore(projeto_selecionado.getNome(), perfilSelecionado.getFuncionalidadeList()); 
+        jTree.setModel(new DefaultTreeModel(modelTree)); 
+        //repaint();
+    }
 
     private void trocaDeTelasPelaArvore() {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
@@ -622,7 +631,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         String no_filho = node.toString();
         String no_pai = parent.toString();
 
-        if (no_filho.equals("Necessidade de informações") && no_pai.endsWith("Objetivos")) {
+        if (no_filho.equals("Necessidade de Informações") && no_pai.endsWith("Objetivos")) {
             viewProjeto_ObjetivosQuestoes.preencherTabelaQuestoes();
             trocaTelas(viewProjeto_ObjetivosQuestoes);
         } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {
