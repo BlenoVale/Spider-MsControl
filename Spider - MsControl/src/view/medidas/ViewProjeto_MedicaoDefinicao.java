@@ -92,7 +92,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         jTextFieldBuscarMedida = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableMedida = new javax.swing.JTable();
-        jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonNovaMedida = new javax.swing.JButton();
         jButtonRecarregar = new javax.swing.JButton();
@@ -127,13 +126,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTableMedida);
-
-        jButtonExcluir.setText("Excluir ?");
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirActionPerformed(evt);
-            }
-        });
 
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -174,11 +166,9 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonNovaMedida)
+                        .addComponent(jButtonNovaMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExcluir)))
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -190,10 +180,9 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
                     .addComponent(jTextFieldBuscarMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonRecarregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonExcluir)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonNovaMedida))
                 .addContainerGap())
@@ -247,11 +236,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonRecarregarActionPerformed
 
-    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        
-        preencherTabelaRecarregar();
-    }//GEN-LAST:event_jButtonExcluirActionPerformed
-
     private void jTableMedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedidaMouseClicked
         if(evt.getClickCount() >= 2){
             editarMedida();
@@ -263,7 +247,6 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
-    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovaMedida;
     private javax.swing.JButton jButtonRecarregar;
     private javax.swing.JLabel jLabelBuscarMedida;

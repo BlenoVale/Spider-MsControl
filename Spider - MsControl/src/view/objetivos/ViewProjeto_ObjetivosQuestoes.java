@@ -101,7 +101,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         jTextFieldBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
-        jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonNovoObjetivo = new javax.swing.JButton();
 
@@ -146,13 +145,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTable);
 
-        jButtonExcluir.setText("Excluir ?");
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirActionPerformed(evt);
-            }
-        });
-
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,11 +173,9 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                         .addGap(0, 292, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExcluir))
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -197,10 +187,9 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonExcluir)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonNovoObjetivo))
                 .addContainerGap())
@@ -248,15 +237,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
         preencheTabelaQuestoesPorParteDoNome(lista_questoes);
     }//GEN-LAST:event_jTextFieldBuscarActionPerformed
 
-    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
-        } else {
-            excluirQuestao();
-            preencherTabelaQuestoes();
-        }
-    }//GEN-LAST:event_jButtonExcluirActionPerformed
-
     private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
         if (evt.getClickCount() >= 2) {
             mostrarDetalhesQuestão();
@@ -267,7 +247,6 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
-    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovoObjetivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

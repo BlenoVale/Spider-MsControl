@@ -109,7 +109,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         jTextFieldBuscarObjetivo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableObjetivo = new javax.swing.JTable();
-        jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonNovoObjetivo = new javax.swing.JButton();
         jButtonRecarregar = new javax.swing.JButton();
@@ -144,13 +143,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTableObjetivo);
-
-        jButtonExcluir.setText("Excluir ?");
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirActionPerformed(evt);
-            }
-        });
 
         jButtonEditar.setText("Editar");
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -191,11 +183,9 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExcluir)))
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -207,10 +197,9 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
                     .addComponent(jTextFieldBuscarObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonRecarregar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonExcluir)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonNovoObjetivo))
                 .addContainerGap())
@@ -260,11 +249,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonRecarregarActionPerformed
 
-    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        excluirObjetivo();
-        preencherTabelaRecarregar();
-    }//GEN-LAST:event_jButtonExcluirActionPerformed
-
     private void jTableObjetivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableObjetivoMouseClicked
         if (evt.getClickCount() >= 2) {
             ViewProjeto_ObjetivosDeMedicao_Novo objetivoMedicao = new ViewProjeto_ObjetivosDeMedicao_Novo(null, true);
@@ -275,7 +259,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEditar;
-    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovoObjetivo;
     private javax.swing.JButton jButtonRecarregar;
     private javax.swing.JLabel jLabelBuscar;
