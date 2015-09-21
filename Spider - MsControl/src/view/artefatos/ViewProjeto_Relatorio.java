@@ -2,9 +2,13 @@ package view.artefatos;
 
 import controller.CtrlAnalise;
 import controller.CtrlValores;
+import controller.Relatorio;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.Analise;
 import model.Valorindicador;
@@ -182,10 +186,12 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         gerarLinhaNaTabela();
-        buscaAnaliseDoProjeto();
-        buscarValoresDoindicador(listaAnalises.get(0).getAnaliseDE(), listaAnalises.get(0).getAnaliseATE(), listaAnalises.get(0).getIndicadorid().getId());
-        ConexaoPDF conexaoPDF = new ConexaoPDF();
-        conexaoPDF.gerarPDF_Geral(listaValoresIndicador, listaAnalises.get(0).getIndicadorid().getProcedimentodeanaliseList().get(0).getGraficoNome());
+        Relatorio relatorio = new Relatorio();
+        try {
+            relatorio.gerarRelatorio();
+        } catch (IOException ex) {
+            Logger.getLogger(ViewProjeto_Relatorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
 
