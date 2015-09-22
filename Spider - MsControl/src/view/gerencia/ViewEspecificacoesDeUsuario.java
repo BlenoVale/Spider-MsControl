@@ -2,6 +2,7 @@ package view.gerencia;
 
 import controller.CtrlUsuario;
 import facade.FacadeJpa;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -55,11 +56,12 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
 
     private void addLinhaTabela(String projeto, String perfil) {
         // Se ja contem na tabela, nao adiciona uma nova linha.
-        for (int i = 0; i < jTable.getRowCount(); i++)
+        for (int i = 0; i < jTable.getRowCount(); i++) {
             if (jTable.getValueAt(i, 0).toString().equals(projeto) && jTable.getValueAt(i, 1).toString().equals(perfil)) {
                 JOptionPane.showMessageDialog(rootPane, "O perfil \"" + perfil + "\" ja foi alocado para o projeto \"" + projeto + "\"", "Info", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+        }
 
         tableModel.addRow(new String[]{projeto, perfil});
         jTable.setModel(tableModel);
@@ -79,7 +81,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         Projeto projeto = jpa.getProjetoJpa().findByNome(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
 
         Acessa acessoParaRemover = new Acessa();
-        acessoParaRemover.setAcessaPK(new AcessaPK(projeto.getId(), perfil.getId(), usuario.getId()));
+        acessoParaRemover = jpa.getAcessaJpa().findAcessa(new AcessaPK(projeto.getId(), usuario.getId(), perfil.getId()));
 
         acessoListRemover.add(acessoParaRemover);
     }
@@ -240,18 +242,17 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         ViewAlocacaoDeUsuarioAProjeto viewAlocacaoDeUsuarioAProjeto = new ViewAlocacaoDeUsuarioAProjeto(null, rootPaneCheckingEnabled);
         String projetoPerfil[] = viewAlocacaoDeUsuarioAProjeto.showDialog();
 
-        if (projetoPerfil[0] != null && projetoPerfil[1] != null)
+        if (projetoPerfil[0] != null && projetoPerfil[1] != null) {
             this.addLinhaTabela(projetoPerfil[0], projetoPerfil[1]);
+        }
     }//GEN-LAST:event_jButtonAlocarUsuarioActionPerformed
 
     private void jButtonRetirarPerfilDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirarPerfilDeUsuarioActionPerformed
         if (jTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um perfil para remover");
             return;
-        } else if (tableModel.getRowCount() == 1) {
-            JOptionPane.showMessageDialog(rootPane, "Você não pode remover todos os perfis de um usuário");
-            return;
         }
+
         adicionarAcessoNaListaDeRemocao();
         removerLinhaTabela(jTable.getSelectedRow());
     }//GEN-LAST:event_jButtonRetirarPerfilDeUsuarioActionPerformed
