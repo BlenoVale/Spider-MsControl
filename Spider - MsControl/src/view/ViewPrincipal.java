@@ -77,6 +77,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // Resultados
     private final ViewProjeto_Resultados viewProjeto_Resultados = new ViewProjeto_Resultados();
 
+    private final ViewInicial viewInicial = new ViewInicial();
+            
     // Construtor usado para teste da ferramenta
     private ViewPrincipal() {
         initComponents();
@@ -89,7 +91,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         Copia.setViewPrincipal(this);
         jTree.setEnabled(false);
         funcoesADM();
-        
+
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
 
@@ -149,24 +151,34 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
 
             if (perfis.size() == 1) {
-                this.nomePerfil = perfis.get(0); 
+                this.nomePerfil = perfis.get(0);
                 System.out.println("--perfil selecionado: " + this.nomePerfil);
                 perfilSelecionado = new Perfil();
                 perfilSelecionado = ctrlPerfilI.buscarPerfilSelecionado(nomePerfil);
+                jTree.setEnabled(true);
+                Copia.setViewPrincipal(this);
             } else {
                 ViewSelecaoDePerfilAoEscolherProjeto viewSelecaoDePerfilAoEscolherProjeto = new ViewSelecaoDePerfilAoEscolherProjeto(this, rootPaneCheckingEnabled);
                 viewSelecaoDePerfilAoEscolherProjeto.populaComboboxDePerfis(perfis);
                 viewSelecaoDePerfilAoEscolherProjeto.setVisible(true);
-                this.nomePerfil = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
-                perfilSelecionado = new Perfil();
-                perfilSelecionado = ctrlPerfilI.buscarPerfilSelecionado(nomePerfil);
-                
-                System.out.println("--perfil selecionado: " + this.nomePerfil);
+                nomePerfil = viewSelecaoDePerfilAoEscolherProjeto.perfilEscolhido();
+                if (nomePerfil != null) {
+                    perfilSelecionado = new Perfil();
+                    perfilSelecionado = ctrlPerfilI.buscarPerfilSelecionado(nomePerfil);
+                    criarArvoreDoprojeto();
+                    jTree.setEnabled(true);
+                    Copia.setViewPrincipal(this);
+                    System.out.println("--perfil selecionado: " + this.nomePerfil);
+                } else {
+                    jComboBoxSelecaoDeProjeto.setSelectedItem("--Selecione um Projeto--");
+                    jTree.setEnabled(false);
+                    viewInicial.setVisible(true);
+                }
+
             }
-            jTree.setEnabled(true);
-            Copia.setViewPrincipal(this);
         } else {
             jTree.setEnabled(false);
+            viewInicial.setVisible(true);
         }
 
     }
@@ -472,7 +484,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     private void jComboBoxSelecaoDeProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSelecaoDeProjetoActionPerformed
         eventosComboboxProjeto();
-        criarArvoreDoprojeto();
     }//GEN-LAST:event_jComboBoxSelecaoDeProjetoActionPerformed
 
     private void jMenuItemGerenciarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGerenciarContaActionPerformed
@@ -563,6 +574,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(viewProjeto_PlanoDeMedicao);
         jDesktopPane.add(viewProjeto_Relatorio);
         jDesktopPane.add(viewProjeto_ValorIndicador);
+        jDesktopPane.add(viewInicial);
 
         try {
             viewGerenciarProjetos.setMaximum(true);
@@ -581,6 +593,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_PlanoDeMedicao.setMaximum(true);
             viewProjeto_Relatorio.setMaximum(true);
             viewProjeto_ValorIndicador.setMaximum(true);
+            viewInicial.setMaximum(true); 
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -603,17 +616,18 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_PlanoDeMedicao.setVisible(false);
         viewProjeto_Relatorio.setVisible(false);
         viewProjeto_ValorIndicador.setVisible(false);
+        viewInicial.setVisible(false); 
 
         if (tela != null) {
             tela.setVisible(true);
         }
     }
-    
-    private void criarArvoreDoprojeto(){
-        ArvoreDinamica arvoreDinamica =  new ArvoreDinamica();
+
+    private void criarArvoreDoprojeto() {
+        ArvoreDinamica arvoreDinamica = new ArvoreDinamica();
         DefaultMutableTreeNode modelTree = new DefaultMutableTreeNode();
-        modelTree = arvoreDinamica.criaArvore(projeto_selecionado.getNome(), perfilSelecionado.getFuncionalidadeList()); 
-        jTree.setModel(new DefaultTreeModel(modelTree)); 
+        modelTree = arvoreDinamica.criaArvore(projeto_selecionado.getNome(), perfilSelecionado.getFuncionalidadeList());
+        jTree.setModel(new DefaultTreeModel(modelTree));
         //repaint();
     }
 
