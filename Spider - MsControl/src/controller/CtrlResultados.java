@@ -42,11 +42,11 @@ public class CtrlResultados {
         }
     }
 
-    public void cadastraResultado(Resultados resultado, List<ParticipanteseInteressados> lista) {
+    public boolean cadastraResultado(Resultados resultado, List<ParticipanteseInteressados> lista) {
         Resultados resultadoAux = buscarResultadoPeloTitulo(resultado.getTitulo(), Copia.getProjetoSelecionado().getId());
         if (resultadoAux != null) {
             JOptionPane.showMessageDialog(null, "Nome de Resultado já existe.");
-            return;
+            return false;
         }
 
         try {
@@ -57,8 +57,10 @@ public class CtrlResultados {
                 facadeJpa.getParticipanteseInteressadosJpa().create(lista.get(i));
             }
             JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
+            return true;
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Erro inesperado.");
+            return false;
         }
     }
 

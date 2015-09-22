@@ -43,7 +43,7 @@ public class ViewSelecaoDePerfilAoEscolherProjeto extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Escolha um perfil");
 
         jLabel1.setText("Você tem mais de um perfil para este projeto.");
@@ -110,6 +110,7 @@ public class ViewSelecaoDePerfilAoEscolherProjeto extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jComboBoxPerfil.setSelectedItem("--Selecione um perfil--"); 
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

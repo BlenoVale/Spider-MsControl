@@ -324,8 +324,11 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         resultados.setIdProjeto(Copia.getProjetoSelecionado().getId());
 
         resultados.setAnaliseList(listaAnaliseSelecionadas);
-        ctrlResultados.cadastraResultado(resultados, listaPI);
-        showResultados();
+        boolean foi  = ctrlResultados.cadastraResultado(resultados, listaPI);
+        if (foi){
+            showResultados();
+        }
+        
     }
 
 //##########INFORMAÇÕES GERAISR############################################################################################
