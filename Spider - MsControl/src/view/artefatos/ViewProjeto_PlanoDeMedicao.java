@@ -2,16 +2,20 @@ package view.artefatos;
 
 import controller.CtrlRelatorios;
 import facade.FacadeJpa;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Relatorios;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
 import util.PDF.ConexaoPDF;
+import util.PDF.RelatorioProcAnalise;
 import util.Texto;
 
 /**
@@ -310,9 +314,18 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
      
         cadastraRelatorio();
         tipoRelatorio();
+        
+//        RelatorioProcAnalise relatorioProcAnalise = new RelatorioProcAnalise();
+//        try {
+//            relatorioProcAnalise.gerarRelatorio();
+//        } catch (IOException ex) {
+//            Logger.getLogger(ViewProjeto_PlanoDeMedicao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
         showInformaçõesPlanoMedicao();
         
         jTextAreaObservacao.setText("");
+        
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
     private void jCheckBoxProcColetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxProcColetaActionPerformed
