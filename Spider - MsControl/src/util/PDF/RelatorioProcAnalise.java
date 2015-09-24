@@ -54,14 +54,14 @@ public class RelatorioProcAnalise {
             
             //Título
             Paragraph p1 = new Paragraph("Spider Ms-Control", fonte1);
-            document.add(p1);
             p1.setAlignment(Element.ALIGN_CENTER);
+            document.add(p1);
             
             //Subtitulo
             Paragraph p2 = new Paragraph("Plano de Análise", fonte2);
-            document.add(p2);
             p2.setAlignment(Element.ALIGN_CENTER);
             p2.setSpacingAfter(20); 
+            document.add(p2); 
             
             List<Indicador> listaIndicador = ctrlIndicador.getIndicadoresDoProjeto(Copia.getProjetoSelecionado().getId());
             for (int i = 0; i < listaIndicador.size(); i++) {

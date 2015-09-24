@@ -9,10 +9,10 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfCell;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import model.Projeto;
 import model.Resultados;
@@ -59,73 +59,50 @@ public class Relatorio {
 
             //Título
             Paragraph p1 = new Paragraph("Spider Ms-Control", fonte1);
-            document.add(p1);
             p1.setAlignment(Element.ALIGN_CENTER);
+            document.add(p1);
             
             //Subtitulo
             Paragraph p2 = new Paragraph("Relatório de Medição", fonte2);
-            document.add(p2);
             p2.setAlignment(Element.ALIGN_CENTER);
             p2.setSpacingAfter(20); 
-
-            //Agenda item 1
+            document.add(p2); 
+            
+            Paragraph p3 = new Paragraph("________________________________________________________", fonte3);
+            p3.setAlignment(Element.ALIGN_LEFT);
+            p3.setSpacingBefore(20);
+            document.add(p3);
+            
             projeto = new Projeto();
             projeto = ctrlProjeto.buscaProjetoPeloNome(Copia.getProjetoSelecionado().getNome());
-            Paragraph p3 = new Paragraph("1. Projeto: " + projeto.getNome(), fonte3);
-            document.add(p3);
-            p3.setAlignment(Element.ALIGN_LEFT);//alinhamento
-            p3.setSpacingBefore(20); //espaçamento antes do paragrafo
-            
-            //Agenda item 2
-            Paragraph p4 = new Paragraph("2. Objetivos de Medição", fonte3);
-            document.add(p4);
+            Paragraph p4 = new Paragraph("1. Projeto: " + projeto.getNome(), fonte3);
             p4.setAlignment(Element.ALIGN_LEFT);
-            
-            //Agenda item 3
-            Paragraph p5 = new Paragraph("3. Resultados Gerados", fonte3);
-            document.add(p5);
-            p5.setAlignment(Element.ALIGN_LEFT);
-
-            //Agenda subitem 3
-            List<Resultados> listaResultados = ctrlResultados.getResultadosDoProjeto(Copia.getProjetoSelecionado().getId());
-            for (int i = 0; i < listaResultados.size(); i++) {
-                Paragraph p6 = new Paragraph(listaResultados.get(i).getTitulo(), fonte2);
-                document.add(p6);
-                p6.setAlignment(Element.ALIGN_CENTER);
-            }
-            
-            Paragraph p7 = new Paragraph("________________________________________________________", fonte3);
-            document.add(p7);
-            p7.setAlignment(Element.ALIGN_LEFT);
-            p7.setSpacingBefore(20);
-            
-            Paragraph p8 = new Paragraph("1. Projeto: " + projeto.getNome(), fonte3);
-            document.add(p8);
-            p8.setAlignment(Element.ALIGN_LEFT);
+            p4.setSpacingBefore(0);
+            document.add(p4);
             
             Paragraph p9 = new Paragraph("________________________________________________________", fonte3);
-            document.add(p9);
             p9.setAlignment(Element.ALIGN_LEFT);
+            document.add(p9);
             
             Paragraph p10 = new Paragraph("Status do Projeto: " + projeto.getStatus(), fonte5);
-            document.add(p10);
             p10.setAlignment(Element.ALIGN_LEFT);
+            document.add(p10);
             
             Paragraph p11 = new Paragraph("Descrição do Projeto: " + projeto.getDescricao(), fonte5);
-            document.add(p11);
             p11.setAlignment(Element.ALIGN_LEFT);
             p11.setSpacingAfter(20);
+            document.add(p11);
            
             Paragraph p12 = new Paragraph("2. Objetivos de Medição" ,fonte3);
-            document.add(p12);
             p12.setAlignment(Element.ALIGN_LEFT);
             p12.setSpacingAfter(20);
+            document.add(p12);
             
             PdfPTable t = new PdfPTable(4);
-            PdfPCell header = new PdfPCell(new Paragraph("Objetivo de Medição"));
-            PdfPCell header2 = new PdfPCell(new Paragraph("Necessidade de Informação"));
-            PdfPCell header3 = new PdfPCell(new Paragraph("Indicador"));
-            PdfPCell header4 = new PdfPCell(new Paragraph("Prioridade"));
+            PdfPCell header = new PdfPCell(new Paragraph("Objetivo de Medição", fonte4));
+            PdfPCell header2 = new PdfPCell(new Paragraph("Necessidade de Informação", fonte4));
+            PdfPCell header3 = new PdfPCell(new Paragraph("Indicador", fonte4));
+            PdfPCell header4 = new PdfPCell(new Paragraph("Prioridade", fonte4));
             t.addCell(header);
             t.addCell(header2);
             t.addCell(header3);
@@ -134,11 +111,36 @@ public class Relatorio {
             document.add(t);
             
             Paragraph p13 = new Paragraph("3. Resultados Gerados" ,fonte3);
-            document.add(p13);
             p13.setAlignment(Element.ALIGN_LEFT);
             p13.setSpacingBefore(20);
+            document.add(p13);
             
-            
+            List<Resultados> listaResultados = ctrlResultados.getResultadosDoProjeto(Copia.getProjetoSelecionado().getId());
+            for (int i = 0; i < listaResultados.size(); i++) {
+                Paragraph p14 = new Paragraph(listaResultados.get(i).getTitulo(), fonte5);
+                p14.setAlignment(Element.ALIGN_LEFT);
+                document.add(p14);
+                Paragraph p15 = new Paragraph("Dados Gerais:", fonte4);
+                p15.setAlignment(Element.ALIGN_LEFT);
+                document.add(p15);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String data = simpleDateFormat.format(listaResultados.get(i).getData());
+                Paragraph p16 = new Paragraph("Data: " + data, fonte5);
+                p16.setAlignment(Element.ALIGN_LEFT);
+                document.add(p16);
+                Paragraph p17 = new Paragraph("Gerado por: " + listaResultados.get(i).getNomeUsuario(), fonte5);
+                p17.setAlignment(Element.ALIGN_LEFT);
+                document.add(p17);
+                Paragraph p18 = new Paragraph("Interpretação: " + listaResultados.get(i).getInterpretacao(), fonte5);
+                p18.setAlignment(Element.ALIGN_LEFT);
+                document.add(p18);
+                Paragraph p19 = new Paragraph("Participantes da Interpretação: ", fonte5);
+                p19.setAlignment(Element.ALIGN_LEFT);
+                document.add(p19);
+                Paragraph p20 = new Paragraph("Tomada de Decisão: " + listaResultados.get(i).getTomadaDeDecisao(), fonte5);
+                p20.setAlignment(Element.ALIGN_LEFT);
+                document.add(p20);
+            }
          
             
         } catch (Exception error) {
