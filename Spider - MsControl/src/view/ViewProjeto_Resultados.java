@@ -336,13 +336,13 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         Projeto projeto = ctrlProjeto.buscaProjetoPeloNome(Copia.getProjetoSelecionado().getNome());
         jLabelProjeto.setText("PROJETO: " + projeto.getNome());
         switch (projeto.getStatus()) {
-            case 1:
+            case 0:
                 jLabelStatusProjeto.setText("Status do projeto: ATIVO");
                 break;
-            case 2:
+            case 1:
                 jLabelStatusProjeto.setText("Status do projeto: INATIVO");
                 break;
-            case 3:
+            case 2:
                 jLabelStatusProjeto.setText("Status do projeto: FINALIZADO");
                 break;
         }
