@@ -9,15 +9,19 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import javax.imageio.ImageIO;
 import model.Projeto;
 import model.Resultados;
+import model.Valorindicador;
 import util.Copia;
-import util.Texto;
+import util.PDF.GraficoPDF;
 
 /**
  *
@@ -28,6 +32,8 @@ public class Relatorio {
     private CtrlProjeto ctrlProjeto = new CtrlProjeto();
     private CtrlResultados ctrlResultados = new CtrlResultados();
     private Projeto projeto;
+    private CtrlValores ctrlValores = new CtrlValores();
+    private GraficoPDF graficoPDF = new GraficoPDF();
 
     public void gerarRelatorio() throws IOException {
         Document document = null;
@@ -150,7 +156,6 @@ public class Relatorio {
                     t.addCell(" ");
                     t.addCell(" ");
                     t.addCell(" ");
-
                 }
             }
 
@@ -215,18 +220,39 @@ public class Relatorio {
                     document.add(p24);
 
                     String periodo = simpleDateFormat.format(listaResultados.get(i).getAnaliseList().get(k).getAnaliseDE())
-                            +  " - " + simpleDateFormat.format(listaResultados.get(i).getAnaliseList().get(k).getAnaliseATE());
+                            + " - " + simpleDateFormat.format(listaResultados.get(i).getAnaliseList().get(k).getAnaliseATE());
                     Paragraph p25 = new Paragraph("Período Analisado: " + periodo, fonte5);
                     p25.setAlignment(Element.ALIGN_LEFT);
                     document.add(p25);
-                    
+
                     //Gráfico
-                    
+                    List<Valorindicador> listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas(
+                            listaResultados.get(i).getAnaliseList().get(k).getAnaliseDE(),
+                            listaResultados.get(i).getAnaliseList().get(k).getAnaliseATE(),
+                            listaResultados.get(i).getAnaliseList().get(k).getIndicadorid().getId(),
+                            projeto.getId());
+
+                    String tipoGrafico = listaResultados.get(i).getAnaliseList().get(k).getIndicadorid().getProcedimentodeanaliseList().get(0).getGraficoNome();
+                    final BufferedImage bufferImage;
+                    if ("Pizza".equals(tipoGrafico)) {
+                        bufferImage = GraficoPDF.geraGraficoPizzaEmPNG(listaValoresIndicador);
+                    } else if ("Barra".equals(tipoGrafico)) {
+                        bufferImage = GraficoPDF.geraGraficoBarraEmPNG(listaValoresIndicador);
+                    } else {
+                        bufferImage = GraficoPDF.geraGraficoLinhaEmPNG(listaValoresIndicador);
+                    }
+                    File file = new File("src\\image\\grafico.png");
+                    ImageIO.write(bufferImage, "png", file);
+
+                    Image imgGrafico = Image.getInstance("src\\image\\grafico.png");
+                    imgGrafico.setAlignment(Element.ALIGN_CENTER);
+                    document.add(imgGrafico);
+
                     Paragraph p26 = new Paragraph("Análise: " + listaResultados.get(i).getAnaliseList().get(k).getCriterioDeAnalise(), fonte5);
                     p26.setAlignment(Element.ALIGN_LEFT);
                     document.add(p26);
-                    
-                    Paragraph p27 = new Paragraph("Observação: "+listaResultados.get(i).getAnaliseList().get(k).getObservacao(), fonte5);
+
+                    Paragraph p27 = new Paragraph("Observação: " + listaResultados.get(i).getAnaliseList().get(k).getObservacao(), fonte5);
                     p27.setAlignment(Element.ALIGN_LEFT);
                     document.add(p27);
                 }
