@@ -1,9 +1,12 @@
 package view.artefatos;
 
 import controller.CtrlAnalise;
+import controller.CtrlRelatorios;
 import controller.CtrlValores;
 import controller.Relatorio;
+import facade.FacadeJpa;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,8 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.Analise;
+import model.Relatorios;
 import model.Valorindicador;
 import util.Copia;
+import util.Internal;
 import util.MyDefaultTableModel;
 import util.PDF.ConexaoPDF;
 import util.Texto;
@@ -23,41 +28,76 @@ import util.Texto;
  */
 public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
-    public String[] colunas = {"Data", "Autor"};
-    public DefaultTableModel defaultTableModel = new MyDefaultTableModel(colunas, 0, false);
-    public List<String> lista = new ArrayList<>();
-    private final CtrlAnalise ctrlAnalise = new CtrlAnalise();
-    private final CtrlValores ctrlValores = new CtrlValores();
-    private List<Analise> listaAnalises;
-    private List<Valorindicador> listaValoresIndicador;
-
+    private List<Relatorios> listRelatorios;
+    private CtrlRelatorios ctrlRelatorios = new CtrlRelatorios();
+    private MyDefaultTableModel tableModel;
+    private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
 
     public ViewProjeto_Relatorio() {
         initComponents();
+        Internal.retiraBotao(this);
     }
 
+    private void atualizaListaRelatorioGeralDoProjeto() {
+        int idDoProjeto = Copia.getProjetoSelecionado().getId();
+
+        listRelatorios = new ArrayList<>();
+        listRelatorios = ctrlRelatorios.getPlanosDoProjeto(idDoProjeto);
+    }
+    
+    public void preencherTabela(List<Relatorios> relatoriosProjeto) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
+        String[] colunas = {"Autor", "Data"};
+        tableModel = new MyDefaultTableModel(colunas, 0, false);
+        
+        for (int i = 0; i < relatoriosProjeto.size(); i++) {
+            String data = simpleDateFormat.format(relatoriosProjeto.get(i).getData());
+            String linhas[] = new String[]{
+                relatoriosProjeto.get(i).getAutor(),
+                data
+            };
+            tableModel.addRow(linhas);
+        }
+        jTableRelatoriosGerados.setModel(tableModel);
+    }
+    
+    public void recarregarTabela() {
+        listRelatorios = facadeJpa.getRelatoriosJpa().getListByProjeto(Copia.getProjetoSelecionado().getId());
+        preencherTabela(listRelatorios);
+    }
+    
     public void showInformaçõesPlanoMedicao() {
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
         jTextFieldData.setText(Texto.formataData(new Date()));
-    }
-
-    private void gerarLinhaNaTabela() {
-        String linha[] = {
-            jTextFieldData.getText(),
-            jTextFieldAutor.getText()
-        };
-        defaultTableModel.addRow(linha);
-        jTableRelatoriosGerados.setModel(defaultTableModel);
-    }
-
-    public void buscaAnaliseDoProjeto(){
-        listaAnalises = new ArrayList<>();
-        listaAnalises = ctrlAnalise.buscarAnalisesDoProjeto(Copia.getProjetoSelecionado().getId());
-        
+        atualizaListaRelatorioGeralDoProjeto();
+        recarregarTabela();
+        preencherCampos();
     }
     
-    public void buscarValoresDoindicador(Date dataDe, Date dataAte, int idIndicador){
-        listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas(dataDe, dataAte, idIndicador, Copia.getProjetoSelecionado().getId());
+     private void preencherCampos(){
+        jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
+        jTextFieldData.setText(Texto.formataData(new Date()));
+     }
+     
+     private void cadastraRelatorio() {
+
+        boolean passou = false;  
+        Relatorios relatorioAux = new Relatorios();
+        
+            relatorioAux.setProjetoid(Copia.getProjetoSelecionado());
+            relatorioAux.setAutor(Copia.getUsuarioLogado().getNome());
+            relatorioAux.setData(new Date());
+            relatorioAux.setTipoRelatorio("Relatório de Medição");
+            relatorioAux.setObservacao(jTextAreaObservacao.getText()); 
+
+            passou = ctrlRelatorios.cadastrarRelatorio(relatorioAux);
+
+        if (passou == true) {
+            System.out.println("Cadastrado com sucesso.");
+        } else {
+            System.out.println("Erro ao cadastrar");
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -73,7 +113,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         jTextFieldAutor = new javax.swing.JTextField();
         jTextFieldData = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaObservacao = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
 
         setTitle("Relatório");
@@ -110,9 +150,9 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         jTextFieldData.setEditable(false);
         jTextFieldData.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        jTextAreaObservacao.setColumns(20);
+        jTextAreaObservacao.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaObservacao);
 
         jLabel3.setText("Observação:");
 
@@ -185,7 +225,8 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
-        gerarLinhaNaTabela();
+        cadastraRelatorio();
+        
         Relatorio relatorio = new Relatorio();
         try {
             relatorio.gerarRelatorio();
@@ -204,7 +245,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableRelatoriosGerados;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextAreaObservacao;
     private javax.swing.JTextField jTextFieldAutor;
     private javax.swing.JTextField jTextFieldData;
     // End of variables declaration//GEN-END:variables

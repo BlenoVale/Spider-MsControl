@@ -12,9 +12,9 @@ public class CtrlRelatorios {
     
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     
-    public List<Relatorios> getRelatoriosDoProjeto(int idDoProjeto) {
+    public List<Relatorios> getPlanosDoProjeto(int idDoProjeto) {
         try {
-            return facadeJpa.getRelatoriosJpa().findListaRelatoriosByProjeto(idDoProjeto);
+            return facadeJpa.getRelatoriosJpa().findListaPlanosByProjeto(idDoProjeto);
         } catch (Exception error) {
             throw error;
         }

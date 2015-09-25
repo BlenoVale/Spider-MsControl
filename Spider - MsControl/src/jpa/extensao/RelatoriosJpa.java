@@ -29,7 +29,7 @@ public class RelatoriosJpa extends RelatoriosJpaController {
         }
     }
     
-    public List<Relatorios> findListaRelatoriosByProjeto(int idProjeto) {
+    public List<Relatorios> findListaPlanosByProjeto(int idProjeto) {
         try {
             List<Relatorios> lista = null;
             EntityManager emf = super.getEntityManager();
