@@ -37,13 +37,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         jTableObjetivo.setModel(tableModel);
     }
 
-    private void atualiza(){
-        ObserveProjeto obs = new ObserveProjeto(Copia.getProjetoSelecionado().getId());
-        listObjetivodemedicacaos  = new ArrayList<>();
-        listObjetivodemedicacaos = obs.getListaMedição();
-        //preencherTabela(listObjetivodemedicacaos);
+    public void atualiza(List<Objetivodemedicao> listObjetivodemedicacaos) {
+        iniciarTabela();
+        preencherTabela(listObjetivodemedicacaos);
     }
-    
+
     private void preencherTabela(List<Objetivodemedicao> listObjetivodemedicacaos) {
 
         for (int i = 0; i < listObjetivodemedicacaos.size(); i++) {
@@ -94,7 +92,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 //        checkLinhaSelecionada();
 //        Objetivodemedicao objetivodemedicacao = buscarObjetivoSelcionado(jTableObjetivo);
 //        ctrlObjetivos.excluirObjetivoMedicao(objetivodemedicacao);
-        
     }
 
     public void checkLinhaSelecionada() {
@@ -236,8 +233,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         editarObjetivo();
-        atualiza();
-        preencherTabelaRecarregar();
+       new ObserveProjeto(Copia.getProjetoSelecionado().getId());
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed

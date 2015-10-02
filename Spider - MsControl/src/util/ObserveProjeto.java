@@ -37,6 +37,7 @@ public class ObserveProjeto {
             public void run() {
                 while (true) {
                     listaMedição = new ObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(idProjeto);
+                    Copia.getViewPrincipal().viewProjeto_ObjetivosDeMedicao.atualiza(listaMedição);
 
                     try {
                         thread.stop();

@@ -28,6 +28,7 @@ import model.Projeto;
 import model.Usuario;
 import controller.ArvoreDinamica;
 import util.Copia;
+import util.ObserveProjeto;
 import util.Observer;
 import view.artefatos.ViewProjeto_PlanoDeMedicao;
 import view.artefatos.ViewProjeto_Relatorio;
@@ -58,7 +59,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     // Árvore
     // Objetivos
-    private final ViewProjeto_ObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosDeMedicao();
+    public final ViewProjeto_ObjetivosDeMedicao viewProjeto_ObjetivosDeMedicao = new ViewProjeto_ObjetivosDeMedicao();
     private final ViewProjeto_ObjetivosQuestoes viewProjeto_ObjetivosQuestoes = new ViewProjeto_ObjetivosQuestoes();
     // Indicadores
     private final ViewProjeto_Indicadores viewProjeto_Indicadores = new ViewProjeto_Indicadores();
