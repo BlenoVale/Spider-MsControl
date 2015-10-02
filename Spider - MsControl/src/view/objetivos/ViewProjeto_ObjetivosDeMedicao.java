@@ -233,7 +233,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         editarObjetivo();
-       new ObserveProjeto(Copia.getProjetoSelecionado().getId());
+        preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonNovoObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoObjetivoActionPerformed
