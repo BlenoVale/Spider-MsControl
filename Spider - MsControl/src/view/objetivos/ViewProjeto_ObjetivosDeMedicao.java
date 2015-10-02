@@ -6,6 +6,7 @@ import util.MyDefaultTableModel;
 
 import util.Internal;
 import facade.FacadeJpa;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Objetivodemedicao;
@@ -61,6 +62,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     public void preencherTabelaRecarregar() {
         iniciarTabela();
         int idProjeto = Copia.getProjetoSelecionado().getId();
+        listObjetivodemedicacaos = new ArrayList<>();
         listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(idProjeto);
         preencherTabela(listObjetivodemedicacaos);
     }
