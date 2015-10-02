@@ -22,12 +22,11 @@ import util.Copia;
  * @author Géssica
  */
 public class RelatorioProcAnalise {
-    
+
     private CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
     private CtrlIndicador ctrlIndicador = new CtrlIndicador();
-    private List<Procedimentodeanalise> lista_ProcedimentoAnalise;
     private FacadeJpa jpa = FacadeJpa.getInstance();
-    
+
     public void gerarRelatorio() throws IOException {
         Document document = null;
         OutputStream outputStream = null;
@@ -51,18 +50,18 @@ public class RelatorioProcAnalise {
 
             //abre o documento
             document.open();
-            
+
             //Título
             Paragraph p1 = new Paragraph("Spider Ms-Control", fonte1);
             p1.setAlignment(Element.ALIGN_CENTER);
             document.add(p1);
-            
+
             //Subtitulo
             Paragraph p2 = new Paragraph("Plano de Análise", fonte2);
             p2.setAlignment(Element.ALIGN_CENTER);
-            p2.setSpacingAfter(20); 
-            document.add(p2); 
-            
+            p2.setSpacingAfter(20);
+            document.add(p2);
+
             List<Indicador> listaIndicador = ctrlIndicador.getIndicadoresDoProjeto(Copia.getProjetoSelecionado().getId());
             for (int i = 0; i < listaIndicador.size(); i++) {
                 Paragraph p3 = new Paragraph("Nome: " + listaIndicador.get(i).getNome(), fonte4);
@@ -74,27 +73,25 @@ public class RelatorioProcAnalise {
                 Paragraph p5 = new Paragraph("Descrição: " + listaIndicador.get(i).getDescricao(), fonte4);
                 document.add(p5);
                 p5.setAlignment(Element.ALIGN_LEFT);
-                
-                for (int j = 0; j < lista_ProcedimentoAnalise.size(); j++) {
-                    Paragraph p6 = new Paragraph("Responsável pela Análise: " + lista_ProcedimentoAnalise.get(i).getResponsavel(), fonte4);
-                    document.add(p6);
-                    p6.setAlignment(Element.ALIGN_LEFT);
-                    Paragraph p7 = new Paragraph("Composição: " + lista_ProcedimentoAnalise.get(i).getComposicao(), fonte4);
-                    document.add(p7);
-                    p7.setAlignment(Element.ALIGN_LEFT);
-                    Paragraph p8 = new Paragraph("Periodicidade: " + lista_ProcedimentoAnalise.get(i).getPeriodicidade(), fonte4);
-                    document.add(p8);
-                    p8.setAlignment(Element.ALIGN_LEFT);
-                    Paragraph p9 = new Paragraph("Frequência: " + lista_ProcedimentoAnalise.get(i).getFrequencia(), fonte4);
-                    document.add(p9);
-                    p9.setAlignment(Element.ALIGN_LEFT);
-                    Paragraph p10 = new Paragraph("Tipo de Gráfico: " + lista_ProcedimentoAnalise.get(i).getGraficoNome(), fonte4);
-                    document.add(p10);
-                    p10.setAlignment(Element.ALIGN_LEFT);
-                }
+
+                Paragraph p6 = new Paragraph("Responsável pela Análise: " + listaIndicador.get(i).getProcedimentodeanaliseList().get(0).getResponsavel(), fonte4);
+                document.add(p6);
+                p6.setAlignment(Element.ALIGN_LEFT);
+                Paragraph p7 = new Paragraph("Composição: " + listaIndicador.get(i).getProcedimentodeanaliseList().get(0).getComposicao(), fonte4);
+                document.add(p7);
+                p7.setAlignment(Element.ALIGN_LEFT);
+                Paragraph p8 = new Paragraph("Periodicidade: " + listaIndicador.get(i).getProcedimentodeanaliseList().get(0).getPeriodicidade(), fonte4);
+                document.add(p8);
+                p8.setAlignment(Element.ALIGN_LEFT);
+                Paragraph p9 = new Paragraph("Frequência: " + listaIndicador.get(i).getProcedimentodeanaliseList().get(0).getFrequencia(), fonte4);
+                document.add(p9);
+                p9.setAlignment(Element.ALIGN_LEFT);
+                Paragraph p10 = new Paragraph("Tipo de Gráfico: " + listaIndicador.get(i).getProcedimentodeanaliseList().get(0).getGraficoNome(), fonte4);
+                document.add(p10);
+                p10.setAlignment(Element.ALIGN_LEFT);
             }
-            
-             } catch (Exception error) {
+
+        } catch (Exception error) {
             error.printStackTrace();
         } finally {
             if (document != null) {
@@ -109,4 +106,3 @@ public class RelatorioProcAnalise {
         }
     }
 }
-        

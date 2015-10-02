@@ -68,6 +68,9 @@ public class RelatorioProcColeta {
                 Paragraph p5 = new Paragraph("Descrição: " + listaMedida.get(i).getDefinicao(), fonte4);
                 document.add(p5);
                 p5.setAlignment(Element.ALIGN_LEFT);
+                
+                Paragraph p6 = new Paragraph("Responsável pela Coleta: " + listaMedida.get(i).getProcedimentodecoletaList().get(0).getResponsavelPelaColeta(), fonte4);
+                document.add(p6);
             }
             
             } catch (Exception error) {

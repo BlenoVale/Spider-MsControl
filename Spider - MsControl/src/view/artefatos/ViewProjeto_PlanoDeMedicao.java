@@ -16,6 +16,7 @@ import util.Internal;
 import util.MyDefaultTableModel;
 import util.PDF.ConexaoPDF;
 import util.PDF.RelatorioProcAnalise;
+import util.PDF.RelatorioProcColeta;
 import util.Texto;
 
 /**
@@ -308,12 +309,12 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
-        if (!validaCampos()) {
-            return;
-          }
-     
-        cadastraRelatorio();
-        tipoRelatorio();
+//        if (!validaCampos()) {
+//            return;
+//          }
+//     
+//        cadastraRelatorio();
+//        tipoRelatorio();
         
 //        RelatorioProcAnalise relatorioProcAnalise = new RelatorioProcAnalise();
 //        try {
@@ -321,7 +322,14 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
 //        } catch (IOException ex) {
 //            Logger.getLogger(ViewProjeto_PlanoDeMedicao.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-//        
+        
+         RelatorioProcColeta relatorioProcColeta = new RelatorioProcColeta();
+        try {
+            relatorioProcColeta.gerarRelatorio();
+        } catch (IOException ex) {
+            Logger.getLogger(ViewProjeto_PlanoDeMedicao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         showInformaçõesPlanoMedicao();
         
         jTextAreaObservacao.setText("");
