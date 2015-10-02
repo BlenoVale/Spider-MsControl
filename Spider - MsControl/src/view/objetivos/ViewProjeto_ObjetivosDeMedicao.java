@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import model.Objetivodemedicao;
 import util.Copia;
+import util.ObserveProjeto;
 
 /**
  *
@@ -36,6 +37,13 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         jTableObjetivo.setModel(tableModel);
     }
 
+    private void atualiza(){
+        ObserveProjeto obs = new ObserveProjeto(Copia.getProjetoSelecionado().getId());
+        listObjetivodemedicacaos  = new ArrayList<>();
+        listObjetivodemedicacaos = obs.getListaMedição();
+        //preencherTabela(listObjetivodemedicacaos);
+    }
+    
     private void preencherTabela(List<Objetivodemedicao> listObjetivodemedicacaos) {
 
         for (int i = 0; i < listObjetivodemedicacaos.size(); i++) {
@@ -62,7 +70,6 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     public void preencherTabelaRecarregar() {
         iniciarTabela();
         int idProjeto = Copia.getProjetoSelecionado().getId();
-        listObjetivodemedicacaos = new ArrayList<>();
         listObjetivodemedicacaos = jpa.getObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(idProjeto);
         preencherTabela(listObjetivodemedicacaos);
     }
@@ -229,6 +236,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         editarObjetivo();
+        atualiza();
         preencherTabelaRecarregar();
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
