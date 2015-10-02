@@ -248,6 +248,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     private void jTextFieldBuscarObjetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBuscarObjetivoActionPerformed
         preencherTabelaObjetivoDigitado();
+        new ObserveProjeto(Copia.getProjetoSelecionado().getId());
     }//GEN-LAST:event_jTextFieldBuscarObjetivoActionPerformed
 
     private void jButtonRecarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecarregarActionPerformed
