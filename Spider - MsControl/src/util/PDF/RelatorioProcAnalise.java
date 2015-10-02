@@ -3,6 +3,7 @@ package util.PDF;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -51,16 +52,26 @@ public class RelatorioProcAnalise {
             //abre o documento
             document.open();
 
+            //Setar imagem da logo
+            Image img = Image.getInstance("src\\image\\spider.png");
+            img.setAlignment(Element.ALIGN_CENTER);
+            //img.scaleToFit(300, 300);
+            document.add(img);
+
             //Título
-            Paragraph p1 = new Paragraph("Spider Ms-Control", fonte1);
+            Paragraph p1 = new Paragraph("SPIDER MS-CONTROL", fonte1);
             p1.setAlignment(Element.ALIGN_CENTER);
             document.add(p1);
 
             //Subtitulo
-            Paragraph p2 = new Paragraph("Plano de Análise", fonte2);
+            Paragraph p2 = new Paragraph("RELATÓRIO DE MEDIÇÃO", fonte2);
             p2.setAlignment(Element.ALIGN_CENTER);
             p2.setSpacingAfter(20);
             document.add(p2);
+            
+            //espaço de uma linha
+            Paragraph p30 = new Paragraph("");
+            document.add(p30);
 
             List<Indicador> listaIndicador = ctrlIndicador.getIndicadoresDoProjeto(Copia.getProjetoSelecionado().getId());
             for (int i = 0; i < listaIndicador.size(); i++) {

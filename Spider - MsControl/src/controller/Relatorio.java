@@ -170,9 +170,6 @@ public class Relatorio {
                 
                 document.newPage();
                 
-                Paragraph p49 = new Paragraph(" ");
-                document.add(p49);
-                
                 Paragraph p14 = new Paragraph("– " + listaResultados.get(i).getTitulo(), fonte5);
                 p14.setSpacingAfter(10);
                 p14.setIndentationLeft(15);
