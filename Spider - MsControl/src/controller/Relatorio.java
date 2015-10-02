@@ -166,7 +166,12 @@ public class Relatorio {
             document.add(p13);
 
             List<Resultados> listaResultados = ctrlResultados.getResultadosDoProjeto(Copia.getProjetoSelecionado().getId());
-            for (int i = 0; i < listaResultados.size(); i++) {      
+            for (int i = 0; i < listaResultados.size(); i++) {    
+                
+                document.newPage();
+                
+                Paragraph p49 = new Paragraph(" ");
+                document.add(p49);
                 
                 Paragraph p14 = new Paragraph("– " + listaResultados.get(i).getTitulo(), fonte5);
                 p14.setSpacingAfter(10);
