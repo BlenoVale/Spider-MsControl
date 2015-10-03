@@ -166,7 +166,7 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jComboBoxSelecaoDeProjeto" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="jComboBoxSelecaoDeProjeto" min="-2" pref="260" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>

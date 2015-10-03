@@ -92,7 +92,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         Copia.setViewPrincipal(this);
         jTree.setEnabled(false);
         funcoesADM();
-
+        
+        trocaTelas(viewInicial);
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
 
@@ -276,7 +277,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxSelecaoDeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxSelecaoDeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
