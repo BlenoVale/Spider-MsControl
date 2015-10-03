@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.imageio.ImageIO;
 import model.Projeto;
@@ -53,7 +54,7 @@ public class Relatorio {
             
 
             //cria a stream de saída
-            outputStream = new FileOutputStream("teste1.pdf");
+            outputStream = new FileOutputStream("RelatórioDeMedição_.pdf");
 
             //associa a stream de saída ao
             PdfWriter.getInstance(document, outputStream);
