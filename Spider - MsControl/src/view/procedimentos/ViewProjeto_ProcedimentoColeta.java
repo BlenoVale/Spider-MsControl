@@ -36,7 +36,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     public ViewProjeto_ProcedimentoColeta() {
         initComponents();
         iniciarTabela();
-        util.Internal.retiraBotao(this);
+        util.Internal.retiraBorda(this);
 
     }
 

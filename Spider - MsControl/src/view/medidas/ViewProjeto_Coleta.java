@@ -50,7 +50,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     public ViewProjeto_Coleta() {
         initComponents();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
 
         //temProcedimento(null);
     }

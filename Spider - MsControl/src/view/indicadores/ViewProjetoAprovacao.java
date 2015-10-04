@@ -23,7 +23,7 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
         iniciarTabela();
 
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     private void pesquisarIndicadorEPreencherTabela(String nome) {

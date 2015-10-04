@@ -1,8 +1,6 @@
 package view.artefatos;
 
-import controller.CtrlAnalise;
 import controller.CtrlRelatorios;
-import controller.CtrlValores;
 import controller.Relatorio;
 import facade.FacadeJpa;
 import java.io.IOException;
@@ -12,14 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
-import model.Analise;
 import model.Relatorios;
-import model.Valorindicador;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
-import util.PDF.ConexaoPDF;
 import util.Texto;
 
 /**
@@ -35,7 +29,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
     public ViewProjeto_Relatorio() {
         initComponents();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     private void atualizaListaRelatorioGeralDoProjeto() {
@@ -44,13 +38,13 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         listRelatorios = new ArrayList<>();
         listRelatorios = ctrlRelatorios.getPlanosDoProjeto(idDoProjeto);
     }
-    
+
     public void preencherTabela(List<Relatorios> relatoriosProjeto) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         String[] colunas = {"Autor", "Data"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
-        
+
         for (int i = 0; i < relatoriosProjeto.size(); i++) {
             String data = simpleDateFormat.format(relatoriosProjeto.get(i).getData());
             String linhas[] = new String[]{
@@ -61,12 +55,12 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         }
         jTableRelatoriosGerados.setModel(tableModel);
     }
-    
+
     public void recarregarTabela() {
         listRelatorios = facadeJpa.getRelatoriosJpa().getListByProjeto(Copia.getProjetoSelecionado().getId());
         preencherTabela(listRelatorios);
     }
-    
+
     public void showInformaçõesPlanoMedicao() {
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
         jTextFieldData.setText(Texto.formataData(new Date()));
@@ -74,24 +68,24 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         recarregarTabela();
         preencherCampos();
     }
-    
-     private void preencherCampos(){
+
+    private void preencherCampos() {
         jTextFieldAutor.setText(Copia.getUsuarioLogado().getNome());
         jTextFieldData.setText(Texto.formataData(new Date()));
-     }
-     
-     private void cadastraRelatorio() {
+    }
 
-        boolean passou = false;  
+    private void cadastraRelatorio() {
+
+        boolean passou = false;
         Relatorios relatorioAux = new Relatorios();
-        
-            relatorioAux.setProjetoid(Copia.getProjetoSelecionado());
-            relatorioAux.setAutor(Copia.getUsuarioLogado().getNome());
-            relatorioAux.setData(new Date());
-            relatorioAux.setTipoRelatorio("Relatório de Medição");
-            relatorioAux.setObservacao(jTextAreaObservacao.getText()); 
 
-            passou = ctrlRelatorios.cadastrarRelatorio(relatorioAux);
+        relatorioAux.setProjetoid(Copia.getProjetoSelecionado());
+        relatorioAux.setAutor(Copia.getUsuarioLogado().getNome());
+        relatorioAux.setData(new Date());
+        relatorioAux.setTipoRelatorio("Relatório de Medição");
+        relatorioAux.setObservacao(jTextAreaObservacao.getText());
+
+        passou = ctrlRelatorios.cadastrarRelatorio(relatorioAux);
 
         if (passou == true) {
             System.out.println("Cadastrado com sucesso.");
@@ -99,7 +93,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
             System.out.println("Erro ao cadastrar");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -226,7 +220,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
         cadastraRelatorio();
-        
+
         Relatorio relatorio = new Relatorio();
         try {
             relatorio.gerarRelatorio();

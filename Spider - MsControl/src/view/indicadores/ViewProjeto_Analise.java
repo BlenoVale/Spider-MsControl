@@ -48,7 +48,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         initComponents();
 
         jPanelGrafico.setVisible(false);
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     public void showAnalise() {

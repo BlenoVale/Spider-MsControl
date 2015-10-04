@@ -25,7 +25,7 @@ public class ViewProjeto_MedicaoDefinicao extends javax.swing.JInternalFrame {
     public ViewProjeto_MedicaoDefinicao() {
         initComponents();
         iniciarTabela();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     private void iniciarTabela() {

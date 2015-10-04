@@ -23,7 +23,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
         populaComboboxDePerfis();
         preencherListaDeFuncionalidades();
         initModels();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     private void populaComboboxDePerfis() {

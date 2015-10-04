@@ -23,7 +23,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
         iniciarTable();
         preencherTabelaNomeDigitado();
 
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     protected void iniciarTable() {

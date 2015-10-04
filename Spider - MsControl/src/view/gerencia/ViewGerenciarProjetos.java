@@ -28,7 +28,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
         atualizaTodasTabelas();
 
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     private void atualizaTabelaAtivos() {

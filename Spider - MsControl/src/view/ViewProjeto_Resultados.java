@@ -24,6 +24,7 @@ import util.CheckDefaultTableModel;
 import util.Constantes;
 import util.Copia;
 import util.Grafico;
+import util.Internal;
 import util.MyDefaultTableModel;
 import util.TableTextAreaRenderer;
 import util.Texto;
@@ -53,6 +54,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
     public ViewProjeto_Resultados() {
         initComponents();
         this.pack();
+        Internal.retiraBorda(this);
     }
 
     public void showResultados() {

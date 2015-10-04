@@ -16,4 +16,9 @@ public class Internal {
         north.validate();
         north.repaint();
     }
+    
+    public static void retiraBorda(JInternalFrame internal){
+        ((javax.swing.plaf.basic.BasicInternalFrameUI) internal.getUI()).setNorthPane(null);//retirar o painel superior  
+        internal.setBorder(null);//retirar bordas 
+    }
 }

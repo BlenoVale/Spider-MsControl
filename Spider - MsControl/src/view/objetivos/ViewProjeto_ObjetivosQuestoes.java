@@ -23,7 +23,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     public ViewProjeto_ObjetivosQuestoes() {
         initComponents();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     public void atualizaListaQuestoesDoProjeto() {
@@ -189,7 +189,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonNovoObjetivo))
                 .addContainerGap())

@@ -18,6 +18,7 @@ import model.Valorindicador;
 import model.Valormedida;
 import util.CheckDefaultTableModel;
 import util.Copia;
+import util.Internal;
 
 /**
  *
@@ -38,6 +39,8 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
     public ViewProjeto_ValorIndicador() {
         initComponents();
+        
+        Internal.retiraBorda(this);
     }
 
     public void showValorIndicador() {

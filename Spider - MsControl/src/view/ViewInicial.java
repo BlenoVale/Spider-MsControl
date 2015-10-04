@@ -19,7 +19,7 @@ public class ViewInicial extends javax.swing.JInternalFrame {
     public ViewInicial() {
         initComponents();
         
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
 
     /**

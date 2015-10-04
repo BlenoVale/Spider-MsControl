@@ -577,7 +577,6 @@ insert into funcionalidade values(1, 'Objetivos - Objetivo da Medição'),
       (12, 'Artefatos - Relatório'),
       (13, 'Resultados');
  
-# inserção das entidades medida defaults.
 insert into entidademedida  values (1, null, 'Organização'),
        (2, null, 'Projeto'),
        (3, null, 'Processo'),
@@ -586,8 +585,6 @@ insert into entidademedida  values (1, null, 'Organização'),
        (6, null, 'Recurso de hardware'),
        (7, null, 'Recurso de software'),
        (9, null, 'Artefato');
-
-# inserção dos meios de comunicação defaults.
 
 insert into  meioscomunicacao (nome) values('Reunião'),
       ('WhatsApp'),

@@ -79,7 +79,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewProjeto_Resultados viewProjeto_Resultados = new ViewProjeto_Resultados();
 
     private final ViewInicial viewInicial = new ViewInicial();
-            
+
     // Construtor usado para teste da ferramenta
     private ViewPrincipal() {
         initComponents();
@@ -92,10 +92,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         Copia.setViewPrincipal(this);
         jTree.setEnabled(false);
         funcoesADM();
-        
-        trocaTelas(viewInicial);
+
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
+        trocaTelas(viewInicial);
 
     }
 
@@ -524,7 +524,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -595,7 +595,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             viewProjeto_PlanoDeMedicao.setMaximum(true);
             viewProjeto_Relatorio.setMaximum(true);
             viewProjeto_ValorIndicador.setMaximum(true);
-            viewInicial.setMaximum(true); 
+            viewInicial.setMaximum(true);
 
         } catch (PropertyVetoException e) {
             System.err.println(" Exception maximizar internal\n " + e);
@@ -618,10 +618,15 @@ public class ViewPrincipal extends javax.swing.JFrame {
         viewProjeto_PlanoDeMedicao.setVisible(false);
         viewProjeto_Relatorio.setVisible(false);
         viewProjeto_ValorIndicador.setVisible(false);
-        viewInicial.setVisible(false); 
+        viewInicial.setVisible(false);
 
         if (tela != null) {
             tela.setVisible(true);
+            try {
+                tela.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                System.err.println(" Exception maximizar internal\n " + ex);
+            }
         }
     }
 

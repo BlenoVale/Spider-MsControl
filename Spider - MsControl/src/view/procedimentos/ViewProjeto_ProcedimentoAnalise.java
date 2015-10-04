@@ -29,7 +29,7 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
     public ViewProjeto_ProcedimentoAnalise() {
         initComponents();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
 
     }
 

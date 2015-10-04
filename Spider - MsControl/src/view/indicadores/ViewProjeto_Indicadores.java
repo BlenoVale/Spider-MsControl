@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Indicador;
 import util.Copia;
+import util.Internal;
 import util.MyDefaultTableModel;
 
 /**
@@ -22,6 +23,8 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
 
     public ViewProjeto_Indicadores() {
         initComponents();
+        
+        Internal.retiraBorda(this);
     }
 
     private void atualizaListaIndicadoresDoProjeto() {

@@ -37,7 +37,7 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
      */
     public ViewProjeto_PlanoDeMedicao() {
         initComponents();
-        Internal.retiraBotao(this);
+        Internal.retiraBorda(this);
     }
     
     private void atualizaListaRelatoriosDoProjeto() {
