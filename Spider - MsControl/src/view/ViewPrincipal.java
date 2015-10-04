@@ -81,7 +81,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final ViewInicial viewInicial = new ViewInicial();
 
     // Construtor usado para teste da ferramenta
-    private ViewPrincipal() {
+    public ViewPrincipal() {
         initComponents();
 
         usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);

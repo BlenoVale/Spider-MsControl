@@ -599,3 +599,8 @@ insert into  perfilinteressado (nome) values('Alta Administração'),
       ('Bibliotecário de Medição'),
       ('Análista de Medição'),
       ('Usuário de Medição');
+
+CREATE USER 'spider_msc'@'localhost' IDENTIFIED BY 'spider_msc';
+FLUSH PRIVILEGES;
+GRANT SELECT, EXECUTE, SHOW VIEW, ALTER, ALTER ROUTINE, CREATE, CREATE ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, DELETE, DROP, EVENT, INDEX, INSERT, REFERENCES, TRIGGER, UPDATE, LOCK TABLES  ON `spider\_rm`.* TO 'spider_rm'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

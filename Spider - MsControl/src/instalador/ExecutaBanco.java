@@ -3,10 +3,12 @@ package instalador;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,10 +17,6 @@ import java.sql.Statement;
 public class ExecutaBanco {
 
     private static final String drive = "com.mysql.jdbc.Driver";
-
-    public static void main(String[] args) {
-        criaBancoDeDados();
-    }
 
     static {
         try {
@@ -31,16 +29,32 @@ public class ExecutaBanco {
 
     }
 
-    private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String USER = "root";
-    private static final String PASSWORD = "spider";
-    private static final String INSTRUCTIONS = new String();
+    private String URL = "jdbc:mysql://localhost:3306/";
+    private String USER = "root";
+    private String PASSWORD = "spider";
 
-    public static Connection getConexao() throws SQLException {
+    public ExecutaBanco(String URL, String USER, String PASSAWORD) {
+        this.URL = URL;
+        this.USER = USER;
+        this.PASSWORD = PASSAWORD;
+    }
+
+    public Connection getConexao() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public static void criaBancoDeDados() {
+    public boolean checaConexao() {
+        try {
+            getConexao();
+            System.out.println(">> ja existe conexão");
+            return true;
+        } catch (Exception e) {
+            System.out.println(">> não existe conexão");
+            return false;
+        }
+    }
+
+    public void criaBancoDeDados() {
         String linha = new String();
         StringBuffer stringBuffer = new StringBuffer();
 
@@ -64,7 +78,8 @@ public class ExecutaBanco {
                     System.out.println(">>" + comando[i]);
                 }
             }
-        } catch (Exception error) {
+        } catch (IOException | SQLException error) {
+            //JOptionPane.showMessageDialog(null, "Por favor verifique se os campos preenchidos estão corretos.", "Erro de conexão", JOptionPane.ERROR_MESSAGE);
             System.out.println("error:" + error + "\n");
             error.printStackTrace();
         }
