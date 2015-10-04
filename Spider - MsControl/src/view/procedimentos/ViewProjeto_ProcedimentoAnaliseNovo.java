@@ -1794,7 +1794,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
             }
         });
 
-        jPanel11.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel11.setBackground(new java.awt.Color(140, 166, 217));
         jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButtonAdicao.setText("+");

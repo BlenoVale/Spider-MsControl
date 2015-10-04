@@ -312,7 +312,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
         setTitle("Análise do Indicador");
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(140, 166, 217));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setText("<html><b>Indicador:</b></html> ");
@@ -402,7 +402,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTableValorIndicador);
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel4.setBackground(new java.awt.Color(140, 166, 217));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

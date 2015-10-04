@@ -283,7 +283,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(140, 166, 217));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setText("<html><b>Indicador:<b></html>");
@@ -335,7 +335,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel4.setBackground(new java.awt.Color(140, 166, 217));
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

@@ -743,7 +743,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("<html>Novo<br>Resultado</html>", jPanelAnaliseRefer);
 
-        jPanel6.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel6.setBackground(new java.awt.Color(140, 166, 217));
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabelProjeto.setBackground(new java.awt.Color(204, 204, 204));
@@ -776,7 +776,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jTextAreaDescriçãoProjeto.setRows(2);
         jScrollPane12.setViewportView(jTextAreaDescriçãoProjeto);
 
-        jPanel9.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel9.setBackground(new java.awt.Color(140, 166, 217));
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel15.setBackground(new java.awt.Color(204, 204, 204));
@@ -824,7 +824,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         ));
         jScrollPane16.setViewportView(jTableMedida);
 
-        jPanel10.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel10.setBackground(new java.awt.Color(140, 166, 217));
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -984,7 +984,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("<html>Informações<br>da Análise</html>", jPanelInformações);
 
-        jPanel7.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel7.setBackground(new java.awt.Color(140, 166, 217));
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         dateField_De.addChangeListener(new javax.swing.event.ChangeListener() {
