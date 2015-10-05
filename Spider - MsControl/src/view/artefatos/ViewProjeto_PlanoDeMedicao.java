@@ -44,7 +44,7 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
 
         listRelatorios = new ArrayList<>();
-        listRelatorios = ctrlRelatorios.getPlanosDoProjeto(idDoProjeto);
+        listRelatorios = ctrlRelatorios.getRelatoriosDoProjeto(idDoProjeto);
     }
     
     public void preencherTabela(List<Relatorios> relatoriosProjeto) {

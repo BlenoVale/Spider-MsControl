@@ -1,5 +1,6 @@
 package util.PDF;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -38,7 +39,7 @@ public class RelatorioProcColeta {
             document = new Document(PageSize.A4, 72, 72, 72, 72);
 
             //cria a stream de saída
-            outputStream = new FileOutputStream("teste3.pdf");
+            outputStream = new FileOutputStream("PlanoDeColeta.pdf");
 
             //associa a stream de saída ao
             PdfWriter.getInstance(document, outputStream);
@@ -46,31 +47,60 @@ public class RelatorioProcColeta {
             //abre o documento
             document.open();
             
-            //Título
-            Paragraph p1 = new Paragraph("Spider Ms-Control", fonte1);
-            p1.setAlignment(Element.ALIGN_CENTER);
-            document.add(p1);
-            
             //Subtitulo
-            Paragraph p2 = new Paragraph("Plano de Coleta", fonte2);
-            p2.setAlignment(Element.ALIGN_CENTER);
-            p2.setSpacingAfter(20); 
-            document.add(p2);
+            Paragraph p1 = new Paragraph("PLANO DE COLETA", fonte2);
+            p1.setAlignment(Element.ALIGN_CENTER);
+            p1.setSpacingAfter(20); 
+            document.add(p1);
             
             List<Medida> listaMedida = ctrlMedida.getMedidaDoProjeto(Copia.getProjetoSelecionado().getId());
             for (int i = 0; i < listaMedida.size(); i++) {
-                Paragraph p3 = new Paragraph("Nome: " + listaMedida.get(i).getNome(), fonte4);
-                document.add(p3);
-                p3.setAlignment(Element.ALIGN_LEFT);
-                Paragraph p4 = new Paragraph("Mnemônico: " + listaMedida.get(i).getMnemonico(), fonte4);
-                document.add(p4);
-                p4.setAlignment(Element.ALIGN_LEFT);
-                Paragraph p5 = new Paragraph("Descrição: " + listaMedida.get(i).getDefinicao(), fonte4);
-                document.add(p5);
-                p5.setAlignment(Element.ALIGN_LEFT);
+                Paragraph p2 = new Paragraph((i+1) + ". Medida: " + listaMedida.get(i).getNome(), fonte4);
+                document.add(p2);
                 
-                Paragraph p6 = new Paragraph("Responsável pela Coleta: " + listaMedida.get(i).getProcedimentodecoletaList().get(0).getResponsavelPelaColeta(), fonte4);
-                document.add(p6);
+                Paragraph p3 = new Paragraph();
+                p3.add(new Chunk("Mnemônico: ", fonte4));
+                p3.add(new Chunk(listaMedida.get(i).getMnemonico(), fonte5));
+                p3.setIndentationLeft(15);
+                document.add(new Paragraph(p3));
+                
+                Paragraph p4 = new Paragraph();
+                p4.add(new Chunk("Descrição: ", fonte4));
+                p4.add(new Chunk(listaMedida.get(i).getDefinicao(), fonte5));
+                p4.setIndentationLeft(15);
+                document.add(new Paragraph(p4));
+                
+                Paragraph p5 = new Paragraph();
+                p5.add(new Chunk("Responsável pela Coleta: ", fonte4));
+                p5.add(new Chunk(listaMedida.get(i).getProcedimentodecoletaList().get(0).getResponsavelPelaColeta(), fonte5));
+                document.add(new Paragraph(p5));
+                
+                Paragraph p6 = new Paragraph();
+                p6.add(new Chunk("Tipo de Coleta: ", fonte4));
+                p6.add(new Chunk(listaMedida.get(i).getProcedimentodecoletaList().get(0).getTipoDeColeta(), fonte5));
+                document.add(new Paragraph(p6));
+                
+                Paragraph p7 = new Paragraph();
+                p7.add(new Chunk("Periodicidade: ", fonte4));
+                p7.add(new Chunk(listaMedida.get(i).getProcedimentodecoletaList().get(0).getPeriodicidade(), fonte5));
+                document.add(new Paragraph(p7));
+                
+                Paragraph p8 = new Paragraph();
+                p8.add(new Chunk("Frequência: ", fonte4));
+                p8.add(new Chunk(String.valueOf(listaMedida.get(i).getProcedimentodecoletaList().get(0).getFrequencia()), fonte5));
+                document.add(new Paragraph(p8));
+                
+                Paragraph p9 = new Paragraph();
+                p9.add(new Chunk("Mínimo Coletas (%): ", fonte4));
+                p9.add(new Chunk(String.valueOf(listaMedida.get(i).getProcedimentodecoletaList().get(0).getPorcentagem()), fonte5));
+                document.add(new Paragraph(p9));
+                
+                Paragraph p10 = new Paragraph();
+                p10.add(new Chunk("Cálculo: ", fonte4));
+                p10.add(new Chunk(listaMedida.get(i).getProcedimentodecoletaList().get(0).getCalculo(), fonte5));
+                document.add(new Paragraph(p10));
+                
+                
             }
             
             } catch (Exception error) {

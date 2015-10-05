@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import model.Indicador;
-import model.Procedimentodeanalise;
 import util.Copia;
 
 /**
@@ -44,7 +43,7 @@ public class RelatorioProcAnalise {
             document = new Document(PageSize.A4, 72, 72, 72, 72);
 
             //cria a stream de saída
-            outputStream = new FileOutputStream("teste2.pdf");
+            outputStream = new FileOutputStream("PlanoDeAnálise.pdf");
 
             //associa a stream de saída ao
             PdfWriter.getInstance(document, outputStream);
@@ -58,13 +57,8 @@ public class RelatorioProcAnalise {
             //img.scaleToFit(300, 300);
             document.add(img);
 
-            //Título
-            Paragraph p1 = new Paragraph("SPIDER MS-CONTROL", fonte1);
-            p1.setAlignment(Element.ALIGN_CENTER);
-            document.add(p1);
-
             //Subtitulo
-            Paragraph p2 = new Paragraph("RELATÓRIO DE MEDIÇÃO", fonte2);
+            Paragraph p2 = new Paragraph("PLANO DE ANÁLISE", fonte2);
             p2.setAlignment(Element.ALIGN_CENTER);
             p2.setSpacingAfter(20);
             document.add(p2);

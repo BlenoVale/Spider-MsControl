@@ -36,7 +36,7 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         int idDoProjeto = Copia.getProjetoSelecionado().getId();
 
         listRelatorios = new ArrayList<>();
-        listRelatorios = ctrlRelatorios.getPlanosDoProjeto(idDoProjeto);
+        listRelatorios = ctrlRelatorios.getRelatoriosDoProjeto(idDoProjeto);
     }
 
     public void preencherTabela(List<Relatorios> relatoriosProjeto) {
@@ -47,11 +47,14 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
         for (int i = 0; i < relatoriosProjeto.size(); i++) {
             String data = simpleDateFormat.format(relatoriosProjeto.get(i).getData());
-            String linhas[] = new String[]{
-                relatoriosProjeto.get(i).getAutor(),
-                data
-            };
-            tableModel.addRow(linhas);
+            String tipoRelatorio = relatoriosProjeto.get(i).getTipoRelatorio();
+            if ("Relatório de Medição".equals(tipoRelatorio)) {
+                String linhas[] = new String[]{
+                      relatoriosProjeto.get(i).getAutor(),
+                      data
+                };
+                tableModel.addRow(linhas);
+            }    
         }
         jTableRelatoriosGerados.setModel(tableModel);
     }
