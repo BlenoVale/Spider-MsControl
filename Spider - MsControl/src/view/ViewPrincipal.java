@@ -114,6 +114,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
+        trocaTelas(viewInicial);
 
     }
 
