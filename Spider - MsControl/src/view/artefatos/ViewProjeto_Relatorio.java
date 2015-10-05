@@ -96,6 +96,16 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
             System.out.println("Erro ao cadastrar");
         }
     }
+    
+    //Abrir o PDF na tela usando o Runtime.exec para chamar o executável do AcrobatReader
+    public final void openPDF() {
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler  " + "RelatórioDeMedição.pdf");
+        }catch (Exception e) {
+            System.out.println("Failed to open file ");
+        }
+
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -230,6 +240,11 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(ViewProjeto_Relatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        openPDF();
+        
+        jTextAreaObservacao.setText("");
+        
     }//GEN-LAST:event_jButtonGerarActionPerformed
 
 

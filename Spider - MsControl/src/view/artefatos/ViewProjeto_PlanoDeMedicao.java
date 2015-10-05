@@ -86,10 +86,23 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
             RelatorioProcAnalise relatorioProcAnalise = new RelatorioProcAnalise();
             RelatorioProcColeta relatorioProcColeta = new RelatorioProcColeta();
             
-            if (jCheckBoxProcColeta.isSelected())
+            if (jCheckBoxProcColeta.isSelected()){
                 relatorioProcColeta.gerarRelatorio();
-            if (jCheckBoxProcAnalise.isSelected())
+                try {
+                    ////Abrir o PDF na tela usando o Runtime.exec para chamar o executável do AcrobatReader
+                    Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler  " + "PlanoDeColeta.pdf");
+                }catch (Exception e) {
+                    System.out.println("Failed to open file ");
+                }
+            }    
+            if (jCheckBoxProcAnalise.isSelected()){
                 relatorioProcAnalise.gerarRelatorio();
+                try {
+                    Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler  " + "PlanoDeAnálise.pdf");
+                }catch (Exception e) {
+                    System.out.println("Failed to open file ");
+                }
+            }    
         }
     }
     
