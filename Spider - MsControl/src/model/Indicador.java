@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Indicador.findAll", query = "SELECT i FROM Indicador i"),
     @NamedQuery(name = "Indicador.findById", query = "SELECT i FROM Indicador i WHERE i.id = :id"),
-    @NamedQuery(name = "Indicador.findByNome", query = "SELECT i FROM Indicador i WHERE i.nome = :nome"),
     @NamedQuery(name = "Indicador.findByPontoDeVista", query = "SELECT i FROM Indicador i WHERE i.pontoDeVista = :pontoDeVista"),
     @NamedQuery(name = "Indicador.findByMnemonico", query = "SELECT i FROM Indicador i WHERE i.mnemonico = :mnemonico"),
     @NamedQuery(name = "Indicador.findByEntidadeDeMedida", query = "SELECT i FROM Indicador i WHERE i.entidadeDeMedida = :entidadeDeMedida"),
@@ -51,6 +50,7 @@ public class Indicador implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @Lob
     @Column(name = "nome")
     private String nome;
     @Basic(optional = false)

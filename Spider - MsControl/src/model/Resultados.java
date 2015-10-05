@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Resultados.findAll", query = "SELECT r FROM Resultados r"),
     @NamedQuery(name = "Resultados.findById", query = "SELECT r FROM Resultados r WHERE r.id = :id"),
     @NamedQuery(name = "Resultados.findByIdProjeto", query = "SELECT r FROM Resultados r WHERE r.idProjeto = :idProjeto"),
-    @NamedQuery(name = "Resultados.findByTitulo", query = "SELECT r FROM Resultados r WHERE r.titulo = :titulo"),
     @NamedQuery(name = "Resultados.findByData", query = "SELECT r FROM Resultados r WHERE r.data = :data"),
     @NamedQuery(name = "Resultados.findByNomeUsuario", query = "SELECT r FROM Resultados r WHERE r.nomeUsuario = :nomeUsuario")})
 public class Resultados implements Serializable {
@@ -51,6 +50,7 @@ public class Resultados implements Serializable {
     @Column(name = "idProjeto")
     private int idProjeto;
     @Basic(optional = false)
+    @Lob
     @Column(name = "titulo")
     private String titulo;
     @Basic(optional = false)

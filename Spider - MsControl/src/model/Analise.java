@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Analise.findAll", query = "SELECT a FROM Analise a"),
     @NamedQuery(name = "Analise.findById", query = "SELECT a FROM Analise a WHERE a.id = :id"),
-    @NamedQuery(name = "Analise.findByDataCria\u00e7\u00e3o", query = "SELECT a FROM Analise a WHERE a.dataCria\u00e7\u00e3o = :dataCria\u00e7\u00e3o"),
+    @NamedQuery(name = "Analise.findByDataCriacao", query = "SELECT a FROM Analise a WHERE a.dataCriacao = :dataCriacao"),
     @NamedQuery(name = "Analise.findByNomeUsuario", query = "SELECT a FROM Analise a WHERE a.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Analise.findByAnaliseDE", query = "SELECT a FROM Analise a WHERE a.analiseDE = :analiseDE"),
     @NamedQuery(name = "Analise.findByAnaliseATE", query = "SELECT a FROM Analise a WHERE a.analiseATE = :analiseATE")})
@@ -50,12 +50,12 @@ public class Analise implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Lob
-    @Column(name = "criterioDeAnalise")
-    private String criterioDeAnalise;
+    @Column(name = "analise")
+    private String analise;
     @Basic(optional = false)
-    @Column(name = "DataCria\u00e7\u00e3o")
+    @Column(name = "DataCriacao")
     @Temporal(TemporalType.DATE)
-    private Date dataCriação;
+    private Date dataCriacao;
     @Basic(optional = false)
     @Column(name = "nomeUsuario")
     private String nomeUsuario;
@@ -86,10 +86,10 @@ public class Analise implements Serializable {
         this.id = id;
     }
 
-    public Analise(Integer id, String criterioDeAnalise, Date dataCriação, String nomeUsuario, Date analiseDE, Date analiseATE) {
+    public Analise(Integer id, String analise, Date dataCriacao, String nomeUsuario, Date analiseDE, Date analiseATE) {
         this.id = id;
-        this.criterioDeAnalise = criterioDeAnalise;
-        this.dataCriação = dataCriação;
+        this.analise = analise;
+        this.dataCriacao = dataCriacao;
         this.nomeUsuario = nomeUsuario;
         this.analiseDE = analiseDE;
         this.analiseATE = analiseATE;
@@ -103,20 +103,20 @@ public class Analise implements Serializable {
         this.id = id;
     }
 
-    public String getCriterioDeAnalise() {
-        return criterioDeAnalise;
+    public String getAnalise() {
+        return analise;
     }
 
-    public void setCriterioDeAnalise(String criterioDeAnalise) {
-        this.criterioDeAnalise = criterioDeAnalise;
+    public void setAnalise(String analise) {
+        this.analise = analise;
     }
 
-    public Date getDataCriação() {
-        return dataCriação;
+    public Date getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setDataCriação(Date dataCriação) {
-        this.dataCriação = dataCriação;
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public String getNomeUsuario() {

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import model.Usuario;
 import util.Criptografia;
+import util.HibernateUtil;
 import view.ViewLogin;
 import view.ViewPrincipal;
 
@@ -65,6 +66,7 @@ public class Instalador extends javax.swing.JFrame {
     }
 
     private void executaCliente() {
+        new HibernateUtil(jTextFieldIP.getText(), jTextFieldPortaCliente.getText()).mudaURLdoBanco();
         new ViewLogin().setVisible(true);
         this.dispose();
 

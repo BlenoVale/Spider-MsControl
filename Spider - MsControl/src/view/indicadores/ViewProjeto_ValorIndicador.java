@@ -62,8 +62,8 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
         contadorMarcados = 0;
 
-        dateFieldDe.setValue(new Date());
-        dateFieldAte.setValue(new Date());
+        //dateFieldDe.setValue(new Date());
+        //dateFieldAte.setValue(new Date());
 
         jButtonRemover.setEnabled(false);
     }

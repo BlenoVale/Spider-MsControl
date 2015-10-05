@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Objetivodemedicao.findAll", query = "SELECT o FROM Objetivodemedicao o"),
     @NamedQuery(name = "Objetivodemedicao.findById", query = "SELECT o FROM Objetivodemedicao o WHERE o.id = :id"),
-    @NamedQuery(name = "Objetivodemedicao.findByNome", query = "SELECT o FROM Objetivodemedicao o WHERE o.nome = :nome"),
     @NamedQuery(name = "Objetivodemedicao.findByNivelObjetivo", query = "SELECT o FROM Objetivodemedicao o WHERE o.nivelObjetivo = :nivelObjetivo")})
 public class Objetivodemedicao implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -43,6 +42,7 @@ public class Objetivodemedicao implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Lob
     @Column(name = "nome")
     private String nome;
     @Column(name = "nivelObjetivo")

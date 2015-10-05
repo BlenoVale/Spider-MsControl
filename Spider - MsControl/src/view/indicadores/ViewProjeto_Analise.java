@@ -250,9 +250,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Campo Anáise é obrigatorio.");
         } else {
             Analise analise = new Analise();
-            analise.setCriterioDeAnalise(jTextAreaAnalise.getText());
+            analise.setAnalise(jTextAreaAnalise.getText());
             analise.setObservacao(jTextAreaObservacao.getText());
-            analise.setDataCriação(new Date());
+            analise.setDataCriacao(new Date());
             analise.setNomeUsuario(Copia.getUsuarioLogado().getNome());
 
             Calendar calendar = Calendar.getInstance();

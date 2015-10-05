@@ -81,7 +81,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         for (int i = 0; i < lista.size(); i++) {
-            String data = simpleDateFormat.format(lista.get(i).getDataCriação());
+            String data = simpleDateFormat.format(lista.get(i).getDataCriacao());
             Object[] linha = {
                 false,
                 lista.get(i).getIndicadorid().getNome(),
@@ -493,9 +493,9 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         String dataDE = simpleDateFormat.format(analiseSelecioanda.getAnaliseDE());
         String dataATE = simpleDateFormat.format(analiseSelecioanda.getAnaliseATE());
         jTextFieldPeriodoDaColeta.setText("Período Analisado: " + dataDE + " - " + dataATE);
-        jTextAreaAnalise.setText(analiseSelecioanda.getCriterioDeAnalise());
+        jTextAreaAnalise.setText(analiseSelecioanda.getAnalise());
         jTextAreaObservacao.setText(analiseSelecioanda.getObservacao());
-        jTextFieldAnalisadoPor.setText(analiseSelecioanda.getNomeUsuario() + ", Em: " + Texto.formataData(analiseSelecioanda.getDataCriação()));
+        jTextFieldAnalisadoPor.setText(analiseSelecioanda.getNomeUsuario() + ", Em: " + Texto.formataData(analiseSelecioanda.getDataCriacao()));
         jTextFieldFormula.setText(analiseSelecioanda.getIndicadorid().getProcedimentodeanaliseList().get(0).getFormula());
     }
 

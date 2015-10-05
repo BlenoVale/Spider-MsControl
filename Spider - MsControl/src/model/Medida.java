@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Medida.findAll", query = "SELECT m FROM Medida m"),
     @NamedQuery(name = "Medida.findById", query = "SELECT m FROM Medida m WHERE m.id = :id"),
     @NamedQuery(name = "Medida.findByProjetoId", query = "SELECT m FROM Medida m WHERE m.projetoId = :projetoId"),
-    @NamedQuery(name = "Medida.findByNome", query = "SELECT m FROM Medida m WHERE m.nome = :nome"),
     @NamedQuery(name = "Medida.findByPontoDeVista", query = "SELECT m FROM Medida m WHERE m.pontoDeVista = :pontoDeVista"),
     @NamedQuery(name = "Medida.findByMnemonico", query = "SELECT m FROM Medida m WHERE m.mnemonico = :mnemonico"),
     @NamedQuery(name = "Medida.findByEscala", query = "SELECT m FROM Medida m WHERE m.escala = :escala"),
@@ -55,6 +54,7 @@ public class Medida implements Serializable {
     @Column(name = "projeto_id")
     private int projetoId;
     @Basic(optional = false)
+    @Lob
     @Column(name = "nome")
     private String nome;
     @Basic(optional = false)

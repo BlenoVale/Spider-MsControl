@@ -234,7 +234,7 @@ public class Relatorio {
                     p22.setIndentationLeft(15);
                     document.add(new Paragraph(p22));
 
-                    String dataDecriacao = simpleDateFormat.format(listaResultados.get(i).getAnaliseList().get(k).getDataCriação());
+                    String dataDecriacao = simpleDateFormat.format(listaResultados.get(i).getAnaliseList().get(k).getDataCriacao());
                     Paragraph p23 = new Paragraph();
                     p23.add(new Chunk("Data da Análise: ", fonte4));
                     p23.add(new Chunk(dataDecriacao, fonte5));
@@ -293,7 +293,7 @@ public class Relatorio {
                     
                     Paragraph p26 = new Paragraph();
                     p26.add(new Chunk("Análise: ", fonte4));
-                    p26.add(new Chunk(listaResultados.get(i).getAnaliseList().get(k).getCriterioDeAnalise(), fonte5));
+                    p26.add(new Chunk(listaResultados.get(i).getAnaliseList().get(k).getAnalise(), fonte5));
                     p26.setIndentationLeft(15);
                     document.add(new Paragraph(p26));
 
