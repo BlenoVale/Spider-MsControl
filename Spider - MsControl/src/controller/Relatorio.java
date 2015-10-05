@@ -23,7 +23,6 @@ import model.Relatorios;
 import model.Resultados;
 import model.Valorindicador;
 import util.Copia;
-import util.PDF.GraficoPDF;
 
 /**
  *

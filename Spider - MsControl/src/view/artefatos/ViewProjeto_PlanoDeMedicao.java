@@ -14,9 +14,8 @@ import model.Relatorios;
 import util.Copia;
 import util.Internal;
 import util.MyDefaultTableModel;
-import util.PDF.ConexaoPDF;
-import util.PDF.RelatorioProcAnalise;
-import util.PDF.RelatorioProcColeta;
+import controller.RelatorioProcAnalise;
+import controller.RelatorioProcColeta;
 import util.Texto;
 
 /**
@@ -55,12 +54,15 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         
         for (int i = 0; i < relatoriosProjeto.size(); i++) {
             String data = simpleDateFormat.format(relatoriosProjeto.get(i).getData());
-            String linhas[] = new String[]{
-                relatoriosProjeto.get(i).getTipoRelatorio(),
-                relatoriosProjeto.get(i).getAutor(),
-                data
-            };
-            tableModel.addRow(linhas);
+            String tipoRelatorio = relatoriosProjeto.get(i).getTipoRelatorio();
+            if (!"Relatório de Medição".equals(tipoRelatorio)) {
+                String linhas[] = new String[]{
+                   relatoriosProjeto.get(i).getTipoRelatorio(),
+                   relatoriosProjeto.get(i).getAutor(),
+                   data
+                };
+                tableModel.addRow(linhas);
+            }
         }
         jTablePlanosGerados.setModel(tableModel);
     }
@@ -78,15 +80,16 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
         preencherCampos();
     }
     
-    private void tipoRelatorio() {
+    private void tipoRelatorio() throws IOException {
         
         if (jCheckBoxProcColeta.isSelected() || jCheckBoxProcAnalise.isSelected()) {
-            ConexaoPDF conexaoPDF = new ConexaoPDF();
+            RelatorioProcAnalise relatorioProcAnalise = new RelatorioProcAnalise();
+            RelatorioProcColeta relatorioProcColeta = new RelatorioProcColeta();
             
             if (jCheckBoxProcColeta.isSelected())
-                conexaoPDF.gerarPDF_ProcColeta();
+                relatorioProcColeta.gerarRelatorio();
             if (jCheckBoxProcAnalise.isSelected())
-                conexaoPDF.gerarPDF_ProcAnalise();
+                relatorioProcAnalise.gerarRelatorio();
         }
     }
     
@@ -309,23 +312,14 @@ public class ViewProjeto_PlanoDeMedicao extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarActionPerformed
-//        if (!validaCampos()) {
-//            return;
-//          }
-//     
-//        cadastraRelatorio();
-//        tipoRelatorio();
+        if (!validaCampos()) {
+            return;
+          }
+     
+        cadastraRelatorio();
         
-//        RelatorioProcAnalise relatorioProcAnalise = new RelatorioProcAnalise();
-//        try {
-//            relatorioProcAnalise.gerarRelatorio();
-//        } catch (IOException ex) {
-//            Logger.getLogger(ViewProjeto_PlanoDeMedicao.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
-         RelatorioProcColeta relatorioProcColeta = new RelatorioProcColeta();
         try {
-            relatorioProcColeta.gerarRelatorio();
+            tipoRelatorio();
         } catch (IOException ex) {
             Logger.getLogger(ViewProjeto_PlanoDeMedicao.class.getName()).log(Level.SEVERE, null, ex);
         }
