@@ -72,7 +72,7 @@ public class Instalador extends javax.swing.JFrame {
 
     private void cadastraADM() {
         Criptografia criptografia = new Criptografia();
-        String senha_Cript = criptografia.criptografaMensagem(new String(jPasswordFieldSenha.getPassword()));
+        String senha_Cript = criptografia.criptografaMensagem(new String(jPasswordFieldSenhaADM.getPassword()));
         ctrlUsuario.criarUsuario(
                 jTextFieldNomeADM.getText(),
                 jTextFieldLogin.getText(),
