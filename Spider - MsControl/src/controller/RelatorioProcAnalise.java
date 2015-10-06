@@ -14,8 +14,10 @@ import facade.FacadeJpa;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import model.Indicador;
+import model.Relatorios;
 import util.Copia;
 
 /**
@@ -26,6 +28,7 @@ public class RelatorioProcAnalise {
 
     private CtrlProcedimentoDeAnalise ctrlProcedimentoDeAnalise = new CtrlProcedimentoDeAnalise();
     private CtrlIndicador ctrlIndicador = new CtrlIndicador();
+    private List<Relatorios> listRelatorios;
     private FacadeJpa jpa = FacadeJpa.getInstance();
 
     public void gerarRelatorio() throws IOException {
@@ -183,6 +186,14 @@ public class RelatorioProcAnalise {
                 Paragraph p22 = new Paragraph(" ");
                 document.add(p22);
             }
+            
+            listRelatorios = new ArrayList<>();
+            listRelatorios = jpa.getRelatoriosJpa().getListByProjeto(Copia.getProjetoSelecionado().getId());
+            
+            Paragraph p23 = new Paragraph();
+            p23.add(new Chunk("Observação do Plano: ", fonte2));
+            p23.add(new Chunk(listRelatorios.get(listRelatorios.size() - 1).getObservacao(), fonte3));
+            document.add(new Paragraph(p23));
 
         } catch (Exception error) {
             error.printStackTrace();

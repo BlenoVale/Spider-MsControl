@@ -9,11 +9,14 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import controller.CtrlMedida;
+import facade.FacadeJpa;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import model.Medida;
+import model.Relatorios;
 import util.Copia;
 
 /**
@@ -23,6 +26,8 @@ import util.Copia;
 public class RelatorioProcColeta {
     
     private CtrlMedida ctrlMedida = new CtrlMedida();
+    private List<Relatorios> listRelatorios;
+    private FacadeJpa jpa = FacadeJpa.getInstance();
     
     public void gerarRelatorio() throws IOException {
         Document document = null;
@@ -141,6 +146,14 @@ public class RelatorioProcColeta {
                 Paragraph vazio1 = new Paragraph(" ");
                 document.add(vazio1);
             }
+            
+            listRelatorios = new ArrayList<>();
+            listRelatorios = jpa.getRelatoriosJpa().getListByProjeto(Copia.getProjetoSelecionado().getId());
+            
+            Paragraph p15 = new Paragraph();
+            p15.add(new Chunk("Observação do Plano: ", fonte2));
+            p15.add(new Chunk(listRelatorios.get(listRelatorios.size() - 1).getObservacao(), fonte3));
+            document.add(new Paragraph(p15));
             
             } catch (Exception error) {
             error.printStackTrace();

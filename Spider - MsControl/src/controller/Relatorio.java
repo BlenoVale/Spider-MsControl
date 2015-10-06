@@ -35,7 +35,6 @@ public class Relatorio {
     private CtrlProjeto ctrlProjeto = new CtrlProjeto();
     private CtrlResultados ctrlResultados = new CtrlResultados();
     private CtrlRelatorios ctrlRelatorios = new CtrlRelatorios();
-    private Relatorios relatorios;
     private List<Relatorios> listRelatorios;
     private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     private Projeto projeto;
