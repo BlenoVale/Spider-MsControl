@@ -1,14 +1,13 @@
 package util;
 
 import facade.FacadeJpa;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import jpa.extensao.AcessaJpa;
-import jpa.extensao.UsuarioJpa;
 import model.Acessa;
+import model.Objetivodemedicao;
 import model.Usuario;
 
 /**
@@ -21,10 +20,13 @@ public class Observer {
     private List<Acessa> acessoDoUsuario;
     private static Thread thread = null;
     private final FacadeJpa jpa = FacadeJpa.getInstance();
-
+    private List<Objetivodemedicao> listaObjMedicao;
+    private int idProjeto;
+    
     public Observer(Usuario usuario) {
         idUsuario = usuario.getId();
-        acessoDoUsuario = new AcessaJpa().findAcessaByIdUsuario(idUsuario);
+        acessoDoUsuario = new AcessaJpa(Conexao.URLdoBanco(Texto.lerTXT())).findAcessaByIdUsuario(idUsuario);
+        
 
         inicarThread();
         System.out.println("Observer iniciou");
@@ -44,14 +46,14 @@ public class Observer {
             @Override
             public void run() {
                 while (true) {
-                    List<Acessa> acessaList = new AcessaJpa().findAcessaByIdUsuario(idUsuario);
+                    List<Acessa> acessaList = new AcessaJpa(Conexao.URLdoBanco(Texto.lerTXT())).findAcessaByIdUsuario(idUsuario);
 
                     if (!acessaList.equals(acessoDoUsuario)) {
                         JOptionPane.showMessageDialog(null, "Houve uma alteração em sua conta.\nA programa irá reiniciar.");
                         Copia.getViewPrincipal().deslogar();
                         break;
                     }
-
+                    
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException ex) {
