@@ -316,7 +316,7 @@ public class Relatorio {
             
             Paragraph p50 = new Paragraph();
             p50.add(new Chunk("Observação do Relatório: ", fonte3));
-            p50.add(new Chunk(listRelatorios.get(0).getObservacao(), fonte4));
+            p50.add(new Chunk(listRelatorios.get(listRelatorios.size() - 1).getObservacao(), fonte4));
             document.add(new Paragraph(p50));
             
         } catch (Exception error) {
