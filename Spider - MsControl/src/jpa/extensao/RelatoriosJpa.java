@@ -2,18 +2,18 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.RelatoriosJpaController;
 import model.Relatorios;
-import util.Conexao;
 
 /**
  *
  * @author Gessica
  */
 public class RelatoriosJpa extends RelatoriosJpaController {
-    public RelatoriosJpa(){
-        super(Conexao.conectar());
+    public RelatoriosJpa(EntityManagerFactory emf){
+        super(emf);
     }
     
     public List<Relatorios> getListByProjeto(int idProjeto){

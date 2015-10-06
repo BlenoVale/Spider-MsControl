@@ -3,9 +3,8 @@ package instalador;
 import controller.CtrlUsuario;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
-import model.Usuario;
 import util.Criptografia;
-import util.HibernateUtil;
+import util.Texto;
 import view.ViewLogin;
 import view.ViewPrincipal;
 
@@ -34,39 +33,42 @@ public class Instalador extends javax.swing.JFrame {
 
     private void escolhadeRadionButton() {
         if (jRadioButtonServidor.isSelected()) {
-            jTextFieldIP.setEditable(false);
+            jTextFieldIPCliente.setEditable(false);
             jTextFieldPortaCliente.setEditable(false);
-            jTextFieldPorta.setEditable(true);
-            jTextFieldUsuario.setEditable(true);
-            jPasswordFieldSenha.setEditable(true);
+            jTextFieldPortaServidor.setEditable(true);
+            jTextFieldUsuarioServidor.setEditable(true);
+            jPasswordFieldSenhaServidor.setEditable(true);
         } else if (jRadioButtonCliente.isSelected()) {
-            jTextFieldIP.setEditable(true);
+            jTextFieldIPCliente.setEditable(true);
             jTextFieldPortaCliente.setEditable(true);
-            jTextFieldPorta.setEditable(false);
-            jTextFieldUsuario.setEditable(false);
-            jPasswordFieldSenha.setEditable(false);
+            jTextFieldPortaServidor.setEditable(false);
+            jTextFieldUsuarioServidor.setEditable(false);
+            jPasswordFieldSenhaServidor.setEditable(false);
         } else {
-            jTextFieldIP.setEditable(false);
+            jTextFieldIPCliente.setEditable(false);
             jTextFieldPortaCliente.setEditable(false);
-            jTextFieldPorta.setEditable(false);
-            jTextFieldUsuario.setEditable(false);
-            jPasswordFieldSenha.setEditable(false);
+            jTextFieldPortaServidor.setEditable(false);
+            jTextFieldUsuarioServidor.setEditable(false);
+            jPasswordFieldSenhaServidor.setEditable(false);
         }
     }
 
     private void executaServidor() {
-        String porta = jTextFieldPorta.getText();
-        String usuario = jTextFieldUsuario.getText();
-        String senha = new String(jPasswordFieldSenha.getPassword());
+        String porta = jTextFieldPortaServidor.getText();
+        String usuario = jTextFieldUsuarioServidor.getText();
+        String senha = new String(jPasswordFieldSenhaServidor.getPassword());
         ExecutaBanco executaBanco = new ExecutaBanco("jdbc:mysql://localhost:" + porta + "/", usuario, senha);
         executaBanco.criaBancoDeDados();
+        Texto.criaTXT("jdbc:mysql://localhost:" + porta + "/spidermscontrol");
         jPanelInfoBD.setVisible(false);
         jPanelCadastroADM.setVisible(true);
         this.pack();
     }
 
     private void executaCliente() {
-        new HibernateUtil(jTextFieldIP.getText(), jTextFieldPortaCliente.getText()).mudaURLdoBanco();
+        String porta = jTextFieldPortaCliente.getText();
+        String IP = jTextFieldIPCliente.getText();
+        Texto.criaTXT("jdbc:mysql://" + IP + ":" + porta + "/spidermscontrol");
         new ViewLogin().setVisible(true);
         this.dispose();
 
@@ -138,12 +140,12 @@ public class Instalador extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPasswordFieldSenha = new javax.swing.JPasswordField();
-        jTextFieldPorta = new javax.swing.JTextField();
-        jTextFieldUsuario = new javax.swing.JTextField();
+        jPasswordFieldSenhaServidor = new javax.swing.JPasswordField();
+        jTextFieldPortaServidor = new javax.swing.JTextField();
+        jTextFieldUsuarioServidor = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextFieldIP = new javax.swing.JTextField();
+        jTextFieldIPCliente = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTextFieldPortaCliente = new javax.swing.JTextField();
         jButtonExecutar = new javax.swing.JButton();
@@ -218,11 +220,11 @@ public class Instalador extends javax.swing.JFrame {
 
         jLabel6.setText("Senha:");
 
-        jPasswordFieldSenha.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jPasswordFieldSenhaServidor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jTextFieldPorta.setText("3306");
+        jTextFieldPortaServidor.setText("3306");
 
-        jTextFieldUsuario.setText("root");
+        jTextFieldUsuarioServidor.setText("root");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -234,15 +236,15 @@ public class Instalador extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPasswordFieldSenha))
+                        .addComponent(jPasswordFieldSenhaServidor))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldPorta, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                            .addComponent(jTextFieldUsuario))))
+                            .addComponent(jTextFieldPortaServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                            .addComponent(jTextFieldUsuarioServidor))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -251,15 +253,15 @@ public class Instalador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextFieldPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPortaServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUsuarioServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordFieldSenhaServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -283,7 +285,7 @@ public class Instalador extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextFieldPortaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldIPCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(132, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -292,7 +294,7 @@ public class Instalador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextFieldIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldIPCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -546,16 +548,16 @@ public class Instalador extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCadastroADM;
     private javax.swing.JPanel jPanelInfoBD;
     private javax.swing.JPasswordField jPasswordFieldConfirmarSenha;
-    private javax.swing.JPasswordField jPasswordFieldSenha;
     private javax.swing.JPasswordField jPasswordFieldSenhaADM;
+    private javax.swing.JPasswordField jPasswordFieldSenhaServidor;
     private javax.swing.JRadioButton jRadioButtonCliente;
     private javax.swing.JRadioButton jRadioButtonServidor;
     private javax.swing.JTextField jTextFieldEmail;
-    private javax.swing.JTextField jTextFieldIP;
+    private javax.swing.JTextField jTextFieldIPCliente;
     private javax.swing.JTextField jTextFieldLogin;
     private javax.swing.JTextField jTextFieldNomeADM;
-    private javax.swing.JTextField jTextFieldPorta;
     private javax.swing.JTextField jTextFieldPortaCliente;
-    private javax.swing.JTextField jTextFieldUsuario;
+    private javax.swing.JTextField jTextFieldPortaServidor;
+    private javax.swing.JTextField jTextFieldUsuarioServidor;
     // End of variables declaration//GEN-END:variables
 }

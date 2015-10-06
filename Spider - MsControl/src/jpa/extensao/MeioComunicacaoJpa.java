@@ -6,10 +6,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.MeioscomunicacaoJpaController;
 import model.Meioscomunicacao;
-import util.Conexao;
 
 /**
  *
@@ -17,8 +17,8 @@ import util.Conexao;
  */
 public class MeioComunicacaoJpa extends MeioscomunicacaoJpaController {
 
-    public MeioComunicacaoJpa() {
-        super(Conexao.conectar());
+    public MeioComunicacaoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Meioscomunicacao> findAll() {

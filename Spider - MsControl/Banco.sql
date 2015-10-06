@@ -137,8 +137,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Analise` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `Indicador_id` INT NOT NULL COMMENT '',
-  `criterioDeAnalise` TEXT NOT NULL COMMENT '',
-  `DataCriação` DATE NOT NULL COMMENT '',
+  `analise` TEXT NOT NULL COMMENT '',
+  `DataCriacao` DATE NOT NULL COMMENT '',
   `nomeUsuario` VARCHAR(45) NOT NULL COMMENT '',
   `observacao` TEXT NULL COMMENT '',
   `analiseDE` DATE NOT NULL COMMENT '',

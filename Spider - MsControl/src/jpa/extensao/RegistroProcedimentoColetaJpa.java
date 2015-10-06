@@ -7,10 +7,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.RegistroprojetoJpaController;
 import model.Registroprocedimentocoleta;
-import util.Conexao;
 
 /**
  *
@@ -18,8 +18,8 @@ import util.Conexao;
  */
 public class RegistroProcedimentoColetaJpa extends RegistroprojetoJpaController {
 
-    public RegistroProcedimentoColetaJpa() {
-        super(Conexao.conectar());
+    public RegistroProcedimentoColetaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Registroprocedimentocoleta> findByIdProcedimento(int idProcedimento, int tipo){

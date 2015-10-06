@@ -3,9 +3,9 @@ package jpa.extensao;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.AnaliseJpaController;
 import model.Analise;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class AnaliseJpa extends AnaliseJpaController {
 
-    public AnaliseJpa() {
-        super(Conexao.conectar());
+    public AnaliseJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public Analise findAnaliseByIDProjeto(int idProjeto) {

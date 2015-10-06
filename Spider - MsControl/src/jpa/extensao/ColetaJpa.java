@@ -2,11 +2,11 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.ColetaJpaController;
 import model.Coleta;
 import model.Medida;
-import util.Conexao;
 
 /**
  *
@@ -14,8 +14,8 @@ import util.Conexao;
  */
 public class ColetaJpa extends ColetaJpaController {
     
-    public ColetaJpa() {
-        super(Conexao.conectar());
+    public ColetaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
     
     public List<Coleta> findListaColetaByProjeto(int idDoProjeto) {

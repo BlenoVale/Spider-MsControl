@@ -3,11 +3,11 @@ package jpa.extensao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.IndicadorJpaController;
 import model.Indicador;
 import model.Registroindicador;
-import util.Conexao;
 
 /**
  *
@@ -15,8 +15,8 @@ import util.Conexao;
  */
 public class IndicadorJpa extends IndicadorJpaController {
 
-    public IndicadorJpa() {
-        super(Conexao.conectar());
+    public IndicadorJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public Indicador findBYNomeAndProjeto(String nome, int idProjeto) {

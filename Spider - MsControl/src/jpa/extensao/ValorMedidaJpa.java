@@ -3,9 +3,9 @@ package jpa.extensao;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.ValormedidaJpaController;
 import model.Valormedida;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class ValorMedidaJpa extends ValormedidaJpaController {
 
-    public ValorMedidaJpa() {
-        super(Conexao.conectar());
+    public ValorMedidaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Valormedida> findListValorMedidaBynameAndProjeto(String nome, int idProjeto) {

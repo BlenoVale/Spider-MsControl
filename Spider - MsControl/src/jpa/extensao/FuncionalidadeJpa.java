@@ -7,11 +7,10 @@
 package jpa.extensao;
 
 import jpa.FuncionalidadeJpaController;
-import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import model.Funcionalidade;
-import util.Conexao;
 
 /**
  *
@@ -19,8 +18,8 @@ import util.Conexao;
  */
 public class FuncionalidadeJpa extends FuncionalidadeJpaController{
     
-    public FuncionalidadeJpa (){
-        super(Conexao.conectar());
+    public FuncionalidadeJpa (EntityManagerFactory emf){
+        super(emf);
     }
     
     public Funcionalidade findByNome(String nomeFuncionalidade) {

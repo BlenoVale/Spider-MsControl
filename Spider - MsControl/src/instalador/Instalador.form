@@ -193,7 +193,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jPasswordFieldSenha" max="32767" attributes="0"/>
+                              <Component id="jPasswordFieldSenhaServidor" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -202,8 +202,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextFieldPorta" pref="348" max="32767" attributes="0"/>
-                                  <Component id="jTextFieldUsuario" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldPortaServidor" pref="348" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldUsuarioServidor" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -217,17 +217,17 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldPorta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldPortaServidor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldUsuarioServidor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPasswordFieldSenha" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPasswordFieldSenhaServidor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -250,19 +250,19 @@
                 <Property name="text" type="java.lang.String" value="Senha:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="jPasswordFieldSenha">
+            <Component class="javax.swing.JPasswordField" name="jPasswordFieldSenhaServidor">
               <Properties>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Cursor de Texto"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldPorta">
+            <Component class="javax.swing.JTextField" name="jTextFieldPortaServidor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="3306"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldUsuario">
+            <Component class="javax.swing.JTextField" name="jTextFieldUsuarioServidor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="root"/>
               </Properties>
@@ -294,7 +294,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jTextFieldPortaCliente" alignment="0" min="-2" pref="358" max="-2" attributes="0"/>
-                          <Component id="jTextFieldIP" alignment="0" min="-2" pref="356" max="-2" attributes="0"/>
+                          <Component id="jTextFieldIPCliente" alignment="0" min="-2" pref="356" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="132" max="32767" attributes="0"/>
                   </Group>
@@ -306,7 +306,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldIP" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldIPCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -324,7 +324,7 @@
                 <Property name="text" type="java.lang.String" value="IP:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextFieldIP">
+            <Component class="javax.swing.JTextField" name="jTextFieldIPCliente">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>

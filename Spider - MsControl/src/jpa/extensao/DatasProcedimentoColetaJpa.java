@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jpa.DatasprocedimentocoletaJpaController;
 import model.Datasprocedimentocoleta;
-import util.Conexao;
 
 /**
  *
@@ -14,8 +13,8 @@ import util.Conexao;
  */
 public class DatasProcedimentoColetaJpa extends DatasprocedimentocoletaJpaController {
 
-    public DatasProcedimentoColetaJpa() {
-        super(Conexao.conectar());
+    public DatasProcedimentoColetaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
     
     public List<Datasprocedimentocoleta> findDatasEmUso(int idProcedimento){

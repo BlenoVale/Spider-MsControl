@@ -7,12 +7,14 @@ import java.util.List;
 import jpa.extensao.UsuarioJpa;
 import javax.swing.JOptionPane;
 import model.Usuario;
+import util.Conexao;
 import util.Internal;
 import util.MyDefaultTableModel;
+import util.Texto;
 
 public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
-    private final UsuarioJpa usuarioJpa = new UsuarioJpa();
+    private final UsuarioJpa usuarioJpa = new UsuarioJpa(Conexao.URLdoBanco(Texto.lerTXT()));
     private MyDefaultTableModel tableModel;
     private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
     private final FacadeJpa jpa = FacadeJpa.getInstance();

@@ -2,10 +2,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.ProcedimentodeanaliseJpaController;
 import model.Procedimentodeanalise;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class ProcedimentoDeAnaliseJpa extends ProcedimentodeanaliseJpaController {
 
-    public ProcedimentoDeAnaliseJpa() {
-        super(Conexao.conectar());
+    public ProcedimentoDeAnaliseJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Procedimentodeanalise> findListaIndicadoresByProjeto(int idDoProjeto) {

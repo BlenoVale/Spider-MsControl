@@ -3,9 +3,9 @@ package jpa.extensao;
 import java.util.List;
 import jpa.UsuarioJpaController;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import model.Usuario;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class UsuarioJpa extends UsuarioJpaController {
 
-    public UsuarioJpa() {
-        super(Conexao.conectar());
+    public UsuarioJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public Usuario findByNome(String nomeUsuario) {

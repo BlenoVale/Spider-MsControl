@@ -38,8 +38,8 @@ import jpa.extensao.RelatoriosJpa;
 import jpa.extensao.ResultadosJpa;
 import jpa.extensao.ValorIndicadorJpa;
 import jpa.extensao.ValorMedidaJpa;
-import model.ParticipanteseInteressados;
 import util.Conexao;
+import util.Texto;
 
 /**
  * Classe criada para servir de interface com os controladores JPA A classe eh
@@ -91,45 +91,46 @@ public class FacadeJpa {
     private final RelatoriosJpaController relatoriosJpaController;
     private final ParticipanteseInteressadosJpaController participanteseInteressadosJpaController;
 
+    
     private FacadeJpa() {
         acessaJpa = new AcessaJpaController(Conexao.conectar());
-        analiseJpa = new AnaliseJpa();
-        coletaJpa = new ColetaJpa();
-        funcionalidadeJpa = new FuncionalidadeJpa();
-        medidaJpaController = new MedidaJpaController(Conexao.conectar());
-        medidaJpa = new MedidaJpa();
-        objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.conectar());
-        objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.conectar());
-        perfilJpa = new PerfilJpa();
-        procedimentodeanaliseJpa = new ProcedimentoDeAnaliseJpa();
-        ProcedimentodecoletaJpaController = new ProcedimentodecoletaJpaController(Conexao.conectar());
-        procedimentoColetaJpa = new ProcedimentoColetaJpa();
-        projetoJpa = new ProjetoJpa();
-        usuarioJpa = new UsuarioJpa();
-        objetivoDeMedicaoJpa = new ObjetivoDeMedicaoJpa();
-        objetivoDeQuestaoJpa = new ObjetivoDeQuestaoJpa();
-        registroMedidaJpa = new RegistroMedidaJpa();
-        registroObjetivoMedicaoJpa = new RegistroobjetivomedicaoJpa();
-        registroObjetivoQuestaoJpa = new RegistroObjetivoQuestaoJpa();
-        indicadorJpa = new IndicadorJpa();
-        registroindicadorJpa = new RegistroindicadorJpaController(Conexao.conectar());
-        registroprocedimentocoletaJpaController = new RegistroprocedimentocoletaJpaController(Conexao.conectar());
-        registroProcedimentoColeta = new RegistroProcedimentoColetaJpa();
-        entidadeMedidaJpa = new EntidadeMedidaJpa();
-        datasProcedimentoColetaJpa = new DatasProcedimentoColetaJpa();
-        resultadosJpa = new ResultadosJpa();
-        meioComunicacaoJpa = new MeioComunicacaoJpa();
-        perfilInteressadoJpa = new PerfilInteressadoJpa();
-        registroprocedimentoanaliseJpaController = new RegistroprocedimentoanaliseJpaController(Conexao.conectar());
-        registroProcedimentoAnalise = new RegistroProcedimentoAnalise();
-        registroDataComunicacaoJpa = new RegistroDataComunicacaoJpa();
-        meioComunicacaoProcedimentoAnaliseJpa = new MeioComunicacaoProcedimentoAnaliseJpa();
-        perfislInteressadoProcedimentoAnaliseJpa = new PerfislInteressadoProcedimentoAnaliseJpa();
-        valorMedidaJpa = new ValorMedidaJpa();
-        valorIndicadorJpa = new ValorIndicadorJpa();
-        relatoriosJpa = new RelatoriosJpa();
-        relatoriosJpaController = new RelatoriosJpaController(Conexao.conectar());
-        participanteseInteressadosJpaController = new ParticipanteseInteressadosJpaController(Conexao.conectar()); 
+        analiseJpa = new AnaliseJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        coletaJpa = new ColetaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        funcionalidadeJpa = new FuncionalidadeJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        medidaJpaController = new MedidaJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        medidaJpa = new MedidaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        objetivodemedicacao = new ObjetivodemedicaoJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        objetivodequestaoJpa = new ObjetivodequestaoJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        perfilJpa = new PerfilJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        procedimentodeanaliseJpa = new ProcedimentoDeAnaliseJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        ProcedimentodecoletaJpaController = new ProcedimentodecoletaJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        procedimentoColetaJpa = new ProcedimentoColetaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        projetoJpa = new ProjetoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        usuarioJpa = new UsuarioJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        objetivoDeMedicaoJpa = new ObjetivoDeMedicaoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        objetivoDeQuestaoJpa = new ObjetivoDeQuestaoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroMedidaJpa = new RegistroMedidaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroObjetivoMedicaoJpa = new RegistroobjetivomedicaoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroObjetivoQuestaoJpa = new RegistroObjetivoQuestaoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        indicadorJpa = new IndicadorJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroindicadorJpa = new RegistroindicadorJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroprocedimentocoletaJpaController = new RegistroprocedimentocoletaJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroProcedimentoColeta = new RegistroProcedimentoColetaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        entidadeMedidaJpa = new EntidadeMedidaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        datasProcedimentoColetaJpa = new DatasProcedimentoColetaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        resultadosJpa = new ResultadosJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        meioComunicacaoJpa = new MeioComunicacaoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        perfilInteressadoJpa = new PerfilInteressadoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroprocedimentoanaliseJpaController = new RegistroprocedimentoanaliseJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroProcedimentoAnalise = new RegistroProcedimentoAnalise(Conexao.URLdoBanco(Texto.lerTXT()));
+        registroDataComunicacaoJpa = new RegistroDataComunicacaoJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        meioComunicacaoProcedimentoAnaliseJpa = new MeioComunicacaoProcedimentoAnaliseJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        perfislInteressadoProcedimentoAnaliseJpa = new PerfislInteressadoProcedimentoAnaliseJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        valorMedidaJpa = new ValorMedidaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        valorIndicadorJpa = new ValorIndicadorJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        relatoriosJpa = new RelatoriosJpa(Conexao.URLdoBanco(Texto.lerTXT()));
+        relatoriosJpaController = new RelatoriosJpaController(Conexao.URLdoBanco(Texto.lerTXT()));
+        participanteseInteressadosJpaController = new ParticipanteseInteressadosJpaController(Conexao.URLdoBanco(Texto.lerTXT())); 
     }
 
     public static FacadeJpa getInstance() {

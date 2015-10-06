@@ -3,9 +3,9 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.RegistroobjetivoquestaoJpaController;
 import model.Registroobjetivoquestao;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class RegistroObjetivoQuestaoJpa extends RegistroobjetivoquestaoJpaController{
 
-    public RegistroObjetivoQuestaoJpa() {
-        super(Conexao.conectar());
+    public RegistroObjetivoQuestaoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
     
     

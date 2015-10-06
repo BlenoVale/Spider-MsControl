@@ -5,8 +5,8 @@
  */
 package jpa.extensao;
 
+import javax.persistence.EntityManagerFactory;
 import jpa.RegistrodatacomunicacaoJpaController;
-import util.Conexao;
 
 /**
  *
@@ -14,8 +14,8 @@ import util.Conexao;
  */
 public class RegistroDataComunicacaoJpa extends RegistrodatacomunicacaoJpaController {
 
-    public RegistroDataComunicacaoJpa() {
-        super(Conexao.conectar());
+    public RegistroDataComunicacaoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
 }

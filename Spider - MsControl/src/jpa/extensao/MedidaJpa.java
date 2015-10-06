@@ -7,6 +7,7 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import model.Medida;
 import model.Procedimentodecoleta;
@@ -19,8 +20,8 @@ import jpa.MedidaJpaController;
  */
 public class MedidaJpa extends MedidaJpaController {
 
-    public MedidaJpa() {
-        super(Conexao.conectar());
+    public MedidaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Medida> findByNome(String nomeMedicao, int idProjeto) {

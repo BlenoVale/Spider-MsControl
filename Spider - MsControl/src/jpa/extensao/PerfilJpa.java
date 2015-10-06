@@ -2,14 +2,13 @@ package jpa.extensao;
 
 import jpa.PerfilJpaController;
 import jpa.exceptions.NonexistentEntityException;
-import java.awt.JobAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import model.Perfil;
-import util.Conexao;
 
 /**
  *
@@ -17,8 +16,8 @@ import util.Conexao;
  */
 public class PerfilJpa extends PerfilJpaController {
 
-    public PerfilJpa() {
-        super(Conexao.conectar());
+    public PerfilJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public Perfil findByNome(String nomeProjeto) {

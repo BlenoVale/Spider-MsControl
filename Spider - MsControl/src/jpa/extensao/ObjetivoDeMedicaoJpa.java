@@ -2,11 +2,11 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.ObjetivodemedicaoJpaController;
 import model.Objetivodemedicao;
 
-import util.Conexao;
 
 /**
  *
@@ -14,8 +14,8 @@ import util.Conexao;
  */
 public class ObjetivoDeMedicaoJpa extends ObjetivodemedicaoJpaController {
 
-    public ObjetivoDeMedicaoJpa() {
-        super(Conexao.conectar());
+    public ObjetivoDeMedicaoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public Objetivodemedicao findByNomeAndIdProjeto(String nomeObjMedicao, int idProjeto) {

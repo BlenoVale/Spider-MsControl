@@ -6,9 +6,9 @@
 package jpa.extensao;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.RegistromedidaJpaController;
-import util.Conexao;
 import model.Registromedida;
 
 /**
@@ -17,8 +17,8 @@ import model.Registromedida;
  */
     public class RegistroMedidaJpa extends RegistromedidaJpaController {
     
-        public RegistroMedidaJpa(){
-            super(Conexao.conectar());
+        public RegistroMedidaJpa(EntityManagerFactory emf){
+            super(emf);
         }
     public List<Registromedida> findRegistroByIdMedida(int tipo, int idMedida){
         

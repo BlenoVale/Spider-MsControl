@@ -2,10 +2,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.RegistroobjetivomedicaoJpaController;
 import model.Registroobjetivomedicao;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class RegistroobjetivomedicaoJpa extends RegistroobjetivomedicaoJpaController {
 
-    public RegistroobjetivomedicaoJpa() {
-        super(Conexao.conectar());
+    public RegistroobjetivomedicaoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Registroobjetivomedicao> findRegistroMedicaoByTipo(int tipo, int projetoid, int idObjetoMedicao) {

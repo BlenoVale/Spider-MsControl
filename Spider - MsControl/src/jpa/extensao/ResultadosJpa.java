@@ -2,10 +2,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.ResultadosJpaController;
 import model.Resultados;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class ResultadosJpa extends ResultadosJpaController {
 
-    public ResultadosJpa() {
-        super(Conexao.conectar());
+    public ResultadosJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Resultados> findListaResultadosByProjeto(int idDoProjeto) {

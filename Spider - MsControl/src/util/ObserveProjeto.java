@@ -36,7 +36,7 @@ public class ObserveProjeto {
             @Override
             public void run() {
                 while (true) {
-                    listaMedição = new ObjetivoDeMedicaoJpa().findObjetivoMedicaoByIdProjeto(idProjeto);
+                    listaMedição = new ObjetivoDeMedicaoJpa(Conexao.URLdoBanco(Texto.lerTXT())).findObjetivoMedicaoByIdProjeto(idProjeto);
                     Copia.getViewPrincipal().viewProjeto_ObjetivosDeMedicao.atualiza(listaMedição);
 
                     try {

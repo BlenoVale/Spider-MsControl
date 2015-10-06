@@ -7,6 +7,7 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import util.Conexao;
 import jpa.ProcedimentodecoletaJpaController;
@@ -19,8 +20,8 @@ import model.Procedimentodecoleta;
  */
 public class ProcedimentoColetaJpa extends ProcedimentodecoletaJpaController{
     
-    public ProcedimentoColetaJpa(){
-        super(Conexao.conectar());
+    public ProcedimentoColetaJpa(EntityManagerFactory emf){
+        super(emf);
     }
     
     public List<Procedimentodecoleta> getListByProjeto(int idProjeto){

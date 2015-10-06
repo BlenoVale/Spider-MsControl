@@ -7,11 +7,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.PerfilinteressadoJpaController;
-import model.Funcionalidade;
 import model.Perfilinteressado;
-import util.Conexao;
 
 /**
  *
@@ -19,8 +18,8 @@ import util.Conexao;
  */
 public class PerfilInteressadoJpa extends PerfilinteressadoJpaController {
 
-    public PerfilInteressadoJpa() {
-        super(Conexao.conectar());
+    public PerfilInteressadoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Perfilinteressado> findAll() {

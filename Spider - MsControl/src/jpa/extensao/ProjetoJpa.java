@@ -3,9 +3,9 @@ package jpa.extensao;
 import jpa.ProjetoJpaController;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import model.Projeto;
-import util.Conexao;
 import util.Constantes;
 
 /**
@@ -14,8 +14,8 @@ import util.Constantes;
  */
 public class ProjetoJpa extends ProjetoJpaController {
 
-    public ProjetoJpa() {
-        super(Conexao.conectar());
+    public ProjetoJpa(EntityManagerFactory emf) {
+        super(emf); 
     }
 
     public Projeto findByNome(String nomeProjeto) {

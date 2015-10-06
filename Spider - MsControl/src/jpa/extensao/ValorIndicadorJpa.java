@@ -3,9 +3,9 @@ package jpa.extensao;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.ValorindicadorJpaController;
 import model.Valorindicador;
-import util.Conexao;
 
 /**
  *
@@ -13,8 +13,8 @@ import util.Conexao;
  */
 public class ValorIndicadorJpa extends ValorindicadorJpaController {
 
-    public ValorIndicadorJpa() {
-        super(Conexao.conectar());
+    public ValorIndicadorJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public Valorindicador findLastValorIndicador(String nome, int idProjeto) {

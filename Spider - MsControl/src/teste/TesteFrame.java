@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Funcionalidade;
+import util.Conexao;
+import util.Texto;
 
 public class TesteFrame extends javax.swing.JFrame {
 
@@ -136,7 +138,7 @@ public class TesteFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        FuncionalidadeJpa funcionalidadeJpa = new FuncionalidadeJpa();
+        FuncionalidadeJpa funcionalidadeJpa = new FuncionalidadeJpa(Conexao.URLdoBanco(Texto.lerTXT()));
         for (int i = 0; i < model2.size(); i++)
             funcionalidadeList.add(funcionalidadeJpa.findByNome(model2.get(i).toString()));
     }//GEN-LAST:event_jButton3ActionPerformed

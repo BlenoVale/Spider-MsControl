@@ -2,9 +2,9 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.ObjetivodequestaoJpaController;
 import model.Objetivodequestao;
-import util.Conexao;
 
 /**
  *
@@ -12,8 +12,8 @@ import util.Conexao;
  */
 public class ObjetivoDeQuestaoJpa extends ObjetivodequestaoJpaController {
 
-    public ObjetivoDeQuestaoJpa() {
-        super(Conexao.conectar());
+    public ObjetivoDeQuestaoJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public String countQuantidadeDeQuestoes() {

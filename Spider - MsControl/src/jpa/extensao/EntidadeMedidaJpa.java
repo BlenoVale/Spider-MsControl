@@ -2,9 +2,9 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import jpa.EntidademedidaJpaController;
 import model.Entidademedida;
-import util.Conexao;
 
 /**
  *
@@ -12,8 +12,8 @@ import util.Conexao;
  */
 public class EntidadeMedidaJpa extends EntidademedidaJpaController {
 
-    public EntidadeMedidaJpa() {
-        super(Conexao.conectar());
+    public EntidadeMedidaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Entidademedida> findListaEntidadeMedida(int idProjeto) {
