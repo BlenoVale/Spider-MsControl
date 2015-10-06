@@ -35,10 +35,9 @@
     <class>model.Perfilinteressado</class>
     <class>model.Perfil</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/spidermscontrol"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.user" value="SpiderMsControl"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="spider"/>
+      <property name="javax.persistence.jdbc.password" value="SpiderMsControl"/>
     </properties>
   </persistence-unit>
 </persistence>

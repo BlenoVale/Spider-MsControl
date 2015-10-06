@@ -14,7 +14,7 @@ public class Conexao {
     public static EntityManagerFactory URLdoBanco(String URL) {
         try {
             Map map = new HashMap();
-            map.put("hibernate.connection.url", URL);
+            map.put("javax.persistence.jdbc.url", URL);
 
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Spider_-_MsControlPU", map);
             System.out.println(">>funcionou!!!\n>>" + URL);
