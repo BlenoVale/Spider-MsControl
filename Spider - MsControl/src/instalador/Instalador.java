@@ -1,6 +1,7 @@
 package instalador;
 
 import controller.CtrlUsuario;
+import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import util.Criptografia;
@@ -54,9 +55,13 @@ public class Instalador extends javax.swing.JFrame {
     }
 
     private void executaServidor() {
+        jLabelAviso.setText("<html>*Banco esta sendo criado, por favor aguarde.</html>"); 
+        jLabelAviso.setVisible(true);
+        
         String porta = jTextFieldPortaServidor.getText();
         String usuario = jTextFieldUsuarioServidor.getText();
         String senha = new String(jPasswordFieldSenhaServidor.getPassword());
+        
         ExecutaBanco executaBanco = new ExecutaBanco("jdbc:mysql://localhost:" + porta + "/", usuario, senha);
         executaBanco.criaBancoDeDados();
         Texto.criaTXT("jdbc:mysql://localhost:" + porta + "/spidermscontrol");
@@ -69,8 +74,14 @@ public class Instalador extends javax.swing.JFrame {
         String porta = jTextFieldPortaCliente.getText();
         String IP = jTextFieldIPCliente.getText();
         Texto.criaTXT("jdbc:mysql://" + IP + ":" + porta + "/spidermscontrol");
-        new ViewLogin().setVisible(true);
-        this.dispose();
+
+        try {
+            new ExecutaBanco(Texto.lerTXT(), "SpiderMsControl", "SpiderMsControl").getConexao();
+            new ViewLogin().setVisible(true);
+            this.dispose();
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Por favor verifique se os dados do\n Servidor estão corretos", "Erro ao conectar o Servidor", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
@@ -149,6 +160,7 @@ public class Instalador extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jTextFieldPortaCliente = new javax.swing.JTextField();
         jButtonExecutar = new javax.swing.JButton();
+        jLabelAviso = new javax.swing.JLabel();
         jPanelCadastroADM = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -309,6 +321,9 @@ public class Instalador extends javax.swing.JFrame {
             }
         });
 
+        jLabelAviso.setForeground(new java.awt.Color(255, 51, 51));
+        jLabelAviso.setText("             ");
+
         javax.swing.GroupLayout jPanelInfoBDLayout = new javax.swing.GroupLayout(jPanelInfoBD);
         jPanelInfoBD.setLayout(jPanelInfoBDLayout);
         jPanelInfoBDLayout.setHorizontalGroup(
@@ -317,14 +332,20 @@ public class Instalador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanelInfoBDLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButtonServidor)
-                            .addComponent(jRadioButtonCliente)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonExecutar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInfoBDLayout.createSequentialGroup()
+                        .addComponent(jLabelAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonExecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoBDLayout.createSequentialGroup()
+                        .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanelInfoBDLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jRadioButtonServidor)
+                                    .addComponent(jRadioButtonCliente))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelInfoBDLayout.setVerticalGroup(
@@ -341,7 +362,9 @@ public class Instalador extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonExecutar)
+                .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonExecutar)
+                    .addComponent(jLabelAviso))
                 .addContainerGap())
         );
 
@@ -541,6 +564,7 @@ public class Instalador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAviso;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

@@ -29,9 +29,9 @@ public class ExecutaBanco {
 
     }
 
-    private String URL = "jdbc:mysql://localhost:3306/";
-    private String USER = "root";
-    private String PASSWORD = "spider";
+    private final String URL;
+    private final String USER;
+    private final String PASSWORD;
 
     public ExecutaBanco(String URL, String USER, String PASSAWORD) {
         this.URL = URL;

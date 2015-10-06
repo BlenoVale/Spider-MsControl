@@ -1,5 +1,6 @@
 package instalador;
 
+import util.Texto;
 import view.ViewLogin;
 
 /**
@@ -13,7 +14,7 @@ public class TestaConexao {
     }
     
     private static void jaExisteBanco(String[] args) {
-        ExecutaBanco executaBanco = new ExecutaBanco("jdbc:mysql://localhost:3306/spidermscontrol", "SpiderMsControl", "SpiderMsControl");
+        ExecutaBanco executaBanco = new ExecutaBanco(Texto.lerTXT(), "SpiderMsControl", "SpiderMsControl");
         boolean existe = executaBanco.checaConexao();
 
         if (existe) {

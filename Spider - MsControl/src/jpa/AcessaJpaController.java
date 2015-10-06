@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 import jpa.exceptions.NonexistentEntityException;
 import jpa.exceptions.PreexistingEntityException;
 import model.Acessa;
@@ -238,5 +239,5 @@ public class AcessaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
