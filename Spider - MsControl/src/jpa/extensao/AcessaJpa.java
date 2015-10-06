@@ -7,10 +7,10 @@ package jpa.extensao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import jpa.AcessaJpaController;
 import model.Acessa;
-import util.Conexao;
 
 /**
  *
@@ -18,8 +18,8 @@ import util.Conexao;
  */
 public class AcessaJpa extends AcessaJpaController {
 
-    public AcessaJpa() {
-        super(Conexao.conectar());
+    public AcessaJpa(EntityManagerFactory emf) {
+        super(emf);
     }
 
     public List<Acessa> findAcessaByIdUsuario(int idUsuario) {

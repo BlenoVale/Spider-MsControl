@@ -27,9 +27,11 @@ import model.Perfil;
 import model.Projeto;
 import model.Usuario;
 import controller.ArvoreDinamica;
+import util.Conexao;
 import util.Copia;
 import util.ObserveProjeto;
 import util.Observer;
+import util.Texto;
 import view.artefatos.ViewProjeto_PlanoDeMedicao;
 import view.artefatos.ViewProjeto_Relatorio;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
@@ -147,7 +149,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             System.out.println("--Projeto: " + this.projeto_selecionado.getNome());
 
             List<String> perfis = new ArrayList<>();
-            for (int i = 0; i < new AcessaJpa().findAcessaByIdUsuario(usuario_logado.getId()).size(); i++) {
+            for (int i = 0; i < new AcessaJpa(Conexao.URLdoBanco(Texto.lerTXT())).findAcessaByIdUsuario(usuario_logado.getId()).size(); i++) {
                 if (this.usuario_logado.getAcessaList().get(i).getProjeto().getNome().equals(jComboBoxSelecaoDeProjeto.getSelectedItem().toString())) {
                     perfis.add(this.usuario_logado.getAcessaList().get(i).getPerfil().getNome());
                 }

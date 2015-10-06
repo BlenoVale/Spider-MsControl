@@ -7,9 +7,9 @@ import javax.persistence.Persistence;
 
 public class Conexao {
 
-    public static EntityManagerFactory conectar() {
-        return Persistence.createEntityManagerFactory("Spider_-_MsControlPU");
-    }
+//    public static EntityManagerFactory conectar() {
+//        return Persistence.createEntityManagerFactory("Spider_-_MsControlPU");
+//    }
 
     public static EntityManagerFactory URLdoBanco(String URL) {
         try {

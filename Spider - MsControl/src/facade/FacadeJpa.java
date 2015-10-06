@@ -93,7 +93,7 @@ public class FacadeJpa {
 
     
     private FacadeJpa() {
-        acessaJpa = new AcessaJpaController(Conexao.conectar());
+        acessaJpa = new AcessaJpaController(Conexao.URLdoBanco(Texto.lerTXT())); 
         analiseJpa = new AnaliseJpa(Conexao.URLdoBanco(Texto.lerTXT()));
         coletaJpa = new ColetaJpa(Conexao.URLdoBanco(Texto.lerTXT()));
         funcionalidadeJpa = new FuncionalidadeJpa(Conexao.URLdoBanco(Texto.lerTXT()));
