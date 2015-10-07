@@ -117,7 +117,7 @@ public class ViewDadosDoProjeto extends javax.swing.JDialog {
 
     public void showEditarProjetoDialog(Projeto projeto) {
         this.projeto = projeto;
-        this.setTitle("Edição do projeto \"" + projeto.getNome() +"\"");
+        this.setTitle("Edição do Projeto \"" + projeto.getNome() +"\"");
         
         jButtonSalvarEdicao.setVisible(true);
         jButtonSalvarProjeto.setVisible(false);

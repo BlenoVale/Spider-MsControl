@@ -302,7 +302,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
 
         jLabel7.setText("Relacionada ao Objetivo:");
 
-        jLabel8.setText("Instruções/Observações:");
+        jLabel8.setText("Observação:");
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {

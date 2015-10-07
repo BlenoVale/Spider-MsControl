@@ -32,7 +32,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         // Se ja contem na tabela, nao adiciona uma nova linha.
         for (int i = 0; i < jTable.getRowCount(); i++)
             if (jTable.getValueAt(i, 0).toString().equals(projeto) && jTable.getValueAt(i, 1).toString().equals(perfil)) {
-                JOptionPane.showMessageDialog(rootPane, "O perfil \"" + perfil + "\" ja foi alocado para o projeto \"" + projeto + "\"", "Info", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "O perfil \"" + perfil + "\" já foi alocado para o projeto \"" + projeto + "\"", "Info", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -53,13 +53,13 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
      */
     private boolean checarDadosDigitados() {
         if (jTextFieldNome.getText().equals("") || jTextFieldLogin.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Os campos \"Nome completo\" e \"Login de acesso\" devem ser preenchidos", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Os campos \"Nome completo\" e \"Login de acesso\" devem ser preenchidos.", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
             return false;
         } else {
             Usuario usuario = jpa.getUsuarioJpa().findByLogin(jTextFieldLogin.getText());
 
             if (usuario != null) {
-                JOptionPane.showMessageDialog(rootPane, "Este login ja existe");
+                JOptionPane.showMessageDialog(rootPane, "Este login já existe.");
                 return false;
             }
         }
@@ -241,7 +241,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
 
         // Checando se o novo usuario ja foi alocado a algum projeto
         if (jTable.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "Você deve alocar este usuário a um projeto", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Você deve alocar este usuário a um projeto.", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

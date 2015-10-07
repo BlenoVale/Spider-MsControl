@@ -191,7 +191,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
             }
         });
 
-        jLabelObservacoes.setText("Observações:");
+        jLabelObservacoes.setText("Observação:");
 
         jTextFieldUltimaEdicao.setEditable(false);
         jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));

@@ -215,7 +215,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jComboBoxSelecaoDeProjeto = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jButtonNovoProjeto = new javax.swing.JButton();
-        jButtonAtualizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -259,13 +258,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Refresh3.png"))); // NOI18N
-        jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizarActionPerformed(evt);
-            }
-        });
-
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logoMSCMenor.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -275,8 +267,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonNovoProjeto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAtualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -304,7 +294,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -514,10 +503,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.dispose();
     }
 
-    private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
-        atualizaDadosDaTelaPrincipal();
-    }//GEN-LAST:event_jButtonAtualizarActionPerformed
-
     private void jTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeMouseClicked
         if (jComboBoxSelecaoDeProjeto.getSelectedItem() != "--Selecione um Projeto--") {
             this.projeto_selecionado = this.ctrlProjeto.buscaProjetoPeloNome(jComboBoxSelecaoDeProjeto.getSelectedItem().toString());
@@ -709,7 +694,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAtualizar;
     private javax.swing.JButton jButtonNovoProjeto;
     private javax.swing.JComboBox jComboBoxSelecaoDeProjeto;
     private javax.swing.JDesktopPane jDesktopPane;

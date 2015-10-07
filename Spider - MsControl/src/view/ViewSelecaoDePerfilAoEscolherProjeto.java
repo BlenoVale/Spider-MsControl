@@ -18,7 +18,7 @@ public class ViewSelecaoDePerfilAoEscolherProjeto extends javax.swing.JDialog {
 
     public void populaComboboxDePerfis(List<String> perfis) {
         this.comboboxModel = new DefaultComboBoxModel();
-        this.comboboxModel.addElement("--Selecione um perfil--");
+        this.comboboxModel.addElement("--Selecione um Perfil--");
         for (int i = 0; i < perfis.size(); i++) {
             this.comboboxModel.addElement(perfis.get(i));
         }
@@ -27,7 +27,7 @@ public class ViewSelecaoDePerfilAoEscolherProjeto extends javax.swing.JDialog {
     }
 
     public String perfilEscolhido() {
-        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um perfil--") {
+        if (jComboBoxPerfil.getSelectedItem() != "--Selecione um Perfil--") {
             this.perfil_escolhido = jComboBoxPerfil.getSelectedItem().toString();
         }
         return this.perfil_escolhido;
@@ -110,7 +110,7 @@ public class ViewSelecaoDePerfilAoEscolherProjeto extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jComboBoxPerfil.setSelectedItem("--Selecione um perfil--"); 
+        jComboBoxPerfil.setSelectedItem("--Selecione um Perfil--"); 
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -192,7 +192,7 @@ public class ViewLogin extends javax.swing.JFrame {
         usuario_acessando = ctrlUsuario.buscarUsuarioPeloLogin(usuario.getLogin());
 
         if (usuario_acessando == null) {
-            JOptionPane.showMessageDialog(this, "Login ou senha incorretos.");
+            JOptionPane.showMessageDialog(this, "Login ou Senha incorretos.");
         } else if (usuario_acessando.getSenha() == null) {
 
             JOptionPane.showMessageDialog(this, "Esse é o seu primeiro acesso. \n Você deverá cadastrar uma senha e um e-mail de recuperação.");

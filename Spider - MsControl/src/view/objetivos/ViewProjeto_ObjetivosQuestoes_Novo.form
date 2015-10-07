@@ -249,7 +249,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel8">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Instru&#xe7;&#xf5;es/Observa&#xe7;&#xf5;es:"/>
+                <Property name="text" type="java.lang.String" value="Observa&#xe7;&#xe3;o:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonCancelar">

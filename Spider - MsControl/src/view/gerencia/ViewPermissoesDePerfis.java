@@ -229,10 +229,10 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 model_listaDeFuncionalidadesDoPerfil.addElement(model_listaDeFucionalidades.getElementAt(index));
                 model_listaDeFucionalidades.remove(index);
             } else {
-                JOptionPane.showMessageDialog(null, "Selecione um perfil no combobox.");
+                JOptionPane.showMessageDialog(null, "Selecione um Perfil no combobox.");
             }
         } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "Selecione uma funcionalidade.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Funcionalidade.");
         }
     }//GEN-LAST:event_jButtonIncluirFuncionalidadeActionPerformed
 
@@ -246,10 +246,10 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 model_listaDeFucionalidades.addElement(model_listaDeFuncionalidadesDoPerfil.getElementAt(index));
                 model_listaDeFuncionalidadesDoPerfil.remove(index);
             } else {
-                JOptionPane.showMessageDialog(null, "Selecione um perfil no combobox.");
+                JOptionPane.showMessageDialog(null, "Selecione um Perfil no combobox.");
             }
         } catch (Exception error) {
-            JOptionPane.showMessageDialog(null, "Selecione uma funcionalidade do perfil.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Funcionalidade do perfil.");
         }
     }//GEN-LAST:event_jButtonRetirarFuncionalidadeActionPerformed
 
@@ -260,7 +260,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
                 ctrlPermissoesDePerfil.salvarAlterarFuncionalidadesDoPerfil(jComboBoxPerfil.getSelectedItem().toString(), model_listaDeFuncionalidadesDoPerfil);
                 JOptionPane.showMessageDialog(null, "Salvo com sucesso.");
             } else {
-                JOptionPane.showMessageDialog(null, "Selecione um perfil no combobox.");
+                JOptionPane.showMessageDialog(null, "Selecione um Perfil no combobox.");
             }
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Não foi possivel salvar.");

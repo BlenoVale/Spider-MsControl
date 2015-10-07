@@ -260,7 +260,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
 
         jLabelLevantamento.setText("Levantado por:");
 
-        jLabel5.setText("Observações:");
+        jLabel5.setText("Observação:");
 
         jLabelCadastradoPor.setText("Cadastrado por:");
 

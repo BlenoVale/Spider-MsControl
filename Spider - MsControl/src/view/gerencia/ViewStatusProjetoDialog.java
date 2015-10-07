@@ -123,13 +123,13 @@ public class ViewStatusProjetoDialog extends javax.swing.JDialog {
         else if (jCheckBoxInativo.isSelected())
             status = Constantes.INATIVO;
         else if (jCheckBoxFinalizado.isSelected()) {
-            int resp = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar este projeto? \n\nAo finalizar um projeto, este mesmo não poderá mais ser alterado");
+            int resp = JOptionPane.showConfirmDialog(this, "Deseja realmente finalizar este projeto? \n\nAo finalizar um projeto, o mesmo não poderá mais ser alterado.");
             if (resp == JOptionPane.YES_OPTION)
                 status = Constantes.FINALIZADO;
             else
                 return;
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma das opções");
+            JOptionPane.showMessageDialog(this, "Selecione uma das opções.");
             return;
         }
         this.dispose();
