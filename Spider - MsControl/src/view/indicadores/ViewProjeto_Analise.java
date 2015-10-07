@@ -261,6 +261,10 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             calendar.setTime((Date) dateFieldAte.getValue());
             analise.setAnaliseATE(calendar.getTime());
             analise.setIndicadorid(indicadorSelecionado);
+            
+            int indice = indicadorSelecionado.getValorindicadorList().size() - 1;
+            String valor = indicadorSelecionado.getValorindicadorList().get(indice).getValor() + "- " +jTextFieldMeta.getText();
+            analise.setValorAtualdoIndicador(valor);
 
             CtrlAnalise ctrlAnalise = new CtrlAnalise();
             ctrlAnalise.cadastrarAnalise(analise);

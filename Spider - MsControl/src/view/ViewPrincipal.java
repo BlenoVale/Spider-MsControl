@@ -29,7 +29,6 @@ import model.Usuario;
 import controller.ArvoreDinamica;
 import util.Conexao;
 import util.Copia;
-import util.ObserveProjeto;
 import util.Observer;
 import util.Texto;
 import view.artefatos.ViewProjeto_PlanoDeMedicao;

@@ -92,6 +92,8 @@ public class ViewProjeto_Relatorio extends javax.swing.JInternalFrame {
 
         if (passou == true) {
             System.out.println("Cadastrado com sucesso.");
+            atualizaListaRelatorioGeralDoProjeto();
+            preencherTabela(listRelatorios);
         } else {
             System.out.println("Erro ao cadastrar");
         }

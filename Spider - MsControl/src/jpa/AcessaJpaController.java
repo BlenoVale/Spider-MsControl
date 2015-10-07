@@ -13,7 +13,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.swing.JOptionPane;
 import jpa.exceptions.NonexistentEntityException;
 import jpa.exceptions.PreexistingEntityException;
 import model.Acessa;
@@ -41,8 +40,8 @@ public class AcessaJpaController implements Serializable {
         if (acessa.getAcessaPK() == null) {
             acessa.setAcessaPK(new AcessaPK());
         }
-        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setProjetoid(acessa.getProjeto().getId());
+        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setUsuarioid(acessa.getUsuario().getId());
         EntityManager em = null;
         try {
@@ -90,8 +89,8 @@ public class AcessaJpaController implements Serializable {
     }
 
     public void edit(Acessa acessa) throws NonexistentEntityException, Exception {
-        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setProjetoid(acessa.getProjeto().getId());
+        acessa.getAcessaPK().setPerfilid(acessa.getPerfil().getId());
         acessa.getAcessaPK().setUsuarioid(acessa.getUsuario().getId());
         EntityManager em = null;
         try {
@@ -239,5 +238,5 @@ public class AcessaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

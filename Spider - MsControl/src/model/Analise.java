@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Analise.findByDataCriacao", query = "SELECT a FROM Analise a WHERE a.dataCriacao = :dataCriacao"),
     @NamedQuery(name = "Analise.findByNomeUsuario", query = "SELECT a FROM Analise a WHERE a.nomeUsuario = :nomeUsuario"),
     @NamedQuery(name = "Analise.findByAnaliseDE", query = "SELECT a FROM Analise a WHERE a.analiseDE = :analiseDE"),
-    @NamedQuery(name = "Analise.findByAnaliseATE", query = "SELECT a FROM Analise a WHERE a.analiseATE = :analiseATE")})
+    @NamedQuery(name = "Analise.findByAnaliseATE", query = "SELECT a FROM Analise a WHERE a.analiseATE = :analiseATE"),
+    @NamedQuery(name = "Analise.findByValorAtualdoIndicador", query = "SELECT a FROM Analise a WHERE a.valorAtualdoIndicador = :valorAtualdoIndicador")})
 public class Analise implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,6 +71,9 @@ public class Analise implements Serializable {
     @Column(name = "analiseATE")
     @Temporal(TemporalType.DATE)
     private Date analiseATE;
+    @Basic(optional = false)
+    @Column(name = "valorAtualdoIndicador")
+    private String valorAtualdoIndicador;
     @JoinTable(name = "analise_has_resultados", joinColumns = {
         @JoinColumn(name = "Analise_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "Resultados_id", referencedColumnName = "id")})
@@ -86,13 +90,14 @@ public class Analise implements Serializable {
         this.id = id;
     }
 
-    public Analise(Integer id, String analise, Date dataCriacao, String nomeUsuario, Date analiseDE, Date analiseATE) {
+    public Analise(Integer id, String analise, Date dataCriacao, String nomeUsuario, Date analiseDE, Date analiseATE, String valorAtualdoIndicador) {
         this.id = id;
         this.analise = analise;
         this.dataCriacao = dataCriacao;
         this.nomeUsuario = nomeUsuario;
         this.analiseDE = analiseDE;
         this.analiseATE = analiseATE;
+        this.valorAtualdoIndicador = valorAtualdoIndicador;
     }
 
     public Integer getId() {
@@ -149,6 +154,14 @@ public class Analise implements Serializable {
 
     public void setAnaliseATE(Date analiseATE) {
         this.analiseATE = analiseATE;
+    }
+
+    public String getValorAtualdoIndicador() {
+        return valorAtualdoIndicador;
+    }
+
+    public void setValorAtualdoIndicador(String valorAtualdoIndicador) {
+        this.valorAtualdoIndicador = valorAtualdoIndicador;
     }
 
     @XmlTransient

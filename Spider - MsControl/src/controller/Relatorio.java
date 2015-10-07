@@ -243,11 +243,11 @@ public class Relatorio {
                     p23.setIndentationLeft(15);
                     document.add(new Paragraph(p23));
 
-                    int ultimo = listaResultados.get(i).getAnaliseList().get(k).getIndicadorid().getValorindicadorList().size() - 1;
-                    String valorMeta = String.valueOf(listaResultados.get(i).getAnaliseList().get(k).getIndicadorid().getValorindicadorList().get(ultimo).getValor());
+                    
+                    String valorMeta = String.valueOf(listaResultados.get(i).getAnaliseList().get(k).getValorAtualdoIndicador());
                     Paragraph p24 = new Paragraph();
                     p24.add(new Chunk("Valor da Meta Durante a Análise: ", fonte3));
-                    p24.add(new Chunk(valorMeta + "- OK", fonte4));
+                    p24.add(new Chunk(valorMeta, fonte4));
                     p24.setIndentationLeft(15);
                     document.add(new Paragraph(p24));
 

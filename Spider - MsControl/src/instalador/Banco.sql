@@ -2,17 +2,23 @@
 CREATE SCHEMA IF NOT EXISTS `SpiderMsControl` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `SpiderMsControl` ;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Perfil` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Perfil` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `nome` VARCHAR(45) NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '')
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Funcionalidade` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Funcionalidade` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `nome` VARCHAR(45) NOT NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '')
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`Usuario` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -25,6 +31,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Usuario` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC)  COMMENT '')
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Projeto` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Projeto` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `nome` VARCHAR(45) NOT NULL COMMENT '',
@@ -36,6 +44,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Projeto` (
   PRIMARY KEY (`id`)  COMMENT '',
   UNIQUE INDEX `nome_UNIQUE` (`nome` ASC)  COMMENT '')
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`acessa` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`acessa` (
   `dataDeInicio` DATE NULL COMMENT '',
@@ -62,6 +72,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`acessa` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Medida` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Medida` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `projeto_id` INT NOT NULL COMMENT '',
@@ -76,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Medida` (
   `data` DATE NOT NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '')
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`ObjetivoDeMedicao` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ObjetivoDeMedicao` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -96,6 +110,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ObjetivoDeMedicao` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`ObjetivoDeQuestao` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ObjetivoDeQuestao` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `ObjetivoDeMedicao_id` INT NOT NULL COMMENT '',
@@ -112,6 +128,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ObjetivoDeQuestao` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`Indicador` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Indicador` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -134,15 +152,18 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Indicador` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Analise` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Analise` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `Indicador_id` INT NOT NULL COMMENT '',
-  `criterioDeAnalise` TEXT NOT NULL COMMENT '',
-  `DataCriação` DATE NOT NULL COMMENT '',
+  `analise` TEXT NOT NULL COMMENT '',
+  `DataCriacao` DATE NOT NULL COMMENT '',
   `nomeUsuario` VARCHAR(45) NOT NULL COMMENT '',
   `observacao` TEXT NULL COMMENT '',
   `analiseDE` DATE NOT NULL COMMENT '',
   `analiseATE` DATE NOT NULL COMMENT '',
+  `valorAtualdoIndicador` VARCHAR(45) NOT NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '',
   INDEX `fk_Analise_Indicador1_idx` (`Indicador_id` ASC)  COMMENT '',
   CONSTRAINT `fk_Analise_Indicador1`
@@ -151,6 +172,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Analise` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`Coleta` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Coleta` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',
@@ -166,6 +189,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Coleta` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`ProcedimentoDeColeta` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ProcedimentoDeColeta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -192,6 +217,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ProcedimentoDeColeta` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`ProcedimentoDeAnalise` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ProcedimentoDeAnalise` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -223,6 +250,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ProcedimentoDeAnalise` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroMedida` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroMedida` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `tipo` INT NOT NULL COMMENT '',
@@ -238,6 +267,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroMedida` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroProcedimentoColeta` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroProcedimentoColeta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -255,6 +286,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroProcedimentoColeta` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroProcedimentoAnalise` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroProcedimentoAnalise` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `tipo` INT NOT NULL COMMENT '',
@@ -270,6 +303,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroProcedimentoAnalise` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroObjetivoMedicao` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroObjetivoMedicao` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -287,6 +322,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroObjetivoMedicao` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroObjetivoQuestao` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroObjetivoQuestao` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `tipo` INT NOT NULL COMMENT '',
@@ -303,6 +340,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroObjetivoQuestao` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroProjeto` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroProjeto` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `Projeto_id` INT NOT NULL COMMENT '',
@@ -318,6 +357,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroProjeto` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`Possui` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Possui` (
   `Funcionalidade_id` INT NOT NULL COMMENT '',
@@ -337,6 +378,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Possui` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Indicador_has_Medida` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Indicador_has_Medida` (
   `Indicador_id` INT NOT NULL COMMENT '',
   `Medida_id` INT NOT NULL COMMENT '',
@@ -355,6 +398,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Indicador_has_Medida` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroIndicador` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroIndicador` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `tipo` INT NOT NULL COMMENT '',
@@ -371,6 +416,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroIndicador` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`EntidadeMedida` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`EntidadeMedida` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `Projeto_id` INT NULL COMMENT '',
@@ -384,6 +431,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`EntidadeMedida` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`ValorMedida` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ValorMedida` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -400,6 +449,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ValorMedida` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`ValorIndicador` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ValorIndicador` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `Indicador_id` INT NOT NULL COMMENT '',
@@ -413,6 +464,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ValorIndicador` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`datasProcedimentoColeta` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`datasProcedimentoColeta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -430,6 +483,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`datasProcedimentoColeta` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`Resultados` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Resultados` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `idProjeto` INT NOT NULL COMMENT '',
@@ -440,6 +495,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Resultados` (
   `tomadaDeDecisao` TEXT NOT NULL COMMENT '',
   PRIMARY KEY (`id`)  COMMENT '')
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`MeiosComunicacao` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`MeiosComunicacao` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -455,6 +512,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`MeiosComunicacao` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`MeiosProcedimentoAnalise` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`MeiosProcedimentoAnalise` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `id_meioComunicacao` INT NOT NULL COMMENT '',
@@ -468,6 +527,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`MeiosProcedimentoAnalise` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`PerfisInteressadosProcedimentoAnalise` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`PerfisInteressadosProcedimentoAnalise` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `id_perfilInteressado` INT NOT NULL COMMENT '',
@@ -480,6 +541,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`PerfisInteressadosProcedimentoAnal
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`PerfilInteressado` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`PerfilInteressado` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -495,6 +558,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`PerfilInteressado` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `SpiderMsControl`.`RegistroDataComunicacao` ;
+
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroDataComunicacao` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `ProcedimentoDeAnalise_id` INT NOT NULL COMMENT '',
@@ -508,6 +573,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`RegistroDataComunicacao` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`Relatorios` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Relatorios` (
   `idRelatorio` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -524,6 +591,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Relatorios` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`Analise_has_Resultados` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Analise_has_Resultados` (
   `Analise_id` INT NOT NULL COMMENT '',
@@ -542,6 +611,8 @@ CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`Analise_has_Resultados` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `SpiderMsControl`.`ParticipantesE_Interessados` ;
 
 CREATE TABLE IF NOT EXISTS `SpiderMsControl`.`ParticipantesE_Interessados` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
@@ -576,7 +647,7 @@ insert into funcionalidade values(1, 'Objetivos - Objetivo da Medição'),
       (11, 'Artefatos - Plano de Medição'),
       (12, 'Artefatos - Relatório'),
       (13, 'Resultados');
- 
+
 insert into entidademedida  values (1, null, 'Organização'),
        (2, null, 'Projeto'),
        (3, null, 'Processo'),
@@ -604,3 +675,4 @@ CREATE USER 'SpiderMsControl'@'localhost' IDENTIFIED BY 'SpiderMsControl';
 FLUSH PRIVILEGES;
 GRANT SELECT, EXECUTE, SHOW VIEW, ALTER, ALTER ROUTINE, CREATE, CREATE ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, DELETE, DROP, EVENT, INDEX, INSERT, REFERENCES, TRIGGER, UPDATE, LOCK TABLES  ON `SpiderMsControl`.* TO 'SpiderMsControl'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+
