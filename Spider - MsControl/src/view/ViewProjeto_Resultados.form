@@ -79,7 +79,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar por resultado: "/>
+                <Property name="text" type="java.lang.String" value="Buscar por Resultado: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldBusca">
@@ -309,7 +309,7 @@
                         </Container>
                         <Component class="javax.swing.JLabel" name="jLabel5">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Tomada de decis&#xe3;o:"/>
+                            <Property name="text" type="java.lang.String" value="Tomada de Decis&#xe3;o:"/>
                           </Properties>
                         </Component>
                         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -907,7 +907,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel18">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="                                        Ate:"/>
+                        <Property name="text" type="java.lang.String" value="                                        At&#xe9;:"/>
                       </Properties>
                     </Component>
                     <Component class="net.sf.nachocalendar.components.DateField" name="dateField_Ate">

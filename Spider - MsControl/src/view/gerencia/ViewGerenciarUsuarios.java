@@ -29,7 +29,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     }
 
     protected void iniciarTable() {
-        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login", "Qtd de projetos", "Qtd de perfis"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"Nome", "Login", "Quantidade de Projetos", "Quantidade de Perfis"}, 0, false);
         jTable.setModel(tableModel);
 
     }
@@ -94,7 +94,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar usuário:");
+        jLabel1.setText("Buscar Usuário:");
 
         jTextFieldBuscar.setToolTipText("Pressione Enter com o campo em branco para listar todos os usuários");
         jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,7 +129,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
             }
         });
 
-        jButtonNovoUsuario.setText("Novo usuário");
+        jButtonNovoUsuario.setText("Novo Usuário");
         jButtonNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoUsuarioActionPerformed(evt);
@@ -211,7 +211,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um usuário da tabela");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um usuário da tabela.");
             return;
         }
 

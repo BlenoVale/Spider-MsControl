@@ -142,7 +142,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="jButtonRecuperarSenha">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Recuperar senha"/>
+            <Property name="text" type="java.lang.String" value="Recuperar Senha"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRecuperarSenhaActionPerformed"/>

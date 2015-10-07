@@ -79,11 +79,11 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
             case 0:
                 return "Aprovado";
             case 1:
-                return "Não aprovado";
+                return "Não Aprovado";
             case 2:
-                return "Não analisado";
+                return "Não Analisado";
         }
-        return "Não analisado";
+        return "Não Analisado";
     }
 
     public void buscarIndicador() {
@@ -110,7 +110,7 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar medida:");
+        jLabel1.setText("Buscar Indicador:");
 
         jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,14 +152,14 @@ public class ViewProjetoAprovacao extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Filtro:");
 
-        jCheckBoxNaoAnalisado.setText("Não analisadas");
+        jCheckBoxNaoAnalisado.setText("Não Analisados");
         jCheckBoxNaoAnalisado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxNaoAnalisadoActionPerformed(evt);
             }
         });
 
-        jCheckBoxNaoAprovado.setText("Não aprovadas");
+        jCheckBoxNaoAprovado.setText("Não Aprovados");
         jCheckBoxNaoAprovado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxNaoAprovadoActionPerformed(evt);

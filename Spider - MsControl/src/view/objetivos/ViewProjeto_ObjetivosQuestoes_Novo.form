@@ -88,7 +88,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="442" max="32767" attributes="0"/>
+                      <EmptySpace pref="482" max="32767" attributes="0"/>
                       <Component id="jButtonSalvar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonCancelar" min="-2" pref="83" max="-2" attributes="0"/>
@@ -158,7 +158,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Necessidade de informa&#xe7;&#xe3;o:"/>
+                <Property name="text" type="java.lang.String" value="Necessidade de Informa&#xe7;&#xe3;o:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelNomeUsuario">
@@ -174,7 +174,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Tipo de varia&#xe7;&#xe3;o">
+                    <TitledBorder title="Tipo de Varia&#xe7;&#xe3;o:">
                       <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                         <EtchetBorder/>
                       </Border>
@@ -222,7 +222,7 @@
               <SubComponents>
                 <Component class="javax.swing.JRadioButton" name="jRadioButtonObjetivoDeNegocio">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Objetivo de neg&#xf3;cio"/>
+                    <Property name="text" type="java.lang.String" value="Objetivo de Neg&#xf3;cio"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="jRadioButtonLegislacao">
@@ -237,14 +237,14 @@
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="jRadioButtonObjetivoDeProcesso">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Objeivo de Processo"/>
+                    <Property name="text" type="java.lang.String" value="Objetivo de Processo"/>
                   </Properties>
                 </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Relacionada ao objetivo:"/>
+                <Property name="text" type="java.lang.String" value="Relacionada ao Objetivo:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel8">
@@ -315,12 +315,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelUltimaEdicao">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ultima Edi&#xe7;&#xe3;o:"/>
+                <Property name="text" type="java.lang.String" value="&#xda;ltima Edi&#xe7;&#xe3;o:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Data de levantamento"/>
+                <Property name="text" type="java.lang.String" value="Data de Levantamento:"/>
               </Properties>
             </Component>
             <Component class="net.sf.nachocalendar.components.DateField" name="dateFieldDataDeLevantamento">

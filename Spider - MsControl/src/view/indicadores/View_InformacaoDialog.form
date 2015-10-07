@@ -255,7 +255,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cr&#xed;terios de an&#xe1;lise"/>
+                <Property name="text" type="java.lang.String" value="Crit&#xe9;rios de An&#xe1;lise"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">

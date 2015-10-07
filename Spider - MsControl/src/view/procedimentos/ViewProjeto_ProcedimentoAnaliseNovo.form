@@ -154,7 +154,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelUltimaEdicao">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ultima Edi&#xe7;&#xe3;o:"/>
+            <Property name="text" type="java.lang.String" value="&#xda;ltima Edi&#xe7;&#xe3;o:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonSalvar">
@@ -457,8 +457,8 @@
             <Container class="javax.swing.JPanel" name="jPanel3">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Meta e crit&#xe9;rio de an&#xe1;lise">
-                    <Property name="tabTitle" type="java.lang.String" value="Meta e crit&#xe9;rio de an&#xe1;lise"/>
+                  <JTabbedPaneConstraints tabName="Meta e Crit&#xe9;rio de An&#xe1;lise">
+                    <Property name="tabTitle" type="java.lang.String" value="Meta e Crit&#xe9;rio de An&#xe1;lise"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -493,7 +493,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Criterio de An&#xe1;lise">
+                        <TitledBorder title="Crit&#xe9;rio de An&#xe1;lise">
                           <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                             <EtchetBorder/>
                           </Border>
@@ -691,7 +691,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="0" green="0" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="&lt;html&gt;*A faixa de ALERTA ser&#xe3;o os valores&lt;br&gt;contidos entre as faixas CR&#xcd;TICO e OK.&lt;/html&gt;"/>
+                        <Property name="text" type="java.lang.String" value="&lt;html&gt;*A faixa de ALERTA ser&#xe1; os valores&lt;br&gt;contidos entre as faixas CR&#xcd;TICO e OK.&lt;/html&gt;"/>
                       </Properties>
                     </Component>
                   </SubComponents>

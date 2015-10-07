@@ -72,7 +72,7 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
             preencherTabelaIndicadores(lista_indicadores);
             jTableIndicadores.addRowSelectionInterval(linhaSelecionada - 1, linhaSelecionada - 1);
         } else if (jTableIndicadores.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um indicador na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione um Indicador na Tabela.");
         }
     }
 
@@ -90,7 +90,7 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
             preencherTabelaIndicadores(lista_indicadores);
             jTableIndicadores.addRowSelectionInterval(linhaSelecionada + 1, linhaSelecionada + 1);
         } else if (jTableIndicadores.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um indicador na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione um Indicador na Tabela.");
         }
     }
 
@@ -322,7 +322,7 @@ public class ViewProjeto_Indicadores extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (jTableIndicadores.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um indicador na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione um Indicador na Tabela.");
         } else {
             editarIndicador();
             preencherTabelaIndicadoresDoProjeto();

@@ -11,7 +11,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemArquivoNovoProjeto">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Novo projeto"/>
+                <Property name="text" type="java.lang.String" value="Novo Projeto"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemArquivoNovoProjetoActionPerformed"/>
@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemArquivoNovoUsuario">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Novo usu&#xe1;rio"/>
+                <Property name="text" type="java.lang.String" value="Novo Usu&#xe1;rio"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemArquivoNovoUsuarioActionPerformed"/>
@@ -60,7 +60,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemGerenciarPermissoesDePerfil">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Permiss&#xf5;es de perfil"/>
+                <Property name="text" type="java.lang.String" value="Permiss&#xf5;es de Perfil"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemGerenciarPermissoesDePerfilActionPerformed"/>
@@ -207,7 +207,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabeBemVindo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Bem vindo"/>
+            <Property name="text" type="java.lang.String" value="Bem - Vindo"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxSelecaoDeProjeto">
@@ -227,7 +227,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNovoProjeto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Novo projeto"/>
+            <Property name="text" type="java.lang.String" value="Novo Projeto"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNovoProjetoActionPerformed"/>

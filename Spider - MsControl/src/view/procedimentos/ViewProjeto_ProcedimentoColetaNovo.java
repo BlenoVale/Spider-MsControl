@@ -303,7 +303,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         jTextFieldUltimaEdicao.setEditable(false);
         jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabelUltimaEdicao.setText("Ultima Edição:");
+        jLabelUltimaEdicao.setText("Última Edição:");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {

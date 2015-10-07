@@ -182,7 +182,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel2">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Formula:&lt;b&gt;&lt;/html&gt; "/>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;F&#xf3;rmula:&lt;b&gt;&lt;/html&gt; "/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldFormula">
@@ -280,7 +280,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="33" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xc9; necess&#xe1;rio selecionar o Valor da Medida dos Minim&#xf4;nicos referentes a f&#xf3;rmula para gerar o resultado.&lt;hrml&gt;"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xc9; necess&#xe1;rio selecionar o Valor da Medida dos Mnem&#xf4;nicos referentes a f&#xf3;rmula para gerar o resultado.&lt;hrml&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonGerar">
@@ -353,7 +353,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelMedidaSelecionada">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Medida selecionada:"/>
+                <Property name="text" type="java.lang.String" value="Medida Selecionada:"/>
               </Properties>
             </Component>
           </SubComponents>

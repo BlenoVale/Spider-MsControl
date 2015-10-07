@@ -106,7 +106,7 @@ public class ViewProjeto_NovoIndicador extends javax.swing.JDialog {
     private void popularComboboxEntidadeMedida() {
         comboboxModel = new DefaultComboBoxModel();
 
-        comboboxModel.addElement("-Selecione uma entidade medida-");
+        comboboxModel.addElement("-Selecione uma Entidade Medida-");
         List<Entidademedida> listaEntidadeMedida = ctrlIndicador.buscarListaEntidadeMedidas(Copia.getProjetoSelecionado().getId());
         for (int i = 0; i < listaEntidadeMedida.size(); i++) {
             comboboxModel.addElement(listaEntidadeMedida.get(i).getNome());

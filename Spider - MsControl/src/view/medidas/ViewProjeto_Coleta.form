@@ -209,7 +209,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelJaColetados">
               <Properties>
-                <Property name="text" type="java.lang.String" value="J&#xe1; coletados:"/>
+                <Property name="text" type="java.lang.String" value="J&#xe1; Coletados:"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -325,7 +325,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelTipo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sem procedimento de coleta"/>
+            <Property name="text" type="java.lang.String" value="Sem procedimento de Coleta"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonSalvar">
@@ -354,7 +354,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Coletas a salvar"/>
+            <Property name="text" type="java.lang.String" value="Coletas a Salvar"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">

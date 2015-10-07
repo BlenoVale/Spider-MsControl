@@ -44,7 +44,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Lista de permiss&#xf5;es">
+            <TitledBorder title="Lista de Permiss&#xf5;es">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                 <EtchetBorder/>
               </Border>
@@ -189,7 +189,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSalvarAlterarFuncionalidade">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar altera&#xe7;&#xf5;es"/>
+                <Property name="text" type="java.lang.String" value="Salvar Altera&#xe7;&#xf5;es"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarAlterarFuncionalidadeActionPerformed"/>

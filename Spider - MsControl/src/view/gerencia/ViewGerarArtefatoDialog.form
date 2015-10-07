@@ -75,7 +75,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxPlanoMed">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Plano de medi&#xe7;&#xe3;o"/>
+        <Property name="text" type="java.lang.String" value="Plano de Medi&#xe7;&#xe3;o"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonSalvar">

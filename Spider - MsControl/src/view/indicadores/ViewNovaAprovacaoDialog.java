@@ -38,7 +38,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         else if (indicador.getAprovacao() == Constantes.NAO_APROVADO)
             jRadioButtonNaoAprovado.setSelected(true);
 
-        MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
+        MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de Informação", "Objetivo de Medição"}, 0, false);
         model.addRow(new String[]{indicador.getObjetivoDeQuestaoid().getNome(), indicador.getObjetivoDeQuestaoid().getObjetivoDeMedicaoid().getNome()});
         jTableRelacionado.setModel(model);
 
@@ -65,7 +65,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
             jRadioButtonNaoAnalisado.setVisible(true);
         }
 
-        MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de informação", "Objetivo de medição"}, 0, false);
+        MyDefaultTableModel model = new MyDefaultTableModel(new String[]{"Necessidade de Informação", "Objetivo de Medição"}, 0, false);
         model.addRow(new String[]{indicador.getObjetivoDeQuestaoid().getNome(), indicador.getObjetivoDeQuestaoid().getObjetivoDeMedicaoid().getNome()});
         jTableRelacionado.setModel(model);
 
@@ -132,7 +132,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
 
         jRadioButtonAprovado.setText("Aprovado");
 
-        jRadioButtonNaoAprovado.setText("Não aprovado");
+        jRadioButtonNaoAprovado.setText("Não Aprovado");
 
         jLabelObservacao.setText("Observação:");
 
@@ -171,7 +171,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         jLabelNomeIndicador.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNomeIndicador.setText("Nome do indicador");
 
-        jPanelUltimaAnalise.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Ultima análise de aprovação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+        jPanelUltimaAnalise.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Última Análise de Aprovação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
 
         jLabel4.setText("Responsável:");
 
@@ -213,7 +213,7 @@ public class ViewNovaAprovacaoDialog extends javax.swing.JDialog {
         );
 
         jRadioButtonNaoAnalisado.setSelected(true);
-        jRadioButtonNaoAnalisado.setText("Não analisado");
+        jRadioButtonNaoAnalisado.setText("Não Analisado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

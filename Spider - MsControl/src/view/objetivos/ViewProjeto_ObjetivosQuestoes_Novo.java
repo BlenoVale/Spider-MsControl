@@ -257,19 +257,19 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         setTitle("Cadastro de nova Necessidade de informação");
         setResizable(false);
 
-        jLabel1.setText("Necessidade de informação:");
+        jLabel1.setText("Necessidade de Informação:");
 
         jLabelNomeUsuario.setText("Ponto de Vista:");
 
-        jPanelTipoDeVariacao.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tipo de variação"));
+        jPanelTipoDeVariacao.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Tipo de Variação:"));
 
-        jRadioButtonObjetivoDeNegocio.setText("Objetivo de negócio");
+        jRadioButtonObjetivoDeNegocio.setText("Objetivo de Negócio");
 
         jRadioButtonLegislacao.setText("Legislação");
 
         jRadioButtonObjetivoDeProduto.setText("Objetivo de Produto");
 
-        jRadioButtonObjetivoDeProcesso.setText("Objeivo de Processo");
+        jRadioButtonObjetivoDeProcesso.setText("Objetivo de Processo");
 
         javax.swing.GroupLayout jPanelTipoDeVariacaoLayout = new javax.swing.GroupLayout(jPanelTipoDeVariacao);
         jPanelTipoDeVariacao.setLayout(jPanelTipoDeVariacaoLayout);
@@ -300,7 +300,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel7.setText("Relacionada ao objetivo:");
+        jLabel7.setText("Relacionada ao Objetivo:");
 
         jLabel8.setText("Instruções/Observações:");
 
@@ -332,9 +332,9 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
         jTextFieldUltimaEdicao.setEditable(false);
         jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabelUltimaEdicao.setText("Ultima Edição:");
+        jLabelUltimaEdicao.setText("Última Edição:");
 
-        jLabel2.setText("Data de levantamento");
+        jLabel2.setText("Data de Levantamento:");
 
         jTextFieldDataLevantamento.setEditable(false);
 
@@ -371,7 +371,7 @@ public class ViewProjeto_ObjetivosQuestoes_Novo extends javax.swing.JDialog {
                         .addComponent(jTextFieldDataLevantamento)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(442, Short.MAX_VALUE)
+                .addContainerGap(482, Short.MAX_VALUE)
                 .addComponent(jButtonSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)

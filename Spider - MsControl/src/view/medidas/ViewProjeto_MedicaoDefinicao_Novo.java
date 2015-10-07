@@ -33,25 +33,25 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     public boolean verificaCampos() {
 
         if (jTextFieldNomeMedida.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Medida\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Medida\" é obrigatório.");
             return false;
         } else if (jTextAreaDefinicao.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Definição\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Definição\" é obrigatório.");
             return false;
         } else if (jTextFieldResponsavel.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Responsável pela definição\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Responsável pela definição\" é obrigatório.");
             return false;
         } else if (jTextFieldMnemonico.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Mnemônico\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Mnemônico\" é obrigatório.");
             return false;
         } else if (jTextFieldEscala.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Escala\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Escala\" é obrigatório.");
             return false;
         } else if (jTextFieldFaixaInicio.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Faixa\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Faixa\" é obrigatório.");
             return false;
         } else if (jTextFieldFaixaFim.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "O campo \"Faixa\" é obrigatório");
+            JOptionPane.showMessageDialog(null, "O campo \"Faixa\" é obrigatório.");
             return false;
         } else {
             return true;
@@ -89,7 +89,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
     }
     
     public void showCadastrarDialog() {
-        this.setTitle("Cadastrar definição medida");
+        this.setTitle("Cadastrar Definição Medida");
         this.jLabelUltimaEdicao.setVisible(false);
         this.jTextFieldUltimaEdicao.setVisible(false);
         this.jTextFieldCadastradoPor.setText(Copia.getUsuarioLogado().getNome() + " " + Texto.formataData(new Date()));
@@ -102,7 +102,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
     public void showEditarDialog(Medida medidaSelecionada) {
 
-        this.setTitle("Editar definição medida");
+        this.setTitle("Editar Definição Medida");
         popularCamposEditarMedida(medidaSelecionada);
         popularCamposEditarMedidaRegistro(medidaSelecionada);
 
@@ -261,11 +261,11 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
 
         jTextFieldEscala.setToolTipText("");
 
-        jLabelResponsavel.setText("Responsável pela definição:");
+        jLabelResponsavel.setText("Responsável pela Definição:");
 
         jLabel4CadastradoPor.setText("Cadastrado por:");
 
-        jLabelUltimaEdicao.setText("Última edição:");
+        jLabelUltimaEdicao.setText("Última Edição:");
 
         jLabelMnemonico.setText("Mnemônico:");
 
@@ -284,7 +284,7 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
                             .addComponent(jLabelObservacoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelNomeMedida, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                             .addComponent(jLabelDefinicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, Short.MAX_VALUE)
+                            .addComponent(jLabelResponsavel, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                             .addComponent(jLabel4CadastradoPor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelUltimaEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelMnemonico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -407,10 +407,10 @@ public class ViewProjeto_MedicaoDefinicao_Novo extends javax.swing.JDialog {
         if (novaMedida) {
 
             if (ctrlMedida.checkNomeMedida(jTextFieldNomeMedida.getText())) {
-                JOptionPane.showMessageDialog(null, "Já existe uma medida com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Já existe uma Medida com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
                 return;
             } else if (ctrlMedida.checkNomeMnemonico(jTextFieldMnemonico.getText())) {
-                JOptionPane.showMessageDialog(null, "Já existe um mnemônico com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Já existe um Mnemônico com esse nome, escolha outro nome.", "", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 

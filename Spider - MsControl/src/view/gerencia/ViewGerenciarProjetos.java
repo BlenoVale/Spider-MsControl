@@ -32,7 +32,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }
 
     private void atualizaTabelaAtivos() {
-        String colunas[] = {"Nome do projeto", "Data de início"};
+        String colunas[] = {"Nome do Projeto", "Data de Início"};
 
         List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosAtivosOrderByNome();
 
@@ -46,7 +46,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }
 
     private void atualizaTabelaInativos() {
-        String colunas[] = {"Nome do projeto", "Data de início", "Data de inatividade"};
+        String colunas[] = {"Nome do Projeto", "Data de Início", "Data de Inatividade"};
         List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosInativos();
 
         MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
@@ -60,7 +60,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
     }
 
     private void atualizaTabelaFinalizados() {
-        String colunas[] = {"Nome do projeto", "Data de início", "Data de conclusão"};
+        String colunas[] = {"Nome do Projeto", "Data de Início", "Data de Conclusão"};
         List<Projeto> projetoList = jpa.getProjetoJpa().findTodosProjetosFinalizados();
 
         MyDefaultTableModel model = new MyDefaultTableModel(colunas, projetoList.size(), false);
@@ -75,7 +75,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
     private void editarProjeto() {
         if (jTableAtivos.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela.");
             return;
         }
         Projeto projeto = buscaProjetoSelecionado(jTableAtivos);
@@ -121,7 +121,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
     private void reativarProjeto() {
         if (jTableInativos.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela.");
             return;
         }
 
@@ -258,7 +258,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Projetos ativos", jPanel3);
+        jTabbedPane2.addTab("Projetos Ativos", jPanel3);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -310,7 +310,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Projetos inativos", jPanel4);
+        jTabbedPane2.addTab("Projetos Inativos", jPanel4);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -363,7 +363,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Projetos finalizados", jPanel1);
+        jTabbedPane2.addTab("Projetos Finalizados", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -391,7 +391,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
     private void jButtonInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInativarActionPerformed
         if (jTableAtivos.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela.");
             return;
         }
 
@@ -400,7 +400,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
 
     private void jButtonReativarProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReativarProjetoActionPerformed
         if (jTableInativos.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um projeto na tabela.");
             return;
         }
         reativarProjeto();

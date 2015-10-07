@@ -51,7 +51,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     public void limparCampos() {
         arrayFormulaQuebrada = null;
         jTextFieldFormula.setText("");
-        jLabelMedidaSelecionada.setText("Medida selecionada:");
+        jLabelMedidaSelecionada.setText("Medida Selecionada:");
 
         modelJlist = new DefaultListModel();
         jListValorIndicador.setModel(modelJlist);
@@ -75,7 +75,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
 
     private void populaComboboxIndicadores() {
         comboBoxModel = new DefaultComboBoxModel();
-        comboBoxModel.addElement("--Selecione um indicador--");
+        comboBoxModel.addElement("--Selecione um Indicador--");
 
         getListadeIndicadoresComProcAnalise();
         for (int i = 0; i < listaIndicadores.size(); i++) {
@@ -141,7 +141,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     }
 
     private void preencheTabelaPelaData() {
-        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
+        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um Indicador--") {
             pegaIndicadorSelecionado();
             listaVariaveis = new ArrayList<>();
 
@@ -151,7 +151,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
                 System.out.println("parte" + i + ":" + arrayFormulaQuebrada[i]);
                 if (contemLetra(arrayFormulaQuebrada[i])) {
-                    System.out.println(arrayFormulaQuebrada[i] + " contem letra!!");
+                    System.out.println(arrayFormulaQuebrada[i] + " contém letra!!");
                     listaVariaveis.add(arrayFormulaQuebrada[i]);
                 }
             }
@@ -160,7 +160,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             for (int j = 0; j < listaVariaveis.size(); j++) {
                 preemcherTabelaMnemonicoPorDatas(listaVariaveis.get(j), (Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue());
             }
-            jLabelMedidaSelecionada.setText("Medida selecionada:");
+            jLabelMedidaSelecionada.setText("Medida Selecionada:");
         } else {
             limparCampos();
         }
@@ -195,7 +195,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             } 
             jListValorIndicador.setModel(modelJlist);
         } catch (EvalError error) {
-            JOptionPane.showMessageDialog(null, "É necessário selecionar um valor Para cada\n variável da fórmula na tabela.");
+            JOptionPane.showMessageDialog(null, "É necessário selecionar um valor para cada\n variável da fórmula na tabela.");
         }
     }
 
@@ -295,7 +295,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel2.setText("<html><b>Formula:<b></html> ");
+        jLabel2.setText("<html><b>Fórmula:<b></html> ");
 
         jTextFieldFormula.setEditable(false);
         jTextFieldFormula.addActionListener(new java.awt.event.ActionListener() {
@@ -390,7 +390,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
         );
 
         jLabel6.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel6.setText("<html>É necessário selecionar o Valor da Medida dos Minimônicos referentes a fórmula para gerar o resultado.<hrml>");
+        jLabel6.setText("<html>É necessário selecionar o Valor da Medida dos Mnemônicos referentes a fórmula para gerar o resultado.<hrml>");
 
         jButtonGerar.setText("Gerar");
         jButtonGerar.addActionListener(new java.awt.event.ActionListener() {
@@ -443,7 +443,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabelMedidaSelecionada.setText("Medida selecionada:");
+        jLabelMedidaSelecionada.setText("Medida Selecionada:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -537,7 +537,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
-        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
+        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um Indicador--") {
             pegaIndicadorSelecionado();
             jTextFieldFormula.setText(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getFormula());
             listaVariaveis = new ArrayList<>();
@@ -548,7 +548,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             for (int i = 0; i < arrayFormulaQuebrada.length; i++) {
                 System.out.println("parte" + i + ":" + arrayFormulaQuebrada[i]);
                 if (contemLetra(arrayFormulaQuebrada[i])) {
-                    System.out.println(arrayFormulaQuebrada[i] + " contem letra!!");
+                    System.out.println(arrayFormulaQuebrada[i] + " contém letra!!");
                     listaVariaveis.add(arrayFormulaQuebrada[i]);
                 }
             }
@@ -568,7 +568,7 @@ public class ViewProjeto_ValorIndicador extends javax.swing.JInternalFrame {
             //System.out.println("------->>linhaSelecioada = " + linhaSelecioada);
 
             Valormedida valormedida = ctrlValores.buscarValorMedidaSelecionado(jTableValormedida.getModel().getValueAt(linhaSelecioada, 1).toString(), Copia.getProjetoSelecionado().getId());
-            jLabelMedidaSelecionada.setText("<html>Medida selecionada: <b>" + valormedida.getMedidaid().getNome() + "</b></html>");
+            jLabelMedidaSelecionada.setText("<html>Medida Selecionada: <b>" + valormedida.getMedidaid().getNome() + "</b></html>");
 
             if ((boolean) jTableValormedida.getModel().getValueAt(linhaSelecioada, 0) == true) {
                 int numLinhas = jTableValormedida.getRowCount();

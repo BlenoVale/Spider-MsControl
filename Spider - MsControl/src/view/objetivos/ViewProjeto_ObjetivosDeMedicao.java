@@ -33,7 +33,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
     }
 
     private void iniciarTabela() {
-        tableModel = new MyDefaultTableModel(new String[]{"Objetivo de medição", "Nível"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"Objetivo de Medição", "Nível"}, 0, false);
         jTableObjetivo.setModel(tableModel);
     }
 
@@ -96,7 +96,7 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
 
     public void checkLinhaSelecionada() {
         if (jTableObjetivo.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione um objetivo na tabela");
+            JOptionPane.showMessageDialog(null, "Selecione um Objetivo na tabela.");
             return;
         }
     }
@@ -119,11 +119,11 @@ public class ViewProjeto_ObjetivosDeMedicao extends javax.swing.JInternalFrame {
         jButtonNovoObjetivo = new javax.swing.JButton();
         jButtonRecarregar = new javax.swing.JButton();
 
-        setTitle("Objetivos de medição");
+        setTitle("Objetivos de Medição");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabelBuscar.setText("Buscar objetivo:");
+        jLabelBuscar.setText("Buscar Objetivo:");
 
         jTextFieldBuscarObjetivo.setToolTipText("Digite o nome de um objetivo");
         jTextFieldBuscarObjetivo.addActionListener(new java.awt.event.ActionListener() {

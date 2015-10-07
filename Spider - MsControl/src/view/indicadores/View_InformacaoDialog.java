@@ -146,7 +146,7 @@ public class View_InformacaoDialog extends javax.swing.JDialog {
         jTextAreaCriterioOK.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jScrollPane2.setViewportView(jTextAreaCriterioOK);
 
-        jLabel5.setText("Críterios de análise");
+        jLabel5.setText("Critérios de Análise");
 
         jTextAreaCriterioALERTA.setEditable(false);
         jTextAreaCriterioALERTA.setBackground(new java.awt.Color(234, 234, 188));

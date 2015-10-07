@@ -94,7 +94,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar medida:");
+        jLabel1.setText("Buscar Medida:");
 
         jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

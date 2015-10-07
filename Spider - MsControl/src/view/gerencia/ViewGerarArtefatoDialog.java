@@ -47,7 +47,7 @@ public class ViewGerarArtefatoDialog extends javax.swing.JDialog {
 
         jCheckBoxRelatorio.setText("Relatórios");
 
-        jCheckBoxPlanoMed.setText("Plano de medição");
+        jCheckBoxPlanoMed.setText("Plano de Medição");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {

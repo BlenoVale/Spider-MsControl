@@ -83,7 +83,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar medida:"/>
+            <Property name="text" type="java.lang.String" value="Buscar Medida:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldBuscar">

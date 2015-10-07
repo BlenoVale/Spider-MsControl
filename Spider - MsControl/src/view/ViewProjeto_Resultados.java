@@ -572,7 +572,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         setTitle("Resultados");
 
-        jLabel7.setText("Buscar por resultado: ");
+        jLabel7.setText("Buscar por Resultado: ");
 
         jTextFieldBusca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -619,7 +619,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
         jTextAreaTomadaDeDecisao.setRows(2);
         jScrollPane1.setViewportView(jTextAreaTomadaDeDecisao);
 
-        jLabel5.setText("Tomada de decisão:");
+        jLabel5.setText("Tomada de Decisão:");
 
         jTextAreaInterpretacao.setColumns(20);
         jTextAreaInterpretacao.setRows(2);
@@ -995,7 +995,7 @@ public class ViewProjeto_Resultados extends javax.swing.JInternalFrame {
 
         jLabel17.setText("                                          De:");
 
-        jLabel18.setText("                                        Ate:");
+        jLabel18.setText("                                        Até:");
 
         dateField_Ate.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {

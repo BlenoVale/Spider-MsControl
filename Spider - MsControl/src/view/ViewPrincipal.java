@@ -87,7 +87,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         usuario_logado = FacadeJpa.getInstance().getUsuarioJpa().findUsuarioEntities().get(0);
         observer = new Observer(usuario_logado);
-        jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
+        jLabeBemVindo.setText("Bem-vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
 
         Copia.setViewPrincipal(this);
@@ -107,7 +107,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         observer = new Observer(usuario_logado);
         funcoesADM();
 
-        jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
+        jLabeBemVindo.setText("Bem-vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
         jTree.setEnabled(false);
 
@@ -121,7 +121,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     private void atualizaDadosDaTelaPrincipal() {
         this.usuario_logado = this.ctrlUsuario.buscarUsuarioPeloLogin(this.usuario_logado.getLogin());
-        jLabeBemVindo.setText("Bem vindo(a), " + usuario_logado.getLogin());
+        jLabeBemVindo.setText("Bem-vindo(a), " + usuario_logado.getLogin());
         popularComboboxDeProjetos();
     }
 
@@ -156,7 +156,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
             if (perfis.size() == 1) {
                 this.nomePerfil = perfis.get(0);
-                System.out.println("--perfil selecionado: " + this.nomePerfil);
+                System.out.println("--Perfil Selecionado: " + this.nomePerfil);
                 perfilSelecionado = new Perfil();
                 perfilSelecionado = ctrlPerfilI.buscarPerfilSelecionado(nomePerfil);
                 criarArvoreDoprojeto();
@@ -173,7 +173,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                     criarArvoreDoprojeto();
                     jTree.setEnabled(true);
                     Copia.setViewPrincipal(this);
-                    System.out.println("--perfil selecionado: " + this.nomePerfil);
+                    System.out.println("--Perfil Selecionado: " + this.nomePerfil);
                 } else {
                     jComboBoxSelecaoDeProjeto.setSelectedItem("--Selecione um Projeto--");
                     jTree.setEnabled(false);
@@ -242,7 +242,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabeBemVindo.setText("Bem vindo");
+        jLabeBemVindo.setText("Bem - Vindo");
 
         jComboBoxSelecaoDeProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,7 +252,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jLabel2.setText("Projeto");
 
-        jButtonNovoProjeto.setText("Novo projeto");
+        jButtonNovoProjeto.setText("Novo Projeto");
         jButtonNovoProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoProjetoActionPerformed(evt);
@@ -373,7 +373,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jMenuArquivo.setText("Arquivo");
 
-        jMenuItemArquivoNovoProjeto.setText("Novo projeto");
+        jMenuItemArquivoNovoProjeto.setText("Novo Projeto");
         jMenuItemArquivoNovoProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemArquivoNovoProjetoActionPerformed(evt);
@@ -381,7 +381,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         });
         jMenuArquivo.add(jMenuItemArquivoNovoProjeto);
 
-        jMenuItemArquivoNovoUsuario.setText("Novo usuário");
+        jMenuItemArquivoNovoUsuario.setText("Novo Usuário");
         jMenuItemArquivoNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemArquivoNovoUsuarioActionPerformed(evt);
@@ -418,7 +418,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         });
         jMenuGerencia.add(jMenuItemGerenciarUsuarios);
 
-        jMenuItemGerenciarPermissoesDePerfil.setText("Permissões de perfil");
+        jMenuItemGerenciarPermissoesDePerfil.setText("Permissões de Perfil");
         jMenuItemGerenciarPermissoesDePerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemGerenciarPermissoesDePerfilActionPerformed(evt);
@@ -523,7 +523,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             this.projeto_selecionado = this.ctrlProjeto.buscaProjetoPeloNome(jComboBoxSelecaoDeProjeto.getSelectedItem().toString());
             trocaDeTelasPelaArvore();
         } else {
-            JOptionPane.showMessageDialog(null, "Selecione um Projeto no combobox.");
+            JOptionPane.showMessageDialog(null, "Selecione um Projeto no Combobox.");
         }
     }//GEN-LAST:event_jTreeMouseClicked
 

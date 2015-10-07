@@ -157,7 +157,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel5">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Crit&#xe9;rio  de an&#xe1;lise:&lt;/b&gt;&lt;/html&gt;"/>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Crit&#xe9;rio  de An&#xe1;lise:&lt;/b&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldCriterio">
@@ -168,7 +168,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Meta do indicador:&lt;/b&gt;&lt;/html&gt;"/>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Meta do Indicador:&lt;/b&gt;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextFieldMeta">
@@ -190,7 +190,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabelValorAtual">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Valor Atual do Indicado:"/>
+                    <Property name="text" type="java.lang.String" value="Valor Atual do Indicador:"/>
                   </Properties>
                 </Component>
               </SubComponents>

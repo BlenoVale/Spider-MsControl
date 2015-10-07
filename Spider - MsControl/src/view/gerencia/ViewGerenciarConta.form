@@ -62,7 +62,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPasswordNovaSenha" max="32767" attributes="0"/>
-                          <Component id="jPasswordFieldConfirmaNovaSenha" pref="279" max="32767" attributes="0"/>
+                          <Component id="jPasswordFieldConfirmaNovaSenha" pref="278" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -118,7 +118,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nome completo:"/>
+        <Property name="text" type="java.lang.String" value="Nome Completo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -133,17 +133,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Senha atual:"/>
+        <Property name="text" type="java.lang.String" value="Senha Atual:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nova senha:"/>
+        <Property name="text" type="java.lang.String" value="Nova Senha:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Confirmar senha:"/>
+        <Property name="text" type="java.lang.String" value="Confirmar Senha:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordFieldConfirmaNovaSenha">
@@ -182,7 +182,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxAlterarSenha">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Alterar senha"/>
+        <Property name="text" type="java.lang.String" value="Alterar Senha"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAlterarSenhaActionPerformed"/>

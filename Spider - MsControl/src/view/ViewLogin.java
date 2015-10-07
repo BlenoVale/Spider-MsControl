@@ -89,7 +89,7 @@ public class ViewLogin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButtonRecuperarSenha.setText("Recuperar senha");
+        jButtonRecuperarSenha.setText("Recuperar Senha");
         jButtonRecuperarSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRecuperarSenhaActionPerformed(evt);

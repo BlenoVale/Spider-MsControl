@@ -79,7 +79,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabelNomeProjeto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nome do projeto: "/>
+        <Property name="text" type="java.lang.String" value="Nome do Projeto: "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNomeProjeto">
@@ -125,7 +125,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonSalvarEdicao">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Salvar edi&#xe7;&#xe3;o do projeto"/>
+        <Property name="text" type="java.lang.String" value="Salvar Edi&#xe7;&#xe3;o do Projeto"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarEdicaoActionPerformed"/>

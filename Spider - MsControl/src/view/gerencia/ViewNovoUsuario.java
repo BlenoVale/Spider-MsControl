@@ -94,7 +94,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de novo usuário");
 
-        jLabelNome.setText("Nome completo: ");
+        jLabelNome.setText("Nome Completo: ");
 
         jPanelAlocacao.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Alocação"));
 
@@ -160,7 +160,7 @@ public class ViewNovoUsuario extends javax.swing.JDialog {
             }
         });
 
-        jLabelLogin.setText("Login de acesso: ");
+        jLabelLogin.setText("Login de Acesso: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

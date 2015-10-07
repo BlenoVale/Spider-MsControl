@@ -33,7 +33,7 @@ public class ViewDadosDoProjeto extends javax.swing.JDialog {
         setTitle("Novo projeto");
         setResizable(false);
 
-        jLabelNomeProjeto.setText("Nome do projeto: ");
+        jLabelNomeProjeto.setText("Nome do Projeto: ");
 
         jTextFieldNomeProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,7 +61,7 @@ public class ViewDadosDoProjeto extends javax.swing.JDialog {
 
         jLabelDescricaoProjeto.setText("Descrição do Projeto:");
 
-        jButtonSalvarEdicao.setText("Salvar edição do projeto");
+        jButtonSalvarEdicao.setText("Salvar Edição do Projeto");
         jButtonSalvarEdicao.setVisible(false);
         jButtonSalvarEdicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

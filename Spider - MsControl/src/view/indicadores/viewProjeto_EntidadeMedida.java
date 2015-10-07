@@ -38,7 +38,7 @@ public class viewProjeto_EntidadeMedida extends javax.swing.JDialog {
     private void salvarEntidadeMedida() {
         boolean feito = false;
         if (jTextFieldEntidadeMedida.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nome da Entidade medida não pode ser nulo.");
+            JOptionPane.showMessageDialog(null, "Nome da Entidade Medida não pode ser nulo.");
         } else {
             feito = ctrlIndicador.criarEntidadeMedida(jTextFieldEntidadeMedida.getText(), Copia.getProjetoSelecionado().getId());
             jTextFieldEntidadeMedida.setText("");

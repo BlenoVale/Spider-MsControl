@@ -37,7 +37,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
         atualizaListaQuestoesDoProjeto();
 
-        String[] colunas = {"Objetivo de Medição", "Necessidade de informação"};
+        String[] colunas = {"Objetivo de Medição", "Necessidade de Informação"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
         for (int i = 0; i < lista_questoes.size(); i++) {
             String linha[] = {
@@ -50,7 +50,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
     }
 
     public void preencheTabelaQuestoesPorParteDoNome(List<Objetivodequestao> questoes) {
-        String[] colunas = {"Objetivo de Medição", "Necessidade de informação"};
+        String[] colunas = {"Objetivo de Medição", "Necessidade de Informação"};
         tableModel = new MyDefaultTableModel(colunas, 0, false);
         for (int i = 0; i < lista_questoes.size(); i++) {
             String linha[] = {
@@ -115,11 +115,11 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setTitle("Necessidade de informações");
+        setTitle("Necessidade de Informações");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Buscar Necessidade de informação:");
+        jLabel1.setText("Buscar Necessidade de Informação:");
 
         jTextFieldBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +170,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 292, Short.MAX_VALUE))
+                        .addGap(0, 290, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonNovoObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,7 +217,7 @@ public class ViewProjeto_ObjetivosQuestoes extends javax.swing.JInternalFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de informação na Tabela.");
+            JOptionPane.showMessageDialog(null, "Selecione uma Necessidade de Informação na tabela.");
         } else {
             editaQuestão();
             preencherTabelaQuestoes();

@@ -76,7 +76,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nome do projeto: "/>
+        <Property name="text" type="java.lang.String" value="Nome do Projeto: "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelNomeProjeto">
@@ -89,7 +89,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Data de in&#xed;cio:"/>
+        <Property name="text" type="java.lang.String" value="Data de In&#xed;cio:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelData">

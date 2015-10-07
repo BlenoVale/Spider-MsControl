@@ -46,12 +46,12 @@ public class ViewDetalhesProjetoDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalhes do projeto");
 
-        jLabel1.setText("Nome do projeto: ");
+        jLabel1.setText("Nome do Projeto: ");
 
         jLabelNomeProjeto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNomeProjeto.setText("Nome do projeto");
 
-        jLabel3.setText("Data de início:");
+        jLabel3.setText("Data de Início:");
 
         jLabelData.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelData.setText("Data do projeto");

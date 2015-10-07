@@ -88,8 +88,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Projetos ativos">
-                <Property name="tabTitle" type="java.lang.String" value="Projetos ativos"/>
+              <JTabbedPaneConstraints tabName="Projetos Ativos">
+                <Property name="tabTitle" type="java.lang.String" value="Projetos Ativos"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -188,8 +188,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Projetos inativos">
-                <Property name="tabTitle" type="java.lang.String" value="Projetos inativos"/>
+              <JTabbedPaneConstraints tabName="Projetos Inativos">
+                <Property name="tabTitle" type="java.lang.String" value="Projetos Inativos"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -265,8 +265,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Projetos finalizados">
-                <Property name="tabTitle" type="java.lang.String" value="Projetos finalizados"/>
+              <JTabbedPaneConstraints tabName="Projetos Finalizados">
+                <Property name="tabTitle" type="java.lang.String" value="Projetos Finalizados"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

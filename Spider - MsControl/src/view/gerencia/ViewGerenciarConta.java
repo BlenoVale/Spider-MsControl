@@ -116,17 +116,17 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
         setTitle("Gerenciar conta");
         setResizable(false);
 
-        jLabel1.setText("Nome completo:");
+        jLabel1.setText("Nome Completo:");
 
         jLabel2.setText("Login:");
 
         jLabel3.setText("E-mail:");
 
-        jLabel4.setText("Senha atual:");
+        jLabel4.setText("Senha Atual:");
 
-        jLabel5.setText("Nova senha:");
+        jLabel5.setText("Nova Senha:");
 
-        jLabel6.setText("Confirmar senha:");
+        jLabel6.setText("Confirmar Senha:");
 
         jTextFieldNome_completo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jTextFieldNome_completo.setEnabled(false);
@@ -145,7 +145,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
             }
         });
 
-        jCheckBoxAlterarSenha.setText("Alterar senha");
+        jCheckBoxAlterarSenha.setText("Alterar Senha");
         jCheckBoxAlterarSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxAlterarSenhaActionPerformed(evt);
@@ -187,7 +187,7 @@ public class ViewGerenciarConta extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPasswordNovaSenha)
-                            .addComponent(jPasswordFieldConfirmaNovaSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))))
+                            .addComponent(jPasswordFieldConfirmaNovaSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

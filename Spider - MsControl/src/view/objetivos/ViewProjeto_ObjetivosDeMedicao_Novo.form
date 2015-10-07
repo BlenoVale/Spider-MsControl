@@ -132,7 +132,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ambiente"/>
+        <Property name="text" type="java.lang.String" value="Ambiente:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane5">
@@ -195,7 +195,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelEditadoPor">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ultima edi&#xe7;&#xe3;o:"/>
+        <Property name="text" type="java.lang.String" value="Ultima Edi&#xe7;&#xe3;o:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane7">
@@ -239,7 +239,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nome do objetivo:"/>
+        <Property name="text" type="java.lang.String" value="Nome do Objetivo:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNomeObjetivo">
@@ -253,7 +253,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Objetivo a n&#xed;vel">
+            <TitledBorder title="Objetivo a N&#xed;vel">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                 <EtchetBorder/>
               </Border>
@@ -302,12 +302,12 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Prop&#xf3;sito"/>
+        <Property name="text" type="java.lang.String" value="Prop&#xf3;sito:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Foco"/>
+        <Property name="text" type="java.lang.String" value="Foco:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane9">

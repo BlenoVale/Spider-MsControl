@@ -122,7 +122,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar usu&#xe1;rio:"/>
+            <Property name="text" type="java.lang.String" value="Buscar Usu&#xe1;rio:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldBuscar">
@@ -194,7 +194,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNovoUsuario">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Novo usu&#xe1;rio"/>
+            <Property name="text" type="java.lang.String" value="Novo Usu&#xe1;rio"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNovoUsuarioActionPerformed"/>

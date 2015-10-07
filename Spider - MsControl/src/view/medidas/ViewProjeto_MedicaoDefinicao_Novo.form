@@ -288,7 +288,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelResponsavel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Respons&#xe1;vel pela defini&#xe7;&#xe3;o:"/>
+        <Property name="text" type="java.lang.String" value="Respons&#xe1;vel pela Defini&#xe7;&#xe3;o:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4CadastradoPor">
@@ -298,7 +298,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelUltimaEdicao">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xda;ltima edi&#xe7;&#xe3;o:"/>
+        <Property name="text" type="java.lang.String" value="&#xda;ltima Edi&#xe7;&#xe3;o:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelMnemonico">

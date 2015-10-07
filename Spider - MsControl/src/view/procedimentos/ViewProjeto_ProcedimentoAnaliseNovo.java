@@ -1398,7 +1398,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         jTextFieldUltimaEdicao.setEditable(false);
         jTextFieldUltimaEdicao.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabelUltimaEdicao.setText("Ultima Edição:");
+        jLabelUltimaEdicao.setText("Última Edição:");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -1575,7 +1575,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Dados Gerais", jPanel2);
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Criterio de Análise"));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Critério de Análise"));
 
         jLabel11.setText("OK:");
 
@@ -1658,7 +1658,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel16.setText("<html>*A faixa de ALERTA serão os valores<br>contidos entre as faixas CRÍTICO e OK.</html>");
+        jLabel16.setText("<html>*A faixa de ALERTA será os valores<br>contidos entre as faixas CRÍTICO e OK.</html>");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1710,7 +1710,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Meta e critério de análise", jPanel3);
+        jTabbedPane1.addTab("Meta e Critério de Análise", jPanel3);
 
         jLabel3.setText(" OK:");
 

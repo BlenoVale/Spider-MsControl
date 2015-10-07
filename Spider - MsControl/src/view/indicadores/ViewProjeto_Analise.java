@@ -61,9 +61,9 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jTextFieldMeta.setBackground(Color.white);
         jTextFieldCriterio.setText("");
         jTextFieldCriterio.setBackground(Color.white);
-        jLabelValorAtual.setText("<html><b>Valor atual<br> do indicador:</b></html>");
+        jLabelValorAtual.setText("<html><b>Valor Atual<br> do Indicador:</b></html>");
 
-        tableModel = new MyDefaultTableModel(new String[]{"ID", "Valor", "Status", "Ponto de vista", "Data"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"ID", "Valor", "Status", "Ponto de Vista", "Data"}, 0, false);
         jTableValorIndicador.setModel(tableModel);
         jTableValorIndicador.getColumnModel().getColumn(0).setPreferredWidth(3);
 
@@ -82,7 +82,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void populaComboboxIndicadores() {
         comboBoxModel = new DefaultComboBoxModel();
-        comboBoxModel.addElement("--Selecione um indicador--");
+        comboBoxModel.addElement("--Selecione um Indicador--");
 
         getListadeIndicadoresComProcAnalise();
         for (int i = 0; i < listaIndicadores.size(); i++) {
@@ -153,7 +153,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jTextFieldCriterio.setHorizontalAlignment(SwingConstants.CENTER);
         jTextFieldMeta.setFont(new Font("Times New Roman", Font.BOLD, 14));
         jTextFieldMeta.setHorizontalAlignment(SwingConstants.CENTER);
-        jLabelValorAtual.setText("<html><b>Valor atual<br> do indicador:</b>  " + ultimoValor + "</html>");
+        jLabelValorAtual.setText("<html><b>Valor Atual<br> do Indicador:</b>  " + ultimoValor + "</html>");
 
     }
 
@@ -194,12 +194,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
     }
 
     private void preencherTabelaPelaData() {
-        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
+        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um Indicador--") {
             listaValoresIndicador = new ArrayList<>();
 
             listaValoresIndicador = ctrlValores.buscarValorIndicadorPorDatas((Date) dateFieldDe.getValue(), (Date) dateFieldAte.getValue(), indicadorSelecionado.getId(), Copia.getProjetoSelecionado().getId());
 
-            tableModel = new MyDefaultTableModel(new String[]{"ID", "Valor", "Status", "Ponto de vista", "Data"}, 0, false);
+            tableModel = new MyDefaultTableModel(new String[]{"ID", "Valor", "Status", "Ponto de Vista", "Data"}, 0, false);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             for (int i = 0; i < listaValoresIndicador.size(); i++) {
                 String data = simpleDateFormat.format(listaValoresIndicador.get(i).getData());
@@ -247,7 +247,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
 
     private void salvarAnalise() {
         if (jTextAreaAnalise.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Campo Anáise é obrigatorio.");
+            JOptionPane.showMessageDialog(null, "Campo Análise é obrigatório.");
         } else {
             Analise analise = new Analise();
             analise.setAnalise(jTextAreaAnalise.getText());
@@ -328,12 +328,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("<html><b>Critério  de análise:</b></html>");
+        jLabel5.setText("<html><b>Critério  de Análise:</b></html>");
 
         jTextFieldCriterio.setEditable(false);
         jTextFieldCriterio.setToolTipText("<html>\n<font color=\"Green\"><b>OK: </b></font>O PAV está de acordo com as metas estabelecidas/esperadas.<br> Ação: Não é necessária tomar nenhuma.<br><br>\n\n<font color=\"orange\"><b>Alerta: </b></font>O PAV está abaixo da faixa esperada (Bom ou Excelente),<br> porém dentro da faixa de atenção (Regular). Ação: Analisar a(s) causa(s), registrar  reultado da análise<br><br>\n\n<font color=\"red\"><b>Crítico: </b></font>O PAV não está sendo satisfatório. Ação:<br> Analisar a(s) causa(s), registrar tarefa de ação corretiva e acompanhar <br>até sua conclusão.<br>\n</html>");
 
-        jLabel6.setText("<html><b>Meta do indicador:</b></html>");
+        jLabel6.setText("<html><b>Meta do Indicador:</b></html>");
 
         jTextFieldMeta.setEditable(false);
         jTextFieldMeta.setToolTipText("<html> <font color=\"green\"><b> OK </b></font>=  Maior que 70%<br><br>\n<font color=\"orange\"><b> ALERTA </b></font>=  entre 40% e 70%<br><br>\n<font color=\"red\"><b> CRÍTICO </b></font>= abaixo de 40%<br><br>\n</html>");
@@ -346,7 +346,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabelValorAtual.setText("Valor Atual do Indicado:");
+        jLabelValorAtual.setText("Valor Atual do Indicador:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -639,12 +639,12 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         if (!listaValoresIndicador.isEmpty()) {
             jComboBoxGrafico.setSelectedItem(indicadorSelecionado.getProcedimentodeanaliseList().get(0).getGraficoNome());
         } else {
-            JOptionPane.showMessageDialog(null, "Não há valores de indicador para gerar o gráfico");
+            JOptionPane.showMessageDialog(null, "Não há valores de indicador para gerar o gráfico.");
         }
     }//GEN-LAST:event_jButtonGeraGraficoActionPerformed
 
     private void jComboBoxIndicadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIndicadoresActionPerformed
-        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um indicador--") {
+        if (jComboBoxIndicadores.getSelectedItem() != "--Selecione um Indicador--") {
             pegaIndicadorSelecionado();
             jPanelGrafico.setVisible(false);
 

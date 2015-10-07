@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <Properties>
-    <Property name="title" type="java.lang.String" value="Objetivos de medi&#xe7;&#xe3;o"/>
+    <Property name="title" type="java.lang.String" value="Objetivos de Medi&#xe7;&#xe3;o"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -99,7 +99,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabelBuscar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar objetivo:"/>
+            <Property name="text" type="java.lang.String" value="Buscar Objetivo:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldBuscarObjetivo">

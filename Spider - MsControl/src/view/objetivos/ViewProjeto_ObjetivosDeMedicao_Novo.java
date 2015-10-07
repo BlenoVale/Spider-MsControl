@@ -42,7 +42,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
      */
     public boolean showNovoObjetivoDialog(Projeto projeto) {
 
-        this.setTitle("Cadastro de novo objetivo de medição");
+        this.setTitle("Cadastro de Novo Objetivo de Medição");
         jTextFieldLevantamento.setEditable(true);
         jTextFieldEditadoPor.setVisible(false);
         jLabelEditadoPor.setVisible(false);
@@ -68,7 +68,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
      */
     public boolean showEditarObjetivoDialog(Objetivodemedicao objetivo) {
 
-        this.setTitle("Edição de objetivo de medição");
+        this.setTitle("Edição de Objetivo de Medição");
         jTextFieldEditadoPor.setVisible(true);
         jLabelEditadoPor.setVisible(true);
 
@@ -173,19 +173,19 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
 
     public boolean checarCampos() {
         if (jTextFieldNomeObjetivo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "O campo \"Nome do objetivo\" não pode ser vazio");
+            JOptionPane.showMessageDialog(this, "O campo \"Nome do Objetivo\" não pode ser vazio.");
             return false;
         } else if (jTextFieldLevantamento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Digite quem levantou este objetivo");
+            JOptionPane.showMessageDialog(this, "Digite quem levantou este Objetivo.");
             return false;
         } else if (jTextAreaProposito.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "A descrição do propósito não pode ser vazio");
+            JOptionPane.showMessageDialog(this, "A descrição do Propósito não pode ser vazio.");
             return false;
         } else if (jTextAreaFoco.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "A descrição do foco não pode ser vazio");
+            JOptionPane.showMessageDialog(this, "A descrição do Foco não pode ser vazio.");
             return false;
         } else if (jTextAreaAmbiente.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "A descrição do ambiente não pode ser vazio");
+            JOptionPane.showMessageDialog(this, "A descrição do Ambiente não pode ser vazio.");
             return false;
         } else
             return true;
@@ -248,7 +248,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         setTitle("Cadastro novo objetivo de medição");
         setResizable(false);
 
-        jLabel4.setText("Ambiente");
+        jLabel4.setText("Ambiente:");
 
         jTextAreaAmbiente.setColumns(20);
         jTextAreaAmbiente.setLineWrap(true);
@@ -280,7 +280,7 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
             }
         });
 
-        jLabelEditadoPor.setText("Ultima edição:");
+        jLabelEditadoPor.setText("Ultima Edição:");
 
         jTextAreaObservacao.setColumns(20);
         jTextAreaObservacao.setLineWrap(true);
@@ -296,11 +296,11 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
         jTextAreaFoco.setWrapStyleWord(true);
         jScrollPane8.setViewportView(jTextAreaFoco);
 
-        jLabel1.setText("Nome do objetivo:");
+        jLabel1.setText("Nome do Objetivo:");
 
         jTextFieldNomeObjetivo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Objetivo a nível"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Objetivo a Nível"));
 
         jRadioButtonOrganizacional.setText("Organizacional");
 
@@ -327,9 +327,9 @@ public class ViewProjeto_ObjetivosDeMedicao_Novo extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel2.setText("Propósito");
+        jLabel2.setText("Propósito:");
 
-        jLabel3.setText("Foco");
+        jLabel3.setText("Foco:");
 
         jTextAreaProposito.setColumns(20);
         jTextAreaProposito.setLineWrap(true);

@@ -80,7 +80,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
         jLabelPeriodicidade.setText("Periodicidade:");
         jLabelFrequencia.setText("Frequência:");
-        jLabelJaColetados.setText("Já coletados:");
+        jLabelJaColetados.setText("Já Coletados:");
 
         DefaultTableModel tableModelLimpa = new DefaultTableModel();
         jTablePeriodicidade.setModel(tableModelLimpa);
@@ -103,7 +103,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
     //Tabela de Coletas:
     public void preencherTabelaColeta(List<Coleta> listcoleta) {
-        tableModel = new MyDefaultTableModel(new String[]{"<html>Coletas da medida <b>" + medidaSelecionada.getNome() + "</html>"}, 0, false);
+        tableModel = new MyDefaultTableModel(new String[]{"<html>Coletas da Medida <b>" + medidaSelecionada.getNome() + "</html>"}, 0, false);
         jTableColetas.setModel(tableModel);
         for (int i = 0; i < listaColeta.size(); i++) {
             String[] linhas = new String[]{
@@ -178,9 +178,9 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         }
 
         if (passou) {
-            JOptionPane.showMessageDialog(null, "Cadastrado como sucesso.");
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.");
         } else {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao Cadastrar.", "ERRO DE CADASTRO", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -189,7 +189,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Não há novas medidas a serem salvas.");
             return false;
         } else if (jTableMedidas.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione uma medida");
+            JOptionPane.showMessageDialog(this, "Selecione uma Medida.");
             return false;
         }
         return true;
@@ -210,7 +210,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         }
         if (medida.getProcedimentodecoletaList().isEmpty()) {
             jLabelTipo.setHorizontalAlignment(JLabel.CENTER);
-            jLabelTipo.setText("<html>Esta medida não possui<br>procedimento de coleta. Você deve criar <br>um procedimento de coleta para poder<br>fazer a coleta de dados.<br>&nbsp;</html>");
+            jLabelTipo.setText("<html>Esta Medida não possui<br>Procedimento de Coleta. Você deve criar <br>um Procedimento de Coleta para poder<br>fazer a coleta de dados.<br>&nbsp;</html>");
             jLabelTipo.setForeground(Color.RED);
             jLabelTipoDescri.setVisible(false);
             jLabelValor.setVisible(false);
@@ -693,7 +693,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
 
         jLabelFrequencia.setText("Frequência:");
 
-        jLabelJaColetados.setText("Já coletados:");
+        jLabelJaColetados.setText("Já Coletados:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -771,7 +771,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabelTipo.setText("Sem procedimento de coleta");
+        jLabelTipo.setText("Sem procedimento de Coleta");
 
         jButtonSalvar.setText("Salvar");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -794,7 +794,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("Coletas a salvar");
+        jLabel4.setText("Coletas a Salvar");
 
         jListColetasASalvar.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListColetasASalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -909,7 +909,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jListColetasASalvar.setModel(modelJlist);
 
         contador += 1;
-        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
+        jLabelJaColetados.setText("<html>Já Coletados: <b>" + contador + "</b></html>");
         checaLimiteFrequencia(medidaSelecionada);
         jButtonSalvar.setEnabled(true);
     }//GEN-LAST:event_jTextFieldValorColetaActionPerformed
@@ -959,7 +959,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jListColetasASalvar.setModel(modelJlist);
 
         contador -= 1;
-        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
+        jLabelJaColetados.setText("<html>Já Coletados: <b>" + contador + "</b></html>");
         jButtonRemover.setEnabled(false);
         checaLimiteFrequencia(medidaSelecionada);
     }//GEN-LAST:event_jButtonRemoverActionPerformed
@@ -989,7 +989,7 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
         jListColetasASalvar.setModel(modelJlist);
 
         contador += modelJlist.size();
-        jLabelJaColetados.setText("<html>Já coletados: <b>" + contador + "</b></html>");
+        jLabelJaColetados.setText("<html>Já Coletados: <b>" + contador + "</b></html>");
     }//GEN-LAST:event_jButtonImportaActionPerformed
 
 

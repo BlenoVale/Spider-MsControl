@@ -43,7 +43,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
         List<Acessa> acessoList = usuario.getAcessaList();
 
         int linhas = acessoList.size();
-        String colunas[] = new String[]{"Nome do projeto", "Perfil no projeto", "Data de entrada"};
+        String colunas[] = new String[]{"Nome do Projeto", "Perfil no Projeto", "Data de Entrada"};
 
         tableModel = new MyDefaultTableModel(colunas, linhas, false);
         jTable.setModel(tableModel);
@@ -249,7 +249,7 @@ public class ViewEspecificacoesDeUsuario extends javax.swing.JDialog {
 
     private void jButtonRetirarPerfilDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRetirarPerfilDeUsuarioActionPerformed
         if (jTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um perfil para remover");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um Perfil para Remover");
             return;
         }
 

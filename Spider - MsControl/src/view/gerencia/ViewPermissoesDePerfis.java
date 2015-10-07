@@ -84,7 +84,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
 
         setTitle("Permissões de Perfil");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Lista de permissões"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Lista de Permissões"));
 
         jComboBoxPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +108,7 @@ public class ViewPermissoesDePerfis extends javax.swing.JInternalFrame {
             }
         });
 
-        jButtonSalvarAlterarFuncionalidade.setText("Salvar alterações");
+        jButtonSalvarAlterarFuncionalidade.setText("Salvar Alterações");
         jButtonSalvarAlterarFuncionalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarAlterarFuncionalidadeActionPerformed(evt);
