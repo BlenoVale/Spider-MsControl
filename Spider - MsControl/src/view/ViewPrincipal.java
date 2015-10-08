@@ -27,6 +27,8 @@ import model.Perfil;
 import model.Projeto;
 import model.Usuario;
 import controller.ArvoreDinamica;
+import instalador.TestaConexao;
+import java.util.Collections;
 import util.Conexao;
 import util.Copia;
 import util.Observer;

@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import model.Funcionalidade;
@@ -13,11 +14,11 @@ public class ArvoreDinamica {
 
     private DefaultMutableTreeNode projeto;
     private String nomeDoNode;
-    private List<String> listaNodes = new ArrayList<>();
+    private List<String> listaNodes;
 
     public DefaultMutableTreeNode criaArvore(String nomeProjeto, List<Funcionalidade> listaFuncionalidades) {
         projeto = new DefaultMutableTreeNode(nomeProjeto);
-
+        listaNodes = new ArrayList<>();
         for (int i = 0; i < listaFuncionalidades.size(); i++) {
             quebraString(listaFuncionalidades.get(i).getNome());
         }
@@ -46,7 +47,6 @@ public class ArvoreDinamica {
 
     public DefaultMutableTreeNode criaSubArvore(List<Funcionalidade> lista) {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(nomeDoNode);
-
         for (int k = 0; k < lista.size(); k++) {
             if (lista.get(k).getNome().equals("Objetivos - Objetivo da Medição") && nomeDoNode.equals("Objetivos")) {
                 node.add(new DefaultMutableTreeNode("Objetivo da Medição"));

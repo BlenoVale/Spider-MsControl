@@ -23,7 +23,7 @@ public class PerfilJpa extends PerfilJpaController {
     public Perfil findByNome(String nomeProjeto) {
         Perfil perfil = null;
         EntityManager emf = super.getEntityManager();
-        Query q = emf.createNamedQuery("Perfil.findByNome").setParameter("nome", nomeProjeto);
+        Query q = emf.createQuery("Select p From Perfil p WHERE p.nome = :nome").setParameter("nome", nomeProjeto);
         perfil = (Perfil) q.getSingleResult();
         return perfil;
     }

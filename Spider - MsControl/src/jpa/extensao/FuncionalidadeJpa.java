@@ -6,6 +6,7 @@
 
 package jpa.extensao;
 
+import java.util.List;
 import jpa.FuncionalidadeJpaController;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

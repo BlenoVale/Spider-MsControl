@@ -55,19 +55,24 @@ public class Instalador extends javax.swing.JFrame {
     }
 
     private void executaServidor() {
-        jLabelAviso.setText("<html>*Banco esta sendo criado, por favor aguarde.</html>"); 
-        jLabelAviso.setVisible(true);
-        
         String porta = jTextFieldPortaServidor.getText();
         String usuario = jTextFieldUsuarioServidor.getText();
         String senha = new String(jPasswordFieldSenhaServidor.getPassword());
-        
+
         ExecutaBanco executaBanco = new ExecutaBanco("jdbc:mysql://localhost:" + porta + "/", usuario, senha);
-        executaBanco.criaBancoDeDados();
-        Texto.criaTXT("jdbc:mysql://localhost:" + porta + "/spidermscontrol");
-        jPanelInfoBD.setVisible(false);
-        jPanelCadastroADM.setVisible(true);
-        this.pack();
+        boolean aux = executaBanco.checaConexao();
+        if (aux) {
+            jLabelAviso.setText("<html>*Banco esta sendo criado, por favor aguarde.</html>");
+            jLabelAviso.setVisible(true);
+            executaBanco.criaBancoDeDados();
+            Texto.criaTXT("jdbc:mysql://localhost:" + porta + "/spidermscontrol");
+            jPanelInfoBD.setVisible(false);
+            jPanelCadastroADM.setVisible(true);
+            this.pack();
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, informe as informações\ncorretas do seu SGBD.", "Erro ao conectar com o SGBD", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     private void executaCliente() {

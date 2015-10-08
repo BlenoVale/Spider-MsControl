@@ -92,5 +92,7 @@ public class CtrlPerfil {
             Logger.getLogger(CtrlPerfil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
 }
