@@ -35,7 +35,7 @@ public class Texto {
 
     public static void criaTXT(String texto) {
         try {
-            FileWriter arquivo = new FileWriter(new File("infosBD.txt"));
+            FileWriter arquivo = new FileWriter(new File(System.getProperty("user.dir") + "infosBD.txt"));
             arquivo.write(texto);
             arquivo.close();
         } catch (Exception error) {
@@ -45,7 +45,7 @@ public class Texto {
 
     public static String lerTXT() {
         try {
-            FileReader arquivo = new FileReader("infosBD.txt");
+            FileReader arquivo = new FileReader(System.getProperty("user.dir") + "infosBD.txt");
             BufferedReader reader = new BufferedReader(arquivo);
             String dado = null;
             if ((dado = reader.readLine()) != null) {

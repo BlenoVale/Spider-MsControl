@@ -49,7 +49,7 @@ public class Observer {
                     List<Acessa> acessaList = new AcessaJpa(Conexao.URLdoBanco(Texto.lerTXT())).findAcessaByIdUsuario(idUsuario);
 
                     if (!acessaList.equals(acessoDoUsuario)) {
-                        JOptionPane.showMessageDialog(null, "Houve uma alteração em sua conta.\nA programa irá reiniciar.");
+                        JOptionPane.showMessageDialog(null, "Houve uma alteração em sua conta.\nO programa irá reiniciar.");
                         Copia.getViewPrincipal().deslogar();
                         break;
                     }
