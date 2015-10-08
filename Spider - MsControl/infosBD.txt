@@ -1,1 +1,1 @@
-jdbc:mysql://localhost:3306/spidermscontrol
+jdbc:mysql://200.239.79.133:3306/spidermscontrol

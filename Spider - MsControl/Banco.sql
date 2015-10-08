@@ -671,8 +671,8 @@ insert into  perfilinteressado (nome) values('Alta Administração'),
       ('Análista de Medição'),
       ('Usuário de Medição');
 
-CREATE USER 'SpiderMsControl'@'localhost' IDENTIFIED BY 'SpiderMsControl';
+CREATE USER 'SpiderMsControl'@'%' IDENTIFIED BY 'SpiderMsControl';
 FLUSH PRIVILEGES;
-GRANT SELECT, EXECUTE, SHOW VIEW, ALTER, ALTER ROUTINE, CREATE, CREATE ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, DELETE, DROP, EVENT, INDEX, INSERT, REFERENCES, TRIGGER, UPDATE, LOCK TABLES  ON `SpiderMsControl`.* TO 'SpiderMsControl'@'localhost' WITH GRANT OPTION;
+GRANT ALL  ON `SpiderMsControl`.* TO 'SpiderMsControl'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
