@@ -29,6 +29,7 @@ import model.Usuario;
 import controller.ArvoreDinamica;
 import instalador.TestaConexao;
 import java.util.Collections;
+import javax.swing.ImageIcon;
 import util.Conexao;
 import util.Copia;
 import util.Observer;
@@ -99,7 +100,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
         trocaTelas(viewInicial);
-
+        
+        this.setIconImage(new ImageIcon(getClass().getResource("/image/logoMSCSemTitulo.png")).getImage());
     }
 
     public ViewPrincipal(Usuario usuario_logado) {
@@ -118,7 +120,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.iniciarTelas();
         trocaTelas(viewInicial);
-
+        
+        this.setIconImage(new ImageIcon(getClass().getResource("/image/logoMSCSemTitulo.png")).getImage());
     }
 
     private void atualizaDadosDaTelaPrincipal() {
