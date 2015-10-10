@@ -983,6 +983,17 @@ public class ViewProjeto_Coleta extends javax.swing.JInternalFrame {
             return;
         }
 
+        if (listaDaColeta.size() > medidaSelecionada.getProcedimentodecoletaList().get(0).getFrequencia()) {
+            JOptionPane.showMessageDialog(null, "Não é permitido importar uma quantidade maior de valores \nalém do que a frequêcia determina.");
+            return;
+        }
+
+        int totalColetado = listaDaColeta.size() + medidaSelecionada.getProcedimentodecoletaList().get(0).getContadorColeta();
+        if (totalColetado > medidaSelecionada.getProcedimentodecoletaList().get(0).getFrequencia()) {
+            JOptionPane.showMessageDialog(null, "Não é permitido importar uma quantidade maior de valores \nalém do que a frequêcia determina.");
+            return;
+        }
+
         for (Coleta coleta : listaDaColeta) {
             modelJlist.addElement(coleta.getValorDaColeta());
         }

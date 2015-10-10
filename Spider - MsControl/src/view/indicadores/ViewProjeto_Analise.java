@@ -468,7 +468,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanelGrafico.setBackground(new java.awt.Color(204, 204, 204));
+        jPanelGrafico.setBackground(new java.awt.Color(140, 166, 217));
         jPanelGrafico.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel7.setText("Análise:");
