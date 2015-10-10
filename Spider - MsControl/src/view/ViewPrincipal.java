@@ -200,14 +200,16 @@ public class ViewPrincipal extends javax.swing.JFrame {
             jMenuItemGerenciarProjetos.setEnabled(true);
             jMenuItemGerenciarUsuarios.setEnabled(true);
             jMenuItemGerenciarPermissoesDePerfil.setEnabled(true);
-            jButtonNovoProjeto.setEnabled(true);
+            jButtonNovoProjeto.setVisible(true);
+            jButtonNovoUsuario.setVisible(true);
         } else {
             jMenuItemArquivoNovoProjeto.setEnabled(false);
             jMenuItemArquivoNovoUsuario.setEnabled(false);
             jMenuItemGerenciarProjetos.setEnabled(false);
             jMenuItemGerenciarUsuarios.setEnabled(false);
             jMenuItemGerenciarPermissoesDePerfil.setEnabled(false);
-            jButtonNovoProjeto.setEnabled(false);
+            jButtonNovoProjeto.setVisible(false);
+            jButtonNovoUsuario.setVisible(false);
         }
     }
 
@@ -221,6 +223,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButtonNovoProjeto = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButtonNovoUsuario = new javax.swing.JButton();
+        jButtonConta = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree = new javax.swing.JTree();
@@ -256,7 +261,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jLabel2.setText("Projeto");
 
-        jButtonNovoProjeto.setText("Novo Projeto");
+        jButtonNovoProjeto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/folder-add.png"))); // NOI18N
         jButtonNovoProjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoProjetoActionPerformed(evt);
@@ -265,13 +270,40 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logoMSCMenor.png"))); // NOI18N
 
+        jButtonNovoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add_user.png"))); // NOI18N
+        jButtonNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovoUsuarioActionPerformed(evt);
+            }
+        });
+
+        jButtonConta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/sign-up.png"))); // NOI18N
+        jButtonConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonContaActionPerformed(evt);
+            }
+        });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logout.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonNovoProjeto)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonNovoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -285,9 +317,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(jLabeBemVindo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -295,12 +327,17 @@ public class ViewPrincipal extends javax.swing.JFrame {
                             .addComponent(jComboBoxSelecaoDeProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(jButtonConta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonNovoUsuario)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(6, 6, 6))
         );
 
         jSplitPane1.setDividerLocation(200);
@@ -360,7 +397,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 529, Short.MAX_VALUE)
+            .addGap(0, 525, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(jDesktopPane);
@@ -516,6 +553,18 @@ public class ViewPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Selecione um Projeto no Combobox.");
         }
     }//GEN-LAST:event_jTreeMouseClicked
+
+    private void jButtonNovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoUsuarioActionPerformed
+        novoUsuario();
+    }//GEN-LAST:event_jButtonNovoUsuarioActionPerformed
+
+    private void jButtonContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContaActionPerformed
+        ViewGerenciarConta viewGerenciarConta = new ViewGerenciarConta(this, rootPaneCheckingEnabled, this.getUsuarioLogado());
+    }//GEN-LAST:event_jButtonContaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        deslogar();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -699,7 +748,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonConta;
     private javax.swing.JButton jButtonNovoProjeto;
+    private javax.swing.JButton jButtonNovoUsuario;
     private javax.swing.JComboBox jComboBoxSelecaoDeProjeto;
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JLabel jLabeBemVindo;
