@@ -113,7 +113,7 @@ public class ViewGerenciarProjetos extends javax.swing.JInternalFrame {
         }
     }
 
-    private void atualizaTodasTabelas() {
+    public void atualizaTodasTabelas() {
         atualizaTabelaAtivos();
         atualizaTabelaInativos();
         atualizaTabelaFinalizados();

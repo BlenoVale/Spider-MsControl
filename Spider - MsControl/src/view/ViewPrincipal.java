@@ -27,8 +27,6 @@ import model.Perfil;
 import model.Projeto;
 import model.Usuario;
 import controller.ArvoreDinamica;
-import instalador.TestaConexao;
-import java.util.Collections;
 import javax.swing.ImageIcon;
 import util.Conexao;
 import util.Copia;
@@ -503,10 +501,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemGerenciarProjetosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGerenciarProjetosActionPerformed
+        viewGerenciarProjetos.atualizaTodasTabelas();
         trocaTelas(viewGerenciarProjetos);
     }//GEN-LAST:event_jMenuItemGerenciarProjetosActionPerformed
 
     private void jMenuItemGerenciarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGerenciarUsuariosActionPerformed
+        viewGerenciarUsuarios.preencherTabelaRecarregar();
         trocaTelas(viewGerenciarUsuarios);
     }//GEN-LAST:event_jMenuItemGerenciarUsuariosActionPerformed
 

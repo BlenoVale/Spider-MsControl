@@ -1,9 +1,11 @@
 package instalador;
 
 import controller.CtrlUsuario;
+import facade.FacadeJpa;
 import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import util.Conexao;
 import util.Criptografia;
 import util.Texto;
 import view.ViewLogin;
@@ -82,6 +84,7 @@ public class Instalador extends javax.swing.JFrame {
 
         try {
             new ExecutaBanco(Texto.lerTXT(), "SpiderMsControl", "SpiderMsControl").getConexao();
+            
             new ViewLogin().setVisible(true);
             this.dispose();
         } catch (SQLException error) {

@@ -17,7 +17,7 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     private final UsuarioJpa usuarioJpa = new UsuarioJpa(Conexao.URLdoBanco(Texto.lerTXT()));
     private MyDefaultTableModel tableModel;
     private final CtrlUsuario ctrlUsuario = new CtrlUsuario();
-    private final FacadeJpa jpa = FacadeJpa.getInstance();
+    private final FacadeJpa facadeJpa = FacadeJpa.getInstance();
     private List<Usuario> listUsuario;
 
     public ViewGerenciarUsuarios() {
@@ -37,14 +37,14 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
     private void preencherTabelaNomeDigitado() {
         String nomeDigitado = jTextFieldBuscar.getText();
 
-        listUsuario = jpa.getUsuarioJpa().findByParteNome(nomeDigitado);
+        listUsuario = facadeJpa.getUsuarioJpa().findByParteNome(nomeDigitado);
         preencherTable(listUsuario);
     }
 
-    private void preencherTabelaRecarregar() {
+    public void preencherTabelaRecarregar() {
 
         listUsuario = new ArrayList<>();
-        listUsuario = jpa.getUsuarioJpa().findAllUsuarios();
+        listUsuario = facadeJpa.getUsuarioJpa().findAllUsuarios();
         preencherTable(listUsuario);
     }
 
@@ -53,8 +53,8 @@ public class ViewGerenciarUsuarios extends javax.swing.JInternalFrame {
         for (int i = 0; i < listUsuario.size(); i++) {
             String[] linhas = new String[]{listUsuario.get(i).getNome(),
                 listUsuario.get(i).getLogin(),
-                jpa.getUsuarioJpa().findCountProjetosByIdUsuario(listUsuario.get(i).getId()),
-                jpa.getUsuarioJpa().findCountPerfilByIdUsuario(listUsuario.get(i).getId())
+                facadeJpa.getUsuarioJpa().findCountProjetosByIdUsuario(listUsuario.get(i).getId()),
+                facadeJpa.getUsuarioJpa().findCountPerfilByIdUsuario(listUsuario.get(i).getId())
 
             };
             tableModel.addRow(linhas);
