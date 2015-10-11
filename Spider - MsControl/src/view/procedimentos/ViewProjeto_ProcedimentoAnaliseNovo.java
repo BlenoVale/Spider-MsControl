@@ -1096,8 +1096,8 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         }
 
     }
-    
-     private void excluirUltimaLetraTeste() {
+
+    private void excluirUltimaLetraTeste() {
 
         String formula = jTextFieldFormula.getText().trim();
         jTextFieldFormula.setText(" " + formula);
@@ -1107,45 +1107,39 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
         if (!formula.isEmpty()) {
 
             int size = formula.length();
-            
+
             for (int i = size - 1; i >= 0; i--) {
-             
+
                 boolean equals = StringUtils.isNullOrBlank(String.valueOf(formula.charAt(i)));
-                
+
                 if (equals) {
-                    
+
                     fim = i;
                     break;
                 }
-             }
-                
-                
-                partFormula = formula.substring(fim, size);
-                size = formula.substring(fim, size).length();
-                
-                for (int i = 0; i < size; i++) {
-                
-                     isLetter = Character.isLetter(partFormula.charAt(i));
-                    
-                    if(isLetter){
-                       formula = formula.substring(0, fim);
-                       break;
-                    }
             }
-                
-                if(!isLetter){
-                    formula = formula.substring(0, formula.length() - 1);
+
+            partFormula = formula.substring(fim, size);
+            size = formula.substring(fim, size).length();
+
+            for (int i = 0; i < size; i++) {
+
+                isLetter = Character.isLetter(partFormula.charAt(i));
+
+                if (isLetter) {
+                    formula = formula.substring(0, fim);
+                    break;
                 }
-                
-                
-        
-            jTextFieldFormula.setText(formula);
+            }
+
+            if (!isLetter) {
+                formula = formula.substring(0, formula.length() - 1);
+            }
+
+            jTextFieldFormula.setText(formula + " ");
 
         }
     }
-
-
- 
 
     public boolean verificaPontoDepoisParenteses(String formula) {
         String caractere = "";
