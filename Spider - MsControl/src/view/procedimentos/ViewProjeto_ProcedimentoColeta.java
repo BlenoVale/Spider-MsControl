@@ -11,11 +11,8 @@ import facade.FacadeJpa;
 import java.util.List;
 import model.Procedimentodecoleta;
 import controller.CtrlProcedimentosColeta;
-import java.sql.Array;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import model.Medida;
-import model.Registroprocedimentocoleta;
 import util.Copia;
 
 /**
@@ -71,12 +68,6 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
         listProcedimentoColeta = new ArrayList<>();
         listProcedimentoColeta = ctrlProcedimentosColeta.buscarParteDoNomeMedida(jTextFieldBuscar.getText(), Copia.getProjetoSelecionado().getId());
         preencherTabela(listProcedimentoColeta);
-        
-//        iniciarTabela();
-//        
-//        CtrlProcedimentosColeta ctrlProcedimentosColeta = new CtrlProcedimentosColeta();
-//        listProcedimentoColeta = ctrlProcedimentosColeta.findByProjetoBuscar(Copia.getProjetoSelecionado().getId(), jTextFieldBuscar.getText());
-//        preencherTabela(listProcedimentoColeta);
     }
 
     @SuppressWarnings("unchecked")
@@ -89,6 +80,7 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableProcedimentoColeta = new javax.swing.JTable();
         jButtonProcedimento = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setTitle("Procedimentos de Coleta");
 
@@ -135,6 +127,13 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Refresh3.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -146,7 +145,9 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -157,11 +158,13 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonProcedimento)
                 .addContainerGap())
@@ -197,28 +200,34 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
 
         if (evt.getClickCount() >= 2) {
             editarProcedimentoColeta();
-            recarregarTabela();            
+            recarregarTabela();
         }
     }//GEN-LAST:event_jTableProcedimentoColetaMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        recarregarTabela();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void editarProcedimentoColeta() {
         pegaMedida();
         ViewProjeto_ProcedimentoColetaNovo procedimentoColetaNovo = new ViewProjeto_ProcedimentoColetaNovo(null, true);
         procedimentoColetaNovo.showDialogEditar(medidaSelecionada);
         procedimentoColetaNovo.setVisible(true);
-        
+
     }
-     public String captureNomeLinhaTabela(){
-        return jTableProcedimentoColeta.getValueAt(jTableProcedimentoColeta.getSelectedRow() , 0).toString();
+
+    public String captureNomeLinhaTabela() {
+        return jTableProcedimentoColeta.getValueAt(jTableProcedimentoColeta.getSelectedRow(), 0).toString();
     }
-    public void pegaMedida(){
+
+    public void pegaMedida() {
         CtrlMedida ctrlMedida = new CtrlMedida();
-        medidaSelecionada =  ctrlMedida.buscarMedidaPeloNome(captureNomeLinhaTabela() , Copia.getProjetoSelecionado().getId());
+        medidaSelecionada = ctrlMedida.buscarMedidaPeloNome(captureNomeLinhaTabela(), Copia.getProjetoSelecionado().getId());
     }
-   
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonProcedimento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
@@ -227,5 +236,4 @@ public class ViewProjeto_ProcedimentoColeta extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldBuscar;
     // End of variables declaration//GEN-END:variables
 
-    
 }

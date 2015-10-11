@@ -331,12 +331,10 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
         jLabel5.setText("<html><b>Critério  de Análise:</b></html>");
 
         jTextFieldCriterio.setEditable(false);
-        jTextFieldCriterio.setToolTipText("<html>\n<font color=\"Green\"><b>OK: </b></font>O PAV está de acordo com as metas estabelecidas/esperadas.<br> Ação: Não é necessária tomar nenhuma.<br><br>\n\n<font color=\"orange\"><b>Alerta: </b></font>O PAV está abaixo da faixa esperada (Bom ou Excelente),<br> porém dentro da faixa de atenção (Regular). Ação: Analisar a(s) causa(s), registrar  reultado da análise<br><br>\n\n<font color=\"red\"><b>Crítico: </b></font>O PAV não está sendo satisfatório. Ação:<br> Analisar a(s) causa(s), registrar tarefa de ação corretiva e acompanhar <br>até sua conclusão.<br>\n</html>");
 
         jLabel6.setText("<html><b>Meta do Indicador:</b></html>");
 
         jTextFieldMeta.setEditable(false);
-        jTextFieldMeta.setToolTipText("<html> <font color=\"green\"><b> OK </b></font>=  Maior que 70%<br><br>\n<font color=\"orange\"><b> ALERTA </b></font>=  entre 40% e 70%<br><br>\n<font color=\"red\"><b> CRÍTICO </b></font>= abaixo de 40%<br><br>\n</html>");
 
         jButtonInformacao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButtonInformacao.setText("?");
@@ -527,7 +525,7 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelPlot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addComponent(jScrollPane4)
                     .addGroup(jPanelGraficoLayout.createSequentialGroup()
                         .addGroup(jPanelGraficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -579,8 +577,8 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                     .addComponent(jPanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonGeraGrafico))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 531, Short.MAX_VALUE)
+                        .addComponent(jButtonGeraGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -590,10 +588,10 @@ public class ViewProjeto_Analise extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonGeraGrafico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(16, 16, 16)
                 .addComponent(jPanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );

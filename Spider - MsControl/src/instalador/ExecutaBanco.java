@@ -59,7 +59,7 @@ public class ExecutaBanco {
         StringBuffer stringBuffer = new StringBuffer();
 
         try {
-            FileReader fileReader = new FileReader(new File("Banco.sql").getAbsolutePath());
+            FileReader fileReader = new FileReader(new File("Banco.sql").getAbsoluteFile());
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             while ((linha = bufferedReader.readLine()) != null) {

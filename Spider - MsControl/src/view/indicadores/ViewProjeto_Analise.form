@@ -163,7 +163,6 @@
                 <Component class="javax.swing.JTextField" name="jTextFieldCriterio">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;font color=&quot;Green&quot;&gt;&lt;b&gt;OK: &lt;/b&gt;&lt;/font&gt;O PAV est&#xe1; de acordo com as metas estabelecidas/esperadas.&lt;br&gt; A&#xe7;&#xe3;o: N&#xe3;o &#xe9; necess&#xe1;ria tomar nenhuma.&lt;br&gt;&lt;br&gt;&#xa;&#xa;&lt;font color=&quot;orange&quot;&gt;&lt;b&gt;Alerta: &lt;/b&gt;&lt;/font&gt;O PAV est&#xe1; abaixo da faixa esperada (Bom ou Excelente),&lt;br&gt; por&#xe9;m dentro da faixa de aten&#xe7;&#xe3;o (Regular). A&#xe7;&#xe3;o: Analisar a(s) causa(s), registrar  reultado da an&#xe1;lise&lt;br&gt;&lt;br&gt;&#xa;&#xa;&lt;font color=&quot;red&quot;&gt;&lt;b&gt;Cr&#xed;tico: &lt;/b&gt;&lt;/font&gt;O PAV n&#xe3;o est&#xe1; sendo satisfat&#xf3;rio. A&#xe7;&#xe3;o:&lt;br&gt; Analisar a(s) causa(s), registrar tarefa de a&#xe7;&#xe3;o corretiva e acompanhar &lt;br&gt;at&#xe9; sua conclus&#xe3;o.&lt;br&gt;&#xa;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
@@ -174,7 +173,6 @@
                 <Component class="javax.swing.JTextField" name="jTextFieldMeta">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
-                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt; &lt;font color=&quot;green&quot;&gt;&lt;b&gt; OK &lt;/b&gt;&lt;/font&gt;=  Maior que 70%&lt;br&gt;&lt;br&gt;&#xa;&lt;font color=&quot;orange&quot;&gt;&lt;b&gt; ALERTA &lt;/b&gt;&lt;/font&gt;=  entre 40% e 70%&lt;br&gt;&lt;br&gt;&#xa;&lt;font color=&quot;red&quot;&gt;&lt;b&gt; CR&#xcd;TICO &lt;/b&gt;&lt;/font&gt;= abaixo de 40%&lt;br&gt;&lt;br&gt;&#xa;&lt;/html&gt;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonInformacao">
@@ -212,17 +210,17 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanelGrafico" max="32767" attributes="0"/>
                               <Component id="jScrollPane1" max="32767" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jButtonGeraGrafico" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="531" max="32767" attributes="0"/>
+                                  <Component id="jButtonGeraGrafico" min="-2" pref="97" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -231,13 +229,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="249" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="272" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButtonGeraGrafico" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Component id="jPanelGrafico" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -368,7 +366,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jPanelPlot" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane3" alignment="0" pref="604" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">

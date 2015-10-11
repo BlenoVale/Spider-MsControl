@@ -1,11 +1,9 @@
 package instalador;
 
 import controller.CtrlUsuario;
-import facade.FacadeJpa;
 import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
-import util.Conexao;
 import util.Criptografia;
 import util.Texto;
 import view.ViewLogin;
@@ -25,6 +23,7 @@ public class Instalador extends javax.swing.JFrame {
         agrupaRadioButtons();
         escolhadeRadionButton();
         jPanelCadastroADM.setVisible(false);
+        jLabelAviso.setVisible(false);
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -64,7 +63,6 @@ public class Instalador extends javax.swing.JFrame {
         ExecutaBanco executaBanco = new ExecutaBanco("jdbc:mysql://localhost:" + porta + "/", usuario, senha);
         boolean aux = executaBanco.checaConexao();
         if (aux) {
-            jLabelAviso.setText("<html>*Banco esta sendo criado, por favor aguarde.</html>");
             jLabelAviso.setVisible(true);
             executaBanco.criaBancoDeDados();
             Texto.criaTXT("jdbc:mysql://localhost:" + porta + "/spidermscontrol");
@@ -330,7 +328,7 @@ public class Instalador extends javax.swing.JFrame {
         });
 
         jLabelAviso.setForeground(new java.awt.Color(255, 51, 51));
-        jLabelAviso.setText("             ");
+        jLabelAviso.setText("*Banco esta sendo criado, por favor aguarde.");
 
         javax.swing.GroupLayout jPanelInfoBDLayout = new javax.swing.GroupLayout(jPanelInfoBD);
         jPanelInfoBD.setLayout(jPanelInfoBDLayout);
@@ -370,9 +368,11 @@ public class Instalador extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonExecutar)
-                    .addComponent(jLabelAviso))
+                    .addGroup(jPanelInfoBDLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabelAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
