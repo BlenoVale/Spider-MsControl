@@ -829,12 +829,12 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
 
     private boolean isSinalUltimoByMnemonico() {
 
-        String formula = jTextFieldFormula.getText().toString();
+        String formula = jTextFieldFormula.getText();
         boolean isSinal = false;
         String charA = null;
         String charB = null;
 
-        if (formula.isEmpty() == false) {
+        if (!formula.isEmpty()) {
 
             charA = String.valueOf(formula.charAt(formula.length() - 1));
             charB = String.valueOf(formula.charAt(formula.length() - 2));
@@ -1136,7 +1136,7 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
                 formula = formula.substring(0, formula.length() - 1);
             }
 
-            jTextFieldFormula.setText(formula + " ");
+            jTextFieldFormula.setText(" " + formula + " ");
 
         }
     }
