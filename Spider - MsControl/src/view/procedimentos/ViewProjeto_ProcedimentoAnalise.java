@@ -209,14 +209,16 @@ public class ViewProjeto_ProcedimentoAnalise extends javax.swing.JInternalFrame 
 
     private void jTableProcedimentoAnaliseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProcedimentoAnaliseMouseClicked
         if (evt.getClickCount() >= 2) {
-            String nomeIndicador = jTableProcedimentoAnalise.getValueAt(jTableProcedimentoAnalise.getSelectedRow(), 0).toString();
-            Indicador indicador = facadeJpa.getIndicadorJpa().findBYNomeAndProjeto(nomeIndicador, Copia.getProjetoSelecionado().getId());
+            if (jTableProcedimentoAnalise.getSelectedRow() != -1) {
+                String nomeIndicador = jTableProcedimentoAnalise.getValueAt(jTableProcedimentoAnalise.getSelectedRow(), 0).toString();
+                System.out.println(">>>" + nomeIndicador);
+                Indicador indicador = facadeJpa.getIndicadorJpa().findBYNomeAndProjeto(nomeIndicador, Copia.getProjetoSelecionado().getId());
 
-            Procedimentodeanalise procedimentodeanalise = facadeJpa.getProcedimentodeanaliseJpa().findAllByIndicador(indicador.getId());
-            ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
-            viewProjeto_ProcedimentoAnaliseNovo.ShowEditarDialogProcedimentoAnalise(procedimentodeanalise);
-            viewProjeto_ProcedimentoAnaliseNovo.setVisible(true);
-
+                Procedimentodeanalise procedimentodeanalise = facadeJpa.getProcedimentodeanaliseJpa().findAllByIndicador(indicador.getId());
+                ViewProjeto_ProcedimentoAnaliseNovo viewProjeto_ProcedimentoAnaliseNovo = new ViewProjeto_ProcedimentoAnaliseNovo(null, true);
+                viewProjeto_ProcedimentoAnaliseNovo.ShowEditarDialogProcedimentoAnalise(procedimentodeanalise);
+                viewProjeto_ProcedimentoAnaliseNovo.setVisible(true);
+            }
         }
 
         preencherTabelaProcedimentoAnaliseDoProjeto();
