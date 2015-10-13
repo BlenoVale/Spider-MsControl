@@ -702,10 +702,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
         String no_filho = node.toString();
         String no_pai = parent.toString();
 
-        if (no_filho.equals("Necessidade de Informações") && no_pai.endsWith("Objetivos")) {
+        if (no_filho.equals("Necessidade de Informação") && no_pai.endsWith("Objetivos")) {
             viewProjeto_ObjetivosQuestoes.preencherTabelaQuestoes();
             trocaTelas(viewProjeto_ObjetivosQuestoes);
-        } else if (no_filho.equals("Objetivo da Medição") && no_pai.endsWith("Objetivos")) {
+        } else if (no_filho.equals("Objetivo de Medição") && no_pai.endsWith("Objetivos")) {
             viewProjeto_ObjetivosDeMedicao.preencherTabelaRecarregar();
             trocaTelas(viewProjeto_ObjetivosDeMedicao);
         } else if (no_filho.equals("Definição") && no_pai.endsWith("Indicadores")) {
