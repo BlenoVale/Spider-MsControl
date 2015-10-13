@@ -913,11 +913,11 @@ public class ViewProjeto_ProcedimentoAnaliseNovo extends javax.swing.JDialog {
     public boolean verificaUltimaLetraIndividual() {
         String formula = jTextFieldFormula.getText().trim();
 
-        String[] naopode = new String[]{"0", "/", "-", "*", "+", "(", "."};
+        String[] naopode = new String[]{"/", "-", "*", "+", "(", "."};
 
         if (!formula.isEmpty()) {
             String letraA = String.valueOf(formula.charAt(formula.length() - 1));
-
+            
             for (int i = 0; i < naopode.length; i++) {
                 if (letraA.equals(naopode[i])) {
                     return false;
