@@ -634,8 +634,8 @@ insert into  perfil values(1, 'Alta Administração'),
       (4, 'Bibliotecário de Medição'),
       (5, 'Usuário de Medição');
 
-insert into funcionalidade values(1, 'Objetivos - Objetivo da Medição'),
-      (2, 'Objetivos - Necessidade de Informações'),
+insert into funcionalidade values(1, 'Objetivos - Objetivo de Medição'),
+      (2, 'Objetivos - Necessidade de Informação'),
       (3, 'Indicadores - Definição'),
       (4, 'Indicadores - Aprovação'),
       (5, 'Indicadores - Valor'),

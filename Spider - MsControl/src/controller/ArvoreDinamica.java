@@ -48,11 +48,11 @@ public class ArvoreDinamica {
     public DefaultMutableTreeNode criaSubArvore(List<Funcionalidade> lista) {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(nomeDoNode);
         for (int k = 0; k < lista.size(); k++) {
-            if (lista.get(k).getNome().equals("Objetivos - Objetivo da Medição") && nomeDoNode.equals("Objetivos")) {
-                node.add(new DefaultMutableTreeNode("Objetivo da Medição"));
+            if (lista.get(k).getNome().equals("Objetivos - Objetivo de Medição") && nomeDoNode.equals("Objetivos")) {
+                node.add(new DefaultMutableTreeNode("Objetivo de Medição"));
 
-            } else if (lista.get(k).getNome().equals("Objetivos - Necessidade de Informações") && nomeDoNode.equals("Objetivos")) {
-                node.add(new DefaultMutableTreeNode("Necessidade de Informações"));
+            } else if (lista.get(k).getNome().equals("Objetivos - Necessidade de Informação") && nomeDoNode.equals("Objetivos")) {
+                node.add(new DefaultMutableTreeNode("Necessidade de Informação"));
 
             } else if (lista.get(k).getNome().equals("Indicadores - Definição") && nomeDoNode.equals("Indicadores")) {
                 node.add(new DefaultMutableTreeNode("Definição"));
