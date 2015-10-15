@@ -2,8 +2,10 @@ package instalador;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -59,8 +61,7 @@ public class ExecutaBanco {
         StringBuffer stringBuffer = new StringBuffer();
 
         try {
-            FileReader fileReader = new FileReader(new File("Banco.sql").getAbsoluteFile());
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("Banco.sql"), "UTF-8"));
 
             while ((linha = bufferedReader.readLine()) != null) {
                 stringBuffer.append(linha);
