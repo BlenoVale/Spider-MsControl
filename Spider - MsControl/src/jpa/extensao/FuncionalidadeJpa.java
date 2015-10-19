@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpa.extensao;
 
 import java.util.List;
@@ -17,12 +16,12 @@ import model.Funcionalidade;
  *
  * @author BlenoVale
  */
-public class FuncionalidadeJpa extends FuncionalidadeJpaController{
-    
-    public FuncionalidadeJpa (EntityManagerFactory emf){
+public class FuncionalidadeJpa extends FuncionalidadeJpaController {
+
+    public FuncionalidadeJpa(EntityManagerFactory emf) {
         super(emf);
     }
-    
+
     public Funcionalidade findByNome(String nomeFuncionalidade) {
         Funcionalidade funcionalidade = null;
         EntityManager emf = super.getEntityManager();
@@ -31,5 +30,4 @@ public class FuncionalidadeJpa extends FuncionalidadeJpaController{
         funcionalidade = (Funcionalidade) q.getSingleResult();
         return funcionalidade;
     }
-    
 }

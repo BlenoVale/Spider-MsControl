@@ -586,7 +586,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItemSobreSpiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreSpiderActionPerformed
-        ViewSobre viewSobre = new ViewSobre(this, rootPaneCheckingEnabled);
+        ViewSobre viewSobre = new ViewSobre(null, true);
+        viewSobre.setVisible(true); 
     }//GEN-LAST:event_jMenuItemSobreSpiderActionPerformed
 
     private void jMenuItemSobreAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreAjudaActionPerformed

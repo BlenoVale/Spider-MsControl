@@ -23,7 +23,6 @@ public class Instalador extends javax.swing.JFrame {
         agrupaRadioButtons();
         escolhadeRadionButton();
         jPanelCadastroADM.setVisible(false);
-        jLabelAviso.setVisible(false);
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -63,7 +62,6 @@ public class Instalador extends javax.swing.JFrame {
         ExecutaBanco executaBanco = new ExecutaBanco("jdbc:mysql://localhost:" + porta + "/", usuario, senha);
         boolean aux = executaBanco.checaConexao();
         if (aux) {
-            jLabelAviso.setVisible(true);
             executaBanco.criaBancoDeDados();
             Texto.criaTXT("jdbc:mysql://localhost:" + porta + "/spidermscontrol");
             jPanelInfoBD.setVisible(false);
@@ -166,7 +164,6 @@ public class Instalador extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jTextFieldPortaCliente = new javax.swing.JTextField();
         jButtonExecutar = new javax.swing.JButton();
-        jLabelAviso = new javax.swing.JLabel();
         jPanelCadastroADM = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -327,9 +324,6 @@ public class Instalador extends javax.swing.JFrame {
             }
         });
 
-        jLabelAviso.setForeground(new java.awt.Color(255, 51, 51));
-        jLabelAviso.setText("*Banco esta sendo criado, por favor aguarde.");
-
         javax.swing.GroupLayout jPanelInfoBDLayout = new javax.swing.GroupLayout(jPanelInfoBD);
         jPanelInfoBD.setLayout(jPanelInfoBDLayout);
         jPanelInfoBDLayout.setHorizontalGroup(
@@ -340,8 +334,7 @@ public class Instalador extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInfoBDLayout.createSequentialGroup()
-                        .addComponent(jLabelAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonExecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelInfoBDLayout.createSequentialGroup()
                         .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,11 +361,7 @@ public class Instalador extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelInfoBDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonExecutar)
-                    .addGroup(jPanelInfoBDLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabelAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jButtonExecutar)
                 .addContainerGap())
         );
 
@@ -509,10 +498,11 @@ public class Instalador extends javax.swing.JFrame {
 
     private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
         if (jRadioButtonServidor.isSelected()) {
-            executaServidor();
+            executaServidor(); 
         } else if (jRadioButtonCliente.isSelected()) {
             executaCliente();
         }
+        
     }//GEN-LAST:event_jButtonExecutarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
@@ -572,7 +562,6 @@ public class Instalador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelAviso;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

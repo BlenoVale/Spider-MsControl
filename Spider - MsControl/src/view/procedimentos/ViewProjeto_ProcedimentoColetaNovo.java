@@ -290,6 +290,7 @@ public class ViewProjeto_ProcedimentoColetaNovo extends javax.swing.JDialog {
         jLabel8.setText("jLabel8");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

@@ -14,7 +14,8 @@ public class ViewSobre extends javax.swing.JDialog {
     public ViewSobre(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        //this.setIconImage(new ImageIcon(getClass().getResource("/image/sobre.png")).getImage());
+
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -24,24 +25,25 @@ public class ViewSobre extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/sobre.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jLabel1)
-                .addContainerGap(263, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jLabel1)
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();

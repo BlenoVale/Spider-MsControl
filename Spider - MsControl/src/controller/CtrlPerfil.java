@@ -50,8 +50,7 @@ public class CtrlPerfil {
         try {
             if (perfil_selecionado.getFuncionalidadeList().isEmpty()) {
                 this.buscarListaDeFuncionalidades();
-            }
-            else {
+            } else {
                 this.buscarListaDeFuncionalidades();
 
                 for (int i = 0; i < perfil_selecionado.getFuncionalidadeList().size(); i++) {
@@ -92,7 +91,5 @@ public class CtrlPerfil {
             Logger.getLogger(CtrlPerfil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
 
 }
