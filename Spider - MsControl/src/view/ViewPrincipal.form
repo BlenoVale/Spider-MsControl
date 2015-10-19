@@ -85,11 +85,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Spider - MsControl"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSobreSpiderActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSobreAjuda">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ajuda"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSobreAjudaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -34,6 +34,7 @@ import util.Observer;
 import util.Texto;
 import view.artefatos.ViewProjeto_PlanoDeMedicao;
 import view.artefatos.ViewProjeto_Relatorio;
+import view.gerencia.ViewSobre;
 import view.medidas.ViewProjeto_MedicaoDefinicao;
 import view.indicadores.ViewProjeto_Analise;
 import view.indicadores.ViewProjetoAprovacao;
@@ -208,6 +209,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
             jMenuItemGerenciarPermissoesDePerfil.setEnabled(false);
             jButtonNovoProjeto.setVisible(false);
             jButtonNovoUsuario.setVisible(false);
+        }
+    }
+    
+    public void openAjuda() {
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler  " + "ManualDoUsuário.pdf");
+        }catch (Exception e) {
+            System.out.println("Failed to open file ");
         }
     }
 
@@ -468,9 +477,19 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jMenuSobre.setText("Sobre");
 
         jMenuItemSobreSpider.setText("Spider - MsControl");
+        jMenuItemSobreSpider.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSobreSpiderActionPerformed(evt);
+            }
+        });
         jMenuSobre.add(jMenuItemSobreSpider);
 
         jMenuItemSobreAjuda.setText("Ajuda");
+        jMenuItemSobreAjuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSobreAjudaActionPerformed(evt);
+            }
+        });
         jMenuSobre.add(jMenuItemSobreAjuda);
 
         jMenuBar1.add(jMenuSobre);
@@ -565,6 +584,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         deslogar();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItemSobreSpiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreSpiderActionPerformed
+        ViewSobre viewSobre = new ViewSobre(this, rootPaneCheckingEnabled);
+    }//GEN-LAST:event_jMenuItemSobreSpiderActionPerformed
+
+    private void jMenuItemSobreAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreAjudaActionPerformed
+        openAjuda();
+    }//GEN-LAST:event_jMenuItemSobreAjudaActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
