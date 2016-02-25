@@ -220,6 +220,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
         }
     }
 
+    public void openCatalogo() {
+        try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler  " + "CatálogoDeMedição.pdf");
+        }catch (Exception e) {
+            System.out.println("Failed to open file ");
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -250,6 +258,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jMenuItemGerenciarConta = new javax.swing.JMenuItem();
         jMenuSobre = new javax.swing.JMenu();
         jMenuItemSobreSpider = new javax.swing.JMenuItem();
+        jMenuItemCatalogo = new javax.swing.JMenuItem();
         jMenuItemSobreAjuda = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -484,6 +493,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
         });
         jMenuSobre.add(jMenuItemSobreSpider);
 
+        jMenuItemCatalogo.setText("Catálogo de Medição");
+        jMenuItemCatalogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCatalogoActionPerformed(evt);
+            }
+        });
+        jMenuSobre.add(jMenuItemCatalogo);
+
         jMenuItemSobreAjuda.setText("Ajuda");
         jMenuItemSobreAjuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -593,6 +610,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private void jMenuItemSobreAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobreAjudaActionPerformed
         openAjuda();
     }//GEN-LAST:event_jMenuItemSobreAjudaActionPerformed
+
+    private void jMenuItemCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCatalogoActionPerformed
+        openCatalogo();
+    }//GEN-LAST:event_jMenuItemCatalogoActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -791,6 +812,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemArquivoDesconectar;
     private javax.swing.JMenuItem jMenuItemArquivoNovoProjeto;
     private javax.swing.JMenuItem jMenuItemArquivoNovoUsuario;
+    private javax.swing.JMenuItem jMenuItemCatalogo;
     private javax.swing.JMenuItem jMenuItemGerenciarConta;
     private javax.swing.JMenuItem jMenuItemGerenciarPermissoesDePerfil;
     private javax.swing.JMenuItem jMenuItemGerenciarProjetos;
